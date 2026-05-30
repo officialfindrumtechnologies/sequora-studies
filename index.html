@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ascent · O-Level Command Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#12100e; --ink2:#1a1815; --ink3:#231f1a; --line:#332d26;
+  --paper:#f4ece0; --paper-dim:#bdb3a3; --muted:#8a8073;
+  --amber:#e8a33d; --amber-soft:#f0c277; --amber-deep:#c47e1c;
+  --green:#7fae6f; --green-deep:#4f7a45; --red:#cf6a55; --blue:#6f9dc4;
+  --display:"Fraunces",serif; --body:"Newsreader",serif; --mono:"JetBrains Mono",monospace;
+  --r:14px; --rs:9px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--body); background:var(--ink); color:var(--paper);
+  min-height:100vh; font-size:16px; line-height:1.55;
+  background-image:
+    radial-gradient(1100px 600px at 78% -8%, rgba(232,163,61,.10), transparent 60%),
+    radial-gradient(900px 700px at -10% 110%, rgba(111,157,196,.06), transparent 55%);
+  background-attachment:fixed;
+}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px 90px;position:relative;z-index:2}
+
+/* ---------- header ---------- */
+header{padding:30px 0 18px;display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap}
+.brand{display:flex;flex-direction:column}
+.brand .mark{font-family:var(--mono);font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--amber);font-weight:700}
+.brand h1{font-family:var(--display);font-weight:900;font-size:40px;line-height:.95;letter-spacing:-.02em;margin-top:4px}
+.brand h1 em{font-style:italic;color:var(--amber-soft);font-weight:500}
+.brand .sub{color:var(--muted);font-size:14px;margin-top:6px;font-style:italic}
+.headclock{font-family:var(--mono);font-size:13px;color:var(--paper-dim);text-align:right;line-height:1.7}
+.headclock b{color:var(--amber);font-weight:700}
+
+/* ---------- nav ---------- */
+nav{display:flex;gap:4px;flex-wrap:wrap;margin:14px 0 26px;padding:6px;background:var(--ink2);border:1px solid var(--line);border-radius:var(--r)}
+nav button{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--paper-dim);background:transparent;border:none;padding:10px 15px;border-radius:var(--rs);cursor:pointer;transition:.2s;font-weight:500}
+nav button:hover{color:var(--paper);background:var(--ink3)}
+nav button.active{color:var(--ink);background:var(--amber);font-weight:700}
+
+/* ---------- cards & grid ---------- */
+.grid{display:grid;gap:18px}
+.g3{grid-template-columns:repeat(3,1fr)} .g2{grid-template-columns:repeat(2,1fr)}
+.g-hero{grid-template-columns:1.4fr 1fr}
+.card{background:var(--ink2);border:1px solid var(--line);border-radius:var(--r);padding:22px;position:relative;overflow:hidden}
+.card.accent{border-color:var(--amber-deep)}
+.card h2{font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:-.01em;margin-bottom:3px;display:flex;align-items:center;gap:9px}
+.card .lead{font-family:var(--mono);font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--amber);font-weight:700;margin-bottom:14px}
+.kicker{font-family:var(--mono);font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);font-weight:700}
+
+/* ---------- countdown ---------- */
+.countdown{display:flex;align-items:baseline;gap:14px;margin:6px 0 2px}
+.countdown .num{font-family:var(--display);font-weight:900;font-size:78px;line-height:.85;color:var(--amber);letter-spacing:-.03em}
+.countdown .lbl{font-family:var(--body);font-size:18px;color:var(--paper-dim);font-style:italic}
+.cd-row{display:flex;gap:22px;margin-top:16px;flex-wrap:wrap}
+.cd-row div{font-family:var(--mono);font-size:12px;color:var(--paper-dim)}
+.cd-row b{color:var(--paper);font-weight:700;font-size:15px;display:block}
+.datein{margin-top:14px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+input[type=date],input[type=number],input[type=text],select,textarea{
+  font-family:var(--mono);font-size:13px;background:var(--ink);color:var(--paper);
+  border:1px solid var(--line);border-radius:var(--rs);padding:8px 10px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--amber)}
+textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-height:60px;line-height:1.5}
+
+/* ---------- timer ---------- */
+.timer-face{font-family:var(--mono);font-weight:700;font-size:64px;letter-spacing:.02em;text-align:center;color:var(--paper);margin:6px 0 4px;font-variant-numeric:tabular-nums}
+.timer-face.running{color:var(--amber)}
+.timer-sub{text-align:center;font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.btn-row{display:flex;gap:9px;justify-content:center;flex-wrap:wrap}
+.btn{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;padding:11px 18px;border-radius:var(--rs);cursor:pointer;border:1px solid var(--line);background:var(--ink3);color:var(--paper);transition:.18s}
+.btn:hover{border-color:var(--amber);color:var(--amber)}
+.btn.primary{background:var(--amber);color:var(--ink);border-color:var(--amber)}
+.btn.primary:hover{background:var(--amber-soft);color:var(--ink)}
+.btn.ghost{background:transparent}
+.btn.sm{padding:6px 11px;font-size:11px}
+.btn.danger:hover{border-color:var(--red);color:var(--red)}
+.timer-meta{display:flex;justify-content:space-between;margin-top:16px;gap:10px}
+.timer-meta div{flex:1;text-align:center;padding:11px 6px;background:var(--ink);border-radius:var(--rs);border:1px solid var(--line)}
+.timer-meta .v{font-family:var(--mono);font-weight:700;font-size:21px;color:var(--amber)}
+.timer-meta .k{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+.subjsel{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px;justify-content:center}
+.subjsel button{font-family:var(--mono);font-size:11px;padding:7px 12px;border-radius:20px;border:1px solid var(--line);background:var(--ink);color:var(--paper-dim);cursor:pointer;transition:.15s}
+.subjsel button.on{background:var(--ink3);border-color:var(--amber);color:var(--amber)}
+
+/* ---------- today plan / blocks ---------- */
+.block{display:flex;gap:14px;align-items:flex-start;padding:15px;border:1px solid var(--line);border-radius:var(--rs);margin-bottom:11px;background:var(--ink);transition:.18s}
+.block:hover{border-color:var(--amber-deep)}
+.block.done{opacity:.5}
+.block .time{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--amber);min-width:74px;padding-top:2px}
+.block .body{flex:1}
+.block .body .s{font-family:var(--display);font-weight:600;font-size:17px}
+.block .body .t{color:var(--paper-dim);font-size:14px;margin-top:2px}
+.block .body .t b{color:var(--amber-soft);font-style:italic;font-weight:500}
+.block .body .hint{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:6px;letter-spacing:.04em}
+.block .go{align-self:center}
+.locked{background:linear-gradient(120deg,var(--ink3),var(--ink2));border-style:dashed}
+.locked .s{color:var(--paper-dim)}
+/* recall + closeout + flags */
+.recall-item{display:flex;align-items:center;gap:11px;padding:10px 12px;border:1px solid var(--line);border-radius:var(--rs);margin-bottom:7px;background:var(--ink)}
+.recall-item .rg{flex:1}
+.recall-item .rn{font-size:14px}
+.recall-item .rs{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:2px}
+.recall-item .rs b{color:var(--amber-soft)}
+.recall-item .overdue{color:var(--red)}
+.recall-btns{display:flex;gap:6px;flex-shrink:0}
+.pill-due{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--amber)}
+.closeout-grid{display:flex;flex-direction:column;gap:8px}
+.co-block{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 13px;border:1px solid var(--line);border-radius:var(--rs);background:var(--ink)}
+.co-block .col{font-size:14px}
+.co-block .col .cs{font-family:var(--mono);font-size:10px;color:var(--muted)}
+.co-toggle{font-family:var(--mono);font-size:11px;font-weight:700;padding:6px 13px;border-radius:20px;border:1px solid var(--line);background:var(--ink3);color:var(--paper-dim);cursor:pointer;transition:.15s;min-width:62px}
+.co-toggle.yes{background:rgba(127,174,111,.2);border-color:var(--green);color:var(--green)}
+.co-toggle.no{background:rgba(207,106,85,.15);border-color:var(--red);color:var(--red)}
+.co-done-banner{font-family:var(--mono);font-size:12px;color:var(--green);background:rgba(127,174,111,.1);border:1px solid var(--green-deep);border-radius:var(--rs);padding:10px 12px;text-align:center}
+.flag{display:flex;align-items:flex-start;gap:10px;padding:12px 15px;border-radius:var(--rs);margin-bottom:10px;background:rgba(207,106,85,.1);border:1px solid var(--red)}
+.flag .fi{font-size:17px;flex-shrink:0;margin-top:1px}
+.flag .ft{font-size:13.5px;line-height:1.5;color:var(--paper)}
+.flag .ft b{color:var(--red)}
+.flag.amber{background:rgba(232,163,61,.1);border-color:var(--amber-deep)}
+.flag.amber .ft b{color:var(--amber)}
+
+/* ---------- progress bars ---------- */
+.bar{height:9px;border-radius:6px;background:var(--ink);overflow:hidden;border:1px solid var(--line)}
+.bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--amber-deep),var(--amber));border-radius:6px;transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.subj-prog{margin-bottom:13px}
+.subj-prog .top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
+.subj-prog .nm{font-family:var(--display);font-weight:600;font-size:15px}
+.subj-prog .pc{font-family:var(--mono);font-size:12px;color:var(--amber);font-weight:700}
+.subj-prog .cnt{font-family:var(--mono);font-size:10px;color:var(--muted)}
+
+/* ---------- stat tiles ---------- */
+.stat{background:var(--ink2);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;position:relative;overflow:hidden}
+.stat .v{font-family:var(--display);font-weight:900;font-size:38px;color:var(--amber);line-height:1;letter-spacing:-.02em}
+.stat .k{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+.stat .x{font-family:var(--mono);font-size:11px;color:var(--paper-dim);margin-top:4px}
+.flame{position:absolute;top:14px;right:16px;font-size:22px;filter:saturate(1.2)}
+
+/* ---------- topic rows ---------- */
+.section-h{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);font-weight:700;margin:18px 0 9px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+.topic{display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:var(--rs);margin-bottom:5px;background:var(--ink);border:1px solid transparent;transition:.13s}
+.topic:hover{border-color:var(--line)}
+.topic .cyc{width:26px;height:26px;border-radius:7px;border:2px solid var(--line);cursor:pointer;flex-shrink:0;transition:.15s;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+.topic .cyc.learning{border-color:var(--amber);background:rgba(232,163,61,.16);color:var(--amber)}
+.topic .cyc.ready{border-color:var(--green);background:rgba(127,174,111,.2);color:var(--green)}
+.topic .nm{flex:1;font-size:14.5px}
+.topic.is-ready .nm{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--green-deep)}
+.topic .tag{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:2px 7px;border:1px solid var(--line);border-radius:12px}
+.topic .nextpill{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;background:var(--amber);color:var(--ink);font-weight:700;padding:2px 8px;border-radius:12px}
+
+/* ---------- lists / logs ---------- */
+.logitem{padding:13px 15px;border:1px solid var(--line);border-radius:var(--rs);margin-bottom:9px;background:var(--ink)}
+.logitem .meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.logitem .meta .s{font-family:var(--mono);font-size:11px;color:var(--amber);font-weight:700;letter-spacing:.06em}
+.logitem .meta .d{font-family:var(--mono);font-size:10px;color:var(--muted)}
+.logitem .mistake{font-size:14px;margin-bottom:4px}
+.logitem .fix{font-size:13px;color:var(--green);padding-left:12px;border-left:2px solid var(--green-deep)}
+.score-line{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border:1px solid var(--line);border-radius:var(--rs);margin-bottom:8px;background:var(--ink)}
+.score-line .id{font-family:var(--mono);font-size:13px}
+.score-line .sc{font-family:var(--mono);font-weight:700;font-size:15px}
+.score-line .sc.astar{color:var(--green)} .score-line .sc.near{color:var(--amber)} .score-line .sc.low{color:var(--red)}
+
+/* ---------- weekly ---------- */
+.weekbig{font-family:var(--display);font-weight:900;font-size:54px;color:var(--amber);line-height:.9;letter-spacing:-.02em}
+.phase-chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;padding:4px 11px;border-radius:14px;margin-top:8px}
+.phase-CONTENT{background:rgba(111,157,196,.18);color:var(--blue);border:1px solid var(--blue)}
+.phase-PRACTICE{background:rgba(127,174,111,.18);color:var(--green);border:1px solid var(--green-deep)}
+.phase-TAPER{background:rgba(232,163,61,.18);color:var(--amber);border:1px solid var(--amber-deep)}
+.phase-SETUP{background:rgba(207,106,85,.18);color:var(--red);border:1px solid var(--red)}
+.wk-block{margin-top:16px}
+.wk-block .lab{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);font-weight:700;margin-bottom:6px}
+.wk-block p{font-size:14.5px;color:var(--paper-dim);line-height:1.6}
+.miles{list-style:none;margin-top:6px}
+.miles li{font-size:13.5px;padding:6px 0 6px 24px;position:relative;color:var(--paper-dim)}
+.miles li::before{content:"○";position:absolute;left:4px;color:var(--amber);font-size:12px;top:7px}
+.weeknav{display:flex;gap:8px;align-items:center;margin-top:4px}
+
+/* ---------- weekly check-in AI specific CSS ---------- */
+.checkin-row{display:flex;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:var(--rs);background:var(--ink2);margin-top:16px}
+
+/* ---------- toolkit prompts ---------- */
+.prompt{background:var(--ink);border:1px solid var(--line);border-radius:var(--rs);padding:14px 15px;margin-bottom:11px;position:relative}
+.prompt .pt{font-family:var(--display);font-weight:600;font-size:15px;margin-bottom:6px;color:var(--amber-soft)}
+.prompt .pc{font-family:var(--mono);font-size:11.5px;line-height:1.65;color:var(--paper-dim);white-space:pre-wrap}
+.prompt .copy{position:absolute;top:12px;right:12px}
+.tactic{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}
+.tactic:last-child{border-bottom:none}
+.tactic .n{font-family:var(--display);font-weight:900;font-size:22px;color:var(--amber-deep);min-width:34px;line-height:1}
+.tactic .tx b{font-family:var(--display);font-weight:600;font-size:15px;color:var(--paper)}
+.tactic .tx p{font-size:13.5px;color:var(--paper-dim);margin-top:2px;line-height:1.55}
+
+/* misc */
+.hidden{display:none}
+.empty{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:center;padding:24px;font-style:normal}
+.row-add{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.note-banner{font-family:var(--mono);font-size:11px;line-height:1.6;color:var(--paper-dim);background:rgba(232,163,61,.07);border:1px solid var(--amber-deep);border-radius:var(--rs);padding:12px 14px;margin-bottom:16px}
+.note-banner b{color:var(--amber)}
+.mini-link{font-family:var(--mono);font-size:11px;color:var(--blue);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.split{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.fieldlabel{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;display:block}
+footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--muted);padding:30px 0;line-height:1.8}
+.toast{position:fixed;inset-inline-start:50%;bottom:26px;transform:translateX(-50%) translateY(80px);background:var(--amber);color:var(--ink);font-family:var(--mono);font-size:12px;font-weight:700;padding:11px 20px;border-radius:30px;z-index:9999;transition:transform .3s cubic-bezier(.2,.9,.2,1);letter-spacing:.04em}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.modal-overlay{position:fixed;inset:0;background:rgba(8,7,6,.78);backdrop-filter:blur(4px);z-index:90;display:flex;align-items:center;justify-content:center;padding:24px;animation:fadein .2s ease}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+.modal-box{background:var(--ink2);border:1px solid var(--amber-deep);border-radius:var(--r);max-width:760px;width:100%;max-height:86vh;display:flex;flex-direction:column;padding:22px;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:14px}
+.modal-actions{display:flex;gap:9px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+#summaryText{flex:1;min-height:340px;font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--paper);background:var(--ink);border:1px solid var(--line);border-radius:var(--rs);padding:14px;resize:none;white-space:pre-wrap}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.view{animation:rise .4s ease both}
+.view > *{animation:rise .5s ease both}
+.view > *:nth-child(2){animation-delay:.05s}.view > *:nth-child(3){animation-delay:.1s}.view > *:nth-child(4){animation-delay:.15s}
+@media(max-width:880px){.g3,.g2,.g-hero{grid-template-columns:1fr}.brand h1{font-size:32px}.countdown .num{font-size:60px}.timer-face{font-size:52px}}
+
+/* ---------- Auth Gating Styles ---------- */
+.login-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--ink);
+  background-image:
+    radial-gradient(600px 400px at 50% 50%, rgba(232,163,61,.08), transparent 60%);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+}
+.login-box {
+  background: var(--ink2);
+  border: 1px solid var(--amber-deep);
+  border-radius: var(--r);
+  padding: 30px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 30px 80px rgba(0,0,0,.8);
+  text-align: center;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <span class="mark">Project · November 2026</span>
+      <h1>Ascent <em>— command deck</em></h1>
+      <span class="sub">You're not a lazy student. You're running a four-month focused project.</span>
+    </div>
+    <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end;">
+      <div class="headclock" id="headclock"></div>
+      <div id="authHeader" style="margin-top: 6px; font-family: var(--mono); font-size: 11px; display: none;">
+        <span id="userEmail" style="color: var(--amber-soft); font-weight: 500;"></span> | 
+        <span class="mini-link" onclick="handleLogout()" style="color: var(--red); cursor: pointer;">Log out</span>
+      </div>
+    </div>
+  </header>
+
+  <nav id="nav">
+    <button data-v="dash" class="active">Deck</button>
+    <button data-v="focus">Focus Timer</button>
+    <button data-v="subjects">Subjects</button>
+    <button data-v="week">This Week</button>
+    <button data-v="logs">Papers &amp; Errors</button>
+    <button data-v="toolkit">Toolkit</button>
+  </nav>
+
+  <!-- ================= DASH ================= -->
+  <section id="view-dash" class="view">
+    <div class="grid g-hero" style="margin-bottom:18px">
+      <div class="card accent">
+        <div class="lead">Countdown</div>
+        <div class="countdown"><span class="num" id="cd-days">—</span><span class="lbl">days until your first paper</span></div>
+        <div class="cd-row">
+          <div><b id="cd-weeks">—</b>weeks left</div>
+          <div><b id="cd-day1">—</b>days since day one</div>
+          <div><b id="cd-examdate">—</b>first exam</div>
+        </div>
+        <div class="datein">
+          <span class="fieldlabel" style="margin:0">Exam start:</span>
+          <input type="date" id="examDateInput">
+          <button class="btn sm" onclick="setExamDate()">Set</button>
+          <span class="mini-link" onclick="resetExam()">default 28 Sep 2026</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="lead">Momentum</div>
+        <div class="grid g2" style="gap:12px">
+          <div class="stat" style="background:var(--ink)"><span class="flame" id="flameIcon">🔥</span><div class="v" id="streakVal">0</div><div class="k">Day streak</div><div class="x" id="streakX">study today to start</div></div>
+          <div class="stat" style="background:var(--ink)"><div class="v" id="todayHrs">0.0</div><div class="k">Hours today</div><div class="x" id="todayX">target ≈ 5.5h</div></div>
+          <div class="stat" style="background:var(--ink)"><div class="v" id="weekHrs">0.0</div><div class="k">Hours this week</div><div class="x" id="weekX">target ≈ 28h</div></div>
+          <div class="stat" style="background:var(--ink)"><div class="v" id="readyPct">0%</div><div class="k">Exam-ready</div><div class="x" id="readyX">across all subjects</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="flagsStrip"></div>
+
+    <div class="grid g2" style="margin-bottom:18px">
+      <div class="card" id="recallCard">
+        <div class="lead">Recall check · fight the forgetting</div>
+        <h2 id="recallTitle">Nothing due yet</h2>
+        <p style="color:var(--muted);font-size:13px;margin:2px 0 12px;font-style:italic">Topics you marked exam-ready resurface here on a spreading schedule (1d · 3d · 1wk · 3wk · 6wk). Recall each cold — if it's gone, re-drill and reset it.</p>
+        <div id="recallList"></div>
+      </div>
+      <div class="card" id="closeoutCard">
+        <div class="lead">Today's close-out</div>
+        <h2 id="closeoutTitle">Did the day happen?</h2>
+        <p style="color:var(--muted);font-size:13px;margin:2px 0 12px;font-style:italic">One tap at day's end. This is the accountability moment discipline runs on — and it feeds your streak.</p>
+        <div id="closeoutBody"></div>
+      </div>
+    </div>
+
+    <div class="grid g-hero">
+      <div class="card accent">
+        <div class="lead" style="display:flex; justify-content:space-between; align-items:center;">
+          <span>Right now — your day, in order</span>
+          <button class="btn primary sm" id="aiRecommendBtn" onclick="getAIRecommendation()" style="margin: -6px 0;">🤖 Ask AI Advisor</button>
+        </div>
+        <h2 id="dayTitle">Today's blocks</h2>
+        <p style="color:var(--muted);font-size:13px;margin:2px 0 16px;font-style:italic" id="dayMode"></p>
+        <div id="todayBlocks"></div>
+      </div>
+      <div class="card">
+        <div class="lead">This week · <span id="wkMini">—</span></div>
+        <h2 id="wkMiniPhaseTitle">Focus</h2>
+        <div class="phase-chip" id="wkMiniChip">—</div>
+        <p style="font-size:14px;color:var(--paper-dim);margin-top:12px;line-height:1.6" id="wkMiniFocus"></p>
+        <button class="btn ghost sm" style="margin-top:14px" onclick="go('week')">Full week →</button>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <div class="lead">Subject progress</div>
+      <div id="dashProgress"></div>
+    </div>
+  </section>
+
+  <!-- ================= FOCUS ================= -->
+  <section id="view-focus" class="view hidden">
+    <div class="grid g-hero" style="margin-bottom:18px">
+      <div class="card accent">
+        <div class="lead">Deep-block focus timer</div>
+        <div class="subjsel" id="timerSubjects"></div>
+        <div class="timer-face" id="timerFace">00:00:00</div>
+        <div class="timer-sub" id="timerStatus">pick a subject &amp; press start</div>
+        <div class="btn-row">
+          <button class="btn primary" id="startBtn" onclick="toggleTimer()">Start</button>
+          <button class="btn ghost" onclick="logManual()">Log time manually</button>
+          <button class="btn ghost danger" onclick="discardTimer()">Reset</button>
+        </div>
+        <div class="timer-meta">
+          <div><div class="v" id="fmToday">0.0h</div><div class="k">today</div></div>
+          <div><div class="v" id="fmWeek">0.0h</div><div class="k">this week</div></div>
+          <div><div class="v" id="fmTotal">0.0h</div><div class="k">all time</div></div>
+          <div><div class="v" id="fmSessions">0</div><div class="k">sessions</div></div>
+        </div>
+        <div class="note-banner" style="margin-top:16px">
+          <b>The method (every block):</b> Learn (~25m, NotebookLM) → Note it in your words (~5m) → <b>Drill past-paper questions</b> (~30m) → Quiz yourself unaided in Gemini (~10m) → mark the topic. A topic is "Exam-ready" only when you score well <b>unaided against the mark scheme</b>.
+        </div>
+      </div>
+      <div class="card">
+        <div class="lead">Session log · today</div>
+        <div id="sessionLog"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SUBJECTS ================= -->
+  <section id="view-subjects" class="view hidden">
+    <div class="note-banner">
+      <b>Your study checklist.</b> Tick a topic's box once → <span style="color:var(--amber)">Learning</span>, twice → <span style="color:var(--green)">Exam-ready</span> (struck through), third → back to unstarted. The <span style="color:var(--amber)">NEXT</span> pill shows what to study next in each subject, and the bar tracks how much you've done. When you want AI help, hit <b>Generate study summary</b> above — it writes out everything done, in-progress, and next, ready to paste. &nbsp; Maths B is pre-loaded from the official 4MB1 spec; generate the other five tonight (Toolkit → prompts) and add them below.
+    </div>
+    <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;border-color:var(--amber-deep)">
+      <div>
+        <div class="lead" style="margin-bottom:4px">Hand the AI your full picture</div>
+        <p style="font-size:14px;color:var(--paper-dim);max-width:560px;line-height:1.55">Generate a paste-ready summary of everything you've studied — exam-ready, in-progress, untouched, and what's next across all six subjects. Drop it into Gemini or NotebookLM so it knows exactly where you stand without you re-explaining.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <button class="btn primary" onclick="genSummary('full')">Generate study summary</button>
+        <button class="btn ghost sm" onclick="genSummary('subject')">This subject only</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="split" style="margin-bottom:6px">
+        <div style="flex:1">
+          <span class="fieldlabel">Subject</span>
+          <div class="subjsel" id="subjTabs" style="justify-content:flex-start"></div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin:10px 0 4px">
+        <h2 id="subjName">—</h2>
+        <span class="kicker" id="subjMeta"></span>
+      </div>
+      <div class="bar" style="margin:8px 0 4px"><i id="subjBar" style="width:0%"></i></div>
+      <div class="kicker" id="subjCount" style="margin-bottom:14px"></div>
+
+      <div class="row-add">
+        <input type="text" id="newTopicName" placeholder="Add a topic…" style="flex:1;min-width:180px">
+        <input type="text" id="newTopicSection" placeholder="Section (optional)" style="width:150px">
+        <button class="btn sm primary" onclick="addTopic()">+ Add</button>
+        <button class="btn sm ghost" onclick="genReminder()">How to generate topics</button>
+      </div>
+      <div id="topicList"></div>
+    </div>
+  </section>
+
+  <!-- ================= WEEK ================= -->
+  <section id="view-week" class="view hidden">
+    <div class="card accent">
+      <div class="weeknav">
+        <button class="btn sm ghost" onclick="weekNav(-1)">←</button>
+        <div class="lead" style="margin:0">Week <span id="wkNum">—</span> of 17 · <span id="wkDates">—</span></div>
+        <button class="btn sm ghost" onclick="weekNav(1)">→</button>
+        <button class="btn sm" onclick="weekNav(0)">Today</button>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;margin-top:10px">
+        <div class="weekbig" id="wkBig">W—</div>
+        <div><div class="phase-chip" id="wkPhase">—</div></div>
+      </div>
+      <div class="wk-block"><div class="lab">Primary focus &amp; new content</div><p id="wkFocus"></p></div>
+      <div class="wk-block"><div class="lab">Past papers / practice</div><p id="wkPractice"></p></div>
+      <div class="wk-block"><div class="lab">Milestones &amp; targets</div><ul class="miles" id="wkMiles"></ul></div>
+      
+      <div class="wk-block" style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
+        <div>
+          <div class="lab" style="margin: 0;">AI Weekly Review</div>
+          <p style="font-size: 13px; color: var(--muted); margin-top: 2px;">Submit progress for an automated readiness evaluation.</p>
+        </div>
+        <button class="btn primary" id="aiWeeklyBtn" onclick="runWeeklyCheckIn()">🤖 Run Weekly Check-In</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LOGS ================= -->
+  <section id="view-logs" class="view hidden">
+    <div class="grid g2">
+      <div class="card">
+        <div class="lead">Past-paper log</div>
+        <h2>Watch the scores climb</h2>
+        <p style="color:var(--muted);font-size:13px;margin:3px 0 14px;font-style:italic">Log every timed paper. Green = at/above your A* boundary.</p>
+        <div class="split" style="margin-bottom:12px">
+          <div><span class="fieldlabel">Subject</span><select id="pSubj"></select></div>
+          <div><span class="fieldlabel">Paper</span><input type="text" id="pId" placeholder="e.g. Jun22 P1" style="width:120px"></div>
+          <div><span class="fieldlabel">Score</span><input type="number" id="pScore" placeholder="68" style="width:70px"></div>
+          <div><span class="fieldlabel">Max</span><input type="number" id="pMax" placeholder="100" style="width:70px"></div>
+          <button class="btn sm primary" onclick="addPaper()">+ Log</button>
+        </div>
+        <div id="paperLog"></div>
+      </div>
+      <div class="card">
+        <div class="lead">Error log · highest ROI</div>
+        <h2>Kill recurring mistakes</h2>
+        <p style="color:var(--muted);font-size:13px;margin:3px 0 14px;font-style:italic">Every wrong answer + the fix in your words. Re-read before each paper.</p>
+        <div class="split" style="margin-bottom:8px">
+          <div style="flex:1"><span class="fieldlabel">Subject</span><select id="eSubj"></select></div>
+        </div>
+        <textarea id="eMistake" placeholder="The mistake I made…"></textarea>
+        <textarea id="eFix" placeholder="The correct method, in my own words…" style="margin-top:8px"></textarea>
+        <button class="btn sm primary" style="margin-top:8px" onclick="addError()">+ Add to log</button>
+        <div id="errorLog" style="margin-top:14px"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TOOLKIT ================= -->
+  <section id="view-toolkit" class="view hidden">
+    <div class="grid g2">
+      <div class="card">
+        <div class="lead">AI prompts · tap to copy</div>
+        <h2>NotebookLM explains · Gemini tests</h2>
+        <div class="note-banner" style="margin:12px 0 16px">
+          <b>Golden rule:</b> AI explains and drills — the textbook, mark scheme &amp; examiner report are the source of truth. If AI and the mark scheme disagree, the mark scheme wins. Be extra sceptical on Bangla specifics.
+        </div>
+        <div id="prompts"></div>
+      </div>
+      <div class="card">
+        <div class="lead">The A* edge</div>
+        <h2>What separates A* from B</h2>
+        <div id="tactics" style="margin-top:12px"></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <div class="lead">Data</div>
+      <div class="split">
+        <button class="btn sm ghost" onclick="exportData()">Export my data (backup)</button>
+        <button class="btn sm ghost" onclick="importData()">Import data</button>
+        <button class="btn sm ghost danger" onclick="wipeData()">Wipe everything</button>
+        <span class="kicker" id="storageNote"></span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Ascent · built for the Nov 2026 sitting · all data lives in this browser.<br>
+    Front-load what you can't catch up on. Maths &amp; Accounting first. Past papers by August. Show up — the system carries the rest.
+  </footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ================= SUMMARY MODAL ================= -->
+<div id="summaryModal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div>
+        <div class="lead" style="margin:0">Study summary · paste into your AI</div>
+        <h2 id="summaryTitle" style="margin-top:3px">—</h2>
+      </div>
+      <button class="btn sm ghost" onclick="closeSummary()">✕ close</button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn primary sm" onclick="copySummary()">Copy to clipboard</button>
+      <button class="btn ghost sm" onclick="downloadSummary()">Download .txt</button>
+      <span class="kicker" id="summaryStamp"></span>
+    </div>
+    <textarea id="summaryText" readonly></textarea>
+  </div>
+</div>
+
+<!-- ================= AI ADVISOR MODAL ================= -->
+<div id="aiModal" class="modal-overlay hidden">
+  <div class="modal-box" style="max-width: 600px;">
+    <div class="modal-head">
+      <div>
+        <div class="lead" style="margin:0">Ascent · AI Advisor</div>
+        <h2 id="aiModalTitle" style="margin-top:3px; color: var(--amber);">Recommendation</h2>
+      </div>
+      <button class="btn sm ghost" onclick="closeAIModal()">✕ close</button>
+    </div>
+    <div id="aiModalContent" style="font-family: var(--body); font-size: 15px; line-height: 1.6; color: var(--paper); background: var(--ink); border: 1px solid var(--line); border-radius: var(--rs); padding: 18px; overflow-y: auto; max-height: 400px; white-space: pre-wrap;">
+      Thinking...
+    </div>
+  </div>
+</div>
+
+<!-- ================= LOGIN SCREEN ================= -->
+<div id="loginScreen" class="login-overlay">
+  <div class="login-box">
+    <span class="mark">Project · November 2026</span>
+    <h2 style="font-family: var(--display); color: var(--amber); margin: 10px 0 6px;">Ascent</h2>
+    <p style="font-style: italic; color: var(--muted); font-size: 14px; margin-bottom: 20px;">Gatekeeper: candidate authentication required</p>
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <input type="email" id="loginEmail" placeholder="candidate.email@example.com" style="text-align: center; width: 100%;">
+      <input type="password" id="loginPassword" placeholder="password (optional)" style="text-align: center; width: 100%;">
+      <div style="display: flex; gap: 8px;">
+        <button class="btn ghost sm" id="loginBtn" onclick="handleLogin()" style="flex: 1; padding: 11px 0;">Magic Link</button>
+        <button class="btn primary sm" id="pwdBtn" onclick="handlePasswordLogin()" style="flex: 1; padding: 11px 0;">Password Sign In</button>
+      </div>
+      <div id="loginStatus" style="font-family: var(--mono); font-size: 11px; color: var(--paper-dim); margin-top: 10px;"></div>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="/main.js"></script>
+</body>
+</html>

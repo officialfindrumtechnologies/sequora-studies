@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+dist/
+
+# Env & Secrets
+.env
+.env.local
+.env.*.local
+
+# Vercel & CLI
+.vercel
+.agents/
+.antigravitycli/
+.DS_Store

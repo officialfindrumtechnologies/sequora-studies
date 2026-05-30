@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ascent · O-Level Command Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#12100e; --ink2:#1a1815; --ink3:#231f1a; --line:#332d26;
+  --paper:#f4ece0; --paper-dim:#bdb3a3; --muted:#8a8073;
+  --amber:#e8a33d; --amber-soft:#f0c277; --amber-deep:#c47e1c;
+  --green:#7fae6f; --green-deep:#4f7a45; --red:#cf6a55; --blue:#6f9dc4;
+  --display:"Fraunces",serif; --body:"Newsreader",serif; --mono:"JetBrains Mono",monospace;
+  --r:14px; --rs:9px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--body); background:var(--ink); color:var(--paper);
+  min-height:100vh; font-size:16px; line-height:1.55;
+  background-image:
+    radial-gradient(1100px 600px at 78% -8%, rgba(232,163,61,.10), transparent 60%),
+    radial-gradient(900px 700px at -10% 110%, rgba(111,157,196,.06), transparent 55%);
+  background-attachment:fixed;
+}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px 90px;position:relative;z-index:2}
+
+/* ---------- header ---------- */
+header{padding:30px 0 18px;display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap}
+.brand{display:flex;flex-direction:column}
+.brand .mark{font-family:var(--mono);font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--amber);font-weight:700}
+.brand h1{font-family:var(--display);font-weight:900;font-size:40px;line-height:.95;letter-spacing:-.02em;margin-top:4px}
+.brand h1 em{font-style:italic;color:var(--amber-soft);font-weight:500}
+.brand .sub{color:var(--muted);font-size:14px;margin-top:6px;font-style:italic}
+.headclock{font-family:var(--mono);font-size:13px;color:var(--paper-dim);text-align:right;line-height:1.7}
+.headclock b{color:var(--amber);font-weight:700}
+
+/* ---------- nav ---------- */
+nav{display:flex;gap:4px;flex-wrap:wrap;margin:14px 0 26px;padding:6px;background:var(--ink2);border:1px solid var(--line);border-radius:var(--r)}
+nav button{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--paper-dim);background:transparent;border:none;padding:10px 15px;border-radius:var(--rs);cursor:pointer;transition:.2s;font-weight:500}
+nav button:hover{color:var(--paper);background:var(--ink3)}
+nav button.active{color:var(--ink);background:var(--amber);font-weight:700}
+
+/* ---------- cards & grid ---------- */
+.grid{display:grid;gap:18px}
+.g3{grid-template-columns:repeat(3,1fr)} .g2{grid-template-columns:repeat(2,1fr)}
+.g-hero{grid-template-columns:1.4fr 1fr}
+.card{background:var(--ink2);border:1px solid var(--line);border-radius:var(--r);padding:22px;position:relative;overflow:hidden}
+.card.accent{border-color:var(--amber-deep)}
+.card h2{font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:-.01em;margin-bottom:3px;display:flex;align-items:center;gap:9px}
+.card .lead{font-family:var(--mono);font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--amber);font-weight:700;margin-bottom:14px}
+.kicker{font-family:var(--mono);font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);font-weight:700}
+
+/* ---------- countdown ---------- */
+.countdown{display:flex;align-items:baseline;gap:14px;margin:6px 0 2px}
+.countdown .num{font-family:var(--display);font-weight:900;font-size:78px;line-height:.85;color:var(--amber);letter-spacing:-.03em}
+.countdown .lbl{font-family:var(--body);font-size:18px;color:var(--paper-dim);font-style:italic}
+.cd-row{display:flex;gap:22px;margin-top:16px;flex-wrap:wrap}
+.cd-row div{font-family:var(--mono);font-size:12px;color:var(--paper-dim)}
+.cd-row b{color:var(--paper);font-weight:700;font-size:15px;display:block}
+.datein{margin-top:14px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+input[type=date],input[type=number],input[type=text],select,textarea{
+  font-family:var(--mono);font-size:13px;background:var(--ink);color:var(--paper);
+  border:1px solid var(--line);border-radius:var(--rs);padding:8px 10px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--amber)}
+textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-height:60px;line-height:1.5}
+
+/* ---------- timer ---------- */
+.timer-face{font-family:var(--mono);font-weight:700;font-size:64px;letter-spacing:.02em;text-align:center;color:var(--paper);margin:6px 0 4px;font-variant-numeric:tabular-nums}
+.timer-face.running{color:var(--amber)}
+.timer-sub{text-align:center;font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.btn-row{display:flex;gap:9px;justify-content:center;flex-wrap:wrap}
+.btn{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;padding:11px 18px;border-radius:var(--rs);cursor:pointer;border:1px solid var(--line);background:var(--ink3);color:var(--paper);transition:.18s}
+.btn:hover{border-color:var(--amber);color:var(--amber)}
+.btn.primary{background:var(--amber);color:var(--ink);border-color:var(--amber)}
+.btn.primary:hover{background:var(--amber-soft);color:var(--ink)}
+.btn.ghost{background:transparent}
+.btn.sm{padding:6px 11px;font-size:11px}
+.btn.danger:hover{border-color:var(--red);color:var(--red)}
+.timer-meta{display:flex;justify-content:space-between;margin-top:16px;gap:10px}
+.timer-meta div{flex:1;text-align:center;padding:11px 6px;background:var(--ink);border-radius:var(--rs);border:1px solid var(--line)}
+.timer-meta .v{font-family:var(--mono);font-weight:700;font-size:21px;color:var(--amber)}
+.timer-meta .k{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+.subjsel{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px;justify-content:center}
+.subjsel button{font-family:var(--mono);font-size:11px;padding:7px 12px;border-radius:20px;border:1px solid var(--line);background:var(--ink);color:var(--paper-dim);cursor:pointer;transition:.15s}
+.subjsel button.on{background:var(--ink3);border-color:var(--amber);color:var(--amber)}
+
+/* ---------- today plan / blocks ---------- */
+.block{display:flex;gap:14px;align-items:flex-start;padding:15px;border:1px solid var(--line);border-radius:var(--rs);margin-bottom:11px;background:var(--ink);transition:.18s}
+.block:hover{border-color:var(--amber-deep)}
+.block.done{opacity:.5}
+.block .time{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--amber);min-width:74px;padding-top:2px}
+.block .body{flex:1}
+.block .body .s{font-family:var(--display);font-weight:600;font-size:17px}
+.block .body .t{color:var(--paper-dim);font-size:14px;margin-top:2px}
+.block .body .t b{color:var(--amber-soft);font-style:italic;font-weight:500}
+.block .body .hint{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:6px;letter-spacing:.04em}
+.block .go{align-self:center}
+.locked{background:linear-gradient(120deg,var(--ink3),var(--ink2));border-style:dashed}
+.locked .s{color:var(--paper-dim)}
+/* recall + closeout + flags */
+.recall-item{display:flex;align-items:center;gap:11px;padding:10px 12px;border:1px solid var(--line);border-radius:var(--rs);margin-bottom:7px;background:var(--ink)}
+.recall-item .rg{flex:1}
+.recall-item .rn{font-size:14px}
+.recall-item .rs{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:2px}
+.recall-item .rs b{color:var(--amber-soft)}
+.recall-item .overdue{color:var(--red)}
+.recall-btns{display:flex;gap:6px;flex-shrink:0}
+.pill-due{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--amber)}
+.closeout-grid{display:flex;flex-direction:column;gap:8px}
+.co-block{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 13px;border:1px solid var(--line);border-radius:var(--rs);background:var(--ink)}
+.co-block .col{font-size:14px}
+.co-block .col .cs{font-family:var(--mono);font-size:10px;color:var(--muted)}
+.co-toggle{font-family:var(--mono);font-size:11px;font-weight:700;padding:6px 13px;border-radius:20px;border:1px solid var(--line);background:var(--ink3);color:var(--paper-dim);cursor:pointer;transition:.15s;min-width:62px}
+.co-toggle.yes{background:rgba(127,174,111,.2);border-color:var(--green);color:var(--green)}
+.co-toggle.no{background:rgba(207,106,85,.15);border-color:var(--red);color:var(--red)}
+.co-done-banner{font-family:var(--mono);font-size:12px;color:var(--green);background:rgba(127,174,111,.1);border:1px solid var(--green-deep);border-radius:var(--rs);padding:10px 12px;text-align:center}
+.flag{display:flex;align-items:flex-start;gap:10px;padding:12px 15px;border-radius:var(--rs);margin-bottom:10px;background:rgba(207,106,85,.1);border:1px solid var(--red)}
+.flag .fi{font-size:17px;flex-shrink:0;margin-top:1px}
+.flag .ft{font-size:13.5px;line-height:1.5;color:var(--paper)}
+.flag .ft b{color:var(--red)}
+.flag.amber{background:rgba(232,163,61,.1);border-color:var(--amber-deep)}
+.flag.amber .ft b{color:var(--amber)}
+
+/* ---------- progress bars ---------- */
+.bar{height:9px;border-radius:6px;background:var(--ink);overflow:hidden;border:1px solid var(--line)}
+.bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--amber-deep),var(--amber));border-radius:6px;transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.subj-prog{margin-bottom:13px}
+.subj-prog .top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
+.subj-prog .nm{font-family:var(--display);font-weight:600;font-size:15px}
+.subj-prog .pc{font-family:var(--mono);font-size:12px;color:var(--amber);font-weight:700}
+.subj-prog .cnt{font-family:var(--mono);font-size:10px;color:var(--muted)}
+
+/* ---------- stat tiles ---------- */
+.stat{background:var(--ink2);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;position:relative;overflow:hidden}
+.stat .v{font-family:var(--display);font-weight:900;font-size:38px;color:var(--amber);line-height:1;letter-spacing:-.02em}
+.stat .k{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+.stat .x{font-family:var(--mono);font-size:11px;color:var(--paper-dim);margin-top:4px}
+.flame{position:absolute;top:14px;right:16px;font-size:22px;filter:saturate(1.2)}
+
+/* ---------- topic rows ---------- */
+.section-h{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);font-weight:700;margin:18px 0 9px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+.topic{display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:var(--rs);margin-bottom:5px;background:var(--ink);border:1px solid transparent;transition:.13s}
+.topic:hover{border-color:var(--line)}
+.topic .cyc{width:26px;height:26px;border-radius:7px;border:2px solid var(--line);cursor:pointer;flex-shrink:0;transition:.15s;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+.topic .cyc.learning{border-color:var(--amber);background:rgba(232,163,61,.16);color:var(--amber)}
+.topic .cyc.ready{border-color:var(--green);background:rgba(127,174,111,.2);color:var(--green)}
+.topic .nm{flex:1;font-size:14.5px}
+.topic.is-ready .nm{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--green-deep)}
+.topic .tag{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:2px 7px;border:1px solid var(--line);border-radius:12px}
+.topic .nextpill{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;background:var(--amber);color:var(--ink);font-weight:700;padding:2px 8px;border-radius:12px}
+
+/* ---------- lists / logs ---------- */
+.logitem{padding:13px 15px;border:1px solid var(--line);border-radius:var(--rs);margin-bottom:9px;background:var(--ink)}
+.logitem .meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.logitem .meta .s{font-family:var(--mono);font-size:11px;color:var(--amber);font-weight:700;letter-spacing:.06em}
+.logitem .meta .d{font-family:var(--mono);font-size:10px;color:var(--muted)}
+.logitem .mistake{font-size:14px;margin-bottom:4px}
+.logitem .fix{font-size:13px;color:var(--green);padding-left:12px;border-left:2px solid var(--green-deep)}
+.score-line{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border:1px solid var(--line);border-radius:var(--rs);margin-bottom:8px;background:var(--ink)}
+.score-line .id{font-family:var(--mono);font-size:13px}
+.score-line .sc{font-family:var(--mono);font-weight:700;font-size:15px}
+.score-line .sc.astar{color:var(--green)} .score-line .sc.near{color:var(--amber)} .score-line .sc.low{color:var(--red)}
+
+/* ---------- weekly ---------- */
+.weekbig{font-family:var(--display);font-weight:900;font-size:54px;color:var(--amber);line-height:.9;letter-spacing:-.02em}
+.phase-chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;padding:4px 11px;border-radius:14px;margin-top:8px}
+.phase-CONTENT{background:rgba(111,157,196,.18);color:var(--blue);border:1px solid var(--blue)}
+.phase-PRACTICE{background:rgba(127,174,111,.18);color:var(--green);border:1px solid var(--green-deep)}
+.phase-TAPER{background:rgba(232,163,61,.18);color:var(--amber);border:1px solid var(--amber-deep)}
+.phase-SETUP{background:rgba(207,106,85,.18);color:var(--red);border:1px solid var(--red)}
+.wk-block{margin-top:16px}
+.wk-block .lab{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);font-weight:700;margin-bottom:6px}
+.wk-block p{font-size:14.5px;color:var(--paper-dim);line-height:1.6}
+.miles{list-style:none;margin-top:6px}
+.miles li{font-size:13.5px;padding:6px 0 6px 24px;position:relative;color:var(--paper-dim)}
+.miles li::before{content:"○";position:absolute;left:4px;color:var(--amber);font-size:12px;top:7px}
+.weeknav{display:flex;gap:8px;align-items:center;margin-top:4px}
+
+/* ---------- toolkit prompts ---------- */
+.prompt{background:var(--ink);border:1px solid var(--line);border-radius:var(--rs);padding:14px 15px;margin-bottom:11px;position:relative}
+.prompt .pt{font-family:var(--display);font-weight:600;font-size:15px;margin-bottom:6px;color:var(--amber-soft)}
+.prompt .pc{font-family:var(--mono);font-size:11.5px;line-height:1.65;color:var(--paper-dim);white-space:pre-wrap}
+.prompt .copy{position:absolute;top:12px;right:12px}
+.tactic{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}
+.tactic:last-child{border-bottom:none}
+.tactic .n{font-family:var(--display);font-weight:900;font-size:22px;color:var(--amber-deep);min-width:34px;line-height:1}
+.tactic .tx b{font-family:var(--display);font-weight:600;font-size:15px;color:var(--paper)}
+.tactic .tx p{font-size:13.5px;color:var(--paper-dim);margin-top:2px;line-height:1.55}
+
+/* misc */
+.hidden{display:none}
+.empty{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:center;padding:24px;font-style:normal}
+.row-add{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.note-banner{font-family:var(--mono);font-size:11px;line-height:1.6;color:var(--paper-dim);background:rgba(232,163,61,.07);border:1px solid var(--amber-deep);border-radius:var(--rs);padding:12px 14px;margin-bottom:16px}
+.note-banner b{color:var(--amber)}
+.mini-link{font-family:var(--mono);font-size:11px;color:var(--blue);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.split{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.fieldlabel{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;display:block}
+footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--muted);padding:30px 0;line-height:1.8}
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--amber);color:var(--ink);font-family:var(--mono);font-size:12px;font-weight:700;padding:11px 20px;border-radius:30px;z-index:99;transition:transform .3s cubic-bezier(.2,.9,.2,1);letter-spacing:.04em}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.modal-overlay{position:fixed;inset:0;background:rgba(8,7,6,.78);backdrop-filter:blur(4px);z-index:90;display:flex;align-items:center;justify-content:center;padding:24px;animation:fadein .2s ease}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+.modal-box{background:var(--ink2);border:1px solid var(--amber-deep);border-radius:var(--r);max-width:760px;width:100%;max-height:86vh;display:flex;flex-direction:column;padding:22px;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:14px}
+.modal-actions{display:flex;gap:9px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+#summaryText{flex:1;min-height:340px;font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--paper);background:var(--ink);border:1px solid var(--line);border-radius:var(--rs);padding:14px;resize:none;white-space:pre-wrap}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.view{animation:rise .4s ease both}
+.view > *{animation:rise .5s ease both}
+.view > *:nth-child(2){animation-delay:.05s}.view > *:nth-child(3){animation-delay:.1s}.view > *:nth-child(4){animation-delay:.15s}
+@media(max-width:880px){.g3,.g2,.g-hero{grid-template-columns:1fr}.brand h1{font-size:32px}.countdown .num{font-size:60px}.timer-face{font-size:52px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <span class="mark">Project · November 2026</span>
+      <h1>Ascent <em>— command deck</em></h1>
+      <span class="sub">You're not a lazy student. You're running a four-month focused project.</span>
+    </div>
+    <div class="headclock" id="headclock"></div>
+  </header>
+
+  <nav id="nav">
+    <button data-v="dash" class="active">Deck</button>
+    <button data-v="focus">Focus Timer</button>
+    <button data-v="subjects">Subjects</button>
+    <button data-v="week">This Week</button>
+    <button data-v="logs">Papers &amp; Errors</button>
+    <button data-v="toolkit">Toolkit</button>
+  </nav>
+
+  <!-- ================= DASH ================= -->
+  <section id="view-dash" class="view">
+    <div class="grid g-hero" style="margin-bottom:18px">
+      <div class="card accent">
+        <div class="lead">Countdown</div>
+        <div class="countdown"><span class="num" id="cd-days">—</span><span class="lbl">days until your first paper</span></div>
+        <div class="cd-row">
+          <div><b id="cd-weeks">—</b>weeks left</div>
+          <div><b id="cd-day1">—</b>days since day one</div>
+          <div><b id="cd-examdate">—</b>first exam</div>
+        </div>
+        <div class="datein">
+          <span class="fieldlabel" style="margin:0">Exam start:</span>
+          <input type="date" id="examDateInput">
+          <button class="btn sm" onclick="setExamDate()">Set</button>
+          <span class="mini-link" onclick="resetExam()">default 28 Sep 2026</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="lead">Momentum</div>
+        <div class="grid g2" style="gap:12px">
+          <div class="stat" style="background:var(--ink)"><span class="flame" id="flameIcon">🔥</span><div class="v" id="streakVal">0</div><div class="k">Day streak</div><div class="x" id="streakX">study today to start</div></div>
+          <div class="stat" style="background:var(--ink)"><div class="v" id="todayHrs">0.0</div><div class="k">Hours today</div><div class="x" id="todayX">target ≈ 5.5h</div></div>
+          <div class="stat" style="background:var(--ink)"><div class="v" id="weekHrs">0.0</div><div class="k">Hours this week</div><div class="x" id="weekX">target ≈ 28h</div></div>
+          <div class="stat" style="background:var(--ink)"><div class="v" id="readyPct">0%</div><div class="k">Exam-ready</div><div class="x" id="readyX">across all subjects</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="flagsStrip"></div>
+
+    <div class="grid g2" style="margin-bottom:18px">
+      <div class="card" id="recallCard">
+        <div class="lead">Recall check · fight the forgetting</div>
+        <h2 id="recallTitle">Nothing due yet</h2>
+        <p style="color:var(--muted);font-size:13px;margin:2px 0 12px;font-style:italic">Topics you marked exam-ready resurface here on a spreading schedule (1d · 3d · 1wk · 3wk · 6wk). Recall each cold — if it's gone, re-drill and reset it.</p>
+        <div id="recallList"></div>
+      </div>
+      <div class="card" id="closeoutCard">
+        <div class="lead">Today's close-out</div>
+        <h2 id="closeoutTitle">Did the day happen?</h2>
+        <p style="color:var(--muted);font-size:13px;margin:2px 0 12px;font-style:italic">One tap at day's end. This is the accountability moment discipline runs on — and it feeds your streak.</p>
+        <div id="closeoutBody"></div>
+      </div>
+    </div>
+
+    <div class="grid g-hero">
+      <div class="card accent">
+        <div class="lead">Right now — your day, in order</div>
+        <h2 id="dayTitle">Today's blocks</h2>
+        <p style="color:var(--muted);font-size:13px;margin:2px 0 16px;font-style:italic" id="dayMode"></p>
+        <div id="todayBlocks"></div>
+      </div>
+      <div class="card">
+        <div class="lead">This week · <span id="wkMini">—</span></div>
+        <h2 id="wkMiniPhaseTitle">Focus</h2>
+        <div class="phase-chip" id="wkMiniChip">—</div>
+        <p style="font-size:14px;color:var(--paper-dim);margin-top:12px;line-height:1.6" id="wkMiniFocus"></p>
+        <button class="btn ghost sm" style="margin-top:14px" onclick="go('week')">Full week →</button>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <div class="lead">Subject progress</div>
+      <div id="dashProgress"></div>
+    </div>
+  </section>
+
+  <!-- ================= FOCUS ================= -->
+  <section id="view-focus" class="view hidden">
+    <div class="grid g-hero" style="margin-bottom:18px">
+      <div class="card accent">
+        <div class="lead">Deep-block focus timer</div>
+        <div class="subjsel" id="timerSubjects"></div>
+        <div class="timer-face" id="timerFace">00:00:00</div>
+        <div class="timer-sub" id="timerStatus">pick a subject &amp; press start</div>
+        <div class="btn-row">
+          <button class="btn primary" id="startBtn" onclick="toggleTimer()">Start</button>
+          <button class="btn ghost" onclick="logManual()">Log time manually</button>
+          <button class="btn ghost danger" onclick="discardTimer()">Reset</button>
+        </div>
+        <div class="timer-meta">
+          <div><div class="v" id="fmToday">0.0h</div><div class="k">today</div></div>
+          <div><div class="v" id="fmWeek">0.0h</div><div class="k">this week</div></div>
+          <div><div class="v" id="fmTotal">0.0h</div><div class="k">all time</div></div>
+          <div><div class="v" id="fmSessions">0</div><div class="k">sessions</div></div>
+        </div>
+        <div class="note-banner" style="margin-top:16px">
+          <b>The method (every block):</b> Learn (~25m, NotebookLM) → Note it in your words (~5m) → <b>Drill past-paper questions</b> (~30m) → Quiz yourself unaided in Gemini (~10m) → mark the topic. A topic is "Exam-ready" only when you score well <b>unaided against the mark scheme</b>.
+        </div>
+      </div>
+      <div class="card">
+        <div class="lead">Session log · today</div>
+        <div id="sessionLog"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SUBJECTS ================= -->
+  <section id="view-subjects" class="view hidden">
+    <div class="note-banner">
+      <b>Your study checklist.</b> Tick a topic's box once → <span style="color:var(--amber)">Learning</span>, twice → <span style="color:var(--green)">Exam-ready</span> (struck through), third → back to unstarted. The <span style="color:var(--amber)">NEXT</span> pill shows what to study next in each subject, and the bar tracks how much you've done. When you want AI help, hit <b>Generate study summary</b> above — it writes out everything done, in-progress, and next, ready to paste. &nbsp; Maths B is pre-loaded from the official 4MB1 spec; generate the other five tonight (Toolkit → prompts) and add them below.
+    </div>
+    <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;border-color:var(--amber-deep)">
+      <div>
+        <div class="lead" style="margin-bottom:4px">Hand the AI your full picture</div>
+        <p style="font-size:14px;color:var(--paper-dim);max-width:560px;line-height:1.55">Generate a paste-ready summary of everything you've studied — exam-ready, in-progress, untouched, and what's next across all six subjects. Drop it into Gemini or NotebookLM so it knows exactly where you stand without you re-explaining.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <button class="btn primary" onclick="genSummary('full')">Generate study summary</button>
+        <button class="btn ghost sm" onclick="genSummary('subject')">This subject only</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="split" style="margin-bottom:6px">
+        <div style="flex:1">
+          <span class="fieldlabel">Subject</span>
+          <div class="subjsel" id="subjTabs" style="justify-content:flex-start"></div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin:10px 0 4px">
+        <h2 id="subjName">—</h2>
+        <span class="kicker" id="subjMeta"></span>
+      </div>
+      <div class="bar" style="margin:8px 0 4px"><i id="subjBar" style="width:0%"></i></div>
+      <div class="kicker" id="subjCount" style="margin-bottom:14px"></div>
+
+      <div class="row-add">
+        <input type="text" id="newTopicName" placeholder="Add a topic…" style="flex:1;min-width:180px">
+        <input type="text" id="newTopicSection" placeholder="Section (optional)" style="width:150px">
+        <button class="btn sm primary" onclick="addTopic()">+ Add</button>
+        <button class="btn sm ghost" onclick="genReminder()">How to generate topics</button>
+      </div>
+      <div id="topicList"></div>
+    </div>
+  </section>
+
+  <!-- ================= WEEK ================= -->
+  <section id="view-week" class="view hidden">
+    <div class="card accent">
+      <div class="weeknav">
+        <button class="btn sm ghost" onclick="weekNav(-1)">←</button>
+        <div class="lead" style="margin:0">Week <span id="wkNum">—</span> of 17 · <span id="wkDates">—</span></div>
+        <button class="btn sm ghost" onclick="weekNav(1)">→</button>
+        <button class="btn sm" onclick="weekNav(0)">Today</button>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;margin-top:10px">
+        <div class="weekbig" id="wkBig">W—</div>
+        <div><div class="phase-chip" id="wkPhase">—</div></div>
+      </div>
+      <div class="wk-block"><div class="lab">Primary focus &amp; new content</div><p id="wkFocus"></p></div>
+      <div class="wk-block"><div class="lab">Past papers / practice</div><p id="wkPractice"></p></div>
+      <div class="wk-block"><div class="lab">Milestones &amp; targets</div><ul class="miles" id="wkMiles"></ul></div>
+    </div>
+  </section>
+
+  <!-- ================= LOGS ================= -->
+  <section id="view-logs" class="view hidden">
+    <div class="grid g2">
+      <div class="card">
+        <div class="lead">Past-paper log</div>
+        <h2>Watch the scores climb</h2>
+        <p style="color:var(--muted);font-size:13px;margin:3px 0 14px;font-style:italic">Log every timed paper. Green = at/above your A* boundary.</p>
+        <div class="split" style="margin-bottom:12px">
+          <div><span class="fieldlabel">Subject</span><select id="pSubj"></select></div>
+          <div><span class="fieldlabel">Paper</span><input type="text" id="pId" placeholder="e.g. Jun22 P1" style="width:120px"></div>
+          <div><span class="fieldlabel">Score</span><input type="number" id="pScore" placeholder="68" style="width:70px"></div>
+          <div><span class="fieldlabel">Max</span><input type="number" id="pMax" placeholder="100" style="width:70px"></div>
+          <button class="btn sm primary" onclick="addPaper()">+ Log</button>
+        </div>
+        <div id="paperLog"></div>
+      </div>
+      <div class="card">
+        <div class="lead">Error log · highest ROI</div>
+        <h2>Kill recurring mistakes</h2>
+        <p style="color:var(--muted);font-size:13px;margin:3px 0 14px;font-style:italic">Every wrong answer + the fix in your words. Re-read before each paper.</p>
+        <div class="split" style="margin-bottom:8px">
+          <div style="flex:1"><span class="fieldlabel">Subject</span><select id="eSubj"></select></div>
+        </div>
+        <textarea id="eMistake" placeholder="The mistake I made…"></textarea>
+        <textarea id="eFix" placeholder="The correct method, in my own words…" style="margin-top:8px"></textarea>
+        <button class="btn sm primary" style="margin-top:8px" onclick="addError()">+ Add to log</button>
+        <div id="errorLog" style="margin-top:14px"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TOOLKIT ================= -->
+  <section id="view-toolkit" class="view hidden">
+    <div class="grid g2">
+      <div class="card">
+        <div class="lead">AI prompts · tap to copy</div>
+        <h2>NotebookLM explains · Gemini tests</h2>
+        <div class="note-banner" style="margin:12px 0 16px">
+          <b>Golden rule:</b> AI explains and drills — the textbook, mark scheme &amp; examiner report are the source of truth. If AI and the mark scheme disagree, the mark scheme wins. Be extra sceptical on Bangla specifics.
+        </div>
+        <div id="prompts"></div>
+      </div>
+      <div class="card">
+        <div class="lead">The A* edge</div>
+        <h2>What separates A* from B</h2>
+        <div id="tactics" style="margin-top:12px"></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <div class="lead">Data</div>
+      <div class="split">
+        <button class="btn sm ghost" onclick="exportData()">Export my data (backup)</button>
+        <button class="btn sm ghost" onclick="importData()">Import data</button>
+        <button class="btn sm ghost danger" onclick="wipeData()">Wipe everything</button>
+        <span class="kicker" id="storageNote"></span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Ascent · built for the Nov 2026 sitting · all data lives in this browser.<br>
+    Front-load what you can't catch up on. Maths &amp; Accounting first. Past papers by August. Show up — the system carries the rest.
+  </footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<!-- ================= SUMMARY MODAL ================= -->
+<div id="summaryModal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div>
+        <div class="lead" style="margin:0">Study summary · paste into your AI</div>
+        <h2 id="summaryTitle" style="margin-top:3px">—</h2>
+      </div>
+      <button class="btn sm ghost" onclick="closeSummary()">✕ close</button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn primary sm" onclick="copySummary()">Copy to clipboard</button>
+      <button class="btn ghost sm" onclick="downloadSummary()">Download .txt</button>
+      <span class="kicker" id="summaryStamp"></span>
+    </div>
+    <textarea id="summaryText" readonly></textarea>
+  </div>
+</div>
+
+<script>
+/* ============ defensive storage (localStorage + memory fallback) ============ */
+const MEM={};
+let LS_OK=true;
+try{const k="__t";localStorage.setItem(k,"1");localStorage.removeItem(k);}catch(e){LS_OK=false;}
+const Store={
+  get(k){try{if(LS_OK)return localStorage.getItem(k);}catch(e){}return (k in MEM)?MEM[k]:null;},
+  set(k,v){try{if(LS_OK){localStorage.setItem(k,v);return;}}catch(e){}MEM[k]=v;},
+  del(k){try{if(LS_OK)localStorage.removeItem(k);}catch(e){}delete MEM[k];}
+};
+function loadJSON(k,def){const r=Store.get(k);if(!r)return def;try{return JSON.parse(r);}catch(e){return def;}}
+function saveJSON(k,v){Store.set(k,JSON.stringify(v));}
+
+/* ============ subjects ============ */
+const SUBJECTS=[
+  {key:"maths",  name:"Maths B",   code:"4MB1", short:"Maths"},
+  {key:"acc",    name:"Accounting",code:"4AC1", short:"Acct"},
+  {key:"eco",    name:"Economics", code:"4EC1", short:"Econ"},
+  {key:"bus",    name:"Business",  code:"4BS1", short:"Biz"},
+  {key:"eng",    name:"English B", code:"4EB1", short:"Eng"},
+  {key:"ban",    name:"Bangla",    code:"4BN1", short:"Bangla"},
+];
+const subjName=k=>(SUBJECTS.find(s=>s.key===k)||{}).name||k;
+
+/* ---- Maths B: VERIFIED dependency-ordered topics from official 4MB1 spec ---- */
+const MATHS_SEED=[
+  ["1 · Number","Number manipulation — four operations & brackets"],
+  ["1 · Number","Prime numbers, factors, multiples (HCF, LCM)"],
+  ["1 · Number","Indices, powers & roots"],
+  ["1 · Number","Simple manipulation of surds"],
+  ["1 · Number","Rationalising the denominator"],
+  ["1 · Number","Rational & irrational numbers"],
+  ["1 · Number","Weights, measures & money (currency conversion)"],
+  ["1 · Number","Fractions, decimals, ratio, proportion, percentage"],
+  ["1 · Number","Degree of accuracy (dp / sf)"],
+  ["1 · Number","Upper & lower bounds"],
+  ["1 · Number","Standard form"],
+  ["3 · Algebra","Basic algebra — terms, four operations, indices"],
+  ["3 · Algebra","Formulae: construct, interpret, change of subject"],
+  ["3 · Algebra","Factorisation of simple expressions"],
+  ["3 · Algebra","Factor theorem (incl. cubics)"],
+  ["3 · Algebra","Algebraic division of a cubic by a linear factor"],
+  ["3 · Algebra","Algebraic fractions"],
+  ["3 · Algebra","Solving equations (linear, quadratic, simultaneous)"],
+  ["3 · Algebra","Inequalities & solution sets"],
+  ["3 · Algebra","Sequences & nth term"],
+  ["3 · Algebra","Direct & inverse proportion"],
+  ["2 · Sets","Set idea, language & notation"],
+  ["2 · Sets","Union & intersection"],
+  ["2 · Sets","n(A), complementary sets A′"],
+  ["2 · Sets","Subsets, universal set, null set"],
+  ["2 · Sets","Venn diagrams in logic problems"],
+  ["4 · Functions","Function notation; domain & range"],
+  ["4 · Functions","Composite functions"],
+  ["4 · Functions","Inverse functions"],
+  ["4 · Functions","Graphs of functions & interpretation"],
+  ["10 · Statistics & probability","Representing data; averages & spread"],
+  ["10 · Statistics & probability","Cumulative frequency, quartiles, box plots"],
+  ["10 · Statistics & probability","Histograms with unequal intervals"],
+  ["10 · Statistics & probability","Probability; combined events; tree diagrams"],
+  ["6 · Geometry","Angle properties (lines, triangles, polygons)"],
+  ["6 · Geometry","Circle theorems"],
+  ["6 · Geometry","Constructions (loci, bisectors)"],
+  ["6 · Geometry","Congruence & similarity"],
+  ["7 · Mensuration","Perimeter & area of 2D shapes"],
+  ["7 · Mensuration","Surface area & volume of solids"],
+  ["7 · Mensuration","Arc length & sector area"],
+  ["9 · Trigonometry","Right-angled trig (SOHCAHTOA)"],
+  ["9 · Trigonometry","Sine rule & cosine rule"],
+  ["9 · Trigonometry","Area of triangle = ½ab·sinC"],
+  ["9 · Trigonometry","Trig in 2D & 3D"],
+  ["9 · Trigonometry","Bearings"],
+  ["8 · Vectors & transformations","Vectors, notation & magnitude"],
+  ["8 · Vectors & transformations","Vector addition / subtraction / scalars"],
+  ["8 · Vectors & transformations","Transformations (reflect, rotate, translate, enlarge)"],
+  ["5 · Matrices","Matrix operations & scalar multiplication"],
+  ["5 · Matrices","Matrix multiplication"],
+  ["5 · Matrices","Determinant & inverse of 2×2"],
+  ["5 · Matrices","Matrices for simultaneous equations / transformations"],
+];
+/* other subjects: section scaffold (ordering reasoned openly), sub-topics to be generated */
+const SEED={
+  maths: MATHS_SEED,
+  acc:[
+    ["A · Foundations","The accounting equation & double-entry  ⟶ generate sub-topics from 4AC1 spec"],
+    ["B · Ledgers","Ledgers, T-accounts, books of original entry"],
+    ["C · Trial balance","Trial balance & error correction"],
+    ["D · Adjustments","Depreciation, accruals, prepayments, bad debts"],
+    ["E · Statements","Income statement & balance sheet"],
+    ["F · Analysis","Ratios & interpretation"],
+  ],
+  eco:[
+    ["A · The market system","Demand, supply, price  ⟶ generate sub-topics from 4EC1 spec"],
+    ["B · Microeconomics","Elasticity, costs, market structures"],
+    ["C · Market failure","Externalities, govt intervention"],
+    ["D · The wider economy","Macro objectives, policy"],
+    ["E · Global economy","Trade, exchange rates, globalisation"],
+  ],
+  bus:[
+    ["A · Business activity","Objectives, ownership, stakeholders  ⟶ generate from 4BS1 spec"],
+    ["B · Marketing","(fairly independent — any order)"],
+    ["C · Operations","(fairly independent)"],
+    ["D · Finance","(fairly independent)"],
+    ["E · People / HR","(fairly independent)"],
+    ["F · External environment","Ties it together"],
+  ],
+  eng:[
+    ["A · Reading skills","Master question types first  ⟶ generate from 4EB1 spec"],
+    ["B · Writing forms","Article, letter, report, etc. — one at a time"],
+    ["C · Timed practice","Full-paper technique"],
+  ],
+  ban:[
+    ["A · Exam format","Learn exactly what each paper asks  ⟶ generate from 4BN1 spec"],
+    ["B · Question types","Drill each type"],
+    ["C · Written expression","Polish"],
+  ],
+};
+
+/* ============ state ============ */
+let topics=loadJSON("ascent_topics",null);
+if(!topics){
+  topics={};
+  for(const s of SUBJECTS){
+    topics[s.key]=SEED[s.key].map((p,i)=>({id:s.key+"_"+i+"_"+Date.now(),section:p[0],name:p[1],status:"notstarted"}));
+  }
+  saveJSON("ascent_topics",topics);
+}
+let sessions=loadJSON("ascent_sessions",[]);
+let errors=loadJSON("ascent_errors",[]);
+let papers=loadJSON("ascent_papers",[]);
+let examDate=Store.get("ascent_exam")||"2026-09-28";
+const DAY1="2026-05-31";
+let curSubjectTab="maths";
+let curTimerSubject="maths";
+let viewingWeek=null;
+
+/* ============ 17-week plan data ============ */
+const WEEKS=[
+ {n:1,dates:"31 May – 6 Jun",phase:"CONTENT",focus:"Day 1 is here. Content + diagnostics in parallel. Front-load the killers: Maths B (block 1) + Accounting (block 2) daily; Economics in block 3. NotebookLM to learn, Gemini to test. First Anki cards tonight.",practice:"Sit ONE cold diagnostic paper per subject this week to find your real starting line — bombing them is the point.",miles:["Maths B tracker open, first topics at Learning","Accounting first format (income statement) started","6 cold diagnostics done & self-marked","Subjects ranked weakest → strongest"]},
+ {n:2,dates:"7 – 13 Jun",phase:"CONTENT",focus:"Full rhythm: 3 deep blocks daily — Maths B + Accounting + (Eco/Business). Re-attack your 2 weakest diagnostic topics. Anki grows daily.",practice:"Daily maths problems; topic-drill weak diagnostic areas via Gemini.",miles:["~8 topics at Learning+","Accounting formats underway","Command-word ladder started for Eco & Business"]},
+ {n:3,dates:"14 – 20 Jun",phase:"CONTENT",focus:"Maths B + Accounting + Economics core; start Business. Every keyword/formula → Anki.",practice:"Topic-by-topic drills; 1 maths section timed.",miles:["~12 topics at Learning+","Command words memorised for Eco & Business"]},
+ {n:4,dates:"21 – 27 Jun",phase:"CONTENT",focus:"Push Economics + Business analysis/evaluation chains. Maths & Accounting toward Exam-ready. Begin English B format study.",practice:"First TIMED maths paper. Eco/Business 8–12 mark practice, AI-marked vs real scheme.",miles:["~16 topics at Learning+","Maths ~50% Exam-ready"]},
+ {n:5,dates:"28 Jun – 4 Jul",phase:"CONTENT",focus:"Bangla begins (likely your fastest A* — start, don't over-invest). Continue all others. Begin the question-type log.",practice:"1 timed paper in your strongest subject. Daily Anki.",miles:["All 6 subjects in motion","Question-type log started"]},
+ {n:6,dates:"5 – 11 Jul",phase:"CONTENT",focus:"Mid-content grind. Repair laggards. Accounting near-complete (finite formats).",practice:"2 timed papers (rotate subjects). Self-mark strictly.",miles:["~half of all topics Exam-ready","Accounting ~80% done"]},
+ {n:7,dates:"12 – 18 Jul",phase:"CONTENT",focus:"⚠ REGISTER FOR THE EXAM (deadline ~end July). Set 3 reminders now. Continue Eco & Business depth.",practice:"2 timed papers. Read your 1st examiner report.",miles:["EXAM REGISTERED ✅ (critical)","1st examiner report read"]},
+ {n:8,dates:"19 – 25 Jul",phase:"CONTENT",focus:"Close remaining content gaps. Maths B fully covered → pure practice. English B technique solid.",practice:"2–3 timed papers. Maths: full paper under exam timing.",miles:["~40 topics Exam-ready","Maths content 100% covered"]},
+ {n:9,dates:"26 Jul – 1 Aug",phase:"CONTENT",focus:"Final content sprint. Kill anything still Not-started. Bangla & English B comfortable.",practice:"3 timed papers. Build pre-written answers for recurring question types.",miles:["Zero topics Not-started","Question-type log covers all 6"]},
+ {n:10,dates:"2 – 8 Aug",phase:"CONTENT",focus:"Transition. Content essentially done. Last review of weak sub-topics, then pivot to heavy practice.",practice:"3–4 timed papers. Marks visibly climbing.",miles:["~50 topics Exam-ready","Content phase complete"]},
+ {n:11,dates:"9 – 15 Aug",phase:"PRACTICE",focus:"Practice phase. Work the last 5+ years of EVERY subject. Each paper → mark → log mistakes → fix.",practice:"1 full timed paper most days. Maths & Accounting daily reps.",miles:["5+ yrs done: Maths, Accounting","Error log running"]},
+ {n:12,dates:"16 – 22 Aug",phase:"PRACTICE",focus:"Pattern recognition kicks in. Pre-build model answers for repeating questions. Attack weakest topics.",practice:"Full papers: Economics, Business (5+ yrs each). AI-mark every one.",miles:["5+ yrs done: Eco, Business","Pre-written answers for top recurring Qs"]},
+ {n:13,dates:"23 – 29 Aug",phase:"PRACTICE",focus:"English B + Bangla full-paper practice. Tighten timing everywhere. 2nd round of examiner reports.",practice:"Full papers: English B, Bangla. Re-do earlier low-scoring papers.",miles:["5+ yrs done: English B, Bangla","All examiner reports read"]},
+ {n:14,dates:"30 Aug – 5 Sep",phase:"PRACTICE",focus:"Polish. Scores should be A/A* on practice papers. Drill ONLY remaining weak spots — stop polishing strengths.",practice:"Mixed full papers daily, same time-of-day as your real slots.",miles:["Practice scores hitting A* threshold","Weak-topic list nearly empty"]},
+ {n:15,dates:"6 – 12 Sep",phase:"TAPER",focus:"Final taper. Full mocks under 100% real conditions (timer, no notes, phone away). Confidence + timing.",practice:"1 full timed mock per subject. Light Anki.",miles:["Full mock in each subject","Timing comfortable on all papers"]},
+ {n:16,dates:"13 – 19 Sep",phase:"TAPER",focus:"Exam-week conditions. Light targeted review of mistake log + examiner-report traps. No new content. Sleep early.",practice:"Re-skim mistake & question-type logs. Short confidence reps.",miles:["Mistake log reviewed","Rested, calm, logistics confirmed"]},
+ {n:17,dates:"20 Sep → exams",phase:"TAPER",focus:"Exam period. Day before each paper: light review, sleep early. No all-nighters — they lower scores. The work is done; perform.",practice:"Per paper: glance marks, match time, attempt EVERY question, never leave a 12-marker blank.",miles:["One paper at a time","Walk in like it's another Tuesday"]},
+];
+
+/* ============ prompts & tactics ============ */
+const PROMPTS=[
+ ["Learn a topic","Act as an Edexcel IGCSE [subject] examiner. Teach me [topic] for spec [code]. Structure: (1) core concepts I must know, (2) the 3 most common ways it's tested, (3) exact key terms I lose marks for omitting, (4) a worked top-mark answer. Keep it tight — I'm revising, not reading a textbook."],
+ ["⭐ Mark my answer","You are an Edexcel IGCSE [subject] examiner. Here is the official mark scheme: [paste]. Here is my answer: [paste]. Mark it strictly against the scheme. Give my exact mark, where I lost marks and why, then rewrite my weakest paragraph to A* standard so I can see the gap."],
+ ["Crack evaluation Qs","Give me an Edexcel-style 12-mark 'evaluate' question on [topic]. Then show the ideal structure — point, explanation, chain of reasoning, counter-argument, justified conclusion — with the exact phrases that signal evaluation to an examiner."],
+ ["Quiz me (active recall)","Quiz me on [topic] with 10 increasingly hard exam-style questions, one at a time. After each, tell me if I'm right and why. At the end, list the sub-areas I'm weakest in and what to revise."],
+ ["Generate a topic list","Using the attached Edexcel IGCSE [subject] ([code]) specification, list every topic and sub-topic as an exhaustive checklist, grouped by the spec's sections. One sub-topic per line, no commentary — I'm pasting these into a tracker."],
+ ["Order a topic list","Take this topic list and put it in the best LEARNING ORDER for someone starting from scratch. Rules: foundational topics everything depends on first; topics needing a prerequisite after it; self-contained topics anywhere. Output a numbered order with one line each on why it's placed there."],
+ ["Feynman — find the holes","You are a curious 12-year-old. I'll explain [topic]. Keep asking 'but why?' and poke at anything vague until I explain it in plain words or admit I don't understand it."],
+];
+const TACTICS=[
+ ["Mark scheme = your textbook","Read it BEFORE answering. It tells you the exact words examiners reward. Write what scores, not what you know."],
+ ["Question-spotting is real","Edexcel recycles question types. After 5 yrs of papers, pre-build an answer for each recurring one. Walk in having rehearsed 80% of the paper."],
+ ["Command words are a code","State=1 mark. Explain=point+reason. Analyse=chain A→B→C. Evaluate=both sides+justified judgement. Answering the wrong verb is how bright students drop to a B."],
+ ["Marks per minute","~1 mark/1–1.5 min. Never perfect a 2-marker for 10 min. NEVER leave a 12-marker blank — rushed scores 6–7, blank scores 0."],
+ ["Active recall, not re-reading","Close the book, write what you remember, then check. The retrieval struggle builds memory. Highlighting barely works."],
+ ["Spaced repetition (Anki)","Every definition, formula, keyword → Anki. 15 min daily locks in hundreds of facts over the term."],
+ ["Past papers = timed exams","Timer on, no notes, phone away, one sitting. Simulate the adrenaline now so exam day is routine."],
+ ["Examiner reports = cheat code","Pearson publishes WHY students lose marks each session. A list of traps from your markers. Almost no self-candidate reads them."],
+ ["Two-pass exam method","Pass 1: answer everything you're sure of, fast, skip hesitations. Pass 2: return with nerves settled. Stops freezing on Q4."],
+ ["Hunt the weak","Marks come from dragging worst topics 50→80%, not best 90→95%. Comfort topics waste time. The tracker forces honesty."],
+ ["Compression sheets","Final fortnight: each subject → one page (formulas, keywords, answer skeletons). Building it IS revision; read only it the night before."],
+ ["Protect the hardware","Sleep, movement, real food beat grinding. The 4–10pm block should include real activity, not 6 hours of screens."],
+];
+
+/* ============ date helpers ============ */
+function daysBetween(a,b){return Math.round((b-a)/86400000);}
+function todayStr(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function parseD(s){const[y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d);}
+function weekIndexFor(date){const diff=daysBetween(parseD(DAY1),date);return Math.floor(diff/7)+1;}
+
+/* ============ stats ============ */
+function hoursFor(filterFn){let s=0;for(const x of sessions)if(filterFn(x))s+=x.dur;return s/3600;}
+function startOfWeek(){const d=new Date();const day=(d.getDay()+6)%7;d.setHours(0,0,0,0);d.setDate(d.getDate()-day);return d;}
+function computeStreak(){
+  const days=new Set(sessions.map(s=>s.date));
+  let streak=0;const d=new Date();d.setHours(0,0,0,0);
+  // if nothing today, start counting from yesterday so streak doesn't break until a full day passes
+  if(!days.has(todayStr())){d.setDate(d.getDate()-1);}
+  while(true){
+    const ds=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+    if(days.has(ds)){streak++;d.setDate(d.getDate()-1);}else break;
+  }
+  return streak;
+}
+function subjReady(k){const t=topics[k]||[];const tot=t.length;const r=t.filter(x=>x.status==="ready").length;return{tot,r,pct:tot?Math.round(r/tot*100):0};}
+function overallReady(){let tot=0,r=0;for(const s of SUBJECTS){const x=subjReady(s.key);tot+=x.tot;r+=x.r;}return tot?Math.round(r/tot*100):0;}
+function nextTopic(k){const t=topics[k]||[];return t.find(x=>x.status!=="ready")||null;}
+function weakestSubjects(n){return SUBJECTS.map(s=>({s,pct:subjReady(s.key).pct})).sort((a,b)=>a.pct-b.pct).slice(0,n);}
+
+/* ============ today's cross-subject plan ============ */
+function buildTodayBlocks(){
+  const dow=new Date().getDay(); // 0 Sun .. 6 Sat
+  const weekend=(dow===0||dow===6);
+  const el=document.getElementById("todayBlocks");
+  const mode=document.getElementById("dayMode");
+  el.innerHTML="";
+  if(weekend){
+    mode.textContent="Weekend — past papers + repairing weak topics. New content waits for weekdays.";
+    const weak=weakestSubjects(3);
+    const b1={time:"Morning",s:"Full past paper (timed)",t:"Sit one timed paper, no notes, phone away. Then mark it against the scheme and log mistakes.",hint:"Pick the subject you've done least practice in"};
+    addBlockEl(el,b1,false);
+    weak.forEach((w,i)=>{
+      const nt=nextTopic(w.s.key);
+      addBlockEl(el,{time:i===0?"Repair":"·",s:w.s.name+"  ("+w.pct+"% ready)",t:nt?("Re-drill weak area — next: <b>"+nt.name+"</b>"):"All topics ready — do a paper instead",hint:"Weekend = fix what the week exposed"},false);
+    });
+    addBlockEl(el,{time:"Eve",s:"Anki review + update trackers",t:"Clear your Anki queue, mark this week's topics honestly, glance at next week.",hint:"Light — rest is part of the plan"},false);
+    return;
+  }
+  mode.textContent="Weekday — three deep blocks for new content, assigned by what you can't cram later.";
+  // Block 3 alternates Eco / Business by day parity
+  const dayNum=daysBetween(parseD(DAY1),new Date());
+  const b3key=(dayNum%2===0)?"eco":"bus";
+  const b4opts=["eng","ban","papers"];
+  const b4=b4opts[dayNum%3];
+  const blocks=[
+    {time:"7:30",key:"maths",label:"Deep 1 · sharpest hours",hint:"Least crammable — gets your best hours every day"},
+    {time:"10:00",key:"acc",label:"Deep 2",hint:"Near-pure dependency chain — front-loaded"},
+    {time:"12:15",key:b3key,label:"Deep 3 · concept work",hint:"Eco/Business alternate — evaluation marks decide A*"},
+  ];
+  blocks.forEach(b=>{
+    const nt=nextTopic(b.key);
+    addBlockEl(el,{
+      time:b.time, s:subjName(b.key)+" — "+b.label,
+      t:nt?("Study next: <b>"+(nt.section?nt.section+" · ":"")+nt.name+"</b>"):"🎉 All topics Exam-ready — switch to timed past papers",
+      hint:b.hint, key:b.key, topicId:nt?nt.id:null
+    },false);
+  });
+  // block 4
+  let b4block;
+  if(b4==="papers"){b4block={time:"3:00",s:"Past-paper practice (lighter)",t:"Work a few past-paper questions on a topic you just learned — retrieval under mild pressure.",hint:"Block 4 rotates: English / Bangla / papers"};}
+  else{const nt=nextTopic(b4);b4block={time:"3:00",s:subjName(b4)+" — Block 4 (lighter)",t:nt?("Study next: <b>"+nt.name+"</b>"):"All topics ready — do a paper",hint:"Skill/exposure subjects live here & on weekends",key:b4,topicId:nt?nt.id:null};}
+  addBlockEl(el,b4block,false);
+  addBlockEl(el,{time:"4–10pm",s:"OFF — earned reward",t:"Locked leisure. Guilt-free, because you did the mornings. Put real movement here.",hint:"Work-then-reward is the engine",locked:true},false);
+  addBlockEl(el,{time:"10:00",s:"Anki + skim today's notes (~45m)",t:"15 min of spaced repetition before sleep locks the day in. Then sleep ~11.",hint:"Memory consolidates in sleep",locked:true},false);
+}
+function addBlockEl(parent,b,done){
+  const div=document.createElement("div");
+  div.className="block"+(b.locked?" locked":"")+(done?" done":"");
+  let go="";
+  if(b.key&&!b.locked){go=`<div class="go"><button class="btn sm" onclick="startFromBlock('${b.key}')">Focus →</button></div>`;}
+  div.innerHTML=`<div class="time">${b.time}</div><div class="body"><div class="s">${b.s}</div><div class="t">${b.t}</div><div class="hint">${b.hint||""}</div></div>${go}`;
+  parent.appendChild(div);
+}
+function startFromBlock(key){curTimerSubject=key;go('focus');renderTimerSubjects();setToast("Subject set: "+subjName(key));}
+
+/* ============ render: dashboard ============ */
+function renderDash(){
+  const today=new Date();today.setHours(0,0,0,0);
+  const ex=parseD(examDate);
+  const dleft=Math.max(0,daysBetween(today,ex));
+  document.getElementById("cd-days").textContent=dleft;
+  document.getElementById("cd-weeks").textContent=Math.ceil(dleft/7);
+  document.getElementById("cd-day1").textContent=Math.max(0,daysBetween(parseD(DAY1),today));
+  document.getElementById("cd-examdate").textContent=ex.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"});
+  document.getElementById("examDateInput").value=examDate;
+
+  const sw=startOfWeek().getTime();
+  document.getElementById("todayHrs").textContent=hoursFor(s=>s.date===todayStr()).toFixed(1);
+  document.getElementById("weekHrs").textContent=hoursFor(s=>parseD(s.date).getTime()>=sw).toFixed(1);
+  const streak=computeStreak();
+  document.getElementById("streakVal").textContent=streak;
+  document.getElementById("streakX").textContent=streak>0?"keep it alive":"study today to start";
+  document.getElementById("flameIcon").style.opacity=streak>0?"1":".3";
+  document.getElementById("readyPct").textContent=overallReady()+"%";
+
+  // week mini
+  let wi=weekIndexFor(today);wi=Math.min(Math.max(wi,1),17);
+  const wk=WEEKS[wi-1];
+  document.getElementById("wkMini").textContent="W"+wi+"/17";
+  document.getElementById("wkMiniChip").textContent=wk.phase;
+  document.getElementById("wkMiniChip").className="phase-chip phase-"+wk.phase;
+  document.getElementById("wkMiniFocus").textContent=wk.focus;
+  document.getElementById("wkMiniPhaseTitle").textContent=wk.phase==="CONTENT"?"Build the foundation":wk.phase==="PRACTICE"?"Drill the patterns":"Taper & perform";
+
+  buildTodayBlocks();
+  renderDashProgress();
+  renderRecall();
+  renderCloseout();
+  renderFlags();
+}
+function renderDashProgress(){
+  const el=document.getElementById("dashProgress");el.innerHTML="";
+  for(const s of SUBJECTS){
+    const x=subjReady(s.key);
+    const nt=nextTopic(s.key);
+    const div=document.createElement("div");div.className="subj-prog";
+    div.innerHTML=`<div class="top"><span class="nm">${s.name} <span class="cnt">· next: ${nt?nt.name:"✓ all ready"}</span></span><span class="pc">${x.pct}%</span></div><div class="bar"><i style="width:${x.pct}%"></i></div>`;
+    el.appendChild(div);
+  }
+}
+
+/* ============ spaced-recall engine ============ */
+/* intervals (days) after which an exam-ready topic should be recall-checked */
+const RECALL_STEPS=[1,3,7,21,42];
+function recallDue(){
+  const today=parseD(todayStr());
+  const due=[];
+  for(const s of SUBJECTS){
+    for(const tp of (topics[s.key]||[])){
+      if(tp.status!=="ready"||!tp.readyAt)continue;
+      const base=parseD(tp.lastRecall||tp.readyAt);
+      const elapsed=daysBetween(base,today);
+      // how many recall checks already done since ready (approx by counting steps <= total age handled via lastRecall)
+      // next interval = first step strictly greater than days since lastRecall? Simpler: due if elapsed >= next step
+      const reps=tp.recallReps||0;
+      const step=RECALL_STEPS[Math.min(reps,RECALL_STEPS.length-1)];
+      if(elapsed>=step){due.push({s,tp,over:elapsed-step});}
+    }
+  }
+  due.sort((a,b)=>b.over-a.over);
+  return due;
+}
+function renderRecall(){
+  const list=document.getElementById("recallList");
+  const title=document.getElementById("recallTitle");
+  const card=document.getElementById("recallCard");
+  if(!list)return;
+  const due=recallDue();
+  list.innerHTML="";
+  if(!due.length){
+    title.textContent="Nothing due yet";
+    card.style.borderColor="var(--line)";
+    list.innerHTML='<div class="empty">As topics age, they\'ll appear here for a cold recall check. Keeps June\'s knowledge alive in September.</div>';
+    return;
+  }
+  title.innerHTML=`<span class="pill-due">${due.length}</span> ${due.length===1?"topic":"topics"} due for recall`;
+  card.style.borderColor="var(--amber-deep)";
+  due.slice(0,8).forEach(d=>{
+    const div=document.createElement("div");div.className="recall-item";
+    const overTxt=d.over>0?`<span class="overdue">${d.over}d overdue</span>`:"due today";
+    div.innerHTML=`<div class="rg"><div class="rn">${d.tp.name}</div><div class="rs"><b>${d.s.name}</b> · ${overTxt}</div></div>
+      <div class="recall-btns">
+        <button class="btn sm" onclick="recallPass('${d.s.key}','${d.tp.id}')">Recalled ✓</button>
+        <button class="btn sm ghost danger" onclick="recallFail('${d.s.key}','${d.tp.id}')">Forgot</button>
+      </div>`;
+    list.appendChild(div);
+  });
+  if(due.length>8){const m=document.createElement("div");m.className="empty";m.textContent="+"+(due.length-8)+" more — clear these first";list.appendChild(m);}
+}
+function recallPass(k,id){
+  const tp=(topics[k]||[]).find(x=>x.id===id);if(!tp)return;
+  tp.lastRecall=todayStr();tp.recallReps=(tp.recallReps||0)+1;
+  saveJSON("ascent_topics",topics);renderRecall();setToast("Recall locked — interval extended");
+}
+function recallFail(k,id){
+  const tp=(topics[k]||[]).find(x=>x.id===id);if(!tp)return;
+  // demote to learning so it re-enters the study flow; reset recall
+  tp.status="learning";delete tp.readyAt;delete tp.lastRecall;tp.recallReps=0;
+  saveJSON("ascent_topics",topics);renderRecall();renderDashProgress();
+  document.getElementById("readyPct").textContent=overallReady()+"%";
+  setToast("Moved back to Learning — re-drill it");
+}
+
+/* ============ daily close-out ============ */
+function getCloseout(){return loadJSON("ascent_closeout",{});}
+function renderCloseout(){
+  const body=document.getElementById("closeoutBody");
+  const title=document.getElementById("closeoutTitle");
+  if(!body)return;
+  const dow=new Date().getDay();const weekend=(dow===0||dow===6);
+  const co=getCloseout();const today=todayStr();
+  const rec=co[today]||{};
+  const blockDefs=weekend
+    ? [["paper","Past paper (timed)"],["repair","Repaired weak topics"],["anki","Anki + review"]]
+    : [["b1","Block 1 · Maths B"],["b2","Block 2 · Accounting"],["b3","Block 3 · concept subject"],["anki","Evening Anki"]];
+  body.innerHTML="";
+  const wrap=document.createElement("div");wrap.className="closeout-grid";
+  blockDefs.forEach(([key,label])=>{
+    const v=rec[key];
+    const row=document.createElement("div");row.className="co-block";
+    row.innerHTML=`<div class="col">${label}</div>
+      <button class="co-toggle ${v==="yes"?"yes":v==="no"?"no":""}" onclick="toggleCloseout('${key}')">${v==="yes"?"Done":v==="no"?"Missed":"—"}</button>`;
+    wrap.appendChild(row);
+  });
+  body.appendChild(wrap);
+  // summary banner
+  const done=blockDefs.filter(([k])=>rec[k]==="yes").length;
+  const answered=blockDefs.filter(([k])=>rec[k]).length;
+  if(answered===blockDefs.length){
+    const b=document.createElement("div");b.className="co-done-banner";b.style.marginTop="10px";
+    b.textContent=done===blockDefs.length?"🔥 Full day logged — streak protected":`${done}/${blockDefs.length} blocks done. Tomorrow's a fresh start.`;
+    body.appendChild(b);
+    title.textContent="Day logged";
+  }else{
+    title.textContent="Did the day happen?";
+  }
+}
+function toggleCloseout(key){
+  const co=getCloseout();const today=todayStr();
+  if(!co[today])co[today]={};
+  const cur=co[today][key];
+  co[today][key]=cur==="yes"?"no":cur==="no"?null:"yes";
+  if(co[today][key]===null)delete co[today][key];
+  saveJSON("ascent_closeout",co);renderCloseout();
+}
+
+/* ============ over-confidence flags ============ */
+function renderFlags(){
+  const strip=document.getElementById("flagsStrip");if(!strip)return;
+  strip.innerHTML="";
+  const flags=[];
+  // 1) subject marked substantially ready but recent papers below A* line
+  for(const s of SUBJECTS){
+    const x=subjReady(s.key);
+    const ps=papers.filter(p=>p.subject===s.key);
+    if(x.pct>=40&&ps.length>=2){
+      const recent=ps.slice(-3);
+      const avg=recent.reduce((a,b)=>a+b.score/b.max,0)/recent.length*100;
+      if(avg<75){
+        flags.push({type:"red",icon:"⚠",html:`<b>${s.name}:</b> you've marked ${x.pct}% exam-ready, but your recent papers average ${Math.round(avg)}% — below the A* line. Understanding ≠ scoring. Re-test your "ready" topics under timed conditions.`});
+      }
+    }
+  }
+  // 2) high-mark subject left largely untouched deep into the timeline
+  const wi=Math.min(Math.max(weekIndexFor(parseD(todayStr())),1),17);
+  if(wi>=6){
+    for(const s of SUBJECTS){
+      const x=subjReady(s.key);
+      if(x.pct<20&&x.tot>3){
+        flags.push({type:"amber",icon:"◐",html:`<b>${s.name}</b> is still ${x.pct}% ready in week ${wi}. Don't let a whole subject drift late — even your easier A*s need timed practice.`});
+      }
+    }
+  }
+  // 3) streak broken recently (studied yesterday-ish but not today, afternoon already)
+  const hr=new Date().getHours();
+  const studiedToday=sessions.some(s=>s.date===todayStr());
+  if(!studiedToday && hr>=14 && new Date().getDay()!==0 && new Date().getDay()!==6){
+    flags.push({type:"amber",icon:"⏳",html:`It's past 2pm and no study logged today. Your deep-work hours are slipping — even 30 focused minutes keeps the streak and the momentum alive.`});
+  }
+  if(!flags.length)return;
+  flags.slice(0,3).forEach(f=>{
+    const div=document.createElement("div");div.className="flag"+(f.type==="amber"?" amber":"");
+    div.innerHTML=`<div class="fi">${f.icon}</div><div class="ft">${f.html}</div>`;
+    strip.appendChild(div);
+  });
+}
+
+/* ============ render: focus timer ============ */
+let timerRunning=false,timerStart=0,timerAccum=0,timerInterval=null;
+function renderTimerSubjects(){
+  const host=document.getElementById("timerSubjects");host.innerHTML="";
+  for(const s of SUBJECTS){
+    const b=document.createElement("button");b.textContent=s.name;
+    b.className=(s.key===curTimerSubject)?"on":"";
+    b.onclick=()=>{if(timerRunning){setToast("Stop the timer before switching");return;}curTimerSubject=s.key;renderTimerSubjects();};
+    host.appendChild(b);
+  }
+  // mirror in subjects tab selector via curTimerSubject only
+}
+function fmtHMS(sec){const h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),s=Math.floor(sec%60);return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");}
+function tick(){const el=document.getElementById("timerFace");const sec=timerAccum+(timerRunning?(Date.now()-timerStart)/1000:0);el.textContent=fmtHMS(sec);}
+function toggleTimer(){
+  const btn=document.getElementById("startBtn");const face=document.getElementById("timerFace");const st=document.getElementById("timerStatus");
+  if(!timerRunning){
+    timerRunning=true;timerStart=Date.now();btn.textContent="Pause";face.classList.add("running");
+    st.textContent="● focusing on "+subjName(curTimerSubject)+" — stay in it";
+    timerInterval=setInterval(tick,250);
+  }else{
+    timerRunning=false;timerAccum+=(Date.now()-timerStart)/1000;clearInterval(timerInterval);
+    btn.textContent="Resume";face.classList.remove("running");
+    st.textContent="paused · "+fmtHMS(timerAccum)+" banked — press Resume, or Reset to save";
+  }
+  // show a Save option when paused with time
+  ensureSaveBtn();
+}
+function ensureSaveBtn(){
+  let sb=document.getElementById("saveSessBtn");
+  if(timerAccum>0&&!timerRunning){
+    if(!sb){sb=document.createElement("button");sb.id="saveSessBtn";sb.className="btn primary";sb.textContent="Save session";sb.onclick=saveTimerSession;document.querySelector("#view-focus .btn-row").prepend(sb);}
+  }else if(sb){sb.remove();}
+}
+function saveTimerSession(){
+  const sec=Math.round(timerAccum+(timerRunning?(Date.now()-timerStart)/1000:0));
+  if(sec<30){setToast("Too short to log");return;}
+  sessions.push({id:Date.now(),subject:curTimerSubject,dur:sec,date:todayStr(),ts:Date.now()});
+  saveJSON("ascent_sessions",sessions);
+  discardTimer();setToast("Logged "+(sec/60).toFixed(0)+" min on "+subjName(curTimerSubject));
+  refreshAll();
+}
+function discardTimer(){
+  timerRunning=false;timerAccum=0;clearInterval(timerInterval);
+  document.getElementById("timerFace").textContent="00:00:00";
+  document.getElementById("timerFace").classList.remove("running");
+  document.getElementById("startBtn").textContent="Start";
+  document.getElementById("timerStatus").textContent="pick a subject & press start";
+  ensureSaveBtn();
+}
+function logManual(){
+  const mins=prompt("How many minutes did you study "+subjName(curTimerSubject)+"?");
+  const m=parseInt(mins);if(!m||m<=0)return;
+  sessions.push({id:Date.now(),subject:curTimerSubject,dur:m*60,date:todayStr(),ts:Date.now()});
+  saveJSON("ascent_sessions",sessions);setToast("Logged "+m+" min");refreshAll();
+}
+function renderFocus(){
+  renderTimerSubjects();
+  const sw=startOfWeek().getTime();
+  document.getElementById("fmToday").textContent=hoursFor(s=>s.date===todayStr()).toFixed(1)+"h";
+  document.getElementById("fmWeek").textContent=hoursFor(s=>parseD(s.date).getTime()>=sw).toFixed(1)+"h";
+  document.getElementById("fmTotal").textContent=hoursFor(()=>true).toFixed(1)+"h";
+  document.getElementById("fmSessions").textContent=sessions.length;
+  const log=document.getElementById("sessionLog");log.innerHTML="";
+  const todays=sessions.filter(s=>s.date===todayStr()).slice().reverse();
+  if(!todays.length){log.innerHTML='<div class="empty">No sessions yet today.<br>Press start above and begin block one.</div>';return;}
+  for(const s of todays){
+    const d=document.createElement("div");d.className="score-line";
+    d.innerHTML=`<span class="id">${subjName(s.subject)}</span><span class="sc">${(s.dur/60).toFixed(0)} min</span>`;
+    log.appendChild(d);
+  }
+}
+
+/* ============ render: subjects ============ */
+function renderSubjTabs(){
+  const host=document.getElementById("subjTabs");host.innerHTML="";
+  for(const s of SUBJECTS){
+    const b=document.createElement("button");
+    const x=subjReady(s.key);
+    b.innerHTML=s.name+' <span style="opacity:.6">'+x.pct+'%</span>';
+    b.className=(s.key===curSubjectTab)?"on":"";
+    b.onclick=()=>{curSubjectTab=s.key;renderSubjects();};
+    host.appendChild(b);
+  }
+}
+function renderSubjects(){
+  renderSubjTabs();
+  const s=SUBJECTS.find(x=>x.key===curSubjectTab);
+  const x=subjReady(s.key);
+  document.getElementById("subjName").textContent=s.name;
+  document.getElementById("subjMeta").textContent=s.code;
+  document.getElementById("subjBar").style.width=x.pct+"%";
+  document.getElementById("subjCount").textContent=x.r+" of "+x.tot+" topics Exam-ready · "+x.pct+"%";
+  const list=document.getElementById("topicList");list.innerHTML="";
+  const t=topics[s.key]||[];
+  if(!t.length){list.innerHTML='<div class="empty">No topics yet. Add them above, or generate from the spec (Toolkit).</div>';return;}
+  let lastSec=null;let nextMarked=false;
+  t.forEach((tp)=>{
+    if(tp.section&&tp.section!==lastSec){const h=document.createElement("div");h.className="section-h";h.textContent=tp.section;list.appendChild(h);lastSec=tp.section;}
+    const row=document.createElement("div");
+    row.className="topic"+(tp.status==="ready"?" is-ready":"");
+    const cyc=tp.status==="ready"?"ready":(tp.status==="learning"?"learning":"");
+    const mark=tp.status==="ready"?"✓":(tp.status==="learning"?"~":"");
+    const isNext=!nextMarked&&tp.status!=="ready";if(isNext)nextMarked=true;
+    row.innerHTML=`<div class="cyc ${cyc}" onclick="cycleStatus('${s.key}','${tp.id}')">${mark}</div>
+      <div class="nm">${tp.name}</div>
+      ${isNext?'<span class="nextpill">next</span>':''}
+      <span class="tag">${tp.status==="notstarted"?"not started":tp.status}</span>
+      <button class="btn sm ghost danger" style="padding:3px 8px" onclick="delTopic('${s.key}','${tp.id}')">×</button>`;
+    list.appendChild(row);
+  });
+}
+function cycleStatus(k,id){
+  const t=topics[k];const tp=t.find(x=>x.id===id);if(!tp)return;
+  tp.status=tp.status==="notstarted"?"learning":tp.status==="learning"?"ready":"notstarted";
+  if(tp.status==="ready"){ tp.readyAt=todayStr(); tp.lastRecall=todayStr(); }
+  else { delete tp.readyAt; delete tp.lastRecall; }
+  saveJSON("ascent_topics",topics);renderSubjects();renderDashProgress();renderRecall();
+  document.getElementById("readyPct").textContent=overallReady()+"%";
+}
+
+/* ============ study summary generator (AI-ready) ============ */
+function summariseSubject(s){
+  const t=topics[s.key]||[];
+  const ready=t.filter(x=>x.status==="ready");
+  const learning=t.filter(x=>x.status==="learning");
+  const notstarted=t.filter(x=>x.status==="notstarted");
+  const x=subjReady(s.key);
+  const nt=nextTopic(s.key);
+  let out=`### ${s.name} (${s.code}) — ${x.pct}% exam-ready (${x.r}/${x.tot} topics)\n`;
+  out+=`EXAM-READY (${ready.length}): ${ready.length?ready.map(r=>r.name).join("; "):"none yet"}\n`;
+  out+=`IN PROGRESS (${learning.length}): ${learning.length?learning.map(r=>r.name).join("; "):"none"}\n`;
+  out+=`NOT STARTED (${notstarted.length}): ${notstarted.length?notstarted.map(r=>r.name).join("; "):"none — all topics touched"}\n`;
+  out+=`NEXT UP: ${nt?((nt.section?nt.section+" · ":"")+nt.name):"all topics ready — move to timed past papers"}\n`;
+  // papers for this subject
+  const ps=papers.filter(p=>p.subject===s.key);
+  if(ps.length){
+    const best=ps.reduce((a,b)=>(b.score/b.max>a.score/a.max?b:a));
+    const avg=Math.round(ps.reduce((a,b)=>a+b.score/b.max,0)/ps.length*100);
+    out+=`PAST PAPERS: ${ps.length} logged, avg ${avg}%, best ${Math.round(best.score/best.max*100)}% (${best.paper})\n`;
+  }
+  // errors for this subject
+  const es=errors.filter(e=>e.subject===s.key);
+  if(es.length){
+    out+=`LOGGED MISTAKES (${es.length}): ${es.slice(-4).map(e=>e.mistake).join(" | ")}\n`;
+  }
+  return out;
+}
+function genSummary(scope){
+  const today=new Date();today.setHours(0,0,0,0);
+  const ex=parseD(examDate);
+  const dleft=Math.max(0,daysBetween(today,ex));
+  let wi=Math.min(Math.max(weekIndexFor(today),1),17);
+  const wk=WEEKS[wi-1];
+  const totalH=hoursFor(()=>true);
+  const streak=computeStreak();
+
+  let body="";
+  const list = scope==="subject" ? [SUBJECTS.find(s=>s.key===curSubjectTab)] : SUBJECTS;
+
+  let out=`STUDY PROGRESS SUMMARY — Edexcel IGCSE candidate (private, Nov 2026 sitting)\n`;
+  out+=`Generated: ${today.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"})}\n`;
+  out+=`Days until first exam: ${dleft}  |  Plan week: ${wi}/17 (${wk.phase} phase)\n`;
+  out+=`Total focused study logged: ${totalH.toFixed(1)} h  |  Current day-streak: ${streak}\n`;
+  out+=`Overall exam-ready across ${scope==="subject"?"this subject":"all subjects"}: ${scope==="subject"?subjReady(curSubjectTab).pct:overallReady()}%\n`;
+  const due=recallDue();
+  if(due.length){out+=`Topics due for recall (knowledge may be fading): ${due.slice(0,8).map(d=>d.tp.name+" ["+d.s.name+"]").join("; ")}${due.length>8?" …+"+(due.length-8):""}\n`;}
+  out+=`\n============================================================\n\n`;
+
+  for(const s of list){ out+=summariseSubject(s)+"\n"; }
+
+  // weakest / strongest for context (full mode only)
+  if(scope!=="subject"){
+    const ranked=SUBJECTS.map(s=>({n:s.name,pct:subjReady(s.key).pct})).sort((a,b)=>a.pct-b.pct);
+    out+=`============================================================\n`;
+    out+=`SNAPSHOT: weakest → ${ranked.slice(0,2).map(r=>r.n+" ("+r.pct+"%)").join(", ")}  |  strongest → ${ranked.slice(-2).map(r=>r.n+" ("+r.pct+"%)").join(", ")}\n\n`;
+  }
+
+  // the ask to the AI — this is what turns the summary into useful context
+  out+=`------------------------------------------------------------\n`;
+  out+=`WHAT I NEED FROM YOU (the AI reading this):\n`;
+  out+=`1. Given where I am with ${dleft} days left and in the ${wk.phase.toLowerCase()} phase, tell me if my pace is on track for all-A*, and where I'm at risk.\n`;
+  out+=`2. Suggest exactly what I should prioritise NEXT this week — be specific to my weak/in-progress topics above, not generic.\n`;
+  out+=`3. Flag any topic I've marked 'exam-ready' that you think I should re-test, and any 'not started' topic that's high-mark and shouldn't be left late.\n`;
+  out+=`4. Give me 2–3 concrete tactics to raise my probability of A* from this exact position.\n`;
+  out+=`(Note: a topic is only 'exam-ready' here if I scored well on past-paper questions unaided against the mark scheme.)\n`;
+
+  document.getElementById("summaryText").value=out;
+  document.getElementById("summaryTitle").textContent = scope==="subject" ? (SUBJECTS.find(s=>s.key===curSubjectTab).name+" — progress") : "Full progress — all 6 subjects";
+  document.getElementById("summaryStamp").textContent = scope==="subject"?"single subject":"all subjects · "+totalH.toFixed(1)+"h logged";
+  document.getElementById("summaryModal").classList.remove("hidden");
+}
+function closeSummary(){document.getElementById("summaryModal").classList.add("hidden");}
+function copySummary(){
+  const txt=document.getElementById("summaryText").value;
+  navigator.clipboard?.writeText(txt).then(()=>setToast("Summary copied — paste into your AI")).catch(()=>{
+    const ta=document.getElementById("summaryText");ta.select();try{document.execCommand("copy");setToast("Copied");}catch(e){setToast("Select & copy manually");}
+  });
+}
+function downloadSummary(){
+  const txt=document.getElementById("summaryText").value;
+  const a=document.createElement("a");a.href="data:text/plain;charset=utf-8,"+encodeURIComponent(txt);
+  a.download="study-summary-"+todayStr()+".txt";a.click();setToast("Summary downloaded");
+}
+function addTopic(){
+  const nm=document.getElementById("newTopicName").value.trim();
+  const sec=document.getElementById("newTopicSection").value.trim();
+  if(!nm)return;
+  topics[curSubjectTab].push({id:curSubjectTab+"_"+Date.now(),section:sec,name:nm,status:"notstarted"});
+  saveJSON("ascent_topics",topics);
+  document.getElementById("newTopicName").value="";document.getElementById("newTopicSection").value="";
+  renderSubjects();setToast("Topic added");
+}
+function delTopic(k,id){topics[k]=topics[k].filter(x=>x.id!==id);saveJSON("ascent_topics",topics);renderSubjects();renderDashProgress();}
+function genReminder(){
+  const s=SUBJECTS.find(x=>x.key===curSubjectTab);
+  setToast("See Toolkit → 'Generate a topic list' — load your "+s.code+" spec into NotebookLM");
+  go('toolkit');
+}
+
+/* ============ render: week ============ */
+function renderWeek(){
+  let wi=viewingWeek||Math.min(Math.max(weekIndexFor(new Date()),1),17);
+  viewingWeek=wi;
+  const wk=WEEKS[wi-1];
+  document.getElementById("wkNum").textContent=wi;
+  document.getElementById("wkDates").textContent=wk.dates;
+  document.getElementById("wkBig").textContent="W"+wi;
+  document.getElementById("wkPhase").textContent=wk.phase;
+  document.getElementById("wkPhase").className="phase-chip phase-"+wk.phase;
+  document.getElementById("wkFocus").textContent=wk.focus;
+  document.getElementById("wkPractice").textContent=wk.practice;
+  const m=document.getElementById("wkMiles");m.innerHTML="";
+  wk.miles.forEach(x=>{const li=document.createElement("li");li.textContent=x;m.appendChild(li);});
+}
+function weekNav(d){
+  if(d===0){viewingWeek=Math.min(Math.max(weekIndexFor(new Date()),1),17);}
+  else{viewingWeek=Math.min(Math.max((viewingWeek||1)+d,1),17);}
+  renderWeek();
+}
+
+/* ============ render: logs ============ */
+function fillSubjSelects(){
+  for(const id of ["pSubj","eSubj"]){
+    const sel=document.getElementById(id);sel.innerHTML="";
+    for(const s of SUBJECTS){const o=document.createElement("option");o.value=s.key;o.textContent=s.name;sel.appendChild(o);}
+  }
+}
+function addPaper(){
+  const subj=document.getElementById("pSubj").value;
+  const idv=document.getElementById("pId").value.trim();
+  const sc=parseFloat(document.getElementById("pScore").value);
+  const mx=parseFloat(document.getElementById("pMax").value);
+  if(!idv||isNaN(sc)||isNaN(mx)||mx<=0){setToast("Fill paper, score & max");return;}
+  papers.push({id:Date.now(),subject:subj,paper:idv,score:sc,max:mx,date:todayStr()});
+  saveJSON("ascent_papers",papers);
+  document.getElementById("pId").value="";document.getElementById("pScore").value="";document.getElementById("pMax").value="";
+  renderLogs();setToast("Paper logged");
+}
+function addError(){
+  const subj=document.getElementById("eSubj").value;
+  const mis=document.getElementById("eMistake").value.trim();
+  const fix=document.getElementById("eFix").value.trim();
+  if(!mis){setToast("Describe the mistake");return;}
+  errors.push({id:Date.now(),subject:subj,mistake:mis,fix:fix,date:todayStr()});
+  saveJSON("ascent_errors",errors);
+  document.getElementById("eMistake").value="";document.getElementById("eFix").value="";
+  renderLogs();setToast("Added to error log");
+}
+function renderLogs(){
+  const pl=document.getElementById("paperLog");pl.innerHTML="";
+  if(!papers.length){pl.innerHTML='<div class="empty">No papers logged yet.</div>';}
+  papers.slice().reverse().forEach(p=>{
+    const pct=Math.round(p.score/p.max*100);
+    const cls=pct>=80?"astar":pct>=70?"near":"low";
+    const d=document.createElement("div");d.className="score-line";
+    d.innerHTML=`<span class="id">${subjName(p.subject)} · ${p.paper}</span><span class="sc ${cls}">${p.score}/${p.max} · ${pct}%</span>`;
+    pl.appendChild(d);
+  });
+  const elx=document.getElementById("errorLog");elx.innerHTML="";
+  if(!errors.length){elx.innerHTML='<div class="empty">No mistakes logged — log them as they happen.</div>';}
+  errors.slice().reverse().forEach(e=>{
+    const d=document.createElement("div");d.className="logitem";
+    d.innerHTML=`<div class="meta"><span class="s">${subjName(e.subject)}</span><span class="d">${e.date} <span class="mini-link" onclick="delError(${e.id})">remove</span></span></div><div class="mistake">${escapeHtml(e.mistake)}</div>${e.fix?`<div class="fix">${escapeHtml(e.fix)}</div>`:""}`;
+    elx.appendChild(d);
+  });
+}
+function delError(id){errors=errors.filter(e=>e.id!==id);saveJSON("ascent_errors",errors);renderLogs();}
+function escapeHtml(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+
+/* ============ render: toolkit ============ */
+function renderToolkit(){
+  const p=document.getElementById("prompts");p.innerHTML="";
+  PROMPTS.forEach((pr,i)=>{
+    const d=document.createElement("div");d.className="prompt";
+    d.innerHTML=`<div class="pt">${pr[0]}</div><div class="pc" id="pc${i}">${escapeHtml(pr[1])}</div><button class="btn sm copy" onclick="copyPrompt(${i})">copy</button>`;
+    p.appendChild(d);
+  });
+  const t=document.getElementById("tactics");t.innerHTML="";
+  TACTICS.forEach((tc,i)=>{
+    const d=document.createElement("div");d.className="tactic";
+    d.innerHTML=`<div class="n">${String(i+1).padStart(2,"0")}</div><div class="tx"><b>${tc[0]}</b><p>${tc[1]}</p></div>`;
+    t.appendChild(d);
+  });
+  document.getElementById("storageNote").textContent=LS_OK?"saved in this browser":"⚠ browser storage blocked — data won't persist here; export to keep it";
+}
+function copyPrompt(i){
+  const txt=PROMPTS[i][1];
+  navigator.clipboard?.writeText(txt).then(()=>setToast("Prompt copied")).catch(()=>setToast("Select & copy manually"));
+}
+
+/* ============ data export/import ============ */
+function exportData(){
+  const blob={topics,sessions,errors,papers,examDate,closeout:getCloseout(),exported:new Date().toISOString()};
+  const s=JSON.stringify(blob,null,2);
+  const a=document.createElement("a");a.href="data:application/json;charset=utf-8,"+encodeURIComponent(s);
+  a.download="ascent-backup-"+todayStr()+".json";a.click();setToast("Backup downloaded");
+}
+function importData(){
+  const inp=document.createElement("input");inp.type="file";inp.accept="application/json";
+  inp.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();
+    r.onload=()=>{try{const b=JSON.parse(r.result);
+      if(b.topics)topics=b.topics;if(b.sessions)sessions=b.sessions;if(b.errors)errors=b.errors;if(b.papers)papers=b.papers;if(b.examDate)examDate=b.examDate;
+      saveJSON("ascent_topics",topics);saveJSON("ascent_sessions",sessions);saveJSON("ascent_errors",errors);saveJSON("ascent_papers",papers);Store.set("ascent_exam",examDate);
+      if(b.closeout)saveJSON("ascent_closeout",b.closeout);
+      refreshAll();setToast("Data imported");}catch(err){setToast("Bad file");}};
+    r.readAsText(f);};
+  inp.click();
+}
+function wipeData(){if(!confirm("Erase ALL progress, sessions, logs? This cannot be undone."))return;
+  ["ascent_topics","ascent_sessions","ascent_errors","ascent_papers","ascent_exam","ascent_closeout"].forEach(k=>Store.del(k));
+  location.reload();}
+
+/* ============ exam date ============ */
+function setExamDate(){const v=document.getElementById("examDateInput").value;if(!v)return;examDate=v;Store.set("ascent_exam",examDate);renderDash();setToast("Exam date set");}
+function resetExam(){examDate="2026-09-28";Store.set("ascent_exam",examDate);renderDash();setToast("Reset to 28 Sep 2026");}
+
+/* ============ nav ============ */
+function go(v){
+  document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.v===v));
+  ["dash","focus","subjects","week","logs","toolkit"].forEach(x=>{
+    document.getElementById("view-"+x).classList.toggle("hidden",x!==v);
+  });
+  if(v==="dash")renderDash();
+  if(v==="focus")renderFocus();
+  if(v==="subjects")renderSubjects();
+  if(v==="week")renderWeek();
+  if(v==="logs"){fillSubjSelects();renderLogs();}
+  if(v==="toolkit")renderToolkit();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll("#nav button").forEach(b=>b.onclick=()=>go(b.dataset.v));
+
+/* ============ misc ============ */
+let toastT=null;
+function setToast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("show"),2200);}
+function refreshAll(){renderDash();if(!document.getElementById("view-focus").classList.contains("hidden"))renderFocus();if(!document.getElementById("view-logs").classList.contains("hidden"))renderLogs();renderSubjTabs();}
+function updateClock(){
+  const d=new Date();
+  const t=d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
+  const ds=d.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"});
+  const dow=d.getDay();const weekend=(dow===0||dow===6);
+  const hr=d.getHours();
+  let phase="";
+  if(weekend)phase="weekend mode";
+  else if(hr<7)phase="before the day starts";
+  else if(hr<16)phase="<b>deep-work hours</b>";
+  else if(hr<22)phase="off-block (earned)";
+  else phase="wind-down · Anki";
+  document.getElementById("headclock").innerHTML=`${ds}<br><b>${t}</b> · ${phase}`;
+}
+
+/* ============ boot ============ */
+updateClock();setInterval(updateClock,30000);
+renderDash();
+document.getElementById("summaryModal").addEventListener("click",e=>{if(e.target.id==="summaryModal")closeSummary();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeSummary();});
+window.addEventListener("beforeunload",e=>{if(timerRunning){e.preventDefault();e.returnValue="";}});
+</script>
+</body>
+</html>
