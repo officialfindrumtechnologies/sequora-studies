@@ -292,7 +292,7 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
       <div class="card">
         <div class="lead">Momentum</div>
         <div class="grid g2" style="gap:12px">
-          <div class="stat" style="background:var(--ink)"><span class="flame" id="flameIcon">🔥</span><div class="v" id="streakVal">0</div><div class="k">Day streak</div><div class="x" id="streakX">study today to start</div></div>
+          <div class="stat" style="background:var(--ink)"><span class="flame" id="flameIcon" style="font-family:var(--mono);font-weight:900;color:var(--amber);font-size:18px">●</span><div class="v" id="streakVal">0</div><div class="k">Day streak</div><div class="x" id="streakX">study today to start</div></div>
           <div class="stat" style="background:var(--ink)"><div class="v" id="todayHrs">0.0</div><div class="k">Hours today</div><div class="x" id="todayX">target ≈ 5.5h</div></div>
           <div class="stat" style="background:var(--ink)"><div class="v" id="weekHrs">0.0</div><div class="k">Hours this week</div><div class="x" id="weekX">target ≈ 28h</div></div>
           <div class="stat" style="background:var(--ink)"><div class="v" id="readyPct">0%</div><div class="k">Exam-ready</div><div class="x" id="readyX">across all subjects</div></div>
@@ -321,7 +321,7 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
       <div class="card accent">
         <div class="lead" style="display:flex; justify-content:space-between; align-items:center;">
           <span>Right now — your day, in order</span>
-          <button class="btn primary sm" id="aiRecommendBtn" onclick="getAIRecommendation()" style="margin: -6px 0;">🤖 Ask AI Advisor</button>
+          <button class="btn primary sm" id="aiRecommendBtn" onclick="getAIRecommendation()" style="margin: -6px 0;">Ask AI Advisor</button>
         </div>
         <h2 id="dayTitle">Today's blocks</h2>
         <p style="color:var(--muted);font-size:13px;margin:2px 0 16px;font-style:italic" id="dayMode"></p>
@@ -433,13 +433,29 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
           <div class="lab" style="margin: 0;">AI Weekly Review</div>
           <p style="font-size: 13px; color: var(--muted); margin-top: 2px;">Submit progress for an automated readiness evaluation.</p>
         </div>
-        <button class="btn primary" id="aiWeeklyBtn" onclick="runWeeklyCheckIn()">🤖 Run Weekly Check-In</button>
+        <button class="btn primary" id="aiWeeklyBtn" onclick="runWeeklyCheckIn()">Run Weekly Check-In</button>
       </div>
     </div>
   </section>
 
   <!-- ================= LOGS ================= -->
   <section id="view-logs" class="view hidden">
+    <div class="card" style="margin-bottom:18px">
+      <div class="lead">Past papers — open by subject</div>
+      <h2>Paper banks</h2>
+      <p style="color:var(--muted);font-size:14px;margin:3px 0 16px;font-style:italic">One tap to the papers. Work them timed, mark strictly, log your scores below.</p>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div class="score-line"><span class="id">Maths B (4MB1)</span><span style="display:flex;gap:10px"><a href="https://mymathscloud.com" target="_blank" rel="noopener" class="mini-link">MyMathsCloud</a><a href="https://www.physicsandmathstutor.com/past-papers/gcse-maths/edexcel-igcse-b-paper-1/" target="_blank" rel="noopener" class="mini-link">PMT</a></span></div>
+        <div class="score-line"><span class="id">Accounting (4AC1)</span><span style="display:flex;gap:10px"><a href="https://www.savemyexams.com" target="_blank" rel="noopener" class="mini-link">SaveMyExams</a><a href="https://pastpapersz.com/edexcel/igcse-accounting/" target="_blank" rel="noopener" class="mini-link">PastPapersZ</a></span></div>
+        <div class="score-line"><span class="id">Economics (4EC1)</span><span style="display:flex;gap:10px"><a href="https://www.physicsandmathstutor.com/past-papers/gcse-economics/edexcel-igcse-paper-1/" target="_blank" rel="noopener" class="mini-link">PMT</a></span></div>
+        <div class="score-line"><span class="id">Business (4BS1)</span><span style="display:flex;gap:10px"><a href="https://www.savemyexams.com" target="_blank" rel="noopener" class="mini-link">SaveMyExams</a></span></div>
+        <div class="score-line"><span class="id">English B (4EB1)</span><span style="display:flex;gap:10px"><a href="https://www.savemyexams.com" target="_blank" rel="noopener" class="mini-link">SaveMyExams</a></span></div>
+        <div class="score-line"><span class="id">Bangla (4BN1)</span><span style="display:flex;gap:10px"><a href="https://qualifications.pearson.com" target="_blank" rel="noopener" class="mini-link">Pearson</a></span></div>
+      </div>
+      <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)">
+        <a href="https://qualifications.pearson.com/en/support/support-topics/exams/past-papers.html" target="_blank" rel="noopener" class="mini-link" style="font-size:12px">Pearson official past papers, examiner reports &amp; grade boundaries</a>
+      </div>
+    </div>
     <div class="grid g2">
       <div class="card">
         <div class="lead">Past-paper log</div>
@@ -471,6 +487,39 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
 
   <!-- ================= TOOLKIT ================= -->
   <section id="view-toolkit" class="view hidden">
+    <div class="card accent" style="margin-bottom:18px">
+      <div class="lead">Study sequence</div>
+      <h2>Where to start — the exact order</h2>
+
+      <div style="margin-top:16px">
+        <div class="wk-block">
+          <div class="lab">Which subject gets which block</div>
+          <p><b style="color:var(--amber-soft)">Block 1</b> (sharpest hours, 7:30am) = <b>Maths B</b> — least crammable, gets your best brain every day.<br>
+          <b style="color:var(--amber-soft)">Block 2</b> (10:00) = <b>Accounting</b> — pure dependency chain, front-loaded.<br>
+          <b style="color:var(--amber-soft)">Block 3</b> (12:15) = <b>Economics / Business</b> — alternate daily. Evaluation marks decide A*.<br>
+          <b style="color:var(--amber-soft)">Block 4</b> (lighter, 3:00) + weekends = <b>English B / Bangla / past papers</b> — skill subjects live here.<br>
+          <span style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:6px;display:block">Principle: front-load what you can't cram later. Maths &amp; Accounting can't be crammed in September.</span></p>
+        </div>
+
+        <div class="wk-block">
+          <div class="lab">Which chapter first within a subject</div>
+          <p>Follow the topic order <b style="color:var(--amber-soft)">top-to-bottom</b> in each subject's tracker — they're already sequenced so prerequisites come before what needs them. Don't jump ahead; finish a topic to Exam-ready before the next. Drop in an easy "island" topic when you want a confidence win.</p>
+        </div>
+
+        <div class="wk-block">
+          <div class="lab">The daily loop per topic</div>
+          <p style="line-height:1.75">
+            <b style="color:var(--amber-soft)">1.</b> Learn — NotebookLM with the spec loaded (~25 min)<br>
+            <b style="color:var(--amber-soft)">2.</b> Note in your own words (~5 min)<br>
+            <b style="color:var(--amber-soft)">3.</b> Drill past-paper questions on that topic (~30 min)<br>
+            <b style="color:var(--amber-soft)">4.</b> Quiz yourself unaided in Gemini (~10 min)<br>
+            <b style="color:var(--amber-soft)">5.</b> Mark the tracker<br>
+            <span style="font-family:var(--mono);font-size:11px;color:var(--muted);display:block;margin-top:6px">A topic is only Exam-ready when you score well <i>unaided</i> against the mark scheme.</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
     <div class="grid g2">
       <div class="card">
         <div class="lead">AI prompts · tap to copy</div>

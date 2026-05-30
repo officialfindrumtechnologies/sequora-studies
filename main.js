@@ -553,7 +553,7 @@ const WEEKS=[
  {n:4,dates:"21 – 27 Jun",phase:"CONTENT",focus:"Push Economics + Business analysis/evaluation chains. Maths & Accounting toward Exam-ready. Begin English B format study.",practice:"First TIMED maths paper. Eco/Business 8–12 mark practice, AI-marked vs real scheme.",miles:["~16 topics at Learning+","Maths ~50% Exam-ready"]},
  {n:5,dates:"28 Jun – 4 Jul",phase:"CONTENT",focus:"Bangla begins (likely your fastest A* — start, don't over-invest). Continue all others. Begin the question-type log.",practice:"1 timed paper in your strongest subject. Daily Anki.",miles:["All 6 subjects in motion","Question-type log started"]},
  {n:6,dates:"5 – 11 Jul",phase:"CONTENT",focus:"Mid-content grind. Repair laggards. Accounting near-complete (finite formats).",practice:"2 timed papers (rotate subjects). Self-mark strictly.",miles:["~half of all topics Exam-ready","Accounting ~80% done"]},
- {n:7,dates:"12 – 18 Jul",phase:"CONTENT",focus:"⚠ REGISTER FOR THE EXAM (deadline ~end July). Set 3 reminders now. Continue Eco & Business depth.",practice:"2 timed papers. Read your 1st examiner report.",miles:["EXAM REGISTERED ✅ (critical)","1st examiner report read"]},
+ {n:7,dates:"12 – 18 Jul",phase:"CONTENT",focus:"REGISTER FOR THE EXAM (deadline ~end July). Set 3 reminders now. Continue Eco & Business depth.",practice:"2 timed papers. Read your 1st examiner report.",miles:["EXAM REGISTERED (critical)","1st examiner report read"]},
  {n:8,dates:"19 – 25 Jul",phase:"CONTENT",focus:"Close remaining content gaps. Maths B fully covered → pure practice. English B technique solid.",practice:"2–3 timed papers. Maths: full paper under exam timing.",miles:["~40 topics Exam-ready","Maths content 100% covered"]},
  {n:9,dates:"26 Jul – 1 Aug",phase:"CONTENT",focus:"Final content sprint. Kill anything still Not-started. Bangla & English B comfortable.",practice:"3 timed papers. Build pre-written answers for recurring question types.",miles:["Zero topics Not-started","Question-type log covers all 6"]},
  {n:10,dates:"2 – 8 Aug",phase:"CONTENT",focus:"Transition. Content essentially done. Last review of weak sub-topics, then pivot to heavy practice.",practice:"3–4 timed papers. Marks visibly climbing.",miles:["~50 topics Exam-ready","Content phase complete"]},
@@ -649,7 +649,7 @@ function buildTodayBlocks(){
     const nt=nextTopic(b.key);
     addBlockEl(el,{
       time:b.time, s:subjName(b.key)+" — "+b.label,
-      t:nt?("Study next: <b>"+(nt.section?nt.section+" · ":"")+nt.name+"</b>"):"🎉 All topics Exam-ready — switch to timed past papers",
+      t:nt?("Study next: <b>"+(nt.section?nt.section+" · ":"")+nt.name+"</b>"):"All topics Exam-ready — switch to timed past papers",
       hint:b.hint, key:b.key, topicId:nt?nt.id:null
     },false);
   });
@@ -820,7 +820,7 @@ function renderCloseout(){
   const answered=blockDefs.filter(([k])=>rec[k]).length;
   if(answered===blockDefs.length){
     const b=document.createElement("div");b.className="co-done-banner";b.style.marginTop="10px";
-    b.textContent=done===blockDefs.length?"🔥 Full day logged — streak protected":`${done}/${blockDefs.length} blocks done. Tomorrow's a fresh start.`;
+    b.textContent=done===blockDefs.length?"Full day logged — streak protected":`${done}/${blockDefs.length} blocks done. Tomorrow's a fresh start.`;
     body.appendChild(b);
     title.textContent="Day logged";
   }else{
@@ -848,7 +848,7 @@ function renderFlags(){
       const recent=ps.slice(-3);
       const avg=recent.reduce((a,b)=>a+b.score/b.max,0)/recent.length*100;
       if(avg<75){
-        flags.push({type:"red",icon:"⚠",html:`<b>${s.name}:</b> you've marked ${x.pct}% exam-ready, but your recent papers average ${Math.round(avg)}% — below the A* line. Understanding ≠ scoring. Re-test your "ready" topics under timed conditions.`});
+        flags.push({type:"red",icon:"!",html:`<b>${s.name}:</b> you've marked ${x.pct}% exam-ready, but your recent papers average ${Math.round(avg)}% — below the A* line. Understanding ≠ scoring. Re-test your "ready" topics under timed conditions.`});
       }
     }
   }
@@ -857,14 +857,14 @@ function renderFlags(){
     for(const s of SUBJECTS){
       const x=subjReady(s.key);
       if(x.pct<20&&x.tot>3){
-        flags.push({type:"amber",icon:"◐",html:`<b>${s.name}</b> is still ${x.pct}% ready in week ${wi}. Don't let a whole subject drift late — even your easier A*s need timed practice.`});
+        flags.push({type:"amber",icon:"–",html:`<b>${s.name}</b> is still ${x.pct}% ready in week ${wi}. Don't let a whole subject drift late — even your easier A*s need timed practice.`});
       }
     }
   }
   const hr=new Date().getHours();
   const studiedToday=sessions.some(s=>s.date===todayStr());
   if(!studiedToday && hr>=14 && new Date().getDay()!==0 && new Date().getDay()!==6){
-    flags.push({type:"amber",icon:"⏳",html:`It's past 2pm and no study logged today. Your deep-work hours are slipping — even 30 focused minutes keeps the streak and the momentum alive.`});
+    flags.push({type:"amber",icon:"–",html:`It's past 2pm and no study logged today. Your deep-work hours are slipping — even 30 focused minutes keeps the streak and the momentum alive.`});
   }
   if(!flags.length)return;
   flags.slice(0,3).forEach(f=>{
@@ -1232,7 +1232,7 @@ function renderToolkit(){
   }
   
   const storageNoteEl = document.getElementById("storageNote");
-  if (storageNoteEl) storageNoteEl.textContent=LS_OK?"saved in this browser & synced to cloud":"⚠ browser storage blocked — data won't persist";
+  if (storageNoteEl) storageNoteEl.textContent=LS_OK?"saved in this browser & synced to cloud":"Warning: browser storage blocked — data won't persist";
 }
 function copyPrompt(i){
   const txt=PROMPTS[i][1];
@@ -1557,14 +1557,14 @@ async function callGeminiProxy(prompt) {
 async function getAIRecommendation() {
   const btn = document.getElementById("aiRecommendBtn");
   btn.disabled = true;
-  btn.textContent = "🤖 Reading Cockpit...";
+  btn.textContent = "Reading Cockpit...";
   
   try {
     genSummary('full');
     const summary = document.getElementById("summaryText").value;
     closeSummary(); // Close normal modal, we will show AI modal instead
     
-    btn.textContent = "🤖 Advisor Thinking...";
+    btn.textContent = "Advisor Thinking...";
     
     const prompt = `You are a strict, highly focused academic cockpit AI advisor for a private Edexcel IGCSE candidate sitting exams in Nov 2026.
 Review this progress summary:
@@ -1584,21 +1584,21 @@ Keep the guidance highly direct, extremely contextual, and under 100 words. Abso
     console.error(err);
   } finally {
     btn.disabled = false;
-    btn.textContent = "🤖 Ask AI Advisor";
+    btn.textContent = "Ask AI Advisor";
   }
 }
 
 async function runWeeklyCheckIn() {
   const btn = document.getElementById("aiWeeklyBtn");
   btn.disabled = true;
-  btn.textContent = "🤖 Building Evaluation...";
+  btn.textContent = "Building Evaluation...";
   
   try {
     genSummary('full');
     const summary = document.getElementById("summaryText").value;
     closeSummary();
     
-    btn.textContent = "🤖 Evaluator Thinking...";
+    btn.textContent = "Evaluator Thinking...";
     
     const prompt = `You are an elite Edexcel IGCSE academic strategist. Review the candidate's complete cockpit dashboard:
 
@@ -1621,7 +1621,7 @@ Ensure response is structured with bullet points, extremely practical, and under
     console.error(err);
   } finally {
     btn.disabled = false;
-    btn.textContent = "🤖 Run Weekly Check-In";
+    btn.textContent = "Run Weekly Check-In";
   }
 }
 
