@@ -13,17 +13,33 @@ export const supabase = (supabaseUrl && supabaseAnonKey)
   ? createClient(supabaseUrl, supabaseAnonKey)
   : null;
 
+if (!supabase) {
+  console.warn("[Supabase] Client NOT initialized. VITE_SUPABASE_URL:", supabaseUrl ? "set" : "MISSING", "VITE_SUPABASE_ANON_KEY:", supabaseAnonKey ? "set" : "MISSING");
+} else {
+  console.log("[Supabase] Client initialized for:", supabaseUrl);
+}
+
 let currentUser = null;
-let isSyncing = false;
+let isPulling = false;
+let isPushing = false;
+let pushPending = false;
 let syncTimeout = null;
 
 async function pushStateToSupabase() {
-  if (!supabase || !currentUser || isSyncing) return;
-  
+  if (!supabase || !currentUser) return;
+  if (isPulling) {
+    // Don't discard — queue push to run after pull completes
+    pushPending = true;
+    console.log("[Sync] Pull in progress, push queued");
+    return;
+  }
+  if (isPushing) return;
+  isPushing = true;
+
   const keys = ["ascent_topics", "ascent_sessions", "ascent_errors", "ascent_papers", "ascent_closeout", "ascent_exam"];
   const payload = {};
   keys.forEach(k => {
-    const raw = localStorage.getItem(k);
+    const raw = Store.get(k);
     if (raw !== null) {
       try {
         payload[k] = JSON.parse(raw);
@@ -41,10 +57,12 @@ async function pushStateToSupabase() {
         data: payload,
         updated_at: new Date().toISOString()
       });
-      
-    if (error) console.error("Supabase Sync Push Error:", error);
+
+    if (error) console.error("[Sync] Push error:", error);
   } catch (err) {
-    console.error("Failed to push sync:", err);
+    console.error("[Sync] Failed to push:", err);
+  } finally {
+    isPushing = false;
   }
 }
 
@@ -86,92 +104,421 @@ const SUBJECTS=[
 ];
 const subjName=k=>(SUBJECTS.find(s=>s.key===k)||{}).name||k;
 
-/* ---- Maths B: VERIFIED dependency-ordered topics from official 4MB1 spec ---- */
+/* ---- Maths B: complete topics from official 4MB1 spec (learning order) ---- */
 const MATHS_SEED=[
-  ["1 · Number","Number manipulation — four operations & brackets"],
-  ["1 · Number","Prime numbers, factors, multiples (HCF, LCM)"],
-  ["1 · Number","Indices, powers & roots"],
-  ["1 · Number","Simple manipulation of surds"],
-  ["1 · Number","Rationalising the denominator"],
-  ["1 · Number","Rational & irrational numbers"],
-  ["1 · Number","Weights, measures & money (currency conversion)"],
-  ["1 · Number","Fractions, decimals, ratio, proportion, percentage"],
-  ["1 · Number","Degree of accuracy (dp / sf)"],
-  ["1 · Number","Upper & lower bounds"],
-  ["1 · Number","Standard form"],
-  ["3 · Algebra","Basic algebra — terms, four operations, indices"],
-  ["3 · Algebra","Formulae: construct, interpret, change of subject"],
-  ["3 · Algebra","Factorisation of simple expressions"],
-  ["3 · Algebra","Factor theorem (incl. cubics)"],
-  ["3 · Algebra","Algebraic division of a cubic by a linear factor"],
-  ["3 · Algebra","Algebraic fractions"],
-  ["3 · Algebra","Solving equations (linear, quadratic, simultaneous)"],
-  ["3 · Algebra","Inequalities & solution sets"],
-  ["3 · Algebra","Sequences & nth term"],
-  ["3 · Algebra","Direct & inverse proportion"],
-  ["2 · Sets","Set idea, language & notation"],
-  ["2 · Sets","Union & intersection"],
-  ["2 · Sets","n(A), complementary sets A′"],
-  ["2 · Sets","Subsets, universal set, null set"],
-  ["2 · Sets","Venn diagrams in logic problems"],
-  ["4 · Functions","Function notation; domain & range"],
-  ["4 · Functions","Composite functions"],
-  ["4 · Functions","Inverse functions"],
-  ["4 · Functions","Graphs of functions & interpretation"],
-  ["10 · Statistics & probability","Representing data; averages & spread"],
-  ["10 · Statistics & probability","Cumulative frequency, quartiles, box plots"],
-  ["10 · Statistics & probability","Histograms with unequal intervals"],
-  ["10 · Statistics & probability","Probability; combined events; tree diagrams"],
-  ["6 · Geometry","Angle properties (lines, triangles, polygons)"],
-  ["6 · Geometry","Circle theorems"],
-  ["6 · Geometry","Constructions (loci, bisectors)"],
-  ["6 · Geometry","Congruence & similarity"],
-  ["7 · Mensuration","Perimeter & area of 2D shapes"],
-  ["7 · Mensuration","Surface area & volume of solids"],
-  ["7 · Mensuration","Arc length & sector area"],
-  ["9 · Trigonometry","Right-angled trig (SOHCAHTOA)"],
-  ["9 · Trigonometry","Sine rule & cosine rule"],
-  ["9 · Trigonometry","Area of triangle = ½ab·sinC"],
-  ["9 · Trigonometry","Trig in 2D & 3D"],
-  ["9 · Trigonometry","Bearings"],
-  ["8 · Vectors & transformations","Vectors, notation & magnitude"],
-  ["8 · Vectors & transformations","Vector addition / subtraction / scalars"],
-  ["8 · Vectors & transformations","Transformations (reflect, rotate, translate, enlarge)"],
-  ["5 · Matrices","Matrix operations & scalar multiplication"],
-  ["5 · Matrices","Matrix multiplication"],
-  ["5 · Matrices","Determinant & inverse of 2×2"],
-  ["5 · Matrices","Matrices for simultaneous equations / transformations"],
+  ["Number 1","Working with fractions"],
+  ["Number 1","Simplifying fractions"],
+  ["Number 1","Multiplying fractions"],
+  ["Number 1","Dividing fractions"],
+  ["Number 1","Adding and subtracting fractions"],
+  ["Number 1","Order of operations (BIDMAS)"],
+  ["Number 1","Significant figures and decimal places"],
+  ["Algebra 1","Simplifying algebraic expressions"],
+  ["Algebra 1","Simplifying algebraic expressions with brackets"],
+  ["Algebra 1","Expanding brackets"],
+  ["Algebra 1","Solving equations"],
+  ["Algebra 1","Equations with x on both sides"],
+  ["Algebra 1","Negative signs outside brackets"],
+  ["Algebra 1","Problems leading to equations"],
+  ["Graphs 1","Gradient of a straight line"],
+  ["Graphs 1","Plotting straight-line graphs"],
+  ["Graphs 1","Real-life straight-line graphs"],
+  ["Graphs 1","Graphs of ax+by=c"],
+  ["Graphs 1","Straight-line conversion graphs"],
+  ["Shape & Space 1","Triangles"],
+  ["Shape & Space 1","Interior and exterior angles"],
+  ["Shape & Space 1","Quadrilaterals"],
+  ["Shape & Space 1","Interior angles"],
+  ["Shape & Space 1","Exterior angles"],
+  ["Shape & Space 1","Special quadrilaterals"],
+  ["Shape & Space 1","Polygons"],
+  ["Shape & Space 1","Dividing regular polygons"],
+  ["Shape & Space 1","Constructions"],
+  ["Shape & Space 1","Bearings and scale drawings"],
+  ["Shape & Space 1","Constructing triangles"],
+  ["Shape & Space 1","Perpendicular bisector"],
+  ["Shape & Space 1","Angle bisector"],
+  ["Shape & Space 1","Similar triangles"],
+  ["Sets 1","Set notation"],
+  ["Sets 1","Venn diagrams"],
+  ["Sets 1","Intersection of sets"],
+  ["Sets 1","Union of sets"],
+  ["Number 2","Standard form"],
+  ["Number 2","Standard form with positive indices"],
+  ["Number 2","Standard form with negative indices"],
+  ["Number 2","Percentages"],
+  ["Number 2","x as a percentage of y"],
+  ["Number 2","x percent of y"],
+  ["Number 2","Percentage change"],
+  ["Number 2","Percentage increase and decrease"],
+  ["Algebra 2","Simplifying algebraic fractions"],
+  ["Algebra 2","Multiplication and division"],
+  ["Algebra 2","Addition and subtraction"],
+  ["Algebra 2","Solving equations with roots and powers"],
+  ["Algebra 2","Positive integer indices"],
+  ["Algebra 2","Inequalities"],
+  ["Algebra 2","Number lines"],
+  ["Algebra 2","Solving linear inequalities"],
+  ["Graphs 2","Straight-line graphs"],
+  ["Graphs 2","Finding the equation of a straight-line graph"],
+  ["Graphs 2","Sketching straight-line graphs"],
+  ["Graphs 2","Simultaneous equations"],
+  ["Shape & Space 2","Pythagoras' theorem"],
+  ["Shape & Space 2","Circle theorems"],
+  ["Shape & Space 2","Angles in a semicircle and tangents"],
+  ["Shape & Space 2","Angle at centre is twice angle at circumference"],
+  ["Handling Data 1","Types of data"],
+  ["Handling Data 1","Statistical investigation and collecting data"],
+  ["Handling Data 1","Presenting data"],
+  ["Handling Data 1","Pictograms"],
+  ["Handling Data 1","Pie charts"],
+  ["Handling Data 1","Bar charts"],
+  ["Handling Data 1","Two-way tables"],
+  ["Handling Data 1","Comparative bar charts"],
+  ["Handling Data 1","Misleading data presentation"],
+  ["Handling Data 1","Averages for discrete data"],
+  ["Handling Data 1","Comparing the mean, median and mode"],
+  ["Handling Data 1","Shape of distributions"],
+  ["Number 3","Prime factors"],
+  ["Number 3","HCF and LCM"],
+  ["Number 3","Ratio"],
+  ["Algebra 3","Simple factorising"],
+  ["Algebra 3","Simplifying fractions"],
+  ["Algebra 3","Equations with fractions"],
+  ["Algebra 3","Equations with numbers in the denominator"],
+  ["Algebra 3","Equations with x in the denominator"],
+  ["Algebra 3","Simultaneous equations"],
+  ["Algebra 3","Substitution method"],
+  ["Algebra 3","Elimination method"],
+  ["Algebra 3","Solving problems using simultaneous equations"],
+  ["Graphs 3","Distance-time graphs"],
+  ["Graphs 3","Speed-time graphs"],
+  ["Shape & Space 3","Tangent ratio"],
+  ["Shape & Space 3","Calculating sides (tan)"],
+  ["Shape & Space 3","Calculating angles (tan)"],
+  ["Shape & Space 3","Mixed trigonometry questions"],
+  ["Handling Data 2","Frequency tables"],
+  ["Handling Data 2","Discrete data"],
+  ["Handling Data 2","Continuous data"],
+  ["Number 4","Compound percentages"],
+  ["Number 4","Inverse percentages"],
+  ["Algebra 4","Using formulae"],
+  ["Algebra 4","Some commonly-used formulae"],
+  ["Algebra 4","Change of subject"],
+  ["Algebra 4","Subject occurs once"],
+  ["Algebra 4","Power of subject or subject occurs twice"],
+  ["Algebra 4","Further formulae"],
+  ["Graphs 4","Quadratic graphs y = ax² + bx + c"],
+  ["Graphs 4","Solution of 0 = ax² + bx + c"],
+  ["Shape & Space 4","Sine and cosine ratios"],
+  ["Shape & Space 4","Calculating sides (sin/cos)"],
+  ["Shape & Space 4","Calculating angles (sin/cos)"],
+  ["Handling Data 3","Measures of dispersion"],
+  ["Handling Data 3","Quartiles"],
+  ["Handling Data 3","Cumulative frequency"],
+  ["Number 5","Calculators"],
+  ["Number 5","Estimating"],
+  ["Number 5","Estimating using standard form"],
+  ["Number 5","Rounding, upper and lower bounds"],
+  ["Algebra 5","Multiplying brackets"],
+  ["Algebra 5","Two linear brackets"],
+  ["Algebra 5","FOIL method"],
+  ["Algebra 5","Three linear brackets"],
+  ["Algebra 5","Factorising quadratic expressions"],
+  ["Algebra 5","Factorising quadratics with two terms"],
+  ["Algebra 5","Factorising quadratics with three terms"],
+  ["Algebra 5","Solving quadratic equations by factorisation"],
+  ["Algebra 5","Problems leading to quadratic equations"],
+  ["Graphs 5","Representing inequalities graphically"],
+  ["Graphs 5","Perpendicular lines"],
+  ["Graphs 5","Mid-points"],
+  ["Graphs 5","Using Pythagoras' theorem"],
+  ["Shape & Space 5","Transformations"],
+  ["Shape & Space 5","Translations"],
+  ["Shape & Space 5","Reflections and rotations"],
+  ["Shape & Space 5","Enlargements"],
+  ["Shape & Space 5","Combined transformations"],
+  ["Handling Data 4","Probability — single events"],
+  ["Handling Data 4","Experimental probability"],
+  ["Handling Data 4","Relative frequency"],
+  ["Handling Data 4","Theoretical probability"],
+  ["Handling Data 4","Expected frequency"],
+  ["Handling Data 4","Sample space"],
 ];
-/* other subjects: section scaffold (ordering reasoned openly), sub-topics to be generated */
+/* ---- All subjects: complete topics from official Edexcel specs ---- */
 const SEED={
   maths: MATHS_SEED,
   acc:[
-    ["A · Foundations","The accounting equation & double-entry  ⟶ generate sub-topics from 4AC1 spec"],
-    ["B · Ledgers","Ledgers, T-accounts, books of original entry"],
-    ["C · Trial balance","Trial balance & error correction"],
-    ["D · Adjustments","Depreciation, accruals, prepayments, bad debts"],
-    ["E · Statements","Income statement & balance sheet"],
-    ["F · Analysis","Ratios & interpretation"],
+    ["Unit 1 · Accounting Environment","Types of business organisation"],
+    ["Unit 1 · Accounting Environment","Sole trader"],
+    ["Unit 1 · Accounting Environment","Partnership"],
+    ["Unit 1 · Accounting Environment","Private sector organisations"],
+    ["Unit 1 · Accounting Environment","Public sector organisations"],
+    ["Unit 1 · Accounting Environment","Introduction to technology in accounting"],
+    ["Unit 1 · Accounting Environment","Functions of accounting software"],
+    ["Unit 1 · Accounting Environment","Advantages and disadvantages of accounting software"],
+    ["Unit 1 · Accounting Environment","Data loss"],
+    ["Unit 1 · Accounting Environment","Security"],
+    ["Unit 1 · Accounting Environment","Principles of professional ethics"],
+    ["Unit 1 · Accounting Environment","Accounting roles and functions"],
+    ["Unit 1 · Accounting Environment","Public interest"],
+    ["Unit 1 · Accounting Environment","Introduction to accounting concepts"],
+    ["Unit 2 · Bookkeeping","Introduction to business documentation"],
+    ["Unit 2 · Bookkeeping","Purchase order"],
+    ["Unit 2 · Bookkeeping","Invoice"],
+    ["Unit 2 · Bookkeeping","Credit note"],
+    ["Unit 2 · Bookkeeping","Statement of account"],
+    ["Unit 2 · Bookkeeping","Remittance advice"],
+    ["Unit 2 · Bookkeeping","Receipts"],
+    ["Unit 2 · Bookkeeping","Books of original entry"],
+    ["Unit 2 · Bookkeeping","The ledgers"],
+    ["Unit 2 · Bookkeeping","Classification of accounts"],
+    ["Unit 2 · Bookkeeping","Purchase invoices"],
+    ["Unit 2 · Bookkeeping","Cash and credit revenue"],
+    ["Unit 2 · Bookkeeping","Purchase returns (returns outwards)"],
+    ["Unit 2 · Bookkeeping","Sales returns (returns inwards)"],
+    ["Unit 2 · Bookkeeping","Sales returns and credit notes"],
+    ["Unit 2 · Bookkeeping","Cash discounts"],
+    ["Unit 2 · Bookkeeping","Bank overdrafts and the cash book"],
+    ["Unit 2 · Bookkeeping","The journal"],
+    ["Unit 2 · Bookkeeping","Writing up journal entries"],
+    ["Unit 2 · Bookkeeping","Introduction to double entry system"],
+    ["Unit 2 · Bookkeeping","The double entry system"],
+    ["Unit 2 · Bookkeeping","Rules for double entry"],
+    ["Unit 2 · Bookkeeping","The in and out approach"],
+    ["Unit 2 · Bookkeeping","T accounts"],
+    ["Unit 2 · Bookkeeping","Cash transactions"],
+    ["Unit 2 · Bookkeeping","Introduction to credit transactions"],
+    ["Unit 2 · Bookkeeping","Purchase of inventory on credit"],
+    ["Unit 2 · Bookkeeping","Revenue of inventory on credit"],
+    ["Unit 2 · Bookkeeping","Returns"],
+    ["Unit 2 · Bookkeeping","Expenses on credit"],
+    ["Unit 2 · Bookkeeping","Revenue and purchases"],
+    ["Unit 2 · Bookkeeping","Comparison of cash and credit transactions"],
+    ["Unit 2 · Bookkeeping","Balancing the accounts"],
+    ["Unit 2 · Bookkeeping","Three-column accounts"],
+    ["Unit 2 · Bookkeeping","Errors not revealed by double entry"],
+    ["Unit 2 · Bookkeeping","Causes of depreciation"],
+    ["Unit 2 · Bookkeeping","Methods of calculating depreciation"],
+    ["Unit 2 · Bookkeeping","Recording depreciation"],
+    ["Unit 2 · Bookkeeping","Disposal of a non-current asset"],
+    ["Unit 3 · Control Processes","Balancing off"],
+    ["Unit 3 · Control Processes","The trial balance"],
+    ["Unit 3 · Control Processes","Steps if trial balance does not balance"],
+    ["Unit 3 · Control Processes","Errors not revealed by trial balance"],
+    ["Unit 3 · Control Processes","Errors not affecting trial balance agreement"],
+    ["Unit 3 · Control Processes","Errors affecting trial balance agreement"],
+    ["Unit 3 · Control Processes","The principle of control accounts"],
+    ["Unit 3 · Control Processes","Trade receivables ledger control account"],
+    ["Unit 3 · Control Processes","Information for control accounts"],
+    ["Unit 3 · Control Processes","Other transfers"],
+    ["Unit 3 · Control Processes","Control accounts and computerised systems"],
+    ["Unit 3 · Control Processes","Advantages of control accounts"],
+    ["Unit 3 · Control Processes","Disadvantages of control accounts"],
+    ["Unit 3 · Control Processes","Introduction to recording transactions"],
+    ["Unit 3 · Control Processes","Reasons for different balances"],
+    ["Unit 3 · Control Processes","Updating the cash book before reconciliation"],
+    ["Unit 3 · Control Processes","Bank overdrafts"],
+    ["Unit 3 · Control Processes","Dishonoured cheques"],
+    ["Unit 3 · Control Processes","Other reasons for balance differences"],
+    ["Unit 4 · Financial Statements","Capital expenditure"],
+    ["Unit 4 · Financial Statements","Revenue expenditure"],
+    ["Unit 4 · Financial Statements","Difference between equity and revenue expenditure"],
+    ["Unit 4 · Financial Statements","Incorrect treatment of expenditure"],
+    ["Unit 4 · Financial Statements","Definition of accounting concepts"],
+    ["Unit 4 · Financial Statements","Fundamental accounting concepts"],
+    ["Unit 4 · Financial Statements","Introduction to the income statement"],
+    ["Unit 4 · Financial Statements","Uses of the income statement"],
+    ["Unit 4 · Financial Statements","Preparation of an income statement"],
+    ["Unit 4 · Financial Statements","Statement of financial position — definition & content"],
+    ["Unit 4 · Financial Statements","Statement of financial position — layout"],
+    ["Unit 4 · Financial Statements","Adjustments for expenses owing and prepaid"],
+    ["Unit 4 · Financial Statements","Other payables"],
+    ["Unit 4 · Financial Statements","Other receivables"],
+    ["Unit 4 · Financial Statements","Adjustment for inventory of stationery"],
+    ["Unit 4 · Financial Statements","Revenue owing at end of period"],
+    ["Unit 4 · Financial Statements","Expenses/revenue and the statement of financial position"],
+    ["Unit 4 · Financial Statements","Worked example: sole trader financial statements"],
+    ["Unit 4 · Financial Statements","Dealing with further adjustments"],
+    ["Unit 4 · Financial Statements","Irrecoverable debts"],
+    ["Unit 4 · Financial Statements","Allowance for irrecoverable debts"],
+    ["Unit 4 · Financial Statements","Preparing statements from incomplete records"],
+    ["Unit 4 · Financial Statements","Incomplete records and missing figures"],
+    ["Unit 4 · Financial Statements","Profitability and liquidity"],
+    ["Unit 4 · Financial Statements","Profitability ratios"],
+    ["Unit 4 · Financial Statements","Liquidity ratios"],
+    ["Unit 4 · Financial Statements","Definition of working capital"],
+    ["Unit 4 · Financial Statements","Calculating ratios"],
+    ["Unit 4 · Financial Statements","Limitations of ratios"],
+    ["Unit 4 · Financial Statements","The need for partnerships"],
+    ["Unit 4 · Financial Statements","Limited partners"],
+    ["Unit 4 · Financial Statements","Nature of a partnership"],
+    ["Unit 4 · Financial Statements","Where no partnership agreement exists"],
+    ["Unit 4 · Financial Statements","Partnership financial statements"],
+    ["Unit 4 · Financial Statements","Appropriation account"],
+    ["Unit 4 · Financial Statements","Current accounts"],
+    ["Unit 4 · Financial Statements","Direct and indirect costs"],
+    ["Unit 4 · Financial Statements","Format of manufacturing financial statements"],
+    ["Unit 4 · Financial Statements","Manufacturing account"],
   ],
   eco:[
-    ["A · The market system","Demand, supply, price  ⟶ generate sub-topics from 4EC1 spec"],
-    ["B · Microeconomics","Elasticity, costs, market structures"],
-    ["C · Market failure","Externalities, govt intervention"],
-    ["D · The wider economy","Macro objectives, policy"],
-    ["E · Global economy","Trade, exchange rates, globalisation"],
+    ["1.1 · The Market System","The economic problem"],
+    ["1.1 · The Market System","Economic assumptions"],
+    ["1.1 · The Market System","The demand curve"],
+    ["1.1 · The Market System","Factors that may shift the demand curve"],
+    ["1.1 · The Market System","The supply curve"],
+    ["1.1 · The Market System","Factors that may shift the supply curve"],
+    ["1.1 · The Market System","Market equilibrium"],
+    ["1.1 · The Market System","Price elasticity of demand"],
+    ["1.1 · The Market System","Price elasticity of supply"],
+    ["1.1 · The Market System","Income elasticity"],
+    ["1.1 · The Market System","The mixed economy"],
+    ["1.1 · The Market System","Privatisation"],
+    ["1.1 · The Market System","Externalities"],
+    ["1.2 · Business Economics","Factors of production and sectors of the economy"],
+    ["1.2 · Business Economics","Productivity and division of labour"],
+    ["1.2 · Business Economics","Business costs, revenues and profit"],
+    ["1.2 · Business Economics","Economies and diseconomies of scale"],
+    ["1.2 · Business Economics","Competitive markets"],
+    ["1.2 · Business Economics","Advantages and disadvantages of large and small firms"],
+    ["1.2 · Business Economics","Monopoly"],
+    ["1.2 · Business Economics","Oligopoly"],
+    ["1.2 · Business Economics","The labour market"],
+    ["1.2 · Business Economics","Supply and demand for labour and trade union activity"],
+    ["1.2 · Business Economics","Government intervention"],
+    ["2.1 · Government & Economy","Economic growth"],
+    ["2.1 · Government & Economy","Inflation"],
+    ["2.1 · Government & Economy","Unemployment"],
+    ["2.1 · Government & Economy","Balance of payments on the current account"],
+    ["2.1 · Government & Economy","Protection of the environment"],
+    ["2.1 · Government & Economy","Redistribution of income"],
+    ["2.1 · Government & Economy","Fiscal policy"],
+    ["2.1 · Government & Economy","Monetary policy"],
+    ["2.1 · Government & Economy","Supply side policies and government controls"],
+    ["2.1 · Government & Economy","Relationships between objectives and policies"],
+    ["2.2 · The Global Economy","Globalisation"],
+    ["2.2 · The Global Economy","Multinational companies (MNCs) and foreign direct investment"],
+    ["2.2 · The Global Economy","International trade"],
+    ["2.2 · The Global Economy","Protectionism"],
+    ["2.2 · The Global Economy","Trading blocs"],
+    ["2.2 · The Global Economy","The WTO and world trade patterns"],
+    ["2.2 · The Global Economy","Exchange rates and their determination"],
+    ["2.2 · The Global Economy","Impact of changing exchange rates"],
   ],
   bus:[
-    ["A · Business activity","Objectives, ownership, stakeholders  ⟶ generate from 4BS1 spec"],
-    ["B · Marketing","(fairly independent — any order)"],
-    ["C · Operations","(fairly independent)"],
-    ["D · Finance","(fairly independent)"],
-    ["E · People / HR","(fairly independent)"],
-    ["F · External environment","Ties it together"],
+    ["1 · Business Activity","What is business activity?"],
+    ["1 · Business Activity","Business objectives"],
+    ["1 · Business Activity","Sole traders, partnerships, social enterprises and franchises"],
+    ["1 · Business Activity","Limited companies and multinationals"],
+    ["1 · Business Activity","Public corporations"],
+    ["1 · Business Activity","Appropriateness of different forms of ownership"],
+    ["1 · Business Activity","Classification of businesses"],
+    ["1 · Business Activity","Decisions on location"],
+    ["1 · Business Activity","Globalisation"],
+    ["1 · Business Activity","The importance and growth of multinational companies"],
+    ["1 · Business Activity","International trade and exchange rates"],
+    ["1 · Business Activity","Government objectives and policies"],
+    ["1 · Business Activity","External factors"],
+    ["1 · Business Activity","Measuring success in business"],
+    ["1 · Business Activity","Reasons for business failure"],
+    ["2 · People in Business","The importance of good communication in business"],
+    ["2 · People in Business","Barriers to communication in business"],
+    ["2 · People in Business","Recruitment and selection"],
+    ["2 · People in Business","Legal controls over employment"],
+    ["2 · People in Business","Training"],
+    ["2 · People in Business","The importance of motivation in the workplace"],
+    ["2 · People in Business","Methods of motivation at work"],
+    ["2 · People in Business","Organisation structure and employees"],
+    ["2 · People in Business","Departmental functions"],
+    ["3 · Business Finance","Sources of finance"],
+    ["3 · Business Finance","Cash flow forecasting"],
+    ["3 · Business Finance","Costs"],
+    ["3 · Business Finance","Break-even analysis"],
+    ["3 · Business Finance","Statement of comprehensive income"],
+    ["3 · Business Finance","Statement of financial position"],
+    ["3 · Business Finance","Ratio analysis"],
+    ["3 · Business Finance","The use of financial documents"],
+    ["4 · Marketing","Market research"],
+    ["4 · Marketing","The importance of marketing"],
+    ["4 · Marketing","Market segmentation"],
+    ["4 · Marketing","Product"],
+    ["4 · Marketing","Price"],
+    ["4 · Marketing","Place"],
+    ["4 · Marketing","Promotion"],
+    ["5 · Business Operations","Economies and diseconomies of scale"],
+    ["5 · Business Operations","Production and productivity"],
+    ["5 · Business Operations","Lean production"],
+    ["5 · Business Operations","Technology in production"],
+    ["5 · Business Operations","Factors of production"],
+    ["5 · Business Operations","Quality"],
   ],
   eng:[
-    ["A · Reading skills","Master question types first  ⟶ generate from 4EB1 spec"],
-    ["B · Writing forms","Article, letter, report, etc. — one at a time"],
-    ["C · Timed practice","Full-paper technique"],
+    ["01 · Reading Skills","Text analysis"],
+    ["01 · Reading Skills","Skimming and scanning"],
+    ["01 · Reading Skills","Explicit and implicit meaning"],
+    ["01 · Reading Skills","Point-Evidence-Explain"],
+    ["01 · Reading Skills","Evaluating a text"],
+    ["01 · Reading Skills","Use of language"],
+    ["01 · Reading Skills","Word classes"],
+    ["01 · Reading Skills","Connotations"],
+    ["01 · Reading Skills","Different sentence types"],
+    ["01 · Reading Skills","Sentences for effect"],
+    ["02 · Writing Skills","Vocabulary"],
+    ["02 · Writing Skills","Choosing the right vocabulary"],
+    ["02 · Writing Skills","Vocabulary for effect"],
+    ["02 · Writing Skills","Language for different effects"],
+    ["02 · Writing Skills","Why your choices matter"],
+    ["02 · Writing Skills","Sentence types"],
+    ["02 · Writing Skills","Opening sentences"],
+    ["02 · Writing Skills","Sentences for effect"],
+    ["02 · Writing Skills","Sentence purpose"],
+    ["02 · Writing Skills","Principles of structure"],
+    ["02 · Writing Skills","Paragraphing for effect"],
+    ["02 · Writing Skills","Linking ideas"],
+    ["02 · Writing Skills","Ending a sentence"],
+    ["02 · Writing Skills","Commas"],
+    ["02 · Writing Skills","Apostrophes"],
+    ["02 · Writing Skills","Colons, semi-colons, dashes, brackets, ellipses"],
+    ["02 · Writing Skills","Common spelling errors"],
+    ["02 · Writing Skills","Improve your writing"],
+    ["02 · Writing Skills","Proof-reading, checking and editing"],
+    ["03 · Paper 1 Section A","Non-fiction texts"],
+    ["03 · Paper 1 Section A","Types of text"],
+    ["03 · Paper 1 Section A","Identifying the writer's perspective"],
+    ["03 · Paper 1 Section A","Audience and purpose"],
+    ["03 · Paper 1 Section A","Language for different effects"],
+    ["03 · Paper 1 Section A","Fact, opinion and expert advice"],
+    ["03 · Paper 1 Section A","The structure of a text"],
+    ["03 · Paper 1 Section A","Unseen texts"],
+    ["03 · Paper 1 Section A","Putting it into practice"],
+    ["03 · Paper 1 Section A","Comparing texts"],
+    ["03 · Paper 1 Section A","Identifying key information"],
+    ["03 · Paper 1 Section A","Analysing the texts"],
+    ["03 · Paper 1 Section A","Selecting evidence"],
+    ["03 · Paper 1 Section A","Comparisons"],
+    ["04 · Paper 1 Section B","Transactional writing"],
+    ["04 · Paper 1 Section B","Introduction to transactional writing"],
+    ["04 · Paper 1 Section B","Writing for a purpose: inform, explain, review"],
+    ["04 · Paper 1 Section B","Writing for a purpose: argue, persuade, advise"],
+    ["04 · Paper 1 Section B","Writing for an audience"],
+    ["04 · Paper 1 Section B","Form"],
+    ["04 · Paper 1 Section B","Vocabulary for effect"],
+    ["04 · Paper 1 Section B","Sentences for effect"],
+    ["04 · Paper 1 Section B","Openings and conclusions"],
+    ["04 · Paper 1 Section B","Ideas and planning"],
+    ["04 · Paper 1 Section B","Putting it into practice"],
+    ["05 · Paper 1 Section C","Imaginative writing"],
+    ["05 · Paper 1 Section C","Introduction to imaginative writing"],
+    ["05 · Paper 1 Section C","Generating ideas"],
+    ["05 · Paper 1 Section C","Plot"],
+    ["05 · Paper 1 Section C","Structure"],
+    ["05 · Paper 1 Section C","Narration"],
+    ["05 · Paper 1 Section C","Characters"],
+    ["05 · Paper 1 Section C","Monologues and dialogues"],
+    ["05 · Paper 1 Section C","Descriptive writing"],
+    ["05 · Paper 1 Section C","Vocabulary for effect"],
+    ["05 · Paper 1 Section C","Sentences for effect"],
+    ["05 · Paper 1 Section C","Putting it into practice"],
   ],
   ban:[
     ["A · Exam format","Learn exactly what each paper asks  ⟶ generate from 4BN1 spec"],
@@ -910,13 +1257,40 @@ function importData(){
     r.readAsText(f);};
   inp.click();
 }
-function wipeData(){if(!confirm("Erase ALL progress, sessions, logs? This cannot be undone."))return;
+async function wipeData(){
+  if(!confirm("Erase ALL progress, sessions, logs? This cannot be undone."))return;
+  // Clear localStorage
   ["ascent_topics","ascent_sessions","ascent_errors","ascent_papers","ascent_exam","ascent_closeout"].forEach(k=>Store.del(k));
-  location.reload();}
+  // Clear cloud data so it doesn't restore on reload
+  if (supabase && currentUser) {
+    try {
+      const { error } = await supabase
+        .from('study_state')
+        .delete()
+        .eq('user_id', currentUser.id);
+      if (error) console.error("[Sync] Failed to wipe cloud data:", error);
+    } catch (err) {
+      console.error("[Sync] Wipe cloud error:", err);
+    }
+  }
+  location.reload();
+}
 
 /* ============ exam date ============ */
 function setExamDate(){const v=document.getElementById("examDateInput").value;if(!v)return;examDate=v;Store.set("ascent_exam",examDate);renderDash();setToast("Exam date set");}
 function resetExam(){examDate="2026-09-28";Store.set("ascent_exam",examDate);renderDash();setToast("Reset to 28 Sep 2026");}
+
+/* Reset topic lists to current SEED (preserves sessions, papers, errors, closeout) */
+function resetTopics(){
+  if(!confirm("Reset ALL topic lists to the latest syllabus? Your sessions, papers, errors, and close-out data will be kept. Topic progress (learning/ready status) will be lost."))return;
+  topics={};
+  for(const s of SUBJECTS){
+    topics[s.key]=SEED[s.key].map((p,i)=>({id:s.key+"_"+i+"_"+Date.now(),section:p[0],name:p[1],status:"notstarted"}));
+  }
+  saveJSON("ascent_topics",topics);
+  refreshAll();
+  setToast("Topics reset to latest syllabus");
+}
 
 /* ============ nav ============ */
 function go(v){
@@ -957,21 +1331,44 @@ function updateClock(){
 /* ============ Supabase Auth & Sync Integration ============ */
 async function loadStateFromSupabase() {
   if (!supabase || !currentUser) return;
-  isSyncing = true;
+  if (isPulling) {
+    console.log("[Sync] Already pulling, skipping duplicate load");
+    return;
+  }
+  isPulling = true;
   try {
-    const { data, error } = await supabase
-      .from('study_state')
-      .select('data')
-      .eq('user_id', currentUser.id)
-      .single();
+    console.log("[Sync] Loading cloud state for user:", currentUser.id);
+
+    const { data, error } = await Promise.race([
+      supabase
+        .from('study_state')
+        .select('data')
+        .eq('user_id', currentUser.id)
+        .single(),
+      new Promise((_, reject) => setTimeout(() => reject(new Error("study_state query timed out after 10s")), 10000))
+    ]);
 
     if (error && error.code !== 'PGRST116') {
-      console.error("Supabase pull error:", error);
-      isSyncing = false;
+      console.error("[Sync] Supabase pull error:", error);
+      return;
+    }
+
+    if (error && error.code === 'PGRST116') {
+      // No row exists — first-time user. Create initial row so future syncs work.
+      console.log("[Sync] No study_state row found — first-time user, creating initial row");
+      const { error: insertErr } = await supabase
+        .from('study_state')
+        .upsert({
+          user_id: currentUser.id,
+          data: {},
+          updated_at: new Date().toISOString()
+        });
+      if (insertErr) console.error("[Sync] Failed to create initial row:", insertErr);
       return;
     }
 
     if (data && data.data) {
+      console.log("[Sync] Cloud state loaded, applying to localStorage");
       const keys = ["ascent_topics", "ascent_sessions", "ascent_errors", "ascent_papers", "ascent_closeout", "ascent_exam"];
       keys.forEach(k => {
         if (data.data[k] !== undefined) {
@@ -979,19 +1376,26 @@ async function loadStateFromSupabase() {
           localStorage.setItem(k, val);
         }
       });
-      
+
       topics = loadJSON("ascent_topics", topics);
       sessions = loadJSON("ascent_sessions", []);
       errors = loadJSON("ascent_errors", []);
       papers = loadJSON("ascent_papers", []);
       examDate = Store.get("ascent_exam") || "2026-09-28";
-      
+
       refreshAll();
+      console.log("[Sync] Cloud state applied successfully");
     }
   } catch (err) {
-    console.error("Failed to load cloud state:", err);
+    console.error("[Sync] Failed to load cloud state:", err.message);
   } finally {
-    isSyncing = false;
+    isPulling = false;
+    // Flush any push that was queued during pull
+    if (pushPending) {
+      pushPending = false;
+      console.log("[Sync] Flushing queued push after pull completed");
+      pushStateToSupabase();
+    }
   }
 }
 
@@ -1003,6 +1407,12 @@ async function handleLogin() {
 
   if (!email) {
     setToast("Enter an email");
+    return;
+  }
+
+  if (!supabase) {
+    status.textContent = "Error: Supabase not configured — check VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY env vars.";
+    console.error("[Auth] Supabase client is null. Env vars missing at build time.");
     return;
   }
 
@@ -1019,6 +1429,7 @@ async function handleLogin() {
     });
 
     if (error) {
+      console.error("[Auth] Magic link error:", error.message);
       status.textContent = "Error: " + error.message;
       setToast("Failed to send link");
     } else {
@@ -1026,6 +1437,7 @@ async function handleLogin() {
       setToast("Check your email!");
     }
   } catch (err) {
+    console.error("[Auth] Magic link exception:", err);
     status.textContent = "Error: " + err.message;
   } finally {
     loginBtn.disabled = false;
@@ -1046,28 +1458,45 @@ async function handlePasswordLogin() {
     return;
   }
 
+  if (!supabase) {
+    status.textContent = "Error: Supabase not configured — check VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY env vars.";
+    console.error("[Auth] Supabase client is null. Env vars missing at build time.");
+    return;
+  }
+
   pwdBtn.disabled = true;
   pwdBtn.textContent = "Verifying...";
   status.textContent = "Authenticating with Supabase...";
 
   try {
+    console.log("[Auth] Attempting signInWithPassword for:", email);
+    console.log("[Auth] Supabase URL:", import.meta.env.VITE_SUPABASE_URL ? "set" : "MISSING");
+
     const { data, error } = await Promise.race([
       supabase.auth.signInWithPassword({ email, password }),
-      new Promise((_, reject) => setTimeout(() => reject(new Error("Supabase auth hanging. Please close this tab and reopen it to clear the browser lock.")), 12000))
+      new Promise((_, reject) => setTimeout(() => reject(new Error("Supabase auth timed out after 12s. Check network or Supabase project status.")), 12000))
     ]);
 
     if (error) {
+      console.error("[Auth] Supabase returned error:", error.message, error);
       status.textContent = "Error: " + error.message;
-      setToast("Authentication failed");
+      setToast("Login failed: " + error.message);
+      pwdBtn.disabled = false;
+      pwdBtn.textContent = "Password Sign In";
     } else {
+      console.log("[Auth] Login successful, session:", !!data?.session);
       status.textContent = "Authenticated successfully!";
+      pwdBtn.disabled = false;
+      pwdBtn.textContent = "Password Sign In";
       if (data && data.session) {
-        await handleSession(data.session);
+        // handleSession updates UI immediately, loads data in background
+        handleSession(data.session);
       }
     }
   } catch (err) {
+    console.error("[Auth] Login exception:", err);
     status.textContent = "Error: " + err.message;
-  } finally {
+    setToast("Login error: " + err.message);
     pwdBtn.disabled = false;
     pwdBtn.textContent = "Password Sign In";
   }
@@ -1103,13 +1532,26 @@ async function callGeminiProxy(prompt) {
     body: JSON.stringify({ prompt })
   });
 
-  if (!response.ok) {
-    const errData = await response.json();
-    throw new Error(errData.error || 'AI request failed');
+  // Read body as text first — prevents crash on empty/non-JSON responses
+  const rawText = await response.text();
+
+  let parsed;
+  try {
+    parsed = JSON.parse(rawText);
+  } catch (e) {
+    console.error("[AI] Non-JSON response from proxy:", response.status, rawText.slice(0, 200));
+    throw new Error(`AI service error (${response.status}): server returned invalid response`);
   }
 
-  const data = await response.json();
-  return data.response;
+  if (!response.ok) {
+    throw new Error(parsed.error || `AI request failed (${response.status})`);
+  }
+
+  if (!parsed.response) {
+    throw new Error("AI returned empty response");
+  }
+
+  return parsed.response;
 }
 
 async function getAIRecommendation() {
@@ -1207,6 +1649,7 @@ window.delError = delError;
 window.exportData = exportData;
 window.importData = importData;
 window.wipeData = wipeData;
+window.resetTopics = resetTopics;
 window.go = go;
 window.recallPass = recallPass;
 window.recallFail = recallFail;
@@ -1229,10 +1672,14 @@ renderDash();
 async function handleSession(session) {
   if (session && session.user) {
     currentUser = session.user;
+    // UI transition — immediate, never blocked by data load
     document.getElementById("loginScreen").classList.add("hidden");
     document.getElementById("authHeader").style.display = "block";
     document.getElementById("userEmail").textContent = currentUser.email;
-    await loadStateFromSupabase();
+    // Load cloud data in background — never block the session transition
+    loadStateFromSupabase().catch(err => {
+      console.error("[Auth] Background data load failed (app still usable):", err);
+    });
   } else {
     currentUser = null;
     document.getElementById("loginScreen").classList.remove("hidden");
@@ -1247,11 +1694,13 @@ if (supabase) {
   });
 
   // Listen for changes
-  supabase.auth.onAuthStateChange(async (event, session) => {
-    await handleSession(session);
+  supabase.auth.onAuthStateChange((event, session) => {
+    console.log("[Auth] onAuthStateChange:", event);
+    handleSession(session);
   });
 }
 
+document.querySelectorAll("#nav button").forEach(b=>b.onclick=()=>go(b.dataset.v));
 document.getElementById("summaryModal").addEventListener("click",e=>{if(e.target.id==="summaryModal")closeSummary();});
 document.getElementById("aiModal").addEventListener("click",e=>{if(e.target.id==="aiModal")closeAIModal();});
 document.addEventListener("keydown",e=>{

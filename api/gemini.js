@@ -71,36 +71,40 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Call Gemini 1.5 Flash API
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          contents: [{
-            parts: [{ text: prompt }]
-          }]
-        }),
-      }
-    );
+    // Call Gemini 2.0 Flash API (current model as of 2025)
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiApiKey}`;
+    console.log('[Gemini Proxy] Calling Gemini API for user:', userId);
+
+    const response = await fetch(geminiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        contents: [{
+          parts: [{ text: prompt }]
+        }]
+      }),
+    });
 
     if (!response.ok) {
       const errText = await response.text();
-      return res.status(response.status).json({ error: `Gemini API returned error: ${errText}` });
+      console.error('[Gemini Proxy] API error:', response.status, errText.slice(0, 500));
+      return res.status(502).json({ error: `Gemini API error (${response.status}): ${errText.slice(0, 200)}` });
     }
 
     const data = await response.json();
     const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-    
+
     if (!text) {
-      return res.status(500).json({ error: 'Invalid response structure from Gemini API' });
+      console.error('[Gemini Proxy] Unexpected response structure:', JSON.stringify(data).slice(0, 500));
+      return res.status(502).json({ error: 'Gemini returned no text — possible safety filter or empty response' });
     }
 
+    console.log('[Gemini Proxy] Success, response length:', text.length);
     return res.status(200).json({ response: text });
   } catch (err) {
+    console.error('[Gemini Proxy] Exception:', err.message, err.stack);
     return res.status(500).json({ error: `Failed to contact Gemini API: ${err.message}` });
   }
 }
