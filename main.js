@@ -1051,10 +1051,10 @@ async function handlePasswordLogin() {
   status.textContent = "Authenticating with Supabase...";
 
   try {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password
-    });
+    const { data, error } = await Promise.race([
+      supabase.auth.signInWithPassword({ email, password }),
+      new Promise((_, reject) => setTimeout(() => reject(new Error("Supabase auth hanging. Please close this tab and reopen it to clear the browser lock.")), 12000))
+    ]);
 
     if (error) {
       status.textContent = "Error: " + error.message;
