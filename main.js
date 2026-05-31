@@ -95,7 +95,7 @@ function saveJSON(k,v){Store.set(k,JSON.stringify(v));}
 
 /* ============ subjects ============ */
 const SUBJECTS=[
-  {key:"maths",  name:"Maths B",   code:"4MB1", short:"Maths"},
+  {key:"maths",  name:"Maths A",   code:"4MA1", short:"Maths"},
   {key:"acc",    name:"Accounting",code:"4AC1", short:"Acct"},
   {key:"eco",    name:"Economics", code:"4EC1", short:"Econ"},
   {key:"bus",    name:"Business",  code:"4BS1", short:"Biz"},
@@ -104,7 +104,63 @@ const SUBJECTS=[
 ];
 const subjName=k=>(SUBJECTS.find(s=>s.key===k)||{}).name||k;
 
-/* ---- Maths B: complete topics from official 4MB1 spec (learning order) ---- */
+/* ============ PREREQUISITES BY SECTION ============
+ * Key:   subject key (e.g. "maths")
+ * Value: object mapping section name → array of prerequisite section names
+ *
+ * Sections NOT listed here are foundational (no prerequisites).
+ * Skill-based subjects (English, Bangla) build progressively — no hard prereqs.
+ *
+ * To edit: match section names EXACTLY as they appear in the topic data.
+ * Check actual names: open browser console → topics["maths"].map(t=>t.section)
+ */
+const PREREQS_BY_SECTION = {
+  maths: {
+    "Algebra 2": ["Algebra 1"],
+    "Algebra 3": ["Algebra 1", "Algebra 2"],
+    "Algebra 4": ["Algebra 1"],
+    "Algebra 5": ["Algebra 1", "Algebra 2", "Algebra 3"],
+    "Graphs 1": ["Algebra 1"],
+    "Graphs 2": ["Graphs 1", "Algebra 2"],
+    "Graphs 3": ["Graphs 1"],
+    "Graphs 4": ["Algebra 5", "Graphs 2"],
+    "Graphs 5": ["Graphs 2", "Shape & Space 2"],
+    "Number 2": ["Number 1"],
+    "Number 3": ["Number 1"],
+    "Number 4": ["Number 2"],
+    "Number 5": ["Number 2"],
+    "Shape & Space 2": ["Shape & Space 1"],
+    "Shape & Space 3": ["Shape & Space 2"],
+    "Shape & Space 4": ["Shape & Space 3"],
+    "Shape & Space 5": ["Shape & Space 1"],
+    "Handling Data 2": ["Handling Data 1"],
+    "Handling Data 3": ["Handling Data 1", "Handling Data 2"],
+    "Handling Data 4": ["Handling Data 1"],
+  },
+  acc: {
+    "Unit 2 · Bookkeeping": ["Unit 1 · Accounting Environment"],
+    "Unit 3 · Control Processes": ["Unit 2 · Bookkeeping"],
+    "Unit 4 · Financial Statements": ["Unit 2 · Bookkeeping", "Unit 3 · Control Processes"],
+  },
+  eco: {
+    "1.2 · Business Economics": ["1.1 · The Market System"],
+    "2.1 · Government & Economy": ["1.1 · The Market System"],
+    "2.2 · The Global Economy": ["1.1 · The Market System", "2.1 · Government & Economy"],
+  },
+  bus: {
+    "3 · Business Finance": ["1 · Business Activity"],
+  },
+};
+
+/* Sections that are independent (no prereqs needed, can be studied in any order) */
+const INDEPENDENT_SECTIONS = {
+  bus: new Set(["2 · People in Business", "4 · Marketing", "5 · Business Operations"]),
+};
+
+/* Subjects where topics build skills progressively (no hard prerequisites) */
+const SKILL_SUBJECTS = new Set(["eng", "ban"]);
+
+/* ---- Maths A: complete topics from official 4MA1 spec (learning order) ---- */
 const MATHS_SEED=[
   ["Number 1","Working with fractions"],
   ["Number 1","Simplifying fractions"],
@@ -547,14 +603,14 @@ let viewingWeek=null;
 
 /* ============ 17-week plan data ============ */
 const WEEKS=[
- {n:1,dates:"31 May – 6 Jun",phase:"CONTENT",focus:"Day 1 is here. Content + diagnostics in parallel. Front-load the killers: Maths B (block 1) + Accounting (block 2) daily; Economics in block 3. NotebookLM to learn, Gemini to test. First Anki cards tonight.",practice:"Sit ONE cold diagnostic paper per subject this week to find your real starting line — bombing them is the point.",miles:["Maths B tracker open, first topics at Learning","Accounting first format (income statement) started","6 cold diagnostics done & self-marked","Subjects ranked weakest → strongest"]},
- {n:2,dates:"7 – 13 Jun",phase:"CONTENT",focus:"Full rhythm: 3 deep blocks daily — Maths B + Accounting + (Eco/Business). Re-attack your 2 weakest diagnostic topics. Anki grows daily.",practice:"Daily maths problems; topic-drill weak diagnostic areas via Gemini.",miles:["~8 topics at Learning+","Accounting formats underway","Command-word ladder started for Eco & Business"]},
- {n:3,dates:"14 – 20 Jun",phase:"CONTENT",focus:"Maths B + Accounting + Economics core; start Business. Every keyword/formula → Anki.",practice:"Topic-by-topic drills; 1 maths section timed.",miles:["~12 topics at Learning+","Command words memorised for Eco & Business"]},
+ {n:1,dates:"31 May – 6 Jun",phase:"CONTENT",focus:"Day 1 is here. Content + diagnostics in parallel. Front-load the killers: Maths A (block 1) + Accounting (block 2) daily; Economics in block 3. NotebookLM to learn, Gemini to test. First Anki cards tonight.",practice:"Sit ONE cold diagnostic paper per subject this week to find your real starting line — bombing them is the point.",miles:["Maths A tracker open, first topics at Learning","Accounting first format (income statement) started","6 cold diagnostics done & self-marked","Subjects ranked weakest → strongest"]},
+ {n:2,dates:"7 – 13 Jun",phase:"CONTENT",focus:"Full rhythm: 3 deep blocks daily — Maths A + Accounting + (Eco/Business). Re-attack your 2 weakest diagnostic topics. Anki grows daily.",practice:"Daily maths problems; topic-drill weak diagnostic areas via Gemini.",miles:["~8 topics at Learning+","Accounting formats underway","Command-word ladder started for Eco & Business"]},
+ {n:3,dates:"14 – 20 Jun",phase:"CONTENT",focus:"Maths A + Accounting + Economics core; start Business. Every keyword/formula → Anki.",practice:"Topic-by-topic drills; 1 maths section timed.",miles:["~12 topics at Learning+","Command words memorised for Eco & Business"]},
  {n:4,dates:"21 – 27 Jun",phase:"CONTENT",focus:"Push Economics + Business analysis/evaluation chains. Maths & Accounting toward Exam-ready. Begin English B format study.",practice:"First TIMED maths paper. Eco/Business 8–12 mark practice, AI-marked vs real scheme.",miles:["~16 topics at Learning+","Maths ~50% Exam-ready"]},
  {n:5,dates:"28 Jun – 4 Jul",phase:"CONTENT",focus:"Bangla begins (likely your fastest A* — start, don't over-invest). Continue all others. Begin the question-type log.",practice:"1 timed paper in your strongest subject. Daily Anki.",miles:["All 6 subjects in motion","Question-type log started"]},
  {n:6,dates:"5 – 11 Jul",phase:"CONTENT",focus:"Mid-content grind. Repair laggards. Accounting near-complete (finite formats).",practice:"2 timed papers (rotate subjects). Self-mark strictly.",miles:["~half of all topics Exam-ready","Accounting ~80% done"]},
  {n:7,dates:"12 – 18 Jul",phase:"CONTENT",focus:"REGISTER FOR THE EXAM (deadline ~end July). Set 3 reminders now. Continue Eco & Business depth.",practice:"2 timed papers. Read your 1st examiner report.",miles:["EXAM REGISTERED (critical)","1st examiner report read"]},
- {n:8,dates:"19 – 25 Jul",phase:"CONTENT",focus:"Close remaining content gaps. Maths B fully covered → pure practice. English B technique solid.",practice:"2–3 timed papers. Maths: full paper under exam timing.",miles:["~40 topics Exam-ready","Maths content 100% covered"]},
+ {n:8,dates:"19 – 25 Jul",phase:"CONTENT",focus:"Close remaining content gaps. Maths A fully covered → pure practice. English B technique solid.",practice:"2–3 timed papers. Maths: full paper under exam timing.",miles:["~40 topics Exam-ready","Maths content 100% covered"]},
  {n:9,dates:"26 Jul – 1 Aug",phase:"CONTENT",focus:"Final content sprint. Kill anything still Not-started. Bangla & English B comfortable.",practice:"3 timed papers. Build pre-written answers for recurring question types.",miles:["Zero topics Not-started","Question-type log covers all 6"]},
  {n:10,dates:"2 – 8 Aug",phase:"CONTENT",focus:"Transition. Content essentially done. Last review of weak sub-topics, then pivot to heavy practice.",practice:"3–4 timed papers. Marks visibly climbing.",miles:["~50 topics Exam-ready","Content phase complete"]},
  {n:11,dates:"9 – 15 Aug",phase:"PRACTICE",focus:"Practice phase. Work the last 5+ years of EVERY subject. Each paper → mark → log mistakes → fix.",practice:"1 full timed paper most days. Maths & Accounting daily reps.",miles:["5+ yrs done: Maths, Accounting","Error log running"]},
@@ -805,7 +861,7 @@ function renderCloseout(){
   const rec=co[today]||{};
   const blockDefs=weekend
     ? [["paper","Past paper (timed)"],["repair","Repaired weak topics"],["anki","Anki + review"]]
-    : [["b1","Block 1 · Maths B"],["b2","Block 2 · Accounting"],["b3","Block 3 · concept subject"],["anki","Evening Anki"]];
+    : [["b1","Block 1 · Maths A"],["b2","Block 2 · Accounting"],["b3","Block 3 · concept subject"],["anki","Evening Anki"]];
   body.innerHTML="";
   const wrap=document.createElement("div");wrap.className="closeout-grid";
   blockDefs.forEach(([key,label])=>{
@@ -1011,7 +1067,62 @@ function renderSubjects(){
       <button class="btn sm ghost danger" style="padding:3px 8px" onclick="delTopic('${s.key}','${tp.id}')">×</button>`;
     list.appendChild(row);
   });
+  // Clear search on re-render (e.g. tab switch)
+  const searchEl=document.getElementById("topicSearch");
+  if(searchEl)searchEl.value="";
+  // Refresh prereq panel
+  renderPrereqSubjects();
+  renderStudyOrder();
 }
+function renderStudyOrder(){
+  const subj=curSubjectTab;
+  const sections=getSectionsForSubject(subj);
+  const nameEl=document.getElementById("studyOrderSubjName");
+  const noteEl=document.getElementById("studyOrderNote");
+  const listEl=document.getElementById("studyOrderList");
+  if(!nameEl||!listEl)return;
+
+  const s=SUBJECTS.find(x=>x.key===subj);
+  nameEl.textContent=s?s.name:subj;
+
+  // Maths spiral note
+  if(subj==="maths"){
+    noteEl.style.display="";
+    noteEl.innerHTML='<b>Spiral curriculum:</b> Maths A interleaves strands (Number → Algebra → Graphs → Shape &amp; Space → …) deliberately. Following top-to-bottom IS the intended sequence — each strand level builds on the previous, and interleaving strengthens transfer between topics.';
+  }else{
+    noteEl.style.display="none";
+  }
+
+  const prereqs=PREREQS_BY_SECTION[subj]||{};
+
+  if(!sections.length){
+    listEl.innerHTML='<div class="empty">No sections yet — add topics to see the study order.</div>';
+    return;
+  }
+
+  let html="";
+  sections.forEach((sec,i)=>{
+    const st=sectionStatus(subj,sec);
+    let ind,indClass;
+    if(st.total>0&&st.ready===st.total){ind="✓";indClass="done";}
+    else if(st.ready>0||st.learning>0){ind="◐";indClass="partial";}
+    else{ind="○";indClass="empty";}
+
+    const depList=prereqs[sec];
+    const depStr=depList&&depList.length?'<span class="so-dep">(builds on: '+depList.join(", ")+')</span>':"";
+    const countStr='<span class="so-count">'+st.ready+'/'+st.total+'</span>';
+    const doneClass=st.total>0&&st.ready===st.total?" is-done":"";
+
+    html+=`<div class="so-item${doneClass}">
+      <span class="so-num">${i+1}.</span>
+      <span class="so-ind ${indClass}">${ind}</span>
+      <span class="so-name">${sec} ${depStr}</span>
+      ${countStr}
+    </div>`;
+  });
+  listEl.innerHTML=html;
+}
+
 function cycleStatus(k,id){
   const t=topics[k];const tp=t.find(x=>x.id===id);if(!tp)return;
   tp.status=tp.status==="notstarted"?"learning":tp.status==="learning"?"ready":"notstarted";
@@ -1117,6 +1228,155 @@ function genReminder(){
   go('toolkit');
 }
 
+/* ============ topic search filter ============ */
+function filterTopics(){
+  const q=(document.getElementById("topicSearch")?.value||"").toLowerCase().trim();
+  const list=document.getElementById("topicList");
+  if(!list)return;
+  const rows=list.children;
+  let lastSectionVisible=false;
+  for(let i=0;i<rows.length;i++){
+    const el=rows[i];
+    if(el.classList.contains("section-h")){
+      // Section headers: show if any child topic in this section matches
+      // We'll handle visibility after scanning topics
+      el.style.display="";
+      el._hasMatch=false;
+      lastSectionVisible=false;
+      continue;
+    }
+    if(el.classList.contains("topic")){
+      const name=el.querySelector(".nm")?.textContent||"";
+      // Find preceding section header text
+      let sectionText="";
+      for(let j=i-1;j>=0;j--){
+        if(rows[j].classList.contains("section-h")){sectionText=rows[j].textContent;break;}
+      }
+      const match=!q||name.toLowerCase().includes(q)||sectionText.toLowerCase().includes(q);
+      el.style.display=match?"":"none";
+      if(match){
+        // Mark preceding section header as having a match
+        for(let j=i-1;j>=0;j--){
+          if(rows[j].classList.contains("section-h")){rows[j]._hasMatch=true;break;}
+        }
+      }
+    }
+  }
+  // Hide section headers with no matching topics
+  for(let i=0;i<rows.length;i++){
+    if(rows[i].classList.contains("section-h")){
+      rows[i].style.display=rows[i]._hasMatch||!q?"":"none";
+    }
+  }
+}
+
+/* ============ prerequisites lookup (section-level) ============ */
+function getSectionsForSubject(subjKey){
+  const t=topics[subjKey]||[];
+  const seen=new Set();const sections=[];
+  t.forEach(tp=>{if(tp.section&&!seen.has(tp.section)){seen.add(tp.section);sections.push(tp.section);}});
+  return sections;
+}
+function sectionStatus(subjKey,sectionName){
+  const t=(topics[subjKey]||[]).filter(tp=>tp.section===sectionName);
+  if(!t.length)return{total:0,ready:0,learning:0,notstarted:0,label:"unknown",color:"var(--muted)"};
+  const ready=t.filter(x=>x.status==="ready").length;
+  const learning=t.filter(x=>x.status==="learning").length;
+  const notstarted=t.length-ready-learning;
+  let label,color;
+  if(ready===t.length){label="done";color="var(--green)";}
+  else if(ready>0||learning>0){label=ready+"/"+t.length+" done";color="var(--amber)";}
+  else{label="not started";color="var(--red)";}
+  return{total:t.length,ready,learning,notstarted,label,color};
+}
+function renderPrereqSubjects(){
+  const sel=document.getElementById("prereqSubj");
+  if(!sel)return;
+  sel.innerHTML="";
+  for(const s of SUBJECTS){
+    const o=document.createElement("option");
+    o.value=s.key;o.textContent=s.name;
+    sel.appendChild(o);
+  }
+  sel.value=curSubjectTab;
+  renderPrereqTopics();
+}
+function renderPrereqTopics(){
+  const sel=document.getElementById("prereqTopic");
+  const subj=document.getElementById("prereqSubj")?.value;
+  if(!sel||!subj)return;
+  sel.innerHTML='<option value="">— select a section —</option>';
+  const sections=getSectionsForSubject(subj);
+  sections.forEach(sec=>{
+    const o=document.createElement("option");
+    o.value=sec;o.textContent=sec;
+    sel.appendChild(o);
+  });
+  renderPrereqResult();
+}
+function renderPrereqResult(){
+  const box=document.getElementById("prereqResult");
+  const subj=document.getElementById("prereqSubj")?.value;
+  const sectionName=document.getElementById("prereqTopic")?.value;
+  if(!box)return;
+
+  if(!sectionName){box.innerHTML='<div class="empty">Select a section above to check prerequisites.</div>';return;}
+
+  // Skill-based subject
+  if(SKILL_SUBJECTS.has(subj)){
+    box.innerHTML='<div class="note-banner"><b>Skill-based subject.</b> This subject builds skills progressively — follow the tracker order from top to bottom rather than jumping between topics. There are no hard prerequisites to check.</div>';
+    return;
+  }
+
+  // Independent section (e.g. Business sections 2, 4, 5)
+  if(INDEPENDENT_SECTIONS[subj]?.has(sectionName)){
+    box.innerHTML='<div class="note-banner"><b>Independent section.</b> Can be studied in any order after the basics — these areas are independent of each other.</div>';
+    return;
+  }
+
+  const subjPrereqs=PREREQS_BY_SECTION[subj]||{};
+  const prereqSections=subjPrereqs[sectionName];
+
+  // Foundational section (no prereqs listed)
+  if(!prereqSections||!prereqSections.length){
+    box.innerHTML='<div class="note-banner" style="border-color:var(--green-deep);background:rgba(127,174,111,.07)"><b>Foundational — start here, no prerequisites.</b> This section can be studied first.</div>';
+    return;
+  }
+
+  let allReady=true;
+  let html='<div style="margin-bottom:10px" class="kicker">Prerequisite sections for '+sectionName+'</div>';
+
+  prereqSections.forEach(prereqSec=>{
+    const st=sectionStatus(subj,prereqSec);
+    if(st.total===0){
+      html+=`<div class="recall-item"><div class="rg"><div class="rn" style="color:var(--red)">${prereqSec}</div><div class="rs">Section not found in topic data — check PREREQS_BY_SECTION names</div></div></div>`;
+      allReady=false;
+      return;
+    }
+    const isDone=st.ready===st.total;
+    if(!isDone)allReady=false;
+    const pct=Math.round(st.ready/st.total*100);
+    html+=`<div class="recall-item">
+      <div class="cyc ${isDone?"ready":st.ready>0||st.learning>0?"learning":""}" style="cursor:default;width:22px;height:22px;font-size:11px">${isDone?"✓":st.ready>0?"~":""}</div>
+      <div class="rg">
+        <div class="rn">${prereqSec}</div>
+        <div class="rs">${st.ready}/${st.total} topics exam-ready (${pct}%)</div>
+      </div>
+      <span style="font-family:var(--mono);font-size:11px;font-weight:700;color:${st.color}">${st.label.toUpperCase()}</span>
+    </div>`;
+  });
+
+  // Verdict
+  if(allReady){
+    html+=`<div class="co-done-banner" style="margin-top:12px">✓ All prerequisite sections done — you're ready to study ${sectionName}.</div>`;
+  }else{
+    const missing=prereqSections.filter(s=>{const st=sectionStatus(subj,s);return st.ready<st.total;});
+    html+=`<div class="flag" style="margin-top:12px"><div class="fi">⚠</div><div class="ft">Study these sections first: <b>${missing.join(", ")}</b></div></div>`;
+  }
+
+  box.innerHTML=html;
+}
+
 /* ============ render: week ============ */
 function renderWeek(){
   let wi=viewingWeek||Math.min(Math.max(weekIndexFor(new Date()),1),17);
@@ -1219,6 +1479,10 @@ function renderToolkit(){
       d.innerHTML=`<div class="pt">${pr[0]}</div><div class="pc" id="pc${i}">${escapeHtml(pr[1])}</div><button class="btn sm copy" onclick="copyPrompt(${i})">copy</button>`;
       p.appendChild(d);
     });
+    // Dynamic prereq-check prompt (assembled at copy-time with live progress)
+    const dyn=document.createElement("div");dyn.className="prompt";dyn.style.borderColor="var(--amber-deep)";
+    dyn.innerHTML=`<div class="pt">⭐ Should I study this next?</div><div class="pc" style="color:var(--amber-soft)">Generates a prompt pre-filled with your live study progress across all subjects. Paste into Gemini, fill in the chapter you want to study, and it tells you whether you're ready or what to cover first.</div><button class="btn sm primary copy" onclick="copyPrereqCheckPrompt()">copy with my progress</button>`;
+    p.appendChild(dyn);
   }
   
   const t=document.getElementById("tactics");
@@ -1237,6 +1501,47 @@ function renderToolkit(){
 function copyPrompt(i){
   const txt=PROMPTS[i][1];
   navigator.clipboard?.writeText(txt).then(()=>setToast("Prompt copied")).catch(()=>setToast("Select & copy manually"));
+}
+
+/* ============ dynamic "Should I study this next?" prompt ============ */
+function buildPrereqCheckPrompt(){
+  const subjectList=SUBJECTS.map(s=>s.name+" ("+s.code+")").join(", ");
+  let out=`I am a private Edexcel IGCSE candidate sitting exams in Nov 2026. My subjects: ${subjectList}.\n\n`;
+  out+=`Here is my current study progress by subject and section:\n\n`;
+
+  for(const s of SUBJECTS){
+    const t=topics[s.key]||[];
+    if(!t.length)continue;
+    // Group by section
+    const sections={};
+    t.forEach(tp=>{
+      const sec=tp.section||"(unsectioned)";
+      if(!sections[sec])sections[sec]={ready:[],learning:[]};
+      if(tp.status==="ready")sections[sec].ready.push(tp.name);
+      if(tp.status==="learning")sections[sec].learning.push(tp.name);
+    });
+    // Only include sections with progress
+    const activeSections=Object.entries(sections).filter(([,v])=>v.ready.length||v.learning.length);
+    if(!activeSections.length)continue;
+    out+=`### ${s.name} (${s.code})\n`;
+    activeSections.forEach(([sec,v])=>{
+      out+=`${sec}:\n`;
+      if(v.ready.length)out+=`  Exam-ready: ${v.ready.join("; ")}\n`;
+      if(v.learning.length)out+=`  In progress: ${v.learning.join("; ")}\n`;
+    });
+    out+=`\n`;
+  }
+
+  out+=`------------------------------------------------------------\n`;
+  out+=`CHAPTER I WANT TO STUDY NEXT: [                    ]\n`;
+  out+=`(Fill in the subject and chapter/section name above)\n`;
+  out+=`------------------------------------------------------------\n\n`;
+  out+=`Based on what I've studied above, should I study this chapter now, or are there prerequisite chapters I should cover first? If I'm not ready, tell me exactly which chapters to study before this one and why. If I'm ready, confirm it. Answer based on how the topic genuinely builds on earlier concepts — not just the order topics appear in a textbook.`;
+  return out;
+}
+function copyPrereqCheckPrompt(){
+  const txt=buildPrereqCheckPrompt();
+  navigator.clipboard?.writeText(txt).then(()=>setToast("Prompt copied with your live progress")).catch(()=>setToast("Select & copy manually"));
 }
 
 /* ============ data export/import ============ */
@@ -1510,25 +1815,17 @@ async function handleLogout() {
   }
 }
 
-/* ============ Secure AI Advisor Proxy Integration ============ */
+/* ============ AI Advisor Proxy Integration ============ */
 async function callGeminiProxy(prompt) {
-  if (!supabase) {
-    throw new Error("Supabase is not configured.");
-  }
-  const sessionData = await supabase.auth.getSession();
-  const session = sessionData?.data?.session;
-  if (!session) {
+  // Client-side login gate (server no longer re-verifies JWT)
+  const sessionData = await supabase?.auth?.getSession();
+  if (!sessionData?.data?.session) {
     throw new Error("You must be logged in to access AI advisor.");
   }
-  
-  const token = session.access_token;
-  
+
   const response = await fetch('/api/gemini', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ prompt })
   });
 
@@ -1656,7 +1953,12 @@ window.recallFail = recallFail;
 window.toggleCloseout = toggleCloseout;
 window.startFromBlock = startFromBlock;
 window.copyPrompt = copyPrompt;
+window.copyPrereqCheckPrompt = copyPrereqCheckPrompt;
 window.cycleStatus = cycleStatus;
+window.filterTopics = filterTopics;
+window.renderPrereqTopics = renderPrereqTopics;
+window.renderPrereqResult = renderPrereqResult;
+window.renderPrereqSubjects = renderPrereqSubjects;
 window.handleLogin = handleLogin;
 window.handlePasswordLogin = handlePasswordLogin;
 window.handleLogout = handleLogout;

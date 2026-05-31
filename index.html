@@ -197,6 +197,16 @@ textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-h
 .tactic .tx p{font-size:14.5px;color:var(--paper-dim);margin-top:2px;line-height:1.55}
 
 /* misc */
+/* ---------- study order ---------- */
+.so-item{display:flex;align-items:center;gap:11px;padding:9px 12px;border-radius:var(--rs);margin-bottom:4px;background:var(--ink);border:1px solid transparent}
+.so-item .so-num{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--muted);min-width:26px;text-align:right}
+.so-item .so-ind{font-size:14px;flex-shrink:0;width:20px;text-align:center}
+.so-item .so-ind.done{color:var(--green)}.so-item .so-ind.partial{color:var(--amber)}.so-item .so-ind.empty{color:var(--muted)}
+.so-item .so-name{flex:1;font-size:14.5px}
+.so-item .so-dep{font-family:var(--mono);font-size:10px;color:var(--muted);font-style:italic}
+.so-item.is-done{opacity:.55}
+.so-item .so-count{font-family:var(--mono);font-size:10px;color:var(--muted)}
+
 .hidden{display:none !important}
 .empty{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:center;padding:24px;font-style:normal}
 .row-add{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
@@ -375,7 +385,7 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
   <!-- ================= SUBJECTS ================= -->
   <section id="view-subjects" class="view hidden">
     <div class="note-banner">
-      <b>Your study checklist.</b> Tick a topic's box once → <span style="color:var(--amber)">Learning</span>, twice → <span style="color:var(--green)">Exam-ready</span> (struck through), third → back to unstarted. The <span style="color:var(--amber)">NEXT</span> pill shows what to study next in each subject, and the bar tracks how much you've done. When you want AI help, hit <b>Generate study summary</b> above — it writes out everything done, in-progress, and next, ready to paste. &nbsp; Maths B is pre-loaded from the official 4MB1 spec; generate the other five tonight (Toolkit → prompts) and add them below.
+      <b>Your study checklist.</b> Tick a topic's box once → <span style="color:var(--amber)">Learning</span>, twice → <span style="color:var(--green)">Exam-ready</span> (struck through), third → back to unstarted. The <span style="color:var(--amber)">NEXT</span> pill shows what to study next in each subject, and the bar tracks how much you've done. When you want AI help, hit <b>Generate study summary</b> above — it writes out everything done, in-progress, and next, ready to paste. &nbsp; Maths A is pre-loaded from the official 4MA1 spec; generate the other five tonight (Toolkit → prompts) and add them below.
     </div>
     <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;border-color:var(--amber-deep)">
       <div>
@@ -407,7 +417,27 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
         <button class="btn sm primary" onclick="addTopic()">+ Add</button>
         <button class="btn sm ghost" onclick="genReminder()">How to generate topics</button>
       </div>
+      <input type="text" id="topicSearch" placeholder="Search topics…" style="width:100%;margin-bottom:14px" oninput="filterTopics()">
       <div id="topicList"></div>
+    </div>
+
+    <div class="card" id="studyOrderCard" style="margin-top:18px">
+      <div class="lead">Suggested study order</div>
+      <h2>Section sequence · <span id="studyOrderSubjName" style="color:var(--amber)">—</span></h2>
+      <p style="color:var(--muted);font-size:13px;margin:3px 0 14px;font-style:italic">The recommended order to work through this subject's sections, top to bottom. Follow the sequence — prerequisites come before what needs them.</p>
+      <div id="studyOrderNote" class="note-banner" style="display:none"></div>
+      <div id="studyOrderList"></div>
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <div class="lead">Prerequisite lookup</div>
+      <h2>What should I study first?</h2>
+      <p style="color:var(--muted);font-size:13px;margin:3px 0 14px;font-style:italic">Select a section to see which prerequisite sections you need done first, and your current progress on each.</p>
+      <div class="split" style="margin-bottom:12px;align-items:flex-end">
+        <div style="flex:1"><span class="fieldlabel">Subject</span><select id="prereqSubj" onchange="renderPrereqTopics()"></select></div>
+        <div style="flex:2"><span class="fieldlabel">Section</span><select id="prereqTopic" onchange="renderPrereqResult()"></select></div>
+      </div>
+      <div id="prereqResult"></div>
     </div>
   </section>
 
@@ -445,7 +475,7 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
       <h2>Paper banks</h2>
       <p style="color:var(--muted);font-size:14px;margin:3px 0 16px;font-style:italic">One tap to the papers. Work them timed, mark strictly, log your scores below.</p>
       <div style="display:flex;flex-direction:column;gap:8px">
-        <div class="score-line"><span class="id">Maths B (4MB1)</span><span style="display:flex;gap:10px"><a href="https://mymathscloud.com" target="_blank" rel="noopener" class="mini-link">MyMathsCloud</a><a href="https://www.physicsandmathstutor.com/past-papers/gcse-maths/edexcel-igcse-b-paper-1/" target="_blank" rel="noopener" class="mini-link">PMT</a></span></div>
+        <div class="score-line"><span class="id">Maths A (4MA1)</span><span style="display:flex;gap:10px"><a href="https://mymathscloud.com" target="_blank" rel="noopener" class="mini-link">MyMathsCloud</a><a href="https://www.physicsandmathstutor.com/past-papers/gcse-maths/edexcel-igcse-paper-1/" target="_blank" rel="noopener" class="mini-link">PMT</a></span></div>
         <div class="score-line"><span class="id">Accounting (4AC1)</span><span style="display:flex;gap:10px"><a href="https://www.savemyexams.com" target="_blank" rel="noopener" class="mini-link">SaveMyExams</a><a href="https://pastpapersz.com/edexcel/igcse-accounting/" target="_blank" rel="noopener" class="mini-link">PastPapersZ</a></span></div>
         <div class="score-line"><span class="id">Economics (4EC1)</span><span style="display:flex;gap:10px"><a href="https://www.physicsandmathstutor.com/past-papers/gcse-economics/edexcel-igcse-paper-1/" target="_blank" rel="noopener" class="mini-link">PMT</a></span></div>
         <div class="score-line"><span class="id">Business (4BS1)</span><span style="display:flex;gap:10px"><a href="https://www.savemyexams.com" target="_blank" rel="noopener" class="mini-link">SaveMyExams</a></span></div>
@@ -494,7 +524,7 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
       <div style="margin-top:16px">
         <div class="wk-block">
           <div class="lab">Which subject gets which block</div>
-          <p><b style="color:var(--amber-soft)">Block 1</b> (sharpest hours, 7:30am) = <b>Maths B</b> — least crammable, gets your best brain every day.<br>
+          <p><b style="color:var(--amber-soft)">Block 1</b> (sharpest hours, 7:30am) = <b>Maths A</b> — least crammable, gets your best brain every day.<br>
           <b style="color:var(--amber-soft)">Block 2</b> (10:00) = <b>Accounting</b> — pure dependency chain, front-loaded.<br>
           <b style="color:var(--amber-soft)">Block 3</b> (12:15) = <b>Economics / Business</b> — alternate daily. Evaluation marks decide A*.<br>
           <b style="color:var(--amber-soft)">Block 4</b> (lighter, 3:00) + weekends = <b>English B / Bangla / past papers</b> — skill subjects live here.<br>
