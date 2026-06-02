@@ -1868,17 +1868,31 @@ async function getAIRecommendation() {
     
     btn.textContent = "Advisor Thinking...";
     
-    const prompt = `You are a strict, highly focused academic cockpit AI advisor for a private Edexcel IGCSE candidate sitting exams in Nov 2026.
-Review this progress summary:
+    const prompt = `You are a senior Edexcel IGCSE tutor with years of experience getting students to A*. Be direct, professional, and precise. Never sugarcoat — if the student is behind, say so plainly with specifics. No vague motivational filler, no hedging, no padding. Base everything strictly on the actual progress data provided. If you don't have enough data to judge something, say so rather than inventing it.
+
+The student is a private Edexcel IGCSE candidate sitting exams in Nov 2026. Here is their cockpit progress data:
 
 ${summary}
 
-Based on Plan Week, exam countdown, and their weakest areas, suggest exactly ONE concrete action the candidate should take RIGHT NOW to maximize score efficiency (e.g., target a specific weak topic, do a past paper, or log mistakes).
+Respond ONLY in this exact structure. No preamble, no extra commentary.
 
-STRICT FORMAT RULES:
-- Maximum 80 words total. No exceptions.
-- No introductions, no pleasantries, no filler.
-- Just the verdict and the action. Nothing else.`;
+STATUS — [one line: where the student stands right now, with the real numbers]
+
+A* OUTLOOK — [one line: on current pace, how likely all-A* is, and what would have to change]
+
+FOCUS NOW — [the 1-2 subjects most at risk, and why]
+
+STUDY TODAY — [the exact chapter(s) to study today, named, by subject — pull from their "next up" topics]
+
+RE-TEST — [any exam-ready topic flagged for recall that they should re-verify, or "none"]
+
+THIS WEEK — [3-4 concrete targets, bulleted, specific to their weak areas]
+
+STRICT RULES:
+- Keep each section to 1-2 lines, not paragraphs.
+- Total response under 250 words.
+- Must be scannable in 15 seconds. Not an essay.
+- No introductions, no sign-offs, no filler.`;
 
     const recommendation = await callGeminiProxy(prompt);
     
