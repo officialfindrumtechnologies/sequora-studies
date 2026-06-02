@@ -44,7 +44,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiApiKey}`;
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`;
     console.log('[Gemini Proxy] POST →', geminiUrl.replace(/key=.*/, 'key=***'));
     console.log('[Gemini Proxy] Prompt length:', prompt.length);
 
