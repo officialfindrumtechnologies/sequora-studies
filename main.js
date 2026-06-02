@@ -1874,7 +1874,11 @@ Review this progress summary:
 ${summary}
 
 Based on Plan Week, exam countdown, and their weakest areas, suggest exactly ONE concrete action the candidate should take RIGHT NOW to maximize score efficiency (e.g., target a specific weak topic, do a past paper, or log mistakes).
-Keep the guidance highly direct, extremely contextual, and under 100 words. Absolutely no generic advice or pleasantries.`;
+
+STRICT FORMAT RULES:
+- Maximum 80 words total. No exceptions.
+- No introductions, no pleasantries, no filler.
+- Just the verdict and the action. Nothing else.`;
 
     const recommendation = await callGeminiProxy(prompt);
     
@@ -1906,12 +1910,14 @@ async function runWeeklyCheckIn() {
 
 ${summary}
 
-Provide a brutally honest weekly check-in evaluation:
-1. STATUS: Are they truly on track for all A* grades from this position? Evaluate pace.
-2. RISKS: Identify the top 2 risks based on their weak subjects, readiness percentages, or logs.
-3. PRIORITIES: Recommend the top 3 highest-impact topics or concrete tasks to conquer next week.
+Provide a brutally honest weekly check-in:
+1. VERDICT: One sentence — on track for A* or not? Why?
+2. TOP 3 ACTIONS: The 3 highest-impact things to do this week, each one line.
 
-Ensure response is structured with bullet points, extremely practical, and under 150 words. Do not use generic filler.`;
+STRICT FORMAT RULES:
+- Maximum 120 words total. No exceptions.
+- Bullet points only. No paragraphs, no introductions, no filler.
+- Skip risks unless they change the actions.`;
 
     const review = await callGeminiProxy(prompt);
     
