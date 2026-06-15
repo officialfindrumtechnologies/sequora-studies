@@ -814,6 +814,7 @@ function renderDash(){
   renderRecall();
   renderCloseout();
   renderFlags();
+  renderStudyNow();
 }
 function renderDashProgress(){
   const el=document.getElementById("dashProgress");
@@ -1575,6 +1576,96 @@ function resetTopics(){
   saveJSON("ascent_topics",topics);
   refreshAll();
   setToast("Topics reset to latest syllabus");
+}
+
+/* ============ study-now rule engine ============ */
+function whatStudyNow() {
+  // Priority 1: spaced recall overdue
+  const due = recallDue();
+  if (due.length) {
+    const d = due[0];
+    const overTxt = d.over > 0 ? `${d.over} day${d.over > 1 ? 's' : ''} overdue` : 'due today';
+    return {
+      verb: 'RECALL',
+      subject: d.s,
+      topic: d.tp,
+      reason: `${overTxt} for spaced recall${due.length > 1 ? ` — ${due.length} topics total due` : ''}`,
+      action: 'recall',
+    };
+  }
+
+  // ranked by % ready ascending
+  const ranked = SUBJECTS.map(s => ({ s, ...subjReady(s.key) })).sort((a, b) => a.pct - b.pct);
+
+  // Priority 2: learning topic in weakest subject
+  for (const { s, pct } of ranked) {
+    const learning = (topics[s.key] || []).filter(t => t.status === 'learning');
+    if (learning.length) {
+      return {
+        verb: 'CONTINUE',
+        subject: s,
+        topic: learning[0],
+        reason: `${learning.length} topic${learning.length > 1 ? 's' : ''} in progress · ${pct}% ready`,
+        action: 'subjects',
+      };
+    }
+  }
+
+  // Priority 3: first not-started topic in most-behind subject
+  for (const { s, pct } of ranked) {
+    const notStarted = (topics[s.key] || []).filter(t => t.status === 'notstarted');
+    if (notStarted.length) {
+      return {
+        verb: 'START',
+        subject: s,
+        topic: notStarted[0],
+        reason: `${pct}% ready — furthest behind`,
+        action: 'subjects',
+      };
+    }
+  }
+
+  // Priority 4: all topics ready — find subject with oldest recall
+  let oldestSubj = SUBJECTS[0];
+  let oldestMs = Infinity;
+  for (const s of SUBJECTS) {
+    for (const t of (topics[s.key] || [])) {
+      const ms = new Date(t.lastRecall || t.readyAt || 0).getTime();
+      if (ms < oldestMs) { oldestMs = ms; oldestSubj = s; }
+    }
+  }
+  return {
+    verb: 'RECALL',
+    subject: oldestSubj,
+    topic: null,
+    reason: 'All topics exam-ready · maintain with recall',
+    action: 'recall',
+  };
+}
+
+function renderStudyNow() {
+  const el = document.getElementById('studyNowResult');
+  if (!el) return;
+
+  const rec = whatStudyNow();
+
+  const topicHTML = rec.topic
+    ? `<div class="sn-topic">${rec.topic.name}${rec.topic.section ? `<span class="sn-section"> · ${rec.topic.section}</span>` : ''}</div>`
+    : '';
+
+  const goBtn = rec.action === 'recall'
+    ? `<button class="btn sm" onclick="document.getElementById('recallCard').scrollIntoView({behavior:'smooth'})">Go to recall ↓</button>`
+    : `<button class="btn sm" onclick="go('subjects')">Open subjects →</button>`;
+
+  el.innerHTML = `<div class="sn-result">
+    <div class="sn-verb">${rec.verb}</div>
+    <div class="sn-body">
+      <div class="sn-subj">${rec.subject.name}</div>
+      ${topicHTML}
+      <div class="sn-reason">${rec.reason}</div>
+      <div class="sn-actions">${goBtn}</div>
+    </div>
+  </div>`;
 }
 
 /* ============ coverage heatmap ============ */
