@@ -427,6 +427,42 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
   border-radius:var(--rs);padding:4px 12px;margin:6px 0;letter-spacing:.08em;
 }
 
+/* ---- share card ---- */
+#share-modal .modal-box{max-width:540px;width:95%}
+#share-card-wrap{display:flex;justify-content:center;margin:16px 0}
+.share-card{
+  width:480px;background:#0e0c0a;border-radius:20px;overflow:hidden;
+  font-family:"Fraunces",serif;position:relative;
+  box-shadow:0 0 0 1px rgba(232,163,61,.18),0 32px 80px rgba(0,0,0,.8);
+}
+.sc-glow{
+  position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 50% at 80% -10%,rgba(232,163,61,.13),transparent 65%),
+             radial-gradient(ellipse 50% 40% at -10% 110%,rgba(111,157,196,.07),transparent 60%);
+}
+.sc-top{padding:22px 26px 0;display:flex;justify-content:space-between;align-items:flex-start}
+.sc-brand{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(232,163,61,.7)}
+.sc-date{font-family:"JetBrains Mono",monospace;font-size:10px;color:rgba(244,236,224,.35);letter-spacing:.06em}
+.sc-hero{padding:18px 26px 0}
+.sc-hero-label{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(244,236,224,.4);margin-bottom:4px}
+.sc-hero-hours{font-size:56px;font-weight:900;line-height:1;color:#f0c277;letter-spacing:-.02em}
+.sc-hero-unit{font-size:18px;font-weight:400;color:rgba(240,194,119,.6);margin-left:4px;vertical-align:baseline}
+.sc-divider{margin:16px 26px;height:1px;background:rgba(51,45,38,.7)}
+.sc-subjects{padding:0 26px}
+.sc-subj-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.sc-subj-name{font-family:"JetBrains Mono",monospace;font-size:11px;color:rgba(244,236,224,.75);width:116px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sc-bar-wrap{flex:1;height:5px;background:rgba(51,45,38,.8);border-radius:3px;overflow:hidden}
+.sc-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#c47e1c,#e8a33d,#f0c277)}
+.sc-subj-time{font-family:"JetBrains Mono",monospace;font-size:10px;color:rgba(240,194,119,.7);width:40px;text-align:right;flex-shrink:0}
+.sc-stats{display:flex;gap:0;margin:8px 0 0;border-top:1px solid rgba(51,45,38,.7)}
+.sc-stat{flex:1;padding:14px 26px;border-right:1px solid rgba(51,45,38,.7)}
+.sc-stat:last-child{border-right:none}
+.sc-stat-val{font-size:28px;font-weight:700;color:#f0c277;line-height:1;font-family:"Fraunces",serif}
+.sc-stat-label{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(244,236,224,.4);margin-top:4px}
+.sc-footer{padding:12px 26px 20px;text-align:center;font-family:"JetBrains Mono",monospace;font-size:10px;color:rgba(244,236,224,.25);letter-spacing:.06em}
+.sc-footer span{color:rgba(232,163,61,.5)}
+#share-actions{display:flex;gap:10px;justify-content:center;margin-top:4px}
+
 /* ---- theme picker ---- */
 #theme-modal .modal-box{max-width:740px;width:95%;max-height:90vh;overflow-y:auto}
 .th-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin:14px 0 20px}
@@ -502,6 +538,11 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
           <div class="stat" style="background:var(--ink)"><div class="v" id="todayHrs">0.0</div><div class="k">Hours today</div><div class="x" id="todayX">target ≈ 5.5h</div></div>
           <div class="stat" style="background:var(--ink)"><div class="v" id="weekHrs">0.0</div><div class="k">Hours this week</div><div class="x" id="weekX">target ≈ 28h</div></div>
           <div class="stat" style="background:var(--ink)"><div class="v" id="readyPct">0%</div><div class="k">Exam-ready</div><div class="x" id="readyX">across all subjects</div></div>
+        </div>
+        <div style="margin-top:14px;display:flex;justify-content:flex-end">
+          <button class="btn sm ghost" onclick="openShareModal()" style="font-family:var(--mono);font-size:11px;letter-spacing:.06em">
+            ↗ Share today's card
+          </button>
         </div>
       </div>
     </div>
@@ -829,6 +870,26 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
           <button class="btn sm ghost" onclick="document.getElementById('delete-account-modal').classList.add('hidden')" style="flex:1">Cancel</button>
           <button id="delete-confirm-btn" class="btn sm" onclick="_doDeleteAccount()" style="flex:1;background:var(--red);color:#fff;border:none">Permanently delete my account</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= SHARE CARD MODAL ================= -->
+  <div id="share-modal" class="modal-overlay hidden" onclick="if(event.target===this)closeShareModal()">
+    <div class="modal-box">
+      <div class="modal-head">
+        <div>
+          <div class="lead" style="margin:0">Today's study card</div>
+          <h2 style="margin-top:2px">Share your progress</h2>
+        </div>
+        <button class="btn sm ghost" onclick="closeShareModal()">✕</button>
+      </div>
+      <div id="share-card-wrap">
+        <!-- populated by openShareModal() -->
+      </div>
+      <div id="share-actions">
+        <button class="btn primary" onclick="downloadShareCard()">↓ Download PNG</button>
+        <button class="btn sm ghost" onclick="closeShareModal()">Close</button>
       </div>
     </div>
   </div>

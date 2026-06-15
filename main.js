@@ -1962,6 +1962,108 @@ window.wizMigrate = wizMigrate;
 window.wizSkipMigration = wizSkipMigration;
 
 
+/* ============ share card ============ */
+import html2canvas from 'html2canvas';
+
+function buildShareCardHTML() {
+  const today     = todayStr();
+  const totalSec  = sessions.filter(s => s.date === today).reduce((a, s) => a + s.dur, 0);
+  const totalHrs  = (totalSec / 3600).toFixed(1);
+  const streak    = computeStreak();
+  const readyPct  = overallReady();
+  const dateLabel = new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+
+  // Subjects studied today with sec
+  const subjMap = {};
+  for (const s of sessions.filter(s => s.date === today)) {
+    subjMap[s.subject] = (subjMap[s.subject] || 0) + s.dur;
+  }
+  const maxSec = Math.max(...Object.values(subjMap), 1);
+  const subjRows = Object.entries(subjMap)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5)
+    .map(([key, sec]) => {
+      const subj = SUBJECTS.find(s => s.key === key);
+      const name  = subj ? subj.name.replace(/\s*\(.*\)/, '').trim() : key;
+      const pct   = Math.round((sec / maxSec) * 100);
+      const mins  = Math.round(sec / 60);
+      const label = mins >= 60 ? `${Math.floor(mins/60)}h${mins%60?` ${mins%60}m`:''}` : `${mins}m`;
+      return `<div class="sc-subj-row">
+        <div class="sc-subj-name">${name}</div>
+        <div class="sc-bar-wrap"><div class="sc-bar-fill" style="width:${pct}%"></div></div>
+        <div class="sc-subj-time">${label}</div>
+      </div>`;
+    }).join('');
+
+  const hasStudied = Object.keys(subjMap).length > 0;
+
+  return `<div class="share-card" id="share-card">
+    <div class="sc-glow"></div>
+    <div class="sc-top">
+      <div class="sc-brand">Sequora Studies</div>
+      <div class="sc-date">${dateLabel}</div>
+    </div>
+    <div class="sc-hero">
+      <div class="sc-hero-label">Study time today</div>
+      <div>
+        <span class="sc-hero-hours">${totalHrs}</span>
+        <span class="sc-hero-unit">hrs</span>
+      </div>
+    </div>
+    ${hasStudied ? `<div class="sc-divider"></div><div class="sc-subjects">${subjRows}</div>` : ''}
+    <div class="sc-stats">
+      <div class="sc-stat">
+        <div class="sc-stat-val">${streak}</div>
+        <div class="sc-stat-label">🔥 Day streak</div>
+      </div>
+      <div class="sc-stat">
+        <div class="sc-stat-val">${readyPct}%</div>
+        <div class="sc-stat-label">📊 Exam ready</div>
+      </div>
+    </div>
+    <div class="sc-footer">Track your exam prep at <span>sequorastudies.com</span></div>
+  </div>`;
+}
+
+function openShareModal() {
+  const modal = document.getElementById('share-modal');
+  const wrap  = document.getElementById('share-card-wrap');
+  if (!modal || !wrap) return;
+  wrap.innerHTML = buildShareCardHTML();
+  modal.classList.remove('hidden');
+}
+window.openShareModal = openShareModal;
+
+function closeShareModal() {
+  document.getElementById('share-modal')?.classList.add('hidden');
+}
+window.closeShareModal = closeShareModal;
+
+async function downloadShareCard() {
+  const card = document.getElementById('share-card');
+  if (!card) return;
+  const btn = document.querySelector('#share-actions .btn.primary');
+  if (btn) { btn.disabled = true; btn.textContent = 'Generating…'; }
+
+  try {
+    const canvas = await html2canvas(card, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: null,
+      logging: false,
+    });
+    const link = document.createElement('a');
+    link.download = `sequora-${todayStr()}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  } catch (e) {
+    setToast('Image export failed: ' + e.message);
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = '↓ Download PNG'; }
+  }
+}
+window.downloadShareCard = downloadShareCard;
+
 /* ============ theme picker ============ */
 
 function openThemeModal() {
