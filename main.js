@@ -4,6 +4,7 @@ import {
   hideOnboarding,
   wizNext, wizBack, wizBoardChange, wizNoDateToggle,
   wizAddFromTemplate, wizAddManual, wizRemoveSubject, wizComplete,
+  wizMigrate, wizSkipMigration,
 } from './src/auth/onboarding.js';
 import { getSubscription, submitBkashPayment } from './src/data/subscriptions.js';
 import { initSubjectsView, setSubjectsViewTier } from './src/views/subjects-view.js';
@@ -1949,6 +1950,8 @@ window.wizAddFromTemplate = wizAddFromTemplate;
 window.wizAddManual = wizAddManual;
 window.wizRemoveSubject = wizRemoveSubject;
 window.wizComplete = wizComplete;
+window.wizMigrate = wizMigrate;
+window.wizSkipMigration = wizSkipMigration;
 
 
 /* ============ boot ============ */

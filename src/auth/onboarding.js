@@ -6,11 +6,13 @@ import {
   getTemplatesByBoard,
   createSubjectFromTemplate,
 } from '../data/subjects.js';
+import { hasLegacyData, migrateFromStudyState } from '../data/migration.js';
 
 // ── state ──────────────────────────────────────────────────────────────────
 let wizData = { displayName: '', examBoard: '', examDate: null };
 let wizSubjects = [];    // [{ id, name }] subjects created during this wizard session
 let currentStep = 1;
+let totalSteps = 3;      // bumped to 4 if legacy data detected
 
 // ── show / hide ────────────────────────────────────────────────────────────
 export function showOnboarding() {
@@ -27,19 +29,23 @@ function resetWizard() {
   wizData = { displayName: '', examBoard: '', examDate: null };
   wizSubjects = [];
   currentStep = 1;
+  totalSteps = 3;
   clearWizError();
 }
 
 // ── step navigation ────────────────────────────────────────────────────────
 function goToStep(n) {
   currentStep = n;
-  [1, 2, 3].forEach(i => {
-    document.getElementById(`wiz-step-${i}`).classList.toggle('hidden', i !== n);
+  [1, 2, 3, 4].forEach(i => {
+    const el = document.getElementById(`wiz-step-${i}`);
+    if (el) el.classList.toggle('hidden', i !== n);
   });
   document.querySelectorAll('.wiz-dot').forEach((dot, i) => {
     dot.classList.toggle('wiz-dot-done', i < n);
     dot.classList.toggle('wiz-dot-active', i === n - 1);
   });
+  const label = document.getElementById('wiz-step-label');
+  if (label) label.textContent = `Step ${n} of ${totalSteps}`;
 }
 
 export async function wizNext() {
@@ -217,30 +223,82 @@ function refreshAddedList() {
   btn.textContent = `Complete Setup →`;
 }
 
-// ── complete wizard ────────────────────────────────────────────────────────
+// ── complete wizard (step 3 → check for legacy data → step 4 or done) ────
 export async function wizComplete() {
   if (!wizSubjects.length) { showWizError('Add at least one subject to continue'); return; }
 
   const btn = document.getElementById('wiz-complete-btn');
   btn.disabled = true;
-  btn.textContent = 'Saving…';
+  btn.textContent = 'Checking…';
 
   try {
+    // Save profile data regardless
     await completeOnboarding({
       displayName: wizData.displayName,
       examBoard:   wizData.examBoard,
       examDate:    wizData.examDate,
     });
 
-    localStorage.setItem('sq_onboarded', '1');
-    hideOnboarding();
-    if (typeof window.__showApp === 'function') window.__showApp();
+    // If legacy study_state exists, show step 4 (migration offer)
+    const legacy = await hasLegacyData();
+    if (legacy) {
+      totalSteps = 4;
+      goToStep(4);
+      btn.disabled = false;
+      btn.textContent = 'Complete Setup →';
+      return;
+    }
 
+    _finishWizard();
   } catch (err) {
     showWizError('Setup failed: ' + err.message);
     btn.disabled = false;
     btn.textContent = 'Complete Setup →';
   }
+}
+
+// ── step 4: migration ──────────────────────────────────────────────────────
+export async function wizMigrateAndComplete() {
+  const btn    = document.getElementById('wiz-migrate-btn');
+  const status = document.getElementById('wiz-migrate-status');
+  const skip   = document.getElementById('wiz-skip-migrate');
+
+  if (btn)  { btn.disabled = true; btn.textContent = 'Importing…'; }
+  if (skip) skip.style.display = 'none';
+  if (status) status.textContent = 'Starting import…';
+
+  try {
+    const stats = await migrateFromStudyState((msg) => {
+      if (status) status.textContent = msg;
+    });
+
+    const summary = [
+      stats.subjects  ? `${stats.subjects} new subjects`     : '',
+      stats.topics    ? `${stats.topics} topics`             : '',
+      stats.sessions  ? `${stats.sessions} study sessions`   : '',
+      stats.errors    ? `${stats.errors} error log entries`  : '',
+      stats.papers    ? `${stats.papers} past papers`        : '',
+      stats.closeout  ? `${stats.closeout} daily close-outs` : '',
+    ].filter(Boolean).join(', ');
+
+    if (status) status.textContent = `✓ Done — ${summary || 'history imported'}`;
+    setTimeout(_finishWizard, 1200);
+  } catch (err) {
+    if (status) status.textContent = 'Import failed: ' + err.message;
+    if (btn)  { btn.disabled = false; btn.textContent = 'Try again'; }
+    if (skip) skip.style.display = '';
+  }
+}
+export { wizMigrateAndComplete as wizMigrate };
+
+export function wizSkipMigration() {
+  _finishWizard();
+}
+
+function _finishWizard() {
+  localStorage.setItem('sq_onboarded', '1');
+  hideOnboarding();
+  if (typeof window.__showApp === 'function') window.__showApp();
 }
 
 // ── helpers ────────────────────────────────────────────────────────────────
