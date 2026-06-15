@@ -1703,7 +1703,7 @@ async function handleLogout() {
 }
 
 /* ============ AI Advisor Proxy Integration ============ */
-async function callGeminiProxy(prompt) {
+async function callGeminiProxy(prompt, callType = 'advisor') {
   const sessionData = await supabase?.auth?.getSession();
   const session = sessionData?.data?.session;
   if (!session) {
@@ -1716,7 +1716,7 @@ async function callGeminiProxy(prompt) {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${session.access_token}`
     },
-    body: JSON.stringify({ prompt })
+    body: JSON.stringify({ prompt, call_type: callType })
   });
 
   // Read body as text first — prevents crash on empty/non-JSON responses
@@ -1731,7 +1731,10 @@ async function callGeminiProxy(prompt) {
   }
 
   if (!response.ok) {
-    throw new Error(parsed.error || `AI request failed (${response.status})`);
+    const err = new Error(parsed.error || `AI request failed (${response.status})`);
+    err.code = parsed.code || null;
+    err.limit = parsed.limit || null;
+    throw err;
   }
 
   if (!parsed.response) {
@@ -1739,6 +1742,20 @@ async function callGeminiProxy(prompt) {
   }
 
   return parsed.response;
+}
+
+function handleAiError(err) {
+  if (err.code === 'UPGRADE_REQUIRED') {
+    setToast("AI Advisor requires a paid plan — tap to upgrade");
+    window.showUpgradePrompt();
+    return;
+  }
+  if (err.code === 'QUOTA_EXCEEDED') {
+    setToast(`Monthly AI limit reached (${err.limit} calls). Resets 1st of next month.`);
+    return;
+  }
+  setToast("AI failed: " + err.message);
+  console.error(err);
 }
 
 async function getAIRecommendation() {
@@ -1779,14 +1796,13 @@ STRICT RULES:
 - Must be scannable in 15 seconds. Not an essay.
 - No introductions, no sign-offs, no filler.`;
 
-    const recommendation = await callGeminiProxy(prompt);
-    
+    const recommendation = await callGeminiProxy(prompt, 'advisor');
+
     document.getElementById("aiModalTitle").textContent = "AI Immediate Action Recommendation";
     document.getElementById("aiModalContent").textContent = recommendation;
     document.getElementById("aiModal").classList.remove("hidden");
   } catch (err) {
-    setToast("AI Recommendation failed: " + err.message);
-    console.error(err);
+    handleAiError(err);
   } finally {
     btn.disabled = false;
     btn.textContent = "Ask AI Advisor";
@@ -1818,14 +1834,13 @@ STRICT FORMAT RULES:
 - Bullet points only. No paragraphs, no introductions, no filler.
 - Skip risks unless they change the actions.`;
 
-    const review = await callGeminiProxy(prompt);
-    
+    const review = await callGeminiProxy(prompt, 'weekly_checkin');
+
     document.getElementById("aiModalTitle").textContent = "AI Weekly Readiness Evaluation";
     document.getElementById("aiModalContent").textContent = review;
     document.getElementById("aiModal").classList.remove("hidden");
   } catch (err) {
-    setToast("AI Check-In failed: " + err.message);
-    console.error(err);
+    handleAiError(err);
   } finally {
     btn.disabled = false;
     btn.textContent = "Run Weekly Check-In";

@@ -4,6 +4,9 @@ const rateLimitMap = new Map();
 
 const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || 'http://localhost:3000';
 
+const AI_LIMITS = { free: 0, paid_1: 20, paid_2: 80 };
+const VALID_CALL_TYPES = new Set(['advisor', 'weekly_checkin']);
+
 export default async function handler(req, res) {
   // CORS — locked to production domain
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -19,7 +22,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // JWT verification — server-side, required for multi-user
+  // JWT verification
   const token = req.headers['authorization']?.replace('Bearer ', '');
   if (!token) {
     return res.status(401).json({ error: 'Missing Authorization header' });
@@ -34,15 +37,61 @@ export default async function handler(req, res) {
     return res.status(401).json({ error: 'Invalid or expired session' });
   }
 
-  // Rate limit by user ID (not IP — more accurate for multi-user)
+  // Subscription tier + status check
+  const { data: sub, error: subErr } = await adminSb
+    .from('subscriptions')
+    .select('tier, status')
+    .eq('user_id', user.id)
+    .single();
+
+  if (subErr || !sub) {
+    return res.status(403).json({ error: 'No subscription record found.', code: 'INACTIVE' });
+  }
+
+  if (sub.status !== 'active') {
+    return res.status(403).json({ error: 'Account not active.', code: 'INACTIVE' });
+  }
+
+  const limit = AI_LIMITS[sub.tier] ?? 0;
+  if (limit === 0) {
+    return res.status(403).json({
+      error: 'AI Advisor requires a paid plan. Upgrade to Basic or Pro.',
+      code: 'UPGRADE_REQUIRED',
+    });
+  }
+
+  // Monthly quota via atomic RPC
+  const callType = VALID_CALL_TYPES.has(req.body?.call_type) ? req.body.call_type : 'advisor';
+  const monthYear = new Date().toISOString().slice(0, 7); // 'YYYY-MM'
+
+  const { data: usage, error: rpcErr } = await adminSb.rpc('increment_ai_usage', {
+    p_user_id:   user.id,
+    p_call_type: callType,
+    p_month_year: monthYear,
+    p_limit:     limit,
+  });
+
+  if (rpcErr) {
+    console.error('[Gemini] increment_ai_usage RPC error:', rpcErr);
+    return res.status(500).json({ error: 'Usage tracking failed.' });
+  }
+
+  if (usage?.blocked) {
+    return res.status(429).json({
+      error: `Monthly AI limit of ${limit} calls reached. Resets 1st of next month.`,
+      code: 'QUOTA_EXCEEDED',
+      limit,
+      count: usage.count,
+    });
+  }
+
+  // Per-minute rate limit (burst protection)
   const now = Date.now();
   let requests = rateLimitMap.get(user.id) || [];
   requests = requests.filter(time => now - time < 60000);
-
   if (requests.length >= 10) {
     return res.status(429).json({ error: 'Too many requests. Please wait a minute.' });
   }
-
   requests.push(now);
   rateLimitMap.set(user.id, requests);
 
