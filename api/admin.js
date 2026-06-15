@@ -1,12 +1,13 @@
 import { createClient } from '@supabase/supabase-js';
+import { emailActivated, emailSuspended } from './email.js';
 
 const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || 'http://localhost:3000';
 
 const PLAN_DURATIONS = {
-  basic_monthly: { tier: 'paid_1', days: 30  },
-  basic_6mo:     { tier: 'paid_1', days: 182 },
-  pro_monthly:   { tier: 'paid_2', days: 30  },
-  pro_6mo:       { tier: 'paid_2', days: 182 },
+  basic_monthly: { tier: 'paid_1', days: 30,  label: 'Basic — Monthly'   },
+  basic_6mo:     { tier: 'paid_1', days: 182, label: 'Basic — 6 Months'  },
+  pro_monthly:   { tier: 'paid_2', days: 30,  label: 'Pro — Monthly'     },
+  pro_6mo:       { tier: 'paid_2', days: 182, label: 'Pro — 6 Months'    },
 };
 
 export default async function handler(req, res) {
@@ -88,6 +89,15 @@ export default async function handler(req, res) {
       details:     { plan, tier: planMeta.tier, expires_at: expiresAt, days: planMeta.days },
     });
 
+    // Fire-and-forget email — don't block response
+    adminSb.from('profiles').select('email').eq('id', userId).single()
+      .then(({ data }) => {
+        if (data?.email) {
+          emailActivated({ email: data.email, planLabel: planMeta.label, expiresAt })
+            .catch(e => console.error('[Admin] Activation email failed:', e.message));
+        }
+      });
+
     console.log(`[Admin] Activated user=${userId} plan=${plan} expires=${expiresAt}`);
     return res.status(200).json({ ok: true, expires_at: expiresAt, tier: planMeta.tier });
   }
@@ -125,8 +135,17 @@ export default async function handler(req, res) {
     if (error) return res.status(500).json({ error: 'Suspend failed: ' + error.message });
 
     await adminSb.from('admin_log').insert({
-      admin_id: user.id, action: 'suspend', target_user: userId, details: {},
+      admin_id: user.id, action: 'suspend', target_user: userId, details: { reason: req.body.reason || '' },
     });
+
+    // Fire-and-forget email
+    adminSb.from('profiles').select('email').eq('id', userId).single()
+      .then(({ data }) => {
+        if (data?.email) {
+          emailSuspended({ email: data.email, reason: req.body.reason || '' })
+            .catch(e => console.error('[Admin] Suspension email failed:', e.message));
+        }
+      });
 
     return res.status(200).json({ ok: true });
   }
