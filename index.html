@@ -427,6 +427,19 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
   border-radius:var(--rs);padding:4px 12px;margin:6px 0;letter-spacing:.08em;
 }
 
+/* ---- animated flame ---- */
+.flame-wrap{display:inline-flex;align-items:center;justify-content:center;margin-bottom:2px;min-height:36px}
+.flame-emoji{display:inline-block;line-height:1;transition:font-size .4s,filter .4s,opacity .4s}
+.flame-out .flame-emoji{font-size:18px;filter:grayscale(1);opacity:.25}
+.flame-small .flame-emoji{font-size:22px;animation:flicker-s 2.5s ease-in-out infinite}
+.flame-medium .flame-emoji{font-size:34px;animation:flicker-m 2s ease-in-out infinite;filter:drop-shadow(0 0 6px rgba(232,93,26,.55))}
+.flame-large .flame-emoji{font-size:46px;animation:flicker-l 1.5s ease-in-out infinite;filter:drop-shadow(0 0 12px rgba(220,35,10,.7))}
+.flame-cracked .flame-emoji{opacity:.5;filter:grayscale(.45);animation:crack-pulse 1.8s ease-in-out infinite}
+@keyframes flicker-s{0%,100%{transform:scaleY(1) scaleX(1)}35%{transform:scaleY(1.06) scaleX(.96)}65%{transform:scaleY(.97) scaleX(1.03)}}
+@keyframes flicker-m{0%,100%{transform:scaleY(1) scaleX(1) rotate(0)}25%{transform:scaleY(1.09) scaleX(.94) rotate(-2deg)}75%{transform:scaleY(.96) scaleX(1.05) rotate(2deg)}}
+@keyframes flicker-l{0%,100%{transform:scaleY(1) scaleX(1) rotate(0);filter:drop-shadow(0 0 10px rgba(220,35,10,.7))}20%{transform:scaleY(1.12) scaleX(.93) rotate(-2.5deg);filter:drop-shadow(0 0 20px rgba(220,35,10,.95))}70%{transform:scaleY(.94) scaleX(1.06) rotate(2deg);filter:drop-shadow(0 0 7px rgba(220,35,10,.5))}}
+@keyframes crack-pulse{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:.35;transform:scale(.95)}}
+
 /* ---- share card ---- */
 #share-modal .modal-box{max-width:540px;width:95%}
 #share-card-wrap{display:flex;justify-content:center;margin:16px 0}
@@ -534,7 +547,13 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
       <div class="card">
         <div class="lead">Momentum</div>
         <div class="grid g2" style="gap:12px">
-          <div class="stat" style="background:var(--ink)"><span class="flame" id="flameIcon" style="font-family:var(--mono);font-weight:900;color:var(--amber);font-size:18px">●</span><div class="v" id="streakVal">0</div><div class="k">Day streak</div><div class="x" id="streakX">study today to start</div></div>
+          <div class="stat" style="background:var(--ink)">
+            <div class="flame-wrap" id="flameWrap"><span id="flameEmoji" class="flame-emoji">🔥</span></div>
+            <div class="v" id="streakVal">0</div>
+            <div class="k">Day streak</div>
+            <div class="x" id="streakX">study today to start</div>
+            <div class="x" id="bestStreakX" style="color:var(--amber-deep);margin-top:2px"></div>
+          </div>
           <div class="stat" style="background:var(--ink)"><div class="v" id="todayHrs">0.0</div><div class="k">Hours today</div><div class="x" id="todayX">target ≈ 5.5h</div></div>
           <div class="stat" style="background:var(--ink)"><div class="v" id="weekHrs">0.0</div><div class="k">Hours this week</div><div class="x" id="weekX">target ≈ 28h</div></div>
           <div class="stat" style="background:var(--ink)"><div class="v" id="readyPct">0%</div><div class="k">Exam-ready</div><div class="x" id="readyX">across all subjects</div></div>

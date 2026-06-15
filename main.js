@@ -667,13 +667,38 @@ function hoursFor(filterFn){let s=0;for(const x of sessions)if(filterFn(x))s+=x.
 function startOfWeek(){const d=new Date();const day=(d.getDay()+6)%7;d.setHours(0,0,0,0);d.setDate(d.getDate()-day);return d;}
 function computeStreak(){
   const days=new Set(sessions.map(s=>s.date));
-  let streak=0;const d=new Date();d.setHours(0,0,0,0);
-  if(!days.has(todayStr())){d.setDate(d.getDate()-1);}
+  const today=todayStr();
+  const yesterday=dateOff(-1);
+  const dayBefore=dateOff(-2);
+
+  // Miss 2 consecutive days → streak 0
+  if(!days.has(today)&&!days.has(yesterday)) return 0;
+
+  // Walk back from most recent studied day
+  let streak=0;
+  const d=new Date();d.setHours(0,0,0,0);
+  if(!days.has(today)) d.setDate(d.getDate()-1); // grace: start from yesterday
   while(true){
     const ds=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
     if(days.has(ds)){streak++;d.setDate(d.getDate()-1);}else break;
   }
   return streak;
+}
+function dateOff(n){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()+n);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function isGraceDay(){const days=new Set(sessions.map(s=>s.date));return !days.has(todayStr())&&days.has(dateOff(-1))&&!days.has(dateOff(-2));}
+
+function getBestStreak(){return parseInt(localStorage.getItem('sq_best_streak')||'0',10);}
+function updateBestStreak(cur){const best=getBestStreak();if(cur>best){localStorage.setItem('sq_best_streak',String(cur));return cur;}return best;}
+
+function renderFlame(streak,grace){
+  const wrap=document.getElementById('flameWrap');
+  if(!wrap)return;
+  wrap.className='flame-wrap';
+  if(streak===0){wrap.classList.add('flame-out');return;}
+  if(grace){wrap.classList.add(streak<8?'flame-small':streak<31?'flame-medium':'flame-large');wrap.classList.add('flame-cracked');return;}
+  if(streak<8)wrap.classList.add('flame-small');
+  else if(streak<31)wrap.classList.add('flame-medium');
+  else wrap.classList.add('flame-large');
 }
 function subjReady(k){const t=topics[k]||[];const tot=t.length;const r=t.filter(x=>x.status==="ready").length;return{tot,r,pct:tot?Math.round(r/tot*100):0};}
 function overallReady(){let tot=0,r=0;for(const s of SUBJECTS){const x=subjReady(s.key);tot+=x.tot;r+=x.r;}return tot?Math.round(r/tot*100):0;}
@@ -758,12 +783,15 @@ function renderDash(){
   const weekHrsEl = document.getElementById("weekHrs");
   if (weekHrsEl) weekHrsEl.textContent=hoursFor(s=>parseD(s.date).getTime()>=sw).toFixed(1);
   const streak=computeStreak();
+  const grace=isGraceDay();
+  const best=updateBestStreak(streak);
+  renderFlame(streak,grace);
   const streakValEl = document.getElementById("streakVal");
   if (streakValEl) streakValEl.textContent=streak;
   const streakXEl = document.getElementById("streakX");
-  if (streakXEl) streakXEl.textContent=streak>0?"keep it alive":"study today to start";
-  const flameEl = document.getElementById("flameIcon");
-  if (flameEl) flameEl.style.opacity=streak>0?"1":".3";
+  if (streakXEl) streakXEl.textContent=grace?"⚠ grace day — study today!":streak>0?"keep it alive":"study today to start";
+  const bestStreakXEl = document.getElementById("bestStreakX");
+  if (bestStreakXEl&&best>0) bestStreakXEl.textContent="best: "+best+" days";
   const readyPctEl = document.getElementById("readyPct");
   if (readyPctEl) readyPctEl.textContent=overallReady()+"%";
 
