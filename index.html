@@ -777,15 +777,37 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
       </div>
     </div>
     <div class="card" style="margin-top:18px">
-      <div class="lead">Data</div>
-      <div class="split">
-        <button class="btn sm ghost" onclick="exportData()">Export my data (backup)</button>
-        <button class="btn sm ghost" onclick="importData()">Import data</button>
-        <button class="btn sm ghost danger" onclick="wipeData()">Wipe everything</button>
-        <span class="kicker" id="storageNote"></span>
+      <div class="lead">Data &amp; privacy</div>
+      <p style="font-size:13px;color:var(--muted);margin:6px 0 14px">Your data belongs to you. Export a full copy any time, or permanently delete your account and all associated data.</p>
+      <div class="split" style="gap:10px;flex-wrap:wrap">
+        <button class="btn sm ghost" onclick="exportData()">↓ Export all my data (JSON)</button>
+        <button class="btn sm ghost danger" onclick="deleteAccount()" style="margin-left:auto">Delete account…</button>
       </div>
     </div>
   </section>
+
+  <!-- Delete account confirmation modal -->
+  <div id="delete-account-modal" class="modal-overlay hidden">
+    <div class="modal-box" style="max-width:440px">
+      <div class="modal-head">
+        <div>
+          <div class="lead" style="margin:0;color:var(--red)">Delete account</div>
+          <h2 style="margin-top:3px;font-size:18px">This cannot be undone</h2>
+        </div>
+        <button class="btn sm ghost" onclick="document.getElementById('delete-account-modal').classList.add('hidden')">✕</button>
+      </div>
+      <div style="padding:0 0 8px">
+        <p style="font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:16px">All your subjects, topics, sessions, errors, papers, and AI usage records will be permanently deleted. Your bKash payment history and subscription will also be removed. There is no recovery.</p>
+        <p style="font-size:13px;color:var(--paper-dim);margin-bottom:8px">Type <span style="font-family:var(--mono);color:var(--red)">DELETE MY ACCOUNT</span> to confirm:</p>
+        <input type="text" id="delete-confirm-input" placeholder="DELETE MY ACCOUNT" style="width:100%;font-family:var(--mono);font-size:13px;margin-bottom:10px;border-color:var(--red)" autocomplete="off">
+        <div id="delete-confirm-error" style="font-family:var(--mono);font-size:11px;color:var(--red);min-height:16px;margin-bottom:10px"></div>
+        <div style="display:flex;gap:10px">
+          <button class="btn sm ghost" onclick="document.getElementById('delete-account-modal').classList.add('hidden')" style="flex:1">Cancel</button>
+          <button id="delete-confirm-btn" class="btn sm" onclick="_doDeleteAccount()" style="flex:1;background:var(--red);color:#fff;border:none">Permanently delete my account</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <footer>
     Ascent · built for the Nov 2026 sitting · all data lives in this browser.<br>

@@ -1432,40 +1432,96 @@ function copyPrereqCheckPrompt(){
 }
 
 /* ============ data export/import ============ */
-function exportData(){
-  const blob={topics,sessions,errors,papers,examDate,closeout:getCloseout(),exported:new Date().toISOString()};
-  const s=JSON.stringify(blob,null,2);
-  const a=document.createElement("a");a.href="data:application/json;charset=utf-8,"+encodeURIComponent(s);
-  a.download="ascent-backup-"+todayStr()+".json";a.click();setToast("Backup downloaded");
-}
-function importData(){
-  const inp=document.createElement("input");inp.type="file";inp.accept="application/json";
-  inp.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();
-    r.onload=()=>{try{const b=JSON.parse(r.result);
-      if(b.topics)topics=b.topics;if(b.sessions)sessions=b.sessions;if(b.errors)errors=b.errors;if(b.papers)papers=b.papers;if(b.examDate)examDate=b.examDate;
-      saveJSON("ascent_topics",topics);saveJSON("ascent_sessions",sessions);saveJSON("ascent_errors",errors);saveJSON("ascent_papers",papers);Store.set("ascent_exam",examDate);
-      if(b.closeout)saveJSON("ascent_closeout",b.closeout);
-      refreshAll();setToast("Data imported");}catch(err){setToast("Bad file");}};
-    r.readAsText(f);};
-  inp.click();
-}
-async function wipeData(){
-  if(!confirm("Erase ALL progress, sessions, logs? This cannot be undone."))return;
-  // Clear localStorage
-  ["ascent_topics","ascent_sessions","ascent_errors","ascent_papers","ascent_exam","ascent_closeout"].forEach(k=>Store.del(k));
-  // Clear cloud data so it doesn't restore on reload
-  if (supabase && currentUser) {
-    try {
-      const { error } = await supabase
-        .from('study_state')
-        .delete()
-        .eq('user_id', currentUser.id);
-      if (error) console.error("[Sync] Failed to wipe cloud data:", error);
-    } catch (err) {
-      console.error("[Sync] Wipe cloud error:", err);
-    }
+async function exportData() {
+  if (!currentUser) { setToast("Not logged in"); return; }
+  setToast("Exporting…");
+
+  try {
+    const uid = currentUser.id;
+    const [
+      { data: profile },
+      { data: subjectsData },
+      { data: topicsData },
+      { data: sessionsData },
+      { data: errorsData },
+      { data: papersData },
+      { data: closeoutData },
+      { data: aiUsageData },
+      { data: subscriptionData },
+    ] = await Promise.all([
+      supabase.from('profiles').select('*').eq('id', uid).single(),
+      supabase.from('subjects').select('*').eq('user_id', uid),
+      supabase.from('topics').select('*').eq('user_id', uid),
+      supabase.from('sessions').select('*').eq('user_id', uid),
+      supabase.from('errors').select('*').eq('user_id', uid),
+      supabase.from('papers').select('*').eq('user_id', uid),
+      supabase.from('closeout').select('*').eq('user_id', uid),
+      supabase.from('ai_usage').select('*').eq('user_id', uid),
+      supabase.from('subscriptions').select('tier,status,expires_at,activated_at').eq('user_id', uid).single(),
+    ]);
+
+    const blob = {
+      exported_at:  new Date().toISOString(),
+      export_version: 1,
+      profile,
+      subscription: subscriptionData,
+      subjects:     subjectsData   || [],
+      topics:       topicsData     || [],
+      sessions:     sessionsData   || [],
+      errors:       errorsData     || [],
+      papers:       papersData     || [],
+      closeout:     closeoutData   || [],
+      ai_usage:     aiUsageData    || [],
+    };
+
+    const json = JSON.stringify(blob, null, 2);
+    const a = document.createElement('a');
+    a.href = 'data:application/json;charset=utf-8,' + encodeURIComponent(json);
+    a.download = `sequora-export-${todayStr()}.json`;
+    a.click();
+    setToast("Export downloaded");
+  } catch (err) {
+    console.error('[Export]', err);
+    setToast("Export failed: " + err.message);
   }
-  location.reload();
+}
+async function deleteAccount() {
+  const modal = document.getElementById('delete-account-modal');
+  if (modal) { modal.classList.remove('hidden'); return; }
+  // Fallback if modal not in DOM
+  await _doDeleteAccount();
+}
+
+async function _doDeleteAccount() {
+  const input = document.getElementById('delete-confirm-input');
+  const btn   = document.getElementById('delete-confirm-btn');
+  const err   = document.getElementById('delete-confirm-error');
+
+  const typed = input?.value?.trim();
+  if (typed !== 'DELETE MY ACCOUNT') {
+    if (err) err.textContent = 'Type exactly: DELETE MY ACCOUNT';
+    return;
+  }
+
+  if (btn) { btn.disabled = true; btn.textContent = 'Deleting…'; }
+  if (err) err.textContent = '';
+
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    const resp = await fetch('/api/gdpr', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+      body: JSON.stringify({ confirm: 'DELETE MY ACCOUNT' }),
+    });
+    const json = await resp.json();
+    if (!resp.ok) throw new Error(json.error || 'Deletion failed');
+
+    await supabase.auth.signOut();
+    window.location.href = '/';
+  } catch (e) {
+    if (err) err.textContent = e.message;
+    if (btn) { btn.disabled = false; btn.textContent = 'Permanently delete my account'; }
+  }
 }
 
 /* ============ exam date ============ */
@@ -1866,8 +1922,8 @@ window.addPaper = addPaper;
 window.addError = addError;
 window.delError = delError;
 window.exportData = exportData;
-window.importData = importData;
-window.wipeData = wipeData;
+window.deleteAccount = deleteAccount;
+window._doDeleteAccount = _doDeleteAccount;
 window.resetTopics = resetTopics;
 window.go = go;
 window.recallPass = recallPass;
