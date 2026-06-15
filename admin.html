@@ -1,12 +1,446 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sequora Admin</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sequora Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#12100e;--ink2:#1a1815;--ink3:#231f1a;--line:#332d26;
+  --paper:#f4ece0;--paper-dim:#cdc4b5;--muted:#9b9184;
+  --amber:#e8a33d;--amber-soft:#f0c277;--amber-deep:#c47e1c;
+  --green:#7fae6f;--green-deep:#4f7a45;--red:#cf6a55;--blue:#6f9dc4;
+  --display:"Fraunces",serif;--body:"Newsreader",serif;--mono:"JetBrains Mono",monospace;
+  --r:10px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--body);background:var(--ink);color:var(--paper);font-size:15px;line-height:1.5;min-height:100vh}
+a{color:var(--amber);text-decoration:none}
+input,select,textarea{background:var(--ink2);color:var(--paper);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-family:var(--mono);font-size:13px;outline:none}
+input:focus,select:focus{border-color:var(--amber)}
+
+/* layout */
+#admin-header{display:flex;align-items:center;gap:16px;padding:16px 24px;border-bottom:1px solid var(--line);background:var(--ink2)}
+#admin-header h1{font-family:var(--display);font-size:22px;color:var(--amber-soft)}
+#admin-header .spacer{flex:1}
+#admin-user{font-family:var(--mono);font-size:12px;color:var(--muted)}
+#admin-logout{font-family:var(--mono);font-size:12px;color:var(--red);cursor:pointer;border:none;background:none;padding:4px 8px}
+#admin-logout:hover{text-decoration:underline}
+
+#admin-body{padding:24px;max-width:1400px}
+
+/* stats bar */
+#admin-stats{display:flex;gap:16px;margin-bottom:24px;flex-wrap:wrap}
+.stat-card{background:var(--ink2);border:1px solid var(--line);border-radius:var(--r);padding:14px 18px;min-width:130px}
+.stat-card .sv{font-size:28px;font-family:var(--display);color:var(--amber-soft);line-height:1}
+.stat-card .sk{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:2px}
+
+/* toolbar */
+#admin-toolbar{display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+#admin-search{width:260px}
+#filter-status,#filter-tier{width:130px}
+#admin-refresh{background:var(--ink2);border:1px solid var(--line);border-radius:6px;padding:6px 14px;color:var(--paper-dim);cursor:pointer;font-family:var(--mono);font-size:12px}
+#admin-refresh:hover{border-color:var(--amber);color:var(--amber)}
+#admin-count{font-family:var(--mono);font-size:12px;color:var(--muted);margin-left:auto}
+
+/* table */
+#user-table-wrap{overflow-x:auto;border-radius:var(--r);border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead tr{background:var(--ink3);border-bottom:1px solid var(--line)}
+th{padding:10px 12px;text-align:left;font-family:var(--mono);font-size:11px;color:var(--muted);font-weight:500;white-space:nowrap}
+tbody tr{border-bottom:1px solid rgba(51,45,38,.5);transition:background .1s}
+tbody tr:hover{background:rgba(255,255,255,.02)}
+tbody tr.has-pending{background:rgba(232,163,61,.05)}
+tbody tr:last-child{border-bottom:none}
+td{padding:10px 12px;vertical-align:top}
+
+/* badges */
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.badge.active{background:rgba(127,174,111,.18);color:var(--green)}
+.badge.suspended{background:rgba(207,106,85,.18);color:var(--red)}
+.badge.pending{background:rgba(232,163,61,.15);color:var(--amber)}
+.badge.expired{background:rgba(155,145,132,.15);color:var(--muted)}
+.badge.free{background:rgba(155,145,132,.1);color:var(--muted)}
+.badge.paid_1{background:rgba(111,157,196,.18);color:var(--blue)}
+.badge.paid_2{background:rgba(232,163,61,.2);color:var(--amber-soft)}
+
+/* trx cell */
+.trx-id{font-family:var(--mono);font-size:11px;color:var(--amber-soft);word-break:break-all}
+.trx-meta{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:2px}
+.no-trx{color:var(--muted);font-style:italic;font-size:12px}
+
+/* action buttons */
+.action-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.btn-act{border:none;border-radius:5px;padding:4px 10px;font-family:var(--mono);font-size:11px;cursor:pointer;font-weight:600;transition:opacity .15s}
+.btn-act:hover{opacity:.8}
+.btn-act:disabled{opacity:.4;cursor:not-allowed}
+.btn-act.activate{background:var(--green-deep);color:#fff}
+.btn-act.suspend{background:rgba(207,106,85,.25);color:var(--red)}
+.btn-act.unsuspend{background:rgba(127,174,111,.25);color:var(--green)}
+.btn-act.dismiss{background:rgba(155,145,132,.2);color:var(--paper-dim)}
+.btn-act.tier{background:rgba(111,157,196,.2);color:var(--blue)}
+.plan-sel{width:130px}
+
+/* login */
+#login-panel{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:16px}
+#login-panel h2{font-family:var(--display);font-size:28px;color:var(--amber-soft)}
+#login-panel p{color:var(--muted);font-size:14px}
+.login-form{display:flex;flex-direction:column;gap:10px;width:320px}
+.login-form input{width:100%;padding:10px 14px;font-size:15px}
+#login-btn{background:var(--amber);color:var(--ink);border:none;border-radius:8px;padding:10px;font-family:var(--mono);font-size:14px;font-weight:700;cursor:pointer}
+#login-btn:hover{background:var(--amber-soft)}
+#login-error{color:var(--red);font-family:var(--mono);font-size:12px;text-align:center}
+
+/* toast */
+#admin-toast{position:fixed;bottom:24px;right:24px;background:var(--ink3);border:1px solid var(--line);border-radius:8px;padding:10px 16px;font-family:var(--mono);font-size:12px;z-index:9999;pointer-events:none;opacity:0;transition:opacity .2s;max-width:320px}
+#admin-toast.show{opacity:1}
+
+/* loading */
+.loading-row td{text-align:center;padding:40px;color:var(--muted);font-style:italic}
+.error-row td{text-align:center;padding:24px;color:var(--red);font-family:var(--mono);font-size:12px}
+</style>
 </head>
 <body>
-  <!-- Phase 8: admin panel content goes here -->
-  <p>Admin panel coming soon.</p>
+
+<!-- Login panel (shown before auth) -->
+<div id="login-panel">
+  <h2>Sequora Admin</h2>
+  <p>Sign in with your admin email to continue</p>
+  <div class="login-form">
+    <input type="email" id="login-email" placeholder="admin@email.com">
+    <input type="password" id="login-pass" placeholder="Password">
+    <button id="login-btn" onclick="doLogin()">Sign in</button>
+    <div id="login-error"></div>
+  </div>
+</div>
+
+<!-- Main admin UI (hidden until authed) -->
+<div id="admin-ui" style="display:none">
+  <div id="admin-header">
+    <h1>Sequora Admin</h1>
+    <div class="spacer"></div>
+    <span id="admin-user"></span>
+    <button id="admin-logout" onclick="doLogout()">Sign out</button>
+  </div>
+
+  <div id="admin-body">
+    <div id="admin-stats">
+      <div class="stat-card"><div class="sv" id="stat-total">–</div><div class="sk">Total users</div></div>
+      <div class="stat-card"><div class="sv" id="stat-paid">–</div><div class="sk">Paid active</div></div>
+      <div class="stat-card"><div class="sv" id="stat-pending">–</div><div class="sk">Pending TrxID</div></div>
+      <div class="stat-card"><div class="sv" id="stat-suspended">–</div><div class="sk">Suspended</div></div>
+    </div>
+
+    <div id="admin-toolbar">
+      <input type="text" id="admin-search" placeholder="Search email or TrxID…" oninput="filterTable()">
+      <select id="filter-status" onchange="filterTable()">
+        <option value="">All statuses</option>
+        <option value="active">Active</option>
+        <option value="suspended">Suspended</option>
+        <option value="pending">Pending</option>
+        <option value="expired">Expired</option>
+      </select>
+      <select id="filter-tier" onchange="filterTable()">
+        <option value="">All tiers</option>
+        <option value="free">Free</option>
+        <option value="paid_1">Basic</option>
+        <option value="paid_2">Pro</option>
+      </select>
+      <button id="admin-refresh" onclick="loadUsers()">↺ Refresh</button>
+      <span id="admin-count"></span>
+    </div>
+
+    <div id="user-table-wrap">
+      <table id="user-table">
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Tier</th>
+            <th>Joined</th>
+            <th>Expires</th>
+            <th>bKash TrxID</th>
+            <th>Plan requested</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="user-tbody">
+          <tr class="loading-row"><td colspan="8">Loading users…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div id="admin-toast"></div>
+
+<script type="module">
+import { createClient } from '@supabase/supabase-js';
+
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_ANON = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
+
+let allUsers = [];
+
+// ── helpers ───────────────────────────────────────────────────────────────────
+
+function toast(msg, isErr = false) {
+  const el = document.getElementById('admin-toast');
+  el.textContent = msg;
+  el.style.borderColor = isErr ? 'var(--red)' : 'var(--line)';
+  el.style.color = isErr ? 'var(--red)' : 'var(--paper)';
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+async function apiPost(action, body) {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) throw new Error('Not logged in');
+  const resp = await fetch('/api/admin', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+    body: JSON.stringify({ action, ...body }),
+  });
+  const json = await resp.json();
+  if (!resp.ok) throw new Error(json.error || 'Request failed');
+  return json;
+}
+
+function fmtDate(iso) {
+  if (!iso) return '–';
+  return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+function tierLabel(t) {
+  return t === 'paid_1' ? 'Basic' : t === 'paid_2' ? 'Pro' : 'Free';
+}
+
+function isPending(u) {
+  return u.bkash_trx_id && (!u.activated_at || u.bkash_submitted_at > u.activated_at);
+}
+
+// ── login ─────────────────────────────────────────────────────────────────────
+
+window.doLogin = async function() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass  = document.getElementById('login-pass').value;
+  const err   = document.getElementById('login-error');
+  err.textContent = '';
+  const { error } = await sb.auth.signInWithPassword({ email, password: pass });
+  if (error) { err.textContent = error.message; return; }
+  await checkSession();
+};
+
+window.doLogout = async function() {
+  await sb.auth.signOut();
+  document.getElementById('admin-ui').style.display = 'none';
+  document.getElementById('login-panel').style.display = 'flex';
+};
+
+async function checkSession() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) return;
+
+  // Verify admin via API (server checks ADMIN_EMAIL)
+  const resp = await fetch('/api/admin?action=list_users', {
+    headers: { 'Authorization': `Bearer ${session.access_token}` },
+  });
+  if (resp.status === 403) {
+    toast('This account does not have admin access.', true);
+    await sb.auth.signOut();
+    return;
+  }
+
+  document.getElementById('login-panel').style.display = 'none';
+  document.getElementById('admin-ui').style.display = 'block';
+  document.getElementById('admin-user').textContent = session.user.email;
+
+  const json = await resp.json();
+  allUsers = json.users || [];
+  renderUsers(allUsers);
+}
+
+// ── load users ────────────────────────────────────────────────────────────────
+
+window.loadUsers = async function() {
+  document.getElementById('user-tbody').innerHTML = '<tr class="loading-row"><td colspan="8">Loading…</td></tr>';
+  try {
+    const { data: { session } } = await sb.auth.getSession();
+    const resp = await fetch('/api/admin?action=list_users', {
+      headers: { 'Authorization': `Bearer ${session.access_token}` },
+    });
+    const json = await resp.json();
+    if (!resp.ok) throw new Error(json.error);
+    allUsers = json.users || [];
+    filterTable();
+    toast('Refreshed');
+  } catch (e) {
+    document.getElementById('user-tbody').innerHTML = `<tr class="error-row"><td colspan="8">Error: ${e.message}</td></tr>`;
+  }
+};
+
+// ── filter + render ───────────────────────────────────────────────────────────
+
+window.filterTable = function() {
+  const q      = document.getElementById('admin-search').value.toLowerCase();
+  const status = document.getElementById('filter-status').value;
+  const tier   = document.getElementById('filter-tier').value;
+
+  let filtered = allUsers.filter(u => {
+    const email = (u.profiles?.email || '').toLowerCase();
+    const trx   = (u.bkash_trx_id || '').toLowerCase();
+    if (q && !email.includes(q) && !trx.includes(q)) return false;
+    if (status === 'pending') { if (!isPending(u)) return false; }
+    else if (status && u.status !== status) return false;
+    if (tier && u.tier !== tier) return false;
+    return true;
+  });
+
+  renderUsers(filtered);
+};
+
+function renderUsers(users) {
+  // stats always reflect allUsers
+  const pending   = allUsers.filter(isPending);
+  const paidActive = allUsers.filter(u => u.tier !== 'free' && u.status === 'active');
+  const suspended  = allUsers.filter(u => u.status === 'suspended');
+
+  document.getElementById('stat-total').textContent     = allUsers.length;
+  document.getElementById('stat-paid').textContent      = paidActive.length;
+  document.getElementById('stat-pending').textContent   = pending.length;
+  document.getElementById('stat-suspended').textContent = suspended.length;
+  document.getElementById('admin-count').textContent    = `Showing ${users.length} of ${allUsers.length}`;
+
+  const tbody = document.getElementById('user-tbody');
+  if (!users.length) {
+    tbody.innerHTML = '<tr class="loading-row"><td colspan="8">No users match filter</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = users.map((u, idx) => {
+    const email  = u.profiles?.email || '(no email)';
+    const joined = fmtDate(u.profiles?.created_at);
+    const pend   = isPending(u);
+    const statusDisplay = pend ? 'pending' : u.status;
+
+    const trxHtml = u.bkash_trx_id
+      ? `<div class="trx-id">${u.bkash_trx_id}</div>
+         <div class="trx-meta">৳${u.bkash_amount || '?'} · ${fmtDate(u.bkash_submitted_at)}</div>`
+      : `<span class="no-trx">none</span>`;
+
+    const planNote = u.notes || '–';
+
+    // Action buttons
+    let acts = `<div class="action-row">`;
+
+    // Activate (only if has TrxID)
+    if (u.bkash_trx_id) {
+      acts += `
+        <select class="plan-sel" id="plan-sel-${idx}">
+          <option value="basic_monthly">Basic 1mo</option>
+          <option value="basic_6mo">Basic 6mo</option>
+          <option value="pro_monthly">Pro 1mo</option>
+          <option value="pro_6mo">Pro 6mo</option>
+        </select>
+        <button class="btn-act activate" onclick="activateUser('${u.user_id}', 'plan-sel-${idx}')">Activate</button>
+        <button class="btn-act dismiss" onclick="dismissTrx('${u.user_id}')">Dismiss TrxID</button>`;
+    }
+
+    // Tier change
+    acts += `
+      <select class="plan-sel" id="tier-sel-${idx}">
+        <option value="free" ${u.tier==='free'?'selected':''}>Free</option>
+        <option value="paid_1" ${u.tier==='paid_1'?'selected':''}>Basic</option>
+        <option value="paid_2" ${u.tier==='paid_2'?'selected':''}>Pro</option>
+      </select>
+      <button class="btn-act tier" onclick="changeTier('${u.user_id}', 'tier-sel-${idx}')">Set tier</button>`;
+
+    // Suspend/Unsuspend
+    if (u.status === 'suspended') {
+      acts += `<button class="btn-act unsuspend" onclick="unsuspendUser('${u.user_id}')">Unsuspend</button>`;
+    } else {
+      acts += `<button class="btn-act suspend" onclick="suspendUser('${u.user_id}')">Suspend</button>`;
+    }
+
+    acts += `</div>`;
+
+    return `<tr class="${pend ? 'has-pending' : ''}">
+      <td style="font-family:var(--mono);font-size:12px">${email}</td>
+      <td><span class="badge ${statusDisplay}">${statusDisplay}</span></td>
+      <td><span class="badge ${u.tier}">${tierLabel(u.tier)}</span></td>
+      <td style="color:var(--muted);font-size:12px">${joined}</td>
+      <td style="color:var(--muted);font-size:12px">${fmtDate(u.expires_at)}</td>
+      <td>${trxHtml}</td>
+      <td style="font-family:var(--mono);font-size:11px;color:var(--amber-soft)">${planNote}</td>
+      <td>${acts}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ── actions ───────────────────────────────────────────────────────────────────
+
+window.activateUser = async function(userId, selId) {
+  const plan = document.getElementById(selId)?.value;
+  if (!plan) return;
+  try {
+    const r = await apiPost('activate', { userId, plan });
+    toast(`Activated — expires ${fmtDate(r.expires_at)}`);
+    await loadUsers();
+  } catch (e) { toast(e.message, true); }
+};
+
+window.changeTier = async function(userId, selId) {
+  const tier = document.getElementById(selId)?.value;
+  if (!tier) return;
+  try {
+    await apiPost('change_tier', { userId, tier });
+    toast('Tier updated');
+    await loadUsers();
+  } catch (e) { toast(e.message, true); }
+};
+
+window.suspendUser = async function(userId) {
+  if (!confirm('Suspend this user?')) return;
+  try {
+    await apiPost('suspend', { userId });
+    toast('User suspended');
+    await loadUsers();
+  } catch (e) { toast(e.message, true); }
+};
+
+window.unsuspendUser = async function(userId) {
+  try {
+    await apiPost('unsuspend', { userId });
+    toast('User unsuspended');
+    await loadUsers();
+  } catch (e) { toast(e.message, true); }
+};
+
+window.dismissTrx = async function(userId) {
+  if (!confirm('Dismiss TrxID without activating?')) return;
+  try {
+    await apiPost('dismiss_trx', { userId });
+    toast('TrxID dismissed');
+    await loadUsers();
+  } catch (e) { toast(e.message, true); }
+};
+
+// ── boot ─────────────────────────────────────────────────────────────────────
+
+sb.auth.onAuthStateChange((event) => {
+  if (event === 'SIGNED_OUT') {
+    document.getElementById('admin-ui').style.display = 'none';
+    document.getElementById('login-panel').style.display = 'flex';
+  }
+});
+
+checkSession();
+</script>
 </body>
 </html>

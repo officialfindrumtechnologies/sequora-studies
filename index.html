@@ -392,6 +392,39 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
 #sb-pdf-preview-list{max-height:320px;overflow-y:auto;border:1px solid var(--line);border-radius:var(--rs);padding:10px 14px;margin:10px 0}
 .sh-text{cursor:pointer}
 .sh-text:hover{color:var(--amber-soft)}
+
+/* ── Phase 6: bKash payment card ───────────────────────────────────────── */
+.plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}
+.plan-opt{
+  display:flex;flex-direction:column;gap:3px;padding:12px 14px;
+  background:var(--ink3);border:1.5px solid var(--line);border-radius:var(--rs);
+  cursor:pointer;transition:.15s;
+}
+.plan-opt:hover,.plan-opt.selected{border-color:var(--amber);background:rgba(232,163,61,.07)}
+.plan-opt input[type=radio]{display:none}
+.plan-opt .pname{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--amber)}
+.plan-opt .pprice{font-size:18px;font-weight:600;font-family:var(--display)}
+.plan-opt .psave{font-family:var(--mono);font-size:10px;color:var(--green)}
+.pay-status{
+  display:flex;align-items:center;gap:12px;padding:14px 16px;
+  background:rgba(127,174,111,.08);border:1px solid var(--green-deep);border-radius:var(--r);margin-bottom:14px;
+}
+.pay-status.pending{background:rgba(232,163,61,.07);border-color:var(--amber-deep)}
+.pay-status.suspended{background:rgba(207,106,85,.08);border-color:var(--red)}
+.pay-status .ps-icon{font-size:20px;flex-shrink:0}
+.pay-status .ps-label{font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--green)}
+.pay-status.pending .ps-label{color:var(--amber)}
+.pay-status.suspended .ps-label{color:var(--red)}
+.pay-status .ps-detail{font-size:13px;color:var(--paper-dim);margin-top:2px}
+.bkash-instruction{
+  background:var(--ink2);border:1px solid var(--line);border-radius:var(--rs);padding:14px 16px;
+  margin:14px 0;font-size:14px;color:var(--paper-dim);line-height:1.6;
+}
+.bkash-number{
+  display:inline-block;font-family:var(--mono);font-size:15px;font-weight:700;
+  color:var(--amber-soft);background:rgba(232,163,61,.12);border:1px solid rgba(232,163,61,.25);
+  border-radius:var(--rs);padding:4px 12px;margin:6px 0;letter-spacing:.08em;
+}
 </style>
 </head>
 <body>
@@ -691,6 +724,10 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
 
   <!-- ================= TOOLKIT ================= -->
   <section id="view-toolkit" class="view hidden">
+
+    <!-- Payment / subscription card (rendered by renderPaymentCard() in main.js) -->
+    <div id="payment-card" class="card" style="margin-bottom:18px"></div>
+
     <div class="card accent" style="margin-bottom:18px">
       <div class="lead">Study sequence</div>
       <h2>Where to start — the exact order</h2>

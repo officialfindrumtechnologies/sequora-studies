@@ -3,28 +3,36 @@ import { supabase } from '../lib/supabase.js';
 export async function getSubscription() {
   const { data, error } = await supabase
     .from('subscriptions')
-    .select('tier, status, expires_at, bkash_submitted_at, bkash_trx_id')
+    .select('tier, status, expires_at, bkash_submitted_at, bkash_trx_id, bkash_amount, activated_at, notes')
     .single();
   if (error) throw error;
   return data;
 }
 
-// Returns true if user has an active paid subscription
 export async function isPaidUser() {
   const sub = await getSubscription();
   return sub.status === 'active' && sub.tier !== 'free';
 }
 
-export async function submitBkashPayment({ trxId, amount, phone }) {
-  const { error } = await supabase.rpc('submit_bkash_payment', {
-    p_trx_id: trxId,
-    p_amount: amount,
-    p_phone: phone,
+// Submits bKash TrxID to /api/payment (service-role update via server)
+export async function submitBkashPayment({ plan, trxId, phone }) {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) throw new Error('Not logged in');
+
+  const resp = await fetch('/api/payment', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${session.access_token}`,
+    },
+    body: JSON.stringify({ plan, trxId, phone }),
   });
-  if (error) throw error;
+
+  const json = await resp.json();
+  if (!resp.ok) throw new Error(json.error || 'Payment submission failed');
+  return json;
 }
 
-// Get AI usage for current month (user can read own rows via RLS)
 export async function getAiUsage(callType, monthYear) {
   const { data, error } = await supabase
     .from('ai_usage')

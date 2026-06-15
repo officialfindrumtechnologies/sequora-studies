@@ -5,7 +5,7 @@ import {
   wizNext, wizBack, wizBoardChange, wizNoDateToggle,
   wizAddFromTemplate, wizAddManual, wizRemoveSubject, wizComplete,
 } from './src/auth/onboarding.js';
-import { getSubscription } from './src/data/subscriptions.js';
+import { getSubscription, submitBkashPayment } from './src/data/subscriptions.js';
 import { initSubjectsView, setSubjectsViewTier } from './src/views/subjects-view.js';
 
 /* ============ defensive storage (localStorage + memory fallback) ============ */
@@ -1206,8 +1206,158 @@ function renderLogs(){
 function delError(id){errors=errors.filter(e=>e.id!==id);saveJSON("ascent_errors",errors);renderLogs();}
 function escapeHtml(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
 
+/* ============ payment card ============ */
+const BKASH_NUMBER = import.meta.env.VITE_BKASH_NUMBER || '01XXXXXXXXXX';
+
+const PLANS = [
+  { key: 'basic_monthly', tier: 'Basic', period: 'Monthly',   amount: 149,  save: ''        },
+  { key: 'basic_6mo',     tier: 'Basic', period: '6 Months',  amount: 699,  save: 'save 22%' },
+  { key: 'pro_monthly',   tier: 'Pro',   period: 'Monthly',   amount: 299,  save: ''        },
+  { key: 'pro_6mo',       tier: 'Pro',   period: '6 Months',  amount: 1399, save: 'save 22%' },
+];
+
+let _payCard = null;   // cached sub data for submit handler
+
+async function renderPaymentCard() {
+  const card = document.getElementById('payment-card');
+  if (!card) return;
+
+  card.innerHTML = '<div class="lead">Your plan</div><div class="kicker" style="margin-top:6px;opacity:.5">Loading…</div>';
+
+  let sub;
+  try { sub = await getSubscription(); }
+  catch { card.innerHTML = ''; return; }   // silently skip if not authed yet
+
+  _payCard = sub;
+
+  const isPaid    = sub.status === 'active' && sub.tier !== 'free';
+  const isPending = sub.bkash_trx_id && (!sub.activated_at || sub.bkash_submitted_at > sub.activated_at);
+  const isExpired = sub.expires_at && new Date(sub.expires_at) < new Date();
+  const tierLabel = sub.tier === 'paid_1' ? 'Basic' : sub.tier === 'paid_2' ? 'Pro' : 'Free';
+  const expiryFmt = sub.expires_at ? new Date(sub.expires_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : null;
+
+  let html = '<div class="lead">Your plan</div>';
+
+  // Status badge
+  if (sub.status === 'suspended') {
+    html += `<div class="pay-status suspended"><span class="ps-icon">🚫</span><div><div class="ps-label">Account suspended</div><div class="ps-detail">Contact support at officialfindrumtechnologies@gmail.com</div></div></div>`;
+  } else if (isPaid && !isExpired) {
+    html += `<div class="pay-status"><span class="ps-icon">✓</span><div><div class="ps-label">${tierLabel} — active</div><div class="ps-detail">Active until ${expiryFmt}</div></div></div>`;
+  } else if (isExpired) {
+    html += `<div class="pay-status pending"><span class="ps-icon">⚠</span><div><div class="ps-label">Plan expired</div><div class="ps-detail">Expired on ${expiryFmt}. Renew below to restore full access.</div></div></div>`;
+  }
+
+  if (isPending) {
+    html += `<div class="pay-status pending" style="margin-bottom:10px">
+      <span class="ps-icon">🕐</span>
+      <div>
+        <div class="ps-label">Payment pending verification</div>
+        <div class="ps-detail">TrxID: <span style="font-family:var(--mono);color:var(--amber-soft)">${sub.bkash_trx_id}</span> · ৳${sub.bkash_amount} · submitted ${new Date(sub.bkash_submitted_at).toLocaleDateString('en-GB')}</div>
+        <div class="ps-detail" style="margin-top:3px">Typically activated within 24 hours. Questions? <a href="mailto:officialfindrumtechnologies@gmail.com" style="color:var(--amber)">Email us</a></div>
+      </div>
+    </div>`;
+    // Don't show form if already pending — show resubmit option below
+    html += `<div style="display:flex;gap:8px;align-items:center;margin-top:6px">
+      <span style="font-family:var(--mono);font-size:11px;color:var(--muted)">Wrong TrxID? Submit a correction:</span>
+      <button class="btn sm ghost" onclick="showPaymentForm()">Resubmit</button>
+    </div>`;
+  } else if (!isPaid || isExpired) {
+    html += renderPaymentForm();
+  } else {
+    // Active + not expiring soon: just show renew option collapsed
+    html += `<div style="margin-top:10px"><button class="btn sm ghost" onclick="showPaymentForm()">Renew / upgrade</button></div>`;
+  }
+
+  // Hidden form for resubmit/renew
+  html += `<div id="payment-form-area" class="hidden" style="margin-top:14px">${renderPaymentForm()}</div>`;
+  card.innerHTML = html;
+}
+
+function renderPaymentForm() {
+  return `
+    <div class="plan-grid">
+      ${PLANS.map(p => `
+        <label class="plan-opt ${p.key === 'basic_monthly' ? 'selected' : ''}" onclick="selectPlan('${p.key}', this)">
+          <input type="radio" name="sq-plan" value="${p.key}" ${p.key === 'basic_monthly' ? 'checked' : ''}>
+          <span class="pname">${p.tier}</span>
+          <span class="pprice">৳${p.amount.toLocaleString()}</span>
+          <span style="font-family:var(--mono);font-size:10px;color:var(--muted)">${p.period}${p.save ? ' · ' : ''}<span class="psave">${p.save}</span></span>
+        </label>
+      `).join('')}
+    </div>
+    <div class="bkash-instruction">
+      <b>How to pay:</b><br>
+      1. Send the amount above to this bKash number:<br>
+      <span class="bkash-number">${BKASH_NUMBER}</span><br>
+      2. Copy the Transaction ID (TrxID) from your bKash confirmation<br>
+      3. Paste it below — we verify and activate within 24 hours
+    </div>
+    <div class="split" style="gap:10px;margin-bottom:10px;flex-wrap:wrap">
+      <div style="flex:2;min-width:160px">
+        <span class="fieldlabel">bKash Transaction ID</span>
+        <input type="text" id="pay-trxid" placeholder="e.g. ABC1234567" style="width:100%;font-family:var(--mono);font-size:14px;letter-spacing:.05em" maxlength="20">
+      </div>
+      <div style="flex:1;min-width:120px">
+        <span class="fieldlabel">Your bKash number (optional)</span>
+        <input type="tel" id="pay-phone" placeholder="017XXXXXXXX" style="width:100%" maxlength="15">
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <button class="btn primary" id="pay-submit-btn" onclick="submitPayment()">Submit Payment →</button>
+      <span id="pay-status-msg" style="font-family:var(--mono);font-size:11px;color:var(--muted)"></span>
+    </div>`;
+}
+
+function showPaymentForm() {
+  const area = document.getElementById('payment-form-area');
+  if (area) { area.classList.remove('hidden'); area.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+}
+window.showPaymentForm = showPaymentForm;
+
+function selectPlan(key, el) {
+  document.querySelectorAll('.plan-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  const radio = el.querySelector('input[type=radio]');
+  if (radio) radio.checked = true;
+}
+window.selectPlan = selectPlan;
+
+async function submitPayment() {
+  const plan   = document.querySelector('input[name="sq-plan"]:checked')?.value;
+  const trxId  = document.getElementById('pay-trxid')?.value.trim();
+  const phone  = document.getElementById('pay-phone')?.value.trim();
+  const btn    = document.getElementById('pay-submit-btn');
+  const msg    = document.getElementById('pay-status-msg');
+
+  if (!plan)  { if (msg) msg.textContent = 'Select a plan'; return; }
+  if (!trxId) { if (msg) msg.textContent = 'Enter your bKash TrxID'; return; }
+
+  if (btn) { btn.disabled = true; btn.textContent = 'Submitting…'; }
+  if (msg) msg.textContent = '';
+
+  try {
+    await submitBkashPayment({ plan, trxId, phone });
+    if (msg) { msg.textContent = '✓ Submitted — activating within 24 hours'; msg.style.color = 'var(--green)'; }
+    setTimeout(() => renderPaymentCard(), 1200);
+  } catch (err) {
+    if (msg) { msg.textContent = err.message; msg.style.color = 'var(--red)'; }
+    if (btn) { btn.disabled = false; btn.textContent = 'Submit Payment →'; }
+  }
+}
+window.submitPayment = submitPayment;
+
+// Called from free-tier gate banner and AI quota exceeded messages
+window.showUpgradePrompt = function() {
+  go('toolkit');
+  setTimeout(() => {
+    const card = document.getElementById('payment-card');
+    if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
+};
+
 /* ============ render: toolkit ============ */
 function renderToolkit(){
+  renderPaymentCard();
   const p=document.getElementById("prompts");
   if (p) {
     p.innerHTML="";
@@ -1729,10 +1879,6 @@ window.wizAddManual = wizAddManual;
 window.wizRemoveSubject = wizRemoveSubject;
 window.wizComplete = wizComplete;
 
-// Upgrade prompt (Phase 6/7 will wire to payment flow; stub for now)
-window.showUpgradePrompt = function() {
-  setToast("Upgrade to Basic — submit your bKash payment in the Toolkit tab.");
-};
 
 /* ============ boot ============ */
 updateClock();
