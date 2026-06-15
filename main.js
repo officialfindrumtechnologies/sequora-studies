@@ -1577,10 +1577,119 @@ function resetTopics(){
   setToast("Topics reset to latest syllabus");
 }
 
+/* ============ coverage heatmap ============ */
+function renderCoverage(){
+  const OVERDUE_DAYS = 21;
+  const today = new Date(); today.setHours(0,0,0,0);
+
+  let totAll=0, readyAll=0;
+  const grid = document.getElementById("cov-grid");
+  if(!grid) return;
+
+  const frag = document.createDocumentFragment();
+
+  for(const s of SUBJECTS){
+    const tlist = topics[s.key] || [];
+    if(!tlist.length) continue;
+
+    // group by section
+    const sections = {};
+    for(const t of tlist){
+      const sec = t.section || "(General)";
+      if(!sections[sec]) sections[sec]=[];
+      sections[sec].push(t);
+    }
+
+    let subjReady=0;
+    const subjEl = document.createElement("div");
+    subjEl.className = "cov-subject";
+
+    const header = document.createElement("div");
+    header.className = "cov-subj-header";
+    const nameEl = document.createElement("span");
+    nameEl.className = "cov-subj-name";
+    nameEl.textContent = s.name;
+    const pctEl = document.createElement("span");
+    pctEl.className = "cov-subj-pct";
+    header.appendChild(nameEl);
+    header.appendChild(pctEl);
+    subjEl.appendChild(header);
+
+    for(const [sec, secTopics] of Object.entries(sections)){
+      const secLabel = document.createElement("div");
+      secLabel.className = "cov-section-label";
+      secLabel.textContent = sec;
+      subjEl.appendChild(secLabel);
+
+      const squares = document.createElement("div");
+      squares.className = "cov-squares";
+
+      for(const t of secTopics){
+        totAll++;
+        let status = t.status || "notstarted";
+
+        if(status === "ready"){
+          readyAll++;
+          subjReady++;
+          // check overdue: last_recall > OVERDUE_DAYS ago
+          if(t.last_recall){
+            const lr = new Date(t.last_recall); lr.setHours(0,0,0,0);
+            const diff = Math.floor((today - lr) / 86400000);
+            if(diff > OVERDUE_DAYS) status = "overdue";
+          }
+        }
+
+        const sq = document.createElement("div");
+        sq.className = "cov-sq";
+        sq.dataset.status = status;
+        sq.dataset.tip = t.name + (t.section ? " · " + t.section : "");
+        sq.title = t.name;
+
+        // click → jump to subjects view, switch to this subject tab
+        const subjectKey = s.key;
+        sq.addEventListener("click", ()=>{
+          go("subjects");
+          // activate subject tab
+          const tabBtn = document.querySelector(`#subj-tabs button[data-k="${subjectKey}"]`);
+          if(tabBtn){ tabBtn.click(); }
+          // try scroll to topic
+          setTimeout(()=>{
+            const allTopicEls = document.querySelectorAll(".topic");
+            for(const el of allTopicEls){
+              if(el.textContent.includes(t.name)){
+                el.scrollIntoView({behavior:"smooth", block:"center"});
+                el.style.outline = "2px solid var(--amber)";
+                setTimeout(()=>{ el.style.outline=""; }, 1500);
+                break;
+              }
+            }
+          }, 80);
+        });
+
+        squares.appendChild(sq);
+      }
+      subjEl.appendChild(squares);
+    }
+
+    // update subject % label
+    const subjPct = tlist.length ? Math.round(subjReady/tlist.length*100) : 0;
+    pctEl.textContent = subjPct + "% ready";
+
+    frag.appendChild(subjEl);
+  }
+
+  grid.innerHTML = "";
+  grid.appendChild(frag);
+
+  // overall %
+  const pctEl = document.getElementById("cov-pct");
+  if(pctEl) pctEl.textContent = (totAll ? Math.round(readyAll/totAll*100) : 0) + "%";
+}
+
 /* ============ nav ============ */
 function go(v){
   document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.v===v));
-  ["dash","focus","subjects","week","logs","toolkit"].forEach(x=>{
+  ["dash","focus","subjects","week","logs","toolkit","coverage"].forEach(x=>{
     const el = document.getElementById("view-"+x);
     if (el) el.classList.toggle("hidden",x!==v);
   });
@@ -1590,6 +1699,7 @@ function go(v){
   if(v==="week")renderWeek();
   if(v==="logs"){fillSubjSelects();renderLogs();}
   if(v==="toolkit")renderToolkit();
+  if(v==="coverage")renderCoverage();
   window.scrollTo({top:0,behavior:"smooth"});
 }
 

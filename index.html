@@ -427,6 +427,36 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
   border-radius:var(--rs);padding:4px 12px;margin:6px 0;letter-spacing:.08em;
 }
 
+/* ---- coverage heatmap ---- */
+.cov-legend{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.cov-dot{display:inline-block;width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.cov-subject{margin-bottom:22px}
+.cov-subj-header{display:flex;align-items:baseline;gap:10px;margin-bottom:8px}
+.cov-subj-name{font-family:var(--display);font-size:15px;font-weight:600;color:var(--paper)}
+.cov-subj-pct{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.cov-section-label{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:10px 0 5px}
+.cov-squares{display:flex;flex-wrap:wrap;gap:4px}
+.cov-sq{
+  width:18px;height:18px;border-radius:3px;cursor:pointer;
+  transition:transform .12s,box-shadow .12s;
+  position:relative;flex-shrink:0;
+}
+.cov-sq:hover{transform:scale(1.35);z-index:10;box-shadow:0 2px 10px rgba(0,0,0,.5)}
+.cov-sq[data-status="notstarted"]{background:var(--ink3);border:1px solid var(--line)}
+.cov-sq[data-status="learning"]{background:#b07a10}
+.cov-sq[data-status="ready"]{background:var(--green-deep)}
+.cov-sq[data-status="overdue"]{background:#8a2020}
+/* tooltip */
+.cov-sq::after{
+  content:attr(data-tip);
+  position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);
+  background:var(--ink2);border:1px solid var(--line);border-radius:5px;
+  padding:4px 8px;font-family:var(--mono);font-size:10px;color:var(--paper-dim);
+  white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s;z-index:20;
+  max-width:200px;white-space:normal;text-align:center;
+}
+.cov-sq:hover::after{opacity:1}
+
 /* ---- animated flame ---- */
 .flame-wrap{display:inline-flex;align-items:center;justify-content:center;margin-bottom:2px;min-height:36px}
 .flame-emoji{display:inline-block;line-height:1;transition:font-size .4s,filter .4s,opacity .4s}
@@ -523,6 +553,7 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
     <button data-v="subjects">Subjects</button>
     <button data-v="week">This Week</button>
     <button data-v="logs">Papers &amp; Errors</button>
+    <button data-v="coverage">Coverage Map</button>
     <button data-v="toolkit">Toolkit</button>
   </nav>
 
@@ -804,6 +835,27 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
         <div id="errorLog" style="margin-top:14px"></div>
       </div>
     </div>
+  </section>
+
+  <!-- ================= COVERAGE MAP ================= -->
+  <section id="view-coverage" class="view hidden">
+    <div class="card accent" style="margin-bottom:18px">
+      <div class="lead">Syllabus Coverage Map</div>
+      <div style="display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap;margin:6px 0 14px">
+        <div>
+          <div class="v" id="cov-pct" style="font-size:48px;line-height:1;color:var(--amber-soft)">0%</div>
+          <div class="k">overall exam-ready</div>
+        </div>
+        <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding-bottom:4px">
+          <span class="cov-legend"><span class="cov-dot" style="background:var(--ink3);border:1px solid var(--line)"></span>Not started</span>
+          <span class="cov-legend"><span class="cov-dot" style="background:#b07a10"></span>Learning</span>
+          <span class="cov-legend"><span class="cov-dot" style="background:var(--green-deep)"></span>Exam ready</span>
+          <span class="cov-legend"><span class="cov-dot" style="background:#8a2020"></span>Ready — recall overdue</span>
+        </div>
+      </div>
+      <div class="kicker">Click any square to jump to that topic in Subjects view</div>
+    </div>
+    <div id="cov-grid"></div>
   </section>
 
   <!-- ================= TOOLKIT ================= -->
