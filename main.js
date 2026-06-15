@@ -1545,11 +1545,10 @@ async function handlePasswordLogin() {
 }
 
 async function handleLogout() {
-  if (confirm("Log out? Local changes will remain, but syncing will stop.")) {
+  if (confirm("Log out?")) {
     await supabase.auth.signOut();
-    // Clear only Sequora session keys, not all localStorage
     ['sq_onboarded'].forEach(k => localStorage.removeItem(k));
-    location.reload();
+    window.location.href = '/';
   }
 }
 
