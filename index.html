@@ -457,6 +457,14 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
 }
 .cov-sq:hover::after{opacity:1}
 
+/* ---- sync status ---- */
+#syncStatus{font-family:var(--mono);font-size:10px;font-weight:600;border-radius:3px;padding:2px 6px;display:none}
+.sync-synced{color:var(--green);background:rgba(127,174,111,.12)}
+.sync-syncing{color:var(--amber);background:rgba(var(--glow-color),.12);animation:pulse-sync 1.2s infinite}
+.sync-offline{color:var(--red);background:rgba(207,106,85,.12)}
+.sync-error{color:var(--red);background:rgba(207,106,85,.12)}
+@keyframes pulse-sync{0%,100%{opacity:.5}50%{opacity:1}}
+
 /* ---- study now ---- */
 .sn-result{display:flex;align-items:flex-start;gap:14px;margin-top:6px}
 .sn-verb{font-family:var(--mono);font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);background:rgba(var(--glow-color),.12);border:1px solid rgba(var(--glow-color),.35);border-radius:4px;padding:4px 10px;white-space:nowrap;align-self:flex-start;margin-top:2px;flex-shrink:0}
@@ -551,6 +559,8 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
         <span id="userEmail" style="color: var(--amber-soft); font-weight: 500;"></span>
         <span style="color:var(--line)">|</span>
         <button onclick="openThemeModal()" title="Change theme" style="background:none;border:none;cursor:pointer;padding:2px 4px;font-size:14px;line-height:1;color:var(--muted);transition:color .15s" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--muted)'">&#127912;</button>
+        <span style="color:var(--line)">|</span>
+        <span id="syncStatus"></span>
         <span style="color:var(--line)">|</span>
         <span class="mini-link" onclick="handleLogout()" style="color: var(--red); cursor: pointer;">Log out</span>
       </div>

@@ -17,6 +17,13 @@ import { initSubjectsView, setSubjectsViewTier } from './src/views/subjects-view
 // Apply theme from localStorage immediately — avoids FOUC before auth resolves
 loadSavedTheme();
 
+// Register service worker for offline support
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
+}
+
 /* ============ defensive storage (localStorage + memory fallback) ============ */
 const MEM={};
 let LS_OK=true;
@@ -31,25 +38,27 @@ let syncTimeout = null;
 
 async function pushStateToSupabase() {
   if (!supabase || !currentUser) return;
+  if (!navigator.onLine) {
+    localStorage.setItem('sq_sync_pending', '1');
+    updateSyncStatus('offline');
+    return;
+  }
   if (isPulling) {
-    // Don't discard — queue push to run after pull completes
     pushPending = true;
     console.log("[Sync] Pull in progress, push queued");
     return;
   }
   if (isPushing) return;
   isPushing = true;
+  updateSyncStatus('syncing');
 
   const keys = ["ascent_topics", "ascent_sessions", "ascent_errors", "ascent_papers", "ascent_closeout", "ascent_exam"];
   const payload = {};
   keys.forEach(k => {
     const raw = Store.get(k);
     if (raw !== null) {
-      try {
-        payload[k] = JSON.parse(raw);
-      } catch(e) {
-        payload[k] = raw; // raw string like ascent_exam
-      }
+      try { payload[k] = JSON.parse(raw); }
+      catch(e) { payload[k] = raw; }
     }
   });
 
@@ -62,9 +71,18 @@ async function pushStateToSupabase() {
         updated_at: new Date().toISOString()
       });
 
-    if (error) console.error("[Sync] Push error:", error);
+    if (error) {
+      console.error("[Sync] Push error:", error);
+      localStorage.setItem('sq_sync_pending', '1');
+      updateSyncStatus('error');
+    } else {
+      localStorage.removeItem('sq_sync_pending');
+      updateSyncStatus('synced');
+    }
   } catch (err) {
     console.error("[Sync] Failed to push:", err);
+    localStorage.setItem('sq_sync_pending', '1');
+    updateSyncStatus('error');
   } finally {
     isPushing = false;
   }
@@ -74,6 +92,35 @@ function triggerSync() {
   if (syncTimeout) clearTimeout(syncTimeout);
   syncTimeout = setTimeout(pushStateToSupabase, 1500); // 1.5s debounce
 }
+
+function updateSyncStatus(state) {
+  const el = document.getElementById('syncStatus');
+  if (!el) return;
+  el.className = 'sync-' + state;
+  if (state === 'offline') {
+    el.textContent = '● offline';
+    el.style.display = 'inline';
+  } else if (state === 'syncing') {
+    el.textContent = '↻ syncing';
+    el.style.display = 'inline';
+  } else if (state === 'synced') {
+    el.textContent = '✓ synced';
+    el.style.display = 'inline';
+    setTimeout(() => { if (el.className === 'sync-synced') el.style.display = 'none'; }, 2200);
+  } else if (state === 'error') {
+    el.textContent = '⚠ sync failed';
+    el.style.display = 'inline';
+  }
+}
+
+window.addEventListener('offline', () => updateSyncStatus('offline'));
+window.addEventListener('online', () => {
+  if (localStorage.getItem('sq_sync_pending')) {
+    triggerSync();
+  } else {
+    updateSyncStatus('synced');
+  }
+});
 
 const Store={
   get(k){try{if(LS_OK)return localStorage.getItem(k);}catch(e){}return (k in MEM)?MEM[k]:null;},
@@ -2391,6 +2438,11 @@ function showApp() {
   hideOnboarding();
   document.getElementById("authHeader").style.display = "flex";
   document.getElementById("userEmail").textContent = currentUser?.email || "";
+  // Resume any pending sync from previous offline session
+  if (localStorage.getItem('sq_sync_pending')) {
+    if (navigator.onLine) triggerSync();
+    else updateSyncStatus('offline');
+  }
   loadStateFromSupabase().catch(err => {
     console.error("[Auth] Background data load failed (app still usable):", err);
   });
