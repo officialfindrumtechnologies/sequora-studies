@@ -29,6 +29,23 @@ export async function completeOnboarding({ displayName, examBoard, examDate }) {
   });
 }
 
+export async function saveTheme(themeData) {
+  const { data: { user } } = await supabase.auth.getUser();
+  const { error } = await supabase
+    .from('profiles')
+    .update({ theme_data: themeData })
+    .eq('id', user.id);
+  if (error) throw error;
+}
+
+export async function loadThemeFromDB() {
+  const { data } = await supabase
+    .from('profiles')
+    .select('theme_data')
+    .single();
+  return data?.theme_data ?? null;
+}
+
 export async function isOnboarded() {
   const { data, error } = await supabase
     .from('profiles')

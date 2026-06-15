@@ -1,5 +1,10 @@
 import { supabase } from './src/lib/supabase.js';
 import {
+  THEMES, applyTheme, loadSavedTheme, resetTheme,
+  getCurrentThemeData, buildCustomVars, readCurrentCustomFields, hexToRgb,
+} from './src/lib/theme.js';
+import { saveTheme, loadThemeFromDB } from './src/data/profiles.js';
+import {
   showOnboarding,
   hideOnboarding,
   wizNext, wizBack, wizBoardChange, wizNoDateToggle,
@@ -8,6 +13,9 @@ import {
 } from './src/auth/onboarding.js';
 import { getSubscription, submitBkashPayment } from './src/data/subscriptions.js';
 import { initSubjectsView, setSubjectsViewTier } from './src/views/subjects-view.js';
+
+// Apply theme from localStorage immediately — avoids FOUC before auth resolves
+loadSavedTheme();
 
 /* ============ defensive storage (localStorage + memory fallback) ============ */
 const MEM={};
@@ -1954,6 +1962,94 @@ window.wizMigrate = wizMigrate;
 window.wizSkipMigration = wizSkipMigration;
 
 
+/* ============ theme picker ============ */
+
+function openThemeModal() {
+  const modal = document.getElementById('theme-modal');
+  if (!modal) return;
+  renderThemeGrid();
+  syncCustomPickers();
+  modal.classList.remove('hidden');
+}
+window.openThemeModal = openThemeModal;
+
+function closeThemeModal() {
+  document.getElementById('theme-modal')?.classList.add('hidden');
+}
+window.closeThemeModal = closeThemeModal;
+
+function renderThemeGrid() {
+  const grid = document.getElementById('theme-preset-grid');
+  if (!grid) return;
+  const current = getCurrentThemeData();
+  grid.innerHTML = Object.entries(THEMES).map(([key, th]) => {
+    const v = th.vars;
+    const swatches = [
+      v['--ink'], v['--ink2'], v['--amber'], v['--paper'], v['--line'],
+    ].map(c => `<span class="th-swatch" style="background:${c}"></span>`).join('');
+    const active = current.preset === key;
+    return `<div class="th-card${active ? ' active' : ''}" onclick="selectPresetTheme('${key}')">
+      <div class="th-swatches">${swatches}</div>
+      <div class="th-name">${th.label}</div>
+      ${active ? '<div class="th-active">Active ✓</div>' : ''}
+    </div>`;
+  }).join('');
+}
+
+window.selectPresetTheme = function(key) {
+  const themeData = { preset: key };
+  applyTheme(themeData);
+  renderThemeGrid();
+  saveTheme(themeData).catch(() => {});
+};
+
+function syncCustomPickers() {
+  const fields = readCurrentCustomFields();
+  const map = { 'cp-bg': 'bg', 'cp-surface': 'surface', 'cp-accent': 'accent', 'cp-text': 'text', 'cp-border': 'border' };
+  for (const [id, key] of Object.entries(map)) {
+    const el = document.getElementById(id);
+    if (el) el.value = fields[key];
+  }
+}
+
+window.onCustomPickerChange = function() {
+  const get = id => document.getElementById(id)?.value || '';
+  const custom = {
+    bg:      get('cp-bg'),
+    surface: get('cp-surface'),
+    accent:  get('cp-accent'),
+    text:    get('cp-text'),
+    border:  get('cp-border'),
+  };
+  applyTheme({ preset: 'custom', custom });
+  renderThemeGrid(); // deselect presets
+};
+
+window.applyCustomTheme = function() {
+  const get = id => document.getElementById(id)?.value || '';
+  const custom = {
+    bg:      get('cp-bg'),
+    surface: get('cp-surface'),
+    accent:  get('cp-accent'),
+    text:    get('cp-text'),
+    border:  get('cp-border'),
+  };
+  const themeData = { preset: 'custom', custom };
+  applyTheme(themeData);
+  saveTheme(themeData).catch(() => {});
+  renderThemeGrid();
+  setToast('Custom theme saved');
+};
+
+window.resetToDefault = function() {
+  const themeData = { preset: 'ascent' };
+  applyTheme(themeData);
+  saveTheme(themeData).catch(() => {});
+  renderThemeGrid();
+  syncCustomPickers();
+  setToast('Reset to Ascent');
+};
+
 /* ============ boot ============ */
 updateClock();
 setInterval(updateClock,30000);
@@ -1962,7 +2058,7 @@ renderDash();
 function showApp() {
   document.getElementById("loginScreen").classList.add("hidden");
   hideOnboarding();
-  document.getElementById("authHeader").style.display = "block";
+  document.getElementById("authHeader").style.display = "flex";
   document.getElementById("userEmail").textContent = currentUser?.email || "";
   loadStateFromSupabase().catch(err => {
     console.error("[Auth] Background data load failed (app still usable):", err);
@@ -1979,11 +2075,16 @@ async function handleSession(session) {
     // Always hide login screen first — user IS authenticated
     document.getElementById("loginScreen").classList.add("hidden");
 
-    // Fetch subscription tier (non-blocking; default stays 'free' on failure)
+    // Fetch subscription tier (non-blocking)
     getSubscription().then(sub => {
       userTier = sub?.tier ?? 'free';
       setSubjectsViewTier(userTier);
     }).catch(() => { userTier = 'free'; });
+
+    // Sync theme from DB (non-blocking) — localStorage already applied above
+    loadThemeFromDB().then(dbTheme => {
+      if (dbTheme) applyTheme(dbTheme);
+    }).catch(() => {});
 
     // Check onboarded_at — use localStorage cache to avoid DB round-trip on reload
     const cached = localStorage.getItem('sq_onboarded');

@@ -15,6 +15,7 @@
   --green:#7fae6f; --green-deep:#4f7a45; --red:#cf6a55; --blue:#6f9dc4;
   --display:"Fraunces",serif; --body:"Newsreader",serif; --mono:"JetBrains Mono",monospace;
   --r:14px; --rs:9px;
+  --glow-color:232,163,61;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -22,8 +23,8 @@ body{
   font-family:var(--body); background:var(--ink); color:var(--paper);
   min-height:100vh; font-size:17px; line-height:1.55;
   background-image:
-    radial-gradient(1100px 600px at 78% -8%, rgba(232,163,61,.10), transparent 60%),
-    radial-gradient(900px 700px at -10% 110%, rgba(111,157,196,.06), transparent 55%);
+    radial-gradient(1100px 600px at 78% -8%, rgba(var(--glow-color),.10), transparent 60%),
+    radial-gradient(900px 700px at -10% 110%, rgba(var(--glow-color),.04), transparent 55%);
   background-attachment:fixed;
 }
 body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.035;
@@ -425,6 +426,26 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
   color:var(--amber-soft);background:rgba(232,163,61,.12);border:1px solid rgba(232,163,61,.25);
   border-radius:var(--rs);padding:4px 12px;margin:6px 0;letter-spacing:.08em;
 }
+
+/* ---- theme picker ---- */
+#theme-modal .modal-box{max-width:740px;width:95%;max-height:90vh;overflow-y:auto}
+.th-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin:14px 0 20px}
+.th-card{border:2px solid var(--line);border-radius:10px;padding:12px;cursor:pointer;transition:border-color .15s,transform .1s,background .15s}
+.th-card:hover{border-color:var(--amber);transform:translateY(-2px)}
+.th-card.active{border-color:var(--amber);background:rgba(var(--glow-color),.07)}
+.th-swatches{display:flex;gap:5px;margin-bottom:9px}
+.th-swatch{width:22px;height:22px;border-radius:50%;border:1px solid rgba(255,255,255,.08);flex-shrink:0}
+.th-name{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--paper-dim);letter-spacing:.04em}
+.th-active{font-family:var(--mono);font-size:10px;color:var(--amber);margin-top:3px}
+.th-divider{border:none;border-top:1px solid var(--line);margin:20px 0}
+.th-section-label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.cp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;margin:12px 0}
+.cp-field{display:flex;flex-direction:column;gap:6px}
+.cp-field label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.cp-field input[type=color]{width:100%;height:38px;border:1px solid var(--line);border-radius:7px;padding:2px 4px;background:var(--ink2);cursor:pointer;-webkit-appearance:none}
+.cp-field input[type=color]::-webkit-color-swatch-wrapper{padding:0;border-radius:5px}
+.cp-field input[type=color]::-webkit-color-swatch{border:none;border-radius:5px}
+.th-custom-actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
 </style>
 </head>
 <body>
@@ -437,8 +458,11 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
     </div>
     <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end;">
       <div class="headclock" id="headclock"></div>
-      <div id="authHeader" style="margin-top: 6px; font-family: var(--mono); font-size: 11px; display: none;">
-        <span id="userEmail" style="color: var(--amber-soft); font-weight: 500;"></span> | 
+      <div id="authHeader" style="margin-top: 6px; font-family: var(--mono); font-size: 11px; display: none; align-items: center; gap: 10px;">
+        <span id="userEmail" style="color: var(--amber-soft); font-weight: 500;"></span>
+        <span style="color:var(--line)">|</span>
+        <button onclick="openThemeModal()" title="Change theme" style="background:none;border:none;cursor:pointer;padding:2px 4px;font-size:14px;line-height:1;color:var(--muted);transition:color .15s" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--muted)'">&#127912;</button>
+        <span style="color:var(--line)">|</span>
         <span class="mini-link" onclick="handleLogout()" style="color: var(--red); cursor: pointer;">Log out</span>
       </div>
     </div>
@@ -809,9 +833,57 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
     </div>
   </div>
 
+  <!-- ================= THEME MODAL ================= -->
+  <div id="theme-modal" class="modal-overlay hidden" onclick="if(event.target===this)closeThemeModal()">
+    <div class="modal-box">
+      <div class="modal-head">
+        <div>
+          <div class="lead" style="margin:0">Appearance</div>
+          <h2 style="margin-top:2px">Choose theme</h2>
+        </div>
+        <button class="btn sm ghost" onclick="closeThemeModal()">✕</button>
+      </div>
+
+      <div class="th-section-label">Presets</div>
+      <div class="th-grid" id="theme-preset-grid">
+        <!-- rendered by renderThemeGrid() in main.js -->
+      </div>
+
+      <hr class="th-divider">
+
+      <div class="th-section-label">Custom Theme — live preview as you pick</div>
+      <div class="cp-grid">
+        <div class="cp-field">
+          <label>Background</label>
+          <input type="color" id="cp-bg" value="#12100e" oninput="onCustomPickerChange()">
+        </div>
+        <div class="cp-field">
+          <label>Surface</label>
+          <input type="color" id="cp-surface" value="#1a1815" oninput="onCustomPickerChange()">
+        </div>
+        <div class="cp-field">
+          <label>Accent</label>
+          <input type="color" id="cp-accent" value="#e8a33d" oninput="onCustomPickerChange()">
+        </div>
+        <div class="cp-field">
+          <label>Text</label>
+          <input type="color" id="cp-text" value="#f4ece0" oninput="onCustomPickerChange()">
+        </div>
+        <div class="cp-field">
+          <label>Border</label>
+          <input type="color" id="cp-border" value="#332d26" oninput="onCustomPickerChange()">
+        </div>
+      </div>
+      <div class="th-custom-actions">
+        <button class="btn sm primary" onclick="applyCustomTheme()">Save custom theme</button>
+        <button class="btn sm ghost" onclick="resetToDefault()">Reset to Ascent</button>
+      </div>
+
+    </div>
+  </div>
+
   <footer>
-    Ascent · built for the Nov 2026 sitting · all data lives in this browser.<br>
-    Front-load what you can't catch up on. Maths &amp; Accounting first. Past papers by August. Show up — the system carries the rest.
+    Sequora Studies · all data synced to your account.
   </footer>
 </div>
 
