@@ -56,5 +56,14 @@ export default defineConfig({
   plugins: [apiDevMiddleware()],
   server: {
     port: 3000
+  },
+  build: {
+    rollupOptions: {
+      input: {
+        main: 'index.html',
+        landing: 'landing.html',
+        admin: 'admin.html',
+      }
+    }
   }
 });

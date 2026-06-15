@@ -253,6 +253,145 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
   box-shadow: 0 30px 80px rgba(0,0,0,.8);
   text-align: center;
 }
+
+/* ---------- Onboarding wizard ---------- */
+.wiz-overlay {
+  position: fixed; inset: 0;
+  background: var(--ink);
+  background-image: radial-gradient(700px 500px at 60% 20%, rgba(232,163,61,.09), transparent 60%);
+  z-index: 9998;
+  display: flex; align-items: center; justify-content: center;
+  padding: 22px; overflow-y: auto;
+}
+.wiz-box {
+  background: var(--ink2);
+  border: 1px solid var(--amber-deep);
+  border-radius: var(--r);
+  padding: 32px 30px 28px;
+  max-width: 560px; width: 100%;
+  box-shadow: 0 30px 80px rgba(0,0,0,.8);
+}
+.wiz-progress {
+  display: flex; gap: 8px; align-items: center; margin-bottom: 28px;
+}
+.wiz-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--line); transition: .2s;
+}
+.wiz-dot-active { background: var(--amber); }
+.wiz-dot-done   { background: var(--amber-deep); }
+.wiz-step-label {
+  font-family: var(--mono); font-size: 10px; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--muted); margin-left: 4px;
+}
+.wiz-title {
+  font-family: var(--display); font-weight: 900; font-size: 26px;
+  color: var(--paper); letter-spacing: -.01em; margin-bottom: 5px;
+}
+.wiz-sub {
+  font-size: 15px; color: var(--muted); font-style: italic; margin-bottom: 22px;
+}
+.wiz-field { margin-bottom: 16px; }
+.wiz-field label {
+  display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
+}
+.wiz-field input, .wiz-field select {
+  width: 100%; font-size: 14px;
+}
+.wiz-row { display: flex; gap: 9px; }
+.wiz-btns { display: flex; gap: 9px; margin-top: 22px; justify-content: flex-end; }
+.wiz-error {
+  font-family: var(--mono); font-size: 11px; color: var(--red);
+  background: rgba(207,106,85,.1); border: 1px solid var(--red);
+  border-radius: var(--rs); padding: 8px 12px; margin-top: 12px;
+}
+/* templates list */
+.wiz-tmpl-row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; padding: 9px 11px; border: 1px solid var(--line);
+  border-radius: var(--rs); margin-bottom: 7px; background: var(--ink);
+}
+.wiz-tmpl-info { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+.wiz-tmpl-name { font-size: 14px; color: var(--paper); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wiz-tmpl-code {
+  font-family: var(--mono); font-size: 10px; color: var(--muted);
+  border: 1px solid var(--line); border-radius: 10px; padding: 1px 7px; flex-shrink: 0;
+}
+.wiz-tmpl-count { font-family: var(--mono); font-size: 10px; color: var(--muted); flex-shrink: 0; }
+.wiz-btn-done { background: rgba(127,174,111,.15) !important; border-color: var(--green) !important; color: var(--green) !important; }
+/* added subjects */
+.wiz-added-list { margin-top: 14px; }
+.wiz-added-item {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 8px; padding: 8px 11px; background: rgba(232,163,61,.08);
+  border: 1px solid var(--amber-deep); border-radius: var(--rs); margin-bottom: 6px;
+  font-size: 14px;
+}
+.wiz-manual-form {
+  background: var(--ink); border: 1px solid var(--line); border-radius: var(--rs);
+  padding: 14px 14px 10px; margin-top: 16px;
+}
+.wiz-manual-form .wiz-manual-title {
+  font-family: var(--mono); font-size: 10px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+}
+.wiz-section-divider {
+  font-family: var(--mono); font-size: 10px; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--amber); font-weight: 700;
+  margin: 16px 0 10px; padding-bottom: 5px; border-bottom: 1px solid var(--line);
+}
+.wiz-complete-row {
+  margin-top: 18px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+}
+.wiz-subject-count {
+  font-family: var(--mono); font-size: 11px; color: var(--amber);
+}
+
+/* ---------- Free-tier topic gate ---------- */
+.topic-locked {
+  position: relative;
+  pointer-events: none; user-select: none;
+}
+.topic-locked > * { filter: blur(3.5px); }
+.topic-gate-banner {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 11px 14px; margin: 8px 0 4px;
+  background: rgba(232,163,61,.08); border: 1px solid var(--amber-deep);
+  border-radius: var(--rs); flex-wrap: wrap;
+}
+.topic-gate-banner .tgb-msg {
+  font-family: var(--mono); font-size: 11px; color: var(--amber-soft);
+}
+.topic-gate-banner .tgb-msg b { color: var(--amber); }
+
+/* ── Phase 4: subjects / curriculum builder ─────────────────────────────── */
+.sb-header{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.sb-ctrl-row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px;padding-top:10px;border-top:1px solid var(--line)}
+.sb-add-panel{background:var(--ink2);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:14px}
+.sb-add-sep{border:none;border-top:1px solid var(--line);margin:14px 0;text-align:center;font-size:11px;color:var(--muted)}
+.sb-tmpl-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+.sb-tmpl-row:last-child{border-bottom:none}
+.sb-tmpl-row>span:first-child{flex:1;font-size:14px}
+.sb-topic{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:var(--rs);margin-bottom:3px;transition:.15s}
+.sb-topic:hover{background:var(--ink2)}
+.sb-topic .nm{flex:1;cursor:text;font-size:14.5px;min-width:80px}
+.sb-topic .nm:hover{color:var(--amber-soft)}
+.sb-topic .sec-tag{cursor:pointer;font-size:11px;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:0}
+.sb-topic .sec-tag:hover{background:var(--amber-deep);color:var(--ink)}
+.sb-row-actions{display:flex;gap:3px;flex-shrink:0;opacity:0;transition:.15s}
+.sb-topic:hover .sb-row-actions{opacity:1}
+.sb-inline-edit{background:transparent;border:none;border-bottom:1.5px solid var(--amber);outline:none;color:inherit;font:inherit;font-size:14.5px;flex:1;min-width:80px}
+.sb-inline-edit.sec-edit{font-size:11px;width:110px;min-width:unset;flex:unset}
+.sb-migration-banner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;margin-bottom:16px;background:rgba(111,157,196,.09);border:1px solid var(--blue);border-radius:var(--r);flex-wrap:wrap;font-size:14px}
+.pdf-sec-group{margin-bottom:12px}
+.pdf-sec-header{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--amber);letter-spacing:.06em;text-transform:uppercase;padding:4px 0;margin-bottom:5px;border-bottom:1px solid var(--line)}
+.pdf-topic-row{display:flex;align-items:center;gap:10px;padding:5px 8px;border-radius:var(--rs);margin-bottom:2px}
+.pdf-topic-row:hover{background:var(--ink2)}
+.pdf-topic-row>span{flex:1;font-size:13.5px}
+#sb-pdf-preview-list{max-height:320px;overflow-y:auto;border:1px solid var(--line);border-radius:var(--rs);padding:10px 14px;margin:10px 0}
+.sh-text{cursor:pointer}
+.sh-text:hover{color:var(--amber-soft)}
 </style>
 </head>
 <body>
@@ -384,61 +523,96 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
 
   <!-- ================= SUBJECTS ================= -->
   <section id="view-subjects" class="view hidden">
-    <div class="note-banner">
-      <b>Your study checklist.</b> Tick a topic's box once → <span style="color:var(--amber)">Learning</span>, twice → <span style="color:var(--green)">Exam-ready</span> (struck through), third → back to unstarted. The <span style="color:var(--amber)">NEXT</span> pill shows what to study next in each subject, and the bar tracks how much you've done. When you want AI help, hit <b>Generate study summary</b> above — it writes out everything done, in-progress, and next, ready to paste. &nbsp; Maths A is pre-loaded from the official 4MA1 spec; generate the other five tonight (Toolkit → prompts) and add them below.
-    </div>
+
+    <!-- AI summary card (kept from Phase 3 — still reads localStorage subjects for now) -->
     <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;border-color:var(--amber-deep)">
       <div>
         <div class="lead" style="margin-bottom:4px">Hand the AI your full picture</div>
-        <p style="font-size:14px;color:var(--paper-dim);max-width:560px;line-height:1.55">Generate a paste-ready summary of everything you've studied — exam-ready, in-progress, untouched, and what's next across all six subjects. Drop it into Gemini or NotebookLM so it knows exactly where you stand without you re-explaining.</p>
+        <p style="font-size:14px;color:var(--paper-dim);max-width:560px;line-height:1.55">Generate a paste-ready progress summary to drop into Gemini or NotebookLM.</p>
       </div>
       <div style="display:flex;flex-direction:column;gap:8px">
         <button class="btn primary" onclick="genSummary('full')">Generate study summary</button>
         <button class="btn ghost sm" onclick="genSummary('subject')">This subject only</button>
       </div>
     </div>
-    <div class="card">
-      <div class="split" style="margin-bottom:6px">
-        <div style="flex:1">
-          <span class="fieldlabel">Subject</span>
-          <div class="subjsel" id="subjTabs" style="justify-content:flex-start"></div>
+
+    <!-- Legacy migration banner (hidden unless localStorage topics exist with no DB subjects) -->
+    <div id="sb-migration-banner" class="sb-migration-banner hidden">
+      <span><b>You have topics from the old tracker.</b> Import them into Sequora to keep tracking your progress.</span>
+      <button id="sb-migrate-btn" class="btn sm primary" onclick="sbMigrateFromLocalStorage()">Import Legacy Topics</button>
+    </div>
+
+    <!-- Subject selector + management -->
+    <div class="card" style="margin-bottom:18px">
+      <div class="sb-header">
+        <div>
+          <div class="lead">Curriculum builder</div>
+          <h2 id="sb-active-name">—</h2>
+          <span class="kicker" id="sb-active-meta" style="margin-top:2px;display:block"></span>
+        </div>
+        <button class="btn sm ghost" onclick="sbShowAddSubjectPanel()">+ New Subject</button>
+      </div>
+
+      <!-- Add subject panel (collapsed by default) -->
+      <div id="sb-add-panel" class="sb-add-panel hidden">
+        <div class="lead" style="margin-bottom:12px">Add from syllabus template</div>
+        <div class="split" style="gap:10px;margin-bottom:8px">
+          <div style="flex:1">
+            <span class="fieldlabel">Board</span>
+            <select id="sb-template-board" onchange="sbLoadTemplatesForBoard()" style="width:100%">
+              <option value="">— select board —</option>
+              <option value="edexcel_igcse">Edexcel IGCSE</option>
+              <option value="cambridge_igcse">Cambridge IGCSE</option>
+              <option value="edexcel_alevel">Edexcel A-Level / AS-Level</option>
+              <option value="cambridge_alevel">Cambridge A-Level / AS-Level</option>
+              <option value="o_level">O Level</option>
+              <option value="acca">ACCA</option>
+            </select>
+          </div>
+        </div>
+        <div id="sb-template-list"></div>
+
+        <hr class="sb-add-sep" aria-label="or">
+        <div class="lead" style="margin-bottom:10px">Add manually</div>
+        <div class="split" style="gap:10px;flex-wrap:wrap">
+          <input type="text" id="sb-new-subj-name" placeholder="Subject name *" style="flex:2;min-width:160px">
+          <input type="text" id="sb-new-subj-short" placeholder="Short name (e.g. MATHS)" style="flex:1;min-width:100px">
+          <input type="text" id="sb-new-subj-code" placeholder="Exam code (e.g. 4MA1)" style="flex:1;min-width:100px">
+        </div>
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button id="sb-add-subj-btn" class="btn sm primary" onclick="sbAddManualSubject()">Add Subject</button>
+          <button class="btn sm ghost" onclick="sbShowAddSubjectPanel()">Cancel</button>
         </div>
       </div>
-      <div style="display:flex;justify-content:space-between;align-items:baseline;margin:10px 0 4px">
-        <h2 id="subjName">—</h2>
-        <span class="kicker" id="subjMeta"></span>
-      </div>
-      <div class="bar" style="margin:8px 0 4px"><i id="subjBar" style="width:0%"></i></div>
-      <div class="kicker" id="subjCount" style="margin-bottom:14px"></div>
 
+      <!-- Subject tabs -->
+      <div class="subjsel" id="sb-tabs" style="justify-content:flex-start;flex-wrap:wrap;margin-bottom:8px"></div>
+
+      <!-- Active subject controls -->
+      <div id="sb-controls"></div>
+
+      <!-- Progress -->
+      <div class="bar" style="margin:4px 0 4px"><i id="sb-bar" style="width:0%"></i></div>
+      <div class="kicker" id="sb-count" style="margin-bottom:14px"></div>
+
+      <!-- Add topic form -->
       <div class="row-add">
-        <input type="text" id="newTopicName" placeholder="Add a topic…" style="flex:1;min-width:180px">
-        <input type="text" id="newTopicSection" placeholder="Section (optional)" style="width:150px">
-        <button class="btn sm primary" onclick="addTopic()">+ Add</button>
-        <button class="btn sm ghost" onclick="genReminder()">How to generate topics</button>
+        <input type="text" id="sb-new-topic-name" placeholder="Add a topic…" style="flex:1;min-width:160px" onkeydown="sbTopicNameKeydown(event)">
+        <input type="text" id="sb-new-topic-section" placeholder="Section (optional)" style="width:150px">
+        <button id="sb-add-topic-btn" class="btn sm primary" onclick="sbAddTopic()">+ Add</button>
+        <button class="btn sm ghost" onclick="sbShowPdfModal()">Extract from PDF</button>
       </div>
-      <input type="text" id="topicSearch" placeholder="Search topics…" style="width:100%;margin-bottom:14px" oninput="filterTopics()">
-      <div id="topicList"></div>
+
+      <!-- Search -->
+      <input type="text" id="sb-search" placeholder="Search topics…" style="width:100%;margin-bottom:10px" oninput="sbFilterTopics()">
+
+      <!-- Topic list -->
+      <div id="sb-topic-list"></div>
     </div>
 
-    <div class="card" id="studyOrderCard" style="margin-top:18px">
-      <div class="lead">Suggested study order</div>
-      <h2>Section sequence · <span id="studyOrderSubjName" style="color:var(--amber)">—</span></h2>
-      <p style="color:var(--muted);font-size:13px;margin:3px 0 14px;font-style:italic">The recommended order to work through this subject's sections, top to bottom. Follow the sequence — prerequisites come before what needs them.</p>
-      <div id="studyOrderNote" class="note-banner" style="display:none"></div>
-      <div id="studyOrderList"></div>
-    </div>
+    <!-- Study order card (rendered dynamically) -->
+    <div class="card" id="sb-order-card" style="margin-top:18px"></div>
 
-    <div class="card" style="margin-top:18px">
-      <div class="lead">Prerequisite lookup</div>
-      <h2>What should I study first?</h2>
-      <p style="color:var(--muted);font-size:13px;margin:3px 0 14px;font-style:italic">Select a section to see which prerequisite sections you need done first, and your current progress on each.</p>
-      <div class="split" style="margin-bottom:12px;align-items:flex-end">
-        <div style="flex:1"><span class="fieldlabel">Subject</span><select id="prereqSubj" onchange="renderPrereqTopics()"></select></div>
-        <div style="flex:2"><span class="fieldlabel">Section</span><select id="prereqTopic" onchange="renderPrereqResult()"></select></div>
-      </div>
-      <div id="prereqResult"></div>
-    </div>
   </section>
 
   <!-- ================= WEEK ================= -->
@@ -619,6 +793,114 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
   </div>
 </div>
 
+<!-- ================= ONBOARDING WIZARD ================= -->
+<div id="onboardingScreen" class="wiz-overlay hidden">
+  <div class="wiz-box">
+
+    <!-- progress dots -->
+    <div class="wiz-progress">
+      <div class="wiz-dot wiz-dot-active"></div>
+      <div class="wiz-dot"></div>
+      <div class="wiz-dot"></div>
+      <span class="wiz-step-label" id="wiz-step-label">Step 1 of 3</span>
+    </div>
+
+    <!-- error bar -->
+    <div id="wiz-error" class="wiz-error hidden"></div>
+
+    <!-- ── STEP 1: name ────────────────────── -->
+    <div id="wiz-step-1">
+      <div class="wiz-title">Welcome to Sequora</div>
+      <div class="wiz-sub">Let's set up your study tracker in three steps.</div>
+      <div class="wiz-field">
+        <label for="wiz-name">What should we call you?</label>
+        <input type="text" id="wiz-name" placeholder="Your name" autocomplete="name"
+          onkeydown="if(event.key==='Enter')wizNext()">
+      </div>
+      <div class="wiz-btns">
+        <button class="btn primary" onclick="wizNext()">Continue →</button>
+      </div>
+    </div>
+
+    <!-- ── STEP 2: exam setup ──────────────── -->
+    <div id="wiz-step-2" class="hidden">
+      <div class="wiz-title">Your exams</div>
+      <div class="wiz-sub">We'll use this to calibrate your study plan.</div>
+      <div class="wiz-field">
+        <label for="wiz-board">Exam board</label>
+        <select id="wiz-board" onchange="wizBoardChange()">
+          <option value="">Choose board…</option>
+          <option value="edexcel_igcse">Edexcel IGCSE</option>
+          <option value="cambridge_igcse">Cambridge IGCSE</option>
+          <option value="edexcel_alevel">Edexcel A-Level / AS-Level</option>
+          <option value="cambridge_alevel">Cambridge A-Level / AS-Level</option>
+          <option value="o_level">O Level</option>
+          <option value="acca">ACCA</option>
+          <option value="mbbs">MBBS</option>
+          <option value="other">Other / Custom</option>
+        </select>
+      </div>
+      <div class="wiz-field" id="wiz-date-row">
+        <label for="wiz-date">Exam start date</label>
+        <input type="date" id="wiz-date">
+        <label style="display:flex;align-items:center;gap:7px;margin-top:8px;cursor:pointer;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:normal;text-transform:none">
+          <input type="checkbox" id="wiz-no-date" onchange="wizNoDateToggle()">
+          N/A — no specific exam date (ACCA, MBBS, rolling exams)
+        </label>
+      </div>
+      <div class="wiz-btns">
+        <button class="btn ghost" onclick="wizBack()">← Back</button>
+        <button class="btn primary" onclick="wizNext()">Continue →</button>
+      </div>
+    </div>
+
+    <!-- ── STEP 3: add subjects ────────────── -->
+    <div id="wiz-step-3" class="hidden">
+      <div class="wiz-title">Add your subjects</div>
+      <div class="wiz-sub">Add at least one subject to begin tracking.</div>
+
+      <!-- templates from selected board -->
+      <div class="wiz-section-divider">From your exam board</div>
+      <div id="wiz-template-list">
+        <div class="empty">Select a board in step 2 to see available subjects.</div>
+      </div>
+
+      <!-- manual entry -->
+      <div class="wiz-manual-form">
+        <div class="wiz-manual-title">Add manually (MBBS, custom, or any subject)</div>
+        <div class="wiz-row" style="gap:8px;margin-bottom:8px">
+          <div style="flex:2">
+            <input type="text" id="wiz-manual-name" placeholder="Subject name" style="width:100%">
+          </div>
+          <div style="flex:1">
+            <input type="text" id="wiz-manual-short" placeholder="Short name" style="width:100%">
+          </div>
+          <div style="flex:1">
+            <input type="text" id="wiz-manual-code" placeholder="Code (opt.)" style="width:100%">
+          </div>
+        </div>
+        <button class="btn sm" id="wiz-manual-btn" onclick="wizAddManual()">Add</button>
+      </div>
+
+      <!-- added list -->
+      <div class="wiz-section-divider" style="margin-top:20px">
+        Your subjects <span id="wiz-subject-count" class="wiz-subject-count"></span>
+      </div>
+      <div id="wiz-added-subjects" class="wiz-added-list">
+        <div class="empty" style="font-size:12px;padding:12px 0">No subjects yet — add at least one above.</div>
+      </div>
+
+      <div class="wiz-complete-row">
+        <button class="btn ghost" onclick="wizBack()">← Back</button>
+        <button class="btn primary" id="wiz-complete-btn" onclick="wizComplete()" disabled>
+          Complete Setup →
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <!-- ================= LOGIN SCREEN ================= -->
 <div id="loginScreen" class="login-overlay">
   <div class="login-box">
@@ -638,5 +920,76 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--mute
 </div>
 
 <script type="module" src="/main.js"></script>
+
+<!-- Delete subject confirm modal -->
+<div id="sb-delete-modal" class="modal-overlay hidden">
+  <div class="modal-box" style="max-width:420px">
+    <div class="modal-head">
+      <div>
+        <div class="lead">Delete subject</div>
+        <h2 id="sb-delete-subj-name" style="color:var(--red)">—</h2>
+      </div>
+    </div>
+    <p style="color:var(--paper-dim);font-size:14px;margin-bottom:16px">
+      This will permanently delete this subject and all <b id="sb-delete-topic-count">0</b> topic(s), sessions, errors, and papers linked to it. This cannot be undone.
+    </p>
+    <div style="display:flex;gap:10px">
+      <button id="sb-confirm-delete-btn" class="btn primary danger" onclick="sbConfirmDeleteSubject()">Yes, delete</button>
+      <button class="btn ghost" onclick="sbCancelDeleteSubject()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- PDF syllabus extraction modal -->
+<div id="sb-pdf-modal" class="modal-overlay hidden">
+  <div class="modal-box" style="max-width:600px">
+    <div class="modal-head">
+      <div>
+        <div class="lead">Extract topics from PDF</div>
+        <h2>Syllabus extractor</h2>
+      </div>
+      <button class="btn sm ghost" onclick="sbClosePdfModal()">✕ Close</button>
+    </div>
+
+    <!-- Phase: idle — file picker -->
+    <div id="sb-pdf-idle">
+      <p style="color:var(--paper-dim);font-size:14px;margin-bottom:16px">
+        Upload your official syllabus or curriculum PDF. Gemini will extract the full topic list for you to review before importing.
+        <span style="font-family:var(--mono);font-size:11px;color:var(--muted);display:block;margin-top:4px">PDF only · max 15 MB · not stored on our servers</span>
+      </p>
+      <div style="margin-bottom:14px">
+        <span class="fieldlabel">Syllabus PDF</span>
+        <input type="file" id="sb-pdf-file" accept="application/pdf" style="display:block;margin-top:6px;font-size:13px;color:var(--paper-dim)">
+      </div>
+      <button class="btn primary" onclick="sbHandlePdfUpload()">Extract Topics →</button>
+    </div>
+
+    <!-- Phase: extracting -->
+    <div id="sb-pdf-extracting" class="hidden" style="text-align:center;padding:32px 0">
+      <div style="font-family:var(--mono);font-size:13px;color:var(--amber);margin-bottom:10px;animation:pulse 1.5s infinite">Extracting topics from PDF…</div>
+      <p style="font-size:13px;color:var(--muted)">This may take 15–30 seconds for large syllabi.</p>
+    </div>
+
+    <!-- Phase: preview -->
+    <div id="sb-pdf-preview" class="hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <div>
+          <div class="lead">Review extracted topics</div>
+          <span style="font-family:var(--mono);font-size:11px;color:var(--muted)"><b id="sb-pdf-topic-count">0</b> topics extracted — remove any that don't belong</span>
+        </div>
+      </div>
+      <div id="sb-pdf-preview-list"></div>
+      <div style="display:flex;gap:10px;margin-top:10px">
+        <button class="btn primary" onclick="sbConfirmPdfImport()">Import All Topics →</button>
+        <button class="btn ghost" onclick="sbClosePdfModal()">Discard</button>
+      </div>
+    </div>
+
+    <!-- Phase: inserting -->
+    <div id="sb-pdf-inserting" class="hidden" style="text-align:center;padding:32px 0">
+      <div style="font-family:var(--mono);font-size:13px;color:var(--amber)">Saving topics…</div>
+    </div>
+  </div>
+</div>
 </body>
 </html>

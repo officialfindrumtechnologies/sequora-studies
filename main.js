@@ -1,25 +1,20 @@
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from './src/lib/supabase.js';
+import {
+  showOnboarding,
+  hideOnboarding,
+  wizNext, wizBack, wizBoardChange, wizNoDateToggle,
+  wizAddFromTemplate, wizAddManual, wizRemoveSubject, wizComplete,
+} from './src/auth/onboarding.js';
+import { getSubscription } from './src/data/subscriptions.js';
+import { initSubjectsView, setSubjectsViewTier } from './src/views/subjects-view.js';
 
 /* ============ defensive storage (localStorage + memory fallback) ============ */
 const MEM={};
 let LS_OK=true;
 try{const k="__t";localStorage.setItem(k,"1");localStorage.removeItem(k);}catch(e){LS_OK=false;}
 
-/* ============ Supabase Sync Adapter ============ */
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-export const supabase = (supabaseUrl && supabaseAnonKey)
-  ? createClient(supabaseUrl, supabaseAnonKey)
-  : null;
-
-if (!supabase) {
-  console.warn("[Supabase] Client NOT initialized. VITE_SUPABASE_URL:", supabaseUrl ? "set" : "MISSING", "VITE_SUPABASE_ANON_KEY:", supabaseAnonKey ? "set" : "MISSING");
-} else {
-  console.log("[Supabase] Client initialized for:", supabaseUrl);
-}
-
 let currentUser = null;
+let userTier = 'free';   // updated after login from subscriptions table
 let isPulling = false;
 let isPushing = false;
 let pushPending = false;
@@ -1025,115 +1020,16 @@ function renderFocus(){
   }
 }
 
-/* ============ render: subjects ============ */
-function renderSubjTabs(){
-  const host=document.getElementById("subjTabs");
-  if (!host) return;
-  host.innerHTML="";
-  for(const s of SUBJECTS){
-    const b=document.createElement("button");
-    const x=subjReady(s.key);
-    b.innerHTML=s.name+' <span style="opacity:.6">'+x.pct+'%</span>';
-    b.className=(s.key===curSubjectTab)?"on":"";
-    b.onclick=()=>{curSubjectTab=s.key;renderSubjects();};
-    host.appendChild(b);
-  }
-}
-function renderSubjects(){
-  renderSubjTabs();
-  const s=SUBJECTS.find(x=>x.key===curSubjectTab);
-  const x=subjReady(s.key);
-  const subjNameEl = document.getElementById("subjName");
-  if (subjNameEl) subjNameEl.textContent=s.name;
-  const subjMetaEl = document.getElementById("subjMeta");
-  if (subjMetaEl) subjMetaEl.textContent=s.code;
-  const subjBarEl = document.getElementById("subjBar");
-  if (subjBarEl) subjBarEl.style.width=x.pct+"%";
-  const subjCountEl = document.getElementById("subjCount");
-  if (subjCountEl) subjCountEl.textContent=x.r+" of "+x.tot+" topics Exam-ready · "+x.pct+"%";
-  
-  const list=document.getElementById("topicList");
-  if (!list) return;
-  list.innerHTML="";
-  const t=topics[s.key]||[];
-  if(!t.length){list.innerHTML='<div class="empty">No topics yet. Add them above, or generate from the spec (Toolkit).</div>';return;}
-  let lastSec=null;let nextMarked=false;
-  t.forEach((tp)=>{
-    if(tp.section&&tp.section!==lastSec){const h=document.createElement("div");h.className="section-h";h.textContent=tp.section;list.appendChild(h);lastSec=tp.section;}
-    const row=document.createElement("div");
-    row.className="topic"+(tp.status==="ready"?" is-ready":"");
-    const cyc=tp.status==="ready"?"ready":(tp.status==="learning"?"learning":"");
-    const mark=tp.status==="ready"?"✓":(tp.status==="learning"?"~":"");
-    const isNext=!nextMarked&&tp.status!=="ready";if(isNext)nextMarked=true;
-    row.innerHTML=`<div class="cyc ${cyc}" onclick="cycleStatus('${s.key}','${tp.id}')">${mark}</div>
-      <div class="nm">${tp.name}</div>
-      ${isNext?'<span class="nextpill">next</span>':''}
-      <span class="tag">${tp.status==="notstarted"?"not started":tp.status}</span>
-      <button class="btn sm ghost danger" style="padding:3px 8px" onclick="delTopic('${s.key}','${tp.id}')">×</button>`;
-    list.appendChild(row);
-  });
-  // Clear search on re-render (e.g. tab switch)
-  const searchEl=document.getElementById("topicSearch");
-  if(searchEl)searchEl.value="";
-  // Refresh prereq panel
-  renderPrereqSubjects();
-  renderStudyOrder();
-}
-function renderStudyOrder(){
-  const subj=curSubjectTab;
-  const sections=getSectionsForSubject(subj);
-  const nameEl=document.getElementById("studyOrderSubjName");
-  const noteEl=document.getElementById("studyOrderNote");
-  const listEl=document.getElementById("studyOrderList");
-  if(!nameEl||!listEl)return;
-
-  const s=SUBJECTS.find(x=>x.key===subj);
-  nameEl.textContent=s?s.name:subj;
-
-  // Maths spiral note
-  if(subj==="maths"){
-    noteEl.style.display="";
-    noteEl.innerHTML='<b>Spiral curriculum:</b> Maths A interleaves strands (Number → Algebra → Graphs → Shape &amp; Space → …) deliberately. Following top-to-bottom IS the intended sequence — each strand level builds on the previous, and interleaving strengthens transfer between topics.';
-  }else{
-    noteEl.style.display="none";
-  }
-
-  const prereqs=PREREQS_BY_SECTION[subj]||{};
-
-  if(!sections.length){
-    listEl.innerHTML='<div class="empty">No sections yet — add topics to see the study order.</div>';
-    return;
-  }
-
-  let html="";
-  sections.forEach((sec,i)=>{
-    const st=sectionStatus(subj,sec);
-    let ind,indClass;
-    if(st.total>0&&st.ready===st.total){ind="✓";indClass="done";}
-    else if(st.ready>0||st.learning>0){ind="◐";indClass="partial";}
-    else{ind="○";indClass="empty";}
-
-    const depList=prereqs[sec];
-    const depStr=depList&&depList.length?'<span class="so-dep">(builds on: '+depList.join(", ")+')</span>':"";
-    const countStr='<span class="so-count">'+st.ready+'/'+st.total+'</span>';
-    const doneClass=st.total>0&&st.ready===st.total?" is-done":"";
-
-    html+=`<div class="so-item${doneClass}">
-      <span class="so-num">${i+1}.</span>
-      <span class="so-ind ${indClass}">${ind}</span>
-      <span class="so-name">${sec} ${depStr}</span>
-      ${countStr}
-    </div>`;
-  });
-  listEl.innerHTML=html;
-}
+/* ============ render: subjects (Phase 4 — DB-backed via subjects-view.js) ============ */
+function renderSubjTabs(){ /* no-op: new view renders its own tabs */ }
+function renderSubjects(){ initSubjectsView(userTier); }
 
 function cycleStatus(k,id){
-  const t=topics[k];const tp=t.find(x=>x.id===id);if(!tp)return;
+  const t=topics[k];const tp=t&&t.find(x=>x.id===id);if(!tp)return;
   tp.status=tp.status==="notstarted"?"learning":tp.status==="learning"?"ready":"notstarted";
   if(tp.status==="ready"){ tp.readyAt=todayStr(); tp.lastRecall=todayStr(); }
   else { delete tp.readyAt; delete tp.lastRecall; }
-  saveJSON("ascent_topics",topics);renderSubjects();renderDashProgress();renderRecall();
+  saveJSON("ascent_topics",topics);renderDashProgress();renderRecall();
   const readyPctEl = document.getElementById("readyPct");
   if (readyPctEl) readyPctEl.textContent=overallReady()+"%";
 }
@@ -1216,170 +1112,6 @@ function downloadSummary(){
   const txt=document.getElementById("summaryText").value;
   const a=document.createElement("a");a.href="data:text/plain;charset=utf-8,"+encodeURIComponent(txt);
   a.download="study-summary-"+todayStr()+".txt";a.click();setToast("Summary downloaded");
-}
-function addTopic(){
-  const nm=document.getElementById("newTopicName").value.trim();
-  const sec=document.getElementById("newTopicSection").value.trim();
-  if(!nm)return;
-  topics[curSubjectTab].push({id:curSubjectTab+"_"+Date.now(),section:sec,name:nm,status:"notstarted"});
-  saveJSON("ascent_topics",topics);
-  document.getElementById("newTopicName").value="";document.getElementById("newTopicSection").value="";
-  renderSubjects();setToast("Topic added");
-}
-function delTopic(k,id){topics[k]=topics[k].filter(x=>x.id!==id);saveJSON("ascent_topics",topics);renderSubjects();renderDashProgress();}
-function genReminder(){
-  const s=SUBJECTS.find(x=>x.key===curSubjectTab);
-  setToast("See Toolkit → 'Generate a topic list' — load your "+s.code+" spec into NotebookLM");
-  go('toolkit');
-}
-
-/* ============ topic search filter ============ */
-function filterTopics(){
-  const q=(document.getElementById("topicSearch")?.value||"").toLowerCase().trim();
-  const list=document.getElementById("topicList");
-  if(!list)return;
-  const rows=list.children;
-  let lastSectionVisible=false;
-  for(let i=0;i<rows.length;i++){
-    const el=rows[i];
-    if(el.classList.contains("section-h")){
-      // Section headers: show if any child topic in this section matches
-      // We'll handle visibility after scanning topics
-      el.style.display="";
-      el._hasMatch=false;
-      lastSectionVisible=false;
-      continue;
-    }
-    if(el.classList.contains("topic")){
-      const name=el.querySelector(".nm")?.textContent||"";
-      // Find preceding section header text
-      let sectionText="";
-      for(let j=i-1;j>=0;j--){
-        if(rows[j].classList.contains("section-h")){sectionText=rows[j].textContent;break;}
-      }
-      const match=!q||name.toLowerCase().includes(q)||sectionText.toLowerCase().includes(q);
-      el.style.display=match?"":"none";
-      if(match){
-        // Mark preceding section header as having a match
-        for(let j=i-1;j>=0;j--){
-          if(rows[j].classList.contains("section-h")){rows[j]._hasMatch=true;break;}
-        }
-      }
-    }
-  }
-  // Hide section headers with no matching topics
-  for(let i=0;i<rows.length;i++){
-    if(rows[i].classList.contains("section-h")){
-      rows[i].style.display=rows[i]._hasMatch||!q?"":"none";
-    }
-  }
-}
-
-/* ============ prerequisites lookup (section-level) ============ */
-function getSectionsForSubject(subjKey){
-  const t=topics[subjKey]||[];
-  const seen=new Set();const sections=[];
-  t.forEach(tp=>{if(tp.section&&!seen.has(tp.section)){seen.add(tp.section);sections.push(tp.section);}});
-  return sections;
-}
-function sectionStatus(subjKey,sectionName){
-  const t=(topics[subjKey]||[]).filter(tp=>tp.section===sectionName);
-  if(!t.length)return{total:0,ready:0,learning:0,notstarted:0,label:"unknown",color:"var(--muted)"};
-  const ready=t.filter(x=>x.status==="ready").length;
-  const learning=t.filter(x=>x.status==="learning").length;
-  const notstarted=t.length-ready-learning;
-  let label,color;
-  if(ready===t.length){label="done";color="var(--green)";}
-  else if(ready>0||learning>0){label=ready+"/"+t.length+" done";color="var(--amber)";}
-  else{label="not started";color="var(--red)";}
-  return{total:t.length,ready,learning,notstarted,label,color};
-}
-function renderPrereqSubjects(){
-  const sel=document.getElementById("prereqSubj");
-  if(!sel)return;
-  sel.innerHTML="";
-  for(const s of SUBJECTS){
-    const o=document.createElement("option");
-    o.value=s.key;o.textContent=s.name;
-    sel.appendChild(o);
-  }
-  sel.value=curSubjectTab;
-  renderPrereqTopics();
-}
-function renderPrereqTopics(){
-  const sel=document.getElementById("prereqTopic");
-  const subj=document.getElementById("prereqSubj")?.value;
-  if(!sel||!subj)return;
-  sel.innerHTML='<option value="">— select a section —</option>';
-  const sections=getSectionsForSubject(subj);
-  sections.forEach(sec=>{
-    const o=document.createElement("option");
-    o.value=sec;o.textContent=sec;
-    sel.appendChild(o);
-  });
-  renderPrereqResult();
-}
-function renderPrereqResult(){
-  const box=document.getElementById("prereqResult");
-  const subj=document.getElementById("prereqSubj")?.value;
-  const sectionName=document.getElementById("prereqTopic")?.value;
-  if(!box)return;
-
-  if(!sectionName){box.innerHTML='<div class="empty">Select a section above to check prerequisites.</div>';return;}
-
-  // Skill-based subject
-  if(SKILL_SUBJECTS.has(subj)){
-    box.innerHTML='<div class="note-banner"><b>Skill-based subject.</b> This subject builds skills progressively — follow the tracker order from top to bottom rather than jumping between topics. There are no hard prerequisites to check.</div>';
-    return;
-  }
-
-  // Independent section (e.g. Business sections 2, 4, 5)
-  if(INDEPENDENT_SECTIONS[subj]?.has(sectionName)){
-    box.innerHTML='<div class="note-banner"><b>Independent section.</b> Can be studied in any order after the basics — these areas are independent of each other.</div>';
-    return;
-  }
-
-  const subjPrereqs=PREREQS_BY_SECTION[subj]||{};
-  const prereqSections=subjPrereqs[sectionName];
-
-  // Foundational section (no prereqs listed)
-  if(!prereqSections||!prereqSections.length){
-    box.innerHTML='<div class="note-banner" style="border-color:var(--green-deep);background:rgba(127,174,111,.07)"><b>Foundational — start here, no prerequisites.</b> This section can be studied first.</div>';
-    return;
-  }
-
-  let allReady=true;
-  let html='<div style="margin-bottom:10px" class="kicker">Prerequisite sections for '+sectionName+'</div>';
-
-  prereqSections.forEach(prereqSec=>{
-    const st=sectionStatus(subj,prereqSec);
-    if(st.total===0){
-      html+=`<div class="recall-item"><div class="rg"><div class="rn" style="color:var(--red)">${prereqSec}</div><div class="rs">Section not found in topic data — check PREREQS_BY_SECTION names</div></div></div>`;
-      allReady=false;
-      return;
-    }
-    const isDone=st.ready===st.total;
-    if(!isDone)allReady=false;
-    const pct=Math.round(st.ready/st.total*100);
-    html+=`<div class="recall-item">
-      <div class="cyc ${isDone?"ready":st.ready>0||st.learning>0?"learning":""}" style="cursor:default;width:22px;height:22px;font-size:11px">${isDone?"✓":st.ready>0?"~":""}</div>
-      <div class="rg">
-        <div class="rn">${prereqSec}</div>
-        <div class="rs">${st.ready}/${st.total} topics exam-ready (${pct}%)</div>
-      </div>
-      <span style="font-family:var(--mono);font-size:11px;font-weight:700;color:${st.color}">${st.label.toUpperCase()}</span>
-    </div>`;
-  });
-
-  // Verdict
-  if(allReady){
-    html+=`<div class="co-done-banner" style="margin-top:12px">✓ All prerequisite sections done — you're ready to study ${sectionName}.</div>`;
-  }else{
-    const missing=prereqSections.filter(s=>{const st=sectionStatus(subj,s);return st.ready<st.total;});
-    html+=`<div class="flag" style="margin-top:12px"><div class="fi">⚠</div><div class="ft">Study these sections first: <b>${missing.join(", ")}</b></div></div>`;
-  }
-
-  box.innerHTML=html;
 }
 
 /* ============ render: week ============ */
@@ -1815,22 +1547,26 @@ async function handlePasswordLogin() {
 async function handleLogout() {
   if (confirm("Log out? Local changes will remain, but syncing will stop.")) {
     await supabase.auth.signOut();
-    localStorage.clear();
+    // Clear only Sequora session keys, not all localStorage
+    ['sq_onboarded'].forEach(k => localStorage.removeItem(k));
     location.reload();
   }
 }
 
 /* ============ AI Advisor Proxy Integration ============ */
 async function callGeminiProxy(prompt) {
-  // Client-side login gate (server no longer re-verifies JWT)
   const sessionData = await supabase?.auth?.getSession();
-  if (!sessionData?.data?.session) {
+  const session = sessionData?.data?.session;
+  if (!session) {
     throw new Error("You must be logged in to access AI advisor.");
   }
 
   const response = await fetch('/api/gemini', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${session.access_token}`
+    },
     body: JSON.stringify({ prompt })
   });
 
@@ -1957,9 +1693,6 @@ window.resetExam = resetExam;
 window.toggleTimer = toggleTimer;
 window.discardTimer = discardTimer;
 window.logManual = logManual;
-window.addTopic = addTopic;
-window.delTopic = delTopic;
-window.genReminder = genReminder;
 window.genSummary = genSummary;
 window.closeSummary = closeSummary;
 window.copySummary = copySummary;
@@ -1980,10 +1713,6 @@ window.startFromBlock = startFromBlock;
 window.copyPrompt = copyPrompt;
 window.copyPrereqCheckPrompt = copyPrereqCheckPrompt;
 window.cycleStatus = cycleStatus;
-window.filterTopics = filterTopics;
-window.renderPrereqTopics = renderPrereqTopics;
-window.renderPrereqResult = renderPrereqResult;
-window.renderPrereqSubjects = renderPrereqSubjects;
 window.handleLogin = handleLogin;
 window.handlePasswordLogin = handlePasswordLogin;
 window.handleLogout = handleLogout;
@@ -1991,24 +1720,83 @@ window.getAIRecommendation = getAIRecommendation;
 window.runWeeklyCheckIn = runWeeklyCheckIn;
 window.closeAIModal = closeAIModal;
 
+// Onboarding wizard
+window.wizNext = wizNext;
+window.wizBack = wizBack;
+window.wizBoardChange = wizBoardChange;
+window.wizNoDateToggle = wizNoDateToggle;
+window.wizAddFromTemplate = wizAddFromTemplate;
+window.wizAddManual = wizAddManual;
+window.wizRemoveSubject = wizRemoveSubject;
+window.wizComplete = wizComplete;
+
+// Upgrade prompt (Phase 6/7 will wire to payment flow; stub for now)
+window.showUpgradePrompt = function() {
+  setToast("Upgrade to Basic — submit your bKash payment in the Toolkit tab.");
+};
+
 /* ============ boot ============ */
 updateClock();
 setInterval(updateClock,30000);
 renderDash();
 
+function showApp() {
+  document.getElementById("loginScreen").classList.add("hidden");
+  hideOnboarding();
+  document.getElementById("authHeader").style.display = "block";
+  document.getElementById("userEmail").textContent = currentUser?.email || "";
+  loadStateFromSupabase().catch(err => {
+    console.error("[Auth] Background data load failed (app still usable):", err);
+  });
+}
+
+// Exposed so onboarding.js can call it after wizard completes
+window.__showApp = showApp;
+
 async function handleSession(session) {
   if (session && session.user) {
     currentUser = session.user;
-    // UI transition — immediate, never blocked by data load
+
+    // Always hide login screen first — user IS authenticated
     document.getElementById("loginScreen").classList.add("hidden");
-    document.getElementById("authHeader").style.display = "block";
-    document.getElementById("userEmail").textContent = currentUser.email;
-    // Load cloud data in background — never block the session transition
-    loadStateFromSupabase().catch(err => {
-      console.error("[Auth] Background data load failed (app still usable):", err);
-    });
+
+    // Fetch subscription tier (non-blocking; default stays 'free' on failure)
+    getSubscription().then(sub => {
+      userTier = sub?.tier ?? 'free';
+      setSubjectsViewTier(userTier);
+    }).catch(() => { userTier = 'free'; });
+
+    // Check onboarded_at — use localStorage cache to avoid DB round-trip on reload
+    const cached = localStorage.getItem('sq_onboarded');
+    if (cached === '1') {
+      showApp();
+      return;
+    }
+
+    // Not cached — check DB
+    try {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('onboarded_at')
+        .single();
+
+      if (profile?.onboarded_at) {
+        localStorage.setItem('sq_onboarded', '1');
+        showApp();
+      } else {
+        showOnboarding();
+      }
+    } catch (err) {
+      console.error("[Auth] Profile check failed:", err);
+      // Fallback: show onboarding to be safe
+      showOnboarding();
+    }
+
   } else {
     currentUser = null;
+    userTier = 'free';
+    localStorage.removeItem('sq_onboarded');
+    hideOnboarding();
     document.getElementById("loginScreen").classList.remove("hidden");
     document.getElementById("authHeader").style.display = "none";
   }

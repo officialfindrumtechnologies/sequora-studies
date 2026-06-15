@@ -1,15 +1,15 @@
-// Rate limiting by IP (no auth needed — single-user app, client gates login)
+import { createClient } from '@supabase/supabase-js';
+
 const rateLimitMap = new Map();
 
+const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || 'http://localhost:3000';
+
 export default async function handler(req, res) {
-  // CORS
+  // CORS — locked to production domain
   res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', ALLOWED_ORIGIN);
   res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'Content-Type, Authorization'
-  );
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
@@ -19,10 +19,24 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // Rate limit by IP: 10 req/min
-  const clientIp = req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown';
+  // JWT verification — server-side, required for multi-user
+  const token = req.headers['authorization']?.replace('Bearer ', '');
+  if (!token) {
+    return res.status(401).json({ error: 'Missing Authorization header' });
+  }
+
+  const adminSb = createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_ROLE_KEY
+  );
+  const { data: { user }, error: authError } = await adminSb.auth.getUser(token);
+  if (authError || !user) {
+    return res.status(401).json({ error: 'Invalid or expired session' });
+  }
+
+  // Rate limit by user ID (not IP — more accurate for multi-user)
   const now = Date.now();
-  let requests = rateLimitMap.get(clientIp) || [];
+  let requests = rateLimitMap.get(user.id) || [];
   requests = requests.filter(time => now - time < 60000);
 
   if (requests.length >= 10) {
@@ -30,7 +44,7 @@ export default async function handler(req, res) {
   }
 
   requests.push(now);
-  rateLimitMap.set(clientIp, requests);
+  rateLimitMap.set(user.id, requests);
 
   // Validate prompt
   const { prompt } = req.body;
