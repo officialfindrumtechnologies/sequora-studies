@@ -15,8 +15,12 @@ import { getSubscription, submitBkashPayment } from './src/data/subscriptions.js
 import { initSubjectsView, setSubjectsViewTier } from './src/views/subjects-view.js';
 import { getSubjects } from './src/data/subjects.js';
 
-// Apply theme from localStorage immediately — avoids FOUC before auth resolves
+// Apply theme + font scale from localStorage immediately — avoids FOUC before auth resolves
 loadSavedTheme();
+(function(){
+  const s=localStorage.getItem('sq_font_scale');
+  if(s&&s!=='default') document.documentElement.style.fontSize={compact:'13px',large:'17px'}[s]||'15px';
+})();
 
 // Register service worker for offline support
 if ('serviceWorker' in navigator) {
@@ -2960,6 +2964,7 @@ function _tsPersistCustom() {
     custom,
     bgBuilder: { ..._tsBgState },
     typography: { ..._tsTypoState },
+    fontScale: _tsTypoState.scale || 'default',
     userPresets: (existing.userPresets || []),
     imageBg: { ..._tsImgState },
     imagePresets: existing.imagePresets || [],
@@ -3024,7 +3029,8 @@ window.tsTypoBody = function(v) {
 };
 window.tsTypoScale = function(s) {
   _tsTypoState.scale = s;
-  document.body.style.fontSize = { compact: '13px', default: '15px', large: '17px' }[s] || '15px';
+  document.documentElement.style.fontSize = { compact: '13px', default: '15px', large: '17px' }[s] || '15px';
+  localStorage.setItem('sq_font_scale', s);
   _renderTsTypography(); _tsPersistCustom();
 };
 
@@ -3083,7 +3089,8 @@ window.tsLoadPreset = function(i) {
     _loadFont(_tsTypoState.display); _loadFont(_tsTypoState.body);
     document.documentElement.style.setProperty('--display', `"${_tsTypoState.display}",serif`);
     document.documentElement.style.setProperty('--body', `"${_tsTypoState.body}",sans-serif`);
-    document.body.style.fontSize = { compact: '13px', default: '15px', large: '17px' }[_tsTypoState.scale] || '15px';
+    document.documentElement.style.fontSize = { compact: '13px', default: '15px', large: '17px' }[_tsTypoState.scale] || '15px';
+    localStorage.setItem('sq_font_scale', _tsTypoState.scale);
   }
   renderThemeStudio();
   setToast(`Applied "${p.name}"`);
@@ -3100,7 +3107,8 @@ window.tsDelPreset = function(i) {
 window.tsResetDefault = function() {
   applyTheme({ preset: 'ascent' });
   document.body.style.background = '';
-  document.body.style.fontSize = '';
+  document.documentElement.style.fontSize = '15px';
+  localStorage.setItem('sq_font_scale', 'default');
   document.documentElement.style.setProperty('--display', '"DM Serif Display",serif');
   document.documentElement.style.setProperty('--body', '"Inter",sans-serif');
   _tsBgState = _defaultBgState();
@@ -3133,9 +3141,9 @@ function _tsRestoreExtra() {
       _loadFont(_tsTypoState.body);
       document.documentElement.style.setProperty('--body', `"${_tsTypoState.body}",sans-serif`);
     }
-    if (_tsTypoState.scale !== 'default') {
-      document.body.style.fontSize = { compact: '13px', large: '17px' }[_tsTypoState.scale] || '15px';
-    }
+    const sz = { compact: '13px', default: '15px', large: '17px' }[_tsTypoState.scale] || '15px';
+    document.documentElement.style.fontSize = sz;
+    localStorage.setItem('sq_font_scale', _tsTypoState.scale || 'default');
   }
 }
 _tsRestoreExtra();
@@ -3362,6 +3370,11 @@ async function handleSession(session) {
     loadThemeFromDB().then(dbTheme => {
       if (dbTheme) {
         applyTheme(dbTheme);
+        // Restore font scale from DB
+        const scale = dbTheme.fontScale || dbTheme.typography?.scale || 'default';
+        document.documentElement.style.fontSize = { compact: '13px', default: '15px', large: '17px' }[scale] || '15px';
+        localStorage.setItem('sq_font_scale', scale);
+        if (dbTheme.typography) Object.assign(_tsTypoState, dbTheme.typography);
       } else {
         // No theme in DB → reset to Ascent and clear stale localStorage
         localStorage.removeItem('sq_theme');
