@@ -31,7 +31,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:var(--body);background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body{font-family:var(--body);background:#060606;color:var(--text);min-height:100vh;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
 .wrap{max-width:1160px;margin:0 auto;padding:0 24px 100px}
 
 /* ---------- header ---------- */
@@ -56,14 +56,21 @@ nav button.active{color:var(--text);border-bottom-color:var(--accent);font-weigh
 .g-hero{grid-template-columns:1.4fr 1fr}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:24px;position:relative;overflow:hidden}
 .card.accent{border-color:var(--border-2);border-left:3px solid rgba(232,213,176,.4)}
+#countdown-card{background:#1a1812}
+#study-now-card{background:#0f1a0f}
 .card h2{font-family:var(--body);font-weight:500;font-size:18px;letter-spacing:-.02em;margin-bottom:4px;color:var(--text)}
 .card .lead{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);font-weight:500;margin-bottom:14px}
 .kicker{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);font-weight:500}
 
 /* ---------- countdown ---------- */
 .countdown{display:flex;flex-direction:column;align-items:flex-start;gap:0;margin:0}
-.countdown .num{font-family:var(--display);font-weight:400;font-size:clamp(80px,13vw,120px);line-height:.85;color:var(--accent);letter-spacing:-.03em}
-.countdown .lbl{font-family:var(--body);font-size:14px;color:var(--text-dim);font-style:normal;margin-top:10px}
+.countdown .num{font-family:var(--display);font-weight:400;font-size:clamp(140px,18vw,180px);line-height:.82;color:var(--accent);letter-spacing:-.03em}
+.countdown .lbl{font-family:var(--body);font-size:13px;color:var(--text-dim);font-style:normal;margin-top:12px}
+.cd-exam-hero{font-family:var(--mono);font-size:20px;font-weight:600;color:var(--accent);letter-spacing:.02em;margin-top:8px}
+.cd-journey{margin-top:18px}
+.cd-journey-track{height:2px;background:rgba(232,213,176,.1);border-radius:2px;overflow:hidden;margin-bottom:8px}
+.cd-journey-fill{height:100%;background:var(--accent);border-radius:2px;width:0%;transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.cd-journey-meta{font-family:var(--mono);font-size:10px;color:var(--text-dim);letter-spacing:.06em}
 .cd-row{display:flex;gap:28px;margin-top:20px;flex-wrap:wrap;padding-top:16px;border-top:1px solid var(--border)}
 .cd-row div{font-family:var(--mono);font-size:11px;color:var(--text-dim)}
 .cd-row b{color:var(--text);font-weight:600;font-size:14px;display:block;margin-bottom:2px}
@@ -136,7 +143,7 @@ textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-h
 .flag .fi{font-size:16px;flex-shrink:0;margin-top:2px}
 .flag .ft{font-size:14px;line-height:1.5;color:var(--text)}
 .flag .ft b{color:var(--red)}
-.flag.amber{background:rgba(232,213,176,.05);border-color:rgba(232,213,176,.15);border-left:3px solid rgba(232,213,176,.6)}
+.flag.amber{background:#1f1a0f;border-color:rgba(232,213,176,.15);border-left:3px solid rgba(232,213,176,.6)}
 .flag.amber .ft b{color:var(--accent)}
 
 /* ---------- progress bars ---------- */
@@ -149,11 +156,13 @@ textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-h
 .subj-prog .cnt{font-family:var(--mono);font-size:10px;color:var(--text-dim)}
 
 /* ---------- stat tiles ---------- */
-.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;position:relative;overflow:hidden}
-.stat .v{font-family:var(--mono);font-weight:700;font-size:clamp(32px,4vw,48px);color:var(--accent);line-height:1;letter-spacing:-.02em}
-.stat .k{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);margin-top:8px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.stat .v{font-family:var(--mono);font-weight:700;font-size:clamp(32px,4vw,48px);color:var(--accent);line-height:1;letter-spacing:-.02em;order:2}
+.stat .k{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;order:1}
 .stat .x{display:none}
 .flame-wrap,.flame,.flame-emoji{display:none}
+.stat::after{content:"";position:absolute;bottom:0;left:0;right:0;height:2px;background:rgba(232,213,176,.08)}
+.stat::before{content:"";position:absolute;bottom:0;left:0;height:2px;width:var(--prog,0%);background:rgba(232,213,176,.55);transition:width .8s cubic-bezier(.2,.8,.2,1)}
 
 /* ---------- section headers ---------- */
 .section-h{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);font-weight:500;margin:20px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--border)}
@@ -365,7 +374,7 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text
 .sn-verb{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);background:rgba(232,213,176,.07);border:1px solid rgba(232,213,176,.18);border-radius:4px;padding:4px 9px;white-space:nowrap;align-self:flex-start;margin-top:2px;flex-shrink:0}
 .sn-body{flex:1;min-width:0}
 .sn-subj{font-family:var(--mono);font-size:11px;color:var(--accent);margin-bottom:3px;text-transform:uppercase;letter-spacing:.08em}
-.sn-topic{font-family:var(--body);font-size:18px;font-weight:500;color:var(--text);line-height:1.25;margin-bottom:4px}
+.sn-topic{font-family:var(--body);font-size:clamp(20px,2.5vw,26px);font-weight:600;color:var(--text);line-height:1.2;margin-bottom:4px}
 .sn-section{color:var(--text-dim);font-weight:400;font-size:14px}
 .sn-reason{font-size:12px;color:var(--text-dim);margin-bottom:10px}
 .sn-actions{display:flex;gap:8px;align-items:center}
@@ -458,9 +467,14 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text
   <!-- ================= DASH ================= -->
   <section id="view-dash" class="view">
     <div class="grid g-hero" style="margin-bottom:18px">
-      <div class="card accent">
+      <div class="card accent" id="countdown-card">
         <div class="lead">Countdown</div>
         <div class="countdown"><span class="num" id="cd-days">—</span><span class="lbl">days until your first paper</span></div>
+        <div class="cd-exam-hero" id="cd-exam-hero">—</div>
+        <div class="cd-journey">
+          <div class="cd-journey-track"><div class="cd-journey-fill" id="cd-journey-fill"></div></div>
+          <div class="cd-journey-meta" id="cd-journey-meta"></div>
+        </div>
         <div class="cd-row">
           <div><b id="cd-weeks">—</b>weeks left</div>
           <div><b id="cd-day1">—</b>days since day one</div>

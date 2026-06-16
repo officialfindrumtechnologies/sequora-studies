@@ -820,27 +820,40 @@ function renderDash(){
   const d1El = document.getElementById("cd-day1");
   if (d1El) d1El.textContent=Math.max(0,daysBetween(parseD(DAY1),today));
   const examdateEl = document.getElementById("cd-examdate");
-  if (examdateEl) examdateEl.textContent=ex.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"});
+  const examDateStr=ex.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"});
+  if (examdateEl) examdateEl.textContent=examDateStr;
+  const examHeroEl = document.getElementById("cd-exam-hero");
+  if (examHeroEl) examHeroEl.textContent=examDateStr;
+  const day1=Math.max(0,daysBetween(parseD(DAY1),today));
+  const totalDays=Math.max(1,daysBetween(parseD(DAY1),ex));
+  const journeyPct=Math.min(100,(day1/totalDays*100)).toFixed(1);
+  const journeyFillEl=document.getElementById("cd-journey-fill");
+  if (journeyFillEl) journeyFillEl.style.width=journeyPct+"%";
+  const journeyMetaEl=document.getElementById("cd-journey-meta");
+  if (journeyMetaEl) journeyMetaEl.textContent=day1+" days in · "+totalDays+" total";
   const examDateInputEl = document.getElementById("examDateInput");
   if (examDateInputEl) examDateInputEl.value=examDate;
 
   const sw=startOfWeek().getTime();
+  const todayH=hoursFor(s=>s.date===todayStr());
   const todayHrsEl = document.getElementById("todayHrs");
-  if (todayHrsEl) todayHrsEl.textContent=hoursFor(s=>s.date===todayStr()).toFixed(1);
+  if (todayHrsEl){todayHrsEl.textContent=todayH.toFixed(1);const ts=todayHrsEl.closest('.stat');if(ts)ts.style.setProperty('--prog',Math.min(100,todayH/5.5*100).toFixed(0)+'%');}
+  const weekH=hoursFor(s=>parseD(s.date).getTime()>=sw);
   const weekHrsEl = document.getElementById("weekHrs");
-  if (weekHrsEl) weekHrsEl.textContent=hoursFor(s=>parseD(s.date).getTime()>=sw).toFixed(1);
+  if (weekHrsEl){weekHrsEl.textContent=weekH.toFixed(1);const ws=weekHrsEl.closest('.stat');if(ws)ws.style.setProperty('--prog',Math.min(100,weekH/28*100).toFixed(0)+'%');}
   const streak=computeStreak();
   const grace=isGraceDay();
   const best=updateBestStreak(streak);
   renderFlame(streak,grace);
   const streakValEl = document.getElementById("streakVal");
-  if (streakValEl) streakValEl.textContent=streak;
+  if (streakValEl){streakValEl.textContent=streak;const ss=streakValEl.closest('.stat');if(ss)ss.style.setProperty('--prog',Math.min(100,streak/30*100).toFixed(0)+'%');}
   const streakXEl = document.getElementById("streakX");
   if (streakXEl) streakXEl.textContent=grace?"⚠ grace day — study today!":streak>0?"keep it alive":"study today to start";
   const bestStreakXEl = document.getElementById("bestStreakX");
   if (bestStreakXEl&&best>0) bestStreakXEl.textContent="best: "+best+" days";
+  const rp=overallReady();
   const readyPctEl = document.getElementById("readyPct");
-  if (readyPctEl) readyPctEl.textContent=overallReady()+"%";
+  if (readyPctEl){readyPctEl.textContent=rp+"%";const rs=readyPctEl.closest('.stat');if(rs)rs.style.setProperty('--prog',rp+'%');}
 
   let wi=weekIndexFor(today);wi=Math.min(Math.max(wi,1),17);
   const wk=WEEKS[wi-1];
