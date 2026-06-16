@@ -2534,32 +2534,9 @@ function _burgerOutsideClick(e) {
   if (wrap && !wrap.contains(e.target)) closeBurgerMenu();
 }
 
-async function renderBurgerMenu() {
-  const menu = document.getElementById('burger-menu');
-  if (!menu) return;
-
-  // Fetch profile (cached per open)
-  if (!_burgerProfileCache && currentUser) {
-    try {
-      const { data } = await supabase
-        .from('profiles')
-        .select('display_name,exam_board,exam_date')
-        .eq('id', currentUser.id)
-        .single();
-      _burgerProfileCache = data || {};
-    } catch { _burgerProfileCache = {}; }
-  }
-  const prof = _burgerProfileCache || {};
-
-  // Stats
-  const totalHrs = hoursFor(() => true).toFixed(1);
-  const topicsReady = (topics || []).filter(t => t.status === 'ready').length;
-  const bestStreak = getBestStreak();
-  const papersCount = (papers || []).length;
-
-  // Theme swatches
+function _bmSwatchesHtml() {
   const current = getCurrentThemeData();
-  const swatches = Object.entries(THEMES).map(([key, th]) => {
+  return Object.entries(THEMES).map(([key, th]) => {
     const accent = th.vars['--amber'];
     const bg = th.vars['--ink2'];
     const active = current.preset === key;
@@ -2568,24 +2545,39 @@ async function renderBurgerMenu() {
       title="${th.label}"
       onclick="bmSelectTheme('${key}')"></div>`;
   }).join('');
+}
 
-  const n = escapeHtml(prof.display_name || '');
+function _bmProfileHtml(prof) {
+  const n = escapeHtml((prof && prof.display_name) || '');
   const e = escapeHtml(currentUser?.email || '');
-  const b = escapeHtml(prof.exam_board || '');
-  const d = escapeHtml(prof.exam_date || '');
+  const b = escapeHtml((prof && prof.exam_board) || '');
+  const d = escapeHtml((prof && prof.exam_date) || '');
+  return `
+    <div class="bm-row"><span class="bm-key">Name</span><span id="bm-name" class="bm-val" contenteditable="true" spellcheck="false" data-orig="${n}" onblur="bmSaveName(this)">${n}</span></div>
+    <div class="bm-row"><span class="bm-key">Email</span><span class="bm-val" style="cursor:default;color:var(--muted)">${e}</span></div>
+    <div class="bm-row"><span class="bm-key">Board</span><span id="bm-board" class="bm-val" contenteditable="true" spellcheck="false" data-orig="${b}" onblur="bmSaveBoard(this)">${b}</span></div>
+    <div class="bm-row"><span class="bm-key">Exam date</span><input type="date" class="bm-date-input" id="bm-date" value="${d}" onchange="bmSaveDate(this)"></div>`;
+}
+
+function renderBurgerMenu() {
+  const menu = document.getElementById('burger-menu');
+  if (!menu) return;
+
+  // All synchronous — renders immediately so menu has height
+  const totalHrs = hoursFor(() => true).toFixed(1);
+  const topicsReady = (topics || []).filter(t => t.status === 'ready').length;
+  const bestStreak = getBestStreak();
+  const papersCount = (papers || []).length;
 
   menu.innerHTML = `
     <div class="bm-section">
       <div class="bm-section-label">Profile</div>
-      <div class="bm-row"><span class="bm-key">Name</span><span id="bm-name" class="bm-val" contenteditable="true" spellcheck="false" data-orig="${n}" onblur="bmSaveName(this)">${n}</span></div>
-      <div class="bm-row"><span class="bm-key">Email</span><span class="bm-val" style="cursor:default;color:var(--muted)">${e}</span></div>
-      <div class="bm-row"><span class="bm-key">Board</span><span id="bm-board" class="bm-val" contenteditable="true" spellcheck="false" data-orig="${b}" onblur="bmSaveBoard(this)">${b}</span></div>
-      <div class="bm-row"><span class="bm-key">Exam date</span><input type="date" class="bm-date-input" id="bm-date" value="${d}" onchange="bmSaveDate(this)"></div>
+      <div id="bm-profile-body">${_bmProfileHtml(_burgerProfileCache)}</div>
     </div>
     <div class="bm-divider"></div>
     <div class="bm-section">
       <div class="bm-section-label">Themes</div>
-      <div class="bm-theme-grid">${swatches}</div>
+      <div class="bm-theme-grid">${_bmSwatchesHtml()}</div>
     </div>
     <div class="bm-divider"></div>
     <div class="bm-section">
@@ -2606,6 +2598,21 @@ async function renderBurgerMenu() {
     <div class="bm-section" style="padding-top:10px;padding-bottom:10px">
       <button class="bm-signout" onclick="handleLogout()">Sign out</button>
     </div>`;
+
+  // Async-fill profile only if not cached yet
+  if (!_burgerProfileCache && currentUser) {
+    supabase
+      .from('profiles')
+      .select('display_name,exam_board,exam_date')
+      .eq('id', currentUser.id)
+      .single()
+      .then(({ data }) => {
+        _burgerProfileCache = data || {};
+        const body = document.getElementById('bm-profile-body');
+        if (body) body.innerHTML = _bmProfileHtml(_burgerProfileCache);
+      })
+      .catch(() => { _burgerProfileCache = {}; });
+  }
 }
 
 function _refreshBurgerSwatches(activeKey) {
@@ -2693,7 +2700,13 @@ async function handleSession(session) {
 
     // Sync theme from DB (non-blocking) — localStorage already applied above
     loadThemeFromDB().then(dbTheme => {
-      if (dbTheme) applyTheme(dbTheme);
+      if (dbTheme) {
+        applyTheme(dbTheme);
+      } else {
+        // No theme in DB → reset to Ascent and clear stale localStorage
+        localStorage.removeItem('sq_theme');
+        applyTheme({ preset: 'ascent' });
+      }
     }).catch(() => {});
 
     // Check onboarded_at — use localStorage cache to avoid DB round-trip on reload
