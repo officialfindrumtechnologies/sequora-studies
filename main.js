@@ -13,6 +13,7 @@ import {
 } from './src/auth/onboarding.js';
 import { getSubscription, submitBkashPayment } from './src/data/subscriptions.js';
 import { initSubjectsView, setSubjectsViewTier } from './src/views/subjects-view.js';
+import { getSubjects } from './src/data/subjects.js';
 
 // Apply theme from localStorage immediately — avoids FOUC before auth resolves
 loadSavedTheme();
@@ -153,7 +154,7 @@ const SUBJECTS=[
   {key:"eng",    name:"English B", code:"4EB1", short:"Eng"},
   {key:"ban",    name:"Bangla",    code:"4BN1", short:"Bangla"},
 ];
-const subjName=k=>(SUBJECTS.find(s=>s.key===k)||{}).name||k;
+const subjName=k=>{const dyn=_timerSubjects.find(s=>s.key===k);if(dyn)return dyn.name;return(SUBJECTS.find(s=>s.key===k)||{}).name||k;};
 
 /* ============ PREREQUISITES BY SECTION ============
  * Key:   subject key (e.g. "maths")
@@ -650,6 +651,7 @@ let examDate=Store.get("ascent_exam")||"2026-09-28";
 const DAY1="2026-05-31";
 let curSubjectTab="maths";
 let curTimerSubject="maths";
+let _timerSubjects=[]; // dynamic subjects from Supabase [{key:id,name}]; empty = use hardcoded SUBJECTS fallback
 let viewingWeek=null;
 
 /* ============ 17-week plan data ============ */
@@ -805,7 +807,20 @@ function addBlockEl(parent,b,done){
   div.innerHTML=`<div class="time">${b.time}</div><div class="body"><div class="s">${b.s}</div><div class="t">${b.t}</div><div class="hint">${b.hint||""}</div></div>${go}`;
   parent.appendChild(div);
 }
-function startFromBlock(key){curTimerSubject=key;go('focus');renderTimerSubjects();setToast("Subject set: "+subjName(key));}
+function startFromBlock(key){
+  // key is a static SUBJECTS.key — try to map to the user's Supabase subject by name
+  if(_timerSubjects.length){
+    const staticS=SUBJECTS.find(s=>s.key===key);
+    if(staticS){
+      const match=_timerSubjects.find(s=>
+        s.name.toLowerCase().includes(staticS.short.toLowerCase())||
+        staticS.name.toLowerCase().includes(s.name.toLowerCase().split(/\s/)[0])
+      );
+      if(match){curTimerSubject=match.key;go('focus');renderTimerSubjects();setToast("Subject set: "+match.name);return;}
+    }
+  }
+  curTimerSubject=key;go('focus');renderTimerSubjects();setToast("Subject set: "+subjName(key));
+}
 
 /* ============ render: dashboard ============ */
 function renderDash(){
@@ -1034,7 +1049,8 @@ function renderTimerSubjects(){
   const host=document.getElementById("timerSubjects");
   if (!host) return;
   host.innerHTML="";
-  for(const s of SUBJECTS){
+  const subs=_timerSubjects.length?_timerSubjects:SUBJECTS.map(s=>({key:s.key,name:s.name}));
+  for(const s of subs){
     const b=document.createElement("button");b.textContent=s.name;
     b.className=(s.key===curTimerSubject)?"on":"";
     b.onclick=()=>{if(timerRunning){setToast("Stop the timer before switching");return;}curTimerSubject=s.key;renderTimerSubjects();};
@@ -2559,19 +2575,33 @@ function renderThemeStudio() {
   _renderTsSaveManage();
 }
 
+function _tsLum(hex){const h=(hex||'#000').replace('#','').padEnd(6,'0');const r=parseInt(h.slice(0,2),16),g=parseInt(h.slice(2,4),16),b=parseInt(h.slice(4,6),16);return(r*299+g*587+b*114)/1000;}
+
 function _renderTsPresets() {
   const el = document.getElementById('ts-preset-grid');
   if (!el) return;
   const current = getCurrentThemeData();
   el.innerHTML = Object.entries(THEMES).map(([key, th]) => {
-    const bg = th.vars['--ink2'];
-    const accent = th.vars['--amber'];
-    const textCol = th.vars['--paper'];
-    const active = current.preset === key;
-    return `<div class="ts-preset-card${active ? ' ts-active' : ''}" onclick="tsSelectPreset('${key}')" title="${th.label}">
-      <div class="ts-preset-bg" style="background:${bg}">
-        <div class="ts-preset-dot" style="background:${accent}"></div>
-        <div class="ts-preset-name" style="color:${textCol}99">${th.label}</div>
+    const bg      = th.vars['--ink']  || '#0a0a0a';
+    const surface = th.vars['--ink2'] || '#141414';
+    const accent  = th.vars['--amber']|| '#e8a33d';
+    const textCol = th.vars['--paper']|| '#f0ede8';
+    const border  = th.vars['--line'] || '#2a2820';
+    const active  = current.preset === key;
+    const light   = _tsLum(bg) > 128;
+    const dividerCol = light ? 'rgba(0,0,0,.08)' : 'rgba(255,255,255,.06)';
+    const textOpacity = light ? '0.65' : '0.55';
+    const subtleLines = light ? 'rgba(0,0,0,.12)' : 'rgba(255,255,255,.1)';
+    return `<div class="ts-preset-card${active ? ' ts-active' : ''}" onclick="tsSelectPreset('${key}')" title="${th.label}" style="background:${bg}">
+      <div style="width:100%;height:100%;display:flex;flex-direction:column;padding:6px;gap:3px;box-sizing:border-box">
+        <div style="background:${surface};border-radius:3px;padding:5px 6px;flex:1;display:flex;flex-direction:column;gap:2px;min-height:0;overflow:hidden;border:1px solid ${dividerCol}">
+          <div style="height:1.5px;background:${accent};border-radius:1px;width:55%;opacity:.9"></div>
+          <div style="height:1.5px;background:${textCol};border-radius:1px;width:80%;opacity:.12;margin-top:1px"></div>
+          <div style="height:1.5px;background:${textCol};border-radius:1px;width:60%;opacity:.08;margin-top:1px"></div>
+          <div style="margin-top:auto;font-family:monospace;font-size:9.5px;font-weight:700;color:${accent};line-height:1;letter-spacing:-.01em">42</div>
+        </div>
+        <div style="height:2px;background:${accent};border-radius:1px;width:40%;opacity:.85"></div>
+        <div style="font-family:monospace;font-size:6px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:${textCol};opacity:${textOpacity};line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${th.label}</div>
       </div>
       ${active ? '<div class="ts-preset-check">✓</div>' : ''}
     </div>`;
@@ -3300,6 +3330,15 @@ function showApp() {
   loadStateFromSupabase().catch(err => {
     console.error("[Auth] Background data load failed (app still usable):", err);
   });
+  // Load user's subjects for the focus timer tabs
+  getSubjects().then(subs => {
+    if (!subs.length) return;
+    _timerSubjects = subs.map(s => ({ key: s.id, name: s.name }));
+    if (!_timerSubjects.find(s => s.key === curTimerSubject)) {
+      curTimerSubject = _timerSubjects[0].key;
+    }
+    renderTimerSubjects();
+  }).catch(() => {});
 }
 
 // Exposed so onboarding.js can call it after wizard completes
