@@ -1957,7 +1957,7 @@ async function handleLogin() {
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: window.location.origin
+        emailRedirectTo: window.location.origin + '/app'
       }
     });
 
@@ -2032,6 +2032,57 @@ async function handlePasswordLogin() {
     setToast("Login error: " + err.message);
     pwdBtn.disabled = false;
     pwdBtn.textContent = "Password Sign In";
+  }
+}
+
+let _authMode = 'signin';
+function toggleAuthMode() {
+  _authMode = _authMode === 'signin' ? 'signup' : 'signin';
+  const isSignup = _authMode === 'signup';
+  document.getElementById('signinButtons').style.display = isSignup ? 'none' : 'flex';
+  document.getElementById('signupButtons').style.display = isSignup ? 'block' : 'none';
+  document.getElementById('loginSubtitle').textContent = isSignup ? 'Create your free account' : 'Sign in to your account';
+  document.getElementById('authToggleText').textContent = isSignup ? 'Already have an account?' : 'New here?';
+  document.getElementById('authToggleBtn').textContent = isSignup ? 'Sign in' : 'Create account';
+  document.getElementById('loginPassword').autocomplete = isSignup ? 'new-password' : 'current-password';
+  document.getElementById('loginStatus').textContent = '';
+}
+
+async function handleSignup() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const btn = document.getElementById('signupBtn');
+  const status = document.getElementById('loginStatus');
+
+  if (!email || !password) { setToast('Enter email and password'); return; }
+  if (password.length < 6) { status.textContent = 'Password must be at least 6 characters'; return; }
+  if (!supabase) { status.textContent = 'Error: Supabase not configured'; return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Creating account...';
+  status.textContent = '';
+
+  try {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { emailRedirectTo: window.location.origin + '/app' },
+    });
+    if (error) {
+      status.textContent = 'Error: ' + error.message;
+      setToast('Signup failed');
+    } else if (data?.session) {
+      // Email confirmation disabled — logged in immediately
+      handleSession(data.session);
+    } else {
+      status.textContent = 'Check your email to confirm your account, then sign in.';
+      setToast('Check your email!');
+    }
+  } catch (err) {
+    status.textContent = 'Error: ' + err.message;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Create account';
   }
 }
 
@@ -2220,6 +2271,8 @@ window.copyPrereqCheckPrompt = copyPrereqCheckPrompt;
 window.cycleStatus = cycleStatus;
 window.handleLogin = handleLogin;
 window.handlePasswordLogin = handlePasswordLogin;
+window.handleSignup = handleSignup;
+window.toggleAuthMode = toggleAuthMode;
 window.handleLogout = handleLogout;
 window.getAIRecommendation = getAIRecommendation;
 window.runWeeklyCheckIn = runWeeklyCheckIn;

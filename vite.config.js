@@ -60,8 +60,8 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main: 'index.html',
-        landing: 'landing.html',
+        main: 'index.html',   // landing page — served at /
+        app: 'app.html',      // study app — served at /app
         admin: 'admin.html',
       }
     }

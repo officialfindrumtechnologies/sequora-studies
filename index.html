@@ -3,1309 +3,538 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ascent · O-Level Command Deck</title>
+<title>Sequora Studies — Track every topic, beat every exam</title>
+<meta name="description" content="Structured study tracking for IGCSE, A-Level, O Level and ACCA students in Bangladesh. Topic tracker, spaced recall, and AI-powered study guidance.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#12100e; --ink2:#1a1815; --ink3:#231f1a; --line:#332d26;
-  --paper:#f4ece0; --paper-dim:#cdc4b5; --muted:#9b9184;
-  --amber:#e8a33d; --amber-soft:#f0c277; --amber-deep:#c47e1c;
-  --green:#7fae6f; --green-deep:#4f7a45; --red:#cf6a55; --blue:#6f9dc4;
-  --display:"Fraunces",serif; --body:"Newsreader",serif; --mono:"JetBrains Mono",monospace;
-  --r:14px; --rs:9px;
-  --glow-color:232,163,61;
+  --ink:#12100e;--ink2:#1a1815;--ink3:#231f1a;--line:#332d26;
+  --paper:#f4ece0;--paper-dim:#cdc4b5;--muted:#9b9184;
+  --amber:#e8a33d;--amber-soft:#f0c277;--amber-deep:#c47e1c;
+  --green:#7fae6f;--green-deep:#4f7a45;--red:#cf6a55;--blue:#6f9dc4;
+  --display:"Fraunces",serif;--body:"Newsreader",serif;--mono:"JetBrains Mono",monospace;
+  --r:14px;--rs:9px;--max:1140px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
-  font-family:var(--body); background:var(--ink); color:var(--paper);
-  min-height:100vh; font-size:17px; line-height:1.55;
+  font-family:var(--body);background:var(--ink);color:var(--paper);
+  font-size:17px;line-height:1.6;
   background-image:
-    radial-gradient(1100px 600px at 78% -8%, rgba(var(--glow-color),.10), transparent 60%),
-    radial-gradient(900px 700px at -10% 110%, rgba(var(--glow-color),.04), transparent 55%);
+    radial-gradient(1200px 700px at 75% -5%,rgba(232,163,61,.09),transparent 55%),
+    radial-gradient(900px 800px at -5% 95%,rgba(111,157,196,.06),transparent 55%);
   background-attachment:fixed;
 }
-body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.035;
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.025;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
-.wrap{max-width:1180px;margin:0 auto;padding:0 22px 90px;position:relative;z-index:2}
 
-/* ---------- header ---------- */
-header{padding:30px 0 18px;display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap}
-.brand{display:flex;flex-direction:column}
-.brand .mark{font-family:var(--mono);font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--amber);font-weight:700}
-.brand h1{font-family:var(--display);font-weight:900;font-size:40px;line-height:.95;letter-spacing:-.02em;margin-top:4px}
-.brand h1 em{font-style:italic;color:var(--amber-soft);font-weight:500}
-.brand .sub{color:var(--muted);font-size:15px;margin-top:6px;font-style:italic}
-.headclock{font-family:var(--mono);font-size:13px;color:var(--paper-dim);text-align:right;line-height:1.7}
-.headclock b{color:var(--amber);font-weight:700}
+/* layout */
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px;position:relative;z-index:1}
+section{padding:96px 0}
 
-/* ---------- nav ---------- */
-nav{display:flex;gap:4px;flex-wrap:wrap;margin:14px 0 26px;padding:6px;background:var(--ink2);border:1px solid var(--line);border-radius:var(--r)}
-nav button{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--paper-dim);background:transparent;border:none;padding:10px 15px;border-radius:var(--rs);cursor:pointer;transition:.2s;font-weight:500}
-nav button:hover{color:var(--paper);background:var(--ink3)}
-nav button.active{color:var(--ink);background:var(--amber);font-weight:700}
+/* buttons */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  text-decoration:none;padding:11px 22px;border-radius:var(--rs);border:none;cursor:pointer;
+  transition:.18s;white-space:nowrap;
+}
+.btn-primary{background:var(--amber);color:var(--ink)}
+.btn-primary:hover{background:var(--amber-soft);transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--paper-dim);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--amber);color:var(--amber)}
+.btn-lg{padding:15px 32px;font-size:14px;letter-spacing:.07em}
+.btn-sm{padding:8px 16px;font-size:11px}
 
-/* ---------- cards & grid ---------- */
-.grid{display:grid;gap:18px}
-.g3{grid-template-columns:repeat(3,1fr)} .g2{grid-template-columns:repeat(2,1fr)}
-.g-hero{grid-template-columns:1.4fr 1fr}
-.card{background:var(--ink2);border:1px solid var(--line);border-radius:var(--r);padding:22px;position:relative;overflow:hidden}
-.card.accent{border-color:var(--amber-deep)}
-.card h2{font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:-.01em;margin-bottom:3px;display:flex;align-items:center;gap:9px}
-.card .lead{font-family:var(--mono);font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--amber);font-weight:700;margin-bottom:14px}
-.kicker{font-family:var(--mono);font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);font-weight:700}
+/* section labels */
+.s-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--amber);font-weight:700;margin-bottom:14px}
+.s-h2{font-family:var(--display);font-weight:900;font-size:clamp(32px,4.5vw,48px);line-height:1.05;letter-spacing:-.02em;margin-bottom:16px}
+.s-sub{font-size:17px;color:var(--paper-dim);max-width:560px;line-height:1.65}
 
-/* ---------- countdown ---------- */
-.countdown{display:flex;align-items:baseline;gap:14px;margin:6px 0 2px}
-.countdown .num{font-family:var(--display);font-weight:900;font-size:78px;line-height:.85;color:var(--amber);letter-spacing:-.03em}
-.countdown .lbl{font-family:var(--body);font-size:18px;color:var(--paper-dim);font-style:italic}
-.cd-row{display:flex;gap:22px;margin-top:16px;flex-wrap:wrap}
-.cd-row div{font-family:var(--mono);font-size:12px;color:var(--paper-dim)}
-.cd-row b{color:var(--paper);font-weight:700;font-size:15px;display:block}
-.datein{margin-top:14px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-input[type=date],input[type=number],input[type=text],select,textarea{
-  font-family:var(--mono);font-size:13px;background:var(--ink);color:var(--paper);
-  border:1px solid var(--line);border-radius:var(--rs);padding:8px 10px;outline:none}
-input:focus,select:focus,textarea:focus{border-color:var(--amber)}
-textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-height:60px;line-height:1.5}
+/* ── NAV ── */
+nav.l-nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(18,16,14,.88);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.nav-inner{
+  max-width:var(--max);margin:0 auto;padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;height:64px;
+}
+.nav-logo{
+  font-family:var(--display);font-weight:900;font-size:22px;letter-spacing:-.02em;
+  color:var(--paper);text-decoration:none;display:flex;align-items:center;gap:10px;
+}
+.nav-badge{
+  font-family:var(--mono);font-size:9px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--amber);font-weight:700;background:rgba(232,163,61,.12);
+  border:1px solid rgba(232,163,61,.25);border-radius:4px;padding:2px 7px;
+}
+.nav-links{display:flex;align-items:center;gap:4px;list-style:none}
+.nav-links a{
+  font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:var(--rs);
+  transition:.18s;font-weight:500;
+}
+.nav-links a:hover{color:var(--paper);background:var(--ink3)}
+.nav-ctas{display:flex;align-items:center;gap:8px}
 
-/* ---------- timer ---------- */
-.timer-face{font-family:var(--mono);font-weight:700;font-size:64px;letter-spacing:.02em;text-align:center;color:var(--paper);margin:6px 0 4px;font-variant-numeric:tabular-nums}
-.timer-face.running{color:var(--amber)}
-.timer-sub{text-align:center;font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
-.btn-row{display:flex;gap:9px;justify-content:center;flex-wrap:wrap}
-.btn{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;padding:11px 18px;border-radius:var(--rs);cursor:pointer;border:1px solid var(--line);background:var(--ink3);color:var(--paper);transition:.18s}
-.btn:hover{border-color:var(--amber);color:var(--amber)}
-.btn.primary{background:var(--amber);color:var(--ink);border-color:var(--amber)}
-.btn.primary:hover{background:var(--amber-soft);color:var(--ink)}
-.btn.ghost{background:transparent}
-.btn.sm{padding:6px 11px;font-size:11px}
-.btn.danger:hover{border-color:var(--red);color:var(--red)}
-.timer-meta{display:flex;justify-content:space-between;margin-top:16px;gap:10px}
-.timer-meta div{flex:1;text-align:center;padding:11px 6px;background:var(--ink);border-radius:var(--rs);border:1px solid var(--line)}
-.timer-meta .v{font-family:var(--mono);font-weight:700;font-size:21px;color:var(--amber)}
-.timer-meta .k{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:3px}
-.subjsel{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px;justify-content:center}
-.subjsel button{font-family:var(--mono);font-size:11px;padding:7px 12px;border-radius:20px;border:1px solid var(--line);background:var(--ink);color:var(--paper-dim);cursor:pointer;transition:.15s}
-.subjsel button.on{background:var(--ink3);border-color:var(--amber);color:var(--amber)}
+/* ── HERO ── */
+.l-hero{
+  padding:80px 0 96px;
+  display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;
+}
+.hero-mark{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--amber);margin-bottom:20px;display:block;font-weight:700}
+.hero-h1{font-family:var(--display);font-weight:900;font-size:clamp(40px,5.5vw,66px);line-height:.96;letter-spacing:-.025em;margin-bottom:22px}
+.hero-h1 em{font-style:italic;color:var(--amber-soft);font-weight:500}
+.hero-sub{font-size:18px;color:var(--paper-dim);line-height:1.65;max-width:460px;margin-bottom:36px}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px}
+.hero-proof{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.04em}
+.hero-proof span{color:var(--green);margin-right:5px}
 
-/* ---------- today plan / blocks ---------- */
-.block{display:flex;gap:14px;align-items:flex-start;padding:15px;border:1px solid var(--line);border-radius:var(--rs);margin-bottom:11px;background:var(--ink);transition:.18s}
-.block:hover{border-color:var(--amber-deep)}
-.block.done{opacity:.5}
-.block .time{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--amber);min-width:74px;padding-top:2px}
-.block .body{flex:1}
-.block .body .s{font-family:var(--display);font-weight:600;font-size:17px}
-.block .body .t{color:var(--paper-dim);font-size:15px;margin-top:2px}
-.block .body .t b{color:var(--amber-soft);font-style:italic;font-weight:500}
-.block .body .hint{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:6px;letter-spacing:.04em}
-.block .go{align-self:center}
-.locked{background:linear-gradient(120deg,var(--ink3),var(--ink2));border-style:dashed}
-.locked .s{color:var(--paper-dim)}
-/* recall + closeout + flags */
-.recall-item{display:flex;align-items:center;gap:11px;padding:10px 12px;border:1px solid var(--line);border-radius:var(--rs);margin-bottom:7px;background:var(--ink)}
-.recall-item .rg{flex:1}
-.recall-item .rn{font-size:14px}
-.recall-item .rs{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:2px}
-.recall-item .rs b{color:var(--amber-soft)}
-.recall-item .overdue{color:var(--red)}
-.recall-btns{display:flex;gap:6px;flex-shrink:0}
-.pill-due{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--amber)}
-.closeout-grid{display:flex;flex-direction:column;gap:8px}
-.co-block{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 13px;border:1px solid var(--line);border-radius:var(--rs);background:var(--ink)}
-.co-block .col{font-size:14px}
-.co-block .col .cs{font-family:var(--mono);font-size:10px;color:var(--muted)}
-.co-toggle{font-family:var(--mono);font-size:11px;font-weight:700;padding:6px 13px;border-radius:20px;border:1px solid var(--line);background:var(--ink3);color:var(--paper-dim);cursor:pointer;transition:.15s;min-width:62px}
-.co-toggle.yes{background:rgba(127,174,111,.2);border-color:var(--green);color:var(--green)}
-.co-toggle.no{background:rgba(207,106,85,.15);border-color:var(--red);color:var(--red)}
-.co-done-banner{font-family:var(--mono);font-size:12px;color:var(--green);background:rgba(127,174,111,.1);border:1px solid var(--green-deep);border-radius:var(--rs);padding:10px 12px;text-align:center}
-.flag{display:flex;align-items:flex-start;gap:10px;padding:12px 15px;border-radius:var(--rs);margin-bottom:10px;background:rgba(207,106,85,.1);border:1px solid var(--red)}
-.flag .fi{font-size:17px;flex-shrink:0;margin-top:1px}
-.flag .ft{font-size:14.5px;line-height:1.5;color:var(--paper)}
-.flag .ft b{color:var(--red)}
-.flag.amber{background:rgba(232,163,61,.1);border-color:var(--amber-deep)}
-.flag.amber .ft b{color:var(--amber)}
+/* ── MOCK DASHBOARD ── */
+.hero-visual{position:relative}
+.mock-card{
+  background:var(--ink2);border:1px solid var(--line);border-radius:var(--r);
+  padding:22px;box-shadow:0 32px 80px rgba(0,0,0,.55);position:relative;
+}
+.mock-card::before{content:"";position:absolute;inset:0;border-radius:var(--r);pointer-events:none;background:linear-gradient(135deg,rgba(232,163,61,.05) 0%,transparent 60%)}
+.mock-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.mock-title{font-family:var(--display);font-weight:700;font-size:17px}
+.mock-code{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:3px}
+.mock-pct{font-family:var(--mono);font-size:26px;font-weight:700;color:var(--amber);line-height:1}
+.mock-pct-label{font-family:var(--mono);font-size:10px;color:var(--muted);text-align:right}
+.mock-bar-wrap{height:6px;background:var(--ink3);border-radius:3px;margin-bottom:18px;overflow:hidden}
+.mock-bar{height:100%;background:linear-gradient(90deg,var(--amber),var(--amber-soft));border-radius:3px}
+.mock-row{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--rs);margin-bottom:4px;font-size:13.5px}
+.mock-row.is-ready{opacity:.65}
+.mock-cyc{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.cyc-ready{background:var(--green-deep);border-color:var(--green);color:var(--paper);font-weight:700}
+.cyc-learn{background:rgba(232,163,61,.18);border-color:var(--amber);color:var(--amber);font-weight:700}
+.mock-nm{flex:1;font-size:13.5px}
+.mock-row.is-ready .mock-nm{text-decoration:line-through;opacity:.5}
+.mock-tag{font-family:var(--mono);font-size:10px;padding:3px 8px;border-radius:4px;background:var(--ink3);color:var(--muted);flex-shrink:0}
+.t-ready{color:var(--green);background:rgba(127,174,111,.12)}
+.t-next{color:var(--amber-soft);background:rgba(232,163,61,.18);font-weight:700}
+.mock-lock{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--rs);
+  margin-top:8px;background:rgba(255,255,255,.02);border:1px dashed rgba(255,255,255,.1);font-size:13px;
+}
+.mock-lock-text{font-family:var(--mono);font-size:10px;color:var(--muted);flex:1}
+.mock-up-btn{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--amber);color:var(--ink);border:none;border-radius:5px;padding:5px 10px;cursor:default}
+.mock-float{
+  position:absolute;right:-18px;bottom:-18px;
+  background:var(--ink2);border:1px solid var(--line);border-radius:var(--r);
+  padding:12px 16px;box-shadow:0 12px 30px rgba(0,0,0,.45);
+  font-family:var(--mono);font-size:11px;display:flex;align-items:center;gap:10px;
+}
+.mock-float-stat{font-weight:700;color:var(--amber-soft);font-size:15px;display:block}
+.mock-float-label{color:var(--muted);font-size:10px;display:block}
 
-/* ---------- progress bars ---------- */
-.bar{height:9px;border-radius:6px;background:var(--ink);overflow:hidden;border:1px solid var(--line)}
-.bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--amber-deep),var(--amber));border-radius:6px;transition:width .6s cubic-bezier(.2,.8,.2,1)}
-.subj-prog{margin-bottom:13px}
-.subj-prog .top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
-.subj-prog .nm{font-family:var(--display);font-weight:600;font-size:15px}
-.subj-prog .pc{font-family:var(--mono);font-size:12px;color:var(--amber);font-weight:700}
-.subj-prog .cnt{font-family:var(--mono);font-size:10px;color:var(--muted)}
+/* ── FEATURES ── */
+.l-features{background:var(--ink2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:52px}
+.feat-cell{background:var(--ink);padding:36px 30px;border:1px solid var(--line)}
+.feat-cell:first-child{border-radius:var(--r) 0 0 var(--r)}
+.feat-cell:last-child{border-radius:0 var(--r) var(--r) 0}
+.feat-icon{font-size:28px;margin-bottom:18px;display:block}
+.feat-title{font-family:var(--display);font-weight:700;font-size:22px;margin-bottom:10px;line-height:1.15}
+.feat-body{font-size:15px;color:var(--paper-dim);line-height:1.7}
+.feat-detail{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.feat-item{display:flex;align-items:flex-start;gap:8px;font-size:13.5px;color:var(--paper-dim)}
+.feat-item::before{content:"✓";color:var(--green);font-weight:700;margin-top:1px;flex-shrink:0}
 
-/* ---------- stat tiles ---------- */
-.stat{background:var(--ink2);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;position:relative;overflow:hidden}
-.stat .v{font-family:var(--display);font-weight:900;font-size:38px;color:var(--amber);line-height:1;letter-spacing:-.02em}
-.stat .k{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:8px}
-.stat .x{font-family:var(--mono);font-size:11px;color:var(--paper-dim);margin-top:4px}
-.flame{position:absolute;top:14px;right:16px;font-size:22px;filter:saturate(1.2)}
+/* ── HOW IT WORKS ── */
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:52px;position:relative}
+.how-grid::before{
+  content:"";position:absolute;top:30px;left:calc(16.66% + 20px);right:calc(16.66% + 20px);
+  height:1px;background:linear-gradient(90deg,var(--amber),var(--amber-deep));z-index:0;
+}
+.how-step{padding:0 24px;text-align:center;position:relative;z-index:1}
+.how-num{
+  width:60px;height:60px;border-radius:50%;margin:0 auto 22px;
+  background:var(--ink2);border:2px solid var(--amber);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:20px;font-weight:700;color:var(--amber);
+}
+.how-title{font-family:var(--display);font-weight:700;font-size:20px;margin-bottom:10px;line-height:1.2}
+.how-body{font-size:14.5px;color:var(--paper-dim);line-height:1.7}
 
-/* ---------- topic rows ---------- */
-.section-h{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);font-weight:700;margin:18px 0 9px;padding-bottom:5px;border-bottom:1px solid var(--line)}
-.topic{display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:var(--rs);margin-bottom:5px;background:var(--ink);border:1px solid transparent;transition:.13s}
-.topic:hover{border-color:var(--line)}
-.topic .cyc{width:26px;height:26px;border-radius:7px;border:2px solid var(--line);cursor:pointer;flex-shrink:0;transition:.15s;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
-.topic .cyc.learning{border-color:var(--amber);background:rgba(232,163,61,.16);color:var(--amber)}
-.topic .cyc.ready{border-color:var(--green);background:rgba(127,174,111,.2);color:var(--green)}
-.topic .nm{flex:1;font-size:14.5px}
-.topic.is-ready .nm{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--green-deep)}
-.topic .tag{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:2px 7px;border:1px solid var(--line);border-radius:12px}
-.topic .nextpill{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;background:var(--amber);color:var(--ink);font-weight:700;padding:2px 8px;border-radius:12px}
+/* ── PRICING ── */
+.l-pricing{background:var(--ink2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:52px;align-items:start}
+.price-card{background:var(--ink);padding:36px 28px;border:1px solid var(--line);display:flex;flex-direction:column}
+.price-card:first-child{border-radius:var(--r) 0 0 var(--r)}
+.price-card:last-child{border-radius:0 var(--r) var(--r) 0}
+.price-card.popular{
+  border-color:var(--amber-deep);background:var(--ink2);border-radius:var(--r);
+  box-shadow:0 0 0 1px var(--amber-deep),0 24px 60px rgba(0,0,0,.4);
+  transform:translateY(-8px);z-index:2;position:relative;
+}
+.popular-badge{
+  display:inline-block;background:var(--amber);color:var(--ink);
+  font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:4px 12px;border-radius:20px;margin-bottom:16px;
+}
+.price-tier{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:8px}
+.price-amount{font-family:var(--display);font-weight:900;font-size:44px;line-height:1;letter-spacing:-.02em;margin-bottom:4px}
+.price-amount small{font-size:18px;font-weight:400;opacity:.6}
+.price-alt{font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:20px;min-height:18px}
+.price-div{height:1px;background:var(--line);margin:20px 0}
+.price-feats{list-style:none;display:flex;flex-direction:column;gap:10px;flex:1;margin-bottom:28px}
+.price-feats li{display:flex;align-items:flex-start;gap:9px;font-size:14.5px;color:var(--paper-dim)}
+.price-feats li .fi{flex-shrink:0;margin-top:2px}
+.fi-yes{color:var(--green)}
+.fi-no{color:var(--muted);opacity:.35}
+.pricing-note{margin-top:32px;text-align:center;font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.7}
+.pricing-note b{color:var(--paper-dim)}
+.bkash-tag{display:inline-flex;align-items:center;gap:4px;background:rgba(232,163,61,.08);border:1px solid rgba(232,163,61,.2);border-radius:var(--rs);padding:2px 9px;font-weight:700;color:var(--amber-soft)}
 
-/* ---------- lists / logs ---------- */
-.logitem{padding:13px 15px;border:1px solid var(--line);border-radius:var(--rs);margin-bottom:9px;background:var(--ink)}
-.logitem .meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.logitem .meta .s{font-family:var(--mono);font-size:11px;color:var(--amber);font-weight:700;letter-spacing:.06em}
-.logitem .meta .d{font-family:var(--mono);font-size:10px;color:var(--muted)}
-.logitem .mistake{font-size:14px;margin-bottom:4px}
-.logitem .fix{font-size:14px;color:var(--green);padding-left:12px;border-left:2px solid var(--green-deep)}
-.score-line{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border:1px solid var(--line);border-radius:var(--rs);margin-bottom:8px;background:var(--ink)}
-.score-line .id{font-family:var(--mono);font-size:13px}
-.score-line .sc{font-family:var(--mono);font-weight:700;font-size:15px}
-.score-line .sc.astar{color:var(--green)} .score-line .sc.near{color:var(--amber)} .score-line .sc.low{color:var(--red)}
+/* ── FAQ ── */
+.faq-list{margin-top:48px;max-width:720px}
+details.faq-item{border-bottom:1px solid var(--line)}
+details.faq-item:first-child{border-top:1px solid var(--line)}
+summary.faq-q{
+  font-size:17px;font-weight:500;color:var(--paper);
+  padding:20px 0;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;list-style:none;
+}
+summary.faq-q::-webkit-details-marker{display:none}
+summary.faq-q::after{content:"＋";font-family:var(--mono);font-size:18px;font-weight:300;color:var(--amber);flex-shrink:0;transition:.2s}
+details[open] summary.faq-q::after{content:"－"}
+.faq-a{font-size:15.5px;color:var(--paper-dim);line-height:1.7;padding-bottom:20px}
 
-/* ---------- weekly ---------- */
-.weekbig{font-family:var(--display);font-weight:900;font-size:54px;color:var(--amber);line-height:.9;letter-spacing:-.02em}
-.phase-chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;padding:4px 11px;border-radius:14px;margin-top:8px}
-.phase-CONTENT{background:rgba(111,157,196,.18);color:var(--blue);border:1px solid var(--blue)}
-.phase-PRACTICE{background:rgba(127,174,111,.18);color:var(--green);border:1px solid var(--green-deep)}
-.phase-TAPER{background:rgba(232,163,61,.18);color:var(--amber);border:1px solid var(--amber-deep)}
-.phase-SETUP{background:rgba(207,106,85,.18);color:var(--red);border:1px solid var(--red)}
-.wk-block{margin-top:16px}
-.wk-block .lab{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);font-weight:700;margin-bottom:6px}
-.wk-block p{font-size:15.5px;color:var(--paper-dim);line-height:1.6}
-.miles{list-style:none;margin-top:6px}
-.miles li{font-size:14.5px;padding:6px 0 6px 24px;position:relative;color:var(--paper-dim)}
-.miles li::before{content:"○";position:absolute;left:4px;color:var(--amber);font-size:12px;top:7px}
-.weeknav{display:flex;gap:8px;align-items:center;margin-top:4px}
+/* ── CTA STRIP ── */
+.l-cta{padding:96px 0;text-align:center;background:radial-gradient(900px 400px at 50% 50%,rgba(232,163,61,.08),transparent 70%)}
+.l-cta .s-h2{margin:0 auto 16px;max-width:600px}
+.l-cta .s-sub{margin:0 auto 40px}
+.cta-note{margin-top:18px;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.04em}
 
-/* ---------- weekly check-in AI specific CSS ---------- */
-.checkin-row{display:flex;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:var(--rs);background:var(--ink2);margin-top:16px}
+/* ── FOOTER ── */
+footer.l-footer{border-top:1px solid var(--line);padding:32px 0;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.footer-inner{max-width:var(--max);margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.footer-logo{font-family:var(--display);font-weight:900;font-size:18px;color:var(--paper);letter-spacing:-.01em}
+.footer-links{display:flex;gap:20px}
+.footer-links a{color:var(--muted);text-decoration:none;transition:.15s}
+.footer-links a:hover{color:var(--amber)}
 
-/* ---------- toolkit prompts ---------- */
-.prompt{background:var(--ink);border:1px solid var(--line);border-radius:var(--rs);padding:14px 15px;margin-bottom:11px;position:relative}
-.prompt .pt{font-family:var(--display);font-weight:600;font-size:15px;margin-bottom:6px;color:var(--amber-soft)}
-.prompt .pc{font-family:var(--mono);font-size:11.5px;line-height:1.65;color:var(--paper-dim);white-space:pre-wrap}
-.prompt .copy{position:absolute;top:12px;right:12px}
-.tactic{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}
-.tactic:last-child{border-bottom:none}
-.tactic .n{font-family:var(--display);font-weight:900;font-size:22px;color:var(--amber-deep);min-width:34px;line-height:1}
-.tactic .tx b{font-family:var(--display);font-weight:600;font-size:15px;color:var(--paper)}
-.tactic .tx p{font-size:14.5px;color:var(--paper-dim);margin-top:2px;line-height:1.55}
-
-/* misc */
-/* ---------- study order ---------- */
-.so-item{display:flex;align-items:center;gap:11px;padding:9px 12px;border-radius:var(--rs);margin-bottom:4px;background:var(--ink);border:1px solid transparent}
-.so-item .so-num{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--muted);min-width:26px;text-align:right}
-.so-item .so-ind{font-size:14px;flex-shrink:0;width:20px;text-align:center}
-.so-item .so-ind.done{color:var(--green)}.so-item .so-ind.partial{color:var(--amber)}.so-item .so-ind.empty{color:var(--muted)}
-.so-item .so-name{flex:1;font-size:14.5px}
-.so-item .so-dep{font-family:var(--mono);font-size:10px;color:var(--muted);font-style:italic}
-.so-item.is-done{opacity:.55}
-.so-item .so-count{font-family:var(--mono);font-size:10px;color:var(--muted)}
-
-.hidden{display:none !important}
-.empty{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:center;padding:24px;font-style:normal}
-.row-add{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
-.note-banner{font-family:var(--mono);font-size:11px;line-height:1.6;color:var(--paper-dim);background:rgba(232,163,61,.07);border:1px solid var(--amber-deep);border-radius:var(--rs);padding:12px 14px;margin-bottom:16px}
-.note-banner b{color:var(--amber)}
-.mini-link{font-family:var(--mono);font-size:11px;color:var(--blue);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
-.split{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
-.fieldlabel{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;display:block}
-footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--muted);padding:30px 0;line-height:1.8}
-.toast{position:fixed;inset-inline-start:50%;bottom:26px;transform:translateX(-50%) translateY(80px);background:var(--amber);color:var(--ink);font-family:var(--mono);font-size:12px;font-weight:700;padding:11px 20px;border-radius:30px;z-index:9999;transition:transform .3s cubic-bezier(.2,.9,.2,1);letter-spacing:.04em}
-.toast.show{transform:translateX(-50%) translateY(0)}
-.modal-overlay{position:fixed;inset:0;background:rgba(8,7,6,.78);backdrop-filter:blur(4px);z-index:90;display:flex;align-items:center;justify-content:center;padding:24px;animation:fadein .2s ease}
-@keyframes fadein{from{opacity:0}to{opacity:1}}
-.modal-box{background:var(--ink2);border:1px solid var(--amber-deep);border-radius:var(--r);max-width:760px;width:100%;max-height:86vh;display:flex;flex-direction:column;padding:22px;box-shadow:0 30px 80px rgba(0,0,0,.6)}
-.modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:14px}
-.modal-actions{display:flex;gap:9px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
-#summaryText{flex:1;min-height:340px;font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--paper);background:var(--ink);border:1px solid var(--line);border-radius:var(--rs);padding:14px;resize:none;white-space:pre-wrap}
-@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-.view{animation:rise .4s ease both}
-.view > *{animation:rise .5s ease both}
-.view > *:nth-child(2){animation-delay:.05s}.view > *:nth-child(3){animation-delay:.1s}.view > *:nth-child(4){animation-delay:.15s}
-@media(max-width:880px){.g3,.g2,.g-hero{grid-template-columns:1fr}.brand h1{font-size:32px}.countdown .num{font-size:60px}.timer-face{font-size:52px}}
-
-/* ---------- Auth Gating Styles ---------- */
-.login-overlay {
-  position: fixed;
-  inset: 0;
-  background: var(--ink);
-  background-image:
-    radial-gradient(600px 400px at 50% 50%, rgba(232,163,61,.08), transparent 60%);
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 22px;
+/* ── RESPONSIVE ── */
+@media(max-width:880px){
+  .l-hero{grid-template-columns:1fr;gap:48px;padding:56px 0 72px}
+  .hero-visual{order:-1}
+  .mock-float{display:none}
+  .feat-grid,.pricing-grid{grid-template-columns:1fr;gap:2px}
+  .feat-cell:first-child{border-radius:var(--r) var(--r) 0 0}
+  .feat-cell:last-child,.price-card:last-child{border-radius:0 0 var(--r) var(--r)}
+  .price-card:first-child{border-radius:var(--r) var(--r) 0 0}
+  .price-card.popular{transform:none;border-radius:0}
+  .how-grid{grid-template-columns:1fr;gap:36px}
+  .how-grid::before{display:none}
+  section{padding:64px 0}
 }
-.login-box {
-  background: var(--ink2);
-  border: 1px solid var(--amber-deep);
-  border-radius: var(--r);
-  padding: 30px;
-  max-width: 400px;
-  width: 100%;
-  box-shadow: 0 30px 80px rgba(0,0,0,.8);
-  text-align: center;
+@media(max-width:520px){
+  .nav-links{display:none}
+  .nav-ctas .btn-ghost{display:none}
+  .hero-h1{font-size:36px}
 }
-
-/* ---------- Onboarding wizard ---------- */
-.wiz-overlay {
-  position: fixed; inset: 0;
-  background: var(--ink);
-  background-image: radial-gradient(700px 500px at 60% 20%, rgba(232,163,61,.09), transparent 60%);
-  z-index: 9998;
-  display: flex; align-items: center; justify-content: center;
-  padding: 22px; overflow-y: auto;
-}
-.wiz-box {
-  background: var(--ink2);
-  border: 1px solid var(--amber-deep);
-  border-radius: var(--r);
-  padding: 32px 30px 28px;
-  max-width: 560px; width: 100%;
-  box-shadow: 0 30px 80px rgba(0,0,0,.8);
-}
-.wiz-progress {
-  display: flex; gap: 8px; align-items: center; margin-bottom: 28px;
-}
-.wiz-dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--line); transition: .2s;
-}
-.wiz-dot-active { background: var(--amber); }
-.wiz-dot-done   { background: var(--amber-deep); }
-.wiz-step-label {
-  font-family: var(--mono); font-size: 10px; letter-spacing: .2em;
-  text-transform: uppercase; color: var(--muted); margin-left: 4px;
-}
-.wiz-title {
-  font-family: var(--display); font-weight: 900; font-size: 26px;
-  color: var(--paper); letter-spacing: -.01em; margin-bottom: 5px;
-}
-.wiz-sub {
-  font-size: 15px; color: var(--muted); font-style: italic; margin-bottom: 22px;
-}
-.wiz-field { margin-bottom: 16px; }
-.wiz-field label {
-  display: block; font-family: var(--mono); font-size: 10px;
-  letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
-}
-.wiz-field input, .wiz-field select {
-  width: 100%; font-size: 14px;
-}
-.wiz-row { display: flex; gap: 9px; }
-.wiz-btns { display: flex; gap: 9px; margin-top: 22px; justify-content: flex-end; }
-.wiz-error {
-  font-family: var(--mono); font-size: 11px; color: var(--red);
-  background: rgba(207,106,85,.1); border: 1px solid var(--red);
-  border-radius: var(--rs); padding: 8px 12px; margin-top: 12px;
-}
-/* templates list */
-.wiz-tmpl-row {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 10px; padding: 9px 11px; border: 1px solid var(--line);
-  border-radius: var(--rs); margin-bottom: 7px; background: var(--ink);
-}
-.wiz-tmpl-info { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
-.wiz-tmpl-name { font-size: 14px; color: var(--paper); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.wiz-tmpl-code {
-  font-family: var(--mono); font-size: 10px; color: var(--muted);
-  border: 1px solid var(--line); border-radius: 10px; padding: 1px 7px; flex-shrink: 0;
-}
-.wiz-tmpl-count { font-family: var(--mono); font-size: 10px; color: var(--muted); flex-shrink: 0; }
-.wiz-btn-done { background: rgba(127,174,111,.15) !important; border-color: var(--green) !important; color: var(--green) !important; }
-/* added subjects */
-.wiz-added-list { margin-top: 14px; }
-.wiz-added-item {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 8px; padding: 8px 11px; background: rgba(232,163,61,.08);
-  border: 1px solid var(--amber-deep); border-radius: var(--rs); margin-bottom: 6px;
-  font-size: 14px;
-}
-.wiz-manual-form {
-  background: var(--ink); border: 1px solid var(--line); border-radius: var(--rs);
-  padding: 14px 14px 10px; margin-top: 16px;
-}
-.wiz-manual-form .wiz-manual-title {
-  font-family: var(--mono); font-size: 10px; letter-spacing: .18em;
-  text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
-}
-.wiz-section-divider {
-  font-family: var(--mono); font-size: 10px; letter-spacing: .16em;
-  text-transform: uppercase; color: var(--amber); font-weight: 700;
-  margin: 16px 0 10px; padding-bottom: 5px; border-bottom: 1px solid var(--line);
-}
-.wiz-complete-row {
-  margin-top: 18px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-}
-.wiz-subject-count {
-  font-family: var(--mono); font-size: 11px; color: var(--amber);
-}
-
-/* ---------- Free-tier topic gate ---------- */
-.topic-locked {
-  position: relative;
-  pointer-events: none; user-select: none;
-}
-.topic-locked > * { filter: blur(3.5px); }
-.topic-gate-banner {
-  display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  padding: 11px 14px; margin: 8px 0 4px;
-  background: rgba(232,163,61,.08); border: 1px solid var(--amber-deep);
-  border-radius: var(--rs); flex-wrap: wrap;
-}
-.topic-gate-banner .tgb-msg {
-  font-family: var(--mono); font-size: 11px; color: var(--amber-soft);
-}
-.topic-gate-banner .tgb-msg b { color: var(--amber); }
-
-/* ── Phase 4: subjects / curriculum builder ─────────────────────────────── */
-.sb-header{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:14px}
-.sb-ctrl-row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px;padding-top:10px;border-top:1px solid var(--line)}
-.sb-add-panel{background:var(--ink2);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:14px}
-.sb-add-sep{border:none;border-top:1px solid var(--line);margin:14px 0;text-align:center;font-size:11px;color:var(--muted)}
-.sb-tmpl-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
-.sb-tmpl-row:last-child{border-bottom:none}
-.sb-tmpl-row>span:first-child{flex:1;font-size:14px}
-.sb-topic{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:var(--rs);margin-bottom:3px;transition:.15s}
-.sb-topic:hover{background:var(--ink2)}
-.sb-topic .nm{flex:1;cursor:text;font-size:14.5px;min-width:80px}
-.sb-topic .nm:hover{color:var(--amber-soft)}
-.sb-topic .sec-tag{cursor:pointer;font-size:11px;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:0}
-.sb-topic .sec-tag:hover{background:var(--amber-deep);color:var(--ink)}
-.sb-row-actions{display:flex;gap:3px;flex-shrink:0;opacity:0;transition:.15s}
-.sb-topic:hover .sb-row-actions{opacity:1}
-.sb-inline-edit{background:transparent;border:none;border-bottom:1.5px solid var(--amber);outline:none;color:inherit;font:inherit;font-size:14.5px;flex:1;min-width:80px}
-.sb-inline-edit.sec-edit{font-size:11px;width:110px;min-width:unset;flex:unset}
-.sb-migration-banner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;margin-bottom:16px;background:rgba(111,157,196,.09);border:1px solid var(--blue);border-radius:var(--r);flex-wrap:wrap;font-size:14px}
-.pdf-sec-group{margin-bottom:12px}
-.pdf-sec-header{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--amber);letter-spacing:.06em;text-transform:uppercase;padding:4px 0;margin-bottom:5px;border-bottom:1px solid var(--line)}
-.pdf-topic-row{display:flex;align-items:center;gap:10px;padding:5px 8px;border-radius:var(--rs);margin-bottom:2px}
-.pdf-topic-row:hover{background:var(--ink2)}
-.pdf-topic-row>span{flex:1;font-size:13.5px}
-#sb-pdf-preview-list{max-height:320px;overflow-y:auto;border:1px solid var(--line);border-radius:var(--rs);padding:10px 14px;margin:10px 0}
-.sh-text{cursor:pointer}
-.sh-text:hover{color:var(--amber-soft)}
-
-/* ── Phase 6: bKash payment card ───────────────────────────────────────── */
-.plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}
-.plan-opt{
-  display:flex;flex-direction:column;gap:3px;padding:12px 14px;
-  background:var(--ink3);border:1.5px solid var(--line);border-radius:var(--rs);
-  cursor:pointer;transition:.15s;
-}
-.plan-opt:hover,.plan-opt.selected{border-color:var(--amber);background:rgba(232,163,61,.07)}
-.plan-opt input[type=radio]{display:none}
-.plan-opt .pname{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--amber)}
-.plan-opt .pprice{font-size:18px;font-weight:600;font-family:var(--display)}
-.plan-opt .psave{font-family:var(--mono);font-size:10px;color:var(--green)}
-.pay-status{
-  display:flex;align-items:center;gap:12px;padding:14px 16px;
-  background:rgba(127,174,111,.08);border:1px solid var(--green-deep);border-radius:var(--r);margin-bottom:14px;
-}
-.pay-status.pending{background:rgba(232,163,61,.07);border-color:var(--amber-deep)}
-.pay-status.suspended{background:rgba(207,106,85,.08);border-color:var(--red)}
-.pay-status .ps-icon{font-size:20px;flex-shrink:0}
-.pay-status .ps-label{font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--green)}
-.pay-status.pending .ps-label{color:var(--amber)}
-.pay-status.suspended .ps-label{color:var(--red)}
-.pay-status .ps-detail{font-size:13px;color:var(--paper-dim);margin-top:2px}
-.bkash-instruction{
-  background:var(--ink2);border:1px solid var(--line);border-radius:var(--rs);padding:14px 16px;
-  margin:14px 0;font-size:14px;color:var(--paper-dim);line-height:1.6;
-}
-.bkash-number{
-  display:inline-block;font-family:var(--mono);font-size:15px;font-weight:700;
-  color:var(--amber-soft);background:rgba(232,163,61,.12);border:1px solid rgba(232,163,61,.25);
-  border-radius:var(--rs);padding:4px 12px;margin:6px 0;letter-spacing:.08em;
-}
-
-/* ---- coverage heatmap ---- */
-.cov-legend{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:11px;color:var(--muted)}
-.cov-dot{display:inline-block;width:12px;height:12px;border-radius:3px;flex-shrink:0}
-.cov-subject{margin-bottom:22px}
-.cov-subj-header{display:flex;align-items:baseline;gap:10px;margin-bottom:8px}
-.cov-subj-name{font-family:var(--display);font-size:15px;font-weight:600;color:var(--paper)}
-.cov-subj-pct{font-family:var(--mono);font-size:11px;color:var(--muted)}
-.cov-section-label{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:10px 0 5px}
-.cov-squares{display:flex;flex-wrap:wrap;gap:4px}
-.cov-sq{
-  width:18px;height:18px;border-radius:3px;cursor:pointer;
-  transition:transform .12s,box-shadow .12s;
-  position:relative;flex-shrink:0;
-}
-.cov-sq:hover{transform:scale(1.35);z-index:10;box-shadow:0 2px 10px rgba(0,0,0,.5)}
-.cov-sq[data-status="notstarted"]{background:var(--ink3);border:1px solid var(--line)}
-.cov-sq[data-status="learning"]{background:#b07a10}
-.cov-sq[data-status="ready"]{background:var(--green-deep)}
-.cov-sq[data-status="overdue"]{background:#8a2020}
-/* tooltip */
-.cov-sq::after{
-  content:attr(data-tip);
-  position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);
-  background:var(--ink2);border:1px solid var(--line);border-radius:5px;
-  padding:4px 8px;font-family:var(--mono);font-size:10px;color:var(--paper-dim);
-  white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s;z-index:20;
-  max-width:200px;white-space:normal;text-align:center;
-}
-.cov-sq:hover::after{opacity:1}
-
-/* ---- sync status ---- */
-#syncStatus{font-family:var(--mono);font-size:10px;font-weight:600;border-radius:3px;padding:2px 6px;display:none}
-.sync-synced{color:var(--green);background:rgba(127,174,111,.12)}
-.sync-syncing{color:var(--amber);background:rgba(var(--glow-color),.12);animation:pulse-sync 1.2s infinite}
-.sync-offline{color:var(--red);background:rgba(207,106,85,.12)}
-.sync-error{color:var(--red);background:rgba(207,106,85,.12)}
-@keyframes pulse-sync{0%,100%{opacity:.5}50%{opacity:1}}
-
-/* ---- study now ---- */
-.sn-result{display:flex;align-items:flex-start;gap:14px;margin-top:6px}
-.sn-verb{font-family:var(--mono);font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);background:rgba(var(--glow-color),.12);border:1px solid rgba(var(--glow-color),.35);border-radius:4px;padding:4px 10px;white-space:nowrap;align-self:flex-start;margin-top:2px;flex-shrink:0}
-.sn-body{flex:1;min-width:0}
-.sn-subj{font-family:var(--mono);font-size:11px;color:var(--amber-soft);margin-bottom:3px;text-transform:uppercase;letter-spacing:.08em}
-.sn-topic{font-family:var(--display);font-size:19px;font-weight:600;color:var(--paper);line-height:1.25;margin-bottom:4px}
-.sn-section{color:var(--muted);font-weight:400;font-size:14px}
-.sn-reason{font-size:12px;color:var(--muted);font-style:italic;margin-bottom:10px}
-.sn-actions{display:flex;gap:8px;align-items:center}
-
-/* ---- animated flame ---- */
-.flame-wrap{display:inline-flex;align-items:center;justify-content:center;margin-bottom:2px;min-height:36px}
-.flame-emoji{display:inline-block;line-height:1;transition:font-size .4s,filter .4s,opacity .4s}
-.flame-out .flame-emoji{font-size:18px;filter:grayscale(1);opacity:.25}
-.flame-small .flame-emoji{font-size:22px;animation:flicker-s 2.5s ease-in-out infinite}
-.flame-medium .flame-emoji{font-size:34px;animation:flicker-m 2s ease-in-out infinite;filter:drop-shadow(0 0 6px rgba(232,93,26,.55))}
-.flame-large .flame-emoji{font-size:46px;animation:flicker-l 1.5s ease-in-out infinite;filter:drop-shadow(0 0 12px rgba(220,35,10,.7))}
-.flame-cracked .flame-emoji{opacity:.5;filter:grayscale(.45);animation:crack-pulse 1.8s ease-in-out infinite}
-@keyframes flicker-s{0%,100%{transform:scaleY(1) scaleX(1)}35%{transform:scaleY(1.06) scaleX(.96)}65%{transform:scaleY(.97) scaleX(1.03)}}
-@keyframes flicker-m{0%,100%{transform:scaleY(1) scaleX(1) rotate(0)}25%{transform:scaleY(1.09) scaleX(.94) rotate(-2deg)}75%{transform:scaleY(.96) scaleX(1.05) rotate(2deg)}}
-@keyframes flicker-l{0%,100%{transform:scaleY(1) scaleX(1) rotate(0);filter:drop-shadow(0 0 10px rgba(220,35,10,.7))}20%{transform:scaleY(1.12) scaleX(.93) rotate(-2.5deg);filter:drop-shadow(0 0 20px rgba(220,35,10,.95))}70%{transform:scaleY(.94) scaleX(1.06) rotate(2deg);filter:drop-shadow(0 0 7px rgba(220,35,10,.5))}}
-@keyframes crack-pulse{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:.35;transform:scale(.95)}}
-
-/* ---- share card ---- */
-#share-modal .modal-box{max-width:540px;width:95%}
-#share-card-wrap{display:flex;justify-content:center;margin:16px 0}
-.share-card{
-  width:480px;background:#0e0c0a;border-radius:20px;overflow:hidden;
-  font-family:"Fraunces",serif;position:relative;
-  box-shadow:0 0 0 1px rgba(232,163,61,.18),0 32px 80px rgba(0,0,0,.8);
-}
-.sc-glow{
-  position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse 70% 50% at 80% -10%,rgba(232,163,61,.13),transparent 65%),
-             radial-gradient(ellipse 50% 40% at -10% 110%,rgba(111,157,196,.07),transparent 60%);
-}
-.sc-top{padding:22px 26px 0;display:flex;justify-content:space-between;align-items:flex-start}
-.sc-brand{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(232,163,61,.7)}
-.sc-date{font-family:"JetBrains Mono",monospace;font-size:10px;color:rgba(244,236,224,.35);letter-spacing:.06em}
-.sc-hero{padding:18px 26px 0}
-.sc-hero-label{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(244,236,224,.4);margin-bottom:4px}
-.sc-hero-hours{font-size:56px;font-weight:900;line-height:1;color:#f0c277;letter-spacing:-.02em}
-.sc-hero-unit{font-size:18px;font-weight:400;color:rgba(240,194,119,.6);margin-left:4px;vertical-align:baseline}
-.sc-divider{margin:16px 26px;height:1px;background:rgba(51,45,38,.7)}
-.sc-subjects{padding:0 26px}
-.sc-subj-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.sc-subj-name{font-family:"JetBrains Mono",monospace;font-size:11px;color:rgba(244,236,224,.75);width:116px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.sc-bar-wrap{flex:1;height:5px;background:rgba(51,45,38,.8);border-radius:3px;overflow:hidden}
-.sc-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#c47e1c,#e8a33d,#f0c277)}
-.sc-subj-time{font-family:"JetBrains Mono",monospace;font-size:10px;color:rgba(240,194,119,.7);width:40px;text-align:right;flex-shrink:0}
-.sc-stats{display:flex;gap:0;margin:8px 0 0;border-top:1px solid rgba(51,45,38,.7)}
-.sc-stat{flex:1;padding:14px 26px;border-right:1px solid rgba(51,45,38,.7)}
-.sc-stat:last-child{border-right:none}
-.sc-stat-val{font-size:28px;font-weight:700;color:#f0c277;line-height:1;font-family:"Fraunces",serif}
-.sc-stat-label{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(244,236,224,.4);margin-top:4px}
-.sc-footer{padding:12px 26px 20px;text-align:center;font-family:"JetBrains Mono",monospace;font-size:10px;color:rgba(244,236,224,.25);letter-spacing:.06em}
-.sc-footer span{color:rgba(232,163,61,.5)}
-#share-actions{display:flex;gap:10px;justify-content:center;margin-top:4px}
-
-/* ---- theme picker ---- */
-#theme-modal .modal-box{max-width:740px;width:95%;max-height:90vh;overflow-y:auto}
-.th-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin:14px 0 20px}
-.th-card{border:2px solid var(--line);border-radius:10px;padding:12px;cursor:pointer;transition:border-color .15s,transform .1s,background .15s}
-.th-card:hover{border-color:var(--amber);transform:translateY(-2px)}
-.th-card.active{border-color:var(--amber);background:rgba(var(--glow-color),.07)}
-.th-swatches{display:flex;gap:5px;margin-bottom:9px}
-.th-swatch{width:22px;height:22px;border-radius:50%;border:1px solid rgba(255,255,255,.08);flex-shrink:0}
-.th-name{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--paper-dim);letter-spacing:.04em}
-.th-active{font-family:var(--mono);font-size:10px;color:var(--amber);margin-top:3px}
-.th-divider{border:none;border-top:1px solid var(--line);margin:20px 0}
-.th-section-label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
-.cp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;margin:12px 0}
-.cp-field{display:flex;flex-direction:column;gap:6px}
-.cp-field label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.cp-field input[type=color]{width:100%;height:38px;border:1px solid var(--line);border-radius:7px;padding:2px 4px;background:var(--ink2);cursor:pointer;-webkit-appearance:none}
-.cp-field input[type=color]::-webkit-color-swatch-wrapper{padding:0;border-radius:5px}
-.cp-field input[type=color]::-webkit-color-swatch{border:none;border-radius:5px}
-.th-custom-actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
 </style>
 </head>
 <body>
+
+<!-- NAV -->
+<nav class="l-nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <span class="nav-badge">Beta</span>
+      Sequora
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-ctas">
+      <a href="/app" class="btn btn-ghost btn-sm">Sign in</a>
+      <a href="/app" class="btn btn-primary btn-sm">Start free →</a>
+    </div>
+  </div>
+</nav>
+
 <div class="wrap">
-  <header>
-    <div class="brand">
-      <span class="mark">Project · November 2026</span>
-      <h1>Ascent <em>— command deck</em></h1>
-      <span class="sub">You're not a lazy student. You're running a four-month focused project.</span>
+<!-- HERO -->
+<div class="l-hero">
+  <div class="hero-text">
+    <span class="hero-mark">IGCSE · A-Level · O Level · ACCA</span>
+    <h1 class="hero-h1">Track every topic.<br><em>Beat every exam.</em></h1>
+    <p class="hero-sub">The structured study tracker built for students in Bangladesh. Know exactly where you stand — and what to do next — every single day until your exam.</p>
+    <div class="hero-ctas">
+      <a href="/app" class="btn btn-primary btn-lg">Start free →</a>
+      <a href="#how" class="btn btn-ghost btn-lg">How it works</a>
     </div>
-    <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end;">
-      <div class="headclock" id="headclock"></div>
-      <div id="authHeader" style="margin-top: 6px; font-family: var(--mono); font-size: 11px; display: none; align-items: center; gap: 10px;">
-        <span id="userEmail" style="color: var(--amber-soft); font-weight: 500;"></span>
-        <span style="color:var(--line)">|</span>
-        <button onclick="openThemeModal()" title="Change theme" style="background:none;border:none;cursor:pointer;padding:2px 4px;font-size:14px;line-height:1;color:var(--muted);transition:color .15s" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--muted)'">&#127912;</button>
-        <span style="color:var(--line)">|</span>
-        <span id="syncStatus"></span>
-        <span style="color:var(--line)">|</span>
-        <span class="mini-link" onclick="handleLogout()" style="color: var(--red); cursor: pointer;">Log out</span>
-      </div>
-    </div>
-  </header>
+    <p class="hero-proof"><span>✓</span>Free to start &nbsp;·&nbsp; <span>✓</span>No credit card &nbsp;·&nbsp; <span>✓</span>Pay via bKash</p>
+  </div>
 
-  <nav id="nav">
-    <button data-v="dash" class="active">Deck</button>
-    <button data-v="focus">Focus Timer</button>
-    <button data-v="subjects">Subjects</button>
-    <button data-v="week">This Week</button>
-    <button data-v="logs">Papers &amp; Errors</button>
-    <button data-v="coverage">Coverage Map</button>
-    <button data-v="toolkit">Toolkit</button>
-  </nav>
-
-  <!-- ================= DASH ================= -->
-  <section id="view-dash" class="view">
-    <div class="grid g-hero" style="margin-bottom:18px">
-      <div class="card accent">
-        <div class="lead">Countdown</div>
-        <div class="countdown"><span class="num" id="cd-days">—</span><span class="lbl">days until your first paper</span></div>
-        <div class="cd-row">
-          <div><b id="cd-weeks">—</b>weeks left</div>
-          <div><b id="cd-day1">—</b>days since day one</div>
-          <div><b id="cd-examdate">—</b>first exam</div>
+  <div class="hero-visual">
+    <div class="mock-card">
+      <div class="mock-head">
+        <div>
+          <div class="mock-title">Mathematics A</div>
+          <div class="mock-code">Edexcel IGCSE · 4MA1</div>
         </div>
-        <div class="datein">
-          <span class="fieldlabel" style="margin:0">Exam start:</span>
-          <input type="date" id="examDateInput">
-          <button class="btn sm" onclick="setExamDate()">Set</button>
-          <span class="mini-link" onclick="resetExam()">default 28 Sep 2026</span>
+        <div style="text-align:right">
+          <div class="mock-pct">73%</div>
+          <div class="mock-pct-label">exam-ready</div>
         </div>
       </div>
-      <div class="card">
-        <div class="lead">Momentum</div>
-        <div class="grid g2" style="gap:12px">
-          <div class="stat" style="background:var(--ink)">
-            <div class="flame-wrap" id="flameWrap"><span id="flameEmoji" class="flame-emoji">🔥</span></div>
-            <div class="v" id="streakVal">0</div>
-            <div class="k">Day streak</div>
-            <div class="x" id="streakX">study today to start</div>
-            <div class="x" id="bestStreakX" style="color:var(--amber-deep);margin-top:2px"></div>
-          </div>
-          <div class="stat" style="background:var(--ink)"><div class="v" id="todayHrs">0.0</div><div class="k">Hours today</div><div class="x" id="todayX">target ≈ 5.5h</div></div>
-          <div class="stat" style="background:var(--ink)"><div class="v" id="weekHrs">0.0</div><div class="k">Hours this week</div><div class="x" id="weekX">target ≈ 28h</div></div>
-          <div class="stat" style="background:var(--ink)"><div class="v" id="readyPct">0%</div><div class="k">Exam-ready</div><div class="x" id="readyX">across all subjects</div></div>
-        </div>
-        <div style="margin-top:14px;display:flex;justify-content:flex-end">
-          <button class="btn sm ghost" onclick="openShareModal()" style="font-family:var(--mono);font-size:11px;letter-spacing:.06em">
-            ↗ Share today's card
-          </button>
-        </div>
+      <div class="mock-bar-wrap"><div class="mock-bar" style="width:73%"></div></div>
+      <div class="mock-row is-ready">
+        <div class="mock-cyc cyc-ready">✓</div>
+        <span class="mock-nm">Number — Standard Form</span>
+        <span class="mock-tag t-ready">ready</span>
+      </div>
+      <div class="mock-row is-ready">
+        <div class="mock-cyc cyc-ready">✓</div>
+        <span class="mock-nm">Algebra — Factorisation</span>
+        <span class="mock-tag t-ready">ready</span>
+      </div>
+      <div class="mock-row">
+        <div class="mock-cyc cyc-learn">~</div>
+        <span class="mock-nm">Calculus — Differentiation</span>
+        <span class="mock-tag t-next">next</span>
+      </div>
+      <div class="mock-row">
+        <div class="mock-cyc"></div>
+        <span class="mock-nm">Statistics — Probability</span>
+        <span class="mock-tag">not started</span>
+      </div>
+      <div class="mock-lock">
+        <span style="font-size:14px;opacity:.4">🔒</span>
+        <span class="mock-lock-text">8 more topics locked — upgrade to Basic</span>
+        <div class="mock-up-btn">Upgrade</div>
       </div>
     </div>
-
-    <div id="flagsStrip"></div>
-
-    <div class="card" style="margin-bottom:18px">
-      <div class="lead" style="display:flex;justify-content:space-between;align-items:center">
-        <span>What to study right now</span>
-        <button class="btn sm ghost" onclick="renderStudyNow()" title="Recalculate" style="font-size:15px;padding:2px 8px;line-height:1">↻</button>
-      </div>
-      <div id="studyNowResult"></div>
-    </div>
-
-    <div class="grid g2" style="margin-bottom:18px">
-      <div class="card" id="recallCard">
-        <div class="lead">Recall check · fight the forgetting</div>
-        <h2 id="recallTitle">Nothing due yet</h2>
-        <p style="color:var(--muted);font-size:13px;margin:2px 0 12px;font-style:italic">Topics you marked exam-ready resurface here on a spreading schedule (1d · 3d · 1wk · 3wk · 6wk). Recall each cold — if it's gone, re-drill and reset it.</p>
-        <div id="recallList"></div>
-      </div>
-      <div class="card" id="closeoutCard">
-        <div class="lead">Today's close-out</div>
-        <h2 id="closeoutTitle">Did the day happen?</h2>
-        <p style="color:var(--muted);font-size:13px;margin:2px 0 12px;font-style:italic">One tap at day's end. This is the accountability moment discipline runs on — and it feeds your streak.</p>
-        <div id="closeoutBody"></div>
-      </div>
-    </div>
-
-    <div class="grid g-hero">
-      <div class="card accent">
-        <div class="lead" style="display:flex; justify-content:space-between; align-items:center;">
-          <span>Right now — your day, in order</span>
-          <button class="btn primary sm" id="aiRecommendBtn" onclick="getAIRecommendation()" style="margin: -6px 0;">Ask AI Advisor</button>
-        </div>
-        <h2 id="dayTitle">Today's blocks</h2>
-        <p style="color:var(--muted);font-size:13px;margin:2px 0 16px;font-style:italic" id="dayMode"></p>
-        <div id="todayBlocks"></div>
-      </div>
-      <div class="card">
-        <div class="lead">This week · <span id="wkMini">—</span></div>
-        <h2 id="wkMiniPhaseTitle">Focus</h2>
-        <div class="phase-chip" id="wkMiniChip">—</div>
-        <p style="font-size:14px;color:var(--paper-dim);margin-top:12px;line-height:1.6" id="wkMiniFocus"></p>
-        <button class="btn ghost sm" style="margin-top:14px" onclick="go('week')">Full week →</button>
-      </div>
-    </div>
-
-    <div class="card" style="margin-top:18px">
-      <div class="lead">Subject progress</div>
-      <div id="dashProgress"></div>
-    </div>
-  </section>
-
-  <!-- ================= FOCUS ================= -->
-  <section id="view-focus" class="view hidden">
-    <div class="grid g-hero" style="margin-bottom:18px">
-      <div class="card accent">
-        <div class="lead">Deep-block focus timer</div>
-        <div class="subjsel" id="timerSubjects"></div>
-        <div class="timer-face" id="timerFace">00:00:00</div>
-        <div class="timer-sub" id="timerStatus">pick a subject &amp; press start</div>
-        <div class="btn-row">
-          <button class="btn primary" id="startBtn" onclick="toggleTimer()">Start</button>
-          <button class="btn ghost" onclick="logManual()">Log time manually</button>
-          <button class="btn ghost danger" onclick="discardTimer()">Reset</button>
-        </div>
-        <div class="timer-meta">
-          <div><div class="v" id="fmToday">0.0h</div><div class="k">today</div></div>
-          <div><div class="v" id="fmWeek">0.0h</div><div class="k">this week</div></div>
-          <div><div class="v" id="fmTotal">0.0h</div><div class="k">all time</div></div>
-          <div><div class="v" id="fmSessions">0</div><div class="k">sessions</div></div>
-        </div>
-        <div class="note-banner" style="margin-top:16px">
-          <b>The method (every block):</b> Learn (~25m, NotebookLM) → Note it in your words (~5m) → <b>Drill past-paper questions</b> (~30m) → Quiz yourself unaided in Gemini (~10m) → mark the topic. A topic is "Exam-ready" only when you score well <b>unaided against the mark scheme</b>.
-        </div>
-      </div>
-      <div class="card">
-        <div class="lead">Session log · today</div>
-        <div id="sessionLog"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= SUBJECTS ================= -->
-  <section id="view-subjects" class="view hidden">
-
-    <!-- AI summary card (kept from Phase 3 — still reads localStorage subjects for now) -->
-    <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;border-color:var(--amber-deep)">
+    <div class="mock-float">
+      <div style="font-size:20px">🔁</div>
       <div>
-        <div class="lead" style="margin-bottom:4px">Hand the AI your full picture</div>
-        <p style="font-size:14px;color:var(--paper-dim);max-width:560px;line-height:1.55">Generate a paste-ready progress summary to drop into Gemini or NotebookLM.</p>
+        <span class="mock-float-stat">3 topics</span>
+        <span class="mock-float-label">due for recall today</span>
       </div>
-      <div style="display:flex;flex-direction:column;gap:8px">
-        <button class="btn primary" onclick="genSummary('full')">Generate study summary</button>
-        <button class="btn ghost sm" onclick="genSummary('subject')">This subject only</button>
-      </div>
-    </div>
-
-    <!-- Legacy migration banner (hidden unless localStorage topics exist with no DB subjects) -->
-    <div id="sb-migration-banner" class="sb-migration-banner hidden">
-      <span><b>You have topics from the old tracker.</b> Import them into Sequora to keep tracking your progress.</span>
-      <button id="sb-migrate-btn" class="btn sm primary" onclick="sbMigrateFromLocalStorage()">Import Legacy Topics</button>
-    </div>
-
-    <!-- Subject selector + management -->
-    <div class="card" style="margin-bottom:18px">
-      <div class="sb-header">
-        <div>
-          <div class="lead">Curriculum builder</div>
-          <h2 id="sb-active-name">—</h2>
-          <span class="kicker" id="sb-active-meta" style="margin-top:2px;display:block"></span>
-        </div>
-        <button class="btn sm ghost" onclick="sbShowAddSubjectPanel()">+ New Subject</button>
-      </div>
-
-      <!-- Add subject panel (collapsed by default) -->
-      <div id="sb-add-panel" class="sb-add-panel hidden">
-        <div class="lead" style="margin-bottom:12px">Add from syllabus template</div>
-        <div class="split" style="gap:10px;margin-bottom:8px">
-          <div style="flex:1">
-            <span class="fieldlabel">Board</span>
-            <select id="sb-template-board" onchange="sbLoadTemplatesForBoard()" style="width:100%">
-              <option value="">— select board —</option>
-              <option value="edexcel_igcse">Edexcel IGCSE</option>
-              <option value="cambridge_igcse">Cambridge IGCSE</option>
-              <option value="edexcel_alevel">Edexcel A-Level / AS-Level</option>
-              <option value="cambridge_alevel">Cambridge A-Level / AS-Level</option>
-              <option value="o_level">O Level</option>
-              <option value="acca">ACCA</option>
-            </select>
-          </div>
-        </div>
-        <div id="sb-template-list"></div>
-
-        <hr class="sb-add-sep" aria-label="or">
-        <div class="lead" style="margin-bottom:10px">Add manually</div>
-        <div class="split" style="gap:10px;flex-wrap:wrap">
-          <input type="text" id="sb-new-subj-name" placeholder="Subject name *" style="flex:2;min-width:160px">
-          <input type="text" id="sb-new-subj-short" placeholder="Short name (e.g. MATHS)" style="flex:1;min-width:100px">
-          <input type="text" id="sb-new-subj-code" placeholder="Exam code (e.g. 4MA1)" style="flex:1;min-width:100px">
-        </div>
-        <div style="display:flex;gap:8px;margin-top:10px">
-          <button id="sb-add-subj-btn" class="btn sm primary" onclick="sbAddManualSubject()">Add Subject</button>
-          <button class="btn sm ghost" onclick="sbShowAddSubjectPanel()">Cancel</button>
-        </div>
-      </div>
-
-      <!-- Subject tabs -->
-      <div class="subjsel" id="sb-tabs" style="justify-content:flex-start;flex-wrap:wrap;margin-bottom:8px"></div>
-
-      <!-- Active subject controls -->
-      <div id="sb-controls"></div>
-
-      <!-- Progress -->
-      <div class="bar" style="margin:4px 0 4px"><i id="sb-bar" style="width:0%"></i></div>
-      <div class="kicker" id="sb-count" style="margin-bottom:14px"></div>
-
-      <!-- Add topic form -->
-      <div class="row-add">
-        <input type="text" id="sb-new-topic-name" placeholder="Add a topic…" style="flex:1;min-width:160px" onkeydown="sbTopicNameKeydown(event)">
-        <input type="text" id="sb-new-topic-section" placeholder="Section (optional)" style="width:150px">
-        <button id="sb-add-topic-btn" class="btn sm primary" onclick="sbAddTopic()">+ Add</button>
-        <button class="btn sm ghost" onclick="sbShowPdfModal()">Extract from PDF</button>
-      </div>
-
-      <!-- Search -->
-      <input type="text" id="sb-search" placeholder="Search topics…" style="width:100%;margin-bottom:10px" oninput="sbFilterTopics()">
-
-      <!-- Topic list -->
-      <div id="sb-topic-list"></div>
-    </div>
-
-    <!-- Study order card (rendered dynamically) -->
-    <div class="card" id="sb-order-card" style="margin-top:18px"></div>
-
-  </section>
-
-  <!-- ================= WEEK ================= -->
-  <section id="view-week" class="view hidden">
-    <div class="card accent">
-      <div class="weeknav">
-        <button class="btn sm ghost" onclick="weekNav(-1)">←</button>
-        <div class="lead" style="margin:0">Week <span id="wkNum">—</span> of 17 · <span id="wkDates">—</span></div>
-        <button class="btn sm ghost" onclick="weekNav(1)">→</button>
-        <button class="btn sm" onclick="weekNav(0)">Today</button>
-      </div>
-      <div style="display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;margin-top:10px">
-        <div class="weekbig" id="wkBig">W—</div>
-        <div><div class="phase-chip" id="wkPhase">—</div></div>
-      </div>
-      <div class="wk-block"><div class="lab">Primary focus &amp; new content</div><p id="wkFocus"></p></div>
-      <div class="wk-block"><div class="lab">Past papers / practice</div><p id="wkPractice"></p></div>
-      <div class="wk-block"><div class="lab">Milestones &amp; targets</div><ul class="miles" id="wkMiles"></ul></div>
-      
-      <div class="wk-block" style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
-        <div>
-          <div class="lab" style="margin: 0;">AI Weekly Review</div>
-          <p style="font-size: 13px; color: var(--muted); margin-top: 2px;">Submit progress for an automated readiness evaluation.</p>
-        </div>
-        <button class="btn primary" id="aiWeeklyBtn" onclick="runWeeklyCheckIn()">Run Weekly Check-In</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= LOGS ================= -->
-  <section id="view-logs" class="view hidden">
-    <div class="card" style="margin-bottom:18px">
-      <div class="lead">Past papers — open by subject</div>
-      <h2>Paper banks</h2>
-      <p style="color:var(--muted);font-size:14px;margin:3px 0 16px;font-style:italic">One tap to the papers. Work them timed, mark strictly, log your scores below.</p>
-      <div style="display:flex;flex-direction:column;gap:8px">
-        <div class="score-line"><span class="id">Maths A (4MA1)</span><span style="display:flex;gap:10px"><a href="https://mymathscloud.com" target="_blank" rel="noopener" class="mini-link">MyMathsCloud</a><a href="https://www.physicsandmathstutor.com/past-papers/gcse-maths/edexcel-igcse-paper-1/" target="_blank" rel="noopener" class="mini-link">PMT</a></span></div>
-        <div class="score-line"><span class="id">Accounting (4AC1)</span><span style="display:flex;gap:10px"><a href="https://www.savemyexams.com" target="_blank" rel="noopener" class="mini-link">SaveMyExams</a><a href="https://pastpapersz.com/edexcel/igcse-accounting/" target="_blank" rel="noopener" class="mini-link">PastPapersZ</a></span></div>
-        <div class="score-line"><span class="id">Economics (4EC1)</span><span style="display:flex;gap:10px"><a href="https://www.physicsandmathstutor.com/past-papers/gcse-economics/edexcel-igcse-paper-1/" target="_blank" rel="noopener" class="mini-link">PMT</a></span></div>
-        <div class="score-line"><span class="id">Business (4BS1)</span><span style="display:flex;gap:10px"><a href="https://www.savemyexams.com" target="_blank" rel="noopener" class="mini-link">SaveMyExams</a></span></div>
-        <div class="score-line"><span class="id">English B (4EB1)</span><span style="display:flex;gap:10px"><a href="https://www.savemyexams.com" target="_blank" rel="noopener" class="mini-link">SaveMyExams</a></span></div>
-        <div class="score-line"><span class="id">Bangla (4BN1)</span><span style="display:flex;gap:10px"><a href="https://qualifications.pearson.com" target="_blank" rel="noopener" class="mini-link">Pearson</a></span></div>
-      </div>
-      <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)">
-        <a href="https://qualifications.pearson.com/en/support/support-topics/exams/past-papers.html" target="_blank" rel="noopener" class="mini-link" style="font-size:12px">Pearson official past papers, examiner reports &amp; grade boundaries</a>
-      </div>
-    </div>
-    <div class="grid g2">
-      <div class="card">
-        <div class="lead">Past-paper log</div>
-        <h2>Watch the scores climb</h2>
-        <p style="color:var(--muted);font-size:13px;margin:3px 0 14px;font-style:italic">Log every timed paper. Green = at/above your A* boundary.</p>
-        <div class="split" style="margin-bottom:12px">
-          <div><span class="fieldlabel">Subject</span><select id="pSubj"></select></div>
-          <div><span class="fieldlabel">Paper</span><input type="text" id="pId" placeholder="e.g. Jun22 P1" style="width:120px"></div>
-          <div><span class="fieldlabel">Score</span><input type="number" id="pScore" placeholder="68" style="width:70px"></div>
-          <div><span class="fieldlabel">Max</span><input type="number" id="pMax" placeholder="100" style="width:70px"></div>
-          <button class="btn sm primary" onclick="addPaper()">+ Log</button>
-        </div>
-        <div id="paperLog"></div>
-      </div>
-      <div class="card">
-        <div class="lead">Error log · highest ROI</div>
-        <h2>Kill recurring mistakes</h2>
-        <p style="color:var(--muted);font-size:13px;margin:3px 0 14px;font-style:italic">Every wrong answer + the fix in your words. Re-read before each paper.</p>
-        <div class="split" style="margin-bottom:8px">
-          <div style="flex:1"><span class="fieldlabel">Subject</span><select id="eSubj"></select></div>
-        </div>
-        <textarea id="eMistake" placeholder="The mistake I made…"></textarea>
-        <textarea id="eFix" placeholder="The correct method, in my own words…" style="margin-top:8px"></textarea>
-        <button class="btn sm primary" style="margin-top:8px" onclick="addError()">+ Add to log</button>
-        <div id="errorLog" style="margin-top:14px"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= COVERAGE MAP ================= -->
-  <section id="view-coverage" class="view hidden">
-    <div class="card accent" style="margin-bottom:18px">
-      <div class="lead">Syllabus Coverage Map</div>
-      <div style="display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap;margin:6px 0 14px">
-        <div>
-          <div class="v" id="cov-pct" style="font-size:48px;line-height:1;color:var(--amber-soft)">0%</div>
-          <div class="k">overall exam-ready</div>
-        </div>
-        <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding-bottom:4px">
-          <span class="cov-legend"><span class="cov-dot" style="background:var(--ink3);border:1px solid var(--line)"></span>Not started</span>
-          <span class="cov-legend"><span class="cov-dot" style="background:#b07a10"></span>Learning</span>
-          <span class="cov-legend"><span class="cov-dot" style="background:var(--green-deep)"></span>Exam ready</span>
-          <span class="cov-legend"><span class="cov-dot" style="background:#8a2020"></span>Ready — recall overdue</span>
-        </div>
-      </div>
-      <div class="kicker">Click any square to jump to that topic in Subjects view</div>
-    </div>
-    <div id="cov-grid"></div>
-  </section>
-
-  <!-- ================= TOOLKIT ================= -->
-  <section id="view-toolkit" class="view hidden">
-
-    <!-- Payment / subscription card (rendered by renderPaymentCard() in main.js) -->
-    <div id="payment-card" class="card" style="margin-bottom:18px"></div>
-
-    <div class="card accent" style="margin-bottom:18px">
-      <div class="lead">Study sequence</div>
-      <h2>Where to start — the exact order</h2>
-
-      <div style="margin-top:16px">
-        <div class="wk-block">
-          <div class="lab">Which subject gets which block</div>
-          <p><b style="color:var(--amber-soft)">Block 1</b> (sharpest hours, 7:30am) = <b>Maths A</b> — least crammable, gets your best brain every day.<br>
-          <b style="color:var(--amber-soft)">Block 2</b> (10:00) = <b>Accounting</b> — pure dependency chain, front-loaded.<br>
-          <b style="color:var(--amber-soft)">Block 3</b> (12:15) = <b>Economics / Business</b> — alternate daily. Evaluation marks decide A*.<br>
-          <b style="color:var(--amber-soft)">Block 4</b> (lighter, 3:00) + weekends = <b>English B / Bangla / past papers</b> — skill subjects live here.<br>
-          <span style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:6px;display:block">Principle: front-load what you can't cram later. Maths &amp; Accounting can't be crammed in September.</span></p>
-        </div>
-
-        <div class="wk-block">
-          <div class="lab">Which chapter first within a subject</div>
-          <p>Follow the topic order <b style="color:var(--amber-soft)">top-to-bottom</b> in each subject's tracker — they're already sequenced so prerequisites come before what needs them. Don't jump ahead; finish a topic to Exam-ready before the next. Drop in an easy "island" topic when you want a confidence win.</p>
-        </div>
-
-        <div class="wk-block">
-          <div class="lab">The daily loop per topic</div>
-          <p style="line-height:1.75">
-            <b style="color:var(--amber-soft)">1.</b> Learn — NotebookLM with the spec loaded (~25 min)<br>
-            <b style="color:var(--amber-soft)">2.</b> Note in your own words (~5 min)<br>
-            <b style="color:var(--amber-soft)">3.</b> Drill past-paper questions on that topic (~30 min)<br>
-            <b style="color:var(--amber-soft)">4.</b> Quiz yourself unaided in Gemini (~10 min)<br>
-            <b style="color:var(--amber-soft)">5.</b> Mark the tracker<br>
-            <span style="font-family:var(--mono);font-size:11px;color:var(--muted);display:block;margin-top:6px">A topic is only Exam-ready when you score well <i>unaided</i> against the mark scheme.</span>
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div class="grid g2">
-      <div class="card">
-        <div class="lead">AI prompts · tap to copy</div>
-        <h2>NotebookLM explains · Gemini tests</h2>
-        <div class="note-banner" style="margin:12px 0 16px">
-          <b>Golden rule:</b> AI explains and drills — the textbook, mark scheme &amp; examiner report are the source of truth. If AI and the mark scheme disagree, the mark scheme wins. Be extra sceptical on Bangla specifics.
-        </div>
-        <div id="prompts"></div>
-      </div>
-      <div class="card">
-        <div class="lead">The A* edge</div>
-        <h2>What separates A* from B</h2>
-        <div id="tactics" style="margin-top:12px"></div>
-      </div>
-    </div>
-    <div class="card" style="margin-top:18px">
-      <div class="lead">Data &amp; privacy</div>
-      <p style="font-size:13px;color:var(--muted);margin:6px 0 14px">Your data belongs to you. Export a full copy any time, or permanently delete your account and all associated data.</p>
-      <div class="split" style="gap:10px;flex-wrap:wrap">
-        <button class="btn sm ghost" onclick="exportData()">↓ Export all my data (JSON)</button>
-        <button class="btn sm ghost danger" onclick="deleteAccount()" style="margin-left:auto">Delete account…</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Delete account confirmation modal -->
-  <div id="delete-account-modal" class="modal-overlay hidden">
-    <div class="modal-box" style="max-width:440px">
-      <div class="modal-head">
-        <div>
-          <div class="lead" style="margin:0;color:var(--red)">Delete account</div>
-          <h2 style="margin-top:3px;font-size:18px">This cannot be undone</h2>
-        </div>
-        <button class="btn sm ghost" onclick="document.getElementById('delete-account-modal').classList.add('hidden')">✕</button>
-      </div>
-      <div style="padding:0 0 8px">
-        <p style="font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:16px">All your subjects, topics, sessions, errors, papers, and AI usage records will be permanently deleted. Your bKash payment history and subscription will also be removed. There is no recovery.</p>
-        <p style="font-size:13px;color:var(--paper-dim);margin-bottom:8px">Type <span style="font-family:var(--mono);color:var(--red)">DELETE MY ACCOUNT</span> to confirm:</p>
-        <input type="text" id="delete-confirm-input" placeholder="DELETE MY ACCOUNT" style="width:100%;font-family:var(--mono);font-size:13px;margin-bottom:10px;border-color:var(--red)" autocomplete="off">
-        <div id="delete-confirm-error" style="font-family:var(--mono);font-size:11px;color:var(--red);min-height:16px;margin-bottom:10px"></div>
-        <div style="display:flex;gap:10px">
-          <button class="btn sm ghost" onclick="document.getElementById('delete-account-modal').classList.add('hidden')" style="flex:1">Cancel</button>
-          <button id="delete-confirm-btn" class="btn sm" onclick="_doDeleteAccount()" style="flex:1;background:var(--red);color:#fff;border:none">Permanently delete my account</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ================= SHARE CARD MODAL ================= -->
-  <div id="share-modal" class="modal-overlay hidden" onclick="if(event.target===this)closeShareModal()">
-    <div class="modal-box">
-      <div class="modal-head">
-        <div>
-          <div class="lead" style="margin:0">Today's study card</div>
-          <h2 style="margin-top:2px">Share your progress</h2>
-        </div>
-        <button class="btn sm ghost" onclick="closeShareModal()">✕</button>
-      </div>
-      <div id="share-card-wrap">
-        <!-- populated by openShareModal() -->
-      </div>
-      <div id="share-actions">
-        <button class="btn primary" onclick="downloadShareCard()">↓ Download PNG</button>
-        <button class="btn sm ghost" onclick="closeShareModal()">Close</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ================= THEME MODAL ================= -->
-  <div id="theme-modal" class="modal-overlay hidden" onclick="if(event.target===this)closeThemeModal()">
-    <div class="modal-box">
-      <div class="modal-head">
-        <div>
-          <div class="lead" style="margin:0">Appearance</div>
-          <h2 style="margin-top:2px">Choose theme</h2>
-        </div>
-        <button class="btn sm ghost" onclick="closeThemeModal()">✕</button>
-      </div>
-
-      <div class="th-section-label">Presets</div>
-      <div class="th-grid" id="theme-preset-grid">
-        <!-- rendered by renderThemeGrid() in main.js -->
-      </div>
-
-      <hr class="th-divider">
-
-      <div class="th-section-label">Custom Theme — live preview as you pick</div>
-      <div class="cp-grid">
-        <div class="cp-field">
-          <label>Background</label>
-          <input type="color" id="cp-bg" value="#12100e" oninput="onCustomPickerChange()">
-        </div>
-        <div class="cp-field">
-          <label>Surface</label>
-          <input type="color" id="cp-surface" value="#1a1815" oninput="onCustomPickerChange()">
-        </div>
-        <div class="cp-field">
-          <label>Accent</label>
-          <input type="color" id="cp-accent" value="#e8a33d" oninput="onCustomPickerChange()">
-        </div>
-        <div class="cp-field">
-          <label>Text</label>
-          <input type="color" id="cp-text" value="#f4ece0" oninput="onCustomPickerChange()">
-        </div>
-        <div class="cp-field">
-          <label>Border</label>
-          <input type="color" id="cp-border" value="#332d26" oninput="onCustomPickerChange()">
-        </div>
-      </div>
-      <div class="th-custom-actions">
-        <button class="btn sm primary" onclick="applyCustomTheme()">Save custom theme</button>
-        <button class="btn sm ghost" onclick="resetToDefault()">Reset to Ascent</button>
-      </div>
-
-    </div>
-  </div>
-
-  <footer>
-    Sequora Studies · all data synced to your account.
-  </footer>
-</div>
-
-<div class="toast" id="toast"></div>
-
-<!-- ================= SUMMARY MODAL ================= -->
-<div id="summaryModal" class="modal-overlay hidden">
-  <div class="modal-box">
-    <div class="modal-head">
-      <div>
-        <div class="lead" style="margin:0">Study summary · paste into your AI</div>
-        <h2 id="summaryTitle" style="margin-top:3px">—</h2>
-      </div>
-      <button class="btn sm ghost" onclick="closeSummary()">✕ close</button>
-    </div>
-    <div class="modal-actions">
-      <button class="btn primary sm" onclick="copySummary()">Copy to clipboard</button>
-      <button class="btn ghost sm" onclick="downloadSummary()">Download .txt</button>
-      <span class="kicker" id="summaryStamp"></span>
-    </div>
-    <textarea id="summaryText" readonly></textarea>
-  </div>
-</div>
-
-<!-- ================= AI ADVISOR MODAL ================= -->
-<div id="aiModal" class="modal-overlay hidden">
-  <div class="modal-box" style="max-width: 600px;">
-    <div class="modal-head">
-      <div>
-        <div class="lead" style="margin:0">Ascent · AI Advisor</div>
-        <h2 id="aiModalTitle" style="margin-top:3px; color: var(--amber);">Recommendation</h2>
-      </div>
-      <button class="btn sm ghost" onclick="closeAIModal()">✕ close</button>
-    </div>
-    <div id="aiModalContent" style="font-family: var(--body); font-size: 15px; line-height: 1.6; color: var(--paper); background: var(--ink); border: 1px solid var(--line); border-radius: var(--rs); padding: 18px; overflow-y: auto; max-height: 400px; white-space: pre-wrap;">
-      Thinking...
     </div>
   </div>
 </div>
+</div><!-- /wrap -->
 
-<!-- ================= ONBOARDING WIZARD ================= -->
-<div id="onboardingScreen" class="wiz-overlay hidden">
-  <div class="wiz-box">
+<!-- FEATURES -->
+<section id="features" class="l-features">
+<div class="wrap">
+  <p class="s-eyebrow">What you get</p>
+  <h2 class="s-h2">Every tool for exam-season focus</h2>
+  <p class="s-sub">Built around how serious exam students actually work — not a generic todo app.</p>
+  <div class="feat-grid">
 
-    <!-- progress dots -->
-    <div class="wiz-progress">
-      <div class="wiz-dot wiz-dot-active"></div>
-      <div class="wiz-dot"></div>
-      <div class="wiz-dot"></div>
-      <div class="wiz-dot"></div>
-      <span class="wiz-step-label" id="wiz-step-label">Step 1 of 3</span>
-    </div>
-
-    <!-- error bar -->
-    <div id="wiz-error" class="wiz-error hidden"></div>
-
-    <!-- ── STEP 1: name ────────────────────── -->
-    <div id="wiz-step-1">
-      <div class="wiz-title">Welcome to Sequora</div>
-      <div class="wiz-sub">Let's set up your study tracker in three steps.</div>
-      <div class="wiz-field">
-        <label for="wiz-name">What should we call you?</label>
-        <input type="text" id="wiz-name" placeholder="Your name" autocomplete="name"
-          onkeydown="if(event.key==='Enter')wizNext()">
-      </div>
-      <div class="wiz-btns">
-        <button class="btn primary" onclick="wizNext()">Continue →</button>
+    <div class="feat-cell">
+      <span class="feat-icon">📋</span>
+      <h3 class="feat-title">Topic Tracker</h3>
+      <p class="feat-body">See every topic from your official syllabus. Cycle through three states as you progress — not started → learning → exam-ready. Progress bar per subject, next-topic pill, search across everything.</p>
+      <div class="feat-detail">
+        <div class="feat-item">Official syllabus templates — no typing required</div>
+        <div class="feat-item">Three states: not started → learning → exam-ready</div>
+        <div class="feat-item">Section grouping with progress per section</div>
+        <div class="feat-item">PDF syllabus upload with AI topic extraction</div>
       </div>
     </div>
 
-    <!-- ── STEP 2: exam setup ──────────────── -->
-    <div id="wiz-step-2" class="hidden">
-      <div class="wiz-title">Your exams</div>
-      <div class="wiz-sub">We'll use this to calibrate your study plan.</div>
-      <div class="wiz-field">
-        <label for="wiz-board">Exam board</label>
-        <select id="wiz-board" onchange="wizBoardChange()">
-          <option value="">Choose board…</option>
-          <option value="edexcel_igcse">Edexcel IGCSE</option>
-          <option value="cambridge_igcse">Cambridge IGCSE</option>
-          <option value="edexcel_alevel">Edexcel A-Level / AS-Level</option>
-          <option value="cambridge_alevel">Cambridge A-Level / AS-Level</option>
-          <option value="o_level">O Level</option>
-          <option value="acca">ACCA</option>
-          <option value="mbbs">MBBS</option>
-          <option value="other">Other / Custom</option>
-        </select>
-      </div>
-      <div class="wiz-field" id="wiz-date-row">
-        <label for="wiz-date">Exam start date</label>
-        <input type="date" id="wiz-date">
-        <label style="display:flex;align-items:center;gap:7px;margin-top:8px;cursor:pointer;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:normal;text-transform:none">
-          <input type="checkbox" id="wiz-no-date" onchange="wizNoDateToggle()">
-          N/A — no specific exam date (ACCA, MBBS, rolling exams)
-        </label>
-      </div>
-      <div class="wiz-btns">
-        <button class="btn ghost" onclick="wizBack()">← Back</button>
-        <button class="btn primary" onclick="wizNext()">Continue →</button>
+    <div class="feat-cell">
+      <span class="feat-icon">🔁</span>
+      <h3 class="feat-title">Spaced Recall</h3>
+      <p class="feat-body">Marking a topic exam-ready isn't the end — it's the start of a forgetting curve. Sequora flags topics that need revisiting so you consolidate before the exam, not scramble after.</p>
+      <div class="feat-detail">
+        <div class="feat-item">Automatic recall queue based on time since last review</div>
+        <div class="feat-item">Quick pass/fail to log each recall session</div>
+        <div class="feat-item">Failed recalls drop topics back to "learning"</div>
+        <div class="feat-item">Dashboard shows how many topics are at risk today</div>
       </div>
     </div>
 
-    <!-- ── STEP 3: add subjects ────────────── -->
-    <div id="wiz-step-3" class="hidden">
-      <div class="wiz-title">Add your subjects</div>
-      <div class="wiz-sub">Add at least one subject to begin tracking.</div>
-
-      <!-- templates from selected board -->
-      <div class="wiz-section-divider">From your exam board</div>
-      <div id="wiz-template-list">
-        <div class="empty">Select a board in step 2 to see available subjects.</div>
-      </div>
-
-      <!-- manual entry -->
-      <div class="wiz-manual-form">
-        <div class="wiz-manual-title">Add manually (MBBS, custom, or any subject)</div>
-        <div class="wiz-row" style="gap:8px;margin-bottom:8px">
-          <div style="flex:2">
-            <input type="text" id="wiz-manual-name" placeholder="Subject name" style="width:100%">
-          </div>
-          <div style="flex:1">
-            <input type="text" id="wiz-manual-short" placeholder="Short name" style="width:100%">
-          </div>
-          <div style="flex:1">
-            <input type="text" id="wiz-manual-code" placeholder="Code (opt.)" style="width:100%">
-          </div>
-        </div>
-        <button class="btn sm" id="wiz-manual-btn" onclick="wizAddManual()">Add</button>
-      </div>
-
-      <!-- added list -->
-      <div class="wiz-section-divider" style="margin-top:20px">
-        Your subjects <span id="wiz-subject-count" class="wiz-subject-count"></span>
-      </div>
-      <div id="wiz-added-subjects" class="wiz-added-list">
-        <div class="empty" style="font-size:12px;padding:12px 0">No subjects yet — add at least one above.</div>
-      </div>
-
-      <div class="wiz-complete-row">
-        <button class="btn ghost" onclick="wizBack()">← Back</button>
-        <button class="btn primary" id="wiz-complete-btn" onclick="wizComplete()" disabled>
-          Complete Setup →
-        </button>
-      </div>
-    </div>
-
-    <!-- ── STEP 4: migrate legacy data ───────── -->
-    <div id="wiz-step-4" class="hidden">
-      <div class="wiz-title">Import your study history</div>
-      <div class="wiz-sub">We found existing data from your previous tracker. Import it to bring your sessions, errors, past papers, and daily close-outs into Sequora.</div>
-
-      <div style="background:var(--ink3);border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin:16px 0;font-size:13px;line-height:1.7;color:var(--paper-dim)">
-        What will be imported:<br>
-        <span style="color:var(--amber-soft)">·</span> Topic progress (subjects you haven't already added)<br>
-        <span style="color:var(--amber-soft)">·</span> Study sessions &amp; total hours logged<br>
-        <span style="color:var(--amber-soft)">·</span> Error log entries<br>
-        <span style="color:var(--amber-soft)">·</span> Past paper scores<br>
-        <span style="color:var(--amber-soft)">·</span> Daily close-out records
-      </div>
-
-      <div id="wiz-migrate-status" style="font-family:var(--mono);font-size:12px;color:var(--muted);min-height:18px;margin-bottom:12px"></div>
-
-      <div class="wiz-btns" style="flex-direction:column;gap:10px;align-items:stretch">
-        <button class="btn primary" id="wiz-migrate-btn" onclick="wizMigrate()">Import my study history →</button>
-        <button id="wiz-skip-migrate" onclick="wizSkipMigration()" style="background:none;border:none;color:var(--muted);font-family:var(--mono);font-size:12px;cursor:pointer;padding:4px 0;text-align:center">
-          Skip — start fresh
-        </button>
+    <div class="feat-cell">
+      <span class="feat-icon">🤖</span>
+      <h3 class="feat-title">AI Study Advisor</h3>
+      <p class="feat-body">Generate a paste-ready snapshot of your full study position — every topic status, hours logged, past paper scores, recent mistakes. Drop it into Gemini for specific, honest guidance calibrated to your actual progress.</p>
+      <div class="feat-detail">
+        <div class="feat-item">One-click progress summary across all subjects</div>
+        <div class="feat-item">Powered by Gemini 2.5 Flash</div>
+        <div class="feat-item">AI advisor identifies what's at risk with days left</div>
+        <div class="feat-item">Session logs, mistake logs, and paper scores included</div>
       </div>
     </div>
 
   </div>
 </div>
+</section>
 
-<!-- ================= LOGIN SCREEN ================= -->
-<div id="loginScreen" class="login-overlay">
-  <div class="login-box">
-    <span class="mark">Project · November 2026</span>
-    <h2 style="font-family: var(--display); color: var(--amber); margin: 10px 0 6px;">Ascent</h2>
-    <p style="font-style: italic; color: var(--muted); font-size: 14px; margin-bottom: 20px;">Gatekeeper: candidate authentication required</p>
-    <div style="display: flex; flex-direction: column; gap: 10px;">
-      <input type="email" id="loginEmail" placeholder="candidate.email@example.com" style="text-align: center; width: 100%;">
-      <input type="password" id="loginPassword" placeholder="password (optional)" style="text-align: center; width: 100%;">
-      <div style="display: flex; gap: 8px;">
-        <button class="btn ghost sm" id="loginBtn" onclick="handleLogin()" style="flex: 1; padding: 11px 0;">Magic Link</button>
-        <button class="btn primary sm" id="pwdBtn" onclick="handlePasswordLogin()" style="flex: 1; padding: 11px 0;">Password Sign In</button>
-      </div>
-      <div id="loginStatus" style="font-family: var(--mono); font-size: 11px; color: var(--paper-dim); margin-top: 10px;"></div>
+<!-- HOW IT WORKS -->
+<section id="how">
+<div class="wrap">
+  <p class="s-eyebrow">How it works</p>
+  <h2 class="s-h2">Set up in minutes, use it every day</h2>
+  <div class="how-grid">
+    <div class="how-step">
+      <div class="how-num">1</div>
+      <h3 class="how-title">Build your curriculum</h3>
+      <p class="how-body">Pick your exam board and subjects. Topics load automatically from official syllabus specs. No template available? Upload your own PDF — AI extracts the full topic list in seconds.</p>
+    </div>
+    <div class="how-step">
+      <div class="how-num">2</div>
+      <h3 class="how-title">Track daily progress</h3>
+      <p class="how-body">Mark topics as you learn them. Log timed study sessions. Record past paper scores and mistakes. Everything stays synced across your devices through your account.</p>
+    </div>
+    <div class="how-step">
+      <div class="how-num">3</div>
+      <h3 class="how-title">Let AI close the gaps</h3>
+      <p class="how-body">Generate your full progress snapshot and paste it to an AI that tells you exactly what to prioritise next — calibrated to where you are, not generic advice.</p>
     </div>
   </div>
 </div>
+</section>
 
-<script type="module" src="/main.js"></script>
+<!-- PRICING -->
+<section id="pricing" class="l-pricing">
+<div class="wrap">
+  <p class="s-eyebrow">Pricing</p>
+  <h2 class="s-h2">Fair pricing, paid locally</h2>
+  <p class="s-sub">Pay via bKash — no international card needed. Submit your TrxID in-app, verified within 24 hours.</p>
 
-<!-- Delete subject confirm modal -->
-<div id="sb-delete-modal" class="modal-overlay hidden">
-  <div class="modal-box" style="max-width:420px">
-    <div class="modal-head">
-      <div>
-        <div class="lead">Delete subject</div>
-        <h2 id="sb-delete-subj-name" style="color:var(--red)">—</h2>
-      </div>
+  <div class="pricing-grid">
+
+    <!-- Free -->
+    <div class="price-card">
+      <p class="price-tier">Free</p>
+      <div class="price-amount">৳0</div>
+      <div class="price-alt">forever free</div>
+      <div class="price-div"></div>
+      <ul class="price-feats">
+        <li><span class="fi fi-yes">✓</span>Unlimited subjects &amp; topics (full data entry)</li>
+        <li><span class="fi fi-yes">✓</span>First 10 topics per subject tracked</li>
+        <li><span class="fi fi-yes">✓</span>Study session &amp; past paper logging</li>
+        <li><span class="fi fi-yes">✓</span>Error &amp; mistake log</li>
+        <li><span class="fi fi-yes">✓</span>Daily closeout checklist</li>
+        <li><span class="fi fi-no">–</span><span style="opacity:.45">Spaced recall</span></li>
+        <li><span class="fi fi-no">–</span><span style="opacity:.45">AI advisor (0 calls/month)</span></li>
+        <li><span class="fi fi-no">–</span><span style="opacity:.45">Full topic tracking beyond 10</span></li>
+      </ul>
+      <a href="/app" class="btn btn-ghost" style="text-align:center">Get started →</a>
     </div>
-    <p style="color:var(--paper-dim);font-size:14px;margin-bottom:16px">
-      This will permanently delete this subject and all <b id="sb-delete-topic-count">0</b> topic(s), sessions, errors, and papers linked to it. This cannot be undone.
-    </p>
-    <div style="display:flex;gap:10px">
-      <button id="sb-confirm-delete-btn" class="btn primary danger" onclick="sbConfirmDeleteSubject()">Yes, delete</button>
-      <button class="btn ghost" onclick="sbCancelDeleteSubject()">Cancel</button>
+
+    <!-- Basic -->
+    <div class="price-card popular">
+      <span class="popular-badge">Most popular</span>
+      <p class="price-tier">Basic</p>
+      <div class="price-amount">৳149<small>/month</small></div>
+      <div class="price-alt">or ৳699 for 6 months &mdash; save 22%</div>
+      <div class="price-div"></div>
+      <ul class="price-feats">
+        <li><span class="fi fi-yes">✓</span>Everything in Free</li>
+        <li><span class="fi fi-yes">✓</span>Full topic tracking — all topics unlocked</li>
+        <li><span class="fi fi-yes">✓</span>Spaced recall queue</li>
+        <li><span class="fi fi-yes">✓</span>AI Study Advisor — 20 calls/month</li>
+        <li><span class="fi fi-yes">✓</span>Unlimited PDF syllabus extractions</li>
+        <li><span class="fi fi-yes">✓</span>All syllabus templates</li>
+        <li><span class="fi fi-yes">✓</span>Data export (JSON)</li>
+      </ul>
+      <a href="/app" class="btn btn-primary" style="text-align:center">Get Basic →</a>
     </div>
+
+    <!-- Pro -->
+    <div class="price-card">
+      <p class="price-tier">Pro</p>
+      <div class="price-amount">৳299<small>/month</small></div>
+      <div class="price-alt">or ৳1,399 for 6 months &mdash; save 22%</div>
+      <div class="price-div"></div>
+      <ul class="price-feats">
+        <li><span class="fi fi-yes">✓</span>Everything in Basic</li>
+        <li><span class="fi fi-yes">✓</span>AI Study Advisor — 80 calls/month</li>
+        <li><span class="fi fi-yes">✓</span>AI weekly check-in reviews</li>
+        <li><span class="fi fi-yes">✓</span>Priority email support</li>
+        <li><span class="fi fi-yes">✓</span>Early access to new features</li>
+        <li><span class="fi fi-yes">✓</span>Influence the roadmap directly</li>
+      </ul>
+      <a href="/app" class="btn btn-ghost" style="text-align:center">Get Pro →</a>
+    </div>
+
+  </div>
+
+  <p class="pricing-note">
+    Payment via <span class="bkash-tag">bKash</span> — submit TrxID in-app after sending payment.<br>
+    Questions? Email <b>officialfindrumtechnologies@gmail.com</b>
+  </p>
+</div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+<div class="wrap">
+  <p class="s-eyebrow">FAQ</p>
+  <h2 class="s-h2">Common questions</h2>
+
+  <div class="faq-list">
+    <details class="faq-item">
+      <summary class="faq-q">Who is Sequora built for?</summary>
+      <p class="faq-a">Primarily students in Bangladesh sitting Edexcel IGCSE, Cambridge IGCSE, Edexcel A-Level / AS-Level, Cambridge A-Level, O Level, and ACCA. The free tier and bKash payment are designed to be accessible locally — no international cards or foreign-currency pricing.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary class="faq-q">How does bKash payment work?</summary>
+      <p class="faq-a">Send the subscription amount to the bKash number shown in-app, then submit your Transaction ID (TrxID) in the Toolkit section. We verify manually within 24 hours and activate your plan. No recurring charges — renewals are manual and at your discretion.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary class="faq-q">Where do the syllabus topics come from?</summary>
+      <p class="faq-a">Topics are extracted from official, publicly available syllabus specification PDFs published by Edexcel (Pearson) and Cambridge Assessment. For boards or subjects without a built-in template (including MBBS and custom curricula), you can upload your own PDF and our AI extracts the full topic list automatically.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary class="faq-q">Is my study data private?</summary>
+      <p class="faq-a">Yes. All data is stored against your user account with row-level security — only you can access your topics, sessions, and progress. PDFs uploaded for AI extraction are processed in-memory and never stored on our servers. You can export or delete all your data at any time from the Toolkit tab.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary class="faq-q">What AI model powers the advisor?</summary>
+      <p class="faq-a">The AI advisor is powered by Google Gemini 2.5 Flash. You generate a structured summary of your current study position and the AI gives you specific, honest guidance on what to prioritise with the days you have left before your exam.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary class="faq-q">Can I cancel or get a refund?</summary>
+      <p class="faq-a">Plans are monthly or 6-monthly with no automatic renewal — if you don't renew, your plan simply expires. For refund requests within 48 hours of payment activation, email officialfindrumtechnologies@gmail.com and we'll handle it case by case.</p>
+    </details>
   </div>
 </div>
+</section>
 
-<!-- PDF syllabus extraction modal -->
-<div id="sb-pdf-modal" class="modal-overlay hidden">
-  <div class="modal-box" style="max-width:600px">
-    <div class="modal-head">
-      <div>
-        <div class="lead">Extract topics from PDF</div>
-        <h2>Syllabus extractor</h2>
-      </div>
-      <button class="btn sm ghost" onclick="sbClosePdfModal()">✕ Close</button>
-    </div>
-
-    <!-- Phase: idle — file picker -->
-    <div id="sb-pdf-idle">
-      <p style="color:var(--paper-dim);font-size:14px;margin-bottom:16px">
-        Upload your official syllabus or curriculum PDF. Gemini will extract the full topic list for you to review before importing.
-        <span style="font-family:var(--mono);font-size:11px;color:var(--muted);display:block;margin-top:4px">PDF only · max 15 MB · not stored on our servers</span>
-      </p>
-      <div style="margin-bottom:14px">
-        <span class="fieldlabel">Syllabus PDF</span>
-        <input type="file" id="sb-pdf-file" accept="application/pdf" style="display:block;margin-top:6px;font-size:13px;color:var(--paper-dim)">
-      </div>
-      <button class="btn primary" onclick="sbHandlePdfUpload()">Extract Topics →</button>
-    </div>
-
-    <!-- Phase: extracting -->
-    <div id="sb-pdf-extracting" class="hidden" style="text-align:center;padding:32px 0">
-      <div style="font-family:var(--mono);font-size:13px;color:var(--amber);margin-bottom:10px;animation:pulse 1.5s infinite">Extracting topics from PDF…</div>
-      <p style="font-size:13px;color:var(--muted)">This may take 15–30 seconds for large syllabi.</p>
-    </div>
-
-    <!-- Phase: preview -->
-    <div id="sb-pdf-preview" class="hidden">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-        <div>
-          <div class="lead">Review extracted topics</div>
-          <span style="font-family:var(--mono);font-size:11px;color:var(--muted)"><b id="sb-pdf-topic-count">0</b> topics extracted — remove any that don't belong</span>
-        </div>
-      </div>
-      <div id="sb-pdf-preview-list"></div>
-      <div style="display:flex;gap:10px;margin-top:10px">
-        <button class="btn primary" onclick="sbConfirmPdfImport()">Import All Topics →</button>
-        <button class="btn ghost" onclick="sbClosePdfModal()">Discard</button>
-      </div>
-    </div>
-
-    <!-- Phase: inserting -->
-    <div id="sb-pdf-inserting" class="hidden" style="text-align:center;padding:32px 0">
-      <div style="font-family:var(--mono);font-size:13px;color:var(--amber)">Saving topics…</div>
-    </div>
-  </div>
+<!-- CTA STRIP -->
+<section class="l-cta">
+<div class="wrap">
+  <p class="s-eyebrow" style="margin:0 auto 14px">Start today</p>
+  <h2 class="s-h2" style="margin:0 auto 16px;max-width:600px">Your exam date isn't moving.</h2>
+  <p class="s-sub" style="margin:0 auto 40px">Start tracking. Know where you stand. Close the gaps before it's too late.</p>
+  <a href="/app" class="btn btn-primary btn-lg">Create your free account →</a>
+  <p class="cta-note">No credit card required &nbsp;·&nbsp; Pay via bKash when you're ready to upgrade</p>
 </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="l-footer">
+  <div class="footer-inner">
+    <div class="footer-logo">Sequora Studies</div>
+    <div class="footer-links">
+      <a href="/privacy">Privacy Policy</a>
+      <a href="mailto:officialfindrumtechnologies@gmail.com">Contact</a>
+    </div>
+    <div style="font-size:11px">© 2025 Sequora Studies. Built in Bangladesh.</div>
+  </div>
+</footer>
+
 </body>
 </html>

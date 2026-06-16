@@ -36,7 +36,7 @@ self.addEventListener('fetch', e => {
         })
         .catch(() =>
           caches.match(request)
-            .then(cached => cached || caches.match('/index.html'))
+            .then(cached => cached || caches.match('/app.html'))
         )
     );
     return;
