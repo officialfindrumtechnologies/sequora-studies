@@ -48,14 +48,14 @@ header{padding:32px 0 18px;display:flex;justify-content:space-between;align-item
 nav{display:flex;gap:0;flex-wrap:wrap;margin:0 0 28px;border-bottom:1px solid var(--border);padding:0;background:transparent;border-radius:0;border-top:none;border-left:none;border-right:none}
 nav button{font-family:var(--body);font-size:13px;letter-spacing:0;text-transform:none;color:var(--text-dim);background:transparent;border:none;border-bottom:2px solid transparent;padding:14px 16px 12px;cursor:pointer;transition:color .15s,border-color .15s;font-weight:400;border-radius:0}
 nav button:hover{color:var(--text);background:transparent}
-nav button.active{color:var(--text);border-bottom-color:var(--text);font-weight:500;background:transparent}
+nav button.active{color:var(--text);border-bottom-color:var(--accent);font-weight:500;background:transparent}
 
 /* ---------- cards & grid ---------- */
 .grid{display:grid;gap:16px}
 .g3{grid-template-columns:repeat(3,1fr)} .g2{grid-template-columns:repeat(2,1fr)}
 .g-hero{grid-template-columns:1.4fr 1fr}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:24px;position:relative;overflow:hidden}
-.card.accent{border-color:var(--border-2)}
+.card.accent{border-color:var(--border-2);border-left:3px solid rgba(232,213,176,.4)}
 .card h2{font-family:var(--body);font-weight:500;font-size:18px;letter-spacing:-.02em;margin-bottom:4px;color:var(--text)}
 .card .lead{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);font-weight:500;margin-bottom:14px}
 .kicker{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);font-weight:500}
@@ -136,7 +136,7 @@ textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-h
 .flag .fi{font-size:16px;flex-shrink:0;margin-top:2px}
 .flag .ft{font-size:14px;line-height:1.5;color:var(--text)}
 .flag .ft b{color:var(--red)}
-.flag.amber{background:rgba(232,213,176,.05);border-color:rgba(232,213,176,.15)}
+.flag.amber{background:rgba(232,213,176,.05);border-color:rgba(232,213,176,.15);border-left:3px solid rgba(232,213,176,.6)}
 .flag.amber .ft b{color:var(--accent)}
 
 /* ---------- progress bars ---------- */
@@ -150,7 +150,7 @@ textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-h
 
 /* ---------- stat tiles ---------- */
 .stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;position:relative;overflow:hidden}
-.stat .v{font-family:var(--mono);font-weight:700;font-size:36px;color:var(--accent);line-height:1;letter-spacing:-.02em}
+.stat .v{font-family:var(--mono);font-weight:700;font-size:clamp(32px,4vw,48px);color:var(--accent);line-height:1;letter-spacing:-.02em}
 .stat .k{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);margin-top:8px}
 .stat .x{display:none}
 .flame-wrap,.flame,.flame-emoji{display:none}
@@ -360,10 +360,11 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text
 @keyframes pulse-sync{0%,100%{opacity:.5}50%{opacity:1}}
 
 /* ---------- study now ---------- */
+#study-now-card{border-color:rgba(232,213,176,.25)}
 .sn-result{display:flex;align-items:flex-start;gap:14px;margin-top:8px}
 .sn-verb{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);background:rgba(232,213,176,.07);border:1px solid rgba(232,213,176,.18);border-radius:4px;padding:4px 9px;white-space:nowrap;align-self:flex-start;margin-top:2px;flex-shrink:0}
 .sn-body{flex:1;min-width:0}
-.sn-subj{font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-bottom:3px;text-transform:uppercase;letter-spacing:.08em}
+.sn-subj{font-family:var(--mono);font-size:11px;color:var(--accent);margin-bottom:3px;text-transform:uppercase;letter-spacing:.08em}
 .sn-topic{font-family:var(--body);font-size:18px;font-weight:500;color:var(--text);line-height:1.25;margin-bottom:4px}
 .sn-section{color:var(--text-dim);font-weight:400;font-size:14px}
 .sn-reason{font-size:12px;color:var(--text-dim);margin-bottom:10px}
@@ -496,7 +497,7 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text
 
     <div id="flagsStrip"></div>
 
-    <div class="card" style="margin-bottom:18px">
+    <div class="card" id="study-now-card" style="margin-bottom:18px">
       <div class="lead" style="display:flex;justify-content:space-between;align-items:center">
         <span>What to study right now</span>
         <button class="btn sm ghost" onclick="renderStudyNow()" title="Recalculate" style="font-size:15px;padding:2px 8px;line-height:1">↻</button>
