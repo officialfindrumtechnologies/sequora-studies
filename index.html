@@ -341,37 +341,19 @@ nav.l-nav{
 
 /* ── FEATURES ─────────────────────────────────────────────────────────────── */
 .l-features{
-  background:var(--bg2);
   border-top:1px solid var(--border);
   border-bottom:1px solid var(--border);
 }
 .feat-grid{
   display:grid;grid-template-columns:repeat(3,1fr);
-  gap:1px;margin-top:56px;background:var(--border);
+  gap:56px;margin-top:64px;
 }
-.feat-cell{background:var(--bg);padding:40px 32px}
-.feat-cell:first-child{border-radius:var(--r) 0 0 var(--r)}
-.feat-cell:last-child{border-radius:0 var(--r) var(--r) 0}
-.feat-icon{
-  width:40px;height:40px;border-radius:10px;margin-bottom:22px;
-  display:flex;align-items:center;justify-content:center;font-size:18px;
-  background:rgba(123,130,232,.08);
-  border:1px solid rgba(123,130,232,.18);
-}
+.feat-icon{font-size:20px;margin-bottom:16px;line-height:1;opacity:.65}
 .feat-title{
-  font-family:var(--display);font-weight:700;font-size:21px;
-  margin-bottom:12px;line-height:1.1;letter-spacing:-.02em;color:var(--text);
+  font-family:var(--display);font-weight:700;font-size:19px;
+  margin-bottom:10px;line-height:1.15;letter-spacing:-.02em;color:var(--text);
 }
-.feat-body{font-size:14.5px;color:var(--text-dim);line-height:1.75}
-.feat-detail{
-  margin-top:22px;padding-top:20px;border-top:1px solid var(--border);
-  display:flex;flex-direction:column;gap:10px;
-}
-.feat-item{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:var(--text-dim)}
-.feat-item::before{
-  content:"✓";color:var(--green);font-weight:700;
-  margin-top:1px;flex-shrink:0;font-size:12px;
-}
+.feat-body{font-size:14.5px;color:var(--text-dim);line-height:1.72}
 
 /* ── HOW IT WORKS ─────────────────────────────────────────────────────────── */
 .how-grid{
@@ -517,9 +499,7 @@ footer.l-footer{border-top:1px solid var(--border);padding:28px 0;font-size:11px
   .l-hero{grid-template-columns:1fr;gap:56px;padding:72px 0 88px}
   .hero-visual{order:-1}
   .mock-float{display:none}
-  .feat-grid{grid-template-columns:1fr}
-  .feat-cell:first-child{border-radius:var(--r) var(--r) 0 0}
-  .feat-cell:last-child{border-radius:0 0 var(--r) var(--r)}
+  .feat-grid{grid-template-columns:1fr;gap:40px}
   .pricing-grid{grid-template-columns:1fr}
   .price-card:first-child{border-radius:var(--r) var(--r) 0 0}
   .price-card:last-child{border-radius:0 0 var(--r) var(--r)}
@@ -664,37 +644,19 @@ footer.l-footer{border-top:1px solid var(--border);padding:28px 0;font-size:11px
     <div class="feat-cell">
       <div class="feat-icon">📋</div>
       <h3 class="feat-title">Topic Tracker</h3>
-      <p class="feat-body">See every topic from your official syllabus. Cycle through three states as you progress — not started → learning → exam-ready. Progress bar per subject, next-topic pill, search across everything.</p>
-      <div class="feat-detail">
-        <div class="feat-item">Official syllabus templates — no typing required</div>
-        <div class="feat-item">Three states: not started → learning → exam-ready</div>
-        <div class="feat-item">Section grouping with progress per section</div>
-        <div class="feat-item">PDF syllabus upload with AI topic extraction</div>
-      </div>
+      <p class="feat-body">Every topic from your official syllabus — mark it not started, learning, or exam-ready. Templates for IGCSE, A-Level, O Level and ACCA built in, or upload your own PDF.</p>
     </div>
 
     <div class="feat-cell">
       <div class="feat-icon">↩</div>
       <h3 class="feat-title">Spaced Recall</h3>
-      <p class="feat-body">Marking a topic exam-ready isn't the end — it's the start of a forgetting curve. Sequora flags topics that need revisiting so you consolidate before the exam, not scramble after.</p>
-      <div class="feat-detail">
-        <div class="feat-item">Automatic recall queue based on time since last review</div>
-        <div class="feat-item">Quick pass/fail to log each recall session</div>
-        <div class="feat-item">Failed recalls drop topics back to "learning"</div>
-        <div class="feat-item">Dashboard shows how many topics are at risk today</div>
-      </div>
+      <p class="feat-body">Sequora tracks when you last reviewed each topic and flags what needs revisiting — so knowledge sticks before the exam, not scrambles after.</p>
     </div>
 
     <div class="feat-cell">
       <div class="feat-icon">✦</div>
       <h3 class="feat-title">AI Study Advisor</h3>
-      <p class="feat-body">Generate a paste-ready snapshot of your full study position — every topic status, hours logged, past paper scores, recent mistakes. Drop it into Gemini for specific, honest guidance calibrated to your actual progress.</p>
-      <div class="feat-detail">
-        <div class="feat-item">One-click progress summary across all subjects</div>
-        <div class="feat-item">Powered by Gemini 2.5 Flash</div>
-        <div class="feat-item">AI advisor identifies what's at risk with days left</div>
-        <div class="feat-item">Session logs, mistake logs, and paper scores included</div>
-      </div>
+      <p class="feat-body">Generate a structured snapshot of your full study position and paste it into Gemini for honest, calibrated guidance on exactly what to prioritise next.</p>
     </div>
 
   </div>
