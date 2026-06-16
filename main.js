@@ -2503,28 +2503,39 @@ window.resetToDefault = function() {
 
 /* ============ theme studio ============ */
 
-let _tsBgState = {
-  type: 'solid',
-  solid: '#12100e',
-  linear: { angle: 135, stops: ['#12100e', '#1a1815'] },
-  radial: { x: 50, y: 50, stops: ['#12100e', '#1a1815'] },
-  mesh: { tl: '#12100e', tr: '#12100e', bl: '#12100e', br: '#12100e' },
-};
+function _defaultBgState() {
+  const cs = getComputedStyle(document.documentElement);
+  const bg = cs.getPropertyValue('--bg').trim() || '#12100e';
+  const surface = cs.getPropertyValue('--surface').trim() || '#1a1815';
+  return {
+    type: 'solid', solid: bg,
+    linear: { angle: 135, stops: [bg, surface] },
+    radial: { x: 50, y: 50, stops: [bg, surface] },
+    mesh: { tl: bg, tr: bg, bl: bg, br: bg },
+  };
+}
+
+let _tsBgState = _defaultBgState();
 let _tsTypoState = { display: 'DM Serif Display', body: 'Inter', scale: 'default' };
+let _tsImgState = { url: null, x: 50, y: 50, size: 'cover', opacity: 1.0, overlay: true };
 
 function openThemeStudio() {
   closeBurgerMenu();
   const saved = getCurrentThemeData();
   if (saved.bgBuilder) Object.assign(_tsBgState, saved.bgBuilder);
   if (saved.typography) Object.assign(_tsTypoState, saved.typography);
+  if (saved.imageBg) Object.assign(_tsImgState, saved.imageBg);
   const drawer = document.getElementById('ts-drawer');
   const overlay = document.getElementById('ts-overlay');
   if (!drawer) return;
   drawer.style.display = 'flex';
-  void drawer.offsetWidth; // flush layout so transition fires
+  void drawer.offsetWidth;
   overlay.classList.add('ts-vis');
   drawer.classList.add('ts-open');
   renderThemeStudio();
+  // restore tab state
+  const hasImg = !!_tsImgState.url;
+  tsBgTabSwitch(hasImg ? 'image' : 'color');
   setTimeout(() => overlay.addEventListener('click', closeThemeStudio, { once: true }), 0);
 }
 window.openThemeStudio = openThemeStudio;
@@ -2542,6 +2553,7 @@ window.closeThemeStudio = closeThemeStudio;
 function renderThemeStudio() {
   _renderTsPresets();
   _renderTsBgBuilder();
+  _renderTsImgBuilder();
   _renderTsColorControls();
   _renderTsTypography();
   _renderTsSaveManage();
@@ -2567,11 +2579,12 @@ function _renderTsPresets() {
 }
 
 window.tsSelectPreset = function(key) {
-  const td = { preset: key };
+  const existing = getCurrentThemeData();
+  const td = { preset: key, imagePresets: existing.imagePresets || [], imageBg: existing.imageBg };
   applyTheme(td);
   document.body.style.background = '';
   _tsBgState.type = 'solid';
-  _tsBgState.solid = THEMES[key]?.vars['--ink'] || '#12100e';
+  _tsBgState.solid = THEMES[key]?.vars['--ink'] || getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#12100e';
   saveTheme(td).catch(() => {});
   setToast(THEMES[key]?.label || key);
   _renderTsPresets();
@@ -2600,7 +2613,7 @@ function _renderBgInner(type) {
     </div>`;
   }
   if (type === 'linear') {
-    const { angle = 135, stops = ['#12100e', '#1a1815'] } = _tsBgState.linear;
+    const def = _defaultBgState(); const { angle = 135, stops = def.linear.stops } = _tsBgState.linear;
     return `<div class="ts-stops">${stops.map((c, i) => `<div class="ts-stoprow">
       <span class="ts-stoplbl">${i + 1}</span>
       <div class="ts-cprow" style="flex:1">
@@ -2617,7 +2630,7 @@ function _renderBgInner(type) {
     </div>`;
   }
   if (type === 'radial') {
-    const { x = 50, y = 50, stops = ['#12100e', '#1a1815'] } = _tsBgState.radial;
+    const defR = _defaultBgState(); const { x = 50, y = 50, stops = defR.radial.stops } = _tsBgState.radial;
     return `<div class="ts-stops">${stops.map((c, i) => `<div class="ts-stoprow">
       <span class="ts-stoplbl">${i + 1}</span>
       <div class="ts-cprow" style="flex:1">
@@ -2639,7 +2652,7 @@ function _renderBgInner(type) {
     </div>`;
   }
   if (type === 'mesh') {
-    const { tl = '#12100e', tr = '#12100e', bl = '#12100e', br = '#12100e' } = _tsBgState.mesh;
+    const defM = _defaultBgState(); const { tl = defM.mesh.tl, tr = defM.mesh.tr, bl = defM.mesh.bl, br = defM.mesh.br } = _tsBgState.mesh;
     return `<div class="ts-mesh-grid">${[['tl','Top Left',tl],['tr','Top Right',tr],['bl','Bot Left',bl],['br','Bot Right',br]].map(([k, label, c]) =>
       `<div><div class="ts-mlbl">${label}</div><div class="ts-cprow">
         <input type="color" value="${c}" oninput="tsBgMesh('${k}',this.value)">
@@ -2677,16 +2690,175 @@ window.tsBgSolidHex = function(v) { if (/^#[0-9a-fA-F]{6}$/.test(v)) { _tsBgStat
 window.tsBgLinStop = function(i, v) { _tsBgState.linear.stops[i] = v; _applyBg(); };
 window.tsBgLinStopHex = function(i, v) { if (/^#[0-9a-fA-F]{6}$/.test(v)) { _tsBgState.linear.stops[i] = v; _applyBg(); } };
 window.tsBgLinAngle = function(v) { _tsBgState.linear.angle = v; _applyBg(); };
-window.tsBgLinAdd = function() { _tsBgState.linear.stops.push('#2a2520'); _renderTsBgBuilder(); _applyBg(); };
+window.tsBgLinAdd = function() { _tsBgState.linear.stops.push(getComputedStyle(document.documentElement).getPropertyValue('--border').trim() || '#2a2520'); _renderTsBgBuilder(); _applyBg(); };
 window.tsBgLinRm = function(i) { _tsBgState.linear.stops.splice(i, 1); _renderTsBgBuilder(); _applyBg(); };
 window.tsBgRadStop = function(i, v) { _tsBgState.radial.stops[i] = v; _applyBg(); };
 window.tsBgRadStopHex = function(i, v) { if (/^#[0-9a-fA-F]{6}$/.test(v)) { _tsBgState.radial.stops[i] = v; _applyBg(); } };
 window.tsBgRadX = function(v) { _tsBgState.radial.x = v; _applyBg(); };
 window.tsBgRadY = function(v) { _tsBgState.radial.y = v; _applyBg(); };
-window.tsBgRadAdd = function() { _tsBgState.radial.stops.push('#2a2520'); _renderTsBgBuilder(); _applyBg(); };
+window.tsBgRadAdd = function() { _tsBgState.radial.stops.push(getComputedStyle(document.documentElement).getPropertyValue('--border').trim() || '#2a2520'); _renderTsBgBuilder(); _applyBg(); };
 window.tsBgRadRm = function(i) { _tsBgState.radial.stops.splice(i, 1); _renderTsBgBuilder(); _applyBg(); };
 window.tsBgMesh = function(k, v) { _tsBgState.mesh[k] = v; const idx = { tl: 0, tr: 1, bl: 2, br: 3 }[k]; const hexEls = document.querySelectorAll('#ts-bg-inner .ts-hex'); if (hexEls[idx]) hexEls[idx].value = v; _applyBg(); };
 window.tsBgMeshHex = function(k, v) { if (/^#[0-9a-fA-F]{6}$/.test(v)) { _tsBgState.mesh[k] = v; const idx = { tl: 0, tr: 1, bl: 2, br: 3 }[k]; const cs = document.querySelectorAll('#ts-bg-inner input[type=color]'); if (cs[idx]) cs[idx].value = v; _applyBg(); } };
+
+/* — bg tab switching — */
+function tsBgTabSwitch(tab) {
+  const colEl = document.getElementById('ts-bg-builder');
+  const imgEl = document.getElementById('ts-img-builder');
+  const colBtn = document.getElementById('ts-bgtab-color');
+  const imgBtn = document.getElementById('ts-bgtab-image');
+  if (!colEl || !imgEl) return;
+  colEl.classList.toggle('hidden', tab !== 'color');
+  imgEl.classList.toggle('hidden', tab !== 'image');
+  if (colBtn) colBtn.classList.toggle('ts-active', tab === 'color');
+  if (imgBtn) imgBtn.classList.toggle('ts-active', tab === 'image');
+}
+window.tsBgTabSwitch = tsBgTabSwitch;
+
+/* — image background — */
+function _applyImageBg() {
+  const el = document.getElementById('bg-image');
+  if (!el) return;
+  const { url, x, y, size, opacity, overlay } = _tsImgState;
+  if (!url) { el.classList.remove('active'); return; }
+  const sizeMap = { cover: 'cover', contain: 'contain', fill: '100% 100%', tile: 'auto' };
+  const repeatMap = { cover: 'no-repeat', contain: 'no-repeat', fill: 'no-repeat', tile: 'repeat' };
+  el.style.backgroundImage = `url(${url})`;
+  el.style.backgroundSize = sizeMap[size] || 'cover';
+  el.style.backgroundPosition = `${x}% ${y}%`;
+  el.style.backgroundRepeat = repeatMap[size] || 'no-repeat';
+  el.style.opacity = opacity;
+  el.style.setProperty('--img-overlay', overlay ? 'rgba(0,0,0,0.4)' : 'transparent');
+  el.classList.add('active');
+}
+
+function _persistImageBg() {
+  const td = getCurrentThemeData();
+  const newTd = { ...td, imageBg: { ..._tsImgState } };
+  localStorage.setItem('sq_theme', JSON.stringify(newTd));
+  saveTheme(newTd).catch(() => {});
+}
+
+async function _uploadAndSetImage(file) {
+  if (!currentUser) { setToast('Sign in to save background'); return; }
+  if (file.size > 5 * 1024 * 1024) { setToast('Max 5 MB'); return; }
+  const statusEl = document.getElementById('ts-img-status');
+  if (statusEl) statusEl.textContent = 'Uploading…';
+  try {
+    const ext = file.type === 'image/png' ? 'png' : file.type === 'image/webp' ? 'webp' : 'jpg';
+    const path = `${currentUser.id}/bg.${ext}`;
+    const { error: upErr } = await supabase.storage.from('theme-backgrounds').upload(path, file, { upsert: true, contentType: file.type });
+    if (upErr) throw upErr;
+    const { data: urlData } = supabase.storage.from('theme-backgrounds').getPublicUrl(path);
+    _tsImgState.url = urlData.publicUrl;
+    _applyImageBg();
+    _persistImageBg();
+    _renderTsImgBuilder();
+    setToast('Background applied');
+  } catch (e) {
+    if (statusEl) statusEl.textContent = 'Upload failed: ' + (e.message || e);
+  }
+}
+
+function _renderTsImgBuilder() {
+  const el = document.getElementById('ts-img-builder');
+  if (!el) return;
+  const { url, x, y, size, opacity, overlay } = _tsImgState;
+  const saved = getCurrentThemeData();
+  const presets = (saved.imagePresets || []).slice(0, 4);
+  el.innerHTML = `
+    <div class="ts-img-upload">
+      <label class="ts-img-btn" style="cursor:pointer">
+        ${url ? '⟳ Replace image' : '↑ Upload image'}
+        <input type="file" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="tsImgFileChange(event)">
+      </label>
+      <div id="ts-img-status" style="font-family:var(--mono);font-size:10px;color:var(--muted);min-height:14px"></div>
+      ${url ? `<img class="ts-img-preview" src="${url}" alt="bg preview">` : ''}
+      ${presets.length ? `<div class="ts-slabel" style="margin-top:10px;margin-bottom:6px">Saved Image Presets</div>
+      <div class="ts-img-preset-grid">${presets.map((p, i) => `
+        <div class="ts-img-preset-wrap">
+          <img class="ts-img-preset-thumb${p.url === url ? ' ts-active' : ''}" src="${p.url}" title="${escapeHtml(p.name || '')}" onclick="tsImgLoadPreset(${i})">
+          <button class="ts-img-preset-del" onclick="tsImgDelPreset(${i})" title="Remove">×</button>
+        </div>`).join('')}
+      </div>` : ''}
+      ${url ? `
+      <div class="ts-slabel" style="margin-top:14px;margin-bottom:8px">Position</div>
+      <div class="ts-slider-row">
+        <span class="ts-slbl">X</span>
+        <input type="range" min="0" max="100" value="${x}" oninput="tsImgX(+this.value);this.nextElementSibling.textContent=this.value+'%'">
+        <span class="ts-slval">${x}%</span>
+      </div>
+      <div class="ts-slider-row">
+        <span class="ts-slbl">Y</span>
+        <input type="range" min="0" max="100" value="${y}" oninput="tsImgY(+this.value);this.nextElementSibling.textContent=this.value+'%'">
+        <span class="ts-slval">${y}%</span>
+      </div>
+      <div class="ts-slabel" style="margin-top:8px;margin-bottom:6px">Size</div>
+      <div class="ts-img-size-grid">
+        ${['cover','contain','fill','tile'].map(s => `<button class="ts-img-size-btn${size===s?' ts-active':''}" onclick="tsImgSize('${s}')">${s}</button>`).join('')}
+      </div>
+      <div class="ts-slabel" style="margin-top:10px;margin-bottom:6px">Opacity</div>
+      <div class="ts-slider-row">
+        <span class="ts-slbl">Opacity</span>
+        <input type="range" min="10" max="100" value="${Math.round(opacity*100)}" oninput="tsImgOpacity(+this.value/100);this.nextElementSibling.textContent=this.value+'%'">
+        <span class="ts-slval">${Math.round(opacity*100)}%</span>
+      </div>
+      <label class="ts-img-toggle">
+        <input type="checkbox" ${overlay ? 'checked' : ''} onchange="tsImgOverlay(this.checked)">
+        Dark overlay (improves readability)
+      </label>
+      <div style="display:flex;gap:6px;margin-top:8px">
+        <button class="ts-save-btn" style="flex:1" onclick="tsImgSavePreset()">Save as preset</button>
+        <button class="ts-img-remove" style="flex:1" onclick="tsImgRemove()">Remove</button>
+      </div>` : ''}
+    </div>`;
+}
+
+window.tsImgFileChange = async function(e) {
+  const file = e.target.files?.[0];
+  if (file) await _uploadAndSetImage(file);
+};
+window.tsImgX = function(v) { _tsImgState.x = v; _applyImageBg(); _persistImageBg(); };
+window.tsImgY = function(v) { _tsImgState.y = v; _applyImageBg(); _persistImageBg(); };
+window.tsImgSize = function(v) { _tsImgState.size = v; _applyImageBg(); _persistImageBg(); _renderTsImgBuilder(); };
+window.tsImgOpacity = function(v) { _tsImgState.opacity = v; _applyImageBg(); _persistImageBg(); };
+window.tsImgOverlay = function(v) { _tsImgState.overlay = v; _applyImageBg(); _persistImageBg(); };
+window.tsImgRemove = function() {
+  _tsImgState = { url: null, x: 50, y: 50, size: 'cover', opacity: 1.0, overlay: true };
+  _applyImageBg();
+  _persistImageBg();
+  _renderTsImgBuilder();
+};
+window.tsImgSavePreset = function() {
+  if (!_tsImgState.url) return;
+  const name = prompt('Name this preset:');
+  if (!name) return;
+  const td = getCurrentThemeData();
+  const presets = (td.imagePresets || []).slice(0, 3);
+  presets.push({ name, ..._tsImgState });
+  const newTd = { ...td, imagePresets: presets };
+  localStorage.setItem('sq_theme', JSON.stringify(newTd));
+  saveTheme(newTd).catch(() => {});
+  _renderTsImgBuilder();
+  setToast(`"${name}" saved`);
+};
+window.tsImgLoadPreset = function(i) {
+  const td = getCurrentThemeData();
+  const p = (td.imagePresets || [])[i];
+  if (!p) return;
+  Object.assign(_tsImgState, p);
+  _applyImageBg();
+  _persistImageBg();
+  _renderTsImgBuilder();
+  setToast(`Applied "${p.name}"`);
+};
+window.tsImgDelPreset = function(i) {
+  const td = getCurrentThemeData();
+  const newTd = { ...td, imagePresets: (td.imagePresets || []).filter((_, j) => j !== i) };
+  localStorage.setItem('sq_theme', JSON.stringify(newTd));
+  saveTheme(newTd).catch(() => {});
+  _renderTsImgBuilder();
+};
 
 /* — color controls — */
 const TS_TOKENS = [
@@ -2752,12 +2924,15 @@ function _tsPersistCustom() {
   const cs = getComputedStyle(document.documentElement);
   const custom = {};
   TS_TOKENS.forEach(({ v }) => { custom[v] = cs.getPropertyValue(v).trim(); });
+  const existing = getCurrentThemeData();
   const td = {
     preset: 'custom',
     custom,
     bgBuilder: { ..._tsBgState },
     typography: { ..._tsTypoState },
-    userPresets: (getCurrentThemeData().userPresets || []),
+    userPresets: (existing.userPresets || []),
+    imageBg: { ..._tsImgState },
+    imagePresets: existing.imagePresets || [],
   };
   localStorage.setItem('sq_theme', JSON.stringify(td));
   saveTheme(td).catch(() => {});
@@ -2792,9 +2967,9 @@ function _renderTsTypography() {
         ).join('')}
       </div>
     </div>
-    <div style="margin-top:12px;padding:14px;background:#181818;border-radius:6px;border:1px solid rgba(255,255,255,.06)">
-      <div style="font-family:'${display}',serif;font-size:20px;color:rgba(255,255,255,.85);margin-bottom:5px;line-height:1.2">Sequora Studies</div>
-      <div style="font-family:'${body}',sans-serif;font-size:12px;color:rgba(255,255,255,.38);line-height:1.5">Study tracker · focused project runner.</div>
+    <div style="margin-top:12px;padding:14px;background:var(--surface);border-radius:6px;border:1px solid var(--border)">
+      <div style="font-family:'${display}',serif;font-size:20px;color:var(--text);margin-bottom:5px;line-height:1.2">Sequora Studies</div>
+      <div style="font-family:'${body}',sans-serif;font-size:12px;color:var(--text-dim);line-height:1.5">Study tracker · focused project runner.</div>
     </div>`;
 }
 
@@ -2898,8 +3073,11 @@ window.tsResetDefault = function() {
   document.body.style.fontSize = '';
   document.documentElement.style.setProperty('--display', '"DM Serif Display",serif');
   document.documentElement.style.setProperty('--body', '"Inter",sans-serif');
-  _tsBgState = { type: 'solid', solid: '#12100e', linear: { angle: 135, stops: ['#12100e', '#1a1815'] }, radial: { x: 50, y: 50, stops: ['#12100e', '#1a1815'] }, mesh: { tl: '#12100e', tr: '#12100e', bl: '#12100e', br: '#12100e' } };
+  _tsBgState = _defaultBgState();
   _tsTypoState = { display: 'DM Serif Display', body: 'Inter', scale: 'default' };
+  _tsImgState = { url: null, x: 50, y: 50, size: 'cover', opacity: 1.0, overlay: true };
+  _applyImageBg();
+  tsBgTabSwitch('color');
   renderThemeStudio();
   setToast('Reset to Ascent');
 };
@@ -2910,6 +3088,10 @@ function _tsRestoreExtra() {
     Object.assign(_tsBgState, td.bgBuilder);
     if (_tsBgState.type !== 'solid') _applyBg();
     else if (_tsBgState.solid) document.body.style.background = _tsBgState.solid;
+  }
+  if (td.imageBg && td.imageBg.url) {
+    Object.assign(_tsImgState, td.imageBg);
+    _applyImageBg();
   }
   if (td.typography) {
     Object.assign(_tsTypoState, td.typography);

@@ -271,6 +271,8 @@ export function applyTheme(themeData) {
     if (vars[src]) root.style.setProperty(dst, vars[src]);
   }
 
+  if (vars['--paper']) root.style.setProperty('--text-rgb', hexToRgb(vars['--paper']));
+
   localStorage.setItem(LS_KEY, JSON.stringify(themeData));
 }
 
