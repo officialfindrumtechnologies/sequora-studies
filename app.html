@@ -462,6 +462,11 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text
 .bm-open-ts{width:100%;background:rgba(242,223,168,.06);border:1px solid rgba(242,223,168,.15);border-radius:6px;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(242,223,168,.7);cursor:pointer;padding:9px 12px;text-align:left;transition:all .15s}
 .bm-open-ts:hover{background:rgba(242,223,168,.12);border-color:rgba(242,223,168,.35);color:rgba(242,223,168,.95)}
 
+/* ---------- edit profile modal ---------- */
+.ep-date-input{font-family:var(--mono);font-size:12px;background:#141410;color:var(--text);border:1px solid #2a2820;border-radius:5px;padding:8px 10px;outline:none;width:100%;box-sizing:border-box;display:block}
+.ep-date-input:focus{border-color:rgba(242,223,168,.6)}
+.ep-date-input::-webkit-calendar-picker-indicator{filter:invert(0.7) sepia(1) saturate(0.5);cursor:pointer}
+
 /* ---------- theme studio drawer ---------- */
 .ts-overlay{position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.55);backdrop-filter:blur(3px);transition:opacity .28s;opacity:0;pointer-events:none}
 .ts-overlay.ts-vis{opacity:1;pointer-events:all}
@@ -1304,6 +1309,35 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text
     <!-- Phase: inserting -->
     <div id="sb-pdf-inserting" class="hidden" style="text-align:center;padding:32px 0">
       <div style="font-family:var(--mono);font-size:13px;color:var(--amber)">Saving topics…</div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Profile Modal -->
+<div id="ep-modal" class="modal-overlay hidden">
+  <div class="modal-box" style="max-width:380px">
+    <div class="modal-head">
+      <div><div class="lead">Edit profile</div></div>
+      <button class="btn sm ghost" onclick="closeEditProfileModal()">✕</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div>
+        <span class="fieldlabel">Name</span>
+        <input type="text" id="ep-name" placeholder="Your name" style="width:100%;margin-top:6px">
+      </div>
+      <div>
+        <span class="fieldlabel">Exam Board</span>
+        <input type="text" id="ep-board" placeholder="e.g. WAEC, NECO" style="width:100%;margin-top:6px">
+      </div>
+      <div>
+        <span class="fieldlabel">Exam Date</span>
+        <input type="date" id="ep-date" class="ep-date-input" style="margin-top:6px">
+      </div>
+      <div style="display:flex;gap:10px;margin-top:4px">
+        <button class="btn primary" onclick="saveEditProfile()">Save changes</button>
+        <button class="btn ghost" onclick="closeEditProfileModal()">Cancel</button>
+      </div>
+      <div id="ep-status" style="font-family:var(--mono);font-size:11px;color:var(--muted);min-height:16px"></div>
     </div>
   </div>
 </div>

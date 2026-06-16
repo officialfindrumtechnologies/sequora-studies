@@ -2955,6 +2955,7 @@ function closeBurgerMenu() {
   menu?.classList.add('hidden');
   document.removeEventListener('click', _burgerOutsideClick);
 }
+window.closeBurgerMenu = closeBurgerMenu;
 
 function _burgerOutsideClick(e) {
   const wrap = document.getElementById('burger-wrap');
@@ -2975,15 +2976,19 @@ function _bmSwatchesHtml() {
 }
 
 function _bmProfileHtml(prof) {
-  const n = escapeHtml((prof && prof.display_name) || '');
+  const n = escapeHtml((prof && prof.display_name) || '—');
   const e = escapeHtml(currentUser?.email || '');
-  const b = escapeHtml((prof && prof.exam_board) || '');
-  const d = escapeHtml((prof && prof.exam_date) || '');
+  const b = escapeHtml((prof && prof.exam_board) || '—');
+  const rawDate = (prof && prof.exam_date) || '';
+  const dDisplay = rawDate
+    ? new Date(rawDate + 'T00:00:00').toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})
+    : '—';
   return `
-    <div class="bm-row"><span class="bm-key">Name</span><span id="bm-name" class="bm-val" contenteditable="true" spellcheck="false" data-orig="${n}" onblur="bmSaveName(this)">${n}</span></div>
+    <div class="bm-row"><span class="bm-key">Name</span><span class="bm-val" style="cursor:default">${n}</span></div>
     <div class="bm-row"><span class="bm-key">Email</span><span class="bm-val" style="cursor:default;color:var(--muted)">${e}</span></div>
-    <div class="bm-row"><span class="bm-key">Board</span><span id="bm-board" class="bm-val" contenteditable="true" spellcheck="false" data-orig="${b}" onblur="bmSaveBoard(this)">${b}</span></div>
-    <div class="bm-row"><span class="bm-key">Exam date</span><input type="date" class="bm-date-input" id="bm-date" value="${d}" onchange="bmSaveDate(this)"></div>`;
+    <div class="bm-row"><span class="bm-key">Board</span><span class="bm-val" style="cursor:default">${b}</span></div>
+    <div class="bm-row"><span class="bm-key">Exam date</span><span class="bm-val" style="cursor:default">${dDisplay}</span></div>
+    <div style="margin-top:10px"><button class="bm-open-ts" style="font-size:10px;padding:7px 12px" onclick="openEditProfileModal()">Edit profile</button></div>`;
 }
 
 function renderBurgerMenu() {
@@ -3005,7 +3010,7 @@ function renderBurgerMenu() {
     <div class="bm-divider"></div>
     <div class="bm-section">
       <div class="bm-section-label">Themes</div>
-      <button class="bm-open-ts" onclick="closeBurgerMenu();openThemeStudio()">Open Theme Studio →</button>
+      <button class="bm-open-ts" onclick="closeBurgerMenu();openThemeStudio()">Themes</button>
     </div>
     <div class="bm-divider"></div>
     <div class="bm-section">
@@ -3059,34 +3064,40 @@ window.bmSelectTheme = function(key) {
   setToast(THEMES[key]?.label || key);
 };
 
-window.bmSaveName = async function(el) {
-  const val = el.textContent.trim();
-  if (val === el.dataset.orig) return;
-  try {
-    await updateProfile({ display_name: val });
-    el.dataset.orig = val;
-    if (_burgerProfileCache) _burgerProfileCache.display_name = val;
-  } catch { el.textContent = el.dataset.orig; }
+window.openEditProfileModal = function() {
+  closeBurgerMenu();
+  const modal = document.getElementById('ep-modal');
+  if (!modal) return;
+  const prof = _burgerProfileCache || {};
+  document.getElementById('ep-name').value = prof.display_name || '';
+  document.getElementById('ep-board').value = prof.exam_board || '';
+  document.getElementById('ep-date').value = prof.exam_date || '';
+  document.getElementById('ep-status').textContent = '';
+  modal.classList.remove('hidden');
 };
 
-window.bmSaveBoard = async function(el) {
-  const val = el.textContent.trim();
-  if (val === el.dataset.orig) return;
-  try {
-    await updateProfile({ exam_board: val });
-    el.dataset.orig = val;
-    if (_burgerProfileCache) _burgerProfileCache.exam_board = val;
-  } catch { el.textContent = el.dataset.orig; }
+window.closeEditProfileModal = function() {
+  document.getElementById('ep-modal')?.classList.add('hidden');
 };
 
-window.bmSaveDate = async function(el) {
-  const val = el.value;
+window.saveEditProfile = async function() {
+  const name = document.getElementById('ep-name').value.trim();
+  const board = document.getElementById('ep-board').value.trim();
+  const date = document.getElementById('ep-date').value;
+  const statusEl = document.getElementById('ep-status');
+  statusEl.textContent = 'Saving…';
   try {
-    await updateProfile({ exam_date: val });
-    if (_burgerProfileCache) _burgerProfileCache.exam_date = val;
-    examDate = val;
-    renderDash();
-  } catch {}
+    await updateProfile({ display_name: name, exam_board: board, exam_date: date || null });
+    if (!_burgerProfileCache) _burgerProfileCache = {};
+    _burgerProfileCache.display_name = name;
+    _burgerProfileCache.exam_board = board;
+    _burgerProfileCache.exam_date = date;
+    if (date) { examDate = date; renderDash(); }
+    window.closeEditProfileModal();
+    setToast('Profile updated');
+  } catch {
+    statusEl.textContent = 'Failed to save. Try again.';
+  }
 };
 
 /* ============ boot ============ */
