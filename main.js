@@ -2501,6 +2501,433 @@ window.resetToDefault = function() {
   setToast('Reset to Ascent');
 };
 
+/* ============ theme studio ============ */
+
+let _tsBgState = {
+  type: 'solid',
+  solid: '#12100e',
+  linear: { angle: 135, stops: ['#12100e', '#1a1815'] },
+  radial: { x: 50, y: 50, stops: ['#12100e', '#1a1815'] },
+  mesh: { tl: '#12100e', tr: '#12100e', bl: '#12100e', br: '#12100e' },
+};
+let _tsTypoState = { display: 'DM Serif Display', body: 'Inter', scale: 'default' };
+
+function openThemeStudio() {
+  closeBurgerMenu();
+  const saved = getCurrentThemeData();
+  if (saved.bgBuilder) Object.assign(_tsBgState, saved.bgBuilder);
+  if (saved.typography) Object.assign(_tsTypoState, saved.typography);
+  const drawer = document.getElementById('ts-drawer');
+  const overlay = document.getElementById('ts-overlay');
+  if (!drawer) return;
+  drawer.style.display = 'flex';
+  void drawer.offsetWidth; // flush layout so transition fires
+  overlay.classList.add('ts-vis');
+  drawer.classList.add('ts-open');
+  renderThemeStudio();
+  setTimeout(() => overlay.addEventListener('click', closeThemeStudio, { once: true }), 0);
+}
+window.openThemeStudio = openThemeStudio;
+
+function closeThemeStudio() {
+  const drawer = document.getElementById('ts-drawer');
+  const overlay = document.getElementById('ts-overlay');
+  if (!drawer) return;
+  drawer.classList.remove('ts-open');
+  overlay.classList.remove('ts-vis');
+  setTimeout(() => { drawer.style.display = 'none'; }, 320);
+}
+window.closeThemeStudio = closeThemeStudio;
+
+function renderThemeStudio() {
+  _renderTsPresets();
+  _renderTsBgBuilder();
+  _renderTsColorControls();
+  _renderTsTypography();
+  _renderTsSaveManage();
+}
+
+function _renderTsPresets() {
+  const el = document.getElementById('ts-preset-grid');
+  if (!el) return;
+  const current = getCurrentThemeData();
+  el.innerHTML = Object.entries(THEMES).map(([key, th]) => {
+    const bg = th.vars['--ink2'];
+    const accent = th.vars['--amber'];
+    const textCol = th.vars['--paper'];
+    const active = current.preset === key;
+    return `<div class="ts-preset-card${active ? ' ts-active' : ''}" onclick="tsSelectPreset('${key}')" title="${th.label}">
+      <div class="ts-preset-bg" style="background:${bg}">
+        <div class="ts-preset-dot" style="background:${accent}"></div>
+        <div class="ts-preset-name" style="color:${textCol}99">${th.label}</div>
+      </div>
+      ${active ? '<div class="ts-preset-check">✓</div>' : ''}
+    </div>`;
+  }).join('');
+}
+
+window.tsSelectPreset = function(key) {
+  const td = { preset: key };
+  applyTheme(td);
+  document.body.style.background = '';
+  _tsBgState.type = 'solid';
+  _tsBgState.solid = THEMES[key]?.vars['--ink'] || '#12100e';
+  saveTheme(td).catch(() => {});
+  setToast(THEMES[key]?.label || key);
+  _renderTsPresets();
+  _renderTsColorControls();
+  _renderTsBgBuilder();
+};
+
+function _renderTsBgBuilder() {
+  const el = document.getElementById('ts-bg-builder');
+  if (!el) return;
+  const type = _tsBgState.type;
+  const labels = { solid: 'Solid', linear: 'Linear', radial: 'Radial', mesh: 'Mesh' };
+  el.innerHTML = `
+    <div class="ts-type-tabs">${Object.keys(labels).map(t =>
+      `<button class="ts-type-tab${t === type ? ' ts-active' : ''}" onclick="tsBgSetType('${t}')">${labels[t]}</button>`
+    ).join('')}</div>
+    <div id="ts-bg-inner">${_renderBgInner(type)}</div>`;
+}
+
+function _renderBgInner(type) {
+  if (type === 'solid') {
+    const c = _tsBgState.solid;
+    return `<div class="ts-cprow">
+      <input type="color" value="${c}" oninput="tsBgSolid(this.value)">
+      <input class="ts-hex" value="${c}" maxlength="7" oninput="tsBgSolidHex(this.value)">
+    </div>`;
+  }
+  if (type === 'linear') {
+    const { angle = 135, stops = ['#12100e', '#1a1815'] } = _tsBgState.linear;
+    return `<div class="ts-stops">${stops.map((c, i) => `<div class="ts-stoprow">
+      <span class="ts-stoplbl">${i + 1}</span>
+      <div class="ts-cprow" style="flex:1">
+        <input type="color" value="${c}" oninput="tsBgLinStop(${i},this.value)">
+        <input class="ts-hex" value="${c}" maxlength="7" oninput="tsBgLinStopHex(${i},this.value)">
+      </div>
+      ${stops.length > 2 ? `<button class="ts-rm" onclick="tsBgLinRm(${i})">×</button>` : ''}
+    </div>`).join('')}</div>
+    ${stops.length < 4 ? `<button class="ts-type-tab" onclick="tsBgLinAdd()" style="margin-bottom:10px">+ Stop</button>` : ''}
+    <div class="ts-slider-row">
+      <span class="ts-slbl">Angle</span>
+      <input type="range" min="0" max="360" value="${angle}" oninput="tsBgLinAngle(+this.value);this.nextElementSibling.textContent=this.value+'°'">
+      <span class="ts-slval">${angle}°</span>
+    </div>`;
+  }
+  if (type === 'radial') {
+    const { x = 50, y = 50, stops = ['#12100e', '#1a1815'] } = _tsBgState.radial;
+    return `<div class="ts-stops">${stops.map((c, i) => `<div class="ts-stoprow">
+      <span class="ts-stoplbl">${i + 1}</span>
+      <div class="ts-cprow" style="flex:1">
+        <input type="color" value="${c}" oninput="tsBgRadStop(${i},this.value)">
+        <input class="ts-hex" value="${c}" maxlength="7" oninput="tsBgRadStopHex(${i},this.value)">
+      </div>
+      ${stops.length > 2 ? `<button class="ts-rm" onclick="tsBgRadRm(${i})">×</button>` : ''}
+    </div>`).join('')}</div>
+    ${stops.length < 4 ? `<button class="ts-type-tab" onclick="tsBgRadAdd()" style="margin-bottom:10px">+ Stop</button>` : ''}
+    <div class="ts-slider-row">
+      <span class="ts-slbl">X</span>
+      <input type="range" min="0" max="100" value="${x}" oninput="tsBgRadX(+this.value);this.nextElementSibling.textContent=this.value+'%'">
+      <span class="ts-slval">${x}%</span>
+    </div>
+    <div class="ts-slider-row">
+      <span class="ts-slbl">Y</span>
+      <input type="range" min="0" max="100" value="${y}" oninput="tsBgRadY(+this.value);this.nextElementSibling.textContent=this.value+'%'">
+      <span class="ts-slval">${y}%</span>
+    </div>`;
+  }
+  if (type === 'mesh') {
+    const { tl = '#12100e', tr = '#12100e', bl = '#12100e', br = '#12100e' } = _tsBgState.mesh;
+    return `<div class="ts-mesh-grid">${[['tl','Top Left',tl],['tr','Top Right',tr],['bl','Bot Left',bl],['br','Bot Right',br]].map(([k, label, c]) =>
+      `<div><div class="ts-mlbl">${label}</div><div class="ts-cprow">
+        <input type="color" value="${c}" oninput="tsBgMesh('${k}',this.value)">
+        <input class="ts-hex" value="${c}" maxlength="7" oninput="tsBgMeshHex('${k}',this.value)">
+      </div></div>`
+    ).join('')}</div>`;
+  }
+  return '';
+}
+
+function _applyBg() {
+  const t = _tsBgState.type;
+  if (t === 'solid') {
+    document.body.style.background = _tsBgState.solid || '';
+  } else if (t === 'linear') {
+    const { angle = 135, stops = [] } = _tsBgState.linear;
+    document.body.style.background = `linear-gradient(${angle}deg,${stops.join(',')})`;
+  } else if (t === 'radial') {
+    const { x = 50, y = 50, stops = [] } = _tsBgState.radial;
+    document.body.style.background = `radial-gradient(circle at ${x}% ${y}%,${stops.join(',')})`;
+  } else if (t === 'mesh') {
+    const { tl, tr, bl, br } = _tsBgState.mesh;
+    document.body.style.background = [
+      `radial-gradient(ellipse at 0% 0%,${tl} 0%,transparent 60%)`,
+      `radial-gradient(ellipse at 100% 0%,${tr} 0%,transparent 60%)`,
+      `radial-gradient(ellipse at 0% 100%,${bl} 0%,transparent 60%)`,
+      `radial-gradient(ellipse at 100% 100%,${br} 0%,transparent 60%)`,
+    ].join(',');
+  }
+}
+
+window.tsBgSetType = function(t) { _tsBgState.type = t; _renderTsBgBuilder(); _applyBg(); };
+window.tsBgSolid = function(v) { _tsBgState.solid = v; const h = document.querySelector('#ts-bg-inner .ts-hex'); if (h) h.value = v; _applyBg(); };
+window.tsBgSolidHex = function(v) { if (/^#[0-9a-fA-F]{6}$/.test(v)) { _tsBgState.solid = v; const c = document.querySelector('#ts-bg-inner input[type=color]'); if (c) c.value = v; _applyBg(); } };
+window.tsBgLinStop = function(i, v) { _tsBgState.linear.stops[i] = v; _applyBg(); };
+window.tsBgLinStopHex = function(i, v) { if (/^#[0-9a-fA-F]{6}$/.test(v)) { _tsBgState.linear.stops[i] = v; _applyBg(); } };
+window.tsBgLinAngle = function(v) { _tsBgState.linear.angle = v; _applyBg(); };
+window.tsBgLinAdd = function() { _tsBgState.linear.stops.push('#2a2520'); _renderTsBgBuilder(); _applyBg(); };
+window.tsBgLinRm = function(i) { _tsBgState.linear.stops.splice(i, 1); _renderTsBgBuilder(); _applyBg(); };
+window.tsBgRadStop = function(i, v) { _tsBgState.radial.stops[i] = v; _applyBg(); };
+window.tsBgRadStopHex = function(i, v) { if (/^#[0-9a-fA-F]{6}$/.test(v)) { _tsBgState.radial.stops[i] = v; _applyBg(); } };
+window.tsBgRadX = function(v) { _tsBgState.radial.x = v; _applyBg(); };
+window.tsBgRadY = function(v) { _tsBgState.radial.y = v; _applyBg(); };
+window.tsBgRadAdd = function() { _tsBgState.radial.stops.push('#2a2520'); _renderTsBgBuilder(); _applyBg(); };
+window.tsBgRadRm = function(i) { _tsBgState.radial.stops.splice(i, 1); _renderTsBgBuilder(); _applyBg(); };
+window.tsBgMesh = function(k, v) { _tsBgState.mesh[k] = v; const idx = { tl: 0, tr: 1, bl: 2, br: 3 }[k]; const hexEls = document.querySelectorAll('#ts-bg-inner .ts-hex'); if (hexEls[idx]) hexEls[idx].value = v; _applyBg(); };
+window.tsBgMeshHex = function(k, v) { if (/^#[0-9a-fA-F]{6}$/.test(v)) { _tsBgState.mesh[k] = v; const idx = { tl: 0, tr: 1, bl: 2, br: 3 }[k]; const cs = document.querySelectorAll('#ts-bg-inner input[type=color]'); if (cs[idx]) cs[idx].value = v; _applyBg(); } };
+
+/* — color controls — */
+const TS_TOKENS = [
+  { label: 'Background',   v: '--ink',        m: '--bg' },
+  { label: 'Surface',      v: '--ink2',       m: '--surface' },
+  { label: 'Surface 2',    v: '--ink3',       m: '--surface-2' },
+  { label: 'Primary Text', v: '--paper',      m: '--text' },
+  { label: 'Muted Text',   v: '--paper-dim',  m: '--text-dim' },
+  { label: 'Accent',       v: '--amber',      m: '--accent' },
+  { label: 'Accent Soft',  v: '--amber-soft', m: '--accent-soft' },
+  { label: 'Accent Deep',  v: '--amber-deep', m: '--accent-deep' },
+  { label: 'Border',       v: '--line',       m: '--border' },
+  { label: 'Success',      v: '--green',      m: null },
+];
+
+function _toHex6(raw) {
+  const v = (raw || '').trim();
+  if (/^#[0-9a-fA-F]{6}$/.test(v)) return v;
+  if (/^#[0-9a-fA-F]{3}$/.test(v)) return '#' + [v[1]+v[1], v[2]+v[2], v[3]+v[3]].join('');
+  const m = v.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+  if (m) return '#' + [m[1], m[2], m[3]].map(n => parseInt(n).toString(16).padStart(2, '0')).join('');
+  return '#000000';
+}
+
+function _renderTsColorControls() {
+  const el = document.getElementById('ts-color-controls');
+  if (!el) return;
+  const cs = getComputedStyle(document.documentElement);
+  el.innerHTML = `<div class="ts-color-grid">${TS_TOKENS.map(({ label, v }) => {
+    const hex = _toHex6(cs.getPropertyValue(v));
+    return `<div class="ts-crow">
+      <div class="ts-clbl">${label}</div>
+      <div class="ts-cprow">
+        <input type="color" value="${hex}" data-v="${v}" oninput="tsColor('${v}',this.value)">
+        <input class="ts-hex" value="${hex}" data-v="${v}" maxlength="7" oninput="tsColorHex('${v}',this.value)">
+      </div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+window.tsColor = function(cssVar, val) {
+  const root = document.documentElement;
+  root.style.setProperty(cssVar, val);
+  const t = TS_TOKENS.find(x => x.v === cssVar);
+  if (t?.m) root.style.setProperty(t.m, val);
+  const h = document.querySelector(`.ts-hex[data-v="${cssVar}"]`);
+  if (h) h.value = val;
+  _tsPersistCustom();
+};
+
+window.tsColorHex = function(cssVar, val) {
+  if (!/^#[0-9a-fA-F]{6}$/.test(val)) return;
+  const root = document.documentElement;
+  root.style.setProperty(cssVar, val);
+  const t = TS_TOKENS.find(x => x.v === cssVar);
+  if (t?.m) root.style.setProperty(t.m, val);
+  const c = document.querySelector(`input[type=color][data-v="${cssVar}"]`);
+  if (c) c.value = val;
+  _tsPersistCustom();
+};
+
+function _tsPersistCustom() {
+  const cs = getComputedStyle(document.documentElement);
+  const custom = {};
+  TS_TOKENS.forEach(({ v }) => { custom[v] = cs.getPropertyValue(v).trim(); });
+  const td = {
+    preset: 'custom',
+    custom,
+    bgBuilder: { ..._tsBgState },
+    typography: { ..._tsTypoState },
+    userPresets: (getCurrentThemeData().userPresets || []),
+  };
+  localStorage.setItem('sq_theme', JSON.stringify(td));
+  saveTheme(td).catch(() => {});
+}
+
+/* — typography — */
+const TS_DISPLAY_FONTS = ['DM Serif Display', 'Playfair Display', 'Fraunces', 'Cormorant Garamond', 'Baskervville', 'Georgia'];
+const TS_BODY_FONTS = ['Inter', 'Plus Jakarta Sans', 'DM Sans', 'Nunito', 'Source Sans 3'];
+
+function _renderTsTypography() {
+  const el = document.getElementById('ts-typo');
+  if (!el) return;
+  const { display, body, scale } = _tsTypoState;
+  el.innerHTML = `
+    <div class="ts-font-row">
+      <div class="ts-clbl">Display Font</div>
+      <select class="ts-font-select" onchange="tsTypoDisplay(this.value)">
+        ${TS_DISPLAY_FONTS.map(f => `<option value="${f}"${f === display ? ' selected' : ''}>${f}</option>`).join('')}
+      </select>
+    </div>
+    <div class="ts-font-row">
+      <div class="ts-clbl">Body Font</div>
+      <select class="ts-font-select" onchange="tsTypoBody(this.value)">
+        ${TS_BODY_FONTS.map(f => `<option value="${f}"${f === body ? ' selected' : ''}>${f}</option>`).join('')}
+      </select>
+    </div>
+    <div class="ts-font-row">
+      <div class="ts-clbl">Size Scale</div>
+      <div class="ts-type-tabs">
+        ${['compact', 'default', 'large'].map(s =>
+          `<button class="ts-type-tab${s === scale ? ' ts-active' : ''}" onclick="tsTypoScale('${s}')">${s}</button>`
+        ).join('')}
+      </div>
+    </div>
+    <div style="margin-top:12px;padding:14px;background:#181818;border-radius:6px;border:1px solid rgba(255,255,255,.06)">
+      <div style="font-family:'${display}',serif;font-size:20px;color:rgba(255,255,255,.85);margin-bottom:5px;line-height:1.2">Sequora Studies</div>
+      <div style="font-family:'${body}',sans-serif;font-size:12px;color:rgba(255,255,255,.38);line-height:1.5">Study tracker · focused project runner.</div>
+    </div>`;
+}
+
+function _loadFont(name) {
+  if (!name || document.querySelector(`link[data-font="${name}"]`)) return;
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = `https://fonts.googleapis.com/css2?family=${name.replace(/ /g, '+')}:ital,wght@0,400;0,700;1,400&display=swap`;
+  link.dataset.font = name;
+  document.head.appendChild(link);
+}
+
+window.tsTypoDisplay = function(v) {
+  _tsTypoState.display = v; _loadFont(v);
+  document.documentElement.style.setProperty('--display', `"${v}",serif`);
+  _renderTsTypography(); _tsPersistCustom();
+};
+window.tsTypoBody = function(v) {
+  _tsTypoState.body = v; _loadFont(v);
+  document.documentElement.style.setProperty('--body', `"${v}",sans-serif`);
+  _renderTsTypography(); _tsPersistCustom();
+};
+window.tsTypoScale = function(s) {
+  _tsTypoState.scale = s;
+  document.body.style.fontSize = { compact: '13px', default: '15px', large: '17px' }[s] || '15px';
+  _renderTsTypography(); _tsPersistCustom();
+};
+
+/* — save & manage — */
+function _renderTsSaveManage() {
+  const el = document.getElementById('ts-save');
+  if (!el) return;
+  const ups = getCurrentThemeData().userPresets || [];
+  el.innerHTML = `
+    <div class="ts-save-row">
+      <input id="ts-pname" class="ts-save-input" placeholder="Name this theme…">
+      <button class="ts-save-btn" onclick="tsSavePreset()">Save</button>
+    </div>
+    ${ups.length ? `<div class="ts-clbl" style="margin-bottom:8px">My Presets</div>
+    <div>${ups.map((p, i) => `<div class="ts-up-row" onclick="tsLoadPreset(${i})">
+      <span class="ts-up-name">${escapeHtml(p.name)}</span>
+      <button class="ts-up-del" onclick="event.stopPropagation();tsDelPreset(${i})">×</button>
+    </div>`).join('')}</div>` : ''}
+    <button class="ts-reset-btn" onclick="tsResetDefault()">↺ Reset to Default</button>`;
+}
+
+window.tsSavePreset = function() {
+  const inp = document.getElementById('ts-pname');
+  const name = inp?.value.trim();
+  if (!name) { setToast('Enter a name first'); return; }
+  const cs = getComputedStyle(document.documentElement);
+  const custom = {};
+  TS_TOKENS.forEach(({ v }) => { custom[v] = cs.getPropertyValue(v).trim(); });
+  const snapshot = { preset: getCurrentThemeData().preset, custom, bgBuilder: { ..._tsBgState }, typography: { ..._tsTypoState } };
+  const td = getCurrentThemeData();
+  const newTd = { ...td, userPresets: [...(td.userPresets || []), { name, snapshot }] };
+  localStorage.setItem('sq_theme', JSON.stringify(newTd));
+  saveTheme(newTd).catch(() => {});
+  if (inp) inp.value = '';
+  setToast(`"${name}" saved`);
+  _renderTsSaveManage();
+};
+
+window.tsLoadPreset = function(i) {
+  const td = getCurrentThemeData();
+  const p = (td.userPresets || [])[i];
+  if (!p) return;
+  const { snapshot } = p;
+  if (snapshot.preset && snapshot.preset !== 'custom') applyTheme({ preset: snapshot.preset });
+  if (snapshot.custom) {
+    const root = document.documentElement;
+    Object.entries(snapshot.custom).forEach(([k, v]) => {
+      root.style.setProperty(k, v);
+      const t = TS_TOKENS.find(x => x.v === k);
+      if (t?.m) root.style.setProperty(t.m, v);
+    });
+  }
+  if (snapshot.bgBuilder) { Object.assign(_tsBgState, snapshot.bgBuilder); _applyBg(); }
+  if (snapshot.typography) {
+    Object.assign(_tsTypoState, snapshot.typography);
+    _loadFont(_tsTypoState.display); _loadFont(_tsTypoState.body);
+    document.documentElement.style.setProperty('--display', `"${_tsTypoState.display}",serif`);
+    document.documentElement.style.setProperty('--body', `"${_tsTypoState.body}",sans-serif`);
+    document.body.style.fontSize = { compact: '13px', default: '15px', large: '17px' }[_tsTypoState.scale] || '15px';
+  }
+  renderThemeStudio();
+  setToast(`Applied "${p.name}"`);
+};
+
+window.tsDelPreset = function(i) {
+  const td = getCurrentThemeData();
+  const newTd = { ...td, userPresets: (td.userPresets || []).filter((_, j) => j !== i) };
+  localStorage.setItem('sq_theme', JSON.stringify(newTd));
+  saveTheme(newTd).catch(() => {});
+  _renderTsSaveManage();
+};
+
+window.tsResetDefault = function() {
+  applyTheme({ preset: 'ascent' });
+  document.body.style.background = '';
+  document.body.style.fontSize = '';
+  document.documentElement.style.setProperty('--display', '"DM Serif Display",serif');
+  document.documentElement.style.setProperty('--body', '"Inter",sans-serif');
+  _tsBgState = { type: 'solid', solid: '#12100e', linear: { angle: 135, stops: ['#12100e', '#1a1815'] }, radial: { x: 50, y: 50, stops: ['#12100e', '#1a1815'] }, mesh: { tl: '#12100e', tr: '#12100e', bl: '#12100e', br: '#12100e' } };
+  _tsTypoState = { display: 'DM Serif Display', body: 'Inter', scale: 'default' };
+  renderThemeStudio();
+  setToast('Reset to Ascent');
+};
+
+function _tsRestoreExtra() {
+  const td = getCurrentThemeData();
+  if (td.bgBuilder) {
+    Object.assign(_tsBgState, td.bgBuilder);
+    if (_tsBgState.type !== 'solid') _applyBg();
+    else if (_tsBgState.solid) document.body.style.background = _tsBgState.solid;
+  }
+  if (td.typography) {
+    Object.assign(_tsTypoState, td.typography);
+    if (_tsTypoState.display !== 'DM Serif Display') {
+      _loadFont(_tsTypoState.display);
+      document.documentElement.style.setProperty('--display', `"${_tsTypoState.display}",serif`);
+    }
+    if (_tsTypoState.body !== 'Inter') {
+      _loadFont(_tsTypoState.body);
+      document.documentElement.style.setProperty('--body', `"${_tsTypoState.body}",sans-serif`);
+    }
+    if (_tsTypoState.scale !== 'default') {
+      document.body.style.fontSize = { compact: '13px', large: '17px' }[_tsTypoState.scale] || '15px';
+    }
+  }
+}
+_tsRestoreExtra();
+
 /* ============ burger menu ============ */
 
 let _burgerProfileCache = null;
@@ -2578,7 +3005,7 @@ function renderBurgerMenu() {
     <div class="bm-divider"></div>
     <div class="bm-section">
       <div class="bm-section-label">Themes</div>
-      <div class="bm-theme-grid">${_bmSwatchesHtml()}</div>
+      <button class="bm-open-ts" onclick="closeBurgerMenu();openThemeStudio()">Open Theme Studio →</button>
     </div>
     <div class="bm-divider"></div>
     <div class="bm-section">

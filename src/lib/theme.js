@@ -173,6 +173,66 @@ export const THEMES = {
       '--glow-color': '212,160,53',
     },
   },
+  obsidian: {
+    label: 'Obsidian',
+    vars: {
+      '--ink': '#000000', '--ink2': '#0a0a0a', '--ink3': '#111111',
+      '--line': '#222222',
+      '--paper': '#ffffff', '--paper-dim': '#aaaaaa', '--muted': '#666666',
+      '--amber': '#ffffff', '--amber-soft': '#eeeeee', '--amber-deep': '#cccccc',
+      '--glow-color': '255,255,255',
+    },
+  },
+  parchment: {
+    label: 'Parchment',
+    vars: {
+      '--ink': '#f5f0e6', '--ink2': '#ede7d8', '--ink3': '#e4dece',
+      '--line': '#c8c0b0',
+      '--paper': '#1a1510', '--paper-dim': '#6b5e4a', '--muted': '#8a7a66',
+      '--amber': '#8b4513', '--amber-soft': '#a85a2a', '--amber-deep': '#6b2e08',
+      '--glow-color': '139,69,19',
+    },
+  },
+  graphite: {
+    label: 'Graphite',
+    vars: {
+      '--ink': '#0e0f10', '--ink2': '#181a1c', '--ink3': '#202326',
+      '--line': '#2e3135',
+      '--paper': '#e8eaec', '--paper-dim': '#9aa0a8', '--muted': '#60686e',
+      '--amber': '#e8693a', '--amber-soft': '#f08a5e', '--amber-deep': '#c04820',
+      '--glow-color': '232,105,58',
+    },
+  },
+  cobalt: {
+    label: 'Cobalt',
+    vars: {
+      '--ink': '#040810', '--ink2': '#080e1e', '--ink3': '#0c1428',
+      '--line': '#121d38',
+      '--paper': '#dce8ff', '--paper-dim': '#8aaae0', '--muted': '#4a6090',
+      '--amber': '#0088ff', '--amber-soft': '#4ab0ff', '--amber-deep': '#0060cc',
+      '--glow-color': '0,136,255',
+    },
+  },
+  verdant: {
+    label: 'Verdant',
+    vars: {
+      '--ink': '#050808', '--ink2': '#0a0f0c', '--ink3': '#0e1610',
+      '--line': '#152418',
+      '--paper': '#e2ece4', '--paper-dim': '#8aaa90', '--muted': '#507058',
+      '--amber': '#7aad84', '--amber-soft': '#9cc8a4', '--amber-deep': '#558a60',
+      '--glow-color': '122,173,132',
+    },
+  },
+  bordeaux: {
+    label: 'Bordeaux',
+    vars: {
+      '--ink': '#0a0405', '--ink2': '#14060a', '--ink3': '#1c0810',
+      '--line': '#280e18',
+      '--paper': '#f0e8ec', '--paper-dim': '#c0a0b0', '--muted': '#806070',
+      '--amber': '#c8a830', '--amber-soft': '#e0c450', '--amber-deep': '#a08010',
+      '--glow-color': '200,168,48',
+    },
+  },
 };
 
 const LS_KEY = 'sq_theme';
@@ -180,9 +240,14 @@ const LS_KEY = 'sq_theme';
 // ── apply ─────────────────────────────────────────────────────────────────────
 
 export function applyTheme(themeData) {
-  const vars = themeData.preset === 'custom'
-    ? buildCustomVars(themeData.custom)
-    : THEMES[themeData.preset]?.vars;
+  let vars;
+  if (themeData.preset === 'custom') {
+    const c = themeData.custom || {};
+    // New format: keys are CSS vars (--ink, --amber, etc.)
+    vars = Object.keys(c).some(k => k.startsWith('--')) ? c : buildCustomVars(c);
+  } else {
+    vars = THEMES[themeData.preset]?.vars;
+  }
   if (!vars) return;
 
   const root = document.documentElement;

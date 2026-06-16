@@ -31,7 +31,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:var(--body);background:#060606;color:var(--text);min-height:100vh;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body{font-family:var(--body);background:var(--bg,#060606);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
 .wrap{max-width:1160px;margin:0 auto;padding:0 24px 100px}
 
 /* ---------- header ---------- */
@@ -459,6 +459,79 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text
 .bm-settings-placeholder{font-size:13px;color:var(--muted);font-style:italic}
 .bm-signout{width:100%;background:none;border:none;text-align:left;font-family:var(--body);font-size:13px;color:var(--red);cursor:pointer;padding:2px 0;transition:opacity .15s}
 .bm-signout:hover{opacity:.7}
+.bm-open-ts{width:100%;background:rgba(242,223,168,.06);border:1px solid rgba(242,223,168,.15);border-radius:6px;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(242,223,168,.7);cursor:pointer;padding:9px 12px;text-align:left;transition:all .15s}
+.bm-open-ts:hover{background:rgba(242,223,168,.12);border-color:rgba(242,223,168,.35);color:rgba(242,223,168,.95)}
+
+/* ---------- theme studio drawer ---------- */
+.ts-overlay{position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.55);backdrop-filter:blur(3px);transition:opacity .28s;opacity:0;pointer-events:none}
+.ts-overlay.ts-vis{opacity:1;pointer-events:all}
+.ts-drawer{position:fixed;top:0;right:0;bottom:0;width:420px;z-index:901;background:#0d0d0d;border-left:1px solid rgba(242,223,168,.1);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1)}
+.ts-drawer.ts-open{transform:translateX(0)}
+.ts-header{display:flex;align-items:center;justify-content:space-between;padding:18px 22px 16px;border-bottom:1px solid rgba(242,223,168,.1);flex-shrink:0}
+.ts-title{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(242,223,168,.75)}
+.ts-close{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.3);font-size:18px;line-height:1;padding:2px 5px;border-radius:4px;transition:color .15s,background .15s}
+.ts-close:hover{color:rgba(255,255,255,.8);background:rgba(255,255,255,.07)}
+.ts-body{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.1) transparent}
+.ts-body::-webkit-scrollbar{width:4px}
+.ts-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
+.ts-section{padding:18px 22px;border-bottom:1px solid rgba(242,223,168,.07)}
+.ts-section:last-child{border-bottom:none}
+.ts-slabel{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(242,223,168,.35);margin-bottom:14px}
+/* preset grid */
+.ts-preset-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.ts-preset-card{position:relative;cursor:pointer;border-radius:7px;overflow:hidden;border:1.5px solid rgba(255,255,255,.07);transition:border-color .15s,transform .12s;aspect-ratio:1/1.15}
+.ts-preset-card:hover{border-color:rgba(255,255,255,.22);transform:scale(1.04);z-index:2}
+.ts-preset-card.ts-active{border-color:rgba(242,223,168,.65)!important}
+.ts-preset-bg{width:100%;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding:5px}
+.ts-preset-dot{width:7px;height:7px;border-radius:50%;margin-bottom:3px;flex-shrink:0}
+.ts-preset-name{font-family:var(--mono);font-size:7.5px;font-weight:700;letter-spacing:.04em;line-height:1.2;word-break:break-word}
+.ts-preset-check{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.38);font-size:18px;color:rgba(242,223,168,.9)}
+/* type tabs */
+.ts-type-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:13px}
+.ts-type-tab{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;border-radius:4px;cursor:pointer;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.45);background:transparent;transition:all .15s}
+.ts-type-tab:hover{border-color:rgba(255,255,255,.25);color:rgba(255,255,255,.8)}
+.ts-type-tab.ts-active{border-color:rgba(242,223,168,.45);color:rgba(242,223,168,.85);background:rgba(242,223,168,.06)}
+/* color pickers */
+.ts-cprow{display:flex;align-items:center;gap:7px;background:#181818;border:1px solid rgba(255,255,255,.08);border-radius:5px;padding:5px 8px}
+.ts-cprow input[type=color]{width:22px;height:22px;border:none;padding:0;background:none;cursor:pointer;border-radius:3px;-webkit-appearance:none;flex-shrink:0}
+.ts-cprow input[type=color]::-webkit-color-swatch-wrapper{padding:0}
+.ts-cprow input[type=color]::-webkit-color-swatch{border:none;border-radius:3px}
+.ts-hex{font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.5);border:none;background:transparent;outline:none;flex:1;min-width:0;cursor:text}
+.ts-hex:focus{color:rgba(255,255,255,.9)}
+/* gradient stops */
+.ts-stops{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}
+.ts-stoprow{display:flex;align-items:center;gap:7px}
+.ts-stoplbl{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.25);min-width:14px}
+.ts-rm{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.25);font-size:16px;padding:0 3px;line-height:1;transition:color .15s}
+.ts-rm:hover{color:var(--red)}
+.ts-slider-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.ts-slbl{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.3);min-width:36px}
+.ts-slider-row input[type=range]{flex:1;accent-color:rgba(242,223,168,.7);height:3px}
+.ts-slval{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.3);min-width:28px;text-align:right}
+/* mesh */
+.ts-mesh-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ts-mlbl{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.3);margin-bottom:5px}
+/* color controls */
+.ts-color-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.ts-crow{display:flex;flex-direction:column;gap:5px}
+.ts-clbl{font-family:var(--mono);font-size:8.5px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+/* typography */
+.ts-font-row{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
+.ts-font-select{font-family:var(--body);font-size:12px;background:#181818;color:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.1);border-radius:5px;padding:7px 10px;outline:none;cursor:pointer;-webkit-appearance:none;appearance:none;width:100%}
+.ts-font-select:focus{border-color:rgba(242,223,168,.35)}
+/* save */
+.ts-save-row{display:flex;gap:8px;margin-bottom:14px}
+.ts-save-input{flex:1;font-family:var(--mono);font-size:11px;background:#181818;color:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.1);border-radius:5px;padding:7px 10px;outline:none}
+.ts-save-input:focus{border-color:rgba(242,223,168,.35)}
+.ts-save-btn{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:7px 13px;border-radius:5px;cursor:pointer;background:rgba(242,223,168,.1);color:rgba(242,223,168,.85);border:1px solid rgba(242,223,168,.22);transition:all .15s;white-space:nowrap}
+.ts-save-btn:hover{background:rgba(242,223,168,.18);border-color:rgba(242,223,168,.45)}
+.ts-up-row{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:5px;border:1px solid rgba(255,255,255,.07);margin-bottom:6px;cursor:pointer;transition:border-color .15s}
+.ts-up-row:hover{border-color:rgba(255,255,255,.18)}
+.ts-up-name{font-family:var(--body);font-size:12px;color:rgba(255,255,255,.75)}
+.ts-up-del{background:none;border:none;cursor:pointer;font-size:16px;color:rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;line-height:1;transition:color .15s}
+.ts-up-del:hover{color:var(--red)}
+.ts-reset-btn{width:100%;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:9px;border-radius:5px;cursor:pointer;background:transparent;color:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.08);transition:all .15s;margin-top:4px}
+.ts-reset-btn:hover{color:var(--red);border-color:rgba(239,68,68,.3)}
 </style>
 </head>
 <body>
@@ -1231,6 +1304,37 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text
     <!-- Phase: inserting -->
     <div id="sb-pdf-inserting" class="hidden" style="text-align:center;padding:32px 0">
       <div style="font-family:var(--mono);font-size:13px;color:var(--amber)">Saving topics…</div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= THEME STUDIO ================= -->
+<div id="ts-overlay" class="ts-overlay"></div>
+<div id="ts-drawer" class="ts-drawer" style="display:none">
+  <div class="ts-header">
+    <span class="ts-title">Theme Studio</span>
+    <button class="ts-close" onclick="closeThemeStudio()">✕</button>
+  </div>
+  <div class="ts-body">
+    <div class="ts-section">
+      <div class="ts-slabel">Preset Themes</div>
+      <div id="ts-preset-grid" class="ts-preset-grid"></div>
+    </div>
+    <div class="ts-section">
+      <div class="ts-slabel">Background Builder</div>
+      <div id="ts-bg-builder"></div>
+    </div>
+    <div class="ts-section">
+      <div class="ts-slabel">Color Controls</div>
+      <div id="ts-color-controls"></div>
+    </div>
+    <div class="ts-section">
+      <div class="ts-slabel">Typography</div>
+      <div id="ts-typo"></div>
+    </div>
+    <div class="ts-section">
+      <div class="ts-slabel">Save &amp; Manage</div>
+      <div id="ts-save"></div>
     </div>
   </div>
 </div>
