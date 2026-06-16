@@ -2447,6 +2447,7 @@ window.selectPresetTheme = function(key) {
   applyTheme(themeData);
   renderThemeGrid();
   saveTheme(themeData).catch(() => {});
+  _refreshBurgerSwatches(key);
 };
 
 function syncCustomPickers() {
@@ -2458,6 +2459,7 @@ function syncCustomPickers() {
   }
 }
 
+let _customSaveTimer = null;
 window.onCustomPickerChange = function() {
   const get = id => document.getElementById(id)?.value || '';
   const custom = {
@@ -2467,8 +2469,11 @@ window.onCustomPickerChange = function() {
     text:    get('cp-text'),
     border:  get('cp-border'),
   };
-  applyTheme({ preset: 'custom', custom });
-  renderThemeGrid(); // deselect presets
+  const themeData = { preset: 'custom', custom };
+  applyTheme(themeData);  // applies to :root + localStorage immediately
+  renderThemeGrid();
+  clearTimeout(_customSaveTimer);
+  _customSaveTimer = setTimeout(() => saveTheme(themeData).catch(() => {}), 800);
 };
 
 window.applyCustomTheme = function() {
@@ -2506,6 +2511,9 @@ function toggleBurgerMenu() {
   menu.classList.contains('hidden') ? openBurgerMenu() : closeBurgerMenu();
 }
 window.toggleBurgerMenu = toggleBurgerMenu;
+
+// Wire burger button via addEventListener (more reliable than onclick in modules)
+document.getElementById('burgerBtn')?.addEventListener('click', toggleBurgerMenu);
 
 function openBurgerMenu() {
   const menu = document.getElementById('burger-menu');
@@ -2600,16 +2608,19 @@ async function renderBurgerMenu() {
     </div>`;
 }
 
+function _refreshBurgerSwatches(activeKey) {
+  document.querySelectorAll('.bm-swatch').forEach(el => {
+    const isActive = el.title === (THEMES[activeKey]?.label || activeKey);
+    el.classList.toggle('active', isActive);
+    el.style.borderColor = isActive ? (THEMES[activeKey]?.vars['--amber'] || 'var(--accent)') : 'transparent';
+  });
+}
+
 window.bmSelectTheme = function(key) {
   const themeData = { preset: key };
   applyTheme(themeData);
   saveTheme(themeData).catch(() => {});
-  document.querySelectorAll('.bm-swatch').forEach(el => {
-    const isActive = el.title === (THEMES[key]?.label || key);
-    el.classList.toggle('active', isActive);
-    if (isActive) el.style.borderColor = THEMES[key].vars['--amber'];
-    else el.style.borderColor = 'transparent';
-  });
+  _refreshBurgerSwatches(key);
   setToast(THEMES[key]?.label || key);
 };
 

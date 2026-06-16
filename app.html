@@ -57,7 +57,7 @@ nav button.active{color:var(--text);border-bottom-color:var(--accent);font-weigh
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:24px;position:relative;overflow:hidden}
 .card.accent{border-color:var(--border-2);border-left:3px solid rgba(232,213,176,.4)}
 #countdown-card{background:#1a1812;padding-bottom:20px}
-#study-now-card{background:#0f1a0f}
+#study-now-card{background:var(--surface)}
 .card h2{font-family:var(--body);font-weight:500;font-size:18px;letter-spacing:-.02em;margin-bottom:4px;color:var(--text)}
 .card .lead{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);font-weight:500;margin-bottom:14px}
 .kicker{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);font-weight:500}
@@ -476,7 +476,7 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text
         <span style="color:var(--line)">|</span>
         <span id="syncStatus"></span>
         <div id="burger-wrap">
-          <button class="bm-btn" onclick="toggleBurgerMenu()" title="Menu" aria-label="Menu">
+          <button id="burgerBtn" class="bm-btn" title="Menu" aria-label="Menu">
             <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect y="0" width="16" height="1.8" rx="0.9" fill="currentColor"/>
               <rect y="6.1" width="16" height="1.8" rx="0.9" fill="currentColor"/>
@@ -519,16 +519,16 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text
       <div class="card">
         <div class="lead">Momentum</div>
         <div class="grid g2" style="gap:12px">
-          <div class="stat" style="background:var(--ink)">
+          <div class="stat">
             <div class="flame-wrap" id="flameWrap"><span id="flameEmoji" class="flame-emoji">🔥</span></div>
             <div class="v" id="streakVal">0</div>
             <div class="k">Day streak</div>
             <div class="x" id="streakX">study today to start</div>
             <div class="x" id="bestStreakX" style="color:var(--amber-deep);margin-top:2px"></div>
           </div>
-          <div class="stat" style="background:var(--ink)"><div class="v" id="todayHrs">0.0</div><div class="k">Hours today</div><div class="x" id="todayX">target ≈ 5.5h</div></div>
-          <div class="stat" style="background:var(--ink)"><div class="v" id="weekHrs">0.0</div><div class="k">Hours this week</div><div class="x" id="weekX">target ≈ 28h</div></div>
-          <div class="stat" style="background:var(--ink)"><div class="v" id="readyPct">0%</div><div class="k">Exam-ready</div><div class="x" id="readyX">across all subjects</div></div>
+          <div class="stat"><div class="v" id="todayHrs">0.0</div><div class="k">Hours today</div><div class="x" id="todayX">target ≈ 5.5h</div></div>
+          <div class="stat"><div class="v" id="weekHrs">0.0</div><div class="k">Hours this week</div><div class="x" id="weekX">target ≈ 28h</div></div>
+          <div class="stat"><div class="v" id="readyPct">0%</div><div class="k">Exam-ready</div><div class="x" id="readyX">across all subjects</div></div>
         </div>
         <div style="margin-top:14px;display:flex;justify-content:flex-end">
           <button class="btn sm ghost" onclick="openShareModal()" style="font-family:var(--mono);font-size:11px;letter-spacing:.06em">
