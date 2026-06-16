@@ -10,11 +10,11 @@
 <style>
 :root{
   /* Core palette */
-  --bg:#080808; --surface:#111111; --surface-2:#161616;
-  --border:#222222; --border-2:#2e2e2e;
-  --text:#e2e2e2; --text-dim:#666666; --muted:#484848;
+  --bg:#080808; --surface:#141410; --surface-2:#1a1814;
+  --border:#2a2820; --border-2:#342e28;
+  --text:#f0ede8; --text-dim:#888880; --muted:#585450;
   /* Accent — warm cream — ONLY on key numbers + CTAs */
-  --accent:#E8D5B0; --accent-soft:#F2E4C6; --accent-deep:#C4AA7E;
+  --accent:#F2DFA8; --accent-soft:#F8EDCA; --accent-deep:#D4B878;
   /* Semantic */
   --green:#4ade80; --green-dim:rgba(74,222,128,.12);
   --red:#ef4444; --blue:#6f9dc4;
@@ -23,11 +23,11 @@
   /* Radii */
   --r:8px; --rs:5px;
   /* Legacy aliases (JS inline styles read these) */
-  --ink:#080808; --ink2:#111111; --ink3:#161616; --line:#222222;
-  --paper:#e2e2e2; --paper-dim:#666666;
-  --amber:#E8D5B0; --amber-soft:#F2E4C6; --amber-deep:#C4AA7E;
+  --ink:#080808; --ink2:#141410; --ink3:#1a1814; --line:#2a2820;
+  --paper:#f0ede8; --paper-dim:#888880;
+  --amber:#F2DFA8; --amber-soft:#F8EDCA; --amber-deep:#D4B878;
   --green-deep:rgba(74,222,128,.3);
-  --glow-color:232,213,176;
+  --glow-color:242,223,168;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -64,7 +64,7 @@ nav button.active{color:var(--text);border-bottom-color:var(--accent);font-weigh
 
 /* ---------- countdown ---------- */
 .countdown{display:flex;flex-direction:column;align-items:flex-start;gap:0;margin:0}
-.countdown .num{font-family:var(--display);font-weight:400;font-size:clamp(140px,18vw,180px);line-height:.82;color:var(--accent);letter-spacing:-.03em}
+.countdown .num{font-family:var(--display);font-weight:400;font-size:clamp(140px,18vw,180px);line-height:.82;color:#F5E8C0;letter-spacing:-.03em}
 .countdown .lbl{font-family:var(--body);font-size:13px;color:var(--text-dim);font-style:normal;margin-top:12px}
 .cd-exam-hero{font-family:var(--mono);font-size:20px;font-weight:600;color:var(--accent);letter-spacing:.02em;margin-top:8px}
 .cd-journey{margin-top:18px}
