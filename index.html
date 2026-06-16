@@ -68,31 +68,12 @@ body::before{
 section{padding:112px 0}
 
 /* ── MAGIC UI — CSS Houdini @property ──────────────────────────────────── */
-@property --beam     {syntax:'<angle>';inherits:false;initial-value:0deg}
-@property --cta-angle{syntax:'<angle>';inherits:false;initial-value:0deg}
+@property --beam{syntax:'<angle>';inherits:false;initial-value:0deg}
 
-/* ── SHIMMER TEXT — indigo-tinted ───────────────────────────────────────── */
-@keyframes shimmer{
-  0%  {background-position:200% center}
-  100%{background-position:-200% center}
-}
-.shimmer-text{
+/* ── ACCENT LINE — second headline line in accent color ─────────────────── */
+.accent-line{
   font-style:italic;
-  background:linear-gradient(
-    90deg,
-    #6b72d0 0%,
-    #9098ef 22%,
-    #bfc3fa 40%,
-    #dddff9 50%,
-    #bfc3fa 60%,
-    #9098ef 78%,
-    #6b72d0 100%
-  );
-  background-size:250% auto;
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  background-clip:text;
-  animation:shimmer 7s linear infinite;
+  color:var(--accent-bright);
 }
 
 /* ── BORDER BEAM — indigo sweep on warm dark ────────────────────────────── */
@@ -115,32 +96,8 @@ section{padding:112px 0}
   box-shadow:0 40px 100px rgba(0,0,0,.72),0 0 0 1px rgba(123,130,232,.04);
 }
 
-/* ── CTA ANIMATED GRADIENT BORDER — indigo cycling ─────────────────────── */
-@keyframes cta-spin{to{--cta-angle:360deg}}
-.btn-primary.btn-lg{
-  background:
-    linear-gradient(var(--bg2),var(--bg2)) padding-box,
-    conic-gradient(
-      from var(--cta-angle),
-      var(--border2) 0deg,
-      #42489e   60deg,
-      var(--accent) 115deg,
-      var(--accent-bright) 148deg,
-      var(--accent) 182deg,
-      #42489e   240deg,
-      var(--border2) 300deg,
-      var(--border2) 360deg
-    ) border-box;
-  border:1.5px solid transparent;
-  animation:cta-spin 4s linear infinite;
-  color:var(--text);
-  box-shadow:0 0 24px rgba(123,130,232,.12);
-}
-.btn-primary.btn-lg:hover{
-  box-shadow:0 0 32px rgba(123,130,232,.2);
-  opacity:.9;
-  transform:translateY(-1px);
-}
+/* ── LARGE BUTTONS — same solid fill, slightly taller ───────────────────── */
+/* No override needed — .btn-primary handles it, .btn-lg just adds padding */
 
 /* ── BUTTONS ─────────────────────────────────────────────────────────────── */
 .btn{
@@ -226,35 +183,38 @@ nav.l-nav{
   mask-image:radial-gradient(ellipse 100% 90% at 50% 0%,black 0%,transparent 80%);
 }
 .l-hero{
-  padding:120px 0 144px;
-  display:grid;grid-template-columns:1fr 1.15fr;gap:80px;align-items:center;
+  padding:112px 0 136px;
+  display:grid;grid-template-columns:1fr 1.15fr;gap:64px;align-items:center;
   position:relative;z-index:1;
 }
 
 /* hero text */
-.hero-kicker{
-  display:inline-flex;align-items:center;gap:8px;margin-bottom:28px;
-  font-family:var(--body);font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--accent-bright);
-  background:var(--accent-glow);
-  border:1px solid var(--accent-border);
-  border-radius:20px;padding:6px 16px;
-}
-.kicker-dot{
-  width:5px;height:5px;border-radius:50%;
-  background:var(--green);flex-shrink:0;opacity:.85;
+.hero-eyebrow{
+  font-family:var(--body);font-size:11px;font-weight:700;
+  letter-spacing:.24em;text-transform:uppercase;
+  color:var(--text-dim);margin-bottom:18px;
 }
 .hero-h1{
-  font-family:var(--display);font-weight:900;font-size:clamp(44px,6vw,80px);
-  line-height:.95;letter-spacing:-.035em;margin-bottom:26px;color:var(--text);
+  font-family:var(--display);font-weight:900;
+  font-size:clamp(36px,3.8vw,54px);
+  line-height:1.0;letter-spacing:-.035em;
+  max-width:520px;
+  margin-bottom:16px;
+  color:var(--text);
 }
 .hero-sub{
-  font-size:17px;color:var(--text-dim);line-height:1.78;
-  max-width:440px;margin-bottom:40px;font-weight:400;
+  font-size:16px;color:var(--text-dim);line-height:1.75;
+  max-width:420px;margin-bottom:32px;font-weight:400;
 }
-.hero-ctas{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px}
-.hero-trust{font-size:12px;color:rgba(240,236,228,.26);letter-spacing:.05em}
-.hero-trust span{margin:0 7px}
+.hero-ctas{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.hero-social-proof{
+  font-size:12px;color:var(--text-dim);opacity:.65;
+  display:flex;align-items:center;gap:7px;
+}
+.hero-social-proof::before{
+  content:"";width:6px;height:6px;border-radius:50%;
+  background:var(--green);flex-shrink:0;opacity:.8;
+}
 
 /* ── MOCK DASHBOARD ──────────────────────────────────────────────────────── */
 .hero-visual{position:relative}
@@ -605,19 +565,14 @@ footer.l-footer{border-top:1px solid var(--border);padding:28px 0;font-size:11px
     <div class="l-hero">
 
       <div class="hero-text">
-        <span class="hero-kicker">
-          <span class="kicker-dot"></span>
-          IGCSE · A-Level · O Level · ACCA
-        </span>
-        <h1 class="hero-h1">Track every topic.<br><em class="shimmer-text">Beat every exam.</em></h1>
-        <p class="hero-sub">The structured study tracker built for students in Bangladesh. Know exactly where you stand — and what to do next — every single day until your exam.</p>
+        <p class="hero-eyebrow">Study Smarter · Exam Ready</p>
+        <h1 class="hero-h1">Track every topic.<br><em class="accent-line">Beat every exam.</em></h1>
+        <p class="hero-sub">The structured study tracker built for IGCSE, A-Level, O Level and ACCA students in Bangladesh. Know exactly where you stand — and what to do next.</p>
         <div class="hero-ctas">
           <a href="/app" class="btn btn-primary btn-lg">Start free →</a>
           <a href="#how" class="btn btn-ghost btn-lg">How it works</a>
         </div>
-        <div class="hero-trust">
-          Free to start <span>·</span> No credit card <span>·</span> Pay via bKash
-        </div>
+        <p class="hero-social-proof">Join 200+ students tracking their exams</p>
       </div>
 
       <div class="hero-visual">
