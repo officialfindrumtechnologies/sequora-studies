@@ -2565,7 +2565,8 @@ function renderBurgerMenu() {
 
   // All synchronous — renders immediately so menu has height
   const totalHrs = hoursFor(() => true).toFixed(1);
-  const topicsReady = (topics || []).filter(t => t.status === 'ready').length;
+  const allTopicsList = topics ? Object.values(topics).flat() : [];
+  const topicsReady = allTopicsList.filter(t => t.status === 'ready').length;
   const bestStreak = getBestStreak();
   const papersCount = (papers || []).length;
 
