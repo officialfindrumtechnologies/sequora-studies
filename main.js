@@ -3,7 +3,7 @@ import {
   THEMES, applyTheme, loadSavedTheme, resetTheme,
   getCurrentThemeData, buildCustomVars, readCurrentCustomFields, hexToRgb,
 } from './src/lib/theme.js';
-import { saveTheme, loadThemeFromDB } from './src/data/profiles.js';
+import { saveTheme, loadThemeFromDB, updateProfile } from './src/data/profiles.js';
 import {
   showOnboarding,
   hideOnboarding,
@@ -2101,6 +2101,8 @@ async function handleSignup() {
 
 async function handleLogout() {
   if (confirm("Log out?")) {
+    _burgerProfileCache = null;
+    closeBurgerMenu();
     await supabase.auth.signOut();
     ['sq_onboarded'].forEach(k => localStorage.removeItem(k));
     window.location.href = '/';
@@ -2494,6 +2496,153 @@ window.resetToDefault = function() {
   setToast('Reset to Ascent');
 };
 
+/* ============ burger menu ============ */
+
+let _burgerProfileCache = null;
+
+function toggleBurgerMenu() {
+  const menu = document.getElementById('burger-menu');
+  if (!menu) return;
+  menu.classList.contains('hidden') ? openBurgerMenu() : closeBurgerMenu();
+}
+window.toggleBurgerMenu = toggleBurgerMenu;
+
+function openBurgerMenu() {
+  const menu = document.getElementById('burger-menu');
+  if (!menu) return;
+  renderBurgerMenu();
+  menu.classList.remove('hidden');
+  setTimeout(() => document.addEventListener('click', _burgerOutsideClick), 0);
+}
+
+function closeBurgerMenu() {
+  const menu = document.getElementById('burger-menu');
+  menu?.classList.add('hidden');
+  document.removeEventListener('click', _burgerOutsideClick);
+}
+
+function _burgerOutsideClick(e) {
+  const wrap = document.getElementById('burger-wrap');
+  if (wrap && !wrap.contains(e.target)) closeBurgerMenu();
+}
+
+async function renderBurgerMenu() {
+  const menu = document.getElementById('burger-menu');
+  if (!menu) return;
+
+  // Fetch profile (cached per open)
+  if (!_burgerProfileCache && currentUser) {
+    try {
+      const { data } = await supabase
+        .from('profiles')
+        .select('display_name,exam_board,exam_date')
+        .eq('id', currentUser.id)
+        .single();
+      _burgerProfileCache = data || {};
+    } catch { _burgerProfileCache = {}; }
+  }
+  const prof = _burgerProfileCache || {};
+
+  // Stats
+  const totalHrs = hoursFor(() => true).toFixed(1);
+  const topicsReady = (topics || []).filter(t => t.status === 'ready').length;
+  const bestStreak = getBestStreak();
+  const papersCount = (papers || []).length;
+
+  // Theme swatches
+  const current = getCurrentThemeData();
+  const swatches = Object.entries(THEMES).map(([key, th]) => {
+    const accent = th.vars['--amber'];
+    const bg = th.vars['--ink2'];
+    const active = current.preset === key;
+    return `<div class="bm-swatch${active ? ' active' : ''}"
+      style="background:${bg};border-color:${active ? accent : 'transparent'};box-shadow:inset 0 0 0 4px ${accent}"
+      title="${th.label}"
+      onclick="bmSelectTheme('${key}')"></div>`;
+  }).join('');
+
+  const n = escapeHtml(prof.display_name || '');
+  const e = escapeHtml(currentUser?.email || '');
+  const b = escapeHtml(prof.exam_board || '');
+  const d = escapeHtml(prof.exam_date || '');
+
+  menu.innerHTML = `
+    <div class="bm-section">
+      <div class="bm-section-label">Profile</div>
+      <div class="bm-row"><span class="bm-key">Name</span><span id="bm-name" class="bm-val" contenteditable="true" spellcheck="false" data-orig="${n}" onblur="bmSaveName(this)">${n}</span></div>
+      <div class="bm-row"><span class="bm-key">Email</span><span class="bm-val" style="cursor:default;color:var(--muted)">${e}</span></div>
+      <div class="bm-row"><span class="bm-key">Board</span><span id="bm-board" class="bm-val" contenteditable="true" spellcheck="false" data-orig="${b}" onblur="bmSaveBoard(this)">${b}</span></div>
+      <div class="bm-row"><span class="bm-key">Exam date</span><input type="date" class="bm-date-input" id="bm-date" value="${d}" onchange="bmSaveDate(this)"></div>
+    </div>
+    <div class="bm-divider"></div>
+    <div class="bm-section">
+      <div class="bm-section-label">Themes</div>
+      <div class="bm-theme-grid">${swatches}</div>
+    </div>
+    <div class="bm-divider"></div>
+    <div class="bm-section">
+      <div class="bm-section-label">Stats</div>
+      <div class="bm-stats-grid">
+        <div class="bm-stat"><div class="bm-stat-val">${totalHrs}h</div><div class="bm-stat-key">Total studied</div></div>
+        <div class="bm-stat"><div class="bm-stat-val">${topicsReady}</div><div class="bm-stat-key">Topics ready</div></div>
+        <div class="bm-stat"><div class="bm-stat-val">${bestStreak}</div><div class="bm-stat-key">Best streak</div></div>
+        <div class="bm-stat"><div class="bm-stat-val">${papersCount}</div><div class="bm-stat-key">Papers logged</div></div>
+      </div>
+    </div>
+    <div class="bm-divider"></div>
+    <div class="bm-section">
+      <div class="bm-section-label">Settings</div>
+      <div class="bm-settings-placeholder">Notification preferences — coming soon</div>
+    </div>
+    <div class="bm-divider"></div>
+    <div class="bm-section" style="padding-top:10px;padding-bottom:10px">
+      <button class="bm-signout" onclick="handleLogout()">Sign out</button>
+    </div>`;
+}
+
+window.bmSelectTheme = function(key) {
+  const themeData = { preset: key };
+  applyTheme(themeData);
+  saveTheme(themeData).catch(() => {});
+  document.querySelectorAll('.bm-swatch').forEach(el => {
+    const isActive = el.title === (THEMES[key]?.label || key);
+    el.classList.toggle('active', isActive);
+    if (isActive) el.style.borderColor = THEMES[key].vars['--amber'];
+    else el.style.borderColor = 'transparent';
+  });
+  setToast(THEMES[key]?.label || key);
+};
+
+window.bmSaveName = async function(el) {
+  const val = el.textContent.trim();
+  if (val === el.dataset.orig) return;
+  try {
+    await updateProfile({ display_name: val });
+    el.dataset.orig = val;
+    if (_burgerProfileCache) _burgerProfileCache.display_name = val;
+  } catch { el.textContent = el.dataset.orig; }
+};
+
+window.bmSaveBoard = async function(el) {
+  const val = el.textContent.trim();
+  if (val === el.dataset.orig) return;
+  try {
+    await updateProfile({ exam_board: val });
+    el.dataset.orig = val;
+    if (_burgerProfileCache) _burgerProfileCache.exam_board = val;
+  } catch { el.textContent = el.dataset.orig; }
+};
+
+window.bmSaveDate = async function(el) {
+  const val = el.value;
+  try {
+    await updateProfile({ exam_date: val });
+    if (_burgerProfileCache) _burgerProfileCache.exam_date = val;
+    examDate = val;
+    renderDash();
+  } catch {}
+};
+
 /* ============ boot ============ */
 updateClock();
 setInterval(updateClock,30000);
@@ -2520,6 +2669,7 @@ window.__showApp = showApp;
 async function handleSession(session) {
   if (session && session.user) {
     currentUser = session.user;
+    _burgerProfileCache = null; // force fresh fetch on next open
 
     // Always hide login screen first — user IS authenticated
     document.getElementById("loginScreen").classList.add("hidden");

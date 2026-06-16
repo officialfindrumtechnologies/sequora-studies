@@ -190,6 +190,22 @@ export function applyTheme(themeData) {
     root.style.setProperty(k, v);
   }
 
+  // Mirror legacy vars to the new CSS var names used by app.html
+  const MIRROR = [
+    ['--ink',        '--bg'],
+    ['--ink2',       '--surface'],
+    ['--ink3',       '--surface-2'],
+    ['--line',       '--border'],
+    ['--paper',      '--text'],
+    ['--paper-dim',  '--text-dim'],
+    ['--amber',      '--accent'],
+    ['--amber-soft', '--accent-soft'],
+    ['--amber-deep', '--accent-deep'],
+  ];
+  for (const [src, dst] of MIRROR) {
+    if (vars[src]) root.style.setProperty(dst, vars[src]);
+  }
+
   localStorage.setItem(LS_KEY, JSON.stringify(themeData));
 }
 
