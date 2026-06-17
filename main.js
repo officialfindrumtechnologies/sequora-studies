@@ -3706,6 +3706,32 @@ window.bonesToggle3D = function(boneId) {
   }
 };
 
+window.bonesHighlightBone = function(boneId) {
+  const panel = document.getElementById('bone-3d-' + boneId);
+  if (!panel || !panel.classList.contains('open')) {
+    bonesToggle3D(boneId);
+    setTimeout(() => _doBoneHighlight(boneId), 400);
+    return;
+  }
+  _doBoneHighlight(boneId);
+};
+
+function _doBoneHighlight(boneId) {
+  const bone = BONES.find(b => b.id === boneId);
+  const panel = document.getElementById('bone-3d-' + boneId);
+  const overlay = document.getElementById('bone-hl-' + boneId);
+  if (!panel || !bone) return;
+  if (overlay) {
+    overlay.innerHTML = `<div class="bone-hl-tip"><strong>${escapeHtml(bone.name)}</strong>${bone.position_hint ? `<span>${escapeHtml(bone.position_hint)}</span>` : ''}</div>`;
+    overlay.classList.add('visible');
+  }
+  panel.classList.add('bone-3d-flash');
+  setTimeout(() => {
+    panel.classList.remove('bone-3d-flash');
+    if (overlay) { overlay.classList.remove('visible'); overlay.innerHTML = ''; }
+  }, 3000);
+}
+
 function _renderBonesRegions() {
   const container = document.getElementById('bones-regions');
   if (!container) return;
@@ -3736,38 +3762,59 @@ function _renderBones() {
   }
 
   list.innerHTML = filtered.map(bone => {
-    const qaItems = bone.questions.map(qa => `
-      <div class="bone-qa-item">
-        <button class="bone-qa-q" onclick="bonesToggleQa(this)">
-          <span>${escapeHtml(qa.q)}</span>
-          <span class="bone-qa-chevron">▼</span>
-        </button>
-        <div class="bone-qa-a">${escapeHtml(qa.a)}</div>
-      </div>
-    `).join('');
-
     const has3d = !!bone.sketchfabId;
+    const hasHighlight = has3d && !!bone.position_hint;
     const embedUrl = has3d
-      ? `https://sketchfab.com/models/${bone.sketchfabId}/embed?autostart=1&ui_controls=1&ui_infos=0&ui_inspector=0&ui_stop=0&ui_watermark=0&preload=1`
+      ? `https://sketchfab.com/models/${bone.sketchfabId}/embed?autostart=1&ui_controls=0&ui_infos=0&ui_inspector=0&ui_stop=0&ui_watermark=0&ui_watermark_link=0&preload=1`
       : '';
     const landmarksHtml = (bone.landmarks || []).map(l => `<span class="bone-lm">${escapeHtml(l)}</span>`).join('');
 
     const viewer3d = has3d ? `
       <div class="bone-3d-panel" id="bone-3d-${bone.id}">
-        <div class="bone-3d-bar">
-          <span class="bone-3d-bar-label">3D Model · CC Attribution · Sketchfab</span>
-          <button class="bone-3d-close" onclick="bonesToggle3D('${bone.id}')">✕ Close</button>
-        </div>
         <div class="bone-3d-ratio">
           <iframe data-src="${embedUrl}" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen loading="lazy" title="${escapeHtml(bone.name)} 3D model"></iframe>
+          <div class="bone-hl-overlay" id="bone-hl-${bone.id}"></div>
         </div>
+        ${bone.landmarks && bone.landmarks.length ? `
         <div class="bone-3d-info">
-          <div class="bone-3d-info-name">${escapeHtml(bone.name)}</div>
-          ${bone.landmarks && bone.landmarks.length ? `
-          <div class="bone-3d-lm-label">Key Anatomical Landmarks</div>
-          <div class="bone-3d-lm-list">${landmarksHtml}</div>` : ''}
+          <div class="bone-3d-lm-label">KEY ANATOMICAL LANDMARKS</div>
+          <div class="bone-3d-lm-list">${landmarksHtml}</div>
+        </div>` : ''}
+        <div class="bone-3d-close-row">
+          <button class="bone-3d-close" onclick="bonesToggle3D('${bone.id}')">✕ Close</button>
         </div>
       </div>` : '';
+
+    // Group Q&As by professional year prefix
+    const GROUP_ORDER = ['1st Prof', '2nd Prof', '3rd Prof', 'Final Prof'];
+    const groups = {};
+    (bone.questions || []).forEach(qa => {
+      const yr = qa.year || '1st Prof (common)';
+      const grp = GROUP_ORDER.find(g => yr.startsWith(g)) || yr;
+      if (!groups[grp]) groups[grp] = [];
+      groups[grp].push(qa);
+    });
+    const allGroups = [...GROUP_ORDER.filter(g => groups[g]), ...Object.keys(groups).filter(g => !GROUP_ORDER.includes(g))];
+
+    const qaGroupsHtml = allGroups.map(grp => {
+      const items = groups[grp];
+      const itemsHtml = items.map(qa => `
+        <div class="bone-qa-item">
+          <button class="bone-qa-q" onclick="bonesToggleQa(this)">
+            <span class="bone-qa-q-inner">
+              ${qa.year ? `<span class="bone-qa-year">${escapeHtml(qa.year)}</span>` : ''}
+              <span class="bone-qa-q-text">${escapeHtml(qa.q)}</span>
+            </span>
+            <span class="bone-qa-chevron">▼</span>
+          </button>
+          <div class="bone-qa-a">${escapeHtml(qa.a)}</div>
+        </div>`).join('');
+      return `
+        <div class="bone-qa-group">
+          <div class="bone-qa-group-hd">${escapeHtml(grp)} <span class="bone-qa-group-ct">${items.length}</span></div>
+          ${itemsHtml}
+        </div>`;
+    }).join('');
 
     return `
       <div class="bone-card">
@@ -3780,13 +3827,13 @@ function _renderBones() {
         <div class="bone-links-row">
           <a class="bone-wiki-link" href="${bone.wiki}" target="_blank" rel="noopener noreferrer">↗ Wikipedia</a>
           ${has3d ? `<button class="bone-3d-btn" onclick="bonesToggle3D('${bone.id}')">⬡ View 3D</button>` : ''}
+          ${hasHighlight ? `<button class="bone-hl-btn" onclick="bonesHighlightBone('${bone.id}')">◎ Highlight Bone →</button>` : ''}
         </div>
         <div class="bone-qa">
-          <div class="bone-qa-label">Exam Q&amp;A</div>
-          ${qaItems}
+          <div class="bone-qa-label">EXAM QUESTIONS</div>
+          ${qaGroupsHtml}
         </div>
-      </div>
-    `;
+      </div>`;
   }).join('');
 }
 

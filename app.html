@@ -674,17 +674,33 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text
 .bone-3d-btn:hover{border-color:rgba(var(--glow-color),.5);background:rgba(var(--glow-color),.1)}
 .bone-3d-panel{margin-top:10px;border:1px solid rgba(var(--glow-color),.15);border-radius:var(--r);overflow:hidden;display:none}
 .bone-3d-panel.open{display:block}
-.bone-3d-bar{display:flex;align-items:center;justify-content:space-between;padding:7px 12px;background:rgba(var(--glow-color),.04);border-bottom:1px solid rgba(var(--glow-color),.1)}
-.bone-3d-bar-label{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--text-dim)}
+.bone-3d-close-row{display:flex;justify-content:flex-end;padding:5px 10px;background:rgba(var(--glow-color),.02);border-top:1px solid rgba(var(--glow-color),.08)}
 .bone-3d-close{font-family:var(--mono);font-size:10px;padding:2px 8px;border-radius:3px;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--text-dim);transition:all .15s;letter-spacing:.04em}
 .bone-3d-close:hover{color:var(--text);border-color:var(--border-hover)}
 .bone-3d-ratio{position:relative;padding-bottom:60%;height:0;overflow:hidden;background:var(--surface)}
 .bone-3d-ratio iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
 .bone-3d-info{padding:10px 12px;background:rgba(var(--glow-color),.02);border-top:1px solid rgba(var(--glow-color),.08)}
-.bone-3d-info-name{font-family:var(--body);font-size:12px;font-weight:600;color:var(--text);margin-bottom:6px}
 .bone-3d-lm-label{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px}
 .bone-3d-lm-list{display:flex;flex-wrap:wrap;gap:4px}
 .bone-lm{font-family:var(--mono);font-size:10px;padding:2px 7px;background:rgba(var(--glow-color),.07);border:1px solid rgba(var(--glow-color),.13);border-radius:3px;color:var(--text-dim);line-height:1.5}
+/* ---- bone highlight overlay ---- */
+.bone-hl-overlay{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:5;display:flex;align-items:flex-start;justify-content:center;padding-top:14px;box-sizing:border-box;opacity:0;transition:opacity .3s}
+.bone-hl-overlay.visible{opacity:1}
+.bone-hl-tip{background:rgba(0,0,0,.82);color:#fff;border:1px solid rgba(var(--glow-color),.55);border-radius:6px;padding:8px 14px;font-family:var(--mono);font-size:11px;text-align:center;max-width:78%;line-height:1.5}
+.bone-hl-tip strong{display:block;color:var(--accent);font-size:12px;margin-bottom:3px}
+.bone-hl-tip span{display:block;color:rgba(255,255,255,.8);font-size:10px}
+@keyframes boneFlash{0%,100%{border-color:rgba(var(--glow-color),.15);box-shadow:none}30%,70%{border-color:rgba(var(--glow-color),.9);box-shadow:0 0 12px rgba(var(--glow-color),.35)}}
+.bone-3d-flash{animation:boneFlash 3s ease}
+/* ---- highlight button ---- */
+.bone-hl-btn{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.05em;padding:3px 9px;border-radius:3px;cursor:pointer;border:1px solid rgba(var(--glow-color),.2);background:transparent;color:var(--text-dim);transition:all .15s;text-transform:uppercase}
+.bone-hl-btn:hover{border-color:rgba(var(--glow-color),.45);color:var(--accent)}
+/* ---- exam questions section ---- */
+.bone-qa-group{margin-bottom:8px}
+.bone-qa-group-hd{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px;display:flex;align-items:center;gap:5px;padding:0 2px}
+.bone-qa-group-ct{background:rgba(var(--glow-color),.1);border:1px solid rgba(var(--glow-color),.18);border-radius:10px;padding:0 5px;font-size:8px;color:var(--accent);line-height:1.6}
+.bone-qa-year{font-family:var(--mono);font-size:9px;font-weight:700;color:var(--accent);background:rgba(var(--glow-color),.08);border:1px solid rgba(var(--glow-color),.18);border-radius:3px;padding:1px 5px;flex-shrink:0;white-space:nowrap}
+.bone-qa-q-inner{display:flex;align-items:flex-start;gap:6px;flex:1;min-width:0}
+.bone-qa-q-text{flex:1;min-width:0}
 </style>
 </head>
 <body>
