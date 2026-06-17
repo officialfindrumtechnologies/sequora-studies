@@ -20,6 +20,7 @@ import {
   getFriendsLeaderboard, getExistingRelationship,
 } from './src/data/friends.js';
 import { BONES, BONE_REGIONS } from './src/data/bones.js';
+import { BONE_DIAGRAMS } from './src/data/bone-diagrams.js';
 
 // Apply theme + font scale from localStorage immediately — avoids FOUC before auth resolves
 loadSavedTheme();
@@ -3703,6 +3704,8 @@ window.bonesToggle3D = function(boneId) {
       iframe.src = iframe.dataset.src;
       iframe.dataset.loaded = '1';
     }
+    // Reset diagram view back to iframe if diagram was showing
+    bonesShowIframe(boneId);
   }
 };
 
@@ -3710,26 +3713,48 @@ window.bonesHighlightBone = function(boneId) {
   const panel = document.getElementById('bone-3d-' + boneId);
   if (!panel || !panel.classList.contains('open')) {
     bonesToggle3D(boneId);
-    setTimeout(() => _doBoneHighlight(boneId), 400);
+    setTimeout(() => _showBoneDiagram(boneId), 350);
     return;
   }
-  _doBoneHighlight(boneId);
+  _showBoneDiagram(boneId);
 };
 
-function _doBoneHighlight(boneId) {
-  const bone = BONES.find(b => b.id === boneId);
-  const panel = document.getElementById('bone-3d-' + boneId);
-  const overlay = document.getElementById('bone-hl-' + boneId);
-  if (!panel || !bone) return;
-  if (overlay) {
-    overlay.innerHTML = `<div class="bone-hl-tip"><strong>${escapeHtml(bone.name)}</strong>${bone.position_hint ? `<span>${escapeHtml(bone.position_hint)}</span>` : ''}</div>`;
-    overlay.classList.add('visible');
-  }
-  panel.classList.add('bone-3d-flash');
-  setTimeout(() => {
-    panel.classList.remove('bone-3d-flash');
-    if (overlay) { overlay.classList.remove('visible'); overlay.innerHTML = ''; }
-  }, 3000);
+window.bonesShowIframe = function(boneId) {
+  const diagramEl = document.getElementById('bone-diag-' + boneId);
+  const ratioEl   = document.getElementById('bone-ratio-' + boneId);
+  const hlBtn     = document.getElementById('bone-hlbtn-' + boneId);
+  const v3dBtn    = document.querySelector(`[data-v3dbtn="${boneId}"]`);
+  if (diagramEl)  diagramEl.classList.add('hidden');
+  if (ratioEl)    ratioEl.classList.remove('hidden');
+  if (hlBtn)      hlBtn.classList.remove('hidden');
+  if (v3dBtn)     v3dBtn.classList.remove('hidden');
+};
+
+function _showBoneDiagram(boneId) {
+  const diagramEl = document.getElementById('bone-diag-' + boneId);
+  const ratioEl   = document.getElementById('bone-ratio-' + boneId);
+  const hlBtn     = document.getElementById('bone-hlbtn-' + boneId);
+  const v3dBtn    = document.querySelector(`[data-v3dbtn="${boneId}"]`);
+  const bone      = BONES.find(b => b.id === boneId);
+  if (!diagramEl || !ratioEl || !bone) return;
+
+  const svg = BONE_DIAGRAMS[boneId];
+  if (!svg) return;
+
+  diagramEl.innerHTML = `
+    <div class="bone-diag-svg">${svg}</div>
+    <div class="bone-diag-caption">
+      <span class="bone-diag-name">${escapeHtml(bone.name)}</span>
+      ${bone.position_hint ? `<span class="bone-diag-hint">${escapeHtml(bone.position_hint)}</span>` : ''}
+    </div>
+    <div class="bone-diag-back-row">
+      <button class="bone-diag-back" onclick="bonesShowIframe('${boneId}')">⬡ View Full 3D Model →</button>
+    </div>`;
+
+  ratioEl.classList.add('hidden');
+  diagramEl.classList.remove('hidden');
+  if (hlBtn)  hlBtn.classList.add('hidden');
+  if (v3dBtn) v3dBtn.classList.add('hidden');
 }
 
 function _renderBonesRegions() {
@@ -3763,7 +3788,7 @@ function _renderBones() {
 
   list.innerHTML = filtered.map(bone => {
     const has3d = !!bone.sketchfabId;
-    const hasHighlight = has3d && !!bone.position_hint;
+    const hasHighlight = has3d && !!BONE_DIAGRAMS[bone.id];
     const embedUrl = has3d
       ? `https://sketchfab.com/models/${bone.sketchfabId}/embed?autostart=1&ui_controls=0&ui_infos=0&ui_inspector=0&ui_stop=0&ui_watermark=0&ui_watermark_link=0&preload=1`
       : '';
@@ -3771,9 +3796,9 @@ function _renderBones() {
 
     const viewer3d = has3d ? `
       <div class="bone-3d-panel" id="bone-3d-${bone.id}">
-        <div class="bone-3d-ratio">
+        <div class="bone-diag-panel hidden" id="bone-diag-${bone.id}"></div>
+        <div class="bone-3d-ratio" id="bone-ratio-${bone.id}">
           <iframe data-src="${embedUrl}" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen loading="lazy" title="${escapeHtml(bone.name)} 3D model"></iframe>
-          <div class="bone-hl-overlay" id="bone-hl-${bone.id}"></div>
         </div>
         ${bone.landmarks && bone.landmarks.length ? `
         <div class="bone-3d-info">
@@ -3826,8 +3851,8 @@ function _renderBones() {
         ${viewer3d}
         <div class="bone-links-row">
           <a class="bone-wiki-link" href="${bone.wiki}" target="_blank" rel="noopener noreferrer">↗ Wikipedia</a>
-          ${has3d ? `<button class="bone-3d-btn" onclick="bonesToggle3D('${bone.id}')">⬡ View 3D</button>` : ''}
-          ${hasHighlight ? `<button class="bone-hl-btn" onclick="bonesHighlightBone('${bone.id}')">◎ Highlight Bone →</button>` : ''}
+          ${has3d ? `<button class="bone-3d-btn" data-v3dbtn="${bone.id}" onclick="bonesToggle3D('${bone.id}')">⬡ View 3D</button>` : ''}
+          ${hasHighlight ? `<button class="bone-hl-btn" id="bone-hlbtn-${bone.id}" onclick="bonesHighlightBone('${bone.id}')">◎ Highlight Bone →</button>` : ''}
         </div>
         <div class="bone-qa">
           <div class="bone-qa-label">EXAM QUESTIONS</div>
