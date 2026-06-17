@@ -993,6 +993,7 @@ function getCloseout(){return loadJSON("ascent_closeout",{});}
 
 /* ============ todo widget ============ */
 let _todos = [];
+let _pendingPriority = 'medium';
 
 function _todoUUID(){
   try{ return crypto.randomUUID(); }catch(e){ return Date.now().toString(36)+Math.random().toString(36).slice(2); }
@@ -1017,6 +1018,24 @@ function _sortTodos(list){
   });
 }
 
+function cyclePendingPriority(){
+  const cycle = ['high','medium','low'];
+  _pendingPriority = cycle[(cycle.indexOf(_pendingPriority)+1)%3];
+  _updatePrioBtn();
+}
+function _updatePrioBtn(){
+  const btn = document.getElementById('todoPrioBtn');
+  if(!btn) return;
+  btn.className = 'todo-prio-selector ' + _pendingPriority;
+}
+function openSubtaskInput(parentId){
+  const row = document.getElementById('subtask-input-' + parentId);
+  if(!row) return;
+  row.style.display = 'flex';
+  const inp = row.querySelector('.todo-subtask-input');
+  if(inp){ inp.focus(); inp.select(); }
+}
+
 async function initTodos(){
   _todos = _loadTodosLocal();
   renderTodos();
@@ -1039,16 +1058,19 @@ async function addTodo(){
   const text = inp?.value?.trim();
   if(!text) return;
   inp.value = '';
-  const now = new Date().toISOString();
+  const priority = _pendingPriority;
+  _pendingPriority = 'medium';
+  _updatePrioBtn();
   const todo = {
     id: _todoUUID(),
     user_id: currentUser?.id || null,
     text,
     completed: false,
-    priority: 'medium',
+    priority,
     parent_id: null,
     position: _todos.filter(t=>!t.parent_id).length,
-    created_at: now,
+    created_at: new Date().toISOString(),
+    date: todayStr(),
     completed_at: null
   };
   _todos.push(todo);
@@ -1079,7 +1101,13 @@ async function toggleTodo(id){
   t.completed_at = t.completed ? new Date().toISOString() : null;
   _todos.filter(x=>x.parent_id===id).forEach(c=>{ c.completed=t.completed; c.completed_at=t.completed_at; });
   _saveTodosLocal();
-  renderTodos();
+  if(t.completed){
+    const el = document.querySelector(`.todo-item[data-id="${id}"]`);
+    if(el){ el.classList.add('completing'); setTimeout(()=>renderTodos(), 600); }
+    else renderTodos();
+  } else {
+    renderTodos();
+  }
   if(currentUser){
     try{
       const affected = _todos.filter(x=>x.id===id||x.parent_id===id);
@@ -1100,8 +1128,7 @@ async function cyclePriority(id){
   }
 }
 
-async function addSubtask(parentId){
-  const text = prompt('Add subtask:');
+async function addSubtask(parentId, text){
   if(!text?.trim()) return;
   const parent = _todos.find(x=>x.id===parentId);
   if(!parent) return;
@@ -1114,6 +1141,7 @@ async function addSubtask(parentId){
     parent_id: parentId,
     position: _todos.filter(t=>t.parent_id===parentId).length,
     created_at: new Date().toISOString(),
+    date: todayStr(),
     completed_at: null
   };
   _todos.push(sub);
@@ -1129,33 +1157,38 @@ function renderTodos(){
   const completedList = document.getElementById('completedList');
   const completedSection = document.getElementById('todoCompletedSection');
   const celebrateEl = document.getElementById('todoCelebrate');
-  const countEl = document.getElementById('todayCount');
+  const emptyEl = document.getElementById('todoEmpty');
+  const countBadge = document.getElementById('todoCountBadge');
   const completedLabel = document.getElementById('completedToggleLabel');
   if(!list) return;
 
   const today = todayStr();
-  const todayRoots = _todos.filter(t => !t.parent_id && t.created_at?.startsWith(today));
+  // Bug fix: use local `date` field when present, fall back to startsWith for legacy todos
+  const todayRoots = _todos.filter(t => !t.parent_id && (t.date === today || (!t.date && t.created_at?.startsWith(today))));
   const incomplete = _sortTodos(todayRoots.filter(t => !t.completed));
   const completed = _sortTodos(todayRoots.filter(t => t.completed));
-  const total = todayRoots.length;
   const doneCount = completed.length;
 
-  if(countEl){
-    if(total > 0 && doneCount === total){
-      countEl.innerHTML = `<span class="done-msg">All ${total} task${total!==1?'s':''} done today</span>`;
-    } else {
-      countEl.textContent = `${doneCount} task${doneCount!==1?'s':''} completed today`;
-    }
+  if(countBadge){
+    const left = incomplete.length;
+    if(left > 0) countBadge.textContent = left + ' left';
+    else if(doneCount > 0) countBadge.textContent = 'all done';
+    else countBadge.textContent = '';
   }
 
-  if(celebrateEl) celebrateEl.style.display = (total > 0 && doneCount === total) ? '' : 'none';
+  if(celebrateEl) celebrateEl.style.display = (todayRoots.length > 0 && doneCount === todayRoots.length) ? '' : 'none';
 
   list.innerHTML = '';
-  incomplete.forEach(t => _renderTodoItem(t, list));
+  if(incomplete.length === 0 && doneCount === 0){
+    if(emptyEl) emptyEl.style.display = '';
+  } else {
+    if(emptyEl) emptyEl.style.display = 'none';
+    incomplete.forEach(t => _renderTodoItem(t, list));
+  }
 
   if(doneCount > 0){
     if(completedSection) completedSection.style.display = '';
-    if(completedLabel) completedLabel.textContent = `Show completed (${doneCount})`;
+    if(completedLabel) completedLabel.textContent = `✓ ${doneCount} done today`;
     if(completedList){
       completedList.innerHTML = '';
       completed.forEach(t => _renderTodoItem(t, completedList));
@@ -1187,32 +1220,48 @@ function _renderTodoItem(t, container){
   txt.className = 'todo-text' + (t.completed ? ' done' : '');
   txt.textContent = t.text;
 
+  const actions = document.createElement('div');
+  actions.className = 'todo-actions';
+
+  if(!t.parent_id){
+    const subBtn = document.createElement('button');
+    subBtn.className = 'todo-subtask-btn';
+    subBtn.textContent = '+';
+    subBtn.title = 'Add subtask';
+    subBtn.onclick = e => { e.stopPropagation(); openSubtaskInput(t.id); };
+    actions.appendChild(subBtn);
+  }
+
   const del = document.createElement('button');
   del.className = 'todo-del';
   del.textContent = '×';
   del.title = 'Delete';
   del.onclick = e => { e.stopPropagation(); deleteTodo(t.id); };
+  actions.appendChild(del);
 
   wrap.appendChild(dot);
   wrap.appendChild(cb);
   wrap.appendChild(txt);
-  wrap.appendChild(del);
-
-  if(!t.parent_id){
-    let lpTimer;
-    wrap.addEventListener('contextmenu', e=>{ e.preventDefault(); addSubtask(t.id); });
-    wrap.addEventListener('touchstart', ()=>{ lpTimer = setTimeout(()=>addSubtask(t.id), 600); }, {passive:true});
-    wrap.addEventListener('touchend', ()=>clearTimeout(lpTimer));
-    wrap.addEventListener('touchmove', ()=>clearTimeout(lpTimer), {passive:true});
-  }
-
+  wrap.appendChild(actions);
   container.appendChild(wrap);
 
-  if(children.length){
-    const subWrap = document.createElement('div');
-    children.forEach(c => _renderTodoItem(c, subWrap));
-    container.appendChild(subWrap);
+  if(!t.parent_id){
+    const subInputRow = document.createElement('div');
+    subInputRow.className = 'todo-subtask-input-row';
+    subInputRow.id = 'subtask-input-' + t.id;
+    subInputRow.style.display = 'none';
+    const subInput = document.createElement('input');
+    subInput.className = 'todo-subtask-input';
+    subInput.placeholder = 'Add a subtask…';
+    subInput.onkeydown = e => {
+      if(e.key === 'Enter'){ addSubtask(t.id, subInput.value); subInputRow.style.display = 'none'; }
+      else if(e.key === 'Escape'){ subInputRow.style.display = 'none'; }
+    };
+    subInputRow.appendChild(subInput);
+    container.appendChild(subInputRow);
   }
+
+  children.forEach(c => _renderTodoItem(c, container));
 }
 
 function toggleCompletedSection(){
@@ -2527,6 +2576,8 @@ window.toggleTodo = toggleTodo;
 window.deleteTodo = deleteTodo;
 window.cyclePriority = cyclePriority;
 window.addSubtask = addSubtask;
+window.cyclePendingPriority = cyclePendingPriority;
+window.openSubtaskInput = openSubtaskInput;
 window.toggleCompletedSection = toggleCompletedSection;
 window.startFromBlock = startFromBlock;
 window.copyPrompt = copyPrompt;
