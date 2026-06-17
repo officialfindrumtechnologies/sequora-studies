@@ -14,6 +14,12 @@ import {
 import { getSubscription, submitBkashPayment } from './src/data/subscriptions.js';
 import { initSubjectsView, setSubjectsViewTier } from './src/views/subjects-view.js';
 import { getSubjects } from './src/data/subjects.js';
+import {
+  searchUsers, sendFriendRequest, getPendingRequests,
+  acceptFriendRequest, declineFriendRequest, removeFriend,
+  getFriendsLeaderboard, getExistingRelationship,
+} from './src/data/friends.js';
+import { BONES, BONE_REGIONS } from './src/data/bones.js';
 
 // Apply theme + font scale from localStorage immediately — avoids FOUC before auth resolves
 loadSavedTheme();
@@ -753,9 +759,9 @@ function renderFlame(streak,grace){
   else if(streak<31)wrap.classList.add('flame-medium');
   else wrap.classList.add('flame-large');
 }
-function subjReady(k){const t=topics[k]||[];const tot=t.length;const r=t.filter(x=>x.status==="ready").length;return{tot,r,pct:tot?Math.round(r/tot*100):0};}
+function subjReady(k){const t=topics[k]||[];const tot=t.length;const r=t.filter(x=>x.status==="ready"||x.status==="mastered").length;return{tot,r,pct:tot?Math.round(r/tot*100):0};}
 function overallReady(){let tot=0,r=0;for(const s of SUBJECTS){const x=subjReady(s.key);tot+=x.tot;r+=x.r;}return tot?Math.round(r/tot*100):0;}
-function nextTopic(k){const t=topics[k]||[];return t.find(x=>x.status!=="ready")||null;}
+function nextTopic(k){const t=topics[k]||[];return t.find(x=>x.status!=="ready"&&x.status!=="mastered")||null;}
 function weakestSubjects(n){return SUBJECTS.map(s=>({s,pct:subjReady(s.key).pct})).sort((a,b)=>a.pct-b.pct).slice(0,n);}
 
 /* ============ today's cross-subject plan ============ */
@@ -908,19 +914,21 @@ function renderDashProgress(){
   }
 }
 
-/* ============ spaced-recall engine ============ */
-const RECALL_STEPS=[1,3,7,21,42];
+/* ============ spaced-recall engine — 2-4-7 method ============ */
+const RECALL_STEPS=[2,4,7]; // days after each recall: 2d → 4d → 7d → mastered
+const RECALL_STAGE_LABELS=["1st recall","2nd recall","final recall"];
 function recallDue(){
   const today=parseD(todayStr());
   const due=[];
   for(const s of SUBJECTS){
     for(const tp of (topics[s.key]||[])){
       if(tp.status!=="ready"||!tp.readyAt)continue;
+      const reps=tp.recallReps||0;
+      if(reps>=RECALL_STEPS.length)continue; // all 3 recalls done — should be mastered
       const base=parseD(tp.lastRecall||tp.readyAt);
       const elapsed=daysBetween(base,today);
-      const reps=tp.recallReps||0;
-      const step=RECALL_STEPS[Math.min(reps,RECALL_STEPS.length-1)];
-      if(elapsed>=step){due.push({s,tp,over:elapsed-step});}
+      const step=RECALL_STEPS[reps];
+      if(elapsed>=step){due.push({s,tp,over:elapsed-step,reps});}
     }
   }
   due.sort((a,b)=>b.over-a.over);
@@ -936,15 +944,16 @@ function renderRecall(){
   if(!due.length){
     title.textContent="Nothing due yet";
     card.style.borderColor="var(--line)";
-    list.innerHTML='<div class="empty">As topics age, they\'ll appear here for a cold recall check. Keeps June\'s knowledge alive in September.</div>';
+    list.innerHTML='<div class="empty">As topics age, they\'ll appear here for a cold recall check. 2-4-7 method: 2d → 4d → 7d → mastered.</div>';
     return;
   }
   title.innerHTML=`<span class="pill-due">${due.length}</span> ${due.length===1?"topic":"topics"} due for recall`;
   card.style.borderColor="var(--amber-deep)";
   due.slice(0,8).forEach(d=>{
-    const div=document.createElement("div");div.className="recall-item";
+    const stageLabel=RECALL_STAGE_LABELS[d.reps]||"recall";
     const overTxt=d.over>0?`<span class="overdue">${d.over}d overdue</span>`:"due today";
-    div.innerHTML=`<div class="rg"><div class="rn">${d.tp.name}</div><div class="rs"><b>${d.s.name}</b> · ${overTxt}</div></div>
+    const div=document.createElement("div");div.className="recall-item";
+    div.innerHTML=`<div class="rg"><div class="rn">${d.tp.name}</div><div class="rs"><b>${d.s.name}</b> · ${overTxt} · <span class="recall-stage">${stageLabel}</span> <span class="recall-method">2-4-7</span></div></div>
       <div class="recall-btns">
         <button class="btn sm" onclick="recallPass('${d.s.key}','${d.tp.id}')">Recalled ✓</button>
         <button class="btn sm ghost danger" onclick="recallFail('${d.s.key}','${d.tp.id}')">Forgot</button>
@@ -955,8 +964,19 @@ function renderRecall(){
 }
 function recallPass(k,id){
   const tp=(topics[k]||[]).find(x=>x.id===id);if(!tp)return;
-  tp.lastRecall=todayStr();tp.recallReps=(tp.recallReps||0)+1;
-  saveJSON("ascent_topics",topics);renderRecall();setToast("Recall locked — interval extended");
+  const newReps=(tp.recallReps||0)+1;
+  tp.lastRecall=todayStr();tp.recallReps=newReps;
+  if(newReps>=RECALL_STEPS.length){
+    tp.status="mastered";
+    saveJSON("ascent_topics",topics);renderRecall();renderDashProgress();
+    const readyPctEl=document.getElementById("readyPct");
+    if(readyPctEl)readyPctEl.textContent=overallReady()+"%";
+    setToast("Mastered! 2-4-7 complete ✓ — this topic owns you now");
+  } else {
+    const nextDays=RECALL_STEPS[newReps];
+    saveJSON("ascent_topics",topics);renderRecall();
+    setToast("Recall locked — "+RECALL_STAGE_LABELS[newReps]+" in "+nextDays+" days");
+  }
 }
 function recallFail(k,id){
   const tp=(topics[k]||[]).find(x=>x.id===id);if(!tp)return;
@@ -1144,9 +1164,10 @@ function renderSubjects(){ initSubjectsView(userTier); }
 
 function cycleStatus(k,id){
   const t=topics[k];const tp=t&&t.find(x=>x.id===id);if(!tp)return;
-  tp.status=tp.status==="notstarted"?"learning":tp.status==="learning"?"ready":"notstarted";
-  if(tp.status==="ready"){ tp.readyAt=todayStr(); tp.lastRecall=todayStr(); }
-  else { delete tp.readyAt; delete tp.lastRecall; }
+  const next={notstarted:"learning",learning:"ready",ready:"notstarted",mastered:"notstarted"};
+  tp.status=next[tp.status]??"notstarted";
+  if(tp.status==="ready"){ tp.readyAt=todayStr(); tp.lastRecall=todayStr(); tp.recallReps=0; }
+  else { delete tp.readyAt; delete tp.lastRecall; tp.recallReps=0; }
   saveJSON("ascent_topics",topics);renderDashProgress();renderRecall();
   const readyPctEl = document.getElementById("readyPct");
   if (readyPctEl) readyPctEl.textContent=overallReady()+"%";
@@ -1155,12 +1176,14 @@ function cycleStatus(k,id){
 /* ============ study summary generator (AI-ready) ============ */
 function summariseSubject(s){
   const t=topics[s.key]||[];
+  const mastered=t.filter(x=>x.status==="mastered");
   const ready=t.filter(x=>x.status==="ready");
   const learning=t.filter(x=>x.status==="learning");
   const notstarted=t.filter(x=>x.status==="notstarted");
   const x=subjReady(s.key);
   const nt=nextTopic(s.key);
   let out=`### ${s.name} (${s.code}) — ${x.pct}% exam-ready (${x.r}/${x.tot} topics)\n`;
+  if(mastered.length)out+=`MASTERED 2-4-7 (${mastered.length}): ${mastered.map(r=>r.name).join("; ")}\n`;
   out+=`EXAM-READY (${ready.length}): ${ready.length?ready.map(r=>r.name).join("; "):"none yet"}\n`;
   out+=`IN PROGRESS (${learning.length}): ${learning.length?learning.map(r=>r.name).join("; "):"none"}\n`;
   out+=`NOT STARTED (${notstarted.length}): ${notstarted.length?notstarted.map(r=>r.name).join("; "):"none — all topics touched"}\n`;
@@ -1808,6 +1831,9 @@ function renderCoverage(){
             const diff = Math.floor((today - lr) / 86400000);
             if(diff > OVERDUE_DAYS) status = "overdue";
           }
+        } else if(status === "mastered"){
+          readyAll++;
+          subjReady++;
         }
 
         const sq = document.createElement("div");
@@ -2122,6 +2148,9 @@ async function handleSignup() {
 async function handleLogout() {
   if (confirm("Log out?")) {
     _burgerProfileCache = null;
+    _privacyCache = null;
+    _pendingReqs = [];
+    _lbData = null;
     closeBurgerMenu();
     await supabase.auth.signOut();
     ['sq_onboarded'].forEach(k => localStorage.removeItem(k));
@@ -3151,6 +3180,15 @@ _tsRestoreExtra();
 /* ============ burger menu ============ */
 
 let _burgerProfileCache = null;
+let _privacyCache = null;
+const _privacyDefaults = { show_streak: true, show_hours: true, show_leaderboard: true, friend_requests: 'everyone' };
+let _pendingReqs = [];
+let _lbData = null;
+let _lbActiveTab = 'lb';
+let _lbSearchTimer = null;
+
+let _bonesRegion = 'All';
+let _bonesQuery = '';
 
 function toggleBurgerMenu() {
   const menu = document.getElementById('burger-menu');
@@ -3244,27 +3282,46 @@ function renderBurgerMenu() {
     </div>
     <div class="bm-divider"></div>
     <div class="bm-section">
+      <div class="bm-section-label">Friends${_pendingReqs.length ? ` <span class="bm-badge">${_pendingReqs.length}</span>` : ''}</div>
+      <button class="bm-open-ts" onclick="closeBurgerMenu();openLeaderboard()">Leaderboard &amp; Friends</button>
+      ${_pendingReqs.length ? `<div style="margin-top:8px;font-family:var(--mono);font-size:11px;color:var(--amber-soft)">${_pendingReqs.length} friend request${_pendingReqs.length > 1 ? 's' : ''} waiting</div>` : ''}
+    </div>
+    <div class="bm-divider"></div>
+    <div class="bm-section" id="bm-anatomy-body">
+      ${_bmAnatomyHtml(_burgerProfileCache)}
+    </div>
+    <div class="bm-divider"></div>
+    <div class="bm-section">
       <div class="bm-section-label">Settings</div>
       <div class="bm-settings-placeholder">Notification preferences — coming soon</div>
+    </div>
+    <div class="bm-divider"></div>
+    <div class="bm-section" id="bm-privacy-body">
+      ${_bmPrivacyHtml(_privacyCache)}
     </div>
     <div class="bm-divider"></div>
     <div class="bm-section" style="padding-top:10px;padding-bottom:10px">
       <button class="bm-signout" onclick="handleLogout()">Sign out</button>
     </div>`;
 
-  // Async-fill profile only if not cached yet
-  if (!_burgerProfileCache && currentUser) {
+  // Async-fill profile + privacy only if not cached yet
+  if ((!_burgerProfileCache || !_privacyCache) && currentUser) {
     supabase
       .from('profiles')
-      .select('display_name,exam_board,exam_date')
+      .select('display_name,exam_board,exam_date,privacy_settings')
       .eq('id', currentUser.id)
       .single()
       .then(({ data }) => {
         _burgerProfileCache = data || {};
+        _privacyCache = { ..._privacyDefaults, ...(data?.privacy_settings || {}) };
         const body = document.getElementById('bm-profile-body');
         if (body) body.innerHTML = _bmProfileHtml(_burgerProfileCache);
+        const pbody = document.getElementById('bm-privacy-body');
+        if (pbody) pbody.innerHTML = _bmPrivacyHtml(_privacyCache);
+        const abody = document.getElementById('bm-anatomy-body');
+        if (abody) abody.innerHTML = _bmAnatomyHtml(_burgerProfileCache);
       })
-      .catch(() => { _burgerProfileCache = {}; });
+      .catch(() => { _burgerProfileCache = {}; _privacyCache = { ..._privacyDefaults }; });
   }
 }
 
@@ -3282,6 +3339,276 @@ window.bmSelectTheme = function(key) {
   saveTheme(themeData).catch(() => {});
   _refreshBurgerSwatches(key);
   setToast(THEMES[key]?.label || key);
+};
+
+function _bmPrivacyHtml(ps) {
+  const p = { ..._privacyDefaults, ...(ps || {}) };
+  const chk = (key) => p[key] ? 'checked' : '';
+  return `
+    <div class="bm-section-label">Privacy</div>
+    <div class="bm-toggle-row">
+      <span class="bm-toggle-label">Show my streak to friends</span>
+      <label class="bm-toggle"><input type="checkbox" ${chk('show_streak')} onchange="bmPrivacyToggle('show_streak')"><span class="bm-toggle-slider"></span></label>
+    </div>
+    <div class="bm-toggle-row">
+      <span class="bm-toggle-label">Show my study hours to friends</span>
+      <label class="bm-toggle"><input type="checkbox" ${chk('show_hours')} onchange="bmPrivacyToggle('show_hours')"><span class="bm-toggle-slider"></span></label>
+    </div>
+    <div class="bm-toggle-row">
+      <span class="bm-toggle-label">Show me on leaderboard</span>
+      <label class="bm-toggle"><input type="checkbox" ${chk('show_leaderboard')} onchange="bmPrivacyToggle('show_leaderboard')"><span class="bm-toggle-slider"></span></label>
+    </div>
+    <div class="bm-toggle-row">
+      <span class="bm-toggle-label">Who can send friend requests</span>
+      <select class="bm-privacy-select" onchange="bmPrivacySelect('friend_requests',this.value)">
+        <option value="everyone" ${p.friend_requests==='everyone'?'selected':''}>Everyone</option>
+        <option value="nobody" ${p.friend_requests==='nobody'?'selected':''}>Nobody</option>
+      </select>
+    </div>`;
+}
+
+window.bmPrivacyToggle = async function(key) {
+  if (!_privacyCache) _privacyCache = { ..._privacyDefaults };
+  _privacyCache[key] = !_privacyCache[key];
+  try {
+    await updateProfile({ privacy_settings: _privacyCache });
+    setToast('Privacy saved');
+  } catch(e) {
+    setToast('Save failed — check connection');
+  }
+};
+
+window.bmPrivacySelect = async function(key, val) {
+  if (!_privacyCache) _privacyCache = { ..._privacyDefaults };
+  _privacyCache[key] = val;
+  try {
+    await updateProfile({ privacy_settings: _privacyCache });
+    setToast('Privacy saved');
+  } catch(e) {
+    setToast('Save failed — check connection');
+  }
+};
+
+/* ============ friends badge ============ */
+async function checkFriendsBadge() {
+  if (!currentUser) return;
+  try {
+    _pendingReqs = await getPendingRequests();
+  } catch(e) { return; }
+  const dot = document.getElementById('burger-dot');
+  if (dot) dot.classList.toggle('hidden', _pendingReqs.length === 0);
+}
+
+/* ============ leaderboard modal ============ */
+window.openLeaderboard = async function() {
+  const modal = document.getElementById('lb-modal');
+  if (!modal) return;
+  modal.classList.remove('hidden');
+  _lbActiveTab = 'lb';
+  ['lb','add','req'].forEach(t => {
+    document.getElementById(`lb-tab-${t}`)?.classList.toggle('active', t === 'lb');
+    document.getElementById(`lb-panel-${t}`)?.classList.toggle('hidden', t !== 'lb');
+  });
+  _updateLbReqBadge();
+  if (!_lbData) {
+    const panel = document.getElementById('lb-panel-lb');
+    if (panel) panel.innerHTML = '<div class="lb-loading">Loading leaderboard…</div>';
+    try {
+      _lbData = await getFriendsLeaderboard(currentUser.id);
+    } catch(e) {
+      if (panel) panel.innerHTML = '<div class="lb-empty">Failed to load — check connection</div>';
+      return;
+    }
+  }
+  _renderLbPanel();
+};
+
+window.closeLeaderboard = function() {
+  document.getElementById('lb-modal')?.classList.add('hidden');
+};
+
+window.lbSwitchTab = function(tab) {
+  _lbActiveTab = tab;
+  ['lb','add','req'].forEach(t => {
+    document.getElementById(`lb-tab-${t}`)?.classList.toggle('active', t === tab);
+    document.getElementById(`lb-panel-${t}`)?.classList.toggle('hidden', t !== tab);
+  });
+  if (tab === 'add') _renderAddFriendPanel();
+  if (tab === 'req') _renderRequestsPanel();
+  if (tab === 'lb') _renderLbPanel();
+};
+
+function _renderLbPanel() {
+  const panel = document.getElementById('lb-panel-lb');
+  if (!panel) return;
+  const rows = (_lbData || []).filter(r => {
+    if (r.uid === currentUser?.id) return true;
+    const p = r.privacy_settings || {};
+    return p.show_leaderboard !== false;
+  });
+  if (rows.length <= 1) {
+    panel.innerHTML = `<div class="lb-empty"><div style="font-size:28px;margin-bottom:10px">🏆</div><div>Add friends to see the leaderboard</div><div class="lb-empty-sub">Switch to "Add Friend" to find people</div></div>`;
+    return;
+  }
+  const sorted = [...rows].sort((a, b) => b.weekly_hours - a.weekly_hours);
+  let html = `<table class="lb-table"><thead><tr>
+    <th class="lb-th">#</th><th class="lb-th">Name</th>
+    <th class="lb-th lb-th-r">This week</th><th class="lb-th lb-th-r">Streak</th><th class="lb-th lb-th-r">Subj</th>
+  </tr></thead><tbody>`;
+  sorted.forEach((r, i) => {
+    const isOwn = r.uid === currentUser?.id;
+    const priv = r.privacy_settings || {};
+    const hrs = priv.show_hours !== false ? `${r.weekly_hours}h` : '—';
+    const streak = priv.show_streak !== false ? `${r.current_streak}d` : '—';
+    const click = isOwn ? '' : `onclick="openFriendProfile('${r.uid}')" style="cursor:pointer"`;
+    html += `<tr class="lb-tr${isOwn ? ' own' : ''}" ${click}>
+      <td class="lb-td lb-rank">${i + 1}</td>
+      <td class="lb-td">${r.display_name}${isOwn ? ' <span class="lb-you">you</span>' : ''}</td>
+      <td class="lb-td lb-td-r">${hrs}</td>
+      <td class="lb-td lb-td-r">${streak}</td>
+      <td class="lb-td lb-td-r">${r.subjects_count}</td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  panel.innerHTML = html;
+}
+
+function _renderAddFriendPanel() {
+  const panel = document.getElementById('lb-panel-add');
+  if (!panel) return;
+  panel.innerHTML = `
+    <div class="lb-search-wrap">
+      <input type="text" class="lb-search" id="lb-search-input" placeholder="Search by display name…" oninput="lbSearchDebounce()" autocomplete="off">
+    </div>
+    <div id="lb-search-results" class="lb-results"></div>`;
+}
+
+function _renderRequestsPanel() {
+  const panel = document.getElementById('lb-panel-req');
+  if (!panel) return;
+  if (!_pendingReqs.length) {
+    panel.innerHTML = '<div class="lb-empty">No pending friend requests</div>';
+    return;
+  }
+  panel.innerHTML = _pendingReqs.map(req => `
+    <div class="lb-req-row">
+      <div class="lb-req-name">${req.display_name || 'Someone'}</div>
+      <div class="lb-req-btns">
+        <button class="btn sm" onclick="lbAcceptRequest('${req.id}')">Accept</button>
+        <button class="btn sm ghost danger" onclick="lbDeclineRequest('${req.id}')">Decline</button>
+      </div>
+    </div>`).join('');
+}
+
+function _updateLbReqBadge() {
+  const badge = document.getElementById('lb-req-badge');
+  if (!badge) return;
+  const n = _pendingReqs.length;
+  badge.textContent = n;
+  badge.classList.toggle('hidden', n === 0);
+}
+
+window.lbSearchDebounce = function() {
+  clearTimeout(_lbSearchTimer);
+  _lbSearchTimer = setTimeout(_lbDoSearch, 380);
+};
+
+async function _lbDoSearch() {
+  const input = document.getElementById('lb-search-input');
+  const results = document.getElementById('lb-search-results');
+  if (!input || !results) return;
+  const q = input.value.trim();
+  if (q.length < 2) { results.innerHTML = ''; return; }
+  results.innerHTML = '<div class="lb-empty-small">Searching…</div>';
+  try {
+    const users = await searchUsers(q);
+    if (!users.length) { results.innerHTML = '<div class="lb-empty-small">No users found</div>'; return; }
+    results.innerHTML = users.map(u => `
+      <div class="lb-result-row">
+        <div><div class="lb-result-name">${u.display_name}</div>${u.exam_board ? `<div class="lb-result-sub">${u.exam_board}</div>` : ''}</div>
+        <button class="btn sm" id="lb-add-${u.id}" onclick="lbSendRequest('${u.id}','${(u.display_name||'').replace(/'/g,"\\'")}')">Add friend</button>
+      </div>`).join('');
+  } catch(e) { results.innerHTML = '<div class="lb-empty-small">Search failed</div>'; }
+}
+
+window.lbSendRequest = async function(addresseeId, name) {
+  const btn = document.getElementById(`lb-add-${addresseeId}`);
+  if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+  try {
+    await sendFriendRequest(currentUser.id, addresseeId);
+    if (btn) { btn.textContent = 'Sent ✓'; btn.classList.add('ghost'); }
+    setToast(`Request sent to ${name}`);
+  } catch(e) {
+    const msg = e?.message || '';
+    if (msg.includes('duplicate') || e?.code === '23505') {
+      if (btn) { btn.textContent = 'Already sent'; btn.disabled = true; }
+    } else {
+      if (btn) { btn.disabled = false; btn.textContent = 'Add friend'; }
+      setToast('Failed to send request');
+    }
+  }
+};
+
+window.lbAcceptRequest = async function(id) {
+  try {
+    await acceptFriendRequest(id);
+    _pendingReqs = _pendingReqs.filter(r => r.id !== id);
+    _lbData = null; // force reload when leaderboard tab opens next
+    _renderRequestsPanel();
+    _updateLbReqBadge();
+    checkFriendsBadge();
+    setToast('Friend accepted!');
+  } catch(e) { setToast('Failed to accept'); }
+};
+
+window.lbDeclineRequest = async function(id) {
+  try {
+    await declineFriendRequest(id);
+    _pendingReqs = _pendingReqs.filter(r => r.id !== id);
+    _renderRequestsPanel();
+    _updateLbReqBadge();
+    checkFriendsBadge();
+    setToast('Request declined');
+  } catch(e) { setToast('Failed'); }
+};
+
+/* ============ friend profile modal ============ */
+window.openFriendProfile = function(uid) {
+  const row = (_lbData || []).find(r => r.uid === uid);
+  if (!row) return;
+  const modal = document.getElementById('fp-modal');
+  if (!modal) return;
+  document.getElementById('fp-name').textContent = row.display_name || 'Friend';
+  const priv = row.privacy_settings || {};
+  const hrs = priv.show_hours !== false ? `${row.weekly_hours}h` : '—';
+  const streak = priv.show_streak !== false ? `${row.current_streak}d` : '—';
+  document.getElementById('fp-body').innerHTML = `
+    <div class="fp-stats">
+      <div class="fp-stat"><div class="fp-val">${hrs}</div><div class="fp-key">This week</div></div>
+      <div class="fp-stat"><div class="fp-val">${streak}</div><div class="fp-key">Streak</div></div>
+      <div class="fp-stat"><div class="fp-val">${row.subjects_count}</div><div class="fp-key">Subjects</div></div>
+    </div>
+    <div class="fp-meta">
+      ${row.exam_board ? `<div class="fp-meta-row"><span class="fp-meta-key">Board</span><span>${row.exam_board}</span></div>` : ''}
+      ${row.exam_date ? `<div class="fp-meta-row"><span class="fp-meta-key">Exam date</span><span>${row.exam_date}</span></div>` : ''}
+    </div>
+    <button class="fp-remove" onclick="lbRemoveFriend('${uid}')">Remove friend</button>`;
+  modal.classList.remove('hidden');
+};
+
+window.closeFriendProfile = function() {
+  document.getElementById('fp-modal')?.classList.add('hidden');
+};
+
+window.lbRemoveFriend = async function(uid) {
+  if (!confirm('Remove this friend?')) return;
+  try {
+    const rel = await getExistingRelationship(currentUser.id, uid);
+    if (rel) await removeFriend(rel.id);
+    _lbData = null;
+    closeFriendProfile();
+    setToast('Friend removed');
+  } catch(e) { setToast('Failed to remove'); }
 };
 
 window.openEditProfileModal = function() {
@@ -3320,6 +3647,149 @@ window.saveEditProfile = async function() {
   }
 };
 
+/* ============ bones modal ============ */
+
+function _isMbbsUser(prof) {
+  return !!(prof && prof.exam_board && prof.exam_board.toLowerCase().includes('mbbs'));
+}
+
+function _bmAnatomyHtml(prof) {
+  if (!_isMbbsUser(prof)) return '';
+  return `
+    <div class="bm-section-label">Anatomy</div>
+    <button class="bm-open-ts" onclick="closeBurgerMenu();openBonesModal()">Bones Reference</button>
+  `;
+}
+
+window.openBonesModal = function() {
+  _bonesRegion = 'All';
+  _bonesQuery = '';
+  const modal = document.getElementById('bones-modal');
+  if (!modal) return;
+  modal.classList.remove('hidden');
+  _renderBonesRegions();
+  _renderBones();
+  const search = document.getElementById('bones-search');
+  if (search) { search.value = ''; search.focus(); }
+};
+
+window.closeBonesModal = function() {
+  document.getElementById('bones-modal')?.classList.add('hidden');
+};
+
+window.bonesSearchInput = function(q) {
+  _bonesQuery = q.toLowerCase().trim();
+  _renderBones();
+};
+
+window.bonesSetRegion = function(region) {
+  _bonesRegion = region;
+  _renderBonesRegions();
+  _renderBones();
+};
+
+window.bonesToggleQa = function(el) {
+  el.closest('.bone-qa-item').classList.toggle('open');
+};
+
+window.bonesToggle3D = function(boneId) {
+  const panel = document.getElementById('bone-3d-' + boneId);
+  if (!panel) return;
+  const opening = !panel.classList.contains('open');
+  panel.classList.toggle('open');
+  if (opening) {
+    const iframe = panel.querySelector('iframe');
+    if (iframe && !iframe.dataset.loaded) {
+      iframe.src = iframe.dataset.src;
+      iframe.dataset.loaded = '1';
+    }
+  }
+};
+
+function _renderBonesRegions() {
+  const container = document.getElementById('bones-regions');
+  if (!container) return;
+  container.innerHTML = BONE_REGIONS.map(r =>
+    `<button class="bones-rtab${r === _bonesRegion ? ' active' : ''}" onclick="bonesSetRegion('${escapeHtml(r)}')">${escapeHtml(r)}</button>`
+  ).join('');
+}
+
+function _renderBones() {
+  const list = document.getElementById('bones-list');
+  if (!list) return;
+
+  let filtered = BONES;
+  if (_bonesRegion !== 'All') {
+    filtered = filtered.filter(b => b.region === _bonesRegion);
+  }
+  if (_bonesQuery) {
+    filtered = filtered.filter(b =>
+      b.name.toLowerCase().includes(_bonesQuery) ||
+      b.description.toLowerCase().includes(_bonesQuery) ||
+      b.questions.some(qa => qa.q.toLowerCase().includes(_bonesQuery) || qa.a.toLowerCase().includes(_bonesQuery))
+    );
+  }
+
+  if (!filtered.length) {
+    list.innerHTML = `<div class="bones-empty">No bones found</div>`;
+    return;
+  }
+
+  list.innerHTML = filtered.map(bone => {
+    const qaItems = bone.questions.map(qa => `
+      <div class="bone-qa-item">
+        <button class="bone-qa-q" onclick="bonesToggleQa(this)">
+          <span>${escapeHtml(qa.q)}</span>
+          <span class="bone-qa-chevron">▼</span>
+        </button>
+        <div class="bone-qa-a">${escapeHtml(qa.a)}</div>
+      </div>
+    `).join('');
+
+    const has3d = !!bone.sketchfabId;
+    const embedUrl = has3d
+      ? `https://sketchfab.com/models/${bone.sketchfabId}/embed?autostart=1&ui_controls=1&ui_infos=0&ui_inspector=0&ui_stop=0&ui_watermark=0&preload=1`
+      : '';
+    const landmarksHtml = (bone.landmarks || []).map(l => `<span class="bone-lm">${escapeHtml(l)}</span>`).join('');
+
+    const viewer3d = has3d ? `
+      <div class="bone-3d-panel" id="bone-3d-${bone.id}">
+        <div class="bone-3d-bar">
+          <span class="bone-3d-bar-label">3D Model · CC Attribution · Sketchfab</span>
+          <button class="bone-3d-close" onclick="bonesToggle3D('${bone.id}')">✕ Close</button>
+        </div>
+        <div class="bone-3d-ratio">
+          <iframe data-src="${embedUrl}" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen loading="lazy" title="${escapeHtml(bone.name)} 3D model"></iframe>
+        </div>
+        <div class="bone-3d-info">
+          <div class="bone-3d-info-name">${escapeHtml(bone.name)}</div>
+          ${bone.landmarks && bone.landmarks.length ? `
+          <div class="bone-3d-lm-label">Key Anatomical Landmarks</div>
+          <div class="bone-3d-lm-list">${landmarksHtml}</div>` : ''}
+        </div>
+      </div>` : '';
+
+    return `
+      <div class="bone-card">
+        <div class="bone-card-head">
+          <h3 class="bone-name">${escapeHtml(bone.name)}</h3>
+          ${_bonesRegion === 'All' ? `<span class="bone-region-tag">${escapeHtml(bone.region)}</span>` : ''}
+        </div>
+        <p class="bone-desc">${escapeHtml(bone.description)}</p>
+        ${viewer3d}
+        <div class="bone-links-row">
+          <a class="bone-wiki-link" href="${bone.wiki}" target="_blank" rel="noopener noreferrer">↗ Wikipedia</a>
+          ${has3d ? `<button class="bone-3d-btn" onclick="bonesToggle3D('${bone.id}')">⬡ View 3D</button>` : ''}
+        </div>
+        <div class="bone-qa">
+          <div class="bone-qa-label">Exam Q&amp;A</div>
+          ${qaItems}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
 /* ============ boot ============ */
 updateClock();
 setInterval(updateClock,30000);
@@ -3347,6 +3817,8 @@ function showApp() {
     }
     renderTimerSubjects();
   }).catch(() => {});
+  // Check friend requests for notification badge
+  checkFriendsBadge();
 }
 
 // Exposed so onboarding.js can call it after wizard completes
