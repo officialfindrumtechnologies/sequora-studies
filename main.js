@@ -898,7 +898,7 @@ function renderDash(){
   buildTodayBlocks();
   renderDashProgress();
   renderRecall();
-  renderCloseout();
+  renderTodos();
   renderFlags();
   renderStudyNow();
 }
@@ -988,46 +988,239 @@ function recallFail(k,id){
   setToast("Moved back to Learning — re-drill it");
 }
 
-/* ============ daily close-out ============ */
+/* ============ daily close-out (legacy — kept for export/sync, UI replaced by todo widget) ============ */
 function getCloseout(){return loadJSON("ascent_closeout",{});}
-function renderCloseout(){
-  const body=document.getElementById("closeoutBody");
-  const title=document.getElementById("closeoutTitle");
-  if(!body)return;
-  const dow=new Date().getDay();const weekend=(dow===0||dow===6);
-  const co=getCloseout();const today=todayStr();
-  const rec=co[today]||{};
-  const blockDefs=weekend
-    ? [["paper","Past paper (timed)"],["repair","Repaired weak topics"],["anki","Anki + review"]]
-    : [["b1","Block 1 · Maths A"],["b2","Block 2 · Accounting"],["b3","Block 3 · concept subject"],["anki","Evening Anki"]];
-  body.innerHTML="";
-  const wrap=document.createElement("div");wrap.className="closeout-grid";
-  blockDefs.forEach(([key,label])=>{
-    const v=rec[key];
-    const row=document.createElement("div");row.className="co-block";
-    row.innerHTML=`<div class="col">${label}</div>
-      <button class="co-toggle ${v==="yes"?"yes":v==="no"?"no":""}" onclick="toggleCloseout('${key}')">${v==="yes"?"Done":v==="no"?"Missed":"—"}</button>`;
-    wrap.appendChild(row);
+
+/* ============ todo widget ============ */
+let _todos = [];
+
+function _todoUUID(){
+  try{ return crypto.randomUUID(); }catch(e){ return Date.now().toString(36)+Math.random().toString(36).slice(2); }
+}
+
+function _loadTodosLocal(){
+  try{ return JSON.parse(localStorage.getItem('sq_todos')||'[]'); }catch(e){ return []; }
+}
+
+function _saveTodosLocal(){
+  try{ localStorage.setItem('sq_todos', JSON.stringify(_todos)); }catch(e){}
+}
+
+const _PRIO_ORDER = {high:0, medium:1, low:2};
+function _sortTodos(list){
+  return [...list].sort((a,b)=>{
+    if(a.completed !== b.completed) return a.completed ? 1 : -1;
+    const pa = _PRIO_ORDER[a.priority] ?? 2;
+    const pb = _PRIO_ORDER[b.priority] ?? 2;
+    if(pa !== pb) return pa - pb;
+    return (a.position||0) - (b.position||0);
   });
-  body.appendChild(wrap);
-  const done=blockDefs.filter(([k])=>rec[k]==="yes").length;
-  const answered=blockDefs.filter(([k])=>rec[k]).length;
-  if(answered===blockDefs.length){
-    const b=document.createElement("div");b.className="co-done-banner";b.style.marginTop="10px";
-    b.textContent=done===blockDefs.length?"Full day logged — streak protected":`${done}/${blockDefs.length} blocks done. Tomorrow's a fresh start.`;
-    body.appendChild(b);
-    title.textContent="Day logged";
-  }else{
-    title.textContent="Did the day happen?";
+}
+
+async function initTodos(){
+  _todos = _loadTodosLocal();
+  renderTodos();
+  if(!currentUser) return;
+  try{
+    const { data, error } = await supabase.from('todos').select('*').eq('user_id', currentUser.id).order('position');
+    if(error){ console.warn('[todos] Supabase load:', error.message); return; }
+    if(data && data.length > 0){
+      const sbIds = new Set(data.map(t => t.id));
+      const localOnly = _todos.filter(t => !sbIds.has(t.id));
+      _todos = [...data, ...localOnly];
+      _saveTodosLocal();
+      renderTodos();
+    }
+  }catch(e){ console.warn('[todos] Supabase unavailable:', e); }
+}
+
+async function addTodo(){
+  const inp = document.getElementById('todoInput');
+  const text = inp?.value?.trim();
+  if(!text) return;
+  inp.value = '';
+  const now = new Date().toISOString();
+  const todo = {
+    id: _todoUUID(),
+    user_id: currentUser?.id || null,
+    text,
+    completed: false,
+    priority: 'medium',
+    parent_id: null,
+    position: _todos.filter(t=>!t.parent_id).length,
+    created_at: now,
+    completed_at: null
+  };
+  _todos.push(todo);
+  _saveTodosLocal();
+  renderTodos();
+  if(currentUser){
+    try{ await supabase.from('todos').insert(todo); }catch(e){}
   }
 }
-function toggleCloseout(key){
-  const co=getCloseout();const today=todayStr();
-  if(!co[today])co[today]={};
-  const cur=co[today][key];
-  co[today][key]=cur==="yes"?"no":cur==="no"?null:"yes";
-  if(co[today][key]===null)delete co[today][key];
-  saveJSON("ascent_closeout",co);renderCloseout();
+
+async function deleteTodo(id){
+  const childIds = _todos.filter(t => t.parent_id === id).map(t => t.id);
+  _todos = _todos.filter(t => t.id !== id && t.parent_id !== id);
+  _saveTodosLocal();
+  renderTodos();
+  if(currentUser){
+    try{
+      const allIds = [id, ...childIds];
+      await supabase.from('todos').delete().in('id', allIds);
+    }catch(e){}
+  }
+}
+
+async function toggleTodo(id){
+  const t = _todos.find(x=>x.id===id);
+  if(!t) return;
+  t.completed = !t.completed;
+  t.completed_at = t.completed ? new Date().toISOString() : null;
+  _todos.filter(x=>x.parent_id===id).forEach(c=>{ c.completed=t.completed; c.completed_at=t.completed_at; });
+  _saveTodosLocal();
+  renderTodos();
+  if(currentUser){
+    try{
+      const affected = _todos.filter(x=>x.id===id||x.parent_id===id);
+      await supabase.from('todos').upsert(affected);
+    }catch(e){}
+  }
+}
+
+async function cyclePriority(id){
+  const t = _todos.find(x=>x.id===id);
+  if(!t) return;
+  const cycle = ['high','medium','low'];
+  t.priority = cycle[(cycle.indexOf(t.priority)+1)%3];
+  _saveTodosLocal();
+  renderTodos();
+  if(currentUser){
+    try{ await supabase.from('todos').update({priority:t.priority}).eq('id', id); }catch(e){}
+  }
+}
+
+async function addSubtask(parentId){
+  const text = prompt('Add subtask:');
+  if(!text?.trim()) return;
+  const parent = _todos.find(x=>x.id===parentId);
+  if(!parent) return;
+  const sub = {
+    id: _todoUUID(),
+    user_id: currentUser?.id || null,
+    text: text.trim(),
+    completed: false,
+    priority: parent.priority,
+    parent_id: parentId,
+    position: _todos.filter(t=>t.parent_id===parentId).length,
+    created_at: new Date().toISOString(),
+    completed_at: null
+  };
+  _todos.push(sub);
+  _saveTodosLocal();
+  renderTodos();
+  if(currentUser){
+    try{ await supabase.from('todos').insert(sub); }catch(e){}
+  }
+}
+
+function renderTodos(){
+  const list = document.getElementById('todoList');
+  const completedList = document.getElementById('completedList');
+  const completedSection = document.getElementById('todoCompletedSection');
+  const celebrateEl = document.getElementById('todoCelebrate');
+  const countEl = document.getElementById('todayCount');
+  const completedLabel = document.getElementById('completedToggleLabel');
+  if(!list) return;
+
+  const today = todayStr();
+  const todayRoots = _todos.filter(t => !t.parent_id && t.created_at?.startsWith(today));
+  const incomplete = _sortTodos(todayRoots.filter(t => !t.completed));
+  const completed = _sortTodos(todayRoots.filter(t => t.completed));
+  const total = todayRoots.length;
+  const doneCount = completed.length;
+
+  if(countEl){
+    if(total > 0 && doneCount === total){
+      countEl.innerHTML = `<span class="done-msg">All ${total} task${total!==1?'s':''} done today</span>`;
+    } else {
+      countEl.textContent = `${doneCount} task${doneCount!==1?'s':''} completed today`;
+    }
+  }
+
+  if(celebrateEl) celebrateEl.style.display = (total > 0 && doneCount === total) ? '' : 'none';
+
+  list.innerHTML = '';
+  incomplete.forEach(t => _renderTodoItem(t, list));
+
+  if(doneCount > 0){
+    if(completedSection) completedSection.style.display = '';
+    if(completedLabel) completedLabel.textContent = `Show completed (${doneCount})`;
+    if(completedList){
+      completedList.innerHTML = '';
+      completed.forEach(t => _renderTodoItem(t, completedList));
+    }
+  } else {
+    if(completedSection) completedSection.style.display = 'none';
+  }
+}
+
+function _renderTodoItem(t, container){
+  const children = _todos.filter(c => c.parent_id === t.id);
+
+  const wrap = document.createElement('div');
+  wrap.className = 'todo-item' + (t.parent_id ? ' sub' : '');
+  wrap.dataset.id = t.id;
+
+  const dot = document.createElement('button');
+  dot.className = `todo-priority ${t.priority||'low'}`;
+  dot.title = `Priority: ${t.priority||'low'} — click to cycle`;
+  dot.onclick = e => { e.stopPropagation(); cyclePriority(t.id); };
+
+  const cb = document.createElement('input');
+  cb.type = 'checkbox';
+  cb.className = 'todo-cb';
+  cb.checked = !!t.completed;
+  cb.onchange = () => toggleTodo(t.id);
+
+  const txt = document.createElement('span');
+  txt.className = 'todo-text' + (t.completed ? ' done' : '');
+  txt.textContent = t.text;
+
+  const del = document.createElement('button');
+  del.className = 'todo-del';
+  del.textContent = '×';
+  del.title = 'Delete';
+  del.onclick = e => { e.stopPropagation(); deleteTodo(t.id); };
+
+  wrap.appendChild(dot);
+  wrap.appendChild(cb);
+  wrap.appendChild(txt);
+  wrap.appendChild(del);
+
+  if(!t.parent_id){
+    let lpTimer;
+    wrap.addEventListener('contextmenu', e=>{ e.preventDefault(); addSubtask(t.id); });
+    wrap.addEventListener('touchstart', ()=>{ lpTimer = setTimeout(()=>addSubtask(t.id), 600); }, {passive:true});
+    wrap.addEventListener('touchend', ()=>clearTimeout(lpTimer));
+    wrap.addEventListener('touchmove', ()=>clearTimeout(lpTimer), {passive:true});
+  }
+
+  container.appendChild(wrap);
+
+  if(children.length){
+    const subWrap = document.createElement('div');
+    children.forEach(c => _renderTodoItem(c, subWrap));
+    container.appendChild(subWrap);
+  }
+}
+
+function toggleCompletedSection(){
+  const list = document.getElementById('completedList');
+  const arrow = document.getElementById('completedToggleArrow');
+  if(!list) return;
+  list.classList.toggle('open');
+  if(arrow) arrow.textContent = list.classList.contains('open') ? '▼' : '▶';
 }
 
 /* ============ over-confidence flags ============ */
@@ -2329,7 +2522,12 @@ window.resetTopics = resetTopics;
 window.go = go;
 window.recallPass = recallPass;
 window.recallFail = recallFail;
-window.toggleCloseout = toggleCloseout;
+window.addTodo = addTodo;
+window.toggleTodo = toggleTodo;
+window.deleteTodo = deleteTodo;
+window.cyclePriority = cyclePriority;
+window.addSubtask = addSubtask;
+window.toggleCompletedSection = toggleCompletedSection;
 window.startFromBlock = startFromBlock;
 window.copyPrompt = copyPrompt;
 window.copyPrereqCheckPrompt = copyPrereqCheckPrompt;
@@ -3891,6 +4089,8 @@ function showApp() {
   }).catch(() => {});
   // Check friend requests for notification badge
   checkFriendsBadge();
+  // Load todos from Supabase (instant render from localStorage already done at renderDash boot)
+  initTodos().catch(() => {});
 }
 
 // Exposed so onboarding.js can call it after wizard completes
