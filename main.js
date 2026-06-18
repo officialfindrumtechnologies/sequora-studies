@@ -22,7 +22,7 @@ import {
 } from './src/data/friends.js';
 import { BONES, BONE_REGIONS } from './src/data/bones.js';
 import { BONE_DIAGRAMS } from './src/data/bone-diagrams.js';
-import { getPastPapersForCode } from './src/data/past-papers.js';
+import { getPastPapersForCode, filterIBPapers } from './src/data/past-papers.js';
 
 // Apply theme + font scale from localStorage immediately — avoids FOUC before auth resolves
 loadSavedTheme();
@@ -2190,8 +2190,11 @@ function _renderPpSubjectList() {
   for (const subj of _ppUserSubjects) {
     const data = getPastPapersForCode(subj.exam_code);
     const hasData = !!data;
+    const lvlBadge = subj.level
+      ? `<span class="ib-lv-badge ib-lv-${_ppEsc(subj.level).toLowerCase()}">${_ppEsc(subj.level)}</span>`
+      : '';
     html += `<div class="pp-subj-card" onclick="${hasData ? `ppSelectSubject('${_ppEsc(subj.exam_code)}')` : ''}">
-      <div class="pp-subj-name">${_ppEsc(subj.name)}</div>
+      <div class="pp-subj-name">${_ppEsc(subj.name)}${lvlBadge}</div>
       ${subj.exam_code ? `<div class="pp-subj-code">${_ppEsc(subj.exam_code)}</div>` : ''}
       ${data ? `<div class="pp-subj-meta">${_ppEsc(data.qualification)} · ${_ppEsc(data.examBoard)}</div>` : `<div class="pp-subj-no-data">No paper data available</div>`}
       ${hasData ? '<div class="pp-subj-arrow">→ View papers</div>' : ''}
@@ -2199,6 +2202,49 @@ function _renderPpSubjectList() {
   }
   html += '</div>';
   el.innerHTML = html;
+}
+
+// IB grade boundaries reference (Part D)
+const IB_GRADE_BOUNDARIES = [
+  { grade: 7, label: 'Excellent',     pct: '70%+' },
+  { grade: 6, label: 'Very Good',     pct: '60–69%' },
+  { grade: 5, label: 'Good',          pct: '50–59%' },
+  { grade: 4, label: 'Satisfactory',  pct: '40–49%' },
+  { grade: 3, label: 'Mediocre',      pct: '30–39%' },
+  { grade: 2, label: 'Poor',          pct: '20–29%' },
+  { grade: 1, label: 'Very Poor',     pct: 'below 20%' },
+];
+
+function _ppBuildYearHtml(papers, labelPrefix) {
+  const byYear = {};
+  for (const p of papers) {
+    if (!byYear[p.year]) byYear[p.year] = {};
+    const yr = byYear[p.year];
+    if (!yr[p.session]) yr[p.session] = {};
+    const sess = yr[p.session];
+    if (!sess[p.paper]) sess[p.paper] = {};
+    sess[p.paper][p.component] = p.url;
+  }
+  let html = '';
+  const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
+  for (const yr of years) {
+    html += `<div class="pp-year-group"><div class="pp-year-hd">${yr}</div>`;
+    for (const [sess, paperMap] of Object.entries(byYear[yr])) {
+      html += `<div class="pp-session-group"><div class="pp-session-hd">${_ppEsc(sess)}</div><div class="pp-papers-row">`;
+      for (const [paperLabel, comps] of Object.entries(paperMap)) {
+        const label = `${labelPrefix}${yr} · ${sess} · ${paperLabel}`;
+        html += `<div class="pp-paper-group">
+          <div class="pp-paper-label">${_ppEsc(paperLabel)}</div>
+          <div class="pp-paper-btns">`;
+        if (comps.QP) html += `<button class="pp-paper-btn qp" onclick="ppOpenPaper('${_ppEsc(comps.QP)}','${_ppEsc(label + ' QP')}')">QP</button>`;
+        if (comps.MS) html += `<button class="pp-paper-btn ms" onclick="ppOpenPaper('${_ppEsc(comps.MS)}','${_ppEsc(label + ' MS')}')">MS</button>`;
+        html += `</div></div>`;
+      }
+      html += `</div></div>`;
+    }
+    html += `</div>`;
+  }
+  return html;
 }
 
 function ppSelectSubject(examCode) {
@@ -2210,44 +2256,53 @@ function ppSelectSubject(examCode) {
   const data = getPastPapersForCode(examCode);
   if (!data) { _renderPpSubjectList(); return; }
 
-  // Group papers: year → session → paper label → [QP, MS]
-  const byYear = {};
-  for (const p of data.papers) {
-    if (!byYear[p.year]) byYear[p.year] = {};
-    const yr = byYear[p.year];
-    if (!yr[p.session]) yr[p.session] = {};
-    const sess = yr[p.session];
-    if (!sess[p.paper]) sess[p.paper] = {};
-    sess[p.paper][p.component] = p.url;
-  }
+  const isIBSubj = data.qualification === 'IB Diploma';
+  const userLevel = subj?.level || null;
 
   const subjName = subj?.name || data.subjectName;
+  const lvlBadge = userLevel
+    ? `<span class="ib-lv-badge ib-lv-${_ppEsc(userLevel).toLowerCase()}" style="margin-left:6px;vertical-align:middle">${_ppEsc(userLevel)}</span>`
+    : '';
+
   let html = `<div class="pp-back-row">
     <button class="pp-back-btn" onclick="ppBackToSubjects()">← All Subjects</button>
     <div>
-      <div class="pp-subject-title">${_ppEsc(subjName)}</div>
+      <div class="pp-subject-title">${_ppEsc(subjName)}${lvlBadge}</div>
       <div class="pp-subject-meta">${_ppEsc(data.qualification)} · ${_ppEsc(data.examBoard)} · ${_ppEsc(examCode)}</div>
     </div>
   </div>`;
 
-  const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
-  for (const yr of years) {
-    html += `<div class="pp-year-group"><div class="pp-year-hd">${yr}</div>`;
-    const sessions = byYear[yr];
-    for (const [sess, papers] of Object.entries(sessions)) {
-      html += `<div class="pp-session-group"><div class="pp-session-hd">${_ppEsc(sess)}</div><div class="pp-papers-row">`;
-      for (const [paperLabel, comps] of Object.entries(papers)) {
-        const label = `${yr} · ${sess} · ${paperLabel}`;
-        html += `<div class="pp-paper-group">
-          <div class="pp-paper-label">${_ppEsc(paperLabel)}</div>
-          <div class="pp-paper-btns">`;
-        if (comps.QP) html += `<button class="pp-paper-btn qp" onclick="ppOpenPaper('${_ppEsc(comps.QP)}','${_ppEsc(label + ' QP')}')">QP</button>`;
-        if (comps.MS) html += `<button class="pp-paper-btn ms" onclick="ppOpenPaper('${_ppEsc(comps.MS)}','${_ppEsc(label + ' MS')}')">MS</button>`;
-        html += `</div></div>`;
+  // IB grade boundary bar (Part D)
+  if (isIBSubj) {
+    html += `<div class="pp-ib-grade-bar">
+      <span class="pp-ib-grade-label">IB Grade Boundaries (approximate)</span>
+      <div class="pp-ib-grade-chips">
+        ${IB_GRADE_BOUNDARIES.map(b =>
+          `<span class="pp-ib-grade-chip pp-ib-g${b.grade}"><b>${b.grade}</b> ${b.pct}</span>`
+        ).join('')}
+      </div>
+      <span class="pp-ib-grade-note">Boundaries vary by subject and year — these are approximate</span>
+    </div>`;
+  }
+
+  // IB: filter papers by user level
+  if (isIBSubj && userLevel && userLevel !== 'Core') {
+    const { hlPapers, slPapers, allPapers } = filterIBPapers(data.papers, userLevel);
+    if (allPapers) {
+      // SL user: show SL only
+      html += _ppBuildYearHtml(allPapers, '');
+    } else {
+      // HL user: HL papers, then SL as optional
+      html += _ppBuildYearHtml(hlPapers, 'HL · ');
+      if (slPapers.length) {
+        html += `<div class="pp-ib-sl-optional"><div class="pp-ib-sl-hd">SL Papers — Optional Practice</div>`;
+        html += _ppBuildYearHtml(slPapers, 'SL · ');
+        html += `</div>`;
       }
-      html += `</div></div>`;
     }
-    html += `</div>`;
+  } else {
+    // Non-IB or Core: show all papers as before
+    html += _ppBuildYearHtml(data.papers, '');
   }
 
   el.innerHTML = html;

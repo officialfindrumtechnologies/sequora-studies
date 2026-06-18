@@ -813,6 +813,40 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text
 .pp-fallback-msg{font-family:var(--mono);font-size:12px;color:var(--text-dim);text-align:center;line-height:1.8;max-width:320px}
 .pp-fallback-btn{font-family:var(--body);font-size:14px;font-weight:600;padding:10px 24px;border-radius:var(--rs);cursor:pointer;border:1px solid var(--accent);background:rgba(var(--glow-color),.07);color:var(--accent);transition:all .15s}
 .pp-fallback-btn:hover{background:rgba(var(--glow-color),.16)}
+
+/* ── IB level badges ─────────────────────────────────────────── */
+.ib-lv-badge{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:1px 6px;border-radius:3px;vertical-align:middle;margin-left:4px;flex-shrink:0}
+.ib-lv-hl{background:rgba(242,223,168,.12);color:var(--accent);border:1px solid rgba(242,223,168,.3)}
+.ib-lv-sl{background:rgba(111,157,196,.12);color:var(--blue);border:1px solid rgba(111,157,196,.3)}
+.ib-lv-core{background:rgba(74,222,128,.1);color:var(--green);border:1px solid rgba(74,222,128,.25)}
+/* badge inside nav button */
+nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8px}
+
+/* ── IB template picker (HL/SL radios) ──────────────────────── */
+.ib-level-pick{display:flex;gap:6px;align-items:center}
+.ib-radio-lbl{display:flex;align-items:center;gap:4px;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--text-dim);cursor:pointer;padding:4px 9px;border:1px solid var(--border);border-radius:var(--rs);transition:all .15s}
+.ib-radio-lbl:has(input:checked){border-color:var(--border-hover);color:var(--text);background:var(--surface-2)}
+.ib-radio-lbl input{display:none}
+
+/* ── IB core subject tracking ───────────────────────────────── */
+.ib-core-stat{font-family:var(--mono);font-size:12px;color:var(--text-dim)}
+.ib-core-stat b{color:var(--text)}
+
+/* ── IB grade boundary bar ──────────────────────────────────── */
+.pp-ib-grade-bar{display:flex;flex-direction:column;gap:7px;padding:12px 16px;margin-bottom:20px;border:1px solid rgba(var(--glow-color),.15);border-radius:var(--r);background:rgba(var(--glow-color),.03)}
+.pp-ib-grade-label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim)}
+.pp-ib-grade-chips{display:flex;flex-wrap:wrap;gap:5px}
+.pp-ib-grade-chip{font-family:var(--mono);font-size:10px;padding:3px 8px;border-radius:3px;border:1px solid var(--border);background:var(--surface-2);color:var(--text-dim)}
+.pp-ib-grade-chip b{font-weight:700;margin-right:3px}
+.pp-ib-g7{border-color:rgba(74,222,128,.3);color:var(--green)}
+.pp-ib-g6{border-color:rgba(74,222,128,.2);color:var(--green)}
+.pp-ib-g5{border-color:rgba(var(--glow-color),.25);color:var(--accent)}
+.pp-ib-g4{border-color:rgba(var(--glow-color),.15);color:var(--accent-deep)}
+.pp-ib-grade-note{font-family:var(--mono);font-size:10px;color:var(--muted);font-style:italic}
+
+/* ── IB SL optional practice section ───────────────────────── */
+.pp-ib-sl-optional{margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
+.pp-ib-sl-hd{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px;opacity:.7}
 </style>
 </head>
 <body>

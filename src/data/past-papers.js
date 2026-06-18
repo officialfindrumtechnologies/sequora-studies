@@ -4,6 +4,32 @@
 
 const _y = (s, e) => Array.from({ length: e - s + 1 }, (_, i) => s + i);
 
+// IB URL builder — URLs are UNCERTAIN and may 404; "Open in new tab" fallback handles misses
+function _ibUrl(folder, code, level, sess, year, paper, type) {
+  const t = type === 'QP' ? 'qp' : 'ms';
+  return `https://papers.gceguide.com/IB/${folder}/${year}/${code}_${level}_${sess}_${year}_${paper}_${t}.pdf`;
+}
+
+// Generate IB entries for one subject. papersByLevel: { HL: ['P1','P2','P3'], SL: ['P1','P2'] }
+function _genIB(folder, code, years, sessions, papersByLevel) {
+  const out = [];
+  for (const yr of years) {
+    for (const [sess, sessName] of sessions) {
+      for (const [lvl, papers] of Object.entries(papersByLevel)) {
+        for (const paper of papers) {
+          out.push({ year: yr, session: sessName, paper, level: lvl, component: 'QP', url: _ibUrl(folder, code, lvl, sess, yr, paper, 'QP') });
+          out.push({ year: yr, session: sessName, paper, level: lvl, component: 'MS', url: _ibUrl(folder, code, lvl, sess, yr, paper, 'MS') });
+        }
+      }
+    }
+  }
+  return out;
+}
+
+const IB_SESS  = [['May', 'May'], ['Nov', 'November']];
+const IB_YEARS = _y(2019, 2024); // Math AA/AI full range
+const IB_YEARS_S = _y(2019, 2023); // Sciences/Humanities (2024 not yet widely available)
+
 // Cambridge URL builders
 function _camUrl(base, folder, year, code, sess, type, pv) {
   const y2 = String(year).slice(2);
@@ -247,6 +273,110 @@ export const PAST_PAPERS_DB = {
 
   // ── Edexcel A Level ────────────────────────────────────────────────────────
 
+  // ── IB Diploma ─────────────────────────────────────────────────────────────
+  // URL format UNCERTAIN — mirrors vary. Open-in-new-tab fallback handles 404s.
+  // Format: gceguide.com/IB/[Folder]/[year]/[Code]_[Level]_[Session]_[Year]_[Paper]_[type].pdf
+
+  'IB-MATH-AA': {
+    subjectName: 'Mathematics: Analysis & Approaches',
+    qualification: 'IB Diploma',
+    examBoard: 'IB',
+    papers: _genIB('Mathematics%20AA', 'Mathematics_AA', IB_YEARS, IB_SESS, {
+      HL: ['P1', 'P2', 'P3'],
+      SL: ['P1', 'P2'],
+    }),
+  },
+
+  'IB-MATH-AI': {
+    subjectName: 'Mathematics: Applications & Interpretation',
+    qualification: 'IB Diploma',
+    examBoard: 'IB',
+    papers: _genIB('Mathematics%20AI', 'Mathematics_AI', IB_YEARS, IB_SESS, {
+      HL: ['P1', 'P2', 'P3'],
+      SL: ['P1', 'P2'],
+    }),
+  },
+
+  'IB-PHYS': {
+    subjectName: 'Physics',
+    qualification: 'IB Diploma',
+    examBoard: 'IB',
+    papers: _genIB('Physics', 'Physics', IB_YEARS_S, IB_SESS, {
+      HL: ['P1', 'P2', 'P3'],
+      SL: ['P1', 'P2', 'P3'],
+    }),
+  },
+
+  'IB-CHEM': {
+    subjectName: 'Chemistry',
+    qualification: 'IB Diploma',
+    examBoard: 'IB',
+    papers: _genIB('Chemistry', 'Chemistry', IB_YEARS_S, IB_SESS, {
+      HL: ['P1', 'P2', 'P3'],
+      SL: ['P1', 'P2', 'P3'],
+    }),
+  },
+
+  'IB-BIO': {
+    subjectName: 'Biology',
+    qualification: 'IB Diploma',
+    examBoard: 'IB',
+    papers: _genIB('Biology', 'Biology', IB_YEARS_S, IB_SESS, {
+      HL: ['P1', 'P2', 'P3'],
+      SL: ['P1', 'P2', 'P3'],
+    }),
+  },
+
+  'IB-ECON': {
+    subjectName: 'Economics',
+    qualification: 'IB Diploma',
+    examBoard: 'IB',
+    papers: _genIB('Economics', 'Economics', IB_YEARS_S, IB_SESS, {
+      HL: ['P1', 'P2', 'P3'],
+      SL: ['P1', 'P2', 'P3'],
+    }),
+  },
+
+  'IB-HIST': {
+    subjectName: 'History',
+    qualification: 'IB Diploma',
+    examBoard: 'IB',
+    papers: _genIB('History', 'History', IB_YEARS_S, IB_SESS, {
+      HL: ['P1', 'P2', 'P3'],
+      SL: ['P1', 'P2', 'P3'],
+    }),
+  },
+
+  'IB-ENG-A-LIT': {
+    subjectName: 'English A Literature',
+    qualification: 'IB Diploma',
+    examBoard: 'IB',
+    papers: _genIB('English%20A%20Lit', 'English_A_Lit', IB_YEARS_S, IB_SESS, {
+      HL: ['P1', 'P2'],
+      SL: ['P1', 'P2'],
+    }),
+  },
+
+  'IB-BM': {
+    subjectName: 'Business Management',
+    qualification: 'IB Diploma',
+    examBoard: 'IB',
+    papers: _genIB('Business%20Management', 'Business_Management', IB_YEARS_S, IB_SESS, {
+      HL: ['P1', 'P2'],
+      SL: ['P1', 'P2'],
+    }),
+  },
+
+  'IB-PSYCH': {
+    subjectName: 'Psychology',
+    qualification: 'IB Diploma',
+    examBoard: 'IB',
+    papers: _genIB('Psychology', 'Psychology', IB_YEARS_S, IB_SESS, {
+      HL: ['P1', 'P2'],
+      SL: ['P1', 'P2'],
+    }),
+  },
+
   '9MA0': {
     subjectName: 'Mathematics',
     qualification: 'A Level',
@@ -283,4 +413,22 @@ export const PAST_PAPERS_DB = {
 export function getPastPapersForCode(examCode) {
   if (!examCode) return null;
   return PAST_PAPERS_DB[examCode.trim().toUpperCase()] ?? null;
+}
+
+/**
+ * Filter IB papers by user's chosen level.
+ * SL users see only SL papers. HL users see HL papers + SL papers (optional practice).
+ * Non-IB or no level: returns all papers unchanged.
+ * Returns { hlPapers, slPapers } for IB, or { allPapers } for others.
+ */
+export function filterIBPapers(papers, userLevel) {
+  const isIBPaper = papers.some(p => p.level);
+  if (!isIBPaper || !userLevel || userLevel === 'Core') {
+    return { allPapers: papers };
+  }
+  const hl = papers.filter(p => p.level === 'HL');
+  const sl = papers.filter(p => p.level === 'SL');
+  if (userLevel === 'SL') return { allPapers: sl };
+  // HL: show HL first, then SL as optional
+  return { hlPapers: hl, slPapers: sl };
 }

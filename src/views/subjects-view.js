@@ -3,7 +3,7 @@ import {
   getSubjects, createSubject, updateSubject, reorderSubjects, deleteSubject,
   getTemplatesByQualBoard, createSubjectFromTemplate,
 } from '../data/subjects.js';
-import { QUAL_BOARDS } from '../lib/qualboards.js';
+import { QUAL_BOARDS, isIB } from '../lib/qualboards.js';
 import {
   getTopics, createTopic, updateTopic, deleteTopic, bulkInsertTopics, reorderTopics,
 } from '../data/topics.js';
@@ -85,9 +85,10 @@ function renderSubjectTabs() {
     host.innerHTML = '<span style="font-size:13px;opacity:.5">No subjects yet.</span>';
     return;
   }
-  host.innerHTML = sv.subjects.map(s =>
-    `<button class="${s.id === sv.activeId ? 'on' : ''}" onclick="sbSelectSubject('${s.id}')">${esc(s.short_name || s.name)}</button>`
-  ).join('');
+  host.innerHTML = sv.subjects.map(s => {
+    const lvlBadge = s.level ? `<span class="ib-lv-badge ib-lv-${s.level.toLowerCase()}">${esc(s.level)}</span>` : '';
+    return `<button class="${s.id === sv.activeId ? 'on' : ''}" onclick="sbSelectSubject('${s.id}')">${esc(s.short_name || s.name)}${lvlBadge}</button>`;
+  }).join('');
 }
 
 function renderSubjectControls() {
@@ -110,13 +111,22 @@ function renderSubjectControls() {
   if (!subj) return;
 
   if (nameEl) nameEl.textContent = subj.name;
-  if (metaEl) metaEl.textContent = subj.exam_code || '';
+  const lvlBadgeHtml = subj.level
+    ? `<span class="ib-lv-badge ib-lv-${subj.level.toLowerCase()}" style="vertical-align:middle;margin-left:6px">${esc(subj.level)}</span>`
+    : '';
+  if (metaEl) metaEl.innerHTML = (subj.exam_code ? esc(subj.exam_code) : '') + lvlBadgeHtml;
 
-  const ready = sv.topics.filter(t => t.status === 'ready').length;
-  const total = sv.topics.length;
-  const pct   = total ? Math.round(ready / total * 100) : 0;
-  if (barEl) barEl.style.width = pct + '%';
-  if (cntEl) cntEl.textContent = `${ready} of ${total} topics exam-ready · ${pct}%`;
+  const isCore = _isIBCore(subj);
+  if (isCore) {
+    // IB core: render special tracking bar instead of topic %
+    _renderCoreBar(subj, barEl, cntEl);
+  } else {
+    const ready = sv.topics.filter(t => t.status === 'ready').length;
+    const total = sv.topics.length;
+    const pct   = total ? Math.round(ready / total * 100) : 0;
+    if (barEl) barEl.style.width = pct + '%';
+    if (cntEl) cntEl.textContent = `${ready} of ${total} topics exam-ready · ${pct}%`;
+  }
 
   if (!ctrl) return;
   const idx = sv.subjects.findIndex(s => s.id === sv.activeId);
@@ -169,18 +179,92 @@ async function sbLoadTemplatesForBoard() {
       list.innerHTML = '<div class="empty" style="padding:8px 0">No templates for this board yet.</div>';
       return;
     }
-    list.innerHTML = templates.map(t => `
-      <div class="sb-tmpl-row">
-        <span>${esc(t.subject_name)}${t.subject_code ? ` <span class="tag">${esc(t.subject_code)}</span>` : ''}${t.level ? ` <span class="tag">${esc(t.level)}</span>` : ''}</span>
-        <span style="opacity:.5;font-size:12px">${Array.isArray(t.topics) ? t.topics.length : 0} topics</span>
-        <button class="btn sm" onclick="sbAddFromTemplate('${t.id}', this)">Add</button>
-      </div>
-    `).join('');
+
+    if (isIB(qual)) {
+      list.innerHTML = _renderIBTemplateList(templates);
+    } else {
+      list.innerHTML = templates.map(t => `
+        <div class="sb-tmpl-row">
+          <span>${esc(t.subject_name)}${t.subject_code ? ` <span class="tag">${esc(t.subject_code)}</span>` : ''}${t.level ? ` <span class="tag">${esc(t.level)}</span>` : ''}</span>
+          <span style="opacity:.5;font-size:12px">${Array.isArray(t.topics) ? t.topics.length : 0} topics</span>
+          <button class="btn sm" onclick="sbAddFromTemplate('${t.id}', this)">Add</button>
+        </div>
+      `).join('');
+    }
   } catch (err) {
     list.innerHTML = `<div class="empty">Error: ${esc(err.message)}</div>`;
   }
 }
 window.sbLoadTemplatesForBoard = sbLoadTemplatesForBoard;
+
+// Render IB template list — groups HL+SL per subject, shows level radio picker
+function _renderIBTemplateList(templates) {
+  // Group by subject_name
+  const groups = new Map();
+  for (const t of templates) {
+    const existing = groups.get(t.subject_name) || [];
+    existing.push(t);
+    groups.set(t.subject_name, existing);
+  }
+
+  return Array.from(groups.entries()).map(([name, variants]) => {
+    const isCore = variants.some(v => v.level === 'Core');
+    if (isCore) {
+      const t = variants[0];
+      return `<div class="sb-tmpl-row">
+        <span>${esc(t.subject_name)} <span class="ib-lv-badge ib-lv-core">Core</span></span>
+        <span style="opacity:.5;font-size:12px">${Array.isArray(t.topics) ? t.topics.length : 0} topics</span>
+        <button class="btn sm" onclick="sbAddFromTemplate('${t.id}', this)">Add</button>
+      </div>`;
+    }
+
+    const hlT = variants.find(v => v.level === 'HL');
+    const slT = variants.find(v => v.level === 'SL');
+    const radioName = `ib-tmpl-${name.replace(/\s+/g, '-').toLowerCase()}`;
+    const defaultId = hlT ? hlT.id : (slT ? slT.id : variants[0].id);
+    const defaultTopics = hlT ? (Array.isArray(hlT.topics) ? hlT.topics.length : 0)
+                               : (slT ? (Array.isArray(slT.topics) ? slT.topics.length : 0) : 0);
+
+    let radios = '';
+    if (hlT) radios += `<label class="ib-radio-lbl"><input type="radio" name="${radioName}" value="${hlT.id}" data-topics="${Array.isArray(hlT.topics) ? hlT.topics.length : 0}" checked onchange="sbIBRadioChange('${radioName}')"> HL</label>`;
+    if (slT) radios += `<label class="ib-radio-lbl"><input type="radio" name="${radioName}" value="${slT.id}" data-topics="${Array.isArray(slT.topics) ? slT.topics.length : 0}" ${!hlT ? 'checked' : ''} onchange="sbIBRadioChange('${radioName}')"> SL</label>`;
+
+    return `<div class="sb-tmpl-row" id="row-${radioName}">
+      <span>${esc(name)}</span>
+      <div class="ib-level-pick">${radios}</div>
+      <span class="sb-tmpl-topics" id="topics-${radioName}" style="opacity:.5;font-size:12px">${defaultTopics} topics</span>
+      <button class="btn sm" onclick="sbAddFromIBTemplate('${radioName}', this)">Add</button>
+    </div>`;
+  }).join('');
+}
+
+function sbIBRadioChange(radioName) {
+  const sel = document.querySelector(`input[name="${radioName}"]:checked`);
+  const topicEl = document.getElementById(`topics-${radioName}`);
+  if (sel && topicEl) topicEl.textContent = (sel.dataset.topics || 0) + ' topics';
+}
+window.sbIBRadioChange = sbIBRadioChange;
+
+async function sbAddFromIBTemplate(radioName, btn) {
+  const sel = document.querySelector(`input[name="${radioName}"]:checked`);
+  if (!sel) { sbToast('Select HL or SL'); return; }
+  const templateId = sel.value;
+  if (btn) { btn.disabled = true; btn.textContent = 'Adding…'; }
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    const subject = await createSubjectFromTemplate({ userId: user.id, templateId });
+    sv.subjects.push(subject);
+    sv.activeId = subject.id;
+    sv.topics = await getTopics(subject.id);
+    document.getElementById('sb-add-panel')?.classList.add('hidden');
+    renderAll();
+    sbToast('Subject added from template');
+  } catch (err) {
+    sbToast('Failed: ' + err.message);
+    if (btn) { btn.disabled = false; btn.textContent = 'Add'; }
+  }
+}
+window.sbAddFromIBTemplate = sbAddFromIBTemplate;
 
 async function sbAddFromTemplate(templateId, btn) {
   if (btn) { btn.disabled = true; btn.textContent = 'Adding…'; }
@@ -339,6 +423,93 @@ async function sbConfirmDeleteSubject() {
   }
 }
 window.sbConfirmDeleteSubject = sbConfirmDeleteSubject;
+
+// ── IB core helpers ────────────────────────────────────────────────────────
+const IB_CORE_CODES = new Set(['IB-TOK', 'IB-EE', 'IB-CAS']);
+function _isIBCore(subj) {
+  if (!subj) return false;
+  if (subj.level === 'Core') return true;
+  if (subj.exam_code && IB_CORE_CODES.has(subj.exam_code.toUpperCase())) return true;
+  return false;
+}
+
+function _coreType(subj) {
+  const c = (subj.exam_code || '').toUpperCase();
+  if (c === 'IB-TOK' || subj.name?.toLowerCase().includes('theory of knowledge')) return 'tok';
+  if (c === 'IB-EE'  || subj.name?.toLowerCase().includes('extended essay'))      return 'ee';
+  if (c === 'IB-CAS' || subj.name?.toLowerCase().includes('creativity'))          return 'cas';
+  return 'tok'; // fallback
+}
+
+function _coreData(subj) {
+  return subj.metadata?.ib_core || {};
+}
+
+function _renderCoreBar(subj, barEl, cntEl) {
+  // Hide the progress fill bar for core components
+  if (barEl) barEl.style.width = '0%';
+  if (!cntEl) return;
+  const type = _coreType(subj);
+  const d    = _coreData(subj);
+
+  if (type === 'tok') {
+    const submitted = d.essay_submitted ? 'Yes' : 'No';
+    cntEl.innerHTML = `<span class="ib-core-stat">Essay submitted: <b>${submitted}</b></span>
+      <button class="btn sm ghost" style="margin-left:8px" onclick="sbToggleTokEssay('${subj.id}')">
+        ${d.essay_submitted ? 'Mark not submitted' : 'Mark submitted'}
+      </button>`;
+  } else if (type === 'ee') {
+    const drafts = d.draft_count ?? 0;
+    cntEl.innerHTML = `<span class="ib-core-stat">Drafts: <b>${drafts}</b></span>
+      <button class="btn sm ghost" style="margin-left:8px" onclick="sbIncrEEDraft('${subj.id}', -1)" ${drafts <= 0 ? 'disabled' : ''}>−</button>
+      <button class="btn sm ghost" style="margin-left:4px" onclick="sbIncrEEDraft('${subj.id}', 1)">+</button>`;
+  } else if (type === 'cas') {
+    const hours = d.hours ?? 0;
+    cntEl.innerHTML = `<span class="ib-core-stat">CAS hours logged: <b>${hours}</b></span>
+      <button class="btn sm ghost" style="margin-left:8px" onclick="sbSetCasHours('${subj.id}', ${Math.max(0, hours - 1)})" ${hours <= 0 ? 'disabled' : ''}>−</button>
+      <input type="number" min="0" value="${hours}" style="width:60px;margin:0 4px;font-size:12px" onchange="sbSetCasHours('${subj.id}', this.value)">
+      <button class="btn sm ghost" onclick="sbSetCasHours('${subj.id}', ${hours + 1})">+</button>`;
+  }
+}
+
+async function sbToggleTokEssay(subjId) {
+  const subj = sv.subjects.find(s => s.id === subjId);
+  if (!subj) return;
+  const d = _coreData(subj);
+  const next = !d.essay_submitted;
+  await _saveCoreData(subj, { essay_submitted: next });
+}
+window.sbToggleTokEssay = sbToggleTokEssay;
+
+async function sbIncrEEDraft(subjId, delta) {
+  const subj = sv.subjects.find(s => s.id === subjId);
+  if (!subj) return;
+  const d = _coreData(subj);
+  const next = Math.max(0, (d.draft_count ?? 0) + delta);
+  await _saveCoreData(subj, { draft_count: next });
+}
+window.sbIncrEEDraft = sbIncrEEDraft;
+
+async function sbSetCasHours(subjId, val) {
+  const subj = sv.subjects.find(s => s.id === subjId);
+  if (!subj) return;
+  const next = Math.max(0, Math.round(Number(val) || 0));
+  await _saveCoreData(subj, { hours: next });
+}
+window.sbSetCasHours = sbSetCasHours;
+
+async function _saveCoreData(subj, patch) {
+  const current = subj.metadata?.ib_core || {};
+  const updated = { ...subj.metadata, ib_core: { ...current, ...patch } };
+  try {
+    await updateSubject(subj.id, { metadata: updated });
+    subj.metadata = updated;
+    renderSubjectControls();
+    sbToast('Saved');
+  } catch (err) {
+    sbToast('Save failed: ' + err.message);
+  }
+}
 
 // ── topic CRUD ─────────────────────────────────────────────────────────────
 const FREE_LIMIT = 10;
