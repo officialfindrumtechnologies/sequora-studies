@@ -60,6 +60,8 @@ function renderAll() {
   renderSubjectControls();
   renderTopicPanel();
   renderOrderCard();
+  // Keep main dashboard + coverage map in sync with subject changes
+  window.__refreshSbCache?.().catch?.(() => {});
 }
 
 // ── migration banner ───────────────────────────────────────────────────────
@@ -536,6 +538,7 @@ async function sbAddTopic() {
     renderSubjectControls();
     sbToast('Topic added');
     nameEl?.focus();
+    window.__refreshSbCache?.().catch?.(() => {});
   } catch (err) {
     sbToast('Failed: ' + err.message);
   } finally {
@@ -569,6 +572,8 @@ async function sbCycleStatus(id) {
 
   try {
     await updateTopic(id, updates);
+    // Keep coverage map + dashboard progress fresh after topic status change
+    window.__refreshSbCache?.().catch?.(() => {});
   } catch (err) {
     topic.status = prev;
     renderTopicPanel();
@@ -585,6 +590,7 @@ async function sbDeleteTopic(id) {
     renderOrderCard();
     renderSubjectControls();
     sbToast('Topic removed');
+    window.__refreshSbCache?.().catch?.(() => {});
   } catch (err) {
     sbToast('Delete failed: ' + err.message);
   }

@@ -15,6 +15,7 @@ import { QUAL_BOARDS, resolveQualBoard, formatQualBoard, isMbbs, NO_DATE_QUALS }
 import { getSubscription, submitBkashPayment } from './src/data/subscriptions.js';
 import { initSubjectsView, setSubjectsViewTier } from './src/views/subjects-view.js';
 import { getSubjects } from './src/data/subjects.js';
+import { getAllTopics } from './src/data/topics.js';
 import {
   searchUsers, sendFriendRequest, getPendingRequests,
   acceptFriendRequest, declineFriendRequest, removeFriend,
@@ -665,6 +666,17 @@ const DAY1="2026-05-31";
 let curSubjectTab="maths";
 let curTimerSubject="maths";
 let _timerSubjects=[]; // dynamic subjects from Supabase [{key:id,name}]; empty = use hardcoded SUBJECTS fallback
+let _sbCache = { subjects: [], allTopics: [] }; // Supabase-backed cache for coverage map + progress tracker
+
+// IB Core subjects are excluded from % readiness calculations (TOK, EE, CAS)
+// Mirrors _isIBCore() in subjects-view.js — uses level=Core or known exam codes
+const IB_CORE_CODES = new Set(['IB-TOK', 'IB-EE', 'IB-CAS']);
+function isIbCore(subj) {
+  if (!subj) return false;
+  if (subj.level === 'Core') return true;
+  const c = (subj.exam_code || '').toUpperCase();
+  return IB_CORE_CODES.has(c);
+}
 let viewingWeek=null;
 
 /* ============ 17-week plan data ============ */
@@ -752,6 +764,19 @@ function isGraceDay(){const days=new Set(sessions.map(s=>s.date));return !days.h
 function getBestStreak(){return parseInt(localStorage.getItem('sq_best_streak')||'0',10);}
 function updateBestStreak(cur){const best=getBestStreak();if(cur>best){localStorage.setItem('sq_best_streak',String(cur));return cur;}return best;}
 
+// Compute longest consecutive day streak from a Set of date strings ('YYYY-MM-DD')
+function _computeBestStreak(dateSet){
+  if(!dateSet.size)return 0;
+  const sorted=[...dateSet].sort();
+  let best=1,cur=1;
+  for(let i=1;i<sorted.length;i++){
+    const prev=new Date(sorted[i-1]);const curr=new Date(sorted[i]);
+    const diff=Math.round((curr-prev)/86400000);
+    if(diff===1){cur++;if(cur>best)best=cur;}else cur=1;
+  }
+  return best;
+}
+
 function renderFlame(streak,grace){
   const wrap=document.getElementById('flameWrap');
   if(!wrap)return;
@@ -763,7 +788,20 @@ function renderFlame(streak,grace){
   else wrap.classList.add('flame-large');
 }
 function subjReady(k){const t=topics[k]||[];const tot=t.length;const r=t.filter(x=>x.status==="ready"||x.status==="mastered").length;return{tot,r,pct:tot?Math.round(r/tot*100):0};}
-function overallReady(){let tot=0,r=0;for(const s of SUBJECTS){const x=subjReady(s.key);tot+=x.tot;r+=x.r;}return tot?Math.round(r/tot*100):0;}
+function overallReady(){
+  if(_sbCache.subjects.length){
+    let tot=0,r=0;
+    for(const subj of _sbCache.subjects){
+      if(isIbCore(subj))continue;
+      const tl=_sbCache.allTopics.filter(t=>t.subject_id===subj.id);
+      tot+=tl.length;
+      r+=tl.filter(t=>t.status==='ready'||t.status==='mastered').length;
+    }
+    return tot?Math.round(r/tot*100):0;
+  }
+  // fallback: legacy localStorage system
+  let tot=0,r=0;for(const s of SUBJECTS){const x=subjReady(s.key);tot+=x.tot;r+=x.r;}return tot?Math.round(r/tot*100):0;
+}
 function nextTopic(k){const t=topics[k]||[];return t.find(x=>x.status!=="ready"&&x.status!=="mastered")||null;}
 function weakestSubjects(n){return SUBJECTS.map(s=>({s,pct:subjReady(s.key).pct})).sort((a,b)=>a.pct-b.pct).slice(0,n);}
 
@@ -906,11 +944,27 @@ function renderDash(){
 }
 function renderDashProgress(){
   const el=document.getElementById("dashProgress");
-  if (!el) return;
+  if(!el)return;
   el.innerHTML="";
+  if(_sbCache.subjects.length){
+    // Supabase-backed: show user's actual subjects, exclude IB Core
+    const nonCore=_sbCache.subjects.filter(s=>!isIbCore(s));
+    if(!nonCore.length){el.innerHTML='<div class="empty">Add subjects to get started</div>';return;}
+    for(const subj of nonCore){
+      const tl=_sbCache.allTopics.filter(t=>t.subject_id===subj.id);
+      const tot=tl.length;
+      const r=tl.filter(t=>t.status==='ready'||t.status==='mastered').length;
+      const pct=tot?Math.round(r/tot*100):0;
+      const nt=tl.find(t=>t.status!=='ready'&&t.status!=='mastered');
+      const div=document.createElement("div");div.className="subj-prog";
+      div.innerHTML=`<div class="top"><span class="nm">${escapeHtml(subj.name)} <span class="cnt">· next: ${nt?escapeHtml(nt.name):"✓ all ready"}</span></span><span class="pc">${pct}%</span></div><div class="bar"><i style="width:${pct}%"></i></div>`;
+      el.appendChild(div);
+    }
+    return;
+  }
+  // Fallback: legacy localStorage subjects
   for(const s of SUBJECTS){
-    const x=subjReady(s.key);
-    const nt=nextTopic(s.key);
+    const x=subjReady(s.key);const nt=nextTopic(s.key);
     const div=document.createElement("div");div.className="subj-prog";
     div.innerHTML=`<div class="top"><span class="nm">${s.name} <span class="cnt">· next: ${nt?nt.name:"✓ all ready"}</span></span><span class="pc">${x.pct}%</span></div><div class="bar"><i style="width:${x.pct}%"></i></div>`;
     el.appendChild(div);
@@ -2017,37 +2071,60 @@ function renderStudyNow() {
 }
 
 /* ============ coverage heatmap ============ */
-function renderCoverage(){
-  const OVERDUE_DAYS = 21;
-  const today = new Date(); today.setHours(0,0,0,0);
-
-  let totAll=0, readyAll=0;
+async function renderCoverage(){
   const grid = document.getElementById("cov-grid");
   if(!grid) return;
 
+  // Ensure cache is populated (may already be if showApp ran first)
+  if(!_sbCache.subjects.length && currentUser){
+    grid.innerHTML = '<div class="cov-empty">Loading…</div>';
+    await refreshSbCache();
+  }
+
+  const subjects = _sbCache.subjects;
+  const allTopics = _sbCache.allTopics;
+
+  if(!subjects.length){
+    grid.innerHTML = '<div class="cov-empty">Add subjects to see your coverage map</div>';
+    const pctEl = document.getElementById("cov-pct");
+    if(pctEl) pctEl.textContent = "0%";
+    return;
+  }
+
+  const OVERDUE_DAYS = 21;
+  const today = new Date(); today.setHours(0,0,0,0);
+  let totAll = 0, readyAll = 0;
   const frag = document.createDocumentFragment();
 
-  for(const s of SUBJECTS){
-    const tlist = topics[s.key] || [];
+  // Subjects already ordered by position from getSubjects()
+  for(const subj of subjects){
+    const tlist = allTopics.filter(t => t.subject_id === subj.id);
     if(!tlist.length) continue;
 
-    // group by section
     const sections = {};
     for(const t of tlist){
       const sec = t.section || "(General)";
-      if(!sections[sec]) sections[sec]=[];
+      if(!sections[sec]) sections[sec] = [];
       sections[sec].push(t);
     }
 
-    let subjReady=0;
+    let sReady = 0;
     const subjEl = document.createElement("div");
     subjEl.className = "cov-subject";
 
     const header = document.createElement("div");
     header.className = "cov-subj-header";
+
     const nameEl = document.createElement("span");
     nameEl.className = "cov-subj-name";
-    nameEl.textContent = s.name;
+    nameEl.textContent = subj.name;
+    if(subj.level){
+      const badge = document.createElement("span");
+      badge.className = `ib-lv-badge ib-lv-${subj.level.toLowerCase()}`;
+      badge.textContent = subj.level;
+      nameEl.appendChild(badge);
+    }
+
     const pctEl = document.createElement("span");
     pctEl.className = "cov-subj-pct";
     header.appendChild(nameEl);
@@ -2067,45 +2144,39 @@ function renderCoverage(){
         totAll++;
         let status = t.status || "notstarted";
 
-        if(status === "ready"){
+        if(status === "ready" || status === "mastered"){
           readyAll++;
-          subjReady++;
-          // check overdue: last_recall > OVERDUE_DAYS ago
-          if(t.last_recall){
+          sReady++;
+          if(status === "ready" && t.last_recall){
             const lr = new Date(t.last_recall); lr.setHours(0,0,0,0);
             const diff = Math.floor((today - lr) / 86400000);
             if(diff > OVERDUE_DAYS) status = "overdue";
           }
-        } else if(status === "mastered"){
-          readyAll++;
-          subjReady++;
         }
 
         const sq = document.createElement("div");
         sq.className = "cov-sq";
         sq.dataset.status = status;
-        sq.dataset.tip = t.name + (t.section ? " · " + t.section : "");
         sq.title = t.name;
 
-        // click → jump to subjects view, switch to this subject tab
-        const subjectKey = s.key;
-        sq.addEventListener("click", ()=>{
+        sq.addEventListener("click", () => {
           go("subjects");
-          // activate subject tab
-          const tabBtn = document.querySelector(`#subj-tabs button[data-k="${subjectKey}"]`);
-          if(tabBtn){ tabBtn.click(); }
-          // try scroll to topic
-          setTimeout(()=>{
-            const allTopicEls = document.querySelectorAll(".topic");
-            for(const el of allTopicEls){
-              if(el.textContent.includes(t.name)){
-                el.scrollIntoView({behavior:"smooth", block:"center"});
-                el.style.outline = "2px solid var(--amber)";
-                setTimeout(()=>{ el.style.outline=""; }, 1500);
-                break;
+          setTimeout(() => {
+            // subjects-view uses sbSelectSubject(id) in onclick attr
+            const tabBtn = document.querySelector(`#sb-tabs button[onclick*="${subj.id}"]`);
+            if(tabBtn) tabBtn.click();
+            setTimeout(() => {
+              const topicEls = document.querySelectorAll(".topic");
+              for(const el of topicEls){
+                if(el.textContent.includes(t.name)){
+                  el.scrollIntoView({behavior:"smooth", block:"center"});
+                  el.style.outline = "2px solid var(--amber)";
+                  setTimeout(() => { el.style.outline = ""; }, 1500);
+                  break;
+                }
               }
-            }
-          }, 80);
+            }, 80);
+          }, 50);
         });
 
         squares.appendChild(sq);
@@ -2113,19 +2184,15 @@ function renderCoverage(){
       subjEl.appendChild(squares);
     }
 
-    // update subject % label
-    const subjPct = tlist.length ? Math.round(subjReady/tlist.length*100) : 0;
-    pctEl.textContent = subjPct + "% ready";
-
+    pctEl.textContent = (tlist.length ? Math.round(sReady / tlist.length * 100) : 0) + "% ready";
     frag.appendChild(subjEl);
   }
 
   grid.innerHTML = "";
   grid.appendChild(frag);
 
-  // overall %
   const pctEl = document.getElementById("cov-pct");
-  if(pctEl) pctEl.textContent = (totAll ? Math.round(readyAll/totAll*100) : 0) + "%";
+  if(pctEl) pctEl.textContent = (totAll ? Math.round(readyAll / totAll * 100) : 0) + "%";
 }
 
 /* ============ past papers ============ */
@@ -3763,7 +3830,7 @@ function renderBurgerMenu() {
   // All synchronous — renders immediately so menu has height
   const totalHrs = hoursFor(() => true).toFixed(1);
   const allTopicsList = topics ? Object.values(topics).flat() : [];
-  const topicsReady = allTopicsList.filter(t => t.status === 'ready').length;
+  const topicsReady = allTopicsList.filter(t => t.status === 'ready' || t.status === 'mastered').length;
   const bestStreak = getBestStreak();
   const papersCount = (papers || []).length;
 
@@ -3781,10 +3848,10 @@ function renderBurgerMenu() {
     <div class="bm-section">
       <div class="bm-section-label">Stats</div>
       <div class="bm-stats-grid">
-        <div class="bm-stat"><div class="bm-stat-val">${totalHrs}h</div><div class="bm-stat-key">Total studied</div></div>
-        <div class="bm-stat"><div class="bm-stat-val">${topicsReady}</div><div class="bm-stat-key">Topics ready</div></div>
-        <div class="bm-stat"><div class="bm-stat-val">${bestStreak}</div><div class="bm-stat-key">Best streak</div></div>
-        <div class="bm-stat"><div class="bm-stat-val">${papersCount}</div><div class="bm-stat-key">Papers logged</div></div>
+        <div class="bm-stat"><div class="bm-stat-val" id="bm-stat-hrs">${totalHrs}h</div><div class="bm-stat-key">Total studied</div></div>
+        <div class="bm-stat"><div class="bm-stat-val" id="bm-stat-topics">${topicsReady}</div><div class="bm-stat-key">Topics ready</div></div>
+        <div class="bm-stat"><div class="bm-stat-val" id="bm-stat-streak">${bestStreak}</div><div class="bm-stat-key">Best streak</div></div>
+        <div class="bm-stat"><div class="bm-stat-val" id="bm-stat-papers">${papersCount}</div><div class="bm-stat-key">Papers logged</div></div>
       </div>
     </div>
     <div class="bm-divider"></div>
@@ -3830,6 +3897,9 @@ function renderBurgerMenu() {
       })
       .catch(() => { _burgerProfileCache = {}; _privacyCache = { ..._privacyDefaults }; });
   }
+
+  // Async-fill stats from Supabase (overrides local cached values with accurate DB counts)
+  if (currentUser) fetchBurgerStats().catch(() => {});
 }
 
 function _refreshBurgerSwatches(activeKey) {
@@ -4411,6 +4481,86 @@ function _renderBones() {
   }).join('');
 }
 
+/* ============ Supabase cache helpers ============ */
+
+// Fetches user's subjects + all topics from Supabase, stores in _sbCache.
+// Also updates _timerSubjects so the focus timer tab stays in sync.
+// Called on login and whenever subjects-view mutates data.
+async function refreshSbCache() {
+  if(!currentUser) return;
+  try {
+    const [subs, tps] = await Promise.all([getSubjects(), getAllTopics()]);
+    _sbCache.subjects = subs || [];
+    _sbCache.allTopics = tps || [];
+
+    // Keep focus-timer subject list in sync
+    if(subs && subs.length){
+      _timerSubjects = subs.map(s => ({ key: s.id, name: s.name }));
+      if(!_timerSubjects.find(s => s.key === curTimerSubject)){
+        curTimerSubject = _timerSubjects[0].key;
+      }
+      renderTimerSubjects();
+    }
+
+    // Re-render dashboard progress + overall % stat
+    renderDashProgress();
+    const rp = overallReady();
+    const rpEl = document.getElementById("readyPct");
+    if(rpEl){
+      rpEl.textContent = rp + "%";
+      const rs = rpEl.closest('.stat');
+      if(rs) rs.style.setProperty('--prog', rp + '%');
+    }
+
+    // Re-render coverage map if currently visible
+    const covEl = document.getElementById("view-coverage");
+    if(covEl && !covEl.classList.contains("hidden")) renderCoverage();
+  } catch(e) {
+    console.warn('[sbCache] refresh failed:', e);
+  }
+}
+window.__refreshSbCache = refreshSbCache;
+
+// Async-fills the burger menu stat values from Supabase (runs after initial sync render)
+async function fetchBurgerStats() {
+  if(!currentUser) return;
+  try {
+    const [{ data: sessData, error: e1 }, { data: topicsData, error: e2 }, { data: papersData, error: e3 }, { data: coData, error: e4 }] = await Promise.all([
+      supabase.from('sessions').select('duration_sec'),
+      supabase.from('topics').select('status'),
+      supabase.from('papers').select('id'),
+      supabase.from('closeout').select('day, value'),
+    ]);
+
+    if(!e1 && sessData){
+      const totalSec = sessData.reduce((a, s) => a + (s.duration_sec || 0), 0);
+      const el = document.getElementById('bm-stat-hrs');
+      if(el) el.textContent = (totalSec / 3600).toFixed(1) + 'h';
+    }
+
+    if(!e2 && topicsData){
+      const ready = topicsData.filter(t => t.status === 'ready' || t.status === 'mastered').length;
+      const el = document.getElementById('bm-stat-topics');
+      if(el) el.textContent = ready;
+    }
+
+    if(!e4 && coData){
+      const yesDays = new Set(coData.filter(r => r.value === 'yes').map(r => r.day));
+      const best = _computeBestStreak(yesDays);
+      const el = document.getElementById('bm-stat-streak');
+      if(el) el.textContent = best;
+      updateBestStreak(best);
+    }
+
+    if(!e3 && papersData){
+      const el = document.getElementById('bm-stat-papers');
+      if(el) el.textContent = papersData.length;
+    }
+  } catch(e) {
+    console.warn('[BurgerStats]', e);
+  }
+}
+
 /* ============ boot ============ */
 updateClock();
 setInterval(updateClock,30000);
@@ -4429,15 +4579,8 @@ function showApp() {
   loadStateFromSupabase().catch(err => {
     console.error("[Auth] Background data load failed (app still usable):", err);
   });
-  // Load user's subjects for the focus timer tabs
-  getSubjects().then(subs => {
-    if (!subs.length) return;
-    _timerSubjects = subs.map(s => ({ key: s.id, name: s.name }));
-    if (!_timerSubjects.find(s => s.key === curTimerSubject)) {
-      curTimerSubject = _timerSubjects[0].key;
-    }
-    renderTimerSubjects();
-  }).catch(() => {});
+  // Load subjects + topics into _sbCache (also updates timer subjects, dash progress, overall %)
+  refreshSbCache().catch(() => {});
   // Check friend requests for notification badge
   checkFriendsBadge();
   // Load todos from Supabase (instant render from localStorage already done at renderDash boot)
