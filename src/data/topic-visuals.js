@@ -13,8 +13,8 @@ export const TOPIC_VISUALS = {
     topics: [
       {
         id: 'cell-structure',
-        name: 'Cell Structure & Organisation',
-        syllabusRef: '1.1',
+        name: 'Cell Structure and Organisation',
+        syllabusRef: '2.1',
         section: 'Cell Biology',
         description: 'All living organisms are made of cells. Animal cells have a nucleus, cell membrane, cytoplasm and mitochondria. Plant cells additionally have a cellulose cell wall, large central vacuole, and chloroplasts containing chlorophyll for photosynthesis.',
         svgKey: 'bio-cell-structure',
@@ -29,7 +29,7 @@ export const TOPIC_VISUALS = {
       {
         id: 'membrane-transport',
         name: 'Movement In and Out of Cells',
-        syllabusRef: '2.1',
+        syllabusRef: '3.1',
         section: 'Transport',
         description: 'Substances move across cell membranes by diffusion (passive, down a concentration gradient), osmosis (water movement across a semi-permeable membrane via water potential gradient), and active transport (against the gradient, requiring ATP and carrier proteins).',
         svgKey: 'bio-membrane-transport',
@@ -44,7 +44,7 @@ export const TOPIC_VISUALS = {
       {
         id: 'biological-molecules',
         name: 'Biological Molecules',
-        syllabusRef: '3.1',
+        syllabusRef: '4.1',
         section: 'Cell Biology',
         description: 'Living organisms contain four main groups of biological molecules: carbohydrates (energy and structure), proteins (structural and functional), lipids (energy storage and insulation), and nucleic acids (genetic information). Each is built from simpler monomers.',
         svgKey: 'bio-biological-molecules',
@@ -59,7 +59,7 @@ export const TOPIC_VISUALS = {
       {
         id: 'enzymes',
         name: 'Enzymes',
-        syllabusRef: '4.1',
+        syllabusRef: '5.1',
         section: 'Cell Biology',
         description: 'Enzymes are biological catalysts made of protein. They have a specific active site that is complementary in shape to their substrate. Enzyme activity is affected by temperature, pH, and substrate concentration — changes can denature the enzyme by altering the shape of the active site.',
         svgKey: 'bio-enzymes',
@@ -73,8 +73,8 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'photosynthesis',
-        name: 'Plant Nutrition (Photosynthesis)',
-        syllabusRef: '5.1',
+        name: 'Plant Nutrition',
+        syllabusRef: '6.1',
         section: 'Nutrition',
         description: 'Photosynthesis converts light energy into chemical energy stored in glucose. Carbon dioxide and water are combined in chloroplasts using light energy to produce glucose and oxygen. Chlorophyll in chloroplasts absorbs light energy for this process.',
         svgKey: 'bio-photosynthesis',
@@ -88,8 +88,8 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'digestion',
-        name: 'Animal Nutrition (Digestion)',
-        syllabusRef: '6.1',
+        name: 'Animal Nutrition',
+        syllabusRef: '7.1',
         section: 'Nutrition',
         description: 'Digestion breaks down large insoluble food molecules into small soluble ones that can be absorbed. Physical digestion increases surface area; chemical digestion uses enzymes. Absorption occurs mainly in the small intestine through villi that increase surface area.',
         svgKey: 'bio-digestion',
@@ -104,7 +104,7 @@ export const TOPIC_VISUALS = {
       {
         id: 'transport-plants',
         name: 'Transport in Plants',
-        syllabusRef: '7.1',
+        syllabusRef: '8.1',
         section: 'Transport',
         description: 'Plants have two transport systems: xylem carries water and dissolved minerals from roots to leaves (transpiration stream); phloem carries dissolved sugars from leaves to all parts of the plant (translocation). Water moves by cohesion-tension in xylem vessels.',
         svgKey: 'bio-transport-plants',
@@ -118,8 +118,8 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'circulatory-system',
-        name: 'Transport in Animals (Circulatory System)',
-        syllabusRef: '8.1',
+        name: 'Transport in Animals',
+        syllabusRef: '9.1',
         section: 'Transport',
         description: 'The mammalian double circulatory system pumps blood via the heart through two separate circuits: pulmonary (to lungs) and systemic (to body). Blood transports oxygen, glucose, hormones, and waste. Arteries carry blood away from the heart; veins carry blood toward it.',
         svgKey: 'bio-circulatory',
@@ -133,8 +133,8 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'immunity',
-        name: 'Pathogens & Immunity',
-        syllabusRef: '9.1',
+        name: 'Pathogens and Immunity',
+        syllabusRef: '10.1',
         section: 'Health & Disease',
         description: 'Pathogens (bacteria, viruses, fungi, protists) cause infectious diseases. The immune system defends the body through non-specific defences (skin, mucus, phagocytosis) and specific immunity (lymphocytes producing antibodies specific to each antigen). Vaccination uses weakened/dead pathogens to stimulate immunity.',
         svgKey: 'bio-immunity',
@@ -193,7 +193,7 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'coordination',
-        name: 'Coordination & Response',
+        name: 'Coordination and Response',
         syllabusRef: '14.1',
         section: 'Coordination',
         description: 'The nervous system detects stimuli and coordinates rapid responses via nerve impulses. Neurons transmit electrical signals; synapses transfer signals chemically between neurons. The endocrine system uses hormones for slower, longer-lasting responses. Reflex arcs bypass the brain for fast protective responses.',
@@ -223,7 +223,7 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'genetics',
-        name: 'Inheritance & Genetics',
+        name: 'Inheritance',
         syllabusRef: '16.1',
         section: 'Reproduction & Genetics',
         description: 'Genes are units of heredity found on chromosomes. Alleles are alternative forms of a gene. Dominant alleles are expressed when present (even one copy); recessive alleles only expressed when homozygous. Punnett squares predict the probability of offspring genotypes and phenotypes.',
@@ -238,7 +238,7 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'variation-selection',
-        name: 'Variation & Natural Selection',
+        name: 'Variation and Selection',
         syllabusRef: '17.1',
         section: 'Reproduction & Genetics',
         description: 'Variation within a species can be continuous (e.g., height — a normal distribution) or discontinuous (e.g., blood group — distinct categories). Natural selection acts on heritable variation: individuals best adapted to their environment survive and reproduce, passing on advantageous alleles.',
@@ -253,7 +253,7 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'ecosystems',
-        name: 'Ecosystems & Biodiversity',
+        name: 'Organisms and their Environment',
         syllabusRef: '18.1',
         section: 'Environment',
         description: 'An ecosystem consists of all living organisms (biotic factors) and physical environment (abiotic factors) in an area. Energy flows through ecosystems via food chains and food webs. Only about 10% of energy is transferred between trophic levels — the rest is lost as heat through respiration.',
@@ -268,7 +268,7 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'human-impact',
-        name: 'Human Impact on the Environment',
+        name: 'Human Influences on Ecosystems',
         syllabusRef: '19.1',
         section: 'Environment',
         description: 'Human activities have major impacts on ecosystems including deforestation, pollution of air/water/land, global warming from greenhouse gas emissions, and loss of biodiversity. Sustainable development seeks to meet present needs without compromising the ability of future generations to meet their own needs.',
@@ -294,7 +294,7 @@ export const TOPIC_VISUALS = {
     topics: [
       {
         id: 'states-of-matter',
-        name: 'States of Matter',
+        name: 'The Particulate Nature of Matter',
         syllabusRef: '1.1',
         section: 'States & Structure',
         description: 'Matter exists in three states: solid (fixed shape and volume, particles in regular lattice with vibration only), liquid (fixed volume, no fixed shape, particles close but mobile), and gas (no fixed shape or volume, particles far apart moving rapidly). Changes of state involve energy transfer without chemical change.',
@@ -310,7 +310,7 @@ export const TOPIC_VISUALS = {
       {
         id: 'atomic-structure',
         name: 'Atomic Structure',
-        syllabusRef: '2.1',
+        syllabusRef: '3.1',
         section: 'States & Structure',
         description: 'An atom consists of a nucleus (protons and neutrons) surrounded by electrons in shells. Proton number (atomic number) defines the element; mass number = protons + neutrons. Isotopes are atoms of the same element with different numbers of neutrons. Electronic configuration determines chemical properties.',
         svgKey: 'chem-atomic-structure',
@@ -354,7 +354,7 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'electrochemistry',
-        name: 'Electrochemistry',
+        name: 'Electricity and Chemistry',
         syllabusRef: '5.1',
         section: 'Electrochemistry',
         description: 'Electrolysis uses electrical energy to drive non-spontaneous chemical reactions. Ions move through electrolyte to electrodes: cations (+) to cathode (−), anions (−) to anode (+). Electroplating deposits a thin metal layer. Electrolysis of brine produces chlorine, hydrogen, and sodium hydroxide.',
@@ -384,7 +384,7 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'reaction-rates',
-        name: 'Chemical Reactions (Rates & Reversibility)',
+        name: 'Chemical Reactions',
         syllabusRef: '7.1',
         section: 'Reactions',
         description: 'Reaction rate measures how quickly reactants are converted to products. Factors affecting rate: concentration, temperature, surface area, pressure (gases), and catalysts. A reversible reaction reaches dynamic equilibrium when forward and reverse rates are equal. Le Chatelier\'s principle predicts shifts in equilibrium.',
@@ -399,7 +399,7 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'acids-bases',
-        name: 'Acids, Bases & Salts',
+        name: 'Acids, Bases and Salts',
         syllabusRef: '8.1',
         section: 'Reactions',
         description: 'Acids produce H⁺ ions in solution (pH < 7). Bases accept H⁺ ions (proton acceptors). Alkalis are soluble bases producing OH⁻ ions (pH > 7). Neutralisation: acid + base → salt + water. Salts are prepared by reactions of acids with metals, metal oxides, carbonates, or hydroxides.',
@@ -444,7 +444,7 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'air-water',
-        name: 'Air & Water (Environmental Chemistry)',
+        name: 'Air and Water',
         syllabusRef: '11.1',
         section: 'Environmental Chemistry',
         description: 'The atmosphere is approximately 78% nitrogen, 21% oxygen, 0.04% carbon dioxide, and trace gases. Water is essential for life — it is a good solvent, has a high specific heat capacity, and is abundant. Pollution threatens water quality (heavy metals, fertilisers) and air quality (SO₂, NOₓ, CO).',
@@ -459,7 +459,7 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'sulfur-chemistry',
-        name: 'Sulfur Chemistry',
+        name: 'Sulfur',
         syllabusRef: '12.1',
         section: 'Environmental Chemistry',
         description: 'Sulfur is a yellow solid non-metal. Sulfur dioxide (SO₂) causes acid rain. The Contact Process manufactures sulfuric acid: sulfur is burned to SO₂, catalytically oxidised to SO₃ (vanadium pentoxide catalyst), then absorbed in concentrated H₂SO₄. Sulfuric acid is a major industrial chemical.',
@@ -519,8 +519,8 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'lab-techniques',
-        name: 'Experimental Techniques & Analysis',
-        syllabusRef: '16.1',
+        name: 'Experimental Techniques and Measurements',
+        syllabusRef: '2.1',
         section: 'Lab Techniques',
         description: 'Key experimental techniques include filtration (separating insoluble solids), evaporation and crystallisation (obtaining salts), distillation (separating miscible liquids by boiling point), chromatography (separating mixtures by Rf values), and identification of ions by flame tests and precipitation reactions.',
         svgKey: 'chem-lab-techniques',
@@ -545,7 +545,7 @@ export const TOPIC_VISUALS = {
     topics: [
       {
         id: 'measurements',
-        name: 'Measurements & Units',
+        name: 'Physical Quantities and Measurement',
         syllabusRef: '1.1',
         section: 'Forces & Motion',
         description: 'Physics relies on precise measurements using SI units. Scalar quantities have magnitude only (e.g., speed, mass); vector quantities have magnitude and direction (e.g., velocity, force). Significant figures indicate precision. Systematic and random errors affect measurement accuracy and precision.',
@@ -560,8 +560,8 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'motion',
-        name: 'Motion (Speed, Velocity, Acceleration)',
-        syllabusRef: '2.1',
+        name: 'Motion',
+        syllabusRef: '1.2',
         section: 'Forces & Motion',
         description: 'Speed is distance/time; velocity is displacement/time (vector). Acceleration = change in velocity/time. Distance-time graphs: gradient = speed. Velocity-time graphs: gradient = acceleration; area under graph = distance. Uniform acceleration is described by the equations of motion (SUVAT).',
         svgKey: 'phys-motion',
@@ -575,8 +575,8 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'forces',
-        name: 'Forces & Newton\'s Laws',
-        syllabusRef: '3.1',
+        name: 'Forces',
+        syllabusRef: '1.5',
         section: 'Forces & Motion',
         description: 'Newton\'s three laws govern motion: 1st — an object remains at rest or moves at constant velocity unless acted on by a resultant force; 2nd — F = ma; 3rd — every action has an equal and opposite reaction. Friction, weight, normal reaction, and tension are common forces. Moments (torques) cause rotation.',
         svgKey: 'phys-forces',
@@ -591,7 +591,7 @@ export const TOPIC_VISUALS = {
       {
         id: 'momentum',
         name: 'Momentum',
-        syllabusRef: '4.1',
+        syllabusRef: '1.6',
         section: 'Forces & Motion',
         description: 'Momentum = mass × velocity. The law of conservation of momentum states that the total momentum in a closed system remains constant when no external force acts. Impulse = force × time = change in momentum. Collisions can be elastic (KE conserved) or inelastic (KE not conserved).',
         svgKey: 'phys-momentum',
@@ -605,8 +605,8 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'energy-work-power',
-        name: 'Energy, Work & Power',
-        syllabusRef: '5.1',
+        name: 'Energy, Work and Power',
+        syllabusRef: '1.7',
         section: 'Energy',
         description: 'Work done = force × distance (in direction of force). Energy is the capacity to do work. Kinetic energy = ½mv²; gravitational potential energy = mgh. The principle of conservation of energy states that energy cannot be created or destroyed — only transferred or transformed. Power = work done/time.',
         svgKey: 'phys-energy',
@@ -621,7 +621,7 @@ export const TOPIC_VISUALS = {
       {
         id: 'pressure',
         name: 'Pressure',
-        syllabusRef: '6.1',
+        syllabusRef: '1.8',
         section: 'Forces & Motion',
         description: 'Pressure = force/area. In fluids, pressure increases with depth (P = ρgh). Atmospheric pressure decreases with altitude. Gas pressure is caused by molecular collisions with container walls. Pascal\'s principle states that pressure in a fluid is transmitted equally in all directions.',
         svgKey: 'phys-pressure',
@@ -636,7 +636,7 @@ export const TOPIC_VISUALS = {
       {
         id: 'thermal-physics',
         name: 'Thermal Physics',
-        syllabusRef: '7.1',
+        syllabusRef: '2.1',
         section: 'Thermal Physics',
         description: 'Temperature measures the average kinetic energy of particles. Heat is thermal energy transfer. Specific heat capacity (c) is energy needed to raise 1 kg of substance by 1 K. Specific latent heat is energy for change of state. Heat transfers by conduction, convection, and radiation.',
         svgKey: 'phys-thermal',
@@ -650,8 +650,8 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'waves',
-        name: 'Properties of Waves',
-        syllabusRef: '8.1',
+        name: 'General Wave Properties',
+        syllabusRef: '3.1',
         section: 'Waves',
         description: 'Waves transfer energy without transferring matter. Transverse waves oscillate perpendicular to the direction of travel (e.g., light, water waves); longitudinal waves oscillate parallel (e.g., sound). Key properties: frequency (Hz), wavelength (m), amplitude, and speed. Wave equation: v = fλ.',
         svgKey: 'phys-waves',
@@ -665,8 +665,8 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'light',
-        name: 'Light (Reflection, Refraction & Lenses)',
-        syllabusRef: '9.1',
+        name: 'Light',
+        syllabusRef: '3.2',
         section: 'Waves',
         description: 'Light travels in straight lines and reflects according to the law of reflection (angle of incidence = angle of reflection). Refraction occurs at boundaries between media with different optical densities. Lenses converge (convex) or diverge (concave) light. Total internal reflection occurs when the angle exceeds the critical angle.',
         svgKey: 'phys-light',
@@ -681,7 +681,7 @@ export const TOPIC_VISUALS = {
       {
         id: 'em-spectrum',
         name: 'Electromagnetic Spectrum',
-        syllabusRef: '10.1',
+        syllabusRef: '3.3',
         section: 'Waves',
         description: 'The electromagnetic spectrum is a family of transverse waves that all travel at 3×10⁸ m/s in a vacuum. In order of increasing frequency (decreasing wavelength): radio → microwave → infrared → visible light → UV → X-rays → gamma rays. Each has distinct properties and applications.',
         svgKey: 'phys-em-spectrum',
@@ -696,7 +696,7 @@ export const TOPIC_VISUALS = {
       {
         id: 'sound',
         name: 'Sound',
-        syllabusRef: '11.1',
+        syllabusRef: '3.4',
         section: 'Waves',
         description: 'Sound is a longitudinal mechanical wave produced by vibrating objects. It requires a medium to travel — it cannot travel through a vacuum. Speed of sound in air ≈ 340 m/s (much slower than light). Frequency determines pitch; amplitude determines loudness. Ultrasound (>20,000 Hz) is used in medicine and sonar.',
         svgKey: 'phys-sound',
@@ -710,8 +710,8 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'magnetism',
-        name: 'Magnetism',
-        syllabusRef: '12.1',
+        name: 'Simple Phenomena of Magnetism',
+        syllabusRef: '4.1',
         section: 'Electricity & Magnetism',
         description: 'Magnetic materials (iron, steel, nickel, cobalt) are attracted to magnets. Permanent magnets retain magnetism; soft iron cores are temporary. Magnetic field lines run from N to S pole outside the magnet. An electric current produces a magnetic field — this is the basis of electromagnets and electric motors.',
         svgKey: 'phys-magnetism',
@@ -725,8 +725,8 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'electricity',
-        name: 'Electricity (Charge, Current, Voltage, Resistance)',
-        syllabusRef: '13.1',
+        name: 'Electrical Quantities',
+        syllabusRef: '4.2',
         section: 'Electricity & Magnetism',
         description: 'Electric current is the rate of flow of charge (I = Q/t). Potential difference (voltage) is the energy transferred per unit charge (V = W/Q). Resistance opposes current flow (R = V/I). Ohm\'s law states that current is directly proportional to voltage at constant temperature. Power P = IV = I²R.',
         svgKey: 'phys-electricity',
@@ -741,7 +741,7 @@ export const TOPIC_VISUALS = {
       {
         id: 'electric-circuits',
         name: 'Electric Circuits',
-        syllabusRef: '14.1',
+        syllabusRef: '4.3',
         section: 'Electricity & Magnetism',
         description: 'In series circuits, current is the same throughout; voltages add up; total resistance = sum of individual resistances. In parallel circuits, voltage is the same across each branch; currents add up; total resistance is less than any individual resistance. Ammeters are connected in series; voltmeters in parallel.',
         svgKey: 'phys-circuits',
@@ -756,7 +756,7 @@ export const TOPIC_VISUALS = {
       {
         id: 'em-effects',
         name: 'Electromagnetic Effects',
-        syllabusRef: '15.1',
+        syllabusRef: '4.7',
         section: 'Electricity & Magnetism',
         description: 'Electromagnetic induction: a changing magnetic flux through a conductor induces an EMF (Faraday\'s law). The magnitude of induced EMF depends on the rate of change of flux. Lenz\'s law gives the direction. Transformers use mutual induction to change AC voltage. Generators and motors are also electromagnetic devices.',
         svgKey: 'phys-em-effects',
@@ -770,8 +770,8 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'nuclear-physics',
-        name: 'Nuclear Physics & Radioactivity',
-        syllabusRef: '16.1',
+        name: 'Radioactivity',
+        syllabusRef: '5.2',
         section: 'Nuclear & Space',
         description: 'The nucleus contains protons and neutrons. Unstable nuclei emit radiation: alpha (α, helium nucleus, ++, stopped by paper), beta (β, electron, +, stopped by aluminium), gamma (γ, EM wave, stopped by thick lead). Half-life is the time for half the radioactive nuclei to decay. Nuclear fission and fusion release enormous energy.',
         svgKey: 'phys-nuclear',
@@ -786,7 +786,7 @@ export const TOPIC_VISUALS = {
       {
         id: 'space-physics',
         name: 'Space Physics',
-        syllabusRef: '17.1',
+        syllabusRef: '5.3',
         section: 'Nuclear & Space',
         description: 'Stars form from collapsing clouds of gas and dust (nebulae). The life cycle depends on mass: main sequence → red giant → white dwarf (small stars); or → red supergiant → supernova → neutron star/black hole (massive stars). The universe began with the Big Bang ~13.8 billion years ago and is expanding, evidenced by galactic redshift.',
         svgKey: 'phys-space',
@@ -811,7 +811,7 @@ export const TOPIC_VISUALS = {
     topics: [
       {
         id: 'living-organisms',
-        name: 'Nature & Variety of Living Organisms',
+        name: 'The Nature and Variety of Living Organisms',
         syllabusRef: 'B1',
         section: 'Variety of Life',
         description: 'All living organisms share seven characteristics (MRS GREN: Movement, Respiration, Sensitivity, Growth, Reproduction, Excretion, Nutrition). Organisms are classified into five kingdoms: animal, plant, fungus, prokaryote, and protoctist. Eukaryotic cells have a membrane-bound nucleus; prokaryotic cells do not. Viruses are non-cellular and can only reproduce inside host cells.',
@@ -826,7 +826,7 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'cell-organisation',
-        name: 'Structures & Functions in Living Organisms',
+        name: 'Structures and Functions in Living Organisms',
         syllabusRef: 'B2',
         section: 'Cell Biology',
         description: 'Cells are organised into tissues (groups of similar cells), organs (groups of tissues), and organ systems. Animal cells contain a nucleus, cell membrane, cytoplasm, mitochondria, and ribosomes. Plant cells additionally have a cellulose cell wall, chloroplasts, and a large permanent vacuole. Bacterial cells are prokaryotic — they have a cell wall, cell membrane, circular DNA, ribosomes, and sometimes flagella, but no nucleus.',
@@ -841,8 +841,8 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'nutrition',
-        name: 'Nutrition (Photosynthesis & Human Digestion)',
-        syllabusRef: 'B3',
+        name: 'Nutrition',
+        syllabusRef: 'B2',
         section: 'Nutrition',
         description: 'Photosynthesis converts light energy into chemical energy stored as glucose: CO₂ + H₂O → C₆H₁₂O₆ + O₂ (using light + chlorophyll). Rate is affected by light intensity, CO₂ concentration, and temperature. Human nutrition involves ingestion, digestion (physical and chemical), absorption, and assimilation. Enzymes break down carbohydrates (amylase), proteins (protease), and lipids (lipase) along the alimentary canal.',
         svgKey: 'ebi-nutrition',
@@ -857,7 +857,7 @@ export const TOPIC_VISUALS = {
       {
         id: 'respiration',
         name: 'Respiration',
-        syllabusRef: 'B4',
+        syllabusRef: 'B2',
         section: 'Physiology',
         description: 'Respiration releases chemical energy from glucose as ATP. Aerobic respiration uses oxygen: C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + energy. It occurs in mitochondria and produces maximum ATP. Anaerobic respiration occurs without oxygen — in animals produces lactic acid (causing oxygen debt and muscle fatigue); in yeast produces ethanol + CO₂ (fermentation). Anaerobic releases much less ATP.',
         svgKey: 'ebi-respiration',
@@ -872,7 +872,7 @@ export const TOPIC_VISUALS = {
       {
         id: 'gas-exchange',
         name: 'Gas Exchange',
-        syllabusRef: 'B5',
+        syllabusRef: 'B2',
         section: 'Physiology',
         description: 'Gas exchange occurs across thin, moist, permeable surfaces with a large surface area and a maintained concentration gradient. In plants, CO₂ and O₂ diffuse through stomata in leaves; spongy mesophyll provides large internal surface area. In humans, the lungs contain alveoli — tiny air sacs with a single-cell-thick wall, rich capillary network, moist surface, and large total surface area for efficient O₂/CO₂ exchange.',
         svgKey: 'ebi-gas-exchange',
@@ -886,8 +886,8 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'transport',
-        name: 'Transport (Plants & Humans)',
-        syllabusRef: 'B6',
+        name: 'Transport in Organisms',
+        syllabusRef: 'B2',
         section: 'Physiology',
         description: 'Plants have xylem (water + mineral ions, root → leaves, transpiration stream, dead cells, lignified walls) and phloem (dissolved sugars, translocation, living sieve tubes). Humans have a double circulatory system: pulmonary (heart → lungs → heart) and systemic (heart → body → heart). Blood contains red blood cells (haemoglobin for O₂), white blood cells (defence), platelets (clotting), and plasma (transport medium).',
         svgKey: 'ebi-transport',
@@ -902,7 +902,7 @@ export const TOPIC_VISUALS = {
       {
         id: 'excretion',
         name: 'Excretion',
-        syllabusRef: 'B7',
+        syllabusRef: 'B2',
         section: 'Physiology',
         description: 'Excretion is the removal of metabolic waste products from the body. The kidneys filter blood to remove urea (from amino acid breakdown in the liver), excess water, and excess salts as urine. The lungs excrete CO₂ produced in respiration. The skin excretes small amounts of urea in sweat. Kidneys regulate blood composition by ultrafiltration (high pressure forces small molecules out) and selective reabsorption (glucose, most water, and salts are reabsorbed).',
         svgKey: 'ebi-excretion',
@@ -917,7 +917,7 @@ export const TOPIC_VISUALS = {
       {
         id: 'reproduction',
         name: 'Reproduction',
-        syllabusRef: 'B8',
+        syllabusRef: 'B3',
         section: 'Physiology',
         description: 'Sexual reproduction involves the fusion of two gametes (egg + sperm), producing genetic variation. In plants, pollination transfers pollen; fertilisation forms seeds inside fruits. Asexual reproduction uses mitosis to produce genetically identical offspring (clones) from one parent — faster but no variation. Mitosis produces two genetically identical daughter cells for growth and repair; meiosis produces four genetically varied haploid gametes. Hormones (FSH, LH, oestrogen, progesterone) regulate the human menstrual cycle.',
         svgKey: 'ebi-reproduction',
@@ -931,8 +931,8 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'nervous-hormones',
-        name: 'Nervous System & Hormones',
-        syllabusRef: 'B9',
+        name: 'Nervous System and Hormones',
+        syllabusRef: 'B2',
         section: 'Coordination',
         description: 'The nervous system coordinates rapid responses via electrical impulses. Receptors detect stimuli; sensory neurons carry impulses to the CNS; motor neurons carry impulses to effectors. Synapses transmit signals between neurons using neurotransmitters. Reflex arcs bypass the brain for fast, involuntary protective responses. The endocrine system uses hormones (chemical messengers in blood) for slower, longer-lasting responses. Key hormones: insulin (blood glucose), adrenaline (fight-or-flight), sex hormones.',
         svgKey: 'ebi-nervous-system',
@@ -947,7 +947,7 @@ export const TOPIC_VISUALS = {
       {
         id: 'homeostasis',
         name: 'Homeostasis',
-        syllabusRef: 'B10',
+        syllabusRef: 'B2',
         section: 'Coordination',
         description: 'Homeostasis maintains a constant internal environment despite external changes. Body temperature is regulated at 37°C: if too hot, blood vessels vasodilate and sweating increases to cool down; if too cold, shivering and vasoconstriction warm the body. Blood glucose is regulated by insulin (secreted by β-cells of the pancreas when glucose rises — promotes uptake and glycogen storage) and glucagon (when glucose falls — promotes glycogen breakdown). Both operate via negative feedback.',
         svgKey: 'ebi-homeostasis',
@@ -961,8 +961,8 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'genetics-inheritance',
-        name: 'Genetics & Inheritance',
-        syllabusRef: 'B11',
+        name: 'Genetics and Inheritance',
+        syllabusRef: 'B3',
         section: 'Genetics & Evolution',
         description: 'Chromosomes carry genes; genes are specific sequences of DNA bases that code for proteins. Alleles are alternative versions of a gene. Dominant alleles are expressed even when only one copy is present; recessive alleles are only expressed when homozygous. Punnett squares predict offspring ratios. Sex is determined by X and Y chromosomes: females XX, males XY. Some traits are sex-linked (e.g., colour blindness, haemophilia — carried on X chromosome).',
         svgKey: 'ebi-genetics',
@@ -976,8 +976,8 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'variation-selection',
-        name: 'Variation & Natural Selection',
-        syllabusRef: 'B12',
+        name: 'Variation and Evolution',
+        syllabusRef: 'B3',
         section: 'Genetics & Evolution',
         description: 'Variation can be continuous (measured on a scale, e.g., height — shows normal distribution) or discontinuous (distinct categories, e.g., blood group). Causes include genetic (mutations, sexual reproduction mixing alleles) and environmental factors. Natural selection: organisms produce more offspring than survive; those with beneficial variations are more likely to survive and reproduce, passing on advantageous alleles. Over generations, allele frequencies change — evolution. Mutations are the source of new alleles.',
         svgKey: 'ebi-variation',
@@ -991,8 +991,8 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'ecology',
-        name: 'Ecology & Environment',
-        syllabusRef: 'B13',
+        name: 'Ecology and the Environment',
+        syllabusRef: 'B4',
         section: 'Ecology',
         description: 'An ecosystem includes all organisms in an area plus abiotic factors. Producers (plants) convert light energy into biomass; consumers eat other organisms. Energy is lost at each trophic level (respiration, heat, faeces) — only ~10% transfers to the next level. The carbon cycle involves photosynthesis, respiration, decomposition, and combustion. The nitrogen cycle involves nitrogen-fixing bacteria, nitrifying bacteria, and denitrifying bacteria. Human impacts: deforestation, pollution, eutrophication, global warming.',
         svgKey: 'ebi-ecology',
@@ -1007,7 +1007,7 @@ export const TOPIC_VISUALS = {
       {
         id: 'biological-resources',
         name: 'Use of Biological Resources',
-        syllabusRef: 'B14',
+        syllabusRef: 'B5',
         section: 'Ecology',
         description: 'Selective breeding (artificial selection) improves crop yields and animal products by selecting individuals with desirable traits over many generations. Microorganisms are used in food production (bread/yogurt/cheese/beer via fermentation). Industrial fermenters maintain optimal conditions (temperature, pH, nutrient supply) for microorganism growth. Genetic engineering inserts specific genes into organisms to produce useful proteins (e.g., human insulin from bacteria). Gene therapy may one day treat genetic disorders.',
         svgKey: 'ebi-biological-resources',
@@ -1092,8 +1092,8 @@ export const TOPIC_VISUALS = {
       },
       {
         id: 'acids-bases-salts',
-        name: 'Acids, Bases & Salts',
-        syllabusRef: 'C5',
+        name: 'Acids, Bases and Salts',
+        syllabusRef: 'C2',
         section: 'Applied',
         description: 'Acids release H⁺ ions in solution (pH < 7); bases accept H⁺ ions. Alkalis are soluble bases (pH > 7). Neutralisation: acid + base → salt + water. Salts are prepared by reacting acids with metals, metal oxides, hydroxides, or carbonates. Strong acids (HCl, H₂SO₄, HNO₃) fully dissociate; weak acids (CH₃COOH) partially dissociate. Titration determines the exact volume of acid/alkali for neutralisation. The pH scale (0–14) measures H⁺ concentration.',
         svgKey: 'ech-acids-bases',
@@ -1108,7 +1108,7 @@ export const TOPIC_VISUALS = {
       {
         id: 'electrolysis',
         name: 'Electrolysis',
-        syllabusRef: 'C6',
+        syllabusRef: 'C2',
         section: 'Applied',
         description: 'Electrolysis uses electrical energy to decompose ionic compounds. Ions in molten or aqueous electrolytes are free to move. Cations (positive) move to the cathode (negative electrode) and are reduced. Anions (negative) move to the anode (positive electrode) and are oxidised. Electrolysis of brine (NaCl solution) produces chlorine at the anode, hydrogen at the cathode, and sodium hydroxide solution. Electroplating coats a metal object with a thin layer of another metal.',
         svgKey: 'ech-electrolysis',
@@ -1123,7 +1123,7 @@ export const TOPIC_VISUALS = {
       {
         id: 'industrial',
         name: 'Industrial Processes',
-        syllabusRef: 'C7',
+        syllabusRef: 'C3',
         section: 'Applied',
         description: 'The Haber Process manufactures ammonia from nitrogen and hydrogen: N₂ + 3H₂ ⇌ 2NH₃ (iron catalyst, 450°C, 200 atm). The Contact Process manufactures sulfuric acid: S → SO₂ → SO₃ (V₂O₅ catalyst, 450°C) → H₂SO₄. The blast furnace extracts iron from iron ore using coke (carbon monoxide reduction). Electrolysis extracts aluminium from purified Al₂O₃. Conditions in industrial processes represent economic compromises between yield, rate, and cost.',
         svgKey: 'ech-industrial',
