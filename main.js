@@ -24,6 +24,8 @@ import {
 import { BONES, BONE_REGIONS } from './src/data/bones.js';
 import { BONE_DIAGRAMS } from './src/data/bone-diagrams.js';
 import { getPastPapersForCode, filterIBPapers } from './src/data/past-papers.js';
+import { TOPIC_VISUALS, getTopicVisualsKey } from './src/data/topic-visuals.js';
+import { TOPIC_SVGS } from './src/data/topic-svgs-igcse-cambridge.js';
 
 // Apply theme + font scale from localStorage immediately — avoids FOUC before auth resolves
 loadSavedTheme();
@@ -2160,9 +2162,21 @@ async function renderCoverage(){
         sq.title = t.name;
 
         sq.addEventListener("click", () => {
+          // If subject has topic visuals, open visual modal
+          const tvKey = getTopicVisualsKey(subj);
+          if (tvKey && TOPIC_VISUALS[tvKey]) {
+            const tvTopic = TOPIC_VISUALS[tvKey].topics.find(tv =>
+              tv.name.toLowerCase() === t.name.toLowerCase() ||
+              t.name.toLowerCase().includes(tv.name.toLowerCase().split(' ')[0].toLowerCase())
+            );
+            if (tvTopic) {
+              openTopicVisualModal(tvKey, tvTopic.id);
+              return;
+            }
+          }
+          // Fallback: navigate to subjects view and highlight topic
           go("subjects");
           setTimeout(() => {
-            // subjects-view uses sbSelectSubject(id) in onclick attr
             const tabBtn = document.querySelector(`#sb-tabs button[onclick*="${subj.id}"]`);
             if(tabBtn) tabBtn.click();
             setTimeout(() => {
@@ -4295,6 +4309,49 @@ window.openBonesModal = function() {
 
 window.closeBonesModal = function() {
   document.getElementById('bones-modal')?.classList.add('hidden');
+};
+
+// ── Topic Visual Modal ────────────────────────────────────────────────────
+window.openTopicVisualModal = function(tvKey, topicId) {
+  const data = TOPIC_VISUALS[tvKey];
+  if (!data) return;
+  const topic = data.topics.find(t => t.id === topicId);
+  if (!topic) return;
+
+  const modal = document.getElementById('tv-modal');
+  if (!modal) return;
+
+  document.getElementById('tv-subj-tag').textContent = data.subjectName + (data.examCode ? ' · ' + data.examCode : '');
+  document.getElementById('tv-topic-name').textContent = topic.name;
+  document.getElementById('tv-syllabus').textContent = topic.syllabusRef ? 'Syllabus ' + topic.syllabusRef : '';
+
+  const svg = topic.svgKey && TOPIC_SVGS[topic.svgKey] ? TOPIC_SVGS[topic.svgKey] : '';
+  const lmHtml = (topic.landmarks || []).map(l => `<span class="tv-lm-tag">${l}</span>`).join('');
+  const qaHtml = (topic.examQA || []).map((qa, i) => `
+    <div class="tv-qa-item">
+      <button class="tv-qa-q" onclick="tvToggleQa(this)">
+        <span>${qa.q}</span><span class="tv-qa-chevron">▾</span>
+      </button>
+      <div class="tv-qa-a">${qa.a}${qa.year ? `<span class="tv-qa-year">${qa.year}</span>` : ''}</div>
+    </div>`).join('');
+
+  document.getElementById('tv-body').innerHTML = `
+    ${svg ? `<div class="tv-svg-wrap">${svg}</div>` : ''}
+    <p class="tv-desc">${topic.description || ''}</p>
+    ${lmHtml ? `<div><div class="tv-landmarks-label">Key concepts</div><div class="tv-landmarks">${lmHtml}</div></div>` : ''}
+    ${qaHtml ? `<div><div class="tv-qa-label">Exam Q&amp;A</div><div class="tv-qa">${qaHtml}</div></div>` : ''}
+    ${topic.wikiUrl ? `<a class="tv-wiki-link" href="${topic.wikiUrl}" target="_blank" rel="noopener">↗ Wikipedia</a>` : ''}
+  `;
+
+  modal.classList.remove('hidden');
+};
+
+window.closeTopicVisualModal = function() {
+  document.getElementById('tv-modal')?.classList.add('hidden');
+};
+
+window.tvToggleQa = function(btn) {
+  btn.closest('.tv-qa-item').classList.toggle('open');
 };
 
 window.bonesSearchInput = function(q) {

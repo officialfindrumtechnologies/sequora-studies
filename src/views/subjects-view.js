@@ -7,6 +7,8 @@ import { QUAL_BOARDS, isIB } from '../lib/qualboards.js';
 import {
   getTopics, createTopic, updateTopic, deleteTopic, bulkInsertTopics, reorderTopics,
 } from '../data/topics.js';
+import { TOPIC_VISUALS, getTopicVisualsKey } from '../data/topic-visuals.js';
+import { TOPIC_SVGS } from '../data/topic-svgs-igcse-cambridge.js';
 
 // ── state ──────────────────────────────────────────────────────────────────
 const sv = {
@@ -765,12 +767,25 @@ function renderTopicPanel() {
     const cyc  = tp.status === 'ready' ? 'ready' : tp.status === 'learning' ? 'learning' : '';
     const mark = tp.status === 'ready' ? '✓' : tp.status === 'learning' ? '~' : '';
 
+    const activeSubj = sv.subjects.find(s => s.id === sv.activeId);
+    const tvKey = activeSubj ? getTopicVisualsKey(activeSubj) : null;
+    const tvData = tvKey ? TOPIC_VISUALS[tvKey] : null;
+    const tvTopic = tvData ? tvData.topics.find(tv =>
+      tv.name.toLowerCase() === tp.name.toLowerCase() ||
+      tp.name.toLowerCase().includes(tv.name.toLowerCase().split(' ')[0].toLowerCase())
+    ) : null;
+    const hasVisual = !!(tvTopic && tvTopic.svgKey && TOPIC_SVGS[tvTopic.svgKey]);
+    const visualBtn = hasVisual
+      ? `<button class="btn sm ghost" onclick="openTopicVisualModal('${tvKey}','${tvTopic.id}')" title="View diagram">◈</button>`
+      : '';
+
     row.innerHTML = `
       <div class="cyc ${cyc}" onclick="sbCycleStatus('${tp.id}')">${mark}</div>
       <span class="nm" onclick="sbStartEditName('${tp.id}')" title="Click to rename">${esc(tp.name)}</span>
       ${isNext ? '<span class="nextpill">next</span>' : ''}
       <span class="tag sec-tag" onclick="sbStartEditSection('${tp.id}')" title="Click to change section">${tp.section ? esc(tp.section) : '<em style="opacity:.4">section</em>'}</span>
       <div class="sb-row-actions">
+        ${visualBtn}
         <button class="btn sm ghost" onclick="sbMoveTopicUp('${tp.id}')" ${idx === 0 ? 'disabled' : ''} title="Move up">↑</button>
         <button class="btn sm ghost" onclick="sbMoveTopicDown('${tp.id}')" ${idx === t.length - 1 ? 'disabled' : ''} title="Move down">↓</button>
         <button class="btn sm ghost danger" onclick="sbDeleteTopic('${tp.id}')" title="Remove">×</button>
