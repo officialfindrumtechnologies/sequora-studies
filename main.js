@@ -7,10 +7,11 @@ import { saveTheme, loadThemeFromDB, updateProfile } from './src/data/profiles.j
 import {
   showOnboarding,
   hideOnboarding,
-  wizNext, wizBack, wizBoardChange, wizNoDateToggle,
+  wizNext, wizBack, wizQualChange, wizBoardChange, wizNoDateToggle,
   wizAddFromTemplate, wizAddManual, wizRemoveSubject, wizComplete,
   wizMigrate, wizSkipMigration,
 } from './src/auth/onboarding.js';
+import { QUAL_BOARDS, resolveQualBoard, formatQualBoard, isMbbs, NO_DATE_QUALS } from './src/lib/qualboards.js';
 import { getSubscription, submitBkashPayment } from './src/data/subscriptions.js';
 import { initSubjectsView, setSubjectsViewTier } from './src/views/subjects-view.js';
 import { getSubjects } from './src/data/subjects.js';
@@ -21,6 +22,7 @@ import {
 } from './src/data/friends.js';
 import { BONES, BONE_REGIONS } from './src/data/bones.js';
 import { BONE_DIAGRAMS } from './src/data/bone-diagrams.js';
+import { getPastPapersForCode } from './src/data/past-papers.js';
 
 // Apply theme + font scale from localStorage immediately — avoids FOUC before auth resolves
 loadSavedTheme();
@@ -2126,6 +2128,204 @@ function renderCoverage(){
   if(pctEl) pctEl.textContent = (totAll ? Math.round(readyAll/totAll*100) : 0) + "%";
 }
 
+/* ============ past papers ============ */
+let _ppTab = 'papers';
+let _ppActiveCode = null; // exam_code currently viewing papers for
+let _ppActiveUrl = null;  // current PDF URL for "open in new tab"
+let _ppUserSubjects = []; // cached subjects from Supabase
+
+function ppSwitchTab(tab) {
+  _ppTab = tab;
+  const papersSection = document.getElementById('pp-papers-section');
+  const errorsSection = document.getElementById('pp-errors-section');
+  document.querySelectorAll('.pp-subtab').forEach(b => {
+    b.classList.toggle('active', b.id === 'pp-tab-' + tab);
+  });
+  if (papersSection) papersSection.classList.toggle('hidden', tab !== 'papers');
+  if (errorsSection) errorsSection.classList.toggle('hidden', tab !== 'errors');
+  if (tab === 'errors') { fillSubjSelects(); renderLogs(); }
+}
+window.ppSwitchTab = ppSwitchTab;
+
+async function initPastPapers() {
+  _ppActiveCode = null;
+  _ppTab = 'papers';
+  // reset tab UI
+  document.querySelectorAll('.pp-subtab').forEach(b => b.classList.toggle('active', b.id === 'pp-tab-papers'));
+  const papersSection = document.getElementById('pp-papers-section');
+  const errorsSection = document.getElementById('pp-errors-section');
+  if (papersSection) papersSection.classList.remove('hidden');
+  if (errorsSection) errorsSection.classList.add('hidden');
+
+  if (!currentUser) {
+    _renderPpEmpty('Sign in to see your subjects and past papers.');
+    return;
+  }
+  _renderPpEmpty('Loading subjects…');
+  try {
+    _ppUserSubjects = await getSubjects();
+  } catch (e) {
+    _ppUserSubjects = [];
+  }
+  _renderPpSubjectList();
+}
+
+function _renderPpEmpty(msg) {
+  const el = document.getElementById('pp-content');
+  if (el) el.innerHTML = `<div class="pp-empty">${msg}</div>`;
+}
+
+function _ppEsc(s) {
+  return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function _renderPpSubjectList() {
+  const el = document.getElementById('pp-content');
+  if (!el) return;
+  if (!_ppUserSubjects.length) {
+    el.innerHTML = '<div class="pp-empty">No subjects added yet.<br>Go to <b>Subjects</b> tab to add your subjects, then come back here.</div>';
+    return;
+  }
+  let html = '<div class="pp-subj-grid">';
+  for (const subj of _ppUserSubjects) {
+    const data = getPastPapersForCode(subj.exam_code);
+    const hasData = !!data;
+    html += `<div class="pp-subj-card" onclick="${hasData ? `ppSelectSubject('${_ppEsc(subj.exam_code)}')` : ''}">
+      <div class="pp-subj-name">${_ppEsc(subj.name)}</div>
+      ${subj.exam_code ? `<div class="pp-subj-code">${_ppEsc(subj.exam_code)}</div>` : ''}
+      ${data ? `<div class="pp-subj-meta">${_ppEsc(data.qualification)} · ${_ppEsc(data.examBoard)}</div>` : `<div class="pp-subj-no-data">No paper data available</div>`}
+      ${hasData ? '<div class="pp-subj-arrow">→ View papers</div>' : ''}
+    </div>`;
+  }
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+function ppSelectSubject(examCode) {
+  _ppActiveCode = examCode;
+  const el = document.getElementById('pp-content');
+  if (!el) return;
+
+  const subj = _ppUserSubjects.find(s => (s.exam_code || '').toUpperCase() === examCode.toUpperCase());
+  const data = getPastPapersForCode(examCode);
+  if (!data) { _renderPpSubjectList(); return; }
+
+  // Group papers: year → session → paper label → [QP, MS]
+  const byYear = {};
+  for (const p of data.papers) {
+    if (!byYear[p.year]) byYear[p.year] = {};
+    const yr = byYear[p.year];
+    if (!yr[p.session]) yr[p.session] = {};
+    const sess = yr[p.session];
+    if (!sess[p.paper]) sess[p.paper] = {};
+    sess[p.paper][p.component] = p.url;
+  }
+
+  const subjName = subj?.name || data.subjectName;
+  let html = `<div class="pp-back-row">
+    <button class="pp-back-btn" onclick="ppBackToSubjects()">← All Subjects</button>
+    <div>
+      <div class="pp-subject-title">${_ppEsc(subjName)}</div>
+      <div class="pp-subject-meta">${_ppEsc(data.qualification)} · ${_ppEsc(data.examBoard)} · ${_ppEsc(examCode)}</div>
+    </div>
+  </div>`;
+
+  const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
+  for (const yr of years) {
+    html += `<div class="pp-year-group"><div class="pp-year-hd">${yr}</div>`;
+    const sessions = byYear[yr];
+    for (const [sess, papers] of Object.entries(sessions)) {
+      html += `<div class="pp-session-group"><div class="pp-session-hd">${_ppEsc(sess)}</div><div class="pp-papers-row">`;
+      for (const [paperLabel, comps] of Object.entries(papers)) {
+        const label = `${yr} · ${sess} · ${paperLabel}`;
+        html += `<div class="pp-paper-group">
+          <div class="pp-paper-label">${_ppEsc(paperLabel)}</div>
+          <div class="pp-paper-btns">`;
+        if (comps.QP) html += `<button class="pp-paper-btn qp" onclick="ppOpenPaper('${_ppEsc(comps.QP)}','${_ppEsc(label + ' QP')}')">QP</button>`;
+        if (comps.MS) html += `<button class="pp-paper-btn ms" onclick="ppOpenPaper('${_ppEsc(comps.MS)}','${_ppEsc(label + ' MS')}')">MS</button>`;
+        html += `</div></div>`;
+      }
+      html += `</div></div>`;
+    }
+    html += `</div>`;
+  }
+
+  el.innerHTML = html;
+}
+window.ppSelectSubject = ppSelectSubject;
+
+function ppBackToSubjects() {
+  _ppActiveCode = null;
+  _renderPpSubjectList();
+}
+window.ppBackToSubjects = ppBackToSubjects;
+
+function ppOpenPaper(url, label) {
+  _ppActiveUrl = url;
+  const overlay = document.getElementById('pp-pdf-overlay');
+  const iframe = document.getElementById('pp-pdf-iframe');
+  const titleEl = document.getElementById('pp-pdf-title');
+  const spinner = document.getElementById('pp-pdf-spinner');
+  const fallback = document.getElementById('pp-pdf-fallback');
+  if (!overlay || !iframe) return;
+
+  if (titleEl) titleEl.textContent = label;
+  if (spinner) spinner.classList.remove('gone');
+  if (fallback) fallback.classList.remove('show');
+
+  // Detect load/error
+  const onLoad = () => {
+    if (spinner) spinner.classList.add('gone');
+    iframe.removeEventListener('load', onLoad);
+    iframe.removeEventListener('error', onError);
+  };
+  const onError = () => {
+    if (spinner) spinner.classList.add('gone');
+    if (fallback) fallback.classList.add('show');
+    iframe.removeEventListener('load', onLoad);
+    iframe.removeEventListener('error', onError);
+  };
+  iframe.addEventListener('load', onLoad);
+  iframe.addEventListener('error', onError);
+
+  // Timeout fallback for X-Frame-Options blocks (browser won't fire error)
+  setTimeout(() => {
+    // If spinner still showing after 8s, try to detect blank/blocked iframe
+    if (!spinner?.classList.contains('gone')) {
+      try {
+        // Access contentDocument — throws if cross-origin blocked
+        const doc = iframe.contentDocument;
+        if (!doc || doc.body?.innerHTML === '') {
+          if (spinner) spinner.classList.add('gone');
+          if (fallback) fallback.classList.add('show');
+        }
+      } catch (e) {
+        // Cross-origin means something loaded (or was blocked by CORS, not X-Frame)
+        if (spinner) spinner.classList.add('gone');
+      }
+    }
+  }, 8000);
+
+  iframe.src = url;
+  overlay.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+window.ppOpenPaper = ppOpenPaper;
+
+function ppClosePdfModal() {
+  const overlay = document.getElementById('pp-pdf-overlay');
+  const iframe = document.getElementById('pp-pdf-iframe');
+  if (overlay) overlay.classList.add('hidden');
+  if (iframe) iframe.src = '';
+  document.body.style.overflow = '';
+}
+window.ppClosePdfModal = ppClosePdfModal;
+
+function ppOpenNewTab() {
+  if (_ppActiveUrl) window.open(_ppActiveUrl, '_blank', 'noopener');
+}
+window.ppOpenNewTab = ppOpenNewTab;
+
 /* ============ nav ============ */
 function go(v){
   document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.v===v));
@@ -2137,7 +2337,7 @@ function go(v){
   if(v==="focus")renderFocus();
   if(v==="subjects")renderSubjects();
   if(v==="week")renderWeek();
-  if(v==="logs"){fillSubjSelects();renderLogs();}
+  if(v==="logs"){initPastPapers();}
   if(v==="toolkit")renderToolkit();
   if(v==="coverage")renderCoverage();
   window.scrollTo({top:0,behavior:"smooth"});
@@ -2595,6 +2795,7 @@ window.closeAIModal = closeAIModal;
 // Onboarding wizard
 window.wizNext = wizNext;
 window.wizBack = wizBack;
+window.wizQualChange = wizQualChange;
 window.wizBoardChange = wizBoardChange;
 window.wizNoDateToggle = wizNoDateToggle;
 window.wizAddFromTemplate = wizAddFromTemplate;
@@ -3486,7 +3687,8 @@ function _bmSwatchesHtml() {
 function _bmProfileHtml(prof) {
   const n = escapeHtml((prof && prof.display_name) || '—');
   const e = escapeHtml(currentUser?.email || '');
-  const b = escapeHtml((prof && prof.exam_board) || '—');
+  const { qualification, examBoard } = resolveQualBoard(prof || {});
+  const qb = escapeHtml(formatQualBoard(qualification, examBoard));
   const rawDate = (prof && prof.exam_date) || '';
   const dDisplay = rawDate
     ? new Date(rawDate + 'T00:00:00').toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})
@@ -3494,7 +3696,7 @@ function _bmProfileHtml(prof) {
   return `
     <div class="bm-row"><span class="bm-key">Name</span><span class="bm-val" style="cursor:default">${n}</span></div>
     <div class="bm-row"><span class="bm-key">Email</span><span class="bm-val" style="cursor:default;color:var(--muted)">${e}</span></div>
-    <div class="bm-row"><span class="bm-key">Board</span><span class="bm-val" style="cursor:default">${b}</span></div>
+    <div class="bm-row"><span class="bm-key">Qualification</span><span class="bm-val" style="cursor:default">${qb}</span></div>
     <div class="bm-row"><span class="bm-key">Exam date</span><span class="bm-val" style="cursor:default">${dDisplay}</span></div>
     <div style="margin-top:10px"><button class="bm-open-ts" style="font-size:10px;padding:7px 12px" onclick="openEditProfileModal()">Edit profile</button></div>`;
 }
@@ -3558,7 +3760,7 @@ function renderBurgerMenu() {
   if ((!_burgerProfileCache || !_privacyCache) && currentUser) {
     supabase
       .from('profiles')
-      .select('display_name,exam_board,exam_date,privacy_settings')
+      .select('display_name,qualification,exam_board,exam_date,privacy_settings')
       .eq('id', currentUser.id)
       .single()
       .then(({ data }) => {
@@ -3775,7 +3977,7 @@ async function _lbDoSearch() {
     if (!users.length) { results.innerHTML = '<div class="lb-empty-small">No users found</div>'; return; }
     results.innerHTML = users.map(u => `
       <div class="lb-result-row">
-        <div><div class="lb-result-name">${u.display_name}</div>${u.exam_board ? `<div class="lb-result-sub">${u.exam_board}</div>` : ''}</div>
+        <div><div class="lb-result-name">${u.display_name}</div>${(u.qualification || u.exam_board) ? `<div class="lb-result-sub">${formatQualBoard(u.qualification, u.exam_board)}</div>` : ''}</div>
         <button class="btn sm" id="lb-add-${u.id}" onclick="lbSendRequest('${u.id}','${(u.display_name||'').replace(/'/g,"\\'")}')">Add friend</button>
       </div>`).join('');
   } catch(e) { results.innerHTML = '<div class="lb-empty-small">Search failed</div>'; }
@@ -3839,7 +4041,7 @@ window.openFriendProfile = function(uid) {
       <div class="fp-stat"><div class="fp-val">${row.subjects_count}</div><div class="fp-key">Subjects</div></div>
     </div>
     <div class="fp-meta">
-      ${row.exam_board ? `<div class="fp-meta-row"><span class="fp-meta-key">Board</span><span>${row.exam_board}</span></div>` : ''}
+      ${(row.qualification || row.exam_board) ? `<div class="fp-meta-row"><span class="fp-meta-key">Qualification</span><span>${formatQualBoard(row.qualification, row.exam_board)}</span></div>` : ''}
       ${row.exam_date ? `<div class="fp-meta-row"><span class="fp-meta-key">Exam date</span><span>${row.exam_date}</span></div>` : ''}
     </div>
     <button class="fp-remove" onclick="lbRemoveFriend('${uid}')">Remove friend</button>`;
@@ -3861,13 +4063,46 @@ window.lbRemoveFriend = async function(uid) {
   } catch(e) { setToast('Failed to remove'); }
 };
 
+window.epQualChange = function() {
+  const qual     = document.getElementById('ep-qual')?.value || '';
+  const boardSel = document.getElementById('ep-board');
+  const boardWrap = document.getElementById('ep-board-wrap');
+  if (!boardSel) return;
+
+  const boards = QUAL_BOARDS[qual] || [];
+  if (boardWrap) boardWrap.classList.toggle('hidden', boards.length === 0);
+  boardSel.innerHTML = '<option value="">— select board —</option>' +
+    boards.map(b => `<option value="${b}">${b}</option>`).join('');
+  if (boards.length === 1) boardSel.value = boards[0];
+};
+
 window.openEditProfileModal = function() {
   closeBurgerMenu();
   const modal = document.getElementById('ep-modal');
   if (!modal) return;
   const prof = _burgerProfileCache || {};
+
+  // Resolve legacy flat value → {qualification, examBoard}
+  const { qualification, examBoard } = resolveQualBoard(prof);
+
+  // Populate name
   document.getElementById('ep-name').value = prof.display_name || '';
-  document.getElementById('ep-board').value = prof.exam_board || '';
+
+  // Populate qualification select
+  const qualSel = document.getElementById('ep-qual');
+  if (qualSel) qualSel.value = qualification || '';
+
+  // Populate board select (cascade from qual)
+  const boardSel  = document.getElementById('ep-board');
+  const boardWrap = document.getElementById('ep-board-wrap');
+  if (boardSel && qualSel) {
+    const boards = QUAL_BOARDS[qualification] || [];
+    if (boardWrap) boardWrap.classList.toggle('hidden', boards.length === 0);
+    boardSel.innerHTML = '<option value="">— select board —</option>' +
+      boards.map(b => `<option value="${b}">${b}</option>`).join('');
+    if (examBoard) boardSel.value = examBoard;
+  }
+
   document.getElementById('ep-date').value = prof.exam_date || '';
   document.getElementById('ep-status').textContent = '';
   modal.classList.remove('hidden');
@@ -3878,15 +4113,22 @@ window.closeEditProfileModal = function() {
 };
 
 window.saveEditProfile = async function() {
-  const name = document.getElementById('ep-name').value.trim();
-  const board = document.getElementById('ep-board').value.trim();
-  const date = document.getElementById('ep-date').value;
+  const name  = document.getElementById('ep-name').value.trim();
+  const qual  = document.getElementById('ep-qual')?.value  || '';
+  const board = document.getElementById('ep-board')?.value || '';
+  const date  = document.getElementById('ep-date').value;
   const statusEl = document.getElementById('ep-status');
   statusEl.textContent = 'Saving…';
   try {
-    await updateProfile({ display_name: name, exam_board: board, exam_date: date || null });
+    await updateProfile({
+      display_name:  name,
+      qualification: qual  || null,
+      exam_board:    board || null,
+      exam_date:     date  || null,
+    });
     if (!_burgerProfileCache) _burgerProfileCache = {};
     _burgerProfileCache.display_name = name;
+    _burgerProfileCache.qualification = qual;
     _burgerProfileCache.exam_board = board;
     _burgerProfileCache.exam_date = date;
     if (date) { examDate = date; renderDash(); }
@@ -3900,7 +4142,10 @@ window.saveEditProfile = async function() {
 /* ============ bones modal ============ */
 
 function _isMbbsUser(prof) {
-  return !!(prof && prof.exam_board && prof.exam_board.toLowerCase().includes('mbbs'));
+  if (!prof) return false;
+  if (prof.qualification) return isMbbs(prof.qualification);
+  // Legacy fallback: old flat exam_board value
+  return !!(prof.exam_board && prof.exam_board.toLowerCase().includes('mbbs'));
 }
 
 function _bmAnatomyHtml(prof) {

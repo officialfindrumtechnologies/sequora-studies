@@ -1,8 +1,9 @@
 import { supabase } from '../lib/supabase.js';
 import {
   getSubjects, createSubject, updateSubject, reorderSubjects, deleteSubject,
-  getTemplatesByBoard, createSubjectFromTemplate,
+  getTemplatesByQualBoard, createSubjectFromTemplate,
 } from '../data/subjects.js';
+import { QUAL_BOARDS } from '../lib/qualboards.js';
 import {
   getTopics, createTopic, updateTopic, deleteTopic, bulkInsertTopics, reorderTopics,
 } from '../data/topics.js';
@@ -137,22 +138,40 @@ function sbShowAddSubjectPanel() {
 }
 window.sbShowAddSubjectPanel = sbShowAddSubjectPanel;
 
+// Called when qual or board select changes in the add-subject panel
+export function sbQualChange() {
+  const qual     = document.getElementById('sb-template-qual')?.value || '';
+  const boardSel = document.getElementById('sb-template-board');
+  const boardWrap = document.getElementById('sb-template-board-wrap');
+  if (!boardSel) return;
+
+  const boards = QUAL_BOARDS[qual] || [];
+  if (boardWrap) boardWrap.classList.toggle('hidden', boards.length === 0);
+  boardSel.innerHTML = '<option value="">— select board —</option>' +
+    boards.map(b => `<option value="${b}">${b}</option>`).join('');
+  if (boards.length === 1) boardSel.value = boards[0];
+
+  document.getElementById('sb-template-list').innerHTML = '';
+}
+window.sbQualChange = sbQualChange;
+
 async function sbLoadTemplatesForBoard() {
-  const board = document.getElementById('sb-template-board')?.value;
+  const qual  = document.getElementById('sb-template-qual')?.value || '';
+  const board = document.getElementById('sb-template-board')?.value || '';
   const list  = document.getElementById('sb-template-list');
   if (!list) return;
-  if (!board) { list.innerHTML = ''; return; }
+  if (!qual || !board) { list.innerHTML = ''; return; }
 
   list.innerHTML = '<div class="empty" style="padding:8px 0">Loading…</div>';
   try {
-    const templates = await getTemplatesByBoard(board);
+    const templates = await getTemplatesByQualBoard(qual, board);
     if (!templates.length) {
       list.innerHTML = '<div class="empty" style="padding:8px 0">No templates for this board yet.</div>';
       return;
     }
     list.innerHTML = templates.map(t => `
       <div class="sb-tmpl-row">
-        <span>${esc(t.subject_name)}${t.subject_code ? ` <span class="tag">${esc(t.subject_code)}</span>` : ''}</span>
+        <span>${esc(t.subject_name)}${t.subject_code ? ` <span class="tag">${esc(t.subject_code)}</span>` : ''}${t.level ? ` <span class="tag">${esc(t.level)}</span>` : ''}</span>
         <span style="opacity:.5;font-size:12px">${Array.isArray(t.topics) ? t.topics.length : 0} topics</span>
         <button class="btn sm" onclick="sbAddFromTemplate('${t.id}', this)">Add</button>
       </div>

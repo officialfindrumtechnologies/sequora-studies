@@ -3,16 +3,17 @@ import { completeOnboarding } from '../data/profiles.js';
 import {
   createSubject,
   deleteSubject,
-  getTemplatesByBoard,
+  getTemplatesByQualBoard,
   createSubjectFromTemplate,
 } from '../data/subjects.js';
 import { hasLegacyData, migrateFromStudyState } from '../data/migration.js';
+import { QUAL_BOARDS, NO_DATE_QUALS } from '../lib/qualboards.js';
 
 // ── state ──────────────────────────────────────────────────────────────────
-let wizData = { displayName: '', examBoard: '', examDate: null };
-let wizSubjects = [];    // [{ id, name }] subjects created during this wizard session
+let wizData = { displayName: '', qualification: '', examBoard: '', examDate: null };
+let wizSubjects = [];
 let currentStep = 1;
-let totalSteps = 3;      // bumped to 4 if legacy data detected
+let totalSteps = 3;
 
 // ── show / hide ────────────────────────────────────────────────────────────
 export function showOnboarding() {
@@ -26,7 +27,7 @@ export function hideOnboarding() {
 }
 
 function resetWizard() {
-  wizData = { displayName: '', examBoard: '', examDate: null };
+  wizData = { displayName: '', qualification: '', examBoard: '', examDate: null };
   wizSubjects = [];
   currentStep = 1;
   totalSteps = 3;
@@ -58,8 +59,15 @@ export async function wizNext() {
     goToStep(2);
 
   } else if (currentStep === 2) {
-    const board = document.getElementById('wiz-board').value;
-    if (!board) { showWizError('Select your exam board'); return; }
+    const qual = document.getElementById('wiz-qual').value;
+    if (!qual) { showWizError('Select your qualification'); return; }
+
+    const boards = QUAL_BOARDS[qual] || [];
+    let board = '';
+    if (boards.length > 0) {
+      board = document.getElementById('wiz-board').value;
+      if (!board) { showWizError('Select your exam board / curriculum'); return; }
+    }
 
     const noDate = document.getElementById('wiz-no-date').checked;
     let examDate = null;
@@ -69,10 +77,11 @@ export async function wizNext() {
       if (new Date(examDate) <= new Date()) { showWizError('Exam date must be in the future'); return; }
     }
 
-    wizData.examBoard = board;
+    wizData.qualification = qual;
+    wizData.examBoard = board || qual;
     wizData.examDate = examDate;
     goToStep(3);
-    await loadBoardTemplates(board);
+    await loadBoardTemplates(qual, board);
   }
 }
 
@@ -80,37 +89,58 @@ export function wizBack() {
   if (currentStep > 1) goToStep(currentStep - 1);
 }
 
-// ── board change ──────────────────────────────────────────────────────────
-export function wizBoardChange() {
-  const board = document.getElementById('wiz-board').value;
-  const noDateCb = document.getElementById('wiz-no-date');
-  const dateInput = document.getElementById('wiz-date');
+// ── qualification change — populate board select ───────────────────────────
+export function wizQualChange() {
+  const qual = document.getElementById('wiz-qual').value;
+  const boardField = document.getElementById('wiz-board-field');
+  const boardSel   = document.getElementById('wiz-board');
 
-  // ACCA and MBBS have no single exam date
-  if (board === 'acca' || board === 'mbbs') {
+  const boards = QUAL_BOARDS[qual] || [];
+  boardField.classList.toggle('hidden', boards.length === 0);
+
+  if (boards.length > 0) {
+    boardSel.innerHTML = '<option value="">Choose board…</option>' +
+      boards.map(b => `<option value="${escAttr(b)}">${escAttr(b)}</option>`).join('');
+    if (boards.length === 1) boardSel.value = boards[0];
+  }
+
+  // Update no-date checkbox behaviour
+  _updateNoDateState(qual);
+}
+
+export function wizBoardChange() {
+  const qual = document.getElementById('wiz-qual')?.value || '';
+  _updateNoDateState(qual);
+}
+
+function _updateNoDateState(qual) {
+  const noDateCb  = document.getElementById('wiz-no-date');
+  const dateInput = document.getElementById('wiz-date');
+  if (!noDateCb || !dateInput) return;
+
+  if (NO_DATE_QUALS.has(qual)) {
     noDateCb.checked = true;
     dateInput.disabled = true;
     dateInput.value = '';
-  } else {
-    noDateCb.checked = false;
+  } else if (!noDateCb.checked) {
     dateInput.disabled = false;
   }
 }
 
 export function wizNoDateToggle() {
-  const checked = document.getElementById('wiz-no-date').checked;
+  const checked   = document.getElementById('wiz-no-date').checked;
   const dateInput = document.getElementById('wiz-date');
   dateInput.disabled = checked;
   if (checked) dateInput.value = '';
 }
 
 // ── step 3: templates ──────────────────────────────────────────────────────
-async function loadBoardTemplates(board) {
+async function loadBoardTemplates(qualification, examBoard) {
   const listEl = document.getElementById('wiz-template-list');
   listEl.innerHTML = '<div class="empty">Loading subjects…</div>';
 
   try {
-    const templates = await getTemplatesByBoard(board);
+    const templates = await getTemplatesByQualBoard(qualification, examBoard);
     if (!templates.length) {
       listEl.innerHTML = '<div class="empty" style="text-align:left">No syllabus templates for this board yet — add subjects manually.</div>';
       return;
@@ -119,7 +149,8 @@ async function loadBoardTemplates(board) {
       <div class="wiz-tmpl-row" id="wiz-tmpl-${t.id}">
         <div class="wiz-tmpl-info">
           <span class="wiz-tmpl-name">${escAttr(t.subject_name)}</span>
-          ${t.subject_code ? `<span class="wiz-tmpl-code">${t.subject_code}</span>` : ''}
+          ${t.level ? `<span class="wiz-tmpl-code">${escAttr(t.level)}</span>` : ''}
+          ${t.subject_code ? `<span class="wiz-tmpl-code">${escAttr(t.subject_code)}</span>` : ''}
           <span class="wiz-tmpl-count">${Array.isArray(t.topics) ? t.topics.length : 0} topics</span>
         </div>
         <button class="btn sm" onclick="wizAddFromTemplate('${t.id}')">Add</button>
@@ -190,17 +221,14 @@ export async function wizRemoveSubject(subjectId) {
     await deleteSubject(subjectId);
     wizSubjects = wizSubjects.filter(s => s.id !== subjectId);
     refreshAddedList();
-    // Re-enable the template button if this was a template subject
-    const btn = document.querySelector(`#wiz-tmpl-${subjectId} button`);
-    // (templateId ≠ subjectId, so the button won't be found this way — that's fine)
   } catch (err) {
     showWizError('Remove failed: ' + err.message);
   }
 }
 
 function refreshAddedList() {
-  const el  = document.getElementById('wiz-added-subjects');
-  const btn = document.getElementById('wiz-complete-btn');
+  const el     = document.getElementById('wiz-added-subjects');
+  const btn    = document.getElementById('wiz-complete-btn');
   const countEl = document.getElementById('wiz-subject-count');
 
   if (!wizSubjects.length) {
@@ -220,10 +248,10 @@ function refreshAddedList() {
   btn.disabled = false;
   const n = wizSubjects.length;
   if (countEl) countEl.textContent = n + ' subject' + (n > 1 ? 's' : '');
-  btn.textContent = `Complete Setup →`;
+  btn.textContent = 'Complete Setup →';
 }
 
-// ── complete wizard (step 3 → check for legacy data → step 4 or done) ────
+// ── complete wizard ────────────────────────────────────────────────────────
 export async function wizComplete() {
   if (!wizSubjects.length) { showWizError('Add at least one subject to continue'); return; }
 
@@ -232,14 +260,13 @@ export async function wizComplete() {
   btn.textContent = 'Checking…';
 
   try {
-    // Save profile data regardless
     await completeOnboarding({
-      displayName: wizData.displayName,
-      examBoard:   wizData.examBoard,
-      examDate:    wizData.examDate,
+      displayName:   wizData.displayName,
+      qualification: wizData.qualification,
+      examBoard:     wizData.examBoard,
+      examDate:      wizData.examDate,
     });
 
-    // If legacy study_state exists, show step 4 (migration offer)
     const legacy = await hasLegacyData();
     if (legacy) {
       totalSteps = 4;

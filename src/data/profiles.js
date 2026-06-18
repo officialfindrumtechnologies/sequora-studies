@@ -22,12 +22,15 @@ export async function updateProfile(updates) {
 }
 
 // Completes onboarding wizard — sets onboarded_at to now
-export async function completeOnboarding({ displayName, examBoard, examDate }) {
+// qualification: 'A Level' | 'AS Level' | 'IGCSE / O Level' | 'IB Diploma' | 'MBBS'
+// examBoard:     'Edexcel' | 'Cambridge' | 'OCR' | 'AQA' | 'IB' | 'BMDC Bangladesh' | etc.
+export async function completeOnboarding({ displayName, qualification, examBoard, examDate }) {
   return updateProfile({
-    display_name: displayName,
-    exam_board: examBoard,
-    exam_date: examDate,
-    onboarded_at: new Date().toISOString(),
+    display_name:  displayName,
+    qualification: qualification || null,
+    exam_board:    examBoard    || null,
+    exam_date:     examDate     || null,
+    onboarded_at:  new Date().toISOString(),
   });
 }
 

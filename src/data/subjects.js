@@ -9,7 +9,7 @@ export async function getSubjects() {
   return data;
 }
 
-export async function createSubject({ userId, name, shortName = null, examCode = null, color = '#e8a33d' }) {
+export async function createSubject({ userId, name, shortName = null, examCode = null, color = '#e8a33d', level = null }) {
   const { data: existing } = await supabase
     .from('subjects')
     .select('position')
@@ -21,7 +21,7 @@ export async function createSubject({ userId, name, shortName = null, examCode =
 
   const { data, error } = await supabase
     .from('subjects')
-    .insert({ user_id: userId, name, short_name: shortName, exam_code: examCode, color, position: nextPos })
+    .insert({ user_id: userId, name, short_name: shortName, exam_code: examCode, color, position: nextPos, level })
     .select()
     .single();
   if (error) throw error;
@@ -55,21 +55,24 @@ export async function deleteSubject(id) {
   if (error) throw error;
 }
 
-// Fetch available boards from syllabus_templates (no auth needed — public read)
-export async function getAvailableBoards() {
+// Fetch templates filtered by qualification + exam board (new schema)
+export async function getTemplatesByQualBoard(qualification, examBoard) {
   const { data, error } = await supabase
     .from('syllabus_templates')
-    .select('board')
-    .order('board');
+    .select('id, subject_name, subject_code, topics, level')
+    .eq('qualification', qualification)
+    .eq('exam_board', examBoard)
+    .order('level', { ascending: true, nullsFirst: true })
+    .order('subject_name');
   if (error) throw error;
-  return [...new Set(data.map(r => r.board))];
+  return data;
 }
 
-// Fetch subjects for a given board
+// Legacy: fetch by old flat board value (backward compat — kept for any callers not yet updated)
 export async function getTemplatesByBoard(board) {
   const { data, error } = await supabase
     .from('syllabus_templates')
-    .select('id, subject_name, subject_code, topics')
+    .select('id, subject_name, subject_code, topics, level')
     .eq('board', board)
     .order('subject_name');
   if (error) throw error;
@@ -77,10 +80,11 @@ export async function getTemplatesByBoard(board) {
 }
 
 // Create a subject from a syllabus template + bulk-insert its topics
-export async function createSubjectFromTemplate({ userId, templateId }) {
+// Pass overrideLevel to store a user-chosen IB level (HL/SL) that differs from template default
+export async function createSubjectFromTemplate({ userId, templateId, overrideLevel = null }) {
   const { data: tmpl, error: tmplErr } = await supabase
     .from('syllabus_templates')
-    .select('subject_name, subject_code, topics')
+    .select('subject_name, subject_code, topics, level')
     .eq('id', templateId)
     .single();
   if (tmplErr) throw tmplErr;
@@ -89,6 +93,7 @@ export async function createSubjectFromTemplate({ userId, templateId }) {
     userId,
     name: tmpl.subject_name,
     examCode: tmpl.subject_code,
+    level: overrideLevel || tmpl.level || null,
   });
 
   const topicRows = (tmpl.topics || []).map((t, i) => ({
@@ -101,7 +106,6 @@ export async function createSubjectFromTemplate({ userId, templateId }) {
   }));
 
   if (topicRows.length) {
-    // Batch in 500s to stay within Supabase payload limit
     for (let i = 0; i < topicRows.length; i += 500) {
       const { error } = await supabase.from('topics').insert(topicRows.slice(i, i + 500));
       if (error) throw error;

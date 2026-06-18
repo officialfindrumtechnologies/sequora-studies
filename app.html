@@ -756,6 +756,63 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text
 .bone-qa-year{font-family:var(--mono);font-size:9px;font-weight:700;color:var(--accent);background:rgba(var(--glow-color),.08);border:1px solid rgba(var(--glow-color),.18);border-radius:3px;padding:1px 5px;flex-shrink:0;white-space:nowrap}
 .bone-qa-q-inner{display:flex;align-items:flex-start;gap:6px;flex:1;min-width:0}
 .bone-qa-q-text{flex:1;min-width:0}
+
+/* ---------- past papers ---------- */
+.pp-subtabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:20px}
+.pp-subtab{font-family:var(--body);font-size:13px;color:var(--text-dim);background:transparent;border:none;border-bottom:2px solid transparent;padding:12px 16px 10px;cursor:pointer;transition:color .15s,border-color .15s;font-weight:400}
+.pp-subtab:hover{color:var(--text)}
+.pp-subtab.active{color:var(--text);border-bottom-color:var(--accent);font-weight:500}
+.pp-subj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:4px}
+.pp-subj-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px;cursor:pointer;transition:border-color .15s,background .15s;display:flex;flex-direction:column;gap:5px}
+.pp-subj-card:hover{border-color:var(--border-hover);background:var(--surface-2)}
+.pp-subj-name{font-family:var(--body);font-weight:500;font-size:15px;color:var(--text);line-height:1.3}
+.pp-subj-code{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);background:rgba(var(--glow-color),.07);border:1px solid rgba(var(--glow-color),.15);border-radius:3px;padding:2px 7px;align-self:flex-start;margin-top:2px}
+.pp-subj-meta{font-family:var(--mono);font-size:10px;color:var(--text-dim);letter-spacing:.03em;margin-top:2px}
+.pp-subj-arrow{font-size:12px;color:var(--text-dim);margin-top:4px;transition:color .15s}
+.pp-subj-card:hover .pp-subj-arrow{color:var(--accent)}
+.pp-subj-no-data{font-family:var(--mono);font-size:10px;color:var(--muted);font-style:italic;margin-top:2px}
+.pp-back-row{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.pp-back-btn{background:transparent;border:1px solid var(--border);border-radius:var(--rs);color:var(--text-dim);font-family:var(--mono);font-size:11px;padding:5px 12px;cursor:pointer;transition:all .15s;letter-spacing:.04em}
+.pp-back-btn:hover{border-color:var(--border-hover);color:var(--text)}
+.pp-subject-title{font-family:var(--body);font-weight:500;font-size:18px;color:var(--text)}
+.pp-subject-meta{font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-top:2px}
+.pp-year-group{margin-bottom:24px}
+.pp-year-hd{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--accent);letter-spacing:.03em;padding:0 0 8px;margin-bottom:10px;border-bottom:1px solid rgba(var(--glow-color),.15);display:flex;align-items:center;gap:8px}
+.pp-session-group{margin-bottom:14px;padding-left:4px}
+.pp-session-hd{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px}
+.pp-papers-row{display:flex;flex-wrap:wrap;gap:5px}
+.pp-paper-group{display:flex;flex-direction:column;gap:4px;align-items:center}
+.pp-paper-label{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-dim);text-align:center}
+.pp-paper-btns{display:flex;gap:4px}
+.pp-paper-btn{font-family:var(--mono);font-size:10px;font-weight:600;padding:5px 9px;border-radius:var(--rs);cursor:pointer;border:1px solid var(--border);background:var(--surface-2);color:var(--text);transition:all .15s;letter-spacing:.04em;white-space:nowrap}
+.pp-paper-btn:hover{border-color:var(--border-hover);background:var(--surface)}
+.pp-paper-btn.qp{border-color:rgba(var(--glow-color),.2);color:var(--accent-soft);background:rgba(var(--glow-color),.04)}
+.pp-paper-btn.qp:hover{border-color:rgba(var(--glow-color),.45);background:rgba(var(--glow-color),.09)}
+.pp-paper-btn.ms{border-color:rgba(74,222,128,.18);color:var(--green);background:rgba(74,222,128,.04)}
+.pp-paper-btn.ms:hover{border-color:rgba(74,222,128,.4);background:rgba(74,222,128,.08)}
+.pp-empty{font-family:var(--mono);font-size:12px;color:var(--text-dim);padding:32px;text-align:center;border:1px solid var(--border);border-radius:var(--r);background:var(--surface);line-height:1.7}
+/* PDF viewer modal */
+.pp-pdf-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:1000;display:flex;flex-direction:column;animation:fadein .18s ease}
+.pp-pdf-overlay.hidden{display:none}
+.pp-pdf-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0}
+.pp-pdf-title{font-family:var(--mono);font-size:11px;color:var(--text);font-weight:500;letter-spacing:.03em;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pp-pdf-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.pp-pdf-newtab{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.05em;padding:5px 12px;border-radius:var(--rs);cursor:pointer;border:1px solid rgba(var(--glow-color),.3);background:rgba(var(--glow-color),.07);color:var(--accent);transition:all .15s}
+.pp-pdf-newtab:hover{border-color:rgba(var(--glow-color),.55);background:rgba(var(--glow-color),.13)}
+.pp-pdf-close{background:transparent;border:1px solid var(--border);border-radius:var(--rs);color:var(--text-dim);font-family:var(--mono);font-size:11px;padding:5px 10px;cursor:pointer;transition:all .15s}
+.pp-pdf-close:hover{border-color:var(--red);color:var(--red)}
+.pp-pdf-body{flex:1;position:relative;overflow:hidden}
+.pp-pdf-iframe{width:100%;height:100%;border:none;display:block}
+.pp-pdf-spinner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:var(--bg);transition:opacity .3s}
+.pp-pdf-spinner.gone{opacity:0;pointer-events:none}
+.pp-spinner-ring{width:34px;height:34px;border:2.5px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:pp-spin .8s linear infinite}
+@keyframes pp-spin{to{transform:rotate(360deg)}}
+.pp-spinner-lbl{font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:.08em}
+.pp-pdf-fallback{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:var(--bg)}
+.pp-pdf-fallback.show{display:flex}
+.pp-fallback-msg{font-family:var(--mono);font-size:12px;color:var(--text-dim);text-align:center;line-height:1.8;max-width:320px}
+.pp-fallback-btn{font-family:var(--body);font-size:14px;font-weight:600;padding:10px 24px;border-radius:var(--rs);cursor:pointer;border:1px solid var(--accent);background:rgba(var(--glow-color),.07);color:var(--accent);transition:all .15s}
+.pp-fallback-btn:hover{background:rgba(var(--glow-color),.16)}
 </style>
 </head>
 <body>
@@ -970,15 +1027,20 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text
         <div class="lead" style="margin-bottom:12px">Add from syllabus template</div>
         <div class="split" style="gap:10px;margin-bottom:8px">
           <div style="flex:1">
+            <span class="fieldlabel">Qualification</span>
+            <select id="sb-template-qual" onchange="sbQualChange()" style="width:100%">
+              <option value="">— select qualification —</option>
+              <option value="A Level">A Level</option>
+              <option value="AS Level">AS Level</option>
+              <option value="IGCSE / O Level">IGCSE / O Level</option>
+              <option value="IB Diploma">IB Diploma</option>
+              <option value="MBBS">MBBS</option>
+            </select>
+          </div>
+          <div style="flex:1" id="sb-template-board-wrap" class="hidden">
             <span class="fieldlabel">Board</span>
             <select id="sb-template-board" onchange="sbLoadTemplatesForBoard()" style="width:100%">
               <option value="">— select board —</option>
-              <option value="edexcel_igcse">Edexcel IGCSE</option>
-              <option value="cambridge_igcse">Cambridge IGCSE</option>
-              <option value="edexcel_alevel">Edexcel A-Level / AS-Level</option>
-              <option value="cambridge_alevel">Cambridge A-Level / AS-Level</option>
-              <option value="o_level">O Level</option>
-              <option value="acca">ACCA</option>
             </select>
           </div>
         </div>
@@ -1056,50 +1118,72 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text
 
   <!-- ================= LOGS ================= -->
   <section id="view-logs" class="view hidden">
-    <div class="card" style="margin-bottom:18px">
-      <div class="lead">Past papers — open by subject</div>
-      <h2>Paper banks</h2>
-      <p style="color:var(--muted);font-size:14px;margin:3px 0 16px;font-style:italic">One tap to the papers. Work them timed, mark strictly, log your scores below.</p>
-      <div style="display:flex;flex-direction:column;gap:8px">
-        <div class="score-line"><span class="id">Maths A (4MA1)</span><span style="display:flex;gap:10px"><a href="https://mymathscloud.com" target="_blank" rel="noopener" class="mini-link">MyMathsCloud</a><a href="https://www.physicsandmathstutor.com/past-papers/gcse-maths/edexcel-igcse-paper-1/" target="_blank" rel="noopener" class="mini-link">PMT</a></span></div>
-        <div class="score-line"><span class="id">Accounting (4AC1)</span><span style="display:flex;gap:10px"><a href="https://www.savemyexams.com" target="_blank" rel="noopener" class="mini-link">SaveMyExams</a><a href="https://pastpapersz.com/edexcel/igcse-accounting/" target="_blank" rel="noopener" class="mini-link">PastPapersZ</a></span></div>
-        <div class="score-line"><span class="id">Economics (4EC1)</span><span style="display:flex;gap:10px"><a href="https://www.physicsandmathstutor.com/past-papers/gcse-economics/edexcel-igcse-paper-1/" target="_blank" rel="noopener" class="mini-link">PMT</a></span></div>
-        <div class="score-line"><span class="id">Business (4BS1)</span><span style="display:flex;gap:10px"><a href="https://www.savemyexams.com" target="_blank" rel="noopener" class="mini-link">SaveMyExams</a></span></div>
-        <div class="score-line"><span class="id">English B (4EB1)</span><span style="display:flex;gap:10px"><a href="https://www.savemyexams.com" target="_blank" rel="noopener" class="mini-link">SaveMyExams</a></span></div>
-        <div class="score-line"><span class="id">Bangla (4BN1)</span><span style="display:flex;gap:10px"><a href="https://qualifications.pearson.com" target="_blank" rel="noopener" class="mini-link">Pearson</a></span></div>
-      </div>
-      <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)">
-        <a href="https://qualifications.pearson.com/en/support/support-topics/exams/past-papers.html" target="_blank" rel="noopener" class="mini-link" style="font-size:12px">Pearson official past papers, examiner reports &amp; grade boundaries</a>
+    <!-- Sub-navigation tabs -->
+    <div class="pp-subtabs">
+      <button class="pp-subtab active" id="pp-tab-papers" onclick="ppSwitchTab('papers')">Past Papers</button>
+      <button class="pp-subtab" id="pp-tab-errors" onclick="ppSwitchTab('errors')">Error Log</button>
+    </div>
+
+    <!-- Past Papers sub-section -->
+    <div id="pp-papers-section">
+      <div id="pp-content">
+        <div class="pp-empty">Loading your subjects…</div>
       </div>
     </div>
-    <div class="grid g2">
-      <div class="card">
-        <div class="lead">Past-paper log</div>
-        <h2>Watch the scores climb</h2>
-        <p style="color:var(--muted);font-size:13px;margin:3px 0 14px;font-style:italic">Log every timed paper. Green = at/above your A* boundary.</p>
-        <div class="split" style="margin-bottom:12px">
-          <div><span class="fieldlabel">Subject</span><select id="pSubj"></select></div>
-          <div><span class="fieldlabel">Paper</span><input type="text" id="pId" placeholder="e.g. Jun22 P1" style="width:120px"></div>
-          <div><span class="fieldlabel">Score</span><input type="number" id="pScore" placeholder="68" style="width:70px"></div>
-          <div><span class="fieldlabel">Max</span><input type="number" id="pMax" placeholder="100" style="width:70px"></div>
-          <button class="btn sm primary" onclick="addPaper()">+ Log</button>
+
+    <!-- Error Log sub-section (kept untouched) -->
+    <div id="pp-errors-section" class="hidden">
+      <div class="grid g2">
+        <div class="card">
+          <div class="lead">Past-paper log</div>
+          <h2>Watch the scores climb</h2>
+          <p style="color:var(--muted);font-size:13px;margin:3px 0 14px;font-style:italic">Log every timed paper. Green = at/above your A* boundary.</p>
+          <div class="split" style="margin-bottom:12px">
+            <div><span class="fieldlabel">Subject</span><select id="pSubj"></select></div>
+            <div><span class="fieldlabel">Paper</span><input type="text" id="pId" placeholder="e.g. Jun22 P1" style="width:120px"></div>
+            <div><span class="fieldlabel">Score</span><input type="number" id="pScore" placeholder="68" style="width:70px"></div>
+            <div><span class="fieldlabel">Max</span><input type="number" id="pMax" placeholder="100" style="width:70px"></div>
+            <button class="btn sm primary" onclick="addPaper()">+ Log</button>
+          </div>
+          <div id="paperLog"></div>
         </div>
-        <div id="paperLog"></div>
-      </div>
-      <div class="card">
-        <div class="lead">Error log · highest ROI</div>
-        <h2>Kill recurring mistakes</h2>
-        <p style="color:var(--muted);font-size:13px;margin:3px 0 14px;font-style:italic">Every wrong answer + the fix in your words. Re-read before each paper.</p>
-        <div class="split" style="margin-bottom:8px">
-          <div style="flex:1"><span class="fieldlabel">Subject</span><select id="eSubj"></select></div>
+        <div class="card">
+          <div class="lead">Error log · highest ROI</div>
+          <h2>Kill recurring mistakes</h2>
+          <p style="color:var(--muted);font-size:13px;margin:3px 0 14px;font-style:italic">Every wrong answer + the fix in your words. Re-read before each paper.</p>
+          <div class="split" style="margin-bottom:8px">
+            <div style="flex:1"><span class="fieldlabel">Subject</span><select id="eSubj"></select></div>
+          </div>
+          <textarea id="eMistake" placeholder="The mistake I made…"></textarea>
+          <textarea id="eFix" placeholder="The correct method, in my own words…" style="margin-top:8px"></textarea>
+          <button class="btn sm primary" style="margin-top:8px" onclick="addError()">+ Add to log</button>
+          <div id="errorLog" style="margin-top:14px"></div>
         </div>
-        <textarea id="eMistake" placeholder="The mistake I made…"></textarea>
-        <textarea id="eFix" placeholder="The correct method, in my own words…" style="margin-top:8px"></textarea>
-        <button class="btn sm primary" style="margin-top:8px" onclick="addError()">+ Add to log</button>
-        <div id="errorLog" style="margin-top:14px"></div>
       </div>
     </div>
   </section>
+
+  <!-- PDF viewer modal (full-screen, outside section) -->
+  <div id="pp-pdf-overlay" class="pp-pdf-overlay hidden">
+    <div class="pp-pdf-head">
+      <span class="pp-pdf-title" id="pp-pdf-title"></span>
+      <div class="pp-pdf-actions">
+        <button class="pp-pdf-newtab" id="pp-pdf-newtab-btn" onclick="ppOpenNewTab()">Open in new tab →</button>
+        <button class="pp-pdf-close" onclick="ppClosePdfModal()">✕ Close</button>
+      </div>
+    </div>
+    <div class="pp-pdf-body">
+      <iframe id="pp-pdf-iframe" class="pp-pdf-iframe" title="Past paper PDF"></iframe>
+      <div class="pp-pdf-spinner" id="pp-pdf-spinner">
+        <div class="pp-spinner-ring"></div>
+        <span class="pp-spinner-lbl">Loading PDF…</span>
+      </div>
+      <div class="pp-pdf-fallback" id="pp-pdf-fallback">
+        <span class="pp-fallback-msg">This PDF couldn't load in the viewer — the host may block embedding.<br>Open it directly in a new tab instead.</span>
+        <button class="pp-fallback-btn" onclick="ppOpenNewTab()">Open in new tab →</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ================= COVERAGE MAP ================= -->
   <section id="view-coverage" class="view hidden">
@@ -1351,22 +1435,25 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text
       </div>
     </div>
 
-    <!-- ── STEP 2: exam setup ──────────────── -->
+    <!-- ── STEP 2: qualification + board ──── -->
     <div id="wiz-step-2" class="hidden">
-      <div class="wiz-title">Your exams</div>
-      <div class="wiz-sub">We'll use this to calibrate your study plan.</div>
+      <div class="wiz-title">Your qualification</div>
+      <div class="wiz-sub">We'll use this to match your syllabus and calibrate your study plan.</div>
       <div class="wiz-field">
-        <label for="wiz-board">Exam board</label>
-        <select id="wiz-board" onchange="wizBoardChange()">
+        <label for="wiz-qual">Qualification</label>
+        <select id="wiz-qual" onchange="wizQualChange()" style="width:100%">
+          <option value="">Choose qualification…</option>
+          <option value="A Level">A Level</option>
+          <option value="AS Level">AS Level</option>
+          <option value="IGCSE / O Level">IGCSE / O Level</option>
+          <option value="IB Diploma">IB Diploma (DP)</option>
+          <option value="MBBS">MBBS</option>
+        </select>
+      </div>
+      <div class="wiz-field hidden" id="wiz-board-field">
+        <label for="wiz-board">Exam board / curriculum</label>
+        <select id="wiz-board" onchange="wizBoardChange()" style="width:100%">
           <option value="">Choose board…</option>
-          <option value="edexcel_igcse">Edexcel IGCSE</option>
-          <option value="cambridge_igcse">Cambridge IGCSE</option>
-          <option value="edexcel_alevel">Edexcel A-Level / AS-Level</option>
-          <option value="cambridge_alevel">Cambridge A-Level / AS-Level</option>
-          <option value="o_level">O Level</option>
-          <option value="acca">ACCA</option>
-          <option value="mbbs">MBBS</option>
-          <option value="other">Other / Custom</option>
         </select>
       </div>
       <div class="wiz-field" id="wiz-date-row">
@@ -1374,7 +1461,7 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text
         <input type="date" id="wiz-date">
         <label style="display:flex;align-items:center;gap:7px;margin-top:8px;cursor:pointer;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:normal;text-transform:none">
           <input type="checkbox" id="wiz-no-date" onchange="wizNoDateToggle()">
-          N/A — no specific exam date (ACCA, MBBS, rolling exams)
+          N/A — no specific exam date (IB, MBBS, rolling exams)
         </label>
       </div>
       <div class="wiz-btns">
@@ -1600,7 +1687,7 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text
 
 <!-- Edit Profile Modal -->
 <div id="ep-modal" class="modal-overlay hidden">
-  <div class="modal-box" style="max-width:380px">
+  <div class="modal-box" style="max-width:420px">
     <div class="modal-head">
       <div><div class="lead">Edit profile</div></div>
       <button class="btn sm ghost" onclick="closeEditProfileModal()">✕</button>
@@ -1611,8 +1698,21 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text
         <input type="text" id="ep-name" placeholder="Your name" style="width:100%;margin-top:6px">
       </div>
       <div>
+        <span class="fieldlabel">Qualification</span>
+        <select id="ep-qual" onchange="epQualChange()" style="width:100%;margin-top:6px">
+          <option value="">— select —</option>
+          <option value="A Level">A Level</option>
+          <option value="AS Level">AS Level</option>
+          <option value="IGCSE / O Level">IGCSE / O Level</option>
+          <option value="IB Diploma">IB Diploma (DP)</option>
+          <option value="MBBS">MBBS</option>
+        </select>
+      </div>
+      <div id="ep-board-wrap">
         <span class="fieldlabel">Exam Board</span>
-        <input type="text" id="ep-board" placeholder="e.g. WAEC, NECO" style="width:100%;margin-top:6px">
+        <select id="ep-board" style="width:100%;margin-top:6px">
+          <option value="">— select board —</option>
+        </select>
       </div>
       <div>
         <span class="fieldlabel">Exam Date</span>
