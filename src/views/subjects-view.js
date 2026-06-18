@@ -8,7 +8,9 @@ import {
   getTopics, createTopic, updateTopic, deleteTopic, bulkInsertTopics, reorderTopics,
 } from '../data/topics.js';
 import { TOPIC_VISUALS, getTopicVisualsKey } from '../data/topic-visuals.js';
-import { TOPIC_SVGS } from '../data/topic-svgs-igcse-cambridge.js';
+import { TOPIC_SVGS as CAM_SVGS } from '../data/topic-svgs-igcse-cambridge.js';
+import { EDEXCEL_TOPIC_SVGS } from '../data/topic-svgs-igcse-edexcel.js';
+const TOPIC_SVGS = { ...CAM_SVGS, ...EDEXCEL_TOPIC_SVGS };
 
 // ── state ──────────────────────────────────────────────────────────────────
 const sv = {

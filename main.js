@@ -25,7 +25,9 @@ import { BONES, BONE_REGIONS } from './src/data/bones.js';
 import { BONE_DIAGRAMS } from './src/data/bone-diagrams.js';
 import { getPastPapersForCode, filterIBPapers } from './src/data/past-papers.js';
 import { TOPIC_VISUALS, getTopicVisualsKey } from './src/data/topic-visuals.js';
-import { TOPIC_SVGS } from './src/data/topic-svgs-igcse-cambridge.js';
+import { TOPIC_SVGS as CAM_SVGS } from './src/data/topic-svgs-igcse-cambridge.js';
+import { EDEXCEL_TOPIC_SVGS } from './src/data/topic-svgs-igcse-edexcel.js';
+const TOPIC_SVGS = { ...CAM_SVGS, ...EDEXCEL_TOPIC_SVGS };
 
 // Apply theme + font scale from localStorage immediately — avoids FOUC before auth resolves
 loadSavedTheme();
