@@ -27,8 +27,11 @@ import { getPastPapersForCode, filterIBPapers } from './src/data/past-papers.js'
 import { TOPIC_VISUALS, getTopicVisualsKey } from './src/data/topic-visuals.js';
 import { TOPIC_SVGS as CAM_SVGS } from './src/data/topic-svgs-igcse-cambridge.js';
 import { EDEXCEL_TOPIC_SVGS } from './src/data/topic-svgs-igcse-edexcel.js';
+import { TOPIC_SVGS_ALEVEL_CAMBRIDGE } from './src/data/topic-svgs-alevel-cambridge.js';
+import { TOPIC_SVGS_ALEVEL_EDEXCEL } from './src/data/topic-svgs-alevel-edexcel.js';
+import { TOPIC_SVGS_IB } from './src/data/topic-svgs-ib.js';
 import { TOPIC_SVGS_MBBS } from './src/data/topic-svgs-mbbs.js';
-const TOPIC_SVGS = { ...CAM_SVGS, ...EDEXCEL_TOPIC_SVGS, ...TOPIC_SVGS_MBBS };
+const TOPIC_SVGS = { ...CAM_SVGS, ...EDEXCEL_TOPIC_SVGS, ...TOPIC_SVGS_ALEVEL_CAMBRIDGE, ...TOPIC_SVGS_ALEVEL_EDEXCEL, ...TOPIC_SVGS_IB, ...TOPIC_SVGS_MBBS };
 
 // Apply theme + font scale from localStorage immediately — avoids FOUC before auth resolves
 loadSavedTheme();
@@ -4477,6 +4480,19 @@ window.openTopicVisualModal = function(tvKey, topicId) {
   document.getElementById('tv-topic-name').textContent = topic.name;
   document.getElementById('tv-syllabus').textContent = topic.syllabusRef ? 'Syllabus ' + topic.syllabusRef : '';
 
+  // 3D toggle button in modal header — shown for any topic with sketchfab3dId or threejs3dFn
+  document.getElementById('tv-3d-btn')?.remove();
+  const has3d = !!(topic.sketchfab3dId || topic.threejs3dFn);
+  if (has3d) {
+    const btn3d = document.createElement('button');
+    btn3d.id = 'tv-3d-btn';
+    btn3d.className = 'bone-3d-btn';
+    btn3d.style.cssText = 'margin-top:6px;display:inline-block';
+    btn3d.textContent = 'View 3D →';
+    btn3d.onclick = () => _tvShow3D(topic);
+    document.getElementById('tv-syllabus').insertAdjacentElement('afterend', btn3d);
+  }
+
   const svg = topic.svgKey && TOPIC_SVGS[topic.svgKey] ? TOPIC_SVGS[topic.svgKey] : '';
   const lmHtml = (topic.landmarks || []).map(l => `<span class="tv-lm-tag">${l}</span>`).join('');
   const qaHtml = (topic.examQA || []).map((qa, i) => `
@@ -4487,16 +4503,62 @@ window.openTopicVisualModal = function(tvKey, topicId) {
       <div class="tv-qa-a">${qa.a}${qa.year ? `<span class="tv-qa-year">${qa.year}</span>` : ''}</div>
     </div>`).join('');
 
+  let view3dHtml = '';
+  if (topic.sketchfab3dId) {
+    const embedUrl = `https://sketchfab.com/models/${topic.sketchfab3dId}/embed?autostart=1&ui_controls=0&ui_infos=0&ui_inspector=0&ui_stop=0&ui_watermark=0&ui_watermark_link=0&preload=1`;
+    view3dHtml = `<div class="tv-3d-ratio"><iframe data-src="${embedUrl}" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen loading="lazy" title="${escapeHtml(topic.name)} 3D model"></iframe></div>`;
+  } else if (topic.threejs3dFn) {
+    view3dHtml = `<div class="tv-3d-canvas-wrap"><canvas id="tv-3d-canvas" class="tv-3d-canvas"></canvas><div id="tv-3d-msg" class="tv-3d-msg">Loading 3D model…</div></div>`;
+  }
+
   document.getElementById('tv-body').innerHTML = `
-    ${svg ? `<div class="tv-svg-wrap">${svg}</div>` : ''}
-    <p class="tv-desc">${topic.description || ''}</p>
-    ${lmHtml ? `<div><div class="tv-landmarks-label">Key concepts</div><div class="tv-landmarks">${lmHtml}</div></div>` : ''}
-    ${qaHtml ? `<div><div class="tv-qa-label">Exam Q&amp;A</div><div class="tv-qa">${qaHtml}</div></div>` : ''}
-    ${topic.wikiUrl ? `<a class="tv-wiki-link" href="${topic.wikiUrl}" target="_blank" rel="noopener">↗ Wikipedia</a>` : ''}
+    <div id="tv-2d-view">
+      ${svg ? `<div class="tv-svg-wrap">${svg}</div>` : ''}
+      <p class="tv-desc">${topic.description || ''}</p>
+      ${lmHtml ? `<div><div class="tv-landmarks-label">Key concepts</div><div class="tv-landmarks">${lmHtml}</div></div>` : ''}
+      ${qaHtml ? `<div><div class="tv-qa-label">Exam Q&amp;A</div><div class="tv-qa">${qaHtml}</div></div>` : ''}
+      ${topic.wikiUrl ? `<a class="tv-wiki-link" href="${topic.wikiUrl}" target="_blank" rel="noopener">↗ Wikipedia</a>` : ''}
+    </div>
+    ${has3d ? `<div id="tv-3d-view" class="hidden">${view3dHtml}<div class="tv-3d-back-row"><button class="bone-diag-back" onclick="tvBack2D()">← Back to diagram</button></div></div>` : ''}
   `;
 
   modal.classList.remove('hidden');
 };
+
+function _tvShow3D(topic) {
+  const view2d = document.getElementById('tv-2d-view');
+  const view3d = document.getElementById('tv-3d-view');
+  if (!view3d) return;
+  view2d?.classList.add('hidden');
+  view3d.classList.remove('hidden');
+
+  // Lazy-load Sketchfab iframe on first click
+  if (topic.sketchfab3dId) {
+    const iframe = view3d.querySelector('iframe[data-src]');
+    if (iframe && !iframe.dataset.loaded) {
+      iframe.src = iframe.dataset.src;
+      iframe.dataset.loaded = '1';
+    }
+  }
+
+  // Call Three.js fn on first click — fn must exist on window
+  if (topic.threejs3dFn && !view3d.dataset.init) {
+    view3d.dataset.init = '1';
+    const canvas = document.getElementById('tv-3d-canvas');
+    const msg = document.getElementById('tv-3d-msg');
+    try {
+      const fnName = topic.threejs3dFn.split('(')[0];
+      if (typeof window[fnName] === 'function') {
+        if (msg) msg.style.display = 'none';
+        window[fnName](canvas);
+      } else {
+        if (msg) msg.textContent = '3D model not available for this topic yet.';
+      }
+    } catch(e) {
+      if (msg) msg.textContent = '3D model not available for this topic yet.';
+    }
+  }
+}
 
 window.closeTopicVisualModal = function() {
   document.getElementById('tv-modal')?.classList.add('hidden');
@@ -4504,6 +4566,11 @@ window.closeTopicVisualModal = function() {
 
 window.tvToggleQa = function(btn) {
   btn.closest('.tv-qa-item').classList.toggle('open');
+};
+
+window.tvBack2D = function() {
+  document.getElementById('tv-3d-view')?.classList.add('hidden');
+  document.getElementById('tv-2d-view')?.classList.remove('hidden');
 };
 
 window.bonesSearchInput = function(q) {
