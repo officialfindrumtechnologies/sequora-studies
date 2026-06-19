@@ -169,9 +169,12 @@ export function sbQualChange() {
   if (boardWrap) boardWrap.classList.toggle('hidden', boards.length === 0);
   boardSel.innerHTML = '<option value="">— select board —</option>' +
     boards.map(b => `<option value="${b}">${b}</option>`).join('');
-  if (boards.length === 1) boardSel.value = boards[0];
-
-  document.getElementById('sb-template-list').innerHTML = '';
+  if (boards.length === 1) {
+    boardSel.value = boards[0];
+    sbLoadTemplatesForBoard();
+  } else {
+    document.getElementById('sb-template-list').innerHTML = '';
+  }
 }
 window.sbQualChange = sbQualChange;
 
