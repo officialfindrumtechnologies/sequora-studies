@@ -12,7 +12,8 @@ import { TOPIC_SVGS as CAM_SVGS } from '../data/topic-svgs-igcse-cambridge.js';
 import { EDEXCEL_TOPIC_SVGS } from '../data/topic-svgs-igcse-edexcel.js';
 import { TOPIC_SVGS_ALEVEL_CAMBRIDGE } from '../data/topic-svgs-alevel-cambridge.js';
 import { TOPIC_SVGS_ALEVEL_EDEXCEL } from '../data/topic-svgs-alevel-edexcel.js';
-const TOPIC_SVGS = { ...CAM_SVGS, ...EDEXCEL_TOPIC_SVGS, ...TOPIC_SVGS_ALEVEL_CAMBRIDGE, ...TOPIC_SVGS_ALEVEL_EDEXCEL };
+import { TOPIC_SVGS_IB } from '../data/topic-svgs-ib.js';
+const TOPIC_SVGS = { ...CAM_SVGS, ...EDEXCEL_TOPIC_SVGS, ...TOPIC_SVGS_ALEVEL_CAMBRIDGE, ...TOPIC_SVGS_ALEVEL_EDEXCEL, ...TOPIC_SVGS_IB };
 
 // ── state ──────────────────────────────────────────────────────────────────
 const sv = {
