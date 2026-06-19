@@ -97,6 +97,35 @@ function cta(label, href) {
 
 // ── email templates ───────────────────────────────────────────────────────────
 
+export function emailVerification({ email, confirmUrl, actionType = 'signup' }) {
+  const isReset   = actionType === 'recovery';
+  const isMagic   = actionType === 'magiclink';
+  const heading   = isReset  ? 'Reset your password'
+                  : isMagic  ? 'Your sign-in link'
+                  :            'Verify your Sequora account';
+  const ctaLabel  = isReset  ? 'Reset password →'
+                  : isMagic  ? 'Sign in to Sequora →'
+                  :            'Verify email →';
+  const bodyText  = isReset
+    ? 'Click below to set a new password for your Sequora account. This link expires in 1 hour.'
+    : isMagic
+    ? 'Click below to sign in to Sequora. This link expires in 1 hour.'
+    : 'Click below to verify your email address and start tracking your studies.';
+
+  return send({
+    to: email,
+    subject: heading,
+    html: layout(`
+      ${h1(heading)}
+      ${p(bodyText)}
+      <p style="margin:20px 0 8px 0;text-align:center">
+        ${cta(ctaLabel, confirmUrl)}
+      </p>
+      ${p('<span style="font-size:12px;color:#9b9184">If you didn\'t create an account or request this email, you can safely ignore it.</span>')}
+    `),
+  });
+}
+
 export function emailActivated({ email, planLabel, expiresAt }) {
   const expiryFmt = new Date(expiresAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 

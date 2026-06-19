@@ -1621,6 +1621,9 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
     <div style="display: flex; flex-direction: column; gap: 10px;">
       <input type="email" id="loginEmail" placeholder="your@email.com" autocomplete="email" style="text-align: center; width: 100%;">
       <input type="password" id="loginPassword" placeholder="password" autocomplete="current-password" style="text-align: center; width: 100%;">
+      <div id="forgotRow" style="text-align: right; margin-top: -4px;">
+        <button id="forgotBtn" onclick="handleForgotPassword()" style="background:none;border:none;cursor:pointer;color:var(--muted);font-family:var(--mono);font-size:10px;padding:0;text-decoration:underline;">Forgot password?</button>
+      </div>
       <div id="signinButtons" style="display: flex; gap: 8px;">
         <button class="btn ghost sm" id="loginBtn" onclick="handleLogin()" style="flex: 1; padding: 11px 0;">Magic Link</button>
         <button class="btn primary sm" id="pwdBtn" onclick="handlePasswordLogin()" style="flex: 1; padding: 11px 0;">Sign In</button>
@@ -1628,8 +1631,12 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
       <div id="signupButtons" style="display: none;">
         <button class="btn primary sm" id="signupBtn" onclick="handleSignup()" style="width: 100%; padding: 11px 0;">Create account</button>
       </div>
+      <div id="resetPanel" style="display: none; flex-direction: column; gap: 10px;">
+        <input type="password" id="resetNewPassword" placeholder="new password (6+ chars)" autocomplete="new-password" style="text-align: center; width: 100%;">
+        <button class="btn primary sm" id="resetBtn" onclick="handlePasswordReset()" style="width: 100%; padding: 11px 0;">Set new password</button>
+      </div>
       <div id="loginStatus" style="font-family: var(--mono); font-size: 11px; color: var(--paper-dim); margin-top: 4px;"></div>
-      <div style="text-align: center; font-family: var(--mono); font-size: 11px; color: var(--muted); padding-top: 4px; border-top: 1px solid var(--line);">
+      <div id="authToggleRow" style="text-align: center; font-family: var(--mono); font-size: 11px; color: var(--muted); padding-top: 4px; border-top: 1px solid var(--line);">
         <span id="authToggleText">New here?</span>
         <button onclick="toggleAuthMode()" id="authToggleBtn" style="background:none;border:none;cursor:pointer;color:var(--amber);font-family:var(--mono);font-size:11px;padding:0 0 0 5px;text-decoration:underline;">Create account</button>
       </div>

@@ -2573,6 +2573,23 @@ async function loadStateFromSupabase() {
   }
 }
 
+function friendlyAuthError(msg) {
+  const m = (msg || '').toLowerCase();
+  if (m.includes('invalid login credentials') || m.includes('invalid credentials'))
+    return 'Incorrect email or password';
+  if (m.includes('email not confirmed') || m.includes('not confirmed'))
+    return 'Please verify your email first — check your inbox';
+  if (m.includes('user already registered') || m.includes('already registered'))
+    return 'An account with this email already exists — try logging in';
+  if (m.includes('password should be at least') || m.includes('password must be at least'))
+    return 'Password must be at least 6 characters';
+  if (m.includes('rate limit') || m.includes('too many requests'))
+    return 'Too many attempts — please wait a moment and try again';
+  if (m.includes('invalid email'))
+    return 'Enter a valid email address';
+  return msg;
+}
+
 async function handleLogin() {
   const emailInput = document.getElementById("loginEmail");
   const email = emailInput.value.trim();
@@ -2604,7 +2621,7 @@ async function handleLogin() {
 
     if (error) {
       console.error("[Auth] Magic link error:", error.message);
-      status.textContent = "Error: " + error.message;
+      status.textContent = friendlyAuthError(error.message);
       setToast("Failed to send link");
     } else {
       status.textContent = "Magic link sent! Check your inbox.";
@@ -2653,8 +2670,9 @@ async function handlePasswordLogin() {
 
     if (error) {
       console.error("[Auth] Supabase returned error:", error.message, error);
-      status.textContent = "Error: " + error.message;
-      setToast("Login failed: " + error.message);
+      const friendly = friendlyAuthError(error.message);
+      status.textContent = friendly;
+      setToast(friendly);
       pwdBtn.disabled = false;
       pwdBtn.textContent = "Password Sign In";
     } else {
@@ -2682,11 +2700,84 @@ function toggleAuthMode() {
   const isSignup = _authMode === 'signup';
   document.getElementById('signinButtons').style.display = isSignup ? 'none' : 'flex';
   document.getElementById('signupButtons').style.display = isSignup ? 'block' : 'none';
+  document.getElementById('forgotRow').style.display = isSignup ? 'none' : 'block';
+  document.getElementById('resetPanel').style.display = 'none';
+  document.getElementById('loginPassword').style.display = '';
+  document.getElementById('authToggleRow').style.display = '';
   document.getElementById('loginSubtitle').textContent = isSignup ? 'Create your free account' : 'Sign in to your account';
   document.getElementById('authToggleText').textContent = isSignup ? 'Already have an account?' : 'New here?';
   document.getElementById('authToggleBtn').textContent = isSignup ? 'Sign in' : 'Create account';
   document.getElementById('loginPassword').autocomplete = isSignup ? 'new-password' : 'current-password';
   document.getElementById('loginStatus').textContent = '';
+}
+
+async function handleForgotPassword() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const status = document.getElementById('loginStatus');
+  if (!email) { status.textContent = 'Enter your email address above first'; return; }
+
+  const btn = document.getElementById('forgotBtn');
+  btn.disabled = true; btn.textContent = 'Sending…';
+  status.textContent = '';
+
+  try {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + '/app',
+    });
+    if (error) {
+      status.textContent = friendlyAuthError(error.message);
+    } else {
+      status.textContent = 'Password reset link sent — check your inbox';
+      setToast('Reset link sent!');
+    }
+  } catch (err) {
+    status.textContent = friendlyAuthError(err.message);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Forgot password?';
+  }
+}
+
+function showPasswordResetPanel() {
+  document.getElementById('loginScreen').classList.remove('hidden');
+  document.getElementById('signinButtons').style.display = 'none';
+  document.getElementById('signupButtons').style.display = 'none';
+  document.getElementById('forgotRow').style.display = 'none';
+  document.getElementById('loginPassword').style.display = 'none';
+  document.getElementById('authToggleRow').style.display = 'none';
+  document.getElementById('resetPanel').style.display = 'flex';
+  document.getElementById('loginSubtitle').textContent = 'Choose a new password';
+  document.getElementById('loginStatus').textContent = '';
+  document.getElementById('resetNewPassword').value = '';
+  setTimeout(() => document.getElementById('resetNewPassword').focus(), 100);
+}
+
+async function handlePasswordReset() {
+  const pwd = document.getElementById('resetNewPassword').value;
+  const btn = document.getElementById('resetBtn');
+  const status = document.getElementById('loginStatus');
+
+  if (!pwd || pwd.length < 6) {
+    status.textContent = 'Password must be at least 6 characters';
+    return;
+  }
+
+  btn.disabled = true; btn.textContent = 'Saving…';
+
+  try {
+    const { error } = await supabase.auth.updateUser({ password: pwd });
+    if (error) {
+      status.textContent = friendlyAuthError(error.message);
+    } else {
+      status.textContent = 'Password updated — signing you in…';
+      setToast('Password updated!');
+      document.getElementById('resetPanel').style.display = 'none';
+      // onAuthStateChange will fire SIGNED_IN and handleSession() will take over
+    }
+  } catch (err) {
+    status.textContent = friendlyAuthError(err.message);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Set new password';
+  }
 }
 
 async function handleSignup() {
@@ -2710,14 +2801,18 @@ async function handleSignup() {
       options: { emailRedirectTo: window.location.origin + '/app' },
     });
     if (error) {
-      status.textContent = 'Error: ' + error.message;
+      const friendly = friendlyAuthError(error.message);
+      status.textContent = friendly;
       setToast('Signup failed');
+    } else if (data?.user && data.user.identities?.length === 0) {
+      // Supabase returns no error but empty identities when email already registered
+      status.textContent = 'An account with this email already exists — try logging in';
     } else if (data?.session) {
       // Email confirmation disabled — logged in immediately
       handleSession(data.session);
     } else {
-      status.textContent = 'Check your email to confirm your account, then sign in.';
-      setToast('Check your email!');
+      status.textContent = 'Check your inbox to verify your email, then sign in here.';
+      setToast('Verification email sent!');
     }
   } catch (err) {
     status.textContent = 'Error: ' + err.message;
@@ -2927,6 +3022,8 @@ window.handlePasswordLogin = handlePasswordLogin;
 window.handleSignup = handleSignup;
 window.toggleAuthMode = toggleAuthMode;
 window.handleLogout = handleLogout;
+window.handleForgotPassword = handleForgotPassword;
+window.handlePasswordReset = handlePasswordReset;
 window.getAIRecommendation = getAIRecommendation;
 window.runWeeklyCheckIn = runWeeklyCheckIn;
 window.closeAIModal = closeAIModal;
@@ -4682,6 +4779,10 @@ function showApp() {
   document.getElementById("loginScreen").classList.add("hidden");
   hideOnboarding();
   document.getElementById("authHeader").style.display = "flex";
+  if (sessionStorage.getItem('sq_just_verified') === '1') {
+    sessionStorage.removeItem('sq_just_verified');
+    setTimeout(() => setToast('Email verified — welcome to Sequora!'), 600);
+  }
   document.getElementById("userEmail").textContent = currentUser?.email || "";
   // Resume any pending sync from previous offline session
   if (localStorage.getItem('sq_sync_pending')) {
@@ -4769,6 +4870,12 @@ async function handleSession(session) {
 }
 
 if (supabase) {
+  // Detect post-verification redirect before Supabase exchanges the token
+  const _hashStr = window.location.hash;
+  if (_hashStr.includes('type=signup') || _hashStr.includes('type=email_change')) {
+    sessionStorage.setItem('sq_just_verified', '1');
+  }
+
   // Check active session immediately on startup
   supabase.auth.getSession().then(({ data: { session } }) => {
     handleSession(session);
@@ -4777,6 +4884,10 @@ if (supabase) {
   // Listen for changes
   supabase.auth.onAuthStateChange((event, session) => {
     console.log("[Auth] onAuthStateChange:", event);
+    if (event === 'PASSWORD_RECOVERY') {
+      showPasswordResetPanel();
+      return;
+    }
     handleSession(session);
   });
 }
