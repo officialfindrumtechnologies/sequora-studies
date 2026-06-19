@@ -51,3 +51,14 @@ export async function getExistingRelationship(myId, theirId) {
     .maybeSingle();
   return data;
 }
+
+export async function getFriendsLastActivity(userIds) {
+  if (!userIds.length) return new Set();
+  const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+  const { data } = await supabase
+    .from('sessions')
+    .select('user_id')
+    .in('user_id', userIds)
+    .gte('study_date', yesterday);
+  return new Set((data || []).map(s => s.user_id));
+}

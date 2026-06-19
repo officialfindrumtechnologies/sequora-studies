@@ -32,8 +32,9 @@
   --glow-color:242,223,168;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:var(--body);background:var(--bg,#060606);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth;background:var(--bg,#060606);overscroll-behavior:none}
+body{font-family:var(--body);background:var(--bg,#060606);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;overscroll-behavior:none}
+body::before{content:'';position:fixed;inset:0;z-index:-2;background:inherit;pointer-events:none}
 .wrap{max-width:1160px;margin:0 auto;padding:0 24px 100px}
 
 /* ---------- header ---------- */
@@ -581,6 +582,15 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text
 .fp-meta-key{font-family:var(--mono);font-size:11px;color:var(--muted)}
 .fp-remove{margin-top:16px;width:100%;background:transparent;border:1px solid rgba(239,68,68,.25);border-radius:var(--rs);color:var(--red);font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:7px;cursor:pointer;transition:all .15s}
 .fp-remove:hover{background:rgba(239,68,68,.08);border-color:var(--red)}
+/* ---------- friends list (lb friends tab) ---------- */
+.lb-friend-card{display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid var(--border)}
+.lb-friend-card:last-child{border-bottom:none}
+.lb-friend-avatar{width:36px;height:36px;border-radius:50%;background:rgba(var(--glow-color),.12);border:1px solid rgba(var(--glow-color),.2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;font-size:14px;color:var(--accent);flex-shrink:0;position:relative}
+.lb-friend-online{position:absolute;bottom:0;right:0;width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid var(--surface)}
+.lb-friend-info{flex:1;min-width:0}
+.lb-friend-name{font-size:13px;font-weight:500;color:var(--text)}
+.lb-friend-meta{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:2px}
+.lb-friend-actions{display:flex;gap:7px;flex-shrink:0;align-items:center}
 .bm-open-ts{width:100%;background:rgba(var(--glow-color),.06);border:1px solid rgba(var(--glow-color),.15);border-radius:6px;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(var(--glow-color),.7);cursor:pointer;padding:9px 12px;text-align:left;transition:all .15s}
 .bm-open-ts:hover{background:rgba(var(--glow-color),.12);border-color:rgba(var(--glow-color),.35);color:var(--accent)}
 
@@ -1709,10 +1719,12 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
     </div>
     <div class="lb-tabs">
       <button class="lb-tab active" id="lb-tab-lb" onclick="lbSwitchTab('lb')">Leaderboard</button>
+      <button class="lb-tab" id="lb-tab-friends" onclick="lbSwitchTab('friends')">Friends</button>
       <button class="lb-tab" id="lb-tab-add" onclick="lbSwitchTab('add')">Add Friend</button>
       <button class="lb-tab" id="lb-tab-req" onclick="lbSwitchTab('req')">Requests <span id="lb-req-badge" class="lb-req-badge hidden"></span></button>
     </div>
     <div id="lb-panel-lb" class="lb-panel"></div>
+    <div id="lb-panel-friends" class="lb-panel hidden"></div>
     <div id="lb-panel-add" class="lb-panel hidden"></div>
     <div id="lb-panel-req" class="lb-panel hidden"></div>
   </div>

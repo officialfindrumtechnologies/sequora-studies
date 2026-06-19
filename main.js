@@ -19,7 +19,7 @@ import { getAllTopics } from './src/data/topics.js';
 import {
   searchUsers, sendFriendRequest, getPendingRequests,
   acceptFriendRequest, declineFriendRequest, removeFriend,
-  getFriendsLeaderboard, getExistingRelationship,
+  getFriendsLeaderboard, getExistingRelationship, getFriendsLastActivity,
 } from './src/data/friends.js';
 import { BONES, BONE_REGIONS } from './src/data/bones.js';
 import { BONE_DIAGRAMS } from './src/data/bone-diagrams.js';
@@ -3236,6 +3236,7 @@ window.tsSelectPreset = function(key) {
   const td = { preset: key, imagePresets: existing.imagePresets || [], imageBg: existing.imageBg };
   applyTheme(td);
   document.body.style.background = '';
+  document.documentElement.style.background = '';
   _tsBgState.type = 'solid';
   _tsBgState.solid = THEMES[key]?.vars['--ink'] || getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#12100e';
   saveTheme(td).catch(() => {});
@@ -3318,23 +3319,26 @@ function _renderBgInner(type) {
 
 function _applyBg() {
   const t = _tsBgState.type;
+  let bg = '';
   if (t === 'solid') {
-    document.body.style.background = _tsBgState.solid || '';
+    bg = _tsBgState.solid || '';
   } else if (t === 'linear') {
     const { angle = 135, stops = [] } = _tsBgState.linear;
-    document.body.style.background = `linear-gradient(${angle}deg,${stops.join(',')})`;
+    bg = `linear-gradient(${angle}deg,${stops.join(',')})`;
   } else if (t === 'radial') {
     const { x = 50, y = 50, stops = [] } = _tsBgState.radial;
-    document.body.style.background = `radial-gradient(circle at ${x}% ${y}%,${stops.join(',')})`;
+    bg = `radial-gradient(circle at ${x}% ${y}%,${stops.join(',')})`;
   } else if (t === 'mesh') {
     const { tl, tr, bl, br } = _tsBgState.mesh;
-    document.body.style.background = [
+    bg = [
       `radial-gradient(ellipse at 0% 0%,${tl} 0%,transparent 60%)`,
       `radial-gradient(ellipse at 100% 0%,${tr} 0%,transparent 60%)`,
       `radial-gradient(ellipse at 0% 100%,${bl} 0%,transparent 60%)`,
       `radial-gradient(ellipse at 100% 100%,${br} 0%,transparent 60%)`,
     ].join(',');
   }
+  document.body.style.background = bg;
+  document.documentElement.style.background = bg;
 }
 
 window.tsBgSetType = function(t) { _tsBgState.type = t; _renderTsBgBuilder(); _applyBg(); };
@@ -3726,6 +3730,7 @@ window.tsDelPreset = function(i) {
 window.tsResetDefault = function() {
   applyTheme({ preset: 'ascent' });
   document.body.style.background = '';
+  document.documentElement.style.background = '';
   document.documentElement.style.fontSize = '15px';
   localStorage.setItem('sq_font_scale', 'default');
   document.documentElement.style.setProperty('--display', '"DM Serif Display",serif');
@@ -3744,7 +3749,7 @@ function _tsRestoreExtra() {
   if (td.bgBuilder) {
     Object.assign(_tsBgState, td.bgBuilder);
     if (_tsBgState.type !== 'solid') _applyBg();
-    else if (_tsBgState.solid) document.body.style.background = _tsBgState.solid;
+    else if (_tsBgState.solid) { document.body.style.background = _tsBgState.solid; document.documentElement.style.background = _tsBgState.solid; }
   }
   if (td.imageBg && td.imageBg.url) {
     Object.assign(_tsImgState, td.imageBg);
@@ -3999,7 +4004,7 @@ window.openLeaderboard = async function() {
   if (!modal) return;
   modal.classList.remove('hidden');
   _lbActiveTab = 'lb';
-  ['lb','add','req'].forEach(t => {
+  ['lb','friends','add','req'].forEach(t => {
     document.getElementById(`lb-tab-${t}`)?.classList.toggle('active', t === 'lb');
     document.getElementById(`lb-panel-${t}`)?.classList.toggle('hidden', t !== 'lb');
   });
@@ -4015,6 +4020,7 @@ window.openLeaderboard = async function() {
     }
   }
   _renderLbPanel();
+  _renderFriendsPanel();
 };
 
 window.closeLeaderboard = function() {
@@ -4023,13 +4029,14 @@ window.closeLeaderboard = function() {
 
 window.lbSwitchTab = function(tab) {
   _lbActiveTab = tab;
-  ['lb','add','req'].forEach(t => {
+  ['lb','friends','add','req'].forEach(t => {
     document.getElementById(`lb-tab-${t}`)?.classList.toggle('active', t === tab);
     document.getElementById(`lb-panel-${t}`)?.classList.toggle('hidden', t !== tab);
   });
   if (tab === 'add') _renderAddFriendPanel();
   if (tab === 'req') _renderRequestsPanel();
   if (tab === 'lb') _renderLbPanel();
+  if (tab === 'friends') _renderFriendsPanel();
 };
 
 function _renderLbPanel() {
@@ -4092,6 +4099,50 @@ function _renderRequestsPanel() {
         <button class="btn sm ghost danger" onclick="lbDeclineRequest('${req.id}')">Decline</button>
       </div>
     </div>`).join('');
+}
+
+async function _renderFriendsPanel() {
+  const panel = document.getElementById('lb-panel-friends');
+  if (!panel) return;
+
+  if (!_lbData) {
+    panel.innerHTML = '<div class="lb-loading">Loading…</div>';
+    try {
+      _lbData = await getFriendsLeaderboard(currentUser.id);
+    } catch(e) {
+      panel.innerHTML = '<div class="lb-empty">Failed to load</div>';
+      return;
+    }
+  }
+
+  const friends = (_lbData || []).filter(r => r.uid !== currentUser?.id);
+  if (!friends.length) {
+    panel.innerHTML = '<div class="lb-empty">No friends yet — add some from the Add Friend tab</div>';
+    return;
+  }
+
+  let activeSet = new Set();
+  try {
+    activeSet = await getFriendsLastActivity(friends.map(f => f.uid));
+  } catch(e) {}
+
+  panel.innerHTML = friends.map(r => {
+    const initials = (r.display_name || '?').charAt(0).toUpperCase();
+    const isOnline = activeSet.has(r.uid);
+    const qual = (r.qualification || r.exam_board) ? formatQualBoard(r.qualification, r.exam_board) : '';
+    const safeName = (r.display_name || '').replace(/'/g, "\\'");
+    return `<div class="lb-friend-card">
+      <div class="lb-friend-avatar">${initials}${isOnline ? '<span class="lb-friend-online"></span>' : ''}</div>
+      <div class="lb-friend-info">
+        <div class="lb-friend-name">${r.display_name}</div>
+        ${qual ? `<div class="lb-friend-meta">${qual}</div>` : ''}
+      </div>
+      <div class="lb-friend-actions">
+        <button class="btn sm ghost" onclick="openFriendProfile('${r.uid}')">View Profile →</button>
+        <button class="btn sm ghost danger" onclick="lbRemoveFriend('${r.uid}')">Remove</button>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 function _updateLbReqBadge() {
@@ -4201,6 +4252,7 @@ window.lbRemoveFriend = async function(uid) {
     if (rel) await removeFriend(rel.id);
     _lbData = null;
     closeFriendProfile();
+    if (_lbActiveTab === 'friends') _renderFriendsPanel();
     setToast('Friend removed');
   } catch(e) { setToast('Failed to remove'); }
 };
