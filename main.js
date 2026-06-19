@@ -4508,7 +4508,7 @@ window.openTopicVisualModal = function(tvKey, topicId) {
     const embedUrl = `https://sketchfab.com/models/${topic.sketchfab3dId}/embed?autostart=1&ui_controls=0&ui_infos=0&ui_inspector=0&ui_stop=0&ui_watermark=0&ui_watermark_link=0&preload=1`;
     view3dHtml = `<div class="tv-3d-ratio"><iframe data-src="${embedUrl}" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen loading="lazy" title="${escapeHtml(topic.name)} 3D model"></iframe></div>`;
   } else if (topic.threejs3dFn) {
-    view3dHtml = `<div class="tv-3d-canvas-wrap"><canvas id="tv-3d-canvas" class="tv-3d-canvas"></canvas><div id="tv-3d-msg" class="tv-3d-msg">Loading 3D model…</div></div>`;
+    view3dHtml = `<div class="tv-3d-canvas-wrap"><div id="tv-3d-canvas" class="tv-3d-canvas"></div><div id="tv-3d-msg" class="tv-3d-msg">Loading 3D model…</div></div>`;
   }
 
   document.getElementById('tv-body').innerHTML = `
@@ -4544,13 +4544,18 @@ function _tvShow3D(topic) {
   // Call Three.js fn on first click — fn must exist on window
   if (topic.threejs3dFn && !view3d.dataset.init) {
     view3d.dataset.init = '1';
-    const canvas = document.getElementById('tv-3d-canvas');
+    const container = document.getElementById('tv-3d-canvas');
     const msg = document.getElementById('tv-3d-msg');
     try {
-      const fnName = topic.threejs3dFn.split('(')[0];
+      const fnStr = topic.threejs3dFn;
+      const fnName = fnStr.split('(')[0];
+      const argsMatch = fnStr.match(/\(([^)]*)\)/);
+      const extraArgs = argsMatch && argsMatch[1].trim()
+        ? argsMatch[1].split(',').map(a => a.trim().replace(/^['"]|['"]$/g, ''))
+        : [];
       if (typeof window[fnName] === 'function') {
         if (msg) msg.style.display = 'none';
-        window[fnName](canvas);
+        window[fnName](container, ...extraArgs);
       } else {
         if (msg) msg.textContent = '3D model not available for this topic yet.';
       }
