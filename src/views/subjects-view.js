@@ -10,7 +10,8 @@ import {
 import { TOPIC_VISUALS, getTopicVisualsKey } from '../data/topic-visuals.js';
 import { TOPIC_SVGS as CAM_SVGS } from '../data/topic-svgs-igcse-cambridge.js';
 import { EDEXCEL_TOPIC_SVGS } from '../data/topic-svgs-igcse-edexcel.js';
-const TOPIC_SVGS = { ...CAM_SVGS, ...EDEXCEL_TOPIC_SVGS };
+import { TOPIC_SVGS_ALEVEL_CAMBRIDGE } from '../data/topic-svgs-alevel-cambridge.js';
+const TOPIC_SVGS = { ...CAM_SVGS, ...EDEXCEL_TOPIC_SVGS, ...TOPIC_SVGS_ALEVEL_CAMBRIDGE };
 
 // ── state ──────────────────────────────────────────────────────────────────
 const sv = {
