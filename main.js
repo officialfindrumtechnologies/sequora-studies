@@ -27,7 +27,8 @@ import { getPastPapersForCode, filterIBPapers } from './src/data/past-papers.js'
 import { TOPIC_VISUALS, getTopicVisualsKey } from './src/data/topic-visuals.js';
 import { TOPIC_SVGS as CAM_SVGS } from './src/data/topic-svgs-igcse-cambridge.js';
 import { EDEXCEL_TOPIC_SVGS } from './src/data/topic-svgs-igcse-edexcel.js';
-const TOPIC_SVGS = { ...CAM_SVGS, ...EDEXCEL_TOPIC_SVGS };
+import { TOPIC_SVGS_MBBS } from './src/data/topic-svgs-mbbs.js';
+const TOPIC_SVGS = { ...CAM_SVGS, ...EDEXCEL_TOPIC_SVGS, ...TOPIC_SVGS_MBBS };
 
 // Apply theme + font scale from localStorage immediately — avoids FOUC before auth resolves
 loadSavedTheme();
