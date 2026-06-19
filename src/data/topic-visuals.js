@@ -1845,6 +1845,7 @@ export const TOPIC_VISUALS = {
 
 // Derive the TOPIC_VISUALS key from a subject object (from Supabase subjects table)
 export function getTopicVisualsKey(subj) {
+  // 1. Exact exam code — most reliable
   const code = (subj.exam_code || '').trim();
   if (code === '0610') return 'cambridge_igcse_biology';
   if (code === '0620') return 'cambridge_igcse_chemistry';
@@ -1858,7 +1859,56 @@ export function getTopicVisualsKey(subj) {
   if (code === '9700') return 'cambridge_alevel_biology';
   if (code === '9701') return 'cambridge_alevel_chemistry';
   if (code === '9702') return 'cambridge_alevel_physics';
-  // Name-based fallback
+
+  const qual    = (subj.qualification || '').toLowerCase();
+  const board   = (subj.exam_board    || '').toLowerCase();
+  const subName = (subj.subject_name  || subj.name || '').toLowerCase();
+  const level   = (subj.level         || '').toLowerCase();
+
+  // 2. IB Diploma — field-based, level from subj.level directly
+  if (qual.includes('ib') || qual.includes('diploma') || board === 'ib') {
+    const ibLevel = (level === 'hl' || level === 'higher') ? 'hl' : 'sl';
+    if (subName.includes('biology'))   return `ib_${ibLevel}_biology`;
+    if (subName.includes('chemistry')) return `ib_${ibLevel}_chemistry`;
+    if (subName.includes('physics'))   return `ib_${ibLevel}_physics`;
+  }
+
+  // 3. MBBS / BMDC — field-based
+  if (qual === 'mbbs' || board === 'bmdc') {
+    if (subName.includes('physiology'))                              return 'mbbs_physiology';
+    if (subName.includes('biochemistry') || subName.includes('biochem')) return 'mbbs_biochemistry';
+    if (subName.includes('histology'))                               return 'mbbs_histology';
+  }
+
+  // 4. Cambridge / Edexcel — field-based
+  const isEdexcel   = board.includes('edexcel');
+  const isCambridge = board.includes('cambridge');
+  const isIGCSE     = qual.includes('igcse');
+  const isALevel    = qual.includes('a level') || qual.includes('alevel') || qual.includes('a-level');
+
+  if (isEdexcel && isIGCSE) {
+    if (subName.includes('biology'))   return 'edexcel_igcse_biology';
+    if (subName.includes('chemistry')) return 'edexcel_igcse_chemistry';
+    if (subName.includes('physics'))   return 'edexcel_igcse_physics';
+  }
+  if (isEdexcel && isALevel) {
+    if (subName.includes('biology'))   return 'edexcel_alevel_biology';
+    if (subName.includes('chemistry')) return 'edexcel_alevel_chemistry';
+    if (subName.includes('physics'))   return 'edexcel_alevel_physics';
+  }
+  if (isCambridge && isIGCSE) {
+    if (subName.includes('biology'))   return 'cambridge_igcse_biology';
+    if (subName.includes('chemistry')) return 'cambridge_igcse_chemistry';
+    if (subName.includes('physics'))   return 'cambridge_igcse_physics';
+  }
+  if (isALevel) {
+    // Cambridge is default for A Level (Edexcel already handled above)
+    if (subName.includes('biology'))   return 'cambridge_alevel_biology';
+    if (subName.includes('chemistry')) return 'cambridge_alevel_chemistry';
+    if (subName.includes('physics'))   return 'cambridge_alevel_physics';
+  }
+
+  // 5. Name-based fallback — backward compat for old data missing structured fields
   const name = (subj.name || '').toLowerCase();
   if (name.includes('biology')   && (name.includes('cambridge') || name.includes('igcse'))) return 'cambridge_igcse_biology';
   if (name.includes('chemistry') && (name.includes('cambridge') || name.includes('igcse'))) return 'cambridge_igcse_chemistry';
@@ -1872,28 +1922,19 @@ export function getTopicVisualsKey(subj) {
   if (name.includes('biology')   && (name.includes('a level') || name.includes('alevel') || name.includes('a-level'))) return 'cambridge_alevel_biology';
   if (name.includes('chemistry') && (name.includes('a level') || name.includes('alevel') || name.includes('a-level'))) return 'cambridge_alevel_chemistry';
   if (name.includes('physics')   && (name.includes('a level') || name.includes('alevel') || name.includes('a-level'))) return 'cambridge_alevel_physics';
-  // IB Diploma — check for HL/SL designation
   if (name.includes('ib') || name.includes('diploma')) {
-    if (name.includes('biology') && (name.includes(' hl') || name.includes('higher'))) return 'ib_hl_biology';
-    if (name.includes('biology') && (name.includes(' sl') || name.includes('standard'))) return 'ib_sl_biology';
-    if (name.includes('biology')) return 'ib_sl_biology';
+    if (name.includes('biology')   && (name.includes(' hl') || name.includes('higher'))) return 'ib_hl_biology';
+    if (name.includes('biology')   && (name.includes(' sl') || name.includes('standard'))) return 'ib_sl_biology';
+    if (name.includes('biology'))   return 'ib_sl_biology';
     if (name.includes('chemistry') && (name.includes(' hl') || name.includes('higher'))) return 'ib_hl_chemistry';
     if (name.includes('chemistry') && (name.includes(' sl') || name.includes('standard'))) return 'ib_sl_chemistry';
     if (name.includes('chemistry')) return 'ib_sl_chemistry';
-    if (name.includes('physics') && (name.includes(' hl') || name.includes('higher'))) return 'ib_hl_physics';
-    if (name.includes('physics') && (name.includes(' sl') || name.includes('standard'))) return 'ib_sl_physics';
-    if (name.includes('physics')) return 'ib_sl_physics';
+    if (name.includes('physics')   && (name.includes(' hl') || name.includes('higher'))) return 'ib_hl_physics';
+    if (name.includes('physics')   && (name.includes(' sl') || name.includes('standard'))) return 'ib_sl_physics';
+    if (name.includes('physics'))   return 'ib_sl_physics';
   }
-  // MBBS / BMDC
-  const isMBBS = subj.exam_board === 'BMDC' || subj.qualification === 'MBBS' || name.includes('mbbs');
-  if (isMBBS) {
-    if (name.includes('physiology')) return 'mbbs_physiology';
-    if (name.includes('biochemistry') || name.includes('biochem')) return 'mbbs_biochemistry';
-    if (name.includes('histology')) return 'mbbs_histology';
-  }
-  // Name-only fallback for plain MBBS subject names
-  if (name === 'physiology' || name === 'human physiology') return 'mbbs_physiology';
-  if (name === 'biochemistry' || name === 'medical biochemistry') return 'mbbs_biochemistry';
-  if (name === 'histology' || name === 'general histology') return 'mbbs_histology';
+  if (name.includes('physiology'))                             return 'mbbs_physiology';
+  if (name.includes('biochemistry') || name.includes('biochem')) return 'mbbs_biochemistry';
+  if (name.includes('histology'))                              return 'mbbs_histology';
   return null;
 }
