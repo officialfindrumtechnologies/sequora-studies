@@ -150,6 +150,16 @@ window.createAtomModel = function(container) {
     }
   });
 
+  const nucleusLbl = _makeLabel('Nucleus', '#ffddaa');
+  nucleusLbl.position.set(0, 0.7, 0);
+  scene.add(nucleusLbl);
+  const kShellLbl = _makeLabel('K Shell', '#55aaff');
+  kShellLbl.position.set(0, 1.8, 0);
+  scene.add(kShellLbl);
+  const lShellLbl = _makeLabel('L Shell', '#55ddaa');
+  lShellLbl.position.set(0, 2.8, 0);
+  scene.add(lShellLbl);
+
   function animate() {
     container._3dRafId = requestAnimationFrame(animate);
     pivot.rotation.y += 0.003;
@@ -601,6 +611,15 @@ window.createDiffusionAnimation = function(container) {
     pivot.add(m);
     particles.push({ mesh: m, vx: Math.cos(a) * spd, vy: Math.sin(a) * spd, vz: (Math.random() - 0.5) * 0.008 });
   }
+
+  const highLbl = _makeLabel('High Concentration', '#ff9966');
+  highLbl.position.set(-1.5, 1.8, 0);
+  highLbl.scale.set(2.2, 0.55, 1);
+  scene.add(highLbl);
+  const lowLbl = _makeLabel('Low Concentration', '#aaddff');
+  lowLbl.position.set(1.5, 1.8, 0);
+  lowLbl.scale.set(2.2, 0.55, 1);
+  scene.add(lowLbl);
 
   function animateDiff() {
     container._3dRafId = requestAnimationFrame(animateDiff);
@@ -1205,6 +1224,15 @@ window.createEnergyTransfer = function(container) {
   const keBar = new THREE.Mesh(new THREE.BoxGeometry(0.38, 1, 0.25), new THREE.MeshPhongMaterial({ color: 0xff3333 }));
   pivot.add(peBar); pivot.add(keBar);
 
+  const peLbl = _makeLabel('PE', '#3366ff');
+  peLbl.position.set(2.0, 2.4, 0);
+  scene.add(peLbl);
+  const keLbl = _makeLabel('KE', '#ff3333');
+  keLbl.position.set(2.65, 2.4, 0);
+  scene.add(keLbl);
+  const ballLbl = _makeLabel('Ball', '#aabbff');
+  scene.add(ballLbl);
+
   const TOP = 2.0, BOT = -1.95;
   let tE = 0;
   function animateEnergy() {
@@ -1217,6 +1245,7 @@ window.createEnergyTransfer = function(container) {
     const pH = Math.max(0.05, peR * 3.8), kH = Math.max(0.05, bounce * 3.8);
     peBar.scale.y = pH; peBar.position.set(2.0, BOT + pH / 2, 0);
     keBar.scale.y = kH; keBar.position.set(2.65, BOT + kH / 2, 0);
+    ballLbl.position.set(ball.position.x, ball.position.y + 0.55, 0);
     renderer.render(scene, camera);
   }
   animateEnergy();
@@ -1438,12 +1467,25 @@ window.createEMInduction = function(container) {
   magnet.add(north); magnet.add(south);
   pivot.add(magnet);
 
+  const coilLbl = _makeLabel('Coil', '#cc8833');
+  coilLbl.position.set(0, 1.1, 0);
+  scene.add(coilLbl);
+  const inductLbl = _makeLabel('Induced Current', '#ffdd88');
+  inductLbl.position.set(0, -1.3, 0);
+  inductLbl.scale.set(2.0, 0.5, 1);
+  scene.add(inductLbl);
+  const nLbl = _makeLabel('N', '#ff6666');
+  const sLbl = _makeLabel('S', '#6688ff');
+  scene.add(nLbl); scene.add(sLbl);
+
   let tEMI = 0;
   function animateEMI() {
     container._3dRafId = requestAnimationFrame(animateEMI);
     tEMI += 0.02;
     const mx = Math.sin(tEMI * 0.75) * 2.8;
     magnet.position.x = mx;
+    nLbl.position.set(mx + 0.4, 0.8, 0);
+    sLbl.position.set(mx - 0.4, 0.8, 0);
     const speed = Math.abs(Math.cos(tEMI * 0.75));
     coilRings.forEach(ring => {
       const dist = Math.abs(ring.position.x - mx);
@@ -1503,6 +1545,14 @@ window.createOrbitAnimation = function(container) {
   );
   pivot.add(moon);
 
+  const sunLbl = _makeLabel('Sun', '#ffee88');
+  sunLbl.position.set(0, 0.9, 0);
+  scene.add(sunLbl);
+  const planetLbl = _makeLabel('Planet', '#88aaff');
+  scene.add(planetLbl);
+  const moonLbl = _makeLabel('Moon', '#cccccc');
+  scene.add(moonLbl);
+
   let tOrb = 0;
   function animateOrbit() {
     container._3dRafId = requestAnimationFrame(animateOrbit);
@@ -1512,6 +1562,8 @@ window.createOrbitAnimation = function(container) {
     moonOrbit.position.set(px, 0, pz);
     moon.position.set(px + Math.cos(tOrb * 2.4) * 0.65, 0, pz + Math.sin(tOrb * 2.4) * 0.65);
     sun.scale.setScalar(1 + 0.04 * Math.sin(tOrb * 1.8));
+    planetLbl.position.set(px, 0.5, pz);
+    moonLbl.position.set(moon.position.x, moon.position.y + 0.25, moon.position.z);
     renderer.render(scene, camera);
   }
   animateOrbit();
