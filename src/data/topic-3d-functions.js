@@ -400,48 +400,38 @@ window.createOrbital = function(container, type) {
 // ── 7. Pendulum ──────────────────────────────────────────────────────────────
 window.createPendulum = function(container) {
   const { scene, camera, renderer, pivot } = _setup3D(container, 55);
-  camera.position.z = 6;
+  camera.position.set(0, 0, 6);
+  camera.lookAt(0, 0, 0);
 
-  // pendulumGroup origin = pivot point (top); rotate the group for rigid-body swing
-  const pendulumGroup = new THREE.Group();
-  pendulumGroup.position.set(0, 1.5, 0);
-  pivot.add(pendulumGroup);
+  const ROD_LEN = 2.4;
+
+  const rodGeo = new THREE.CylinderGeometry(0.04, 0.04, ROD_LEN, 12);
+  rodGeo.translate(0, -ROD_LEN / 2, 0);
+  const rod = new THREE.Mesh(rodGeo, new THREE.MeshPhongMaterial({ color: 0x888888 }));
 
   const pivotSphere = new THREE.Mesh(
     new THREE.SphereGeometry(0.08, 16, 16),
     new THREE.MeshPhongMaterial({ color: 0xaaaaaa })
   );
-  pendulumGroup.add(pivotSphere);
-
-  const ROD_LEN = 2.4;
-  const rod = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.04, 0.04, ROD_LEN, 12),
-    new THREE.MeshPhongMaterial({ color: 0x888888 })
-  );
-  rod.position.set(0, -ROD_LEN / 2, 0);
-  pendulumGroup.add(rod);
 
   const bob = new THREE.Mesh(
     new THREE.SphereGeometry(0.28, 24, 24),
     new THREE.MeshPhongMaterial({ color: 0xffcc44, shininess: 120, emissive: 0x221100 })
   );
   bob.position.set(0, -ROD_LEN, 0);
-  pendulumGroup.add(bob);
+  rod.add(bob);
 
-  // DEBUG: log world positions after scene graph is built
-  renderer.render(scene, camera); // force matrix update
-  const pivotWorldPos = new THREE.Vector3();
-  pivotSphere.getWorldPosition(pivotWorldPos);
-  const rodWorldPos = new THREE.Vector3();
-  rod.getWorldPosition(rodWorldPos);
-  console.log('[PENDULUM DEBUG] pivot world pos:', pivotWorldPos, 'rod world pos:', rodWorldPos, 'camera pos:', camera.position, 'camera target: none set');
+  const swingGroup = new THREE.Group();
+  swingGroup.add(pivotSphere);
+  swingGroup.add(rod);
+  swingGroup.position.set(0, 1.2, 0);
+  pivot.add(swingGroup);
 
   const startTime = performance.now();
-
   function animate() {
     container._3dRafId = requestAnimationFrame(animate);
     const elapsed = (performance.now() - startTime) / 1000;
-    pendulumGroup.rotation.z = 0.5 * Math.sin(elapsed * 1.5);
+    swingGroup.rotation.z = 0.5 * Math.sin(elapsed * 1.5);
     renderer.render(scene, camera);
   }
   animate();
