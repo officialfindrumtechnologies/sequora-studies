@@ -1,9 +1,12 @@
 /* topic-3d-functions.js — Three.js r128 window-attached 3D models */
 
 function _setup3D(container, fov) {
-  if (container.querySelector('canvas')) {
-    container.querySelector('canvas').remove();
+  // Cancel any previous animation loop on this container before removing its canvas
+  if (container._3dRafId) {
+    cancelAnimationFrame(container._3dRafId);
+    container._3dRafId = null;
   }
+  container.innerHTML = '';
   const w = container.clientWidth || 320;
   const h = container.clientHeight || 260;
   const scene = new THREE.Scene();
@@ -22,10 +25,11 @@ function _setup3D(container, fov) {
   scene.add(dir);
 
   // drag rotate state
-  let isDragging = false, prevX = 0, prevY = 0;
+  let isDragging = false, prevX = 0, prevY = 0, lastPinchDist = 0;
   const pivot = new THREE.Group();
   scene.add(pivot);
 
+  // Mouse drag
   renderer.domElement.addEventListener('mousedown', e => { isDragging = true; prevX = e.clientX; prevY = e.clientY; });
   window.addEventListener('mouseup', () => { isDragging = false; });
   window.addEventListener('mousemove', e => {
@@ -38,6 +42,42 @@ function _setup3D(container, fov) {
   renderer.domElement.addEventListener('wheel', e => {
     camera.position.z = Math.max(1, Math.min(20, camera.position.z + e.deltaY * 0.01));
   }, { passive: true });
+
+  // Touch drag + pinch-to-zoom
+  renderer.domElement.addEventListener('touchstart', e => {
+    if (e.touches.length === 1) {
+      isDragging = true;
+      prevX = e.touches[0].clientX;
+      prevY = e.touches[0].clientY;
+    } else if (e.touches.length === 2) {
+      isDragging = false;
+      lastPinchDist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+    }
+  }, { passive: true });
+
+  renderer.domElement.addEventListener('touchmove', e => {
+    e.preventDefault();
+    if (e.touches.length === 1 && isDragging) {
+      const dx = e.touches[0].clientX - prevX;
+      const dy = e.touches[0].clientY - prevY;
+      pivot.rotation.y += dx * 0.01;
+      pivot.rotation.x += dy * 0.01;
+      prevX = e.touches[0].clientX;
+      prevY = e.touches[0].clientY;
+    } else if (e.touches.length === 2) {
+      const dist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      camera.position.z = Math.max(1, Math.min(20, camera.position.z - (dist - lastPinchDist) * 0.02));
+      lastPinchDist = dist;
+    }
+  }, { passive: false });
+
+  renderer.domElement.addEventListener('touchend', () => { isDragging = false; }, { passive: true });
 
   return { scene, camera, renderer, pivot };
 }
@@ -76,7 +116,7 @@ window.createAtomModel = function(container) {
 
   let t = 0;
   function animate() {
-    requestAnimationFrame(animate);
+    container._3dRafId = requestAnimationFrame(animate);
     t += 0.016;
     pivot.rotation.y += 0.003;
     electrons.forEach(e => {
@@ -163,7 +203,7 @@ window.createMolecule = function(container, type) {
   }
 
   function animate() {
-    requestAnimationFrame(animate);
+    container._3dRafId = requestAnimationFrame(animate);
     pivot.rotation.y += 0.004;
     renderer.render(scene, camera);
   }
@@ -185,7 +225,7 @@ window.createWave3D = function(container) {
 
   let t = 0;
   function animate() {
-    requestAnimationFrame(animate);
+    container._3dRafId = requestAnimationFrame(animate);
     t += 0.04;
     const pos = geo.attributes.position;
     for (let i = 0; i < pos.count; i++) {
@@ -258,7 +298,7 @@ window.createFieldLines = function(container, type) {
   }
 
   function animate() {
-    requestAnimationFrame(animate);
+    container._3dRafId = requestAnimationFrame(animate);
     pivot.rotation.y += 0.004;
     renderer.render(scene, camera);
   }
@@ -289,7 +329,7 @@ window.createNucleus = function(container) {
   }
 
   function animate() {
-    requestAnimationFrame(animate);
+    container._3dRafId = requestAnimationFrame(animate);
     pivot.rotation.y += 0.005;
     pivot.rotation.x += 0.002;
     renderer.render(scene, camera);
@@ -350,7 +390,7 @@ window.createOrbital = function(container, type) {
   pivot.add(new THREE.Points(geo, mat));
 
   function animate() {
-    requestAnimationFrame(animate);
+    container._3dRafId = requestAnimationFrame(animate);
     pivot.rotation.y += 0.004;
     renderer.render(scene, camera);
   }
@@ -360,54 +400,29 @@ window.createOrbital = function(container, type) {
 // ── 7. Pendulum ──────────────────────────────────────────────────────────────
 window.createPendulum = function(container) {
   const { scene, camera, renderer, pivot } = _setup3D(container, 55);
-  camera.position.z = 5;
+  camera.position.set(0, 0, 6);
+  camera.lookAt(0, 0, 0);
 
-  // pivot point sphere
-  const pivotSphere = new THREE.Mesh(
-    new THREE.SphereGeometry(0.1, 16, 16),
-    new THREE.MeshPhongMaterial({ color: 0xaaaaaa })
+  const ball = new THREE.Mesh(
+    new THREE.SphereGeometry(0.35, 24, 24),
+    new THREE.MeshPhongMaterial({ color: 0xffcc44, shininess: 120 })
   );
-  pivotSphere.position.set(0, 1.8, 0);
-  pivot.add(pivotSphere);
+  pivot.add(ball);
 
-  // rod
-  const rod = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.03, 0.03, 2.2, 12),
-    new THREE.MeshPhongMaterial({ color: 0x888888 })
+  const path = new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(-2, 0, 0),
+      new THREE.Vector3(2, 0, 0)
+    ]),
+    new THREE.LineBasicMaterial({ color: 0x666666 })
   );
-  pivot.add(rod);
+  pivot.add(path);
 
-  // bob
-  const bob = new THREE.Mesh(
-    new THREE.SphereGeometry(0.28, 24, 24),
-    new THREE.MeshPhongMaterial({ color: 0xffcc44, shininess: 120, emissive: 0x221100 })
-  );
-  pivot.add(bob);
-
-  const AMP = 0.7; // radians
-  let t = 0;
-
+  const startTime = performance.now();
   function animate() {
-    requestAnimationFrame(animate);
-    t += 0.03;
-    const angle = AMP * Math.sin(t);
-    const rodLen = 2.2;
-    const pivY = 1.8;
-
-    rod.position.set(
-      Math.sin(angle) * rodLen / 2,
-      pivY - Math.cos(angle) * rodLen / 2,
-      0
-    );
-    rod.rotation.z = -angle;
-
-    bob.position.set(
-      Math.sin(angle) * rodLen,
-      pivY - Math.cos(angle) * rodLen,
-      0
-    );
-
-    pivot.rotation.y += 0.002;
+    container._3dRafId = requestAnimationFrame(animate);
+    const elapsed = (performance.now() - startTime) / 1000;
+    ball.position.x = 2 * Math.sin(elapsed * 1.5);
     renderer.render(scene, camera);
   }
   animate();
@@ -452,7 +467,7 @@ window.createPolymerChain = function(container) {
   });
 
   function animate() {
-    requestAnimationFrame(animate);
+    container._3dRafId = requestAnimationFrame(animate);
     pivot.rotation.y += 0.004;
     renderer.render(scene, camera);
   }
