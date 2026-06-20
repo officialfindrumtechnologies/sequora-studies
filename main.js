@@ -1988,81 +1988,116 @@ function resetTopics(){
   setToast("Topics reset to latest syllabus");
 }
 
-/* ============ study-now rule engine ============ */
-function whatStudyNow() {
-  // Priority 1: spaced recall overdue
-  const due = recallDue();
-  if (due.length) {
-    const d = due[0];
-    const overTxt = d.over > 0 ? `${d.over} day${d.over > 1 ? 's' : ''} overdue` : 'due today';
-    return {
-      verb: 'RECALL',
-      subject: d.s,
-      topic: d.tp,
-      reason: `${overTxt} for spaced recall${due.length > 1 ? ` — ${due.length} topics total due` : ''}`,
-      action: 'recall',
-    };
-  }
+/* ============ study-now rule engine (Supabase-backed) ============ */
+let _studyNowIdx = 0;
 
-  // ranked by % ready ascending
-  const ranked = SUBJECTS.map(s => ({ s, ...subjReady(s.key) })).sort((a, b) => a.pct - b.pct);
+function getStudyNowCandidates() {
+  const subjects = _sbCache.subjects;
+  const allTopics = _sbCache.allTopics;
+  if (!subjects.length) return [];
 
-  // Priority 2: learning topic in weakest subject
-  for (const { s, pct } of ranked) {
-    const learning = (topics[s.key] || []).filter(t => t.status === 'learning');
-    if (learning.length) {
-      return {
-        verb: 'CONTINUE',
-        subject: s,
-        topic: learning[0],
-        reason: `${learning.length} topic${learning.length > 1 ? 's' : ''} in progress · ${pct}% ready`,
-        action: 'subjects',
-      };
+  const today = new Date(); today.setHours(0,0,0,0);
+  const candidates = [];
+
+  // Priority 1: overdue 2-4-7 recalls
+  const recallItems = allTopics.filter(tp => {
+    if (tp.status !== 'ready') return false;
+    const reps = tp.recall_reps || 0;
+    if (reps >= RECALL_STEPS.length) return false;
+    const base = new Date(tp.last_recall || tp.ready_at);
+    if (isNaN(base.getTime())) return false;
+    base.setHours(0,0,0,0);
+    return Math.floor((today - base) / 86400000) >= RECALL_STEPS[reps];
+  }).map(tp => {
+    const reps = tp.recall_reps || 0;
+    const base = new Date(tp.last_recall || tp.ready_at); base.setHours(0,0,0,0);
+    const elapsed = Math.floor((today - base) / 86400000);
+    const over = elapsed - RECALL_STEPS[reps];
+    const subj = subjects.find(s => s.id === tp.subject_id) || { id: tp.subject_id, name: tp.subjects?.name || 'Unknown' };
+    return { priority: 1, verb: 'RECALL', subject: subj, topic: tp,
+      reason: over > 0 ? `${over} day${over !== 1 ? 's' : ''} overdue for recall` : 'Recall due today',
+      action: 'recall', _sort: over };
+  }).sort((a, b) => b._sort - a._sort);
+  candidates.push(...recallItems.slice(0, 2));
+
+  // Build per-subject topic lists + progress
+  const subjTopics = {};
+  for (const s of subjects) subjTopics[s.id] = [];
+  for (const tp of allTopics) { if (subjTopics[tp.subject_id] !== undefined) subjTopics[tp.subject_id].push(tp); }
+
+  const subjProgress = subjects
+    .filter(s => !isIbCore(s))
+    .map(s => {
+      const tps = (subjTopics[s.id] || []).sort((a, b) => (a.position ?? 0) - (b.position ?? 0));
+      const tot = tps.length;
+      const ready = tps.filter(t => t.status === 'ready' || t.status === 'mastered').length;
+      const pct = tot ? Math.round(ready / tot * 100) : 0;
+      return { s, tps, tot, ready, pct };
+    });
+  const ranked = [...subjProgress].sort((a, b) => a.pct - b.pct);
+
+  // Priority 2: first notstarted topic in most-behind subject
+  for (const { s, tps, pct } of ranked) {
+    const first = tps.find(t => t.status === 'notstarted');
+    if (first && !candidates.some(c => c.topic?.id === first.id)) {
+      candidates.push({ priority: 2, verb: 'START', subject: s, topic: first,
+        reason: `Furthest behind — ${pct}% ready`, action: 'subjects' });
+      break;
     }
   }
 
-  // Priority 3: first not-started topic in most-behind subject
-  for (const { s, pct } of ranked) {
-    const notStarted = (topics[s.key] || []).filter(t => t.status === 'notstarted');
-    if (notStarted.length) {
-      return {
-        verb: 'START',
-        subject: s,
-        topic: notStarted[0],
-        reason: `${pct}% ready — furthest behind`,
-        action: 'subjects',
-      };
+  // Priority 3: exam proximity (within 30 days)
+  const examD = new Date(examDate); examD.setHours(0,0,0,0);
+  const daysToExam = Math.ceil((examD.getTime() - today.getTime()) / 86400000);
+  if (daysToExam > 0 && daysToExam <= 30) {
+    const byRemaining = [...ranked].sort((a, b) => {
+      const aRem = a.tps.filter(t => t.status === 'notstarted' || t.status === 'learning').length;
+      const bRem = b.tps.filter(t => t.status === 'notstarted' || t.status === 'learning').length;
+      return bRem - aRem;
+    });
+    for (const { s, tps } of byRemaining) {
+      const first = tps.find(t => t.status === 'notstarted');
+      if (first && !candidates.some(c => c.topic?.id === first.id)) {
+        candidates.push({ priority: 3, verb: 'START', subject: s, topic: first,
+          reason: `${daysToExam} day${daysToExam !== 1 ? 's' : ''} until your exam`, action: 'subjects' });
+        break;
+      }
     }
   }
 
-  // Priority 4: all topics ready — find subject with oldest recall
-  let oldestSubj = SUBJECTS[0];
-  let oldestMs = Infinity;
-  for (const s of SUBJECTS) {
-    for (const t of (topics[s.key] || [])) {
-      const ms = new Date(t.lastRecall || t.readyAt || 0).getTime();
-      if (ms < oldestMs) { oldestMs = ms; oldestSubj = s; }
+  // Priority 4: next topic in syllabus order (first subject by position with unstudied topics)
+  for (const { s, tps } of subjProgress) {
+    const first = tps.find(t => t.status === 'notstarted');
+    if (first && !candidates.some(c => c.topic?.id === first.id)) {
+      candidates.push({ priority: 4, verb: 'START', subject: s, topic: first,
+        reason: 'Next in your syllabus', action: 'subjects' });
+      break;
     }
   }
-  return {
-    verb: 'RECALL',
-    subject: oldestSubj,
-    topic: null,
-    reason: 'All topics exam-ready · maintain with recall',
-    action: 'recall',
-  };
+
+  return candidates;
 }
 
 function renderStudyNow() {
   const el = document.getElementById('studyNowResult');
   if (!el) return;
 
-  const rec = whatStudyNow();
+  if (!_sbCache.subjects.length) {
+    el.innerHTML = `<div class="sn-empty">${currentUser ? 'Add subjects to get personalized recommendations' : 'Sign in to get personalized study recommendations'}</div>`;
+    return;
+  }
 
+  const candidates = getStudyNowCandidates();
+  if (!candidates.length) {
+    const s = _sbCache.subjects[0];
+    el.innerHTML = `<div class="sn-result"><div class="sn-verb">RECALL</div><div class="sn-body"><div class="sn-subj">${s.name}</div><div class="sn-reason">All topics exam-ready · maintain with recall</div><div class="sn-actions"><button class="btn sm" onclick="document.getElementById('recallCard').scrollIntoView({behavior:'smooth'})">Go to recall ↓</button></div></div></div>`;
+    return;
+  }
+
+  const rec = candidates[_studyNowIdx % candidates.length];
   const topicHTML = rec.topic
     ? `<div class="sn-topic">${rec.topic.name}${rec.topic.section ? `<span class="sn-section"> · ${rec.topic.section}</span>` : ''}</div>`
     : '';
-
   const goBtn = rec.action === 'recall'
     ? `<button class="btn sm" onclick="document.getElementById('recallCard').scrollIntoView({behavior:'smooth'})">Go to recall ↓</button>`
     : `<button class="btn sm" onclick="go('subjects')">Open subjects →</button>`;
@@ -2076,6 +2111,11 @@ function renderStudyNow() {
       <div class="sn-actions">${goBtn}</div>
     </div>
   </div>`;
+}
+
+function cycleStudyNow() {
+  _studyNowIdx++;
+  renderStudyNow();
 }
 
 /* ============ coverage heatmap ============ */
@@ -4793,6 +4833,7 @@ async function refreshSbCache() {
 
     // Re-render dashboard progress + overall % stat
     renderDashProgress();
+    renderStudyNow();
     const rp = overallReady();
     const rpEl = document.getElementById("readyPct");
     if(rpEl){
