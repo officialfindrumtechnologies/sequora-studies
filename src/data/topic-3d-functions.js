@@ -522,11 +522,19 @@ window.createPendulum = function(container) {
   swingGroup.position.set(0, 1.1, 0);
   pivot.add(swingGroup);
 
+  const pivotLbl = _makeLabel('Pivot', '#aaaaaa');
+  pivotLbl.position.set(0, 1.4, 0);
+  scene.add(pivotLbl);
+  const bobLbl = _makeLabel('Bob', '#ffcc44');
+  scene.add(bobLbl);
+
   const startTime = performance.now();
   function animate() {
     container._3dRafId = requestAnimationFrame(animate);
     const elapsed = (performance.now() - startTime) / 1000;
     swingGroup.rotation.z = 0.5 * Math.sin(elapsed * 1.5);
+    const angle = swingGroup.rotation.z;
+    bobLbl.position.set(Math.sin(angle) * ROD_LEN, 1.1 - Math.cos(angle) * ROD_LEN - 0.5, 0);
     renderer.render(scene, camera);
   }
   animate();
@@ -569,6 +577,13 @@ window.createPolymerChain = function(container) {
       pivot.add(cyl);
     }
   });
+
+  const monoLbl = _makeLabel('Monomer', '#ff8866');
+  monoLbl.position.set(positions[0].x, positions[0].y + 0.55, 0);
+  pivot.add(monoLbl);
+  const chainLbl = _makeLabel('Polymer Chain', '#ffffff');
+  chainLbl.position.set(0, 1.4, 0);
+  scene.add(chainLbl);
 
   function animate() {
     container._3dRafId = requestAnimationFrame(animate);
@@ -934,6 +949,16 @@ window.createParticleStates = function(container) {
     gas.push(m);
   }
 
+  const solidLbl = _makeLabel('Solid', '#4488ff');
+  solidLbl.position.set(-2.6, 1.8, 0);
+  scene.add(solidLbl);
+  const liquidLbl = _makeLabel('Liquid', '#44cc88');
+  liquidLbl.position.set(0, 1.8, 0);
+  scene.add(liquidLbl);
+  const gasLbl = _makeLabel('Gas', '#ffaa44');
+  gasLbl.position.set(3.2, 1.8, 0);
+  scene.add(gasLbl);
+
   let tPS = 0;
   function animateStates() {
     container._3dRafId = requestAnimationFrame(animateStates);
@@ -983,6 +1008,19 @@ window.createReactionAnimation = function(container, type) {
     pivot.add(m);
     particles.push({ mesh: m, vx: Math.cos(a) * Math.cos(az) * spd, vy: Math.sin(a) * Math.cos(az) * spd, vz: Math.sin(az) * spd * 0.5, flash: 0 });
   }
+
+  const rxnTitleLbl = _makeLabel(energetic ? 'Energetic Collision' : 'Collision Theory', '#ffffff');
+  rxnTitleLbl.position.set(0, 2.5, 0);
+  rxnTitleLbl.scale.set(2.0, 0.5, 1);
+  scene.add(rxnTitleLbl);
+  const molALbl = _makeLabel('Molecule A', '#ff6666');
+  molALbl.position.set(-1.8, -2.3, 0);
+  molALbl.scale.set(1.6, 0.4, 1);
+  scene.add(molALbl);
+  const molBLbl = _makeLabel('Molecule B', '#6699ff');
+  molBLbl.position.set(1.8, -2.3, 0);
+  molBLbl.scale.set(1.6, 0.4, 1);
+  scene.add(molBLbl);
 
   function animateRxn() {
     container._3dRafId = requestAnimationFrame(animateRxn);
@@ -1041,6 +1079,14 @@ window.createMetalLattice = function(container) {
     electrons.push({ mesh: m, vx: Math.cos(a) * Math.cos(az) * spd, vy: Math.sin(a) * Math.cos(az) * spd, vz: Math.sin(az) * spd });
   }
 
+  const ionLbl = _makeLabel('Metal Ion⁺', '#aabbff');
+  ionLbl.position.set(0, 2.2, 0);
+  scene.add(ionLbl);
+  const eLattLbl = _makeLabel('Delocalised e⁻', '#ffff66');
+  eLattLbl.position.set(0, -2.3, 0);
+  eLattLbl.scale.set(2.2, 0.55, 1);
+  scene.add(eLattLbl);
+
   function animateLattice() {
     container._3dRafId = requestAnimationFrame(animateLattice);
     for (const e of electrons) {
@@ -1087,6 +1133,9 @@ window.createMotionAnimation = function(container) {
   arrGeo.setAttribute('position', new THREE.BufferAttribute(arrBuf, 3));
   pivot.add(new THREE.Line(arrGeo, new THREE.LineBasicMaterial({ color: 0xffff00 })));
 
+  const velLbl = _makeLabel('v →', '#ffff00');
+  scene.add(velLbl);
+
   const history = [];
   let tM = 0;
   function animateMotion() {
@@ -1104,6 +1153,7 @@ window.createMotionAnimation = function(container) {
     arrBuf[0] = x; arrBuf[1] = -1.2; arrBuf[2] = 0;
     arrBuf[3] = x + vx * 2; arrBuf[4] = -1.2; arrBuf[5] = 0;
     arrGeo.attributes.position.needsUpdate = true;
+    velLbl.position.set(x + vx * 2 + 0.4, -0.85, 0);
     renderer.render(scene, camera);
   }
   animateMotion();
@@ -1138,6 +1188,20 @@ window.createForceVectors = function(container) {
   const fArr  = arrow(0xffff33, -Math.PI / 2); fArr.position.set(0.45, 0, 0);
   const frArr = arrow(0xff9933, Math.PI / 2);  frArr.position.set(-0.45, 0, 0);
 
+  const weightLbl = _makeLabel('Weight', '#ff6666');
+  weightLbl.position.set(0.4, -2.1, 0);
+  pivot.add(weightLbl);
+  const normalLbl = _makeLabel('Normal', '#66ff88');
+  normalLbl.position.set(0.4, 2.1, 0);
+  pivot.add(normalLbl);
+  const forceLbl = _makeLabel('Applied Force', '#ffff66');
+  forceLbl.position.set(2.2, 0.4, 0);
+  forceLbl.scale.set(1.8, 0.45, 1);
+  pivot.add(forceLbl);
+  const frictionLbl = _makeLabel('Friction', '#ffaa66');
+  frictionLbl.position.set(-2.1, 0.4, 0);
+  pivot.add(frictionLbl);
+
   let tF = 0;
   function animateForce() {
     container._3dRafId = requestAnimationFrame(animateForce);
@@ -1168,6 +1232,13 @@ window.createCollisionAnimation = function(container) {
   const ball2 = new THREE.Mesh(new THREE.SphereGeometry(0.3, 20, 20), b2mat);
   pivot.add(ball1); pivot.add(ball2);
 
+  const momentumLbl = _makeLabel('p = mv', '#ffffff');
+  momentumLbl.position.set(0, 1.2, 0);
+  scene.add(momentumLbl);
+  const b1Lbl = _makeLabel('A', '#ff6666');
+  const b2Lbl = _makeLabel('B', '#6699ff');
+  scene.add(b1Lbl); scene.add(b2Lbl);
+
   const PERIOD = 5.0;
   let tC = 0;
   function animateColl() {
@@ -1195,6 +1266,8 @@ window.createCollisionAnimation = function(container) {
       ball1.position.set(-1.55 - p * 1.95, -0.55, 0);
       ball2.position.set(3.35 - p * 0.35, -0.55, 0);
     }
+    b1Lbl.position.set(ball1.position.x, ball1.position.y + 0.65, 0);
+    b2Lbl.position.set(ball2.position.x, ball2.position.y + 0.52, 0);
     renderer.render(scene, camera);
   }
   animateColl();
@@ -1273,6 +1346,14 @@ window.createPressureParticles = function(container) {
     pivot.add(m);
     particles.push({ mesh: m, vx: Math.cos(a) * Math.cos(az) * spd, vy: Math.sin(a) * Math.cos(az) * spd, vz: Math.sin(az) * spd, flash: 0 });
   }
+
+  const pressureLbl = _makeLabel('Gas Pressure', '#ff9944');
+  pressureLbl.position.set(0, 2.4, 0);
+  pressureLbl.scale.set(1.6, 0.4, 1);
+  scene.add(pressureLbl);
+  const containerLbl = _makeLabel('Container', '#999999');
+  containerLbl.position.set(0, -2.5, 0);
+  scene.add(containerLbl);
 
   function animatePressure() {
     container._3dRafId = requestAnimationFrame(animatePressure);
