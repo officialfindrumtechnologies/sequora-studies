@@ -4569,6 +4569,8 @@ window.closeTopicVisualModal = function() {
   if (!modal) return;
   modal.classList.add('hidden');
   // Clear body so any Three.js RAF loops lose their canvas reference
+  const canvas = document.getElementById('tv-3d-canvas');
+  console.log('[3D DEBUG] closeTopicVisualModal — canvas _3dRafId at close:', canvas?._3dRafId);
   const body = document.getElementById('tv-body');
   if (body) body.innerHTML = '';
 };
