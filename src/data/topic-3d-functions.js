@@ -6,9 +6,7 @@ function _setup3D(container, fov) {
     cancelAnimationFrame(container._3dRafId);
     container._3dRafId = null;
   }
-  if (container.querySelector('canvas')) {
-    container.querySelector('canvas').remove();
-  }
+  container.innerHTML = '';
   const w = container.clientWidth || 320;
   const h = container.clientHeight || 260;
   const scene = new THREE.Scene();
