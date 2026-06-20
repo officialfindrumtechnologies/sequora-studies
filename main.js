@@ -4568,9 +4568,10 @@ window.closeTopicVisualModal = function() {
   const modal = document.getElementById('tv-modal');
   if (!modal) return;
   modal.classList.add('hidden');
-  // Clear body so any Three.js RAF loops lose their canvas reference
-  const canvas = document.getElementById('tv-3d-canvas');
-  console.log('[3D DEBUG] closeTopicVisualModal — canvas _3dRafId at close:', canvas?._3dRafId);
+  const canvas3d = document.getElementById('tv-3d-canvas');
+  if (canvas3d && canvas3d._3dRafId) {
+    cancelAnimationFrame(canvas3d._3dRafId);
+  }
   const body = document.getElementById('tv-body');
   if (body) body.innerHTML = '';
 };

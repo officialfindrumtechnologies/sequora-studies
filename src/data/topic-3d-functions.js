@@ -1,15 +1,12 @@
 /* topic-3d-functions.js — Three.js r128 window-attached 3D models */
 
 function _setup3D(container, fov) {
-  console.log('[3D DEBUG] _setup3D called. existing _3dRafId:', container._3dRafId, 'existing children:', container.children.length);
   // Cancel any previous animation loop on this container before removing its canvas
   if (container._3dRafId) {
     cancelAnimationFrame(container._3dRafId);
     container._3dRafId = null;
-    console.log('[3D DEBUG] RAF cancelled on existing container');
   }
   container.innerHTML = '';
-  console.log('[3D DEBUG] container cleared, children:', container.children.length);
   const w = container.clientWidth || 320;
   const h = container.clientHeight || 260;
   const scene = new THREE.Scene();
@@ -402,7 +399,6 @@ window.createOrbital = function(container, type) {
 
 // ── 7. Pendulum ──────────────────────────────────────────────────────────────
 window.createPendulum = function(container) {
-  console.log('[3D DEBUG] createPendulum called, instance:', Math.random());
   const { scene, camera, renderer, pivot } = _setup3D(container, 55);
   camera.position.z = 6;
 
