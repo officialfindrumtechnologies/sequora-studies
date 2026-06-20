@@ -2168,12 +2168,11 @@ async function renderCoverage(){
         sq.title = t.name;
 
         sq.addEventListener("click", () => {
-          // If subject has topic visuals, open visual modal
+          // If subject has topic visuals, open visual modal — exact name match only
           const tvKey = getTopicVisualsKey(subj);
           if (tvKey && TOPIC_VISUALS[tvKey]) {
             const tvTopic = TOPIC_VISUALS[tvKey].topics.find(tv =>
-              tv.name.toLowerCase() === t.name.toLowerCase() ||
-              t.name.toLowerCase().includes(tv.name.toLowerCase().split(' ')[0].toLowerCase())
+              tv.name.toLowerCase() === t.name.toLowerCase()
             );
             if (tvTopic) {
               openTopicVisualModal(tvKey, tvTopic.id);
@@ -4541,9 +4540,9 @@ function _tvShow3D(topic) {
     }
   }
 
-  // Call Three.js fn on first click — fn must exist on window
-  if (topic.threejs3dFn && !view3d.dataset.init) {
-    view3d.dataset.init = '1';
+  // Init Three.js only if this container hasn't been initialised for this exact topic
+  if (topic.threejs3dFn && view3d.dataset.topicId !== String(topic.id)) {
+    view3d.dataset.topicId = String(topic.id);
     const container = document.getElementById('tv-3d-canvas');
     const msg = document.getElementById('tv-3d-msg');
     try {
@@ -4566,7 +4565,12 @@ function _tvShow3D(topic) {
 }
 
 window.closeTopicVisualModal = function() {
-  document.getElementById('tv-modal')?.classList.add('hidden');
+  const modal = document.getElementById('tv-modal');
+  if (!modal) return;
+  modal.classList.add('hidden');
+  // Clear body so any Three.js RAF loops lose their canvas reference
+  const body = document.getElementById('tv-body');
+  if (body) body.innerHTML = '';
 };
 
 window.tvToggleQa = function(btn) {
