@@ -434,7 +434,6 @@ window.createPendulum = function(container) {
     container._3dRafId = requestAnimationFrame(animate);
     const elapsed = (performance.now() - startTime) / 1000;
     pendulumGroup.rotation.z = 0.5 * Math.sin(elapsed * 1.5);
-    pivot.rotation.y += 0.002;
     renderer.render(scene, camera);
   }
   animate();
