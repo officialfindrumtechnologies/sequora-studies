@@ -402,58 +402,44 @@ window.createOrbital = function(container, type) {
 // ── 7. Pendulum ──────────────────────────────────────────────────────────────
 window.createPendulum = function(container) {
   const { scene, camera, renderer, pivot } = _setup3D(container, 55);
-  camera.position.z = 5;
+  camera.position.z = 6;
 
-  // pivot point sphere
+  // pendulumGroup origin = pivot point (top); rotate the group for rigid-body swing
+  const pendulumGroup = new THREE.Group();
+  pendulumGroup.position.set(0, 1.5, 0);
+  pivot.add(pendulumGroup);
+
   const pivotSphere = new THREE.Mesh(
-    new THREE.SphereGeometry(0.1, 16, 16),
+    new THREE.SphereGeometry(0.08, 16, 16),
     new THREE.MeshPhongMaterial({ color: 0xaaaaaa })
   );
-  pivotSphere.position.set(0, 1.8, 0);
-  pivot.add(pivotSphere);
+  pendulumGroup.add(pivotSphere);
 
-  // rod
+  const ROD_LEN = 2.4;
   const rod = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.03, 0.03, 2.2, 12),
+    new THREE.CylinderGeometry(0.04, 0.04, ROD_LEN, 12),
     new THREE.MeshPhongMaterial({ color: 0x888888 })
   );
-  pivot.add(rod);
+  rod.position.set(0, -ROD_LEN / 2, 0);
+  pendulumGroup.add(rod);
 
-  // bob
   const bob = new THREE.Mesh(
     new THREE.SphereGeometry(0.28, 24, 24),
     new THREE.MeshPhongMaterial({ color: 0xffcc44, shininess: 120, emissive: 0x221100 })
   );
-  pivot.add(bob);
+  bob.position.set(0, -ROD_LEN, 0);
+  pendulumGroup.add(bob);
 
-  const AMP = 0.7; // radians
-  const rodLen = 2.2;
-  const pivY = 1.8;
-  // Use elapsed time in ms * 0.0018 to match original 0.03/frame at 60fps
   const startTime = performance.now();
 
-  function animate(now) {
+  function animate() {
     container._3dRafId = requestAnimationFrame(animate);
-    const t = (now - startTime) * 0.0018;
-    const angle = AMP * Math.sin(t);
-
-    rod.position.set(
-      Math.sin(angle) * rodLen / 2,
-      pivY - Math.cos(angle) * rodLen / 2,
-      0
-    );
-    rod.rotation.z = -angle;
-
-    bob.position.set(
-      Math.sin(angle) * rodLen,
-      pivY - Math.cos(angle) * rodLen,
-      0
-    );
-
+    const elapsed = (performance.now() - startTime) / 1000;
+    pendulumGroup.rotation.z = 0.5 * Math.sin(elapsed * 1.5);
     pivot.rotation.y += 0.002;
     renderer.render(scene, camera);
   }
-  animate(performance.now());
+  animate();
 };
 
 // ── 8. Polymer Chain ─────────────────────────────────────────────────────────
