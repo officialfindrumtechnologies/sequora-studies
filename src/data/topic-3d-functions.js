@@ -1,6 +1,11 @@
 /* topic-3d-functions.js — Three.js r128 window-attached 3D models */
 
 function _setup3D(container, fov) {
+  // Cancel any previous animation loop on this container before removing its canvas
+  if (container._3dRafId) {
+    cancelAnimationFrame(container._3dRafId);
+    container._3dRafId = null;
+  }
   if (container.querySelector('canvas')) {
     container.querySelector('canvas').remove();
   }
@@ -22,10 +27,11 @@ function _setup3D(container, fov) {
   scene.add(dir);
 
   // drag rotate state
-  let isDragging = false, prevX = 0, prevY = 0;
+  let isDragging = false, prevX = 0, prevY = 0, lastPinchDist = 0;
   const pivot = new THREE.Group();
   scene.add(pivot);
 
+  // Mouse drag
   renderer.domElement.addEventListener('mousedown', e => { isDragging = true; prevX = e.clientX; prevY = e.clientY; });
   window.addEventListener('mouseup', () => { isDragging = false; });
   window.addEventListener('mousemove', e => {
@@ -38,6 +44,42 @@ function _setup3D(container, fov) {
   renderer.domElement.addEventListener('wheel', e => {
     camera.position.z = Math.max(1, Math.min(20, camera.position.z + e.deltaY * 0.01));
   }, { passive: true });
+
+  // Touch drag + pinch-to-zoom
+  renderer.domElement.addEventListener('touchstart', e => {
+    if (e.touches.length === 1) {
+      isDragging = true;
+      prevX = e.touches[0].clientX;
+      prevY = e.touches[0].clientY;
+    } else if (e.touches.length === 2) {
+      isDragging = false;
+      lastPinchDist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+    }
+  }, { passive: true });
+
+  renderer.domElement.addEventListener('touchmove', e => {
+    e.preventDefault();
+    if (e.touches.length === 1 && isDragging) {
+      const dx = e.touches[0].clientX - prevX;
+      const dy = e.touches[0].clientY - prevY;
+      pivot.rotation.y += dx * 0.01;
+      pivot.rotation.x += dy * 0.01;
+      prevX = e.touches[0].clientX;
+      prevY = e.touches[0].clientY;
+    } else if (e.touches.length === 2) {
+      const dist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      camera.position.z = Math.max(1, Math.min(20, camera.position.z - (dist - lastPinchDist) * 0.02));
+      lastPinchDist = dist;
+    }
+  }, { passive: false });
+
+  renderer.domElement.addEventListener('touchend', () => { isDragging = false; }, { passive: true });
 
   return { scene, camera, renderer, pivot };
 }
@@ -76,7 +118,7 @@ window.createAtomModel = function(container) {
 
   let t = 0;
   function animate() {
-    requestAnimationFrame(animate);
+    container._3dRafId = requestAnimationFrame(animate);
     t += 0.016;
     pivot.rotation.y += 0.003;
     electrons.forEach(e => {
@@ -163,7 +205,7 @@ window.createMolecule = function(container, type) {
   }
 
   function animate() {
-    requestAnimationFrame(animate);
+    container._3dRafId = requestAnimationFrame(animate);
     pivot.rotation.y += 0.004;
     renderer.render(scene, camera);
   }
@@ -185,7 +227,7 @@ window.createWave3D = function(container) {
 
   let t = 0;
   function animate() {
-    requestAnimationFrame(animate);
+    container._3dRafId = requestAnimationFrame(animate);
     t += 0.04;
     const pos = geo.attributes.position;
     for (let i = 0; i < pos.count; i++) {
@@ -258,7 +300,7 @@ window.createFieldLines = function(container, type) {
   }
 
   function animate() {
-    requestAnimationFrame(animate);
+    container._3dRafId = requestAnimationFrame(animate);
     pivot.rotation.y += 0.004;
     renderer.render(scene, camera);
   }
@@ -289,7 +331,7 @@ window.createNucleus = function(container) {
   }
 
   function animate() {
-    requestAnimationFrame(animate);
+    container._3dRafId = requestAnimationFrame(animate);
     pivot.rotation.y += 0.005;
     pivot.rotation.x += 0.002;
     renderer.render(scene, camera);
@@ -350,7 +392,7 @@ window.createOrbital = function(container, type) {
   pivot.add(new THREE.Points(geo, mat));
 
   function animate() {
-    requestAnimationFrame(animate);
+    container._3dRafId = requestAnimationFrame(animate);
     pivot.rotation.y += 0.004;
     renderer.render(scene, camera);
   }
@@ -385,14 +427,15 @@ window.createPendulum = function(container) {
   pivot.add(bob);
 
   const AMP = 0.7; // radians
-  let t = 0;
+  const rodLen = 2.2;
+  const pivY = 1.8;
+  // Use elapsed time in ms * 0.0018 to match original 0.03/frame at 60fps
+  const startTime = performance.now();
 
-  function animate() {
-    requestAnimationFrame(animate);
-    t += 0.03;
+  function animate(now) {
+    container._3dRafId = requestAnimationFrame(animate);
+    const t = (now - startTime) * 0.0018;
     const angle = AMP * Math.sin(t);
-    const rodLen = 2.2;
-    const pivY = 1.8;
 
     rod.position.set(
       Math.sin(angle) * rodLen / 2,
@@ -410,7 +453,7 @@ window.createPendulum = function(container) {
     pivot.rotation.y += 0.002;
     renderer.render(scene, camera);
   }
-  animate();
+  animate(performance.now());
 };
 
 // ── 8. Polymer Chain ─────────────────────────────────────────────────────────
@@ -452,7 +495,7 @@ window.createPolymerChain = function(container) {
   });
 
   function animate() {
-    requestAnimationFrame(animate);
+    container._3dRafId = requestAnimationFrame(animate);
     pivot.rotation.y += 0.004;
     renderer.render(scene, camera);
   }
