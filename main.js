@@ -2514,6 +2514,8 @@ function go(v){
     const el = document.getElementById("view-"+x);
     if (el) el.classList.toggle("hidden",x!==v);
   });
+  const layoutBtn = document.getElementById('layout-customize-btn');
+  if (layoutBtn) layoutBtn.style.display = v === 'dash' ? '' : 'none';
   if(v==="dash")renderDash();
   if(v==="focus")renderFocus();
   if(v==="subjects")renderSubjects();
@@ -3911,6 +3913,258 @@ function _tsRestoreExtra() {
 }
 _tsRestoreExtra();
 
+/* ============ homepage layout ============ */
+
+const HOME_DEFAULT_LAYOUT = [
+  { id: 'hero',         visible: true },
+  { id: 'study-now',   visible: true },
+  { id: 'recall-todos',visible: true },
+  { id: 'today-week',  visible: true },
+  { id: 'progress',    visible: true },
+];
+
+const HOME_ROW_LABELS = {
+  'hero':          'Countdown & Momentum',
+  'study-now':     'What to Study Right Now',
+  'recall-todos':  'Recall Check & Tasks',
+  'today-week':    "Today's Blocks & This Week",
+  'progress':      'Subject Progress',
+};
+
+let _homeLayout = null;
+let _homeEditMode = false;
+let _homeDragSrc = null;
+let _homeTouchDragEl = null;
+let _homeTouchLastY = 0;
+
+function _homeLayoutKey() { return 'sq_homepage_layout'; }
+
+async function loadHomeLayout() {
+  const cached = localStorage.getItem(_homeLayoutKey());
+  if (cached) {
+    try { _homeLayout = JSON.parse(cached); } catch(e) {}
+  }
+  applyHomeLayout();
+
+  if (supabase && currentUser) {
+    try {
+      const { data } = await supabase
+        .from('profiles')
+        .select('homepage_layout')
+        .eq('id', currentUser.id)
+        .single();
+      if (data?.homepage_layout) {
+        _homeLayout = data.homepage_layout;
+        localStorage.setItem(_homeLayoutKey(), JSON.stringify(_homeLayout));
+        applyHomeLayout();
+      }
+    } catch(e) {}
+  }
+}
+
+async function _saveHomeLayout() {
+  if (!_homeLayout) return;
+  localStorage.setItem(_homeLayoutKey(), JSON.stringify(_homeLayout));
+  if (supabase && currentUser) {
+    try {
+      await supabase
+        .from('profiles')
+        .update({ homepage_layout: _homeLayout, updated_at: new Date().toISOString() })
+        .eq('id', currentUser.id);
+    } catch(e) {}
+  }
+}
+
+function applyHomeLayout() {
+  if (!_homeLayout) _homeLayout = HOME_DEFAULT_LAYOUT.map(r => ({ ...r }));
+
+  // Merge in any IDs from default that are missing (future-proof)
+  const existingIds = new Set(_homeLayout.map(r => r.id));
+  HOME_DEFAULT_LAYOUT.forEach(def => {
+    if (!existingIds.has(def.id)) _homeLayout.push({ ...def });
+  });
+
+  const container = document.getElementById('home-layout');
+  if (!container) return;
+
+  _homeLayout.forEach(item => {
+    const row = container.querySelector(`.home-row[data-card-id="${item.id}"]`);
+    if (!row) return;
+    if (item.visible) {
+      row.style.display = '';
+      row.classList.remove('home-row-hidden');
+    } else {
+      row.style.display = 'none';
+      row.classList.add('home-row-hidden');
+    }
+    container.appendChild(row);
+  });
+}
+
+function _captureLayoutFromDOM() {
+  const layout = [];
+  document.querySelectorAll('#home-layout .home-row').forEach(row => {
+    layout.push({ id: row.dataset.cardId, visible: !row.classList.contains('home-row-hidden') });
+  });
+  return layout;
+}
+
+function enterLayoutEdit() {
+  _homeEditMode = true;
+  const bar = document.getElementById('layout-edit-bar');
+  if (bar) bar.classList.remove('hidden');
+  const container = document.getElementById('home-layout');
+  if (container) container.classList.add('edit-mode');
+  const addPanel = document.getElementById('layout-add-panel');
+  if (addPanel) addPanel.classList.remove('hidden');
+  _renderLayoutAddPanel();
+  _initHomeDrag();
+}
+window.enterLayoutEdit = enterLayoutEdit;
+
+function exitLayoutEdit() {
+  _homeEditMode = false;
+  const bar = document.getElementById('layout-edit-bar');
+  if (bar) bar.classList.add('hidden');
+  const container = document.getElementById('home-layout');
+  if (container) container.classList.remove('edit-mode');
+  const addPanel = document.getElementById('layout-add-panel');
+  if (addPanel) addPanel.classList.add('hidden');
+  _homeLayout = _captureLayoutFromDOM();
+  _saveHomeLayout();
+  setToast('Layout saved');
+}
+window.exitLayoutEdit = exitLayoutEdit;
+
+function resetLayout() {
+  _homeLayout = HOME_DEFAULT_LAYOUT.map(r => ({ ...r }));
+  applyHomeLayout();
+  _renderLayoutAddPanel();
+  if (_homeEditMode) _initHomeDrag();
+  _saveHomeLayout();
+  setToast('Layout reset to default');
+}
+window.resetLayout = resetLayout;
+
+function removeHomeRow(id) {
+  const row = document.querySelector(`#home-layout .home-row[data-card-id="${id}"]`);
+  if (row) { row.style.display = 'none'; row.classList.add('home-row-hidden'); }
+  _renderLayoutAddPanel();
+}
+window.removeHomeRow = removeHomeRow;
+
+function addHomeRow(id) {
+  const row = document.querySelector(`#home-layout .home-row[data-card-id="${id}"]`);
+  if (row) { row.style.display = ''; row.classList.remove('home-row-hidden'); }
+  _renderLayoutAddPanel();
+  if (_homeEditMode) _initHomeDrag();
+}
+window.addHomeRow = addHomeRow;
+
+function _renderLayoutAddPanel() {
+  const list = document.getElementById('layout-add-list');
+  if (!list) return;
+  const hidden = document.querySelectorAll('#home-layout .home-row.home-row-hidden');
+  if (!hidden.length) {
+    list.innerHTML = '<div style="font-family:var(--mono);font-size:11px;color:var(--text-dim);padding:4px 0">All sections visible</div>';
+    return;
+  }
+  list.innerHTML = '';
+  hidden.forEach(row => {
+    const id = row.dataset.cardId;
+    const el = document.createElement('div');
+    el.className = 'layout-add-item';
+    el.dataset.cardId = id;
+    el.innerHTML = `<span>${HOME_ROW_LABELS[id] || id}</span><button class="btn sm" onclick="addHomeRow('${id}')">+ Add back</button>`;
+    list.appendChild(el);
+  });
+}
+
+function _initHomeDrag() {
+  const rows = document.querySelectorAll('#home-layout .home-row:not(.home-row-hidden)');
+  rows.forEach(row => {
+    // Clone to remove stale listeners
+    const bar = row.querySelector('.home-row-bar');
+    if (!bar) return;
+    const newBar = bar.cloneNode(true);
+    bar.parentNode.replaceChild(newBar, bar);
+
+    newBar.addEventListener('mousedown', () => { row.setAttribute('draggable', 'true'); });
+
+    row.ondragstart = e => {
+      _homeDragSrc = row;
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', row.dataset.cardId);
+      setTimeout(() => row.classList.add('dragging'), 0);
+    };
+    row.ondragend = () => {
+      row.classList.remove('dragging');
+      row.removeAttribute('draggable');
+      document.querySelectorAll('#home-layout .home-row').forEach(r => r.classList.remove('drag-over'));
+      _homeDragSrc = null;
+    };
+    row.ondragover = e => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      document.querySelectorAll('#home-layout .home-row').forEach(r => r.classList.remove('drag-over'));
+      if (row !== _homeDragSrc) row.classList.add('drag-over');
+    };
+    row.ondrop = e => {
+      e.preventDefault();
+      row.classList.remove('drag-over');
+      if (!_homeDragSrc || _homeDragSrc === row) return;
+      const cont = document.getElementById('home-layout');
+      const all = [...cont.querySelectorAll('.home-row')];
+      const si = all.indexOf(_homeDragSrc);
+      const ti = all.indexOf(row);
+      cont.insertBefore(_homeDragSrc, si < ti ? row.nextSibling : row);
+    };
+
+    // Touch drag
+    newBar.addEventListener('touchstart', e => {
+      _homeTouchDragEl = row;
+      _homeTouchLastY = e.touches[0].clientY;
+      row.classList.add('dragging');
+      e.preventDefault();
+    }, { passive: false });
+
+    newBar.addEventListener('touchmove', e => {
+      if (!_homeTouchDragEl) return;
+      e.preventDefault();
+      _homeTouchLastY = e.touches[0].clientY;
+      const cont = document.getElementById('home-layout');
+      document.querySelectorAll('#home-layout .home-row').forEach(r => r.classList.remove('drag-over'));
+      const visible = [...cont.querySelectorAll('.home-row:not(.home-row-hidden)')];
+      const target = visible.find(r => {
+        if (r === _homeTouchDragEl) return false;
+        const rect = r.getBoundingClientRect();
+        return _homeTouchLastY >= rect.top && _homeTouchLastY <= rect.bottom;
+      });
+      if (target) target.classList.add('drag-over');
+    }, { passive: false });
+
+    newBar.addEventListener('touchend', () => {
+      if (!_homeTouchDragEl) return;
+      const cont = document.getElementById('home-layout');
+      document.querySelectorAll('#home-layout .home-row').forEach(r => r.classList.remove('drag-over'));
+      const visible = [...cont.querySelectorAll('.home-row:not(.home-row-hidden)')];
+      const target = visible.find(r => {
+        if (r === _homeTouchDragEl) return false;
+        const rect = r.getBoundingClientRect();
+        return _homeTouchLastY >= rect.top && _homeTouchLastY <= rect.bottom;
+      });
+      if (target) {
+        const all = [...cont.querySelectorAll('.home-row')];
+        const si = all.indexOf(_homeTouchDragEl);
+        const ti = all.indexOf(target);
+        cont.insertBefore(_homeTouchDragEl, si < ti ? target.nextSibling : target);
+      }
+      _homeTouchDragEl.classList.remove('dragging');
+      _homeTouchDragEl = null;
+    });
+  });
+}
+
 /* ============ burger menu ============ */
 
 let _burgerProfileCache = null;
@@ -4895,6 +5149,11 @@ async function fetchBurgerStats() {
 updateClock();
 setInterval(updateClock,30000);
 renderDash();
+// Apply any cached layout instantly (no auth required)
+(function(){
+  const cached = localStorage.getItem(_homeLayoutKey());
+  if (cached) { try { _homeLayout = JSON.parse(cached); applyHomeLayout(); } catch(e) {} }
+})();
 
 function showApp() {
   document.getElementById("loginScreen").classList.add("hidden");
@@ -4919,6 +5178,8 @@ function showApp() {
   checkFriendsBadge();
   // Load todos from Supabase (instant render from localStorage already done at renderDash boot)
   initTodos().catch(() => {});
+  // Load per-user homepage layout from Supabase (localStorage already applied at boot)
+  loadHomeLayout().catch(() => {});
 }
 
 // Exposed so onboarding.js can call it after wizard completes
