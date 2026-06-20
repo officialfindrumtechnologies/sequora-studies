@@ -2510,6 +2510,7 @@ window.ppOpenNewTab = ppOpenNewTab;
 /* ============ nav ============ */
 function go(v){
   if (!v) return;
+  if (_homeEditMode && v !== 'dash') exitLayoutEdit();
   document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.v===v));
   ["dash","focus","subjects","week","logs","toolkit","coverage"].forEach(x=>{
     const el = document.getElementById("view-"+x);
@@ -3936,7 +3937,9 @@ let _homeLayout = null;
 let _homeEditMode = false;
 let _homeDragSrc = null;
 let _homeTouchDragEl = null;
+let _homeTouchStartY = 0;
 let _homeTouchLastY = 0;
+let _homeResizeObserver = null;
 
 function _homeLayoutKey() { return 'sq_homepage_layout'; }
 
@@ -3994,8 +3997,10 @@ function applyHomeLayout() {
     if (item.visible) {
       row.style.display = '';
       row.classList.remove('home-row-hidden');
+      row.style.height = item.height ? item.height + 'px' : '';
     } else {
       row.style.display = 'none';
+      row.style.height = '';
       row.classList.add('home-row-hidden');
     }
     container.appendChild(row);
@@ -4005,32 +4010,45 @@ function applyHomeLayout() {
 function _captureLayoutFromDOM() {
   const layout = [];
   document.querySelectorAll('#home-layout .home-row').forEach(row => {
-    layout.push({ id: row.dataset.cardId, visible: !row.classList.contains('home-row-hidden') });
+    const h = row.style.height ? parseInt(row.style.height) : undefined;
+    layout.push({
+      id: row.dataset.cardId,
+      visible: !row.classList.contains('home-row-hidden'),
+      ...(h ? { height: h } : {}),
+    });
   });
   return layout;
 }
 
 function enterLayoutEdit() {
   _homeEditMode = true;
-  const bar = document.getElementById('layout-edit-bar');
-  if (bar) bar.classList.remove('hidden');
+  document.getElementById('nav').style.display = 'none';
+  const layoutBtn = document.getElementById('layout-customize-btn');
+  if (layoutBtn) layoutBtn.style.display = 'none';
+  const editBar = document.getElementById('layout-edit-bar');
+  if (editBar) editBar.style.display = 'flex';
   const container = document.getElementById('home-layout');
   if (container) container.classList.add('edit-mode');
   const addPanel = document.getElementById('layout-add-panel');
   if (addPanel) addPanel.classList.remove('hidden');
   _renderLayoutAddPanel();
   _initHomeDrag();
+  _startResizeObserving();
 }
 window.enterLayoutEdit = enterLayoutEdit;
 
 function exitLayoutEdit() {
   _homeEditMode = false;
-  const bar = document.getElementById('layout-edit-bar');
-  if (bar) bar.classList.add('hidden');
+  document.getElementById('nav').style.display = '';
+  const layoutBtn = document.getElementById('layout-customize-btn');
+  if (layoutBtn) layoutBtn.style.display = '';
+  const editBar = document.getElementById('layout-edit-bar');
+  if (editBar) editBar.style.display = 'none';
   const container = document.getElementById('home-layout');
   if (container) container.classList.remove('edit-mode');
   const addPanel = document.getElementById('layout-add-panel');
   if (addPanel) addPanel.classList.add('hidden');
+  _stopResizeObserving();
   _homeLayout = _captureLayoutFromDOM();
   _saveHomeLayout();
   setToast('Layout saved');
@@ -4081,16 +4099,39 @@ function _renderLayoutAddPanel() {
   });
 }
 
+function _clearDragIndicators() {
+  document.querySelectorAll('#home-layout .home-row').forEach(r => {
+    r.classList.remove('drag-insert-above', 'drag-insert-below');
+  });
+}
+
 function _initHomeDrag() {
   const rows = document.querySelectorAll('#home-layout .home-row:not(.home-row-hidden)');
   rows.forEach(row => {
-    // Clone to remove stale listeners
-    const bar = row.querySelector('.home-row-bar');
-    if (!bar) return;
-    const newBar = bar.cloneNode(true);
-    bar.parentNode.replaceChild(newBar, bar);
+    // Clone bar to wipe stale listeners
+    const oldBar = row.querySelector('.home-row-bar');
+    if (!oldBar) return;
+    const newBar = oldBar.cloneNode(true);
+    oldBar.parentNode.replaceChild(newBar, oldBar);
 
-    newBar.addEventListener('mousedown', () => { row.setAttribute('draggable', 'true'); });
+    const handle = newBar.querySelector('.home-row-handle');
+    const removeBtn = newBar.querySelector('.home-row-remove');
+
+    // FIX: only handle enables drag — stop remove button from triggering drag on mousedown
+    if (removeBtn) {
+      removeBtn.addEventListener('mousedown', e => e.stopPropagation());
+    }
+    if (handle) {
+      handle.style.cursor = 'grab';
+      handle.addEventListener('mousedown', () => row.setAttribute('draggable', 'true'));
+      handle.addEventListener('touchstart', e => {
+        _homeTouchDragEl = row;
+        _homeTouchStartY = e.touches[0].clientY;
+        _homeTouchLastY = e.touches[0].clientY;
+        row.classList.add('dragging');
+        e.preventDefault();
+      }, { passive: false });
+    }
 
     row.ondragstart = e => {
       _homeDragSrc = row;
@@ -4101,69 +4142,100 @@ function _initHomeDrag() {
     row.ondragend = () => {
       row.classList.remove('dragging');
       row.removeAttribute('draggable');
-      document.querySelectorAll('#home-layout .home-row').forEach(r => r.classList.remove('drag-over'));
+      _clearDragIndicators();
       _homeDragSrc = null;
     };
     row.ondragover = e => {
       e.preventDefault();
       e.dataTransfer.dropEffect = 'move';
-      document.querySelectorAll('#home-layout .home-row').forEach(r => r.classList.remove('drag-over'));
-      if (row !== _homeDragSrc) row.classList.add('drag-over');
+      if (row === _homeDragSrc) return;
+      _clearDragIndicators();
+      const rect = row.getBoundingClientRect();
+      row.classList.add(e.clientY < rect.top + rect.height / 2 ? 'drag-insert-above' : 'drag-insert-below');
     };
     row.ondrop = e => {
       e.preventDefault();
-      row.classList.remove('drag-over');
+      const insertAbove = row.classList.contains('drag-insert-above');
+      _clearDragIndicators();
       if (!_homeDragSrc || _homeDragSrc === row) return;
       const cont = document.getElementById('home-layout');
-      const all = [...cont.querySelectorAll('.home-row')];
-      const si = all.indexOf(_homeDragSrc);
-      const ti = all.indexOf(row);
-      cont.insertBefore(_homeDragSrc, si < ti ? row.nextSibling : row);
+      cont.insertBefore(_homeDragSrc, insertAbove ? row : row.nextSibling);
     };
+  });
 
-    // Touch drag
-    newBar.addEventListener('touchstart', e => {
-      _homeTouchDragEl = row;
-      _homeTouchLastY = e.touches[0].clientY;
-      row.classList.add('dragging');
-      e.preventDefault();
-    }, { passive: false });
+  // Touch move/end: global document handlers replaced each call to avoid stacking
+  document.removeEventListener('touchmove', _homeTouchMove);
+  document.removeEventListener('touchend', _homeTouchEnd);
+  document.addEventListener('touchmove', _homeTouchMove, { passive: false });
+  document.addEventListener('touchend', _homeTouchEnd);
+}
 
-    newBar.addEventListener('touchmove', e => {
-      if (!_homeTouchDragEl) return;
-      e.preventDefault();
-      _homeTouchLastY = e.touches[0].clientY;
-      const cont = document.getElementById('home-layout');
-      document.querySelectorAll('#home-layout .home-row').forEach(r => r.classList.remove('drag-over'));
-      const visible = [...cont.querySelectorAll('.home-row:not(.home-row-hidden)')];
-      const target = visible.find(r => {
-        if (r === _homeTouchDragEl) return false;
-        const rect = r.getBoundingClientRect();
-        return _homeTouchLastY >= rect.top && _homeTouchLastY <= rect.bottom;
-      });
-      if (target) target.classList.add('drag-over');
-    }, { passive: false });
+function _homeTouchMove(e) {
+  if (!_homeTouchDragEl) return;
+  e.preventDefault();
+  const y = e.touches[0].clientY;
+  _homeTouchLastY = y;
+  _homeTouchDragEl.style.transform = `translateY(${y - _homeTouchStartY}px)`;
+  _homeTouchDragEl.style.zIndex = '100';
+  const cont = document.getElementById('home-layout');
+  if (!cont) return;
+  _clearDragIndicators();
+  const visible = [...cont.querySelectorAll('.home-row:not(.home-row-hidden)')];
+  const target = visible.find(r => {
+    if (r === _homeTouchDragEl) return false;
+    const rect = r.getBoundingClientRect();
+    return y >= rect.top && y <= rect.bottom;
+  });
+  if (target) {
+    const rect = target.getBoundingClientRect();
+    target.classList.add(y < rect.top + rect.height / 2 ? 'drag-insert-above' : 'drag-insert-below');
+  }
+}
 
-    newBar.addEventListener('touchend', () => {
-      if (!_homeTouchDragEl) return;
-      const cont = document.getElementById('home-layout');
-      document.querySelectorAll('#home-layout .home-row').forEach(r => r.classList.remove('drag-over'));
-      const visible = [...cont.querySelectorAll('.home-row:not(.home-row-hidden)')];
-      const target = visible.find(r => {
-        if (r === _homeTouchDragEl) return false;
-        const rect = r.getBoundingClientRect();
-        return _homeTouchLastY >= rect.top && _homeTouchLastY <= rect.bottom;
-      });
-      if (target) {
-        const all = [...cont.querySelectorAll('.home-row')];
-        const si = all.indexOf(_homeTouchDragEl);
-        const ti = all.indexOf(target);
-        cont.insertBefore(_homeTouchDragEl, si < ti ? target.nextSibling : target);
-      }
-      _homeTouchDragEl.classList.remove('dragging');
-      _homeTouchDragEl = null;
+function _homeTouchEnd() {
+  if (!_homeTouchDragEl) return;
+  _homeTouchDragEl.style.transform = '';
+  _homeTouchDragEl.style.zIndex = '';
+  _homeTouchDragEl.classList.remove('dragging');
+  const cont = document.getElementById('home-layout');
+  if (cont) {
+    _clearDragIndicators();
+    const visible = [...cont.querySelectorAll('.home-row:not(.home-row-hidden)')];
+    const target = visible.find(r => {
+      if (r === _homeTouchDragEl) return false;
+      const rect = r.getBoundingClientRect();
+      return _homeTouchLastY >= rect.top && _homeTouchLastY <= rect.bottom;
+    });
+    if (target) {
+      const all = [...cont.querySelectorAll('.home-row')];
+      const si = all.indexOf(_homeTouchDragEl);
+      const ti = all.indexOf(target);
+      const insertAbove = _homeTouchLastY < target.getBoundingClientRect().top + target.getBoundingClientRect().height / 2;
+      cont.insertBefore(_homeTouchDragEl, insertAbove ? target : target.nextSibling);
+    }
+  }
+  _homeTouchDragEl = null;
+}
+
+function _startResizeObserving() {
+  if (!window.ResizeObserver) return;
+  _homeResizeObserver = new ResizeObserver(entries => {
+    entries.forEach(entry => {
+      const row = entry.target;
+      const id = row.dataset.cardId;
+      if (!id || !_homeLayout) return;
+      const h = Math.round(entry.contentRect.height);
+      const item = _homeLayout.find(x => x.id === id);
+      if (item && h > 0) item.height = h;
     });
   });
+  document.querySelectorAll('#home-layout .home-row:not(.home-row-hidden)').forEach(row => {
+    _homeResizeObserver.observe(row);
+  });
+}
+
+function _stopResizeObserving() {
+  if (_homeResizeObserver) { _homeResizeObserver.disconnect(); _homeResizeObserver = null; }
 }
 
 /* ============ burger menu ============ */
