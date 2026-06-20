@@ -409,11 +409,6 @@ window.createPendulum = function(container) {
   rodGeo.translate(0, -ROD_LEN / 2, 0);
   const rod = new THREE.Mesh(rodGeo, new THREE.MeshPhongMaterial({ color: 0x888888 }));
 
-  const pivotSphere = new THREE.Mesh(
-    new THREE.SphereGeometry(0.08, 16, 16),
-    new THREE.MeshPhongMaterial({ color: 0xaaaaaa })
-  );
-
   const bob = new THREE.Mesh(
     new THREE.SphereGeometry(0.28, 24, 24),
     new THREE.MeshPhongMaterial({ color: 0xffcc44, shininess: 120, emissive: 0x221100 })
@@ -422,7 +417,6 @@ window.createPendulum = function(container) {
   rod.add(bob);
 
   const swingGroup = new THREE.Group();
-  swingGroup.add(pivotSphere);
   swingGroup.add(rod);
   swingGroup.position.set(0, 1.2, 0);
   pivot.add(swingGroup);
