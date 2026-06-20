@@ -428,6 +428,14 @@ window.createPendulum = function(container) {
   bob.position.set(0, -ROD_LEN, 0);
   pendulumGroup.add(bob);
 
+  // DEBUG: log world positions after scene graph is built
+  renderer.render(scene, camera); // force matrix update
+  const pivotWorldPos = new THREE.Vector3();
+  pivotSphere.getWorldPosition(pivotWorldPos);
+  const rodWorldPos = new THREE.Vector3();
+  rod.getWorldPosition(rodWorldPos);
+  console.log('[PENDULUM DEBUG] pivot world pos:', pivotWorldPos, 'rod world pos:', rodWorldPos, 'camera pos:', camera.position, 'camera target: none set');
+
   const startTime = performance.now();
 
   function animate() {
