@@ -485,6 +485,10 @@ window.createOrbital = function(container, type) {
   const mat = new THREE.PointsMaterial({ size: 0.06, vertexColors: true, transparent: true, opacity: 0.8 });
   pivot.add(new THREE.Points(geo, mat));
 
+  const orbLbl = _makeLabel(t + ' orbital', '#88bbff');
+  orbLbl.position.set(0, -2.2, 0);
+  scene.add(orbLbl);
+
   function animate() {
     container._3dRafId = requestAnimationFrame(animate);
     pivot.rotation.y += 0.004;
@@ -676,6 +680,21 @@ window.createPhotosynthesisAnimation = function(container) {
   const o2a  = mp(0xff4444, 0.12), o2b  = mp(0xff4444, 0.12);
   const gluc = mp(0xffaa22, 0.18);
 
+  const chloroLbl = _makeLabel('Chloroplast', '#44cc66');
+  chloroLbl.position.set(0, -1.1, 0);
+  scene.add(chloroLbl);
+  const co2Lbl = _makeLabel('CO₂ (in)', '#aaaaaa');
+  co2Lbl.position.set(2.2, 0.5, 0);
+  co2Lbl.scale.set(1.6, 0.4, 1);
+  scene.add(co2Lbl);
+  const o2Lbl = _makeLabel('O₂ (out)', '#ff8888');
+  o2Lbl.position.set(-2.2, 1.5, 0);
+  o2Lbl.scale.set(1.6, 0.4, 1);
+  scene.add(o2Lbl);
+  const sunLbl2 = _makeLabel('Sunlight', '#ffee66');
+  sunLbl2.position.set(0.8, 2.4, 0);
+  scene.add(sunLbl2);
+
   let t = 0;
   function animatePhoto() {
     container._3dRafId = requestAnimationFrame(animatePhoto);
@@ -751,6 +770,18 @@ window.createTranspirationAnimation = function(container) {
     evaps.push(m);
   }
 
+  const uptakeLbl = _makeLabel('Water Uptake', '#44aaff');
+  uptakeLbl.position.set(1.2, -3.1, 0);
+  uptakeLbl.scale.set(1.8, 0.45, 1);
+  scene.add(uptakeLbl);
+  const xylemLbl = _makeLabel('Xylem', '#cc9944');
+  xylemLbl.position.set(0.9, 0, 0);
+  scene.add(xylemLbl);
+  const transLbl = _makeLabel('Transpiration', '#88ccff');
+  transLbl.position.set(1.2, 3.3, 0);
+  transLbl.scale.set(1.8, 0.45, 1);
+  scene.add(transLbl);
+
   let tT = 0;
   function animateTransp() {
     container._3dRafId = requestAnimationFrame(animateTransp);
@@ -792,6 +823,20 @@ window.createRespirationAnimation = function(container) {
   const atp  = [mk(0xaaff22, 0.13), mk(0xaaff22, 0.13), mk(0xaaff22, 0.13)];
   const co2  = [mk(0x888888, 0.11), mk(0x888888, 0.11)];
   const h2o  = mk(0x3399ff, 0.11);
+
+  const mitoLbl = _makeLabel('Mitochondrion', '#ee7755');
+  mitoLbl.position.set(0, -1.3, 0);
+  mitoLbl.scale.set(2.0, 0.5, 1);
+  scene.add(mitoLbl);
+  const glucLbl = _makeLabel('Glucose', '#ffaa22');
+  glucLbl.position.set(-2.4, 0.8, 0);
+  scene.add(glucLbl);
+  const o2inLbl = _makeLabel('O₂', '#ff6666');
+  o2inLbl.position.set(2.2, -0.1, 0);
+  scene.add(o2inLbl);
+  const atpLbl = _makeLabel('ATP', '#aaff44');
+  atpLbl.position.set(0.5, 2.1, 0);
+  scene.add(atpLbl);
 
   let tR = 0;
   function animateResp() {
@@ -843,6 +888,13 @@ window.createNerveImpulse = function(container) {
   const pLight = new THREE.PointLight(0xffff44, 1.5, 2.5);
   pivot.add(pLight);
 
+  const axonLbl = _makeLabel('Axon', '#6699cc');
+  axonLbl.position.set(0, -0.8, 0);
+  scene.add(axonLbl);
+  const apLbl = _makeLabel('Action Potential', '#ffff88');
+  apLbl.scale.set(2.0, 0.5, 1);
+  scene.add(apLbl);
+
   let tN = 0;
   function animateNerve() {
     container._3dRafId = requestAnimationFrame(animateNerve);
@@ -856,6 +908,7 @@ window.createNerveImpulse = function(container) {
     const iy = p0.y + (p1.y - p0.y) * frac;
     impulse.position.set(ix, iy, 0);
     pLight.position.set(ix, iy, 0);
+    apLbl.position.set(ix, iy + 0.5, 0);
     nodes.forEach(n => {
       const dist = Math.abs(n.idx - fi);
       const b = Math.max(0, 1 - dist / 2.5);
@@ -886,6 +939,18 @@ window.createCellDivision = function(container) {
   cellA.visible = cellB.visible = false;
   pivot.add(cellA); pivot.add(cellB);
 
+  const mitosisLbl = _makeLabel('Mitosis', '#88aaff');
+  mitosisLbl.position.set(0, 1.8, 0);
+  scene.add(mitosisLbl);
+  const parentLbl = _makeLabel('Parent Cell', '#4488cc');
+  parentLbl.position.set(0, 1.3, 0);
+  scene.add(parentLbl);
+  const daughterLbl = _makeLabel('Daughter Cells', '#44aa66');
+  daughterLbl.position.set(0, 1.3, 0);
+  daughterLbl.scale.set(1.8, 0.45, 1);
+  daughterLbl.visible = false;
+  scene.add(daughterLbl);
+
   let tCD = 0;
   function animateDiv() {
     container._3dRafId = requestAnimationFrame(animateDiv);
@@ -911,6 +976,9 @@ window.createCellDivision = function(container) {
       cellA.position.set(-1.1, 0, 0); cellB.position.set(1.1, 0, 0);
       cellA.scale.setScalar(1); cellB.scale.setScalar(1);
     }
+    const showDaughter = phase >= 0.5;
+    parentLbl.visible = !showDaughter;
+    daughterLbl.visible = showDaughter;
     renderer.render(scene, camera);
   }
   animateDiv();
@@ -1410,6 +1478,17 @@ window.createHeatConduction = function(container) {
   glow.position.set(-3.25, 0, 0);
   pivot.add(glow);
 
+  const hotLbl = _makeLabel('Hot', '#ff4422');
+  hotLbl.position.set(-3.25, -0.7, 0);
+  scene.add(hotLbl);
+  const coldLbl = _makeLabel('Cold', '#4488ff');
+  coldLbl.position.set(3.25, -0.7, 0);
+  scene.add(coldLbl);
+  const heatFlowLbl = _makeLabel('Heat Flow →', '#ffaa44');
+  heatFlowLbl.position.set(0, 0.7, 0);
+  heatFlowLbl.scale.set(1.8, 0.45, 1);
+  scene.add(heatFlowLbl);
+
   let tH = 0;
   function animateHeat() {
     container._3dRafId = requestAnimationFrame(animateHeat);
@@ -1467,6 +1546,19 @@ window.createRayRefraction = function(container) {
     r.geo.attributes.position.needsUpdate = true;
   }
 
+  const normalLbl2 = _makeLabel('Normal', '#888888');
+  normalLbl2.position.set(0.4, 2.4, 0);
+  scene.add(normalLbl2);
+  const glassLbl = _makeLabel('Glass', '#88ccff');
+  glassLbl.position.set(0, -1.2, 0);
+  scene.add(glassLbl);
+  const incLbl = _makeLabel('Incident Ray', '#ffee22');
+  incLbl.scale.set(1.8, 0.45, 1);
+  scene.add(incLbl);
+  const refLbl = _makeLabel('Refracted Ray', '#44aaff');
+  refLbl.scale.set(1.8, 0.45, 1);
+  scene.add(refLbl);
+
   const N2 = 1.5;
   let tRefr = 0;
   function animateRefr() {
@@ -1474,10 +1566,12 @@ window.createRayRefraction = function(container) {
     tRefr += 0.015;
     const theta1 = 0.18 + Math.abs(Math.sin(tRefr * 0.35)) * 1.12;
     setRay(incRay, -Math.sin(theta1) * 2.5, Math.cos(theta1) * 2.5, 0, 0);
+    incLbl.position.set(-Math.sin(theta1) * 2.5 + 0.4, Math.cos(theta1) * 2.5, 0);
     const sinR = Math.sin(theta1) / N2;
     if (sinR <= 1) {
       const theta2 = Math.asin(sinR);
       setRay(refRay, 0, 0, Math.sin(theta2) * 2.2, -Math.cos(theta2) * 2.2);
+      refLbl.position.set(Math.sin(theta2) * 2.2 + 0.3, -Math.cos(theta2) * 2.2, 0);
     } else {
       setRay(refRay, 0, 0, 0, 0);
     }
@@ -1509,16 +1603,32 @@ window.createLongitudinalWave = function(container) {
     1.8, 0xffaa00, 0.35, 0.25
   ));
 
+  const waveDirLbl = _makeLabel('Wave Direction →', '#ffaa00');
+  waveDirLbl.position.set(-3.2, -1.8, 0);
+  waveDirLbl.scale.set(2.2, 0.55, 1);
+  scene.add(waveDirLbl);
+  const compLbl = _makeLabel('Compression', '#88ccff');
+  compLbl.scale.set(1.8, 0.45, 1);
+  scene.add(compLbl);
+  const rarefLbl = _makeLabel('Rarefaction', '#4466aa');
+  rarefLbl.scale.set(1.8, 0.45, 1);
+  scene.add(rarefLbl);
+
   let tLW = 0;
   function animateLong() {
     container._3dRafId = requestAnimationFrame(animateLong);
     tLW += 0.03;
+    let maxDisp = -Infinity, minDisp = Infinity, maxX = 0, minX = 0;
     wParticles.forEach((m, i) => {
       const disp = Math.sin(tLW - i * 0.65) * 0.28;
       m.position.x = m.userData.bx + disp;
       const comp = disp / 0.28;
       m.material.color.setRGB(0.15 + comp * 0.3, 0.4 + comp * 0.2, 0.9 - comp * 0.15);
+      if (disp > maxDisp) { maxDisp = disp; maxX = m.position.x; }
+      if (disp < minDisp) { minDisp = disp; minX = m.position.x; }
     });
+    compLbl.position.set(maxX, 0.6, 0);
+    rarefLbl.position.set(minX, 0.6, 0);
     renderer.render(scene, camera);
   }
   animateLong();
