@@ -403,29 +403,26 @@ window.createPendulum = function(container) {
   camera.position.set(0, 0, 6);
   camera.lookAt(0, 0, 0);
 
-  const ROD_LEN = 2.4;
-
-  const rodGeo = new THREE.CylinderGeometry(0.04, 0.04, ROD_LEN, 12);
-  rodGeo.translate(0, -ROD_LEN / 2, 0);
-  const rod = new THREE.Mesh(rodGeo, new THREE.MeshPhongMaterial({ color: 0x888888 }));
-
-  const bob = new THREE.Mesh(
-    new THREE.SphereGeometry(0.28, 24, 24),
-    new THREE.MeshPhongMaterial({ color: 0xffcc44, shininess: 120, emissive: 0x221100 })
+  const ball = new THREE.Mesh(
+    new THREE.SphereGeometry(0.35, 24, 24),
+    new THREE.MeshPhongMaterial({ color: 0xffcc44, shininess: 120 })
   );
-  bob.position.set(0, -ROD_LEN, 0);
-  rod.add(bob);
+  pivot.add(ball);
 
-  const swingGroup = new THREE.Group();
-  swingGroup.add(rod);
-  swingGroup.position.set(0, 1.2, 0);
-  pivot.add(swingGroup);
+  const path = new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(-2, 0, 0),
+      new THREE.Vector3(2, 0, 0)
+    ]),
+    new THREE.LineBasicMaterial({ color: 0x666666 })
+  );
+  pivot.add(path);
 
   const startTime = performance.now();
   function animate() {
     container._3dRafId = requestAnimationFrame(animate);
     const elapsed = (performance.now() - startTime) / 1000;
-    swingGroup.rotation.z = 0.5 * Math.sin(elapsed * 1.5);
+    ball.position.x = 2 * Math.sin(elapsed * 1.5);
     renderer.render(scene, camera);
   }
   animate();
