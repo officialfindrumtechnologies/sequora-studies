@@ -3077,6 +3077,9 @@ window.closeAIModal = closeAIModal;
 window.bibExtract = bibExtract;
 window.bibCopyOutput = bibCopyOutput;
 window.bibClear = bibClear;
+window.bibFindCitations = bibFindCitations;
+window.bibSetStyle = bibSetStyle;
+window.bibCopySelected = bibCopySelected;
 
 // Onboarding wizard
 window.wizNext = wizNext;
@@ -5354,6 +5357,7 @@ if (supabase) {
 /* ============ Sequora Citation — Stage 1: file upload + text extraction ============ */
 let _bibFile = null;
 let _bibInited = false;
+let _bibCitStyle = 'apa';
 
 function renderCitation() {
   if (_bibInited) return;
@@ -5510,6 +5514,7 @@ function _bibShowOutput(text) {
   document.getElementById('bib-loading').style.display = 'none';
   document.getElementById('bib-output').value = text;
   document.getElementById('bib-output-wrap').style.display = 'block';
+  _citReset();
 }
 
 function _bibShowStub(msg) {
@@ -5534,6 +5539,139 @@ function bibClear() {
   document.getElementById('bib-file-name').textContent = '';
   document.getElementById('bib-extract-row').style.display = 'none';
   _bibHideOutput();
+  _citReset();
+}
+
+function _citReset() {
+  const ldEl = document.getElementById('cit-loading');
+  const errEl = document.getElementById('cit-error');
+  const resEl = document.getElementById('cit-results');
+  if (ldEl) ldEl.style.display = 'none';
+  if (errEl) errEl.style.display = 'none';
+  if (resEl) resEl.style.display = 'none';
+  _bibCitStyle = 'apa';
+  document.querySelectorAll('.cit-style-pill').forEach(p => {
+    p.classList.toggle('active', (p.getAttribute('onclick') || '').includes("'apa'"));
+  });
+}
+
+function bibSetStyle(style) {
+  _bibCitStyle = style;
+  document.querySelectorAll('.cit-style-pill').forEach(p => {
+    p.classList.toggle('active', (p.getAttribute('onclick') || '').includes(`'${style}'`));
+  });
+}
+
+function _bibScanCitations(text) {
+  const sources = [];
+  const secRe = /(?:^|\n)[ \t]*(references?|bibliography|works?\s+cited|sources?)\s*:?\s*\n/im;
+  const secMatch = secRe.exec(text);
+  const block = secMatch ? text.slice(secMatch.index + secMatch[0].length) : text;
+
+  // Numbered entries: [1] ..., 1. ..., 1) ...
+  const numRe = /^\s*(?:\[\d+\]|\d+[.)]\s)\s*(.{20,})/gm;
+  let m;
+  while ((m = numRe.exec(block)) !== null && sources.length < 20) {
+    sources.push({ formatted_citation: m[1].trim().replace(/\s+/g, ' '), url: null });
+  }
+
+  // Paragraph-style entries from a detected bibliography section
+  if (sources.length === 0 && secMatch) {
+    const paras = block.split(/\n{2,}/);
+    for (const p of paras) {
+      const entry = p.trim().replace(/\s+/g, ' ');
+      if (entry.length > 30) {
+        sources.push({ formatted_citation: entry, url: null });
+        if (sources.length >= 20) break;
+      }
+    }
+  }
+
+  return sources;
+}
+
+async function bibFindCitations() {
+  const text = document.getElementById('bib-output')?.value;
+  if (!text) return;
+
+  document.getElementById('cit-error').style.display = 'none';
+  document.getElementById('cit-results').style.display = 'none';
+
+  // Mode A: client-side scan
+  const found = _bibScanCitations(text);
+  if (found.length > 0) {
+    _bibRenderSources(found, 'scan', `${found.length} citation${found.length !== 1 ? 's' : ''} detected in text`);
+    return;
+  }
+
+  // Mode B: API fallback
+  document.getElementById('cit-loading').style.display = 'block';
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    const token = session?.access_token;
+    if (!token) throw new Error('Not signed in');
+
+    const resp = await fetch('/api/find-sources', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify({ text: text.slice(0, 4000), style: _bibCitStyle }),
+    });
+    const data = await resp.json();
+    document.getElementById('cit-loading').style.display = 'none';
+
+    if (!resp.ok || data.error) {
+      const errEl = document.getElementById('cit-error');
+      errEl.textContent = (data.code === 'INACTIVE' || data.code === 'UPGRADE_REQUIRED')
+        ? data.error
+        : 'Source search is temporarily unavailable';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    _bibRenderSources(data.sources || [], 'api', 'Sources found via web search');
+  } catch (err) {
+    document.getElementById('cit-loading').style.display = 'none';
+    const errEl = document.getElementById('cit-error');
+    errEl.textContent = 'Source search is temporarily unavailable';
+    errEl.style.display = 'block';
+  }
+}
+
+function _bibRenderSources(sources, mode, label) {
+  document.getElementById('cit-results-label').textContent = label;
+  const listEl = document.getElementById('cit-sources-list');
+  const copyRow = document.getElementById('cit-copy-row');
+
+  if (!sources || sources.length === 0) {
+    listEl.innerHTML = '<div class="cit-no-found">No citations found. Try a document with a References or Bibliography section, or use the API search.</div>';
+    copyRow.style.display = 'none';
+  } else {
+    listEl.innerHTML = sources.map((s, i) => {
+      const citation = escapeHtml(s.formatted_citation || [s.author, s.year ? `(${s.year})` : '', s.title].filter(Boolean).join(' '));
+      const urlHtml = s.url
+        ? `<div class="cit-source-url"><a href="${escapeHtml(s.url)}" target="_blank" rel="noopener">${escapeHtml(s.url)}</a></div>`
+        : '';
+      return `<div class="cit-source-item"><input type="checkbox" class="cit-source-cb" id="cit-cb-${i}" checked><div class="cit-source-body"><div class="cit-source-formatted">${citation}</div>${urlHtml}</div></div>`;
+    }).join('');
+    copyRow.style.display = 'block';
+  }
+  document.getElementById('cit-results').style.display = 'block';
+}
+
+function bibCopySelected() {
+  const items = document.querySelectorAll('.cit-source-item');
+  const selected = [];
+  items.forEach(item => {
+    const cb = item.querySelector('.cit-source-cb');
+    if (cb && cb.checked) {
+      const text = item.querySelector('.cit-source-formatted')?.textContent || '';
+      if (text) selected.push(text);
+    }
+  });
+  if (!selected.length) { setToast('No citations selected'); return; }
+  navigator.clipboard.writeText(selected.join('\n\n')).then(() =>
+    setToast(`${selected.length} citation${selected.length !== 1 ? 's' : ''} copied!`)
+  );
 }
 
 document.querySelectorAll("#nav button").forEach(b=>{

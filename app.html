@@ -926,6 +926,17 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
 .bib-file-chosen{display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(var(--glow-color),.05);border:1px solid rgba(var(--glow-color),.15);border-radius:var(--rs);margin-bottom:14px}
 .bib-file-name{flex:1;font-family:var(--mono);font-size:11px;color:var(--text-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bib-stub{font-family:var(--mono);font-size:12px;color:var(--text-dim);background:rgba(var(--glow-color),.04);border:1px solid rgba(var(--glow-color),.12);border-radius:var(--rs);padding:12px 14px;margin-bottom:10px}
+.cit-step2{border-top:1px solid var(--border);margin-top:18px;padding-top:16px}
+.cit-style-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.cit-style-pill{font-family:var(--mono);font-size:11px;padding:4px 10px;border:1px solid var(--border);border-radius:20px;cursor:pointer;background:transparent;color:var(--text-dim);transition:all .15s}
+.cit-style-pill.active{border-color:rgba(var(--glow-color),.7);color:rgba(var(--glow-color),1);background:rgba(var(--glow-color),.08)}
+.cit-sources-list{display:flex;flex-direction:column;gap:10px;margin:12px 0}
+.cit-source-item{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--border);border-radius:var(--rs);background:rgba(var(--glow-color),.02)}
+.cit-source-cb{margin-top:3px;flex-shrink:0;width:15px;height:15px;cursor:pointer;accent-color:rgba(var(--glow-color),1)}
+.cit-source-body{flex:1;min-width:0}
+.cit-source-formatted{font-family:var(--mono);font-size:11px;color:var(--text);line-height:1.55;word-break:break-word}
+.cit-source-url{font-family:var(--mono);font-size:10px;color:var(--accent);margin-top:4px;word-break:break-all}
+.cit-no-found{font-family:var(--mono);font-size:12px;color:var(--muted);padding:8px 0}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
@@ -1491,6 +1502,26 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
         <div style="display:flex;gap:8px;margin-top:10px">
           <button class="btn sm ghost" onclick="bibCopyOutput()">Copy text</button>
           <button class="btn sm ghost" onclick="bibClear()">Clear</button>
+        </div>
+
+        <!-- Step 2: Find Citations -->
+        <div id="cit-step2" class="cit-step2">
+          <div class="section-h" style="margin-bottom:10px">Find Citations</div>
+          <div class="cit-style-pills">
+            <button class="cit-style-pill active" onclick="bibSetStyle('apa')">APA</button>
+            <button class="cit-style-pill" onclick="bibSetStyle('mla')">MLA</button>
+            <button class="cit-style-pill" onclick="bibSetStyle('harvard')">Harvard</button>
+          </div>
+          <button class="btn primary sm" onclick="bibFindCitations()">Find Citations</button>
+          <div id="cit-loading" style="display:none;font-family:var(--mono);font-size:12px;color:var(--accent);padding:8px 0">Searching for sources…</div>
+          <div id="cit-error" style="display:none;font-family:var(--mono);font-size:12px;color:var(--red);padding:8px 0"></div>
+          <div id="cit-results" style="display:none">
+            <div id="cit-results-label" style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:10px"></div>
+            <div id="cit-sources-list" class="cit-sources-list"></div>
+            <div id="cit-copy-row" style="margin-top:8px;display:none">
+              <button class="btn sm ghost" onclick="bibCopySelected()">Copy Selected Citations</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
