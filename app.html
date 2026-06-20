@@ -48,7 +48,7 @@ header{padding:32px 0 18px;display:flex;justify-content:space-between;align-item
 .headclock b{color:var(--text);font-weight:600}
 
 /* ---------- nav ---------- */
-nav{display:flex;gap:0;flex-wrap:wrap;margin:0 0 28px;border-bottom:1px solid var(--border);padding:0;background:transparent;border-radius:0;border-top:none;border-left:none;border-right:none}
+nav{display:flex;gap:0;flex-wrap:wrap;margin:0;border-bottom:none;padding:0;background:transparent;border-radius:0;border-top:none;border-left:none;border-right:none}
 nav button{font-family:var(--body);font-size:13px;letter-spacing:0;text-transform:none;color:var(--text-dim);background:transparent;border:none;border-bottom:2px solid transparent;padding:14px 16px 12px;cursor:pointer;transition:color .15s,border-color .15s;font-weight:400;border-radius:0}
 nav button:hover{color:var(--text);background:transparent}
 nav button.active{color:var(--text);border-bottom-color:var(--accent);font-weight:500;background:transparent}
@@ -947,16 +947,18 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
     </div>
   </header>
 
-  <nav id="nav">
-    <button data-v="dash" class="active">Deck</button>
-    <button data-v="focus">Focus Timer</button>
-    <button data-v="subjects">Subjects</button>
-    <button data-v="week">This Week</button>
-    <button data-v="logs">Papers &amp; Errors</button>
-    <button data-v="coverage">Coverage Map</button>
-    <button data-v="toolkit">Toolkit</button>
-    <button id="layout-customize-btn" class="btn ghost" onclick="enterLayoutEdit()" title="Customize homepage layout">⊞ Layout</button>
-  </nav>
+  <div style="display:flex;align-items:stretch;border-bottom:1px solid var(--border);margin:0 0 28px">
+    <nav id="nav" style="border-bottom:none;margin:0;flex:1">
+      <button data-v="dash" class="active">Deck</button>
+      <button data-v="focus">Focus Timer</button>
+      <button data-v="subjects">Subjects</button>
+      <button data-v="week">This Week</button>
+      <button data-v="logs">Papers &amp; Errors</button>
+      <button data-v="coverage">Coverage Map</button>
+      <button data-v="toolkit">Toolkit</button>
+    </nav>
+    <button id="layout-customize-btn" onclick="enterLayoutEdit()" title="Customize homepage layout" style="font-family:var(--mono);font-size:10px;letter-spacing:.06em;padding:0 14px;background:transparent;border:none;border-left:1px solid var(--border);color:var(--text-dim);cursor:pointer;transition:color .15s;flex-shrink:0">⊞ Layout</button>
+  </div>
 
   <div id="layout-edit-bar" class="hidden">
     <span class="layout-edit-label">✦ Editing Layout</span>

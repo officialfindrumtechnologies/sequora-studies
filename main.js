@@ -2509,6 +2509,7 @@ window.ppOpenNewTab = ppOpenNewTab;
 
 /* ============ nav ============ */
 function go(v){
+  if (!v) return;
   document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.v===v));
   ["dash","focus","subjects","week","logs","toolkit","coverage"].forEach(x=>{
     const el = document.getElementById("view-"+x);
@@ -5274,7 +5275,9 @@ if (supabase) {
   });
 }
 
-document.querySelectorAll("#nav button").forEach(b=>b.onclick=()=>go(b.dataset.v));
+document.querySelectorAll("#nav button").forEach(b=>{
+  if (b.dataset.v) b.onclick = () => go(b.dataset.v);
+});
 document.getElementById("summaryModal").addEventListener("click",e=>{if(e.target.id==="summaryModal")closeSummary();});
 document.getElementById("aiModal").addEventListener("click",e=>{if(e.target.id==="aiModal")closeAIModal();});
 document.addEventListener("keydown",e=>{
