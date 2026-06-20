@@ -1,5 +1,24 @@
 /* topic-3d-functions.js — Three.js r128 window-attached 3D models */
 
+function _makeLabel(text, color = '#ffffff') {
+  const canvas = document.createElement('canvas');
+  canvas.width = 256;
+  canvas.height = 64;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = 'rgba(0,0,0,0)';
+  ctx.fillRect(0, 0, 256, 64);
+  ctx.font = 'bold 32px sans-serif';
+  ctx.fillStyle = color;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, 128, 32);
+  const texture = new THREE.CanvasTexture(canvas);
+  const material = new THREE.SpriteMaterial({ map: texture, transparent: true });
+  const sprite = new THREE.Sprite(material);
+  sprite.scale.set(1.2, 0.3, 1);
+  return sprite;
+}
+
 function _setup3D(container, fov) {
   // Cancel any previous animation loop on this container before removing its canvas
   if (container._3dRafId) {
@@ -152,6 +171,7 @@ window.createMolecule = function(container, type) {
 
   const COLOR = { H: 0xeeeeee, O: 0xee2222, C: 0x555555, N: 0x4444ee, Cl: 0x22cc44, Na: 0x9933cc, S: 0xddcc00 };
   const SIZE  = { H: 0.18, O: 0.28, C: 0.25, N: 0.26, Cl: 0.32, Na: 0.34, S: 0.28 };
+  const LABEL_CLR = { H: '#dddddd', O: '#ff6666', C: '#aaaaaa', N: '#8888ff', Cl: '#44ee88', Na: '#cc66ff', S: '#ffee44' };
 
   function atom(el, x, y, z) {
     const m = new THREE.Mesh(
@@ -160,6 +180,9 @@ window.createMolecule = function(container, type) {
     );
     m.position.set(x, y, z);
     pivot.add(m);
+    const lbl = _makeLabel(el, LABEL_CLR[el] || '#ffffff');
+    lbl.position.set(x, y + (SIZE[el] || 0.22) + 0.22, z);
+    pivot.add(lbl);
     return m;
   }
 
@@ -271,6 +294,10 @@ window.createWave3D = function(container) {
   mesh.rotation.x = -Math.PI / 2;
   pivot.add(mesh);
 
+  const waveLbl = _makeLabel('Wave Propagation', '#88ddff');
+  waveLbl.position.set(0, 2.0, 0);
+  scene.add(waveLbl);
+
   let t = 0;
   function animate() {
     container._3dRafId = requestAnimationFrame(animate);
@@ -318,6 +345,9 @@ window.createFieldLines = function(container, type) {
         new THREE.LineBasicMaterial({ color: 0xffdd88 })
       ));
     }
+    const electricLbl = _makeLabel('Electric Field', '#ffdd88');
+    electricLbl.position.set(0, 2.8, 0);
+    scene.add(electricLbl);
   } else {
     // magnetic — bar + curved lines around it
     const bar = new THREE.Mesh(
@@ -343,6 +373,9 @@ window.createFieldLines = function(container, type) {
         new THREE.LineBasicMaterial({ color: 0x44aaff })
       ));
     }
+    const magneticLbl = _makeLabel('Magnetic Field', '#88ccff');
+    magneticLbl.position.set(0, 2.8, 0);
+    scene.add(magneticLbl);
   }
 
   function animate() {
@@ -375,6 +408,11 @@ window.createNucleus = function(container) {
     );
     pivot.add(m);
   }
+
+  const nucleusLabel = _makeLabel('7P : 7N', '#ffddaa');
+  nucleusLabel.position.set(0, 1.3, 0);
+  nucleusLabel.scale.set(1.6, 0.4, 1);
+  scene.add(nucleusLabel);
 
   function animate() {
     container._3dRafId = requestAnimationFrame(animate);
