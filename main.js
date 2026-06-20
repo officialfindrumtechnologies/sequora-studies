@@ -2512,7 +2512,7 @@ function go(v){
   if (!v) return;
   if (_homeEditMode && v !== 'dash') exitLayoutEdit();
   document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.v===v));
-  ["dash","focus","subjects","week","logs","toolkit","coverage"].forEach(x=>{
+  ["dash","focus","subjects","week","logs","toolkit","coverage","mybib"].forEach(x=>{
     const el = document.getElementById("view-"+x);
     if (el) el.classList.toggle("hidden",x!==v);
   });
@@ -2525,6 +2525,7 @@ function go(v){
   if(v==="logs"){initPastPapers();}
   if(v==="toolkit")renderToolkit();
   if(v==="coverage")renderCoverage();
+  if(v==="mybib")renderMyBib();
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
@@ -5345,6 +5346,158 @@ if (supabase) {
     }
     handleSession(session);
   });
+}
+
+/* ============ My Bib — Stage 1: file upload + text extraction ============ */
+let _bibFile = null;
+let _bibInited = false;
+
+function renderMyBib() {
+  if (_bibInited) return;
+  _bibInited = true;
+
+  const dropzone  = document.getElementById('bib-dropzone');
+  const fileInput = document.getElementById('bib-file-input');
+  const pasteArea = document.getElementById('bib-paste-area');
+  if (!dropzone || !fileInput || !pasteArea) return;
+
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files[0]) bibSetFile(fileInput.files[0]);
+  });
+
+  dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('bib-hover'); });
+  dropzone.addEventListener('dragleave', () => dropzone.classList.remove('bib-hover'));
+  dropzone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropzone.classList.remove('bib-hover');
+    if (e.dataTransfer.files[0]) bibSetFile(e.dataTransfer.files[0]);
+  });
+
+  pasteArea.addEventListener('input', () => {
+    const has = pasteArea.value.trim().length > 0;
+    if (has && !_bibFile) {
+      document.getElementById('bib-extract-row').style.display = 'block';
+    } else if (!has && !_bibFile) {
+      document.getElementById('bib-extract-row').style.display = 'none';
+    }
+    _bibHideOutput();
+  });
+}
+
+function bibSetFile(f) {
+  _bibFile = f;
+  document.getElementById('bib-paste-area').value = '';
+  document.getElementById('bib-file-name').textContent = f.name;
+  document.getElementById('bib-file-chosen').style.display = 'flex';
+  document.getElementById('bib-extract-row').style.display = 'block';
+  _bibHideOutput();
+}
+
+function _bibHideOutput() {
+  document.getElementById('bib-loading').style.display = 'none';
+  document.getElementById('bib-error').style.display = 'none';
+  document.getElementById('bib-stub').style.display = 'none';
+  document.getElementById('bib-output-wrap').style.display = 'none';
+}
+
+function _bibLoadScript(src) {
+  return new Promise((res, rej) => {
+    if (document.querySelector(`script[src="${src}"]`)) { res(); return; }
+    const s = document.createElement('script');
+    s.src = src; s.onload = res; s.onerror = rej;
+    document.head.appendChild(s);
+  });
+}
+
+async function bibExtract() {
+  const pasteArea = document.getElementById('bib-paste-area');
+
+  if (!_bibFile) {
+    const txt = pasteArea.value.trim();
+    if (txt) { _bibShowOutput(txt); } return;
+  }
+
+  const ext = _bibFile.name.split('.').pop().toLowerCase();
+  document.getElementById('bib-loading').style.display = 'block';
+  document.getElementById('bib-error').style.display = 'none';
+  document.getElementById('bib-stub').style.display = 'none';
+  document.getElementById('bib-output-wrap').style.display = 'none';
+
+  try {
+    let text = '';
+    if (ext === 'txt') {
+      text = await _bibFile.text();
+    } else if (ext === 'pdf') {
+      text = await _bibExtractPDF(_bibFile);
+    } else if (ext === 'docx') {
+      text = await _bibExtractDOCX(_bibFile);
+    } else if (ext === 'pptx') {
+      _bibShowStub('PowerPoint files can\'t be read client-side yet — paste the text directly, or export the PPTX as a PDF and upload that.');
+      return;
+    } else if (['png','jpg','jpeg'].includes(ext)) {
+      _bibShowStub('Image text extraction (OCR) is coming in Stage 2 — paste the text directly for now, or use a PDF/DOCX version of the source.');
+      return;
+    } else {
+      throw new Error('unsupported');
+    }
+    if (!text || !text.trim()) throw new Error('empty');
+    _bibShowOutput(text.trim());
+  } catch {
+    document.getElementById('bib-loading').style.display = 'none';
+    document.getElementById('bib-error').style.display = 'block';
+  }
+}
+
+async function _bibExtractPDF(file) {
+  await _bibLoadScript('https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.min.js');
+  const pdfjsLib = window.pdfjsLib;
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js';
+  const buf = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({data: buf}).promise;
+  let out = '';
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const pg = await pdf.getPage(i);
+    const ct = await pg.getTextContent();
+    out += ct.items.map(it => it.str).join(' ') + '\n\n';
+  }
+  return out;
+}
+
+async function _bibExtractDOCX(file) {
+  await _bibLoadScript('https://unpkg.com/mammoth@1.7.1/mammoth.browser.min.js');
+  const buf = await file.arrayBuffer();
+  const result = await window.mammoth.extractRawText({arrayBuffer: buf});
+  return result.value;
+}
+
+function _bibShowOutput(text) {
+  document.getElementById('bib-loading').style.display = 'none';
+  document.getElementById('bib-output').value = text;
+  document.getElementById('bib-output-wrap').style.display = 'block';
+}
+
+function _bibShowStub(msg) {
+  document.getElementById('bib-loading').style.display = 'none';
+  const el = document.getElementById('bib-stub');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function bibCopyOutput() {
+  const text = document.getElementById('bib-output').value;
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => setToast('Text copied!'));
+}
+
+function bibClear() {
+  _bibFile = null;
+  const fi = document.getElementById('bib-file-input');
+  if (fi) fi.value = '';
+  document.getElementById('bib-paste-area').value = '';
+  document.getElementById('bib-file-chosen').style.display = 'none';
+  document.getElementById('bib-file-name').textContent = '';
+  document.getElementById('bib-extract-row').style.display = 'none';
+  _bibHideOutput();
 }
 
 document.querySelectorAll("#nav button").forEach(b=>{
