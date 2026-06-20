@@ -34,6 +34,7 @@ export const TOPIC_VISUALS = {
         section: 'Transport',
         description: 'Substances move across cell membranes by diffusion (passive, down a concentration gradient), osmosis (water movement across a semi-permeable membrane via water potential gradient), and active transport (against the gradient, requiring ATP and carrier proteins).',
         svgKey: 'bio-membrane-transport',
+        threejs3dFn: 'createDiffusionAnimation',
         landmarks: ['Concentration gradient', 'Semi-permeable membrane', 'Water potential', 'Carrier proteins', 'ATP requirement', 'Turgor pressure', 'Plasmolysis'],
         examQA: [
           { q: 'Define osmosis.', a: 'Osmosis is the movement of water molecules from a region of higher water potential to a region of lower water potential across a partially permeable membrane.', year: 'May/June 2022 P1' },
@@ -80,6 +81,7 @@ export const TOPIC_VISUALS = {
         section: 'Nutrition',
         description: 'Photosynthesis converts light energy into chemical energy stored in glucose. Carbon dioxide and water are combined in chloroplasts using light energy to produce glucose and oxygen. Chlorophyll in chloroplasts absorbs light energy for this process.',
         svgKey: 'bio-photosynthesis',
+        threejs3dFn: 'createPhotosynthesisAnimation',
         landmarks: ['Chlorophyll', 'Chloroplast', 'Light energy', 'Carbon dioxide (CO₂)', 'Water (H₂O)', 'Glucose (C₆H₁₂O₆)', 'Oxygen (O₂)', 'Stomata', 'Thylakoid membrane'],
         examQA: [
           { q: 'Write the word equation for photosynthesis.', a: 'Carbon dioxide + water → glucose + oxygen (requires light energy and chlorophyll).', year: 'May/June 2022 P1' },
@@ -110,6 +112,7 @@ export const TOPIC_VISUALS = {
         section: 'Transport',
         description: 'Plants have two transport systems: xylem carries water and dissolved minerals from roots to leaves (transpiration stream); phloem carries dissolved sugars from leaves to all parts of the plant (translocation). Water moves by cohesion-tension in xylem vessels.',
         svgKey: 'bio-transport-plants',
+        threejs3dFn: 'createTranspirationAnimation',
         landmarks: ['Xylem vessels', 'Phloem sieve tubes', 'Transpiration', 'Root hair cells', 'Stomata', 'Guard cells', 'Translocation', 'Cohesion-tension'],
         examQA: [
           { q: 'Explain how water moves from soil to xylem in the root.', a: 'Water enters root hair cells by osmosis (soil water potential higher than cell water potential). It passes from cell to cell by osmosis across the cortex, moving down the water potential gradient toward the xylem. It enters the xylem and is pulled up by the transpiration stream.', year: 'May/June 2022 P4' },
@@ -156,6 +159,7 @@ export const TOPIC_VISUALS = {
         section: 'Physiology',
         description: 'Gas exchange in the lungs occurs across the alveolar surface. Oxygen diffuses from alveoli into blood capillaries; carbon dioxide diffuses in the opposite direction. Alveoli are adapted for efficient exchange: large surface area, thin walls, moist surface, and rich blood supply.',
         svgKey: 'bio-gas-exchange',
+        threejs3dFn: 'createDiffusionAnimation',
         landmarks: ['Alveoli', 'Capillary network', 'Thin epithelium (1 cell)', 'Moist surface', 'Large surface area', 'Diaphragm', 'Intercostal muscles', 'Trachea', 'Bronchi/bronchioles'],
         examQA: [
           { q: 'Describe how the alveoli are adapted for efficient gas exchange.', a: 'Millions of alveoli provide a very large surface area. Walls are only one cell thick for a short diffusion distance. Moist surface allows gases to dissolve. Dense capillary network maintains a steep concentration gradient. Good blood supply removes O₂ and delivers CO₂ continuously.', year: 'May/June 2022 P4' },
@@ -171,6 +175,7 @@ export const TOPIC_VISUALS = {
         section: 'Physiology',
         description: 'Respiration releases chemical energy from glucose as ATP. Aerobic respiration uses oxygen and produces carbon dioxide and water (maximum ATP yield). Anaerobic respiration occurs without oxygen, producing less ATP; in animals it produces lactic acid, in yeast it produces ethanol and carbon dioxide.',
         svgKey: 'bio-respiration',
+        threejs3dFn: 'createRespirationAnimation',
         landmarks: ['Glucose', 'ATP (energy currency)', 'Mitochondria', 'Oxygen', 'Carbon dioxide', 'Lactic acid (anaerobic)', 'Ethanol (yeast anaerobic)', 'Glycolysis', 'Krebs cycle'],
         examQA: [
           { q: 'Write the word equation for aerobic respiration.', a: 'Glucose + oxygen → carbon dioxide + water (+ energy/ATP released)', year: 'May/June 2022 P1' },
@@ -201,6 +206,7 @@ export const TOPIC_VISUALS = {
         section: 'Coordination',
         description: 'The nervous system detects stimuli and coordinates rapid responses via nerve impulses. Neurons transmit electrical signals; synapses transfer signals chemically between neurons. The endocrine system uses hormones for slower, longer-lasting responses. Reflex arcs bypass the brain for fast protective responses.',
         svgKey: 'bio-coordination',
+        threejs3dFn: 'createNerveImpulse',
         landmarks: ['Neuron (nerve cell)', 'Dendrites', 'Axon', 'Myelin sheath', 'Synapse', 'Neurotransmitter', 'Reflex arc', 'Receptor', 'Effector (muscle/gland)', 'Hormones'],
         examQA: [
           { q: 'Describe how a nerve impulse crosses a synapse.', a: 'Impulse arrives at pre-synaptic membrane. Vesicles release neurotransmitters into the synaptic cleft by exocytosis. Neurotransmitters diffuse across the cleft and bind to receptors on the post-synaptic membrane. This stimulates a new impulse in the next neuron. Neurotransmitters are then destroyed by enzymes or reabsorbed.', year: 'May/June 2022 P4' },
@@ -216,6 +222,7 @@ export const TOPIC_VISUALS = {
         section: 'Reproduction & Genetics',
         description: 'Sexual reproduction involves fusion of gametes (egg + sperm), producing genetic variation. Asexual reproduction produces genetically identical offspring (clones) from one parent. In plants, both methods occur. Mitosis produces identical daughter cells for growth; meiosis produces genetically diverse gametes.',
         svgKey: 'bio-reproduction',
+        threejs3dFn: 'createCellDivision',
         landmarks: ['Mitosis (2 identical cells)', 'Meiosis (4 gametes)', 'Fertilisation', 'Zygote', 'Gametes (haploid)', 'Chromosomes', 'Pollination (plants)', 'Asexual reproduction'],
         examQA: [
           { q: 'State two differences between sexual and asexual reproduction.', a: 'Sexual reproduction involves two parents and produces genetically varied offspring; asexual reproduction involves one parent and produces genetically identical offspring (clones). Sexual reproduction involves gametes and fertilisation; asexual reproduction does not.', year: 'May/June 2022 P2' },
@@ -231,6 +238,7 @@ export const TOPIC_VISUALS = {
         section: 'Reproduction & Genetics',
         description: 'Genes are units of heredity found on chromosomes. Alleles are alternative forms of a gene. Dominant alleles are expressed when present (even one copy); recessive alleles only expressed when homozygous. Punnett squares predict the probability of offspring genotypes and phenotypes.',
         svgKey: 'bio-genetics',
+        threejs3dFn: "createMolecule('dna')",
         landmarks: ['Gene', 'Allele (dominant/recessive)', 'Genotype', 'Phenotype', 'Homozygous/heterozygous', 'Punnett square', 'Monohybrid cross', 'Co-dominance', 'Sex linkage'],
         examQA: [
           { q: 'Define the term allele.', a: 'An allele is one of the alternative forms of a gene, occupying the same locus (position) on homologous chromosomes. Alleles may be dominant or recessive and determine different versions of the same characteristic.', year: 'May/June 2022 P1' },
@@ -302,6 +310,7 @@ export const TOPIC_VISUALS = {
         section: 'States & Structure',
         description: 'Matter exists in three states: solid (fixed shape and volume, particles in regular lattice with vibration only), liquid (fixed volume, no fixed shape, particles close but mobile), and gas (no fixed shape or volume, particles far apart moving rapidly). Changes of state involve energy transfer without chemical change.',
         svgKey: 'chem-states-matter',
+        threejs3dFn: 'createParticleStates',
         landmarks: ['Solid (lattice)', 'Liquid (mobile particles)', 'Gas (rapid random motion)', 'Melting point', 'Boiling point', 'Sublimation', 'Condensation', 'Kinetic energy'],
         examQA: [
           { q: 'Describe the arrangement and movement of particles in a gas.', a: 'Gas particles are far apart with no regular arrangement. They move rapidly and randomly in all directions. There are no significant forces between particles. They collide frequently with each other and the container walls.', year: 'May/June 2022 P1' },
@@ -380,6 +389,7 @@ export const TOPIC_VISUALS = {
         section: 'Reactions',
         description: 'Exothermic reactions release heat energy to the surroundings (temperature rises); products have lower energy than reactants. Endothermic reactions absorb heat (temperature falls). Activation energy (Ea) is the minimum energy needed for a reaction to occur. Bond breaking requires energy; bond making releases energy.',
         svgKey: 'chem-energetics',
+        threejs3dFn: "createReactionAnimation('energetic')",
         landmarks: ['Exothermic (ΔH < 0)', 'Endothermic (ΔH > 0)', 'Activation energy (Ea)', 'Energy profile diagram', 'Bond breaking (endothermic)', 'Bond making (exothermic)', 'Enthalpy change ΔH', 'Catalyst (lowers Ea)'],
         examQA: [
           { q: 'Describe how to determine if a reaction is exothermic or endothermic using a thermometer.', a: 'Measure the initial temperature of the reactants. Mix the reactants and stir. Record the temperature change. If temperature rises — exothermic (heat released to surroundings). If temperature falls — endothermic (heat absorbed from surroundings).', year: 'May/June 2022 P3' },
@@ -395,6 +405,7 @@ export const TOPIC_VISUALS = {
         section: 'Reactions',
         description: 'Reaction rate measures how quickly reactants are converted to products. Factors affecting rate: concentration, temperature, surface area, pressure (gases), and catalysts. A reversible reaction reaches dynamic equilibrium when forward and reverse rates are equal. Le Chatelier\'s principle predicts shifts in equilibrium.',
         svgKey: 'chem-reaction-rates',
+        threejs3dFn: "createReactionAnimation('collision')",
         landmarks: ['Collision theory', 'Activation energy', 'Concentration effect', 'Temperature effect', 'Surface area', 'Catalyst', 'Reversible reaction (⇌)', 'Dynamic equilibrium', 'Le Chatelier\'s principle'],
         examQA: [
           { q: 'Explain in terms of collision theory why increasing concentration increases reaction rate.', a: 'Increasing concentration means more reactant particles in the same volume. Particles collide more frequently. More collisions per second with energy ≥ activation energy occur. Therefore the rate of successful collisions increases and the reaction is faster.', year: 'May/June 2022 P4' },
@@ -440,6 +451,7 @@ export const TOPIC_VISUALS = {
         section: 'States & Structure',
         description: 'Metals have typical properties: high melting/boiling points, good conductors of heat and electricity, malleable, ductile, shiny. The reactivity series ranks metals by reactivity. More reactive metals displace less reactive ones from solutions. Iron rusts by oxidation in the presence of both oxygen and water.',
         svgKey: 'chem-metals',
+        threejs3dFn: 'createMetalLattice',
         landmarks: ['Reactivity series (K Na Ca Mg Al Zn Fe Pb Cu Au)', 'Displacement reaction', 'Corrosion/rusting', 'Sacrificial protection', 'Galvanising', 'Alloys', 'Extraction by reduction (Fe) or electrolysis (Al)', 'Transition metals'],
         examQA: [
           { q: 'Explain why iron is extracted by reduction with coke (carbon) but aluminium is extracted by electrolysis.', a: 'Aluminium is more reactive than carbon — it cannot be displaced from its ore by carbon, so electrolysis is needed. Iron is less reactive than carbon — it can be reduced by carbon monoxide from burning coke in the blast furnace. Electrolysis is more expensive (high electricity cost) so it is only used when carbon reduction cannot work.', year: 'May/June 2022 P4' },
@@ -516,6 +528,7 @@ export const TOPIC_VISUALS = {
         section: 'Organic Chemistry',
         description: 'Polymers are large molecules made from repeating monomer units. Addition polymerisation joins monomers with C=C bonds (alkenes) without forming by-products. Condensation polymerisation joins monomers with –OH and –COOH groups, releasing water. Nylon and polyesters are condensation polymers.',
         svgKey: 'chem-polymers',
+        threejs3dFn: 'createPolymerChain',
         landmarks: ['Monomer', 'Polymer', 'Addition polymerisation (alkenes)', 'Poly(ethene)', 'Poly(propene)', 'Condensation polymerisation', 'Nylon (polyamide)', 'Polyester', 'Repeat unit', 'Biodegradable vs non-biodegradable'],
         examQA: [
           { q: 'Draw the displayed structure of the repeat unit of poly(ethene).', a: 'Poly(ethene) is made from ethene monomers (CH₂=CH₂). The repeat unit is: –CH₂–CH₂– (two carbon atoms each with two hydrogen atoms, connected by a single bond, with open bonds on either end indicating continuation of the chain).', year: 'May/June 2022 P2' },
@@ -572,6 +585,7 @@ export const TOPIC_VISUALS = {
         section: 'Forces & Motion',
         description: 'Speed is distance/time; velocity is displacement/time (vector). Acceleration = change in velocity/time. Distance-time graphs: gradient = speed. Velocity-time graphs: gradient = acceleration; area under graph = distance. Uniform acceleration is described by the equations of motion (SUVAT).',
         svgKey: 'phys-motion',
+        threejs3dFn: 'createMotionAnimation',
         landmarks: ['Speed (m/s)', 'Velocity (m/s, vector)', 'Acceleration (m/s²)', 'Distance-time graph', 'Velocity-time graph', 'Gradient (slope)', 'Area under v-t graph = distance', 'SUVAT equations', 'Terminal velocity'],
         examQA: [
           { q: 'A car accelerates from rest to 20 m/s in 8 s. Calculate its acceleration.', a: 'Acceleration = change in velocity ÷ time = (20 − 0) ÷ 8 = 2.5 m/s². The car accelerates at 2.5 m/s² (increases in speed by 2.5 m/s every second).', year: 'May/June 2022 P2' },
@@ -587,6 +601,7 @@ export const TOPIC_VISUALS = {
         section: 'Forces & Motion',
         description: 'Newton\'s three laws govern motion: 1st — an object remains at rest or moves at constant velocity unless acted on by a resultant force; 2nd — F = ma; 3rd — every action has an equal and opposite reaction. Friction, weight, normal reaction, and tension are common forces. Moments (torques) cause rotation.',
         svgKey: 'phys-forces',
+        threejs3dFn: 'createForceVectors',
         landmarks: ['Newton\'s 1st law (inertia)', 'Newton\'s 2nd law (F=ma)', 'Newton\'s 3rd law (action-reaction)', 'Weight = mg', 'Normal reaction', 'Friction', 'Resultant force', 'Free body diagram', 'Moment = F × d'],
         examQA: [
           { q: 'State Newton\'s second law of motion.', a: 'The resultant force on an object is directly proportional to and in the same direction as its acceleration. F = ma, where F = resultant force (N), m = mass (kg), a = acceleration (m/s²).', year: 'May/June 2022 P1' },
@@ -602,6 +617,7 @@ export const TOPIC_VISUALS = {
         section: 'Forces & Motion',
         description: 'Momentum = mass × velocity. The law of conservation of momentum states that the total momentum in a closed system remains constant when no external force acts. Impulse = force × time = change in momentum. Collisions can be elastic (KE conserved) or inelastic (KE not conserved).',
         svgKey: 'phys-momentum',
+        threejs3dFn: 'createCollisionAnimation',
         landmarks: ['Momentum p = mv', 'Conservation of momentum', 'Impulse = Ft = Δp', 'Elastic collision', 'Inelastic collision', 'Collisions in one dimension', 'Explosions (recoil)'],
         examQA: [
           { q: 'A 2 kg ball moving at 5 m/s collides with a stationary 3 kg ball. They stick together. Calculate their common velocity after collision.', a: 'Conservation of momentum: total p before = total p after. (2×5) + (3×0) = (2+3)×v. 10 = 5v. v = 2 m/s in the direction the 2 kg ball was originally moving.', year: 'May/June 2022 P2' },
@@ -617,6 +633,7 @@ export const TOPIC_VISUALS = {
         section: 'Energy',
         description: 'Work done = force × distance (in direction of force). Energy is the capacity to do work. Kinetic energy = ½mv²; gravitational potential energy = mgh. The principle of conservation of energy states that energy cannot be created or destroyed — only transferred or transformed. Power = work done/time.',
         svgKey: 'phys-energy',
+        threejs3dFn: 'createEnergyTransfer',
         landmarks: ['Work done W = Fd', 'Kinetic energy KE = ½mv²', 'Gravitational PE = mgh', 'Conservation of energy', 'Power P = W/t (watts)', 'Efficiency = useful output/total input', 'Joule (unit)', 'Energy transformations'],
         examQA: [
           { q: 'Calculate the kinetic energy of a 50 kg cyclist moving at 8 m/s.', a: 'KE = ½mv² = ½ × 50 × 8² = ½ × 50 × 64 = 1600 J.', year: 'May/June 2022 P2' },
@@ -632,6 +649,7 @@ export const TOPIC_VISUALS = {
         section: 'Forces & Motion',
         description: 'Pressure = force/area. In fluids, pressure increases with depth (P = ρgh). Atmospheric pressure decreases with altitude. Gas pressure is caused by molecular collisions with container walls. Pascal\'s principle states that pressure in a fluid is transmitted equally in all directions.',
         svgKey: 'phys-pressure',
+        threejs3dFn: 'createPressureParticles',
         landmarks: ['Pressure P = F/A (Pa)', 'Fluid pressure P = ρgh', 'Atmospheric pressure (≈101 kPa)', 'Manometer', 'Barometer', 'Hydraulic systems', 'Pascal\'s principle', 'Archimedes\' principle'],
         examQA: [
           { q: 'Calculate the pressure exerted by a box of weight 300 N on a surface of area 0.6 m².', a: 'Pressure = Force ÷ Area = 300 ÷ 0.6 = 500 Pa (pascals, N/m²).', year: 'May/June 2022 P1' },
@@ -647,6 +665,7 @@ export const TOPIC_VISUALS = {
         section: 'Thermal Physics',
         description: 'Temperature measures the average kinetic energy of particles. Heat is thermal energy transfer. Specific heat capacity (c) is energy needed to raise 1 kg of substance by 1 K. Specific latent heat is energy for change of state. Heat transfers by conduction, convection, and radiation.',
         svgKey: 'phys-thermal',
+        threejs3dFn: 'createHeatConduction',
         landmarks: ['Temperature (°C / K)', 'Specific heat capacity c', 'Specific latent heat L', 'Conduction', 'Convection (currents)', 'Radiation (IR)', 'Absolute zero (0 K = −273°C)', 'Thermal expansion', 'Kinetic theory'],
         examQA: [
           { q: 'Calculate the energy needed to heat 2 kg of water from 20°C to 70°C. (c = 4200 J/kg·K)', a: 'Q = mcΔT = 2 × 4200 × (70-20) = 2 × 4200 × 50 = 420,000 J = 420 kJ.', year: 'May/June 2022 P2' },
@@ -678,6 +697,7 @@ export const TOPIC_VISUALS = {
         section: 'Waves',
         description: 'Light travels in straight lines and reflects according to the law of reflection (angle of incidence = angle of reflection). Refraction occurs at boundaries between media with different optical densities. Lenses converge (convex) or diverge (concave) light. Total internal reflection occurs when the angle exceeds the critical angle.',
         svgKey: 'phys-light',
+        threejs3dFn: 'createRayRefraction',
         landmarks: ['Law of reflection', 'Snell\'s law (n = sin i / sin r)', 'Refractive index', 'Critical angle', 'Total internal reflection', 'Convex lens (converging)', 'Concave lens (diverging)', 'Optical fibre'],
         examQA: [
           { q: 'State the law of reflection.', a: 'The angle of incidence equals the angle of reflection. Both angles are measured from the normal (a line perpendicular to the surface at the point of incidence). The incident ray, reflected ray, and normal all lie in the same plane.', year: 'May/June 2022 P1' },
@@ -693,6 +713,7 @@ export const TOPIC_VISUALS = {
         section: 'Waves',
         description: 'The electromagnetic spectrum is a family of transverse waves that all travel at 3×10⁸ m/s in a vacuum. In order of increasing frequency (decreasing wavelength): radio → microwave → infrared → visible light → UV → X-rays → gamma rays. Each has distinct properties and applications.',
         svgKey: 'phys-em-spectrum',
+        threejs3dFn: 'createWave3D',
         landmarks: ['Radio waves (TV, radio)', 'Microwaves (cooking, mobile)', 'Infrared (IR) (heating, remote)', 'Visible light (sight)', 'Ultraviolet (UV) (tanning, sterilisation)', 'X-rays (medical imaging)', 'Gamma rays (cancer treatment)'],
         examQA: [
           { q: 'State one property shared by all electromagnetic waves.', a: 'All electromagnetic waves: travel at the same speed in vacuum (3×10⁸ m/s = speed of light); are transverse waves; can travel through a vacuum; transfer energy; obey the wave equation v = fλ.', year: 'May/June 2022 P1' },
@@ -708,6 +729,7 @@ export const TOPIC_VISUALS = {
         section: 'Waves',
         description: 'Sound is a longitudinal mechanical wave produced by vibrating objects. It requires a medium to travel — it cannot travel through a vacuum. Speed of sound in air ≈ 340 m/s (much slower than light). Frequency determines pitch; amplitude determines loudness. Ultrasound (>20,000 Hz) is used in medicine and sonar.',
         svgKey: 'phys-sound',
+        threejs3dFn: 'createLongitudinalWave',
         landmarks: ['Longitudinal wave', 'Compressions and rarefactions', 'Audible range (20 Hz – 20 kHz)', 'Ultrasound (>20 kHz)', 'Pitch (frequency)', 'Loudness (amplitude)', 'Speed in air (~340 m/s)', 'Echo (reflection)', 'Sonar'],
         examQA: [
           { q: 'Explain why sound cannot travel through outer space.', a: 'Sound is a mechanical wave — it requires a medium (solid, liquid, or gas) to propagate. Sound travels by vibrating particles which pass energy to neighbouring particles. In outer space there is a vacuum (no particles) so there is nothing to vibrate and transmit the sound wave.', year: 'May/June 2022 P2' },
@@ -770,6 +792,7 @@ export const TOPIC_VISUALS = {
         section: 'Electricity & Magnetism',
         description: 'Electromagnetic induction: a changing magnetic flux through a conductor induces an EMF (Faraday\'s law). The magnitude of induced EMF depends on the rate of change of flux. Lenz\'s law gives the direction. Transformers use mutual induction to change AC voltage. Generators and motors are also electromagnetic devices.',
         svgKey: 'phys-em-effects',
+        threejs3dFn: 'createEMInduction',
         landmarks: ['Electromagnetic induction', 'Faraday\'s law', 'Lenz\'s law', 'Generator (coil rotating)', 'Transformer (step-up/step-down)', 'V_p/V_s = N_p/N_s', 'Mutual induction', 'AC generator', 'DC motor'],
         examQA: [
           { q: 'State the factors that affect the magnitude of an induced EMF in a coil.', a: 'Induced EMF increases if: rate of change of magnetic field increases (move magnet faster); number of turns in coil increases; strength of magnet increases; magnetic field is more concentrated (using an iron core).', year: 'May/June 2022 P2' },
@@ -801,6 +824,7 @@ export const TOPIC_VISUALS = {
         section: 'Nuclear & Space',
         description: 'Stars form from collapsing clouds of gas and dust (nebulae). The life cycle depends on mass: main sequence → red giant → white dwarf (small stars); or → red supergiant → supernova → neutron star/black hole (massive stars). The universe began with the Big Bang ~13.8 billion years ago and is expanding, evidenced by galactic redshift.',
         svgKey: 'phys-space',
+        threejs3dFn: 'createOrbitAnimation',
         landmarks: ['Stellar life cycle', 'Main sequence star', 'Red giant/supergiant', 'White dwarf/neutron star/black hole', 'Nebula', 'Nuclear fusion in stars (H → He)', 'Galaxy and universe', 'Big Bang theory', 'Redshift', 'Hubble\'s law'],
         examQA: [
           { q: 'Describe the life cycle of a star with similar mass to our Sun.', a: 'Nebula (gas cloud) → gravitational collapse → protostar → main sequence star (hydrogen fusion, lasts billions of years) → as H runs out, core contracts and outer layers expand → red giant → outer layers shed as planetary nebula → core remains as white dwarf → slowly cools to black dwarf.', year: 'May/June 2022 P4' },
