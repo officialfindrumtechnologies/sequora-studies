@@ -4559,6 +4559,7 @@ function _tvShow3D(topic) {
         if (msg) msg.textContent = '3D model not available for this topic yet.';
       }
     } catch(e) {
+      console.error('[3D RENDER ERROR]', topic.threejs3dFn, e);
       if (msg) msg.textContent = '3D model not available for this topic yet.';
     }
   }

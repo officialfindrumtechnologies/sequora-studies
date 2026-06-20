@@ -85,45 +85,60 @@ function _setup3D(container, fov) {
 // ── 1. Atom Model (Bohr) ────────────────────────────────────────────────────
 window.createAtomModel = function(container) {
   const { scene, camera, renderer, pivot } = _setup3D(container, 55);
-  camera.position.z = 6;
+  camera.position.set(0, 0, 8);
+  camera.lookAt(0, 0, 0);
 
-  // nucleus
-  const nucGeo = new THREE.SphereGeometry(0.35, 32, 32);
-  const nucMat = new THREE.MeshPhongMaterial({ color: 0xff6644, emissive: 0x441100 });
-  pivot.add(new THREE.Mesh(nucGeo, nucMat));
+  // Nucleus: cluster of 6 red protons + 6 grey neutrons (carbon-like)
+  for (let i = 0; i < 6; i++) {
+    const p = new THREE.Mesh(
+      new THREE.SphereGeometry(0.18, 16, 16),
+      new THREE.MeshPhongMaterial({ color: 0xff5555, emissive: 0x441111 })
+    );
+    p.position.set((Math.random()-0.5)*0.55, (Math.random()-0.5)*0.55, (Math.random()-0.5)*0.55);
+    pivot.add(p);
+  }
+  for (let i = 0; i < 6; i++) {
+    const n = new THREE.Mesh(
+      new THREE.SphereGeometry(0.18, 16, 16),
+      new THREE.MeshPhongMaterial({ color: 0xaaaaaa, emissive: 0x333333 })
+    );
+    n.position.set((Math.random()-0.5)*0.55, (Math.random()-0.5)*0.55, (Math.random()-0.5)*0.55);
+    pivot.add(n);
+  }
 
-  // orbits + electrons
-  const orbits = [1.2, 1.9, 2.7];
-  const eColors = [0x88ccff, 0xaaffaa, 0xffcc44];
+  // Two electron shells: K-shell (2e, inner) and L-shell (4e, outer)
+  const shellConfigs = [
+    { radius: 1.5, count: 2, color: 0x55aaff, tilt: 0 },
+    { radius: 2.5, count: 4, color: 0x55ddaa, tilt: Math.PI / 5 }
+  ];
   const electrons = [];
 
-  orbits.forEach((r, i) => {
-    const pts = [];
-    for (let a = 0; a <= 64; a++) pts.push(new THREE.Vector3(Math.cos(a / 64 * Math.PI * 2) * r, Math.sin(a / 64 * Math.PI * 2) * r * 0.3, 0));
-    const ring = new THREE.Line(
-      new THREE.BufferGeometry().setFromPoints(pts),
-      new THREE.LineBasicMaterial({ color: 0x334455, transparent: true, opacity: 0.5 })
+  shellConfigs.forEach(shell => {
+    const ring = new THREE.Mesh(
+      new THREE.RingGeometry(shell.radius - 0.02, shell.radius + 0.02, 64),
+      new THREE.MeshBasicMaterial({ color: shell.color, side: THREE.DoubleSide, transparent: true, opacity: 0.25 })
     );
-    ring.rotation.x = (i * Math.PI) / 4;
+    ring.rotation.x = shell.tilt;
     pivot.add(ring);
 
-    const eGeo = new THREE.SphereGeometry(0.1, 16, 16);
-    const eMat = new THREE.MeshPhongMaterial({ color: eColors[i], emissive: eColors[i], emissiveIntensity: 0.4 });
-    const emesh = new THREE.Mesh(eGeo, eMat);
-    pivot.add(emesh);
-    electrons.push({ mesh: emesh, r, tilt: ring.rotation.x, speed: 0.8 + i * 0.3, phase: (i * Math.PI * 2) / 3 });
+    for (let i = 0; i < shell.count; i++) {
+      const e = new THREE.Mesh(
+        new THREE.SphereGeometry(0.12, 12, 12),
+        new THREE.MeshPhongMaterial({ color: shell.color, emissive: shell.color, emissiveIntensity: 0.4 })
+      );
+      pivot.add(e);
+      electrons.push({ mesh: e, radius: shell.radius, tilt: shell.tilt, speed: 0.6 + Math.random()*0.3, angle: (i / shell.count) * Math.PI * 2 });
+    }
   });
 
-  let t = 0;
   function animate() {
     container._3dRafId = requestAnimationFrame(animate);
-    t += 0.016;
     pivot.rotation.y += 0.003;
     electrons.forEach(e => {
-      const a = t * e.speed + e.phase;
-      e.mesh.position.x = Math.cos(a) * e.r;
-      e.mesh.position.y = Math.sin(a) * e.r * Math.cos(e.tilt);
-      e.mesh.position.z = Math.sin(a) * e.r * Math.sin(e.tilt);
+      e.angle += 0.01 * e.speed;
+      e.mesh.position.x = Math.cos(e.angle) * e.radius;
+      e.mesh.position.y = Math.sin(e.angle) * e.radius * Math.cos(e.tilt);
+      e.mesh.position.z = Math.sin(e.angle) * e.radius * Math.sin(e.tilt);
     });
     renderer.render(scene, camera);
   }
