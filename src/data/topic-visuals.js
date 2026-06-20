@@ -882,6 +882,7 @@ export const TOPIC_VISUALS = {
         section: 'Nutrition',
         description: 'Photosynthesis converts light energy into chemical energy stored as glucose: CO₂ + H₂O → C₆H₁₂O₆ + O₂ (using light + chlorophyll). Rate is affected by light intensity, CO₂ concentration, and temperature. Human nutrition involves ingestion, digestion (physical and chemical), absorption, and assimilation. Enzymes break down carbohydrates (amylase), proteins (protease), and lipids (lipase) along the alimentary canal.',
         svgKey: 'ebi-nutrition',
+        threejs3dFn: 'createPhotosynthesisAnimation',
         landmarks: ['Photosynthesis equation', 'Chlorophyll', 'Limiting factors (light/CO₂/temperature)', 'Alimentary canal', 'Amylase (starch → maltose)', 'Protease (proteins → amino acids)', 'Lipase (fats → fatty acids + glycerol)', 'Villi (absorption)', 'Bile (emulsification)'],
         examQA: [
           { q: 'Write the word equation for photosynthesis.', a: 'Carbon dioxide + water → glucose + oxygen. This requires light energy and chlorophyll as a catalyst. The balanced symbol equation is: 6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂.', year: 'May/June 2022 Paper 1B' },
@@ -913,6 +914,7 @@ export const TOPIC_VISUALS = {
         section: 'Physiology',
         description: 'Gas exchange occurs across thin, moist, permeable surfaces with a large surface area and a maintained concentration gradient. In plants, CO₂ and O₂ diffuse through stomata in leaves; spongy mesophyll provides large internal surface area. In humans, the lungs contain alveoli — tiny air sacs with a single-cell-thick wall, rich capillary network, moist surface, and large total surface area for efficient O₂/CO₂ exchange.',
         svgKey: 'ebi-gas-exchange',
+        threejs3dFn: 'createDiffusionAnimation',
         landmarks: ['Stomata (gas entry/exit in plants)', 'Guard cells (open/close stomata)', 'Spongy mesophyll', 'Alveoli', 'Capillary network', 'Thin epithelium (1 cell thick)', 'Moist surface', 'Concentration gradient maintenance', 'Ventilation (breathing in/out)'],
         examQA: [
           { q: 'Describe four features of alveoli that make them efficient for gas exchange.', a: '1. Very large total surface area (millions of alveoli) — maximises diffusion rate. 2. Walls are one cell thick — short diffusion distance for gases. 3. Moist surface — gases dissolve before diffusing. 4. Rich capillary network — constantly removes O₂ and delivers CO₂, maintaining steep concentration gradient.', year: 'May/June 2022 Paper 2B' },
@@ -928,6 +930,7 @@ export const TOPIC_VISUALS = {
         section: 'Physiology',
         description: 'Plants have xylem (water + mineral ions, root → leaves, transpiration stream, dead cells, lignified walls) and phloem (dissolved sugars, translocation, living sieve tubes). Humans have a double circulatory system: pulmonary (heart → lungs → heart) and systemic (heart → body → heart). Blood contains red blood cells (haemoglobin for O₂), white blood cells (defence), platelets (clotting), and plasma (transport medium).',
         svgKey: 'ebi-transport',
+        threejs3dFn: 'createPressureParticles',
         landmarks: ['Xylem (water + minerals)', 'Phloem (sugars, translocation)', 'Transpiration stream', 'Double circulation', 'Heart chambers (4)', 'Arteries (thick walls)', 'Veins (valves)', 'Capillaries (exchange)', 'Haemoglobin → oxyhaemoglobin'],
         examQA: [
           { q: 'Describe the differences between xylem and phloem vessels.', a: 'Xylem: dead cells with no end walls, lignified walls, transport water and mineral ions upward only, driven by transpiration pull. Phloem: living cells (sieve tubes + companion cells), transport dissolved sugars up AND down, process called translocation, not lignified.', year: 'May/June 2022 Paper 2B' },
@@ -943,6 +946,7 @@ export const TOPIC_VISUALS = {
         section: 'Physiology',
         description: 'Excretion is the removal of metabolic waste products from the body. The kidneys filter blood to remove urea (from amino acid breakdown in the liver), excess water, and excess salts as urine. The lungs excrete CO₂ produced in respiration. The skin excretes small amounts of urea in sweat. Kidneys regulate blood composition by ultrafiltration (high pressure forces small molecules out) and selective reabsorption (glucose, most water, and salts are reabsorbed).',
         svgKey: 'ebi-excretion',
+        threejs3dFn: 'createDiffusionAnimation',
         landmarks: ['Urea (from deamination of amino acids)', 'Nephron (functional unit of kidney)', 'Glomerulus (ultrafiltration)', 'Bowman\'s capsule', 'Selective reabsorption (glucose/water)', 'Loop of Henle (concentration)', 'ADH (water reabsorption)', 'Ureter/bladder/urethra', 'CO₂ excreted by lungs'],
         examQA: [
           { q: 'State what is meant by excretion and give two examples of excretory products.', a: 'Excretion is the removal of the waste products of metabolism from the body. Examples: urea — produced in the liver by deamination of excess amino acids, excreted in urine by the kidneys; carbon dioxide — produced in cellular respiration, excreted through the lungs during breathing out.', year: 'May/June 2022 Paper 1B' },
@@ -958,6 +962,7 @@ export const TOPIC_VISUALS = {
         section: 'Physiology',
         description: 'Sexual reproduction involves the fusion of two gametes (egg + sperm), producing genetic variation. In plants, pollination transfers pollen; fertilisation forms seeds inside fruits. Asexual reproduction uses mitosis to produce genetically identical offspring (clones) from one parent — faster but no variation. Mitosis produces two genetically identical daughter cells for growth and repair; meiosis produces four genetically varied haploid gametes. Hormones (FSH, LH, oestrogen, progesterone) regulate the human menstrual cycle.',
         svgKey: 'ebi-reproduction',
+        threejs3dFn: 'createCellDivision',
         landmarks: ['Mitosis (2 identical cells, growth/repair)', 'Meiosis (4 gametes, haploid)', 'Fertilisation (zygote)', 'Pollination (wind/insect)', 'Seed dispersal', 'Asexual (clones)', 'FSH/LH/oestrogen/progesterone', 'Menstrual cycle', 'In vitro fertilisation (IVF)'],
         examQA: [
           { q: 'Compare sexual and asexual reproduction in terms of genetic variation and speed.', a: 'Sexual reproduction: involves two parents and fusion of gametes; produces genetically varied offspring (new combinations of alleles through meiosis and fertilisation); slower due to need to find a mate; produces fewer offspring. Asexual reproduction: one parent, mitosis only; all offspring genetically identical (clones); faster; can produce many offspring quickly.', year: 'May/June 2022 Paper 2B' },
@@ -973,6 +978,7 @@ export const TOPIC_VISUALS = {
         section: 'Coordination',
         description: 'The nervous system coordinates rapid responses via electrical impulses. Receptors detect stimuli; sensory neurons carry impulses to the CNS; motor neurons carry impulses to effectors. Synapses transmit signals between neurons using neurotransmitters. Reflex arcs bypass the brain for fast, involuntary protective responses. The endocrine system uses hormones (chemical messengers in blood) for slower, longer-lasting responses. Key hormones: insulin (blood glucose), adrenaline (fight-or-flight), sex hormones.',
         svgKey: 'ebi-nervous-system',
+        threejs3dFn: 'createNerveImpulse',
         landmarks: ['Neuron (sensory/relay/motor)', 'Reflex arc', 'Synapse (neurotransmitter)', 'CNS (brain + spinal cord)', 'Receptor → effector', 'Hormone (gland → blood → target)', 'Insulin (β-cells, pancreas)', 'Adrenaline (adrenal glands)', 'Negative feedback'],
         examQA: [
           { q: 'Describe how a nerve impulse passes across a synapse.', a: 'The nerve impulse arrives at the pre-synaptic knob. Vesicles containing neurotransmitter molecules fuse with the pre-synaptic membrane and release neurotransmitters into the synaptic cleft. Neurotransmitters diffuse across the cleft and bind to receptor proteins on the post-synaptic membrane. This generates a new nerve impulse in the post-synaptic neuron. Neurotransmitters are then broken down by enzymes or reabsorbed.', year: 'May/June 2022 Paper 2B' },
@@ -988,6 +994,7 @@ export const TOPIC_VISUALS = {
         section: 'Coordination',
         description: 'Homeostasis maintains a constant internal environment despite external changes. Body temperature is regulated at 37°C: if too hot, blood vessels vasodilate and sweating increases to cool down; if too cold, shivering and vasoconstriction warm the body. Blood glucose is regulated by insulin (secreted by β-cells of the pancreas when glucose rises — promotes uptake and glycogen storage) and glucagon (when glucose falls — promotes glycogen breakdown). Both operate via negative feedback.',
         svgKey: 'ebi-homeostasis',
+        threejs3dFn: 'createHeatConduction',
         landmarks: ['Negative feedback', 'Thermoregulation (37°C)', 'Vasodilation (cooling)', 'Vasoconstriction (warming)', 'Sweating', 'Shivering', 'Insulin (lowers blood glucose)', 'Glucagon (raises blood glucose)', 'Glycogen (storage in liver/muscle)'],
         examQA: [
           { q: 'Explain how the body reduces its temperature when it gets too hot.', a: 'The hypothalamus detects a rise in blood temperature. It sends nerve impulses to the skin: sweat glands increase sweat production — evaporation of sweat removes latent heat from the skin. Arterioles in the skin vasodilate (widen) — more blood flows near the surface, increasing heat loss by radiation. Hairs lie flat (no trapped air insulation). This is negative feedback — the response reduces the initial change.', year: 'May/June 2022 Paper 2B' },
@@ -1049,6 +1056,7 @@ export const TOPIC_VISUALS = {
         section: 'Ecology',
         description: 'Selective breeding (artificial selection) improves crop yields and animal products by selecting individuals with desirable traits over many generations. Microorganisms are used in food production (bread/yogurt/cheese/beer via fermentation). Industrial fermenters maintain optimal conditions (temperature, pH, nutrient supply) for microorganism growth. Genetic engineering inserts specific genes into organisms to produce useful proteins (e.g., human insulin from bacteria). Gene therapy may one day treat genetic disorders.',
         svgKey: 'ebi-biological-resources',
+        threejs3dFn: 'createReactionAnimation',
         landmarks: ['Selective breeding (generations)', 'Crop improvement (yield/disease-resistance)', 'Yeast (fermentation → bread/beer)', 'Lactobacillus (yogurt)', 'Industrial fermenter (conditions)', 'Genetic engineering (restriction enzymes/ligase)', 'Insulin production (E. coli)', 'Gene therapy', 'Cloning (plants/animals)'],
         examQA: [
           { q: 'Describe how selective breeding could be used to increase the milk yield of a dairy herd.', a: 'Identify cows with the highest milk yield and bulls from high-yield cows. Allow only these selected individuals to breed together. From their offspring, again select those with the highest milk yield. Repeat over many generations — each generation the average milk yield increases as the alleles for high milk production become more common in the population. This is artificial selection.', year: 'May/June 2022 Paper 2B' },
@@ -1107,6 +1115,7 @@ export const TOPIC_VISUALS = {
         section: 'Physical',
         description: 'Exothermic reactions release heat (ΔH < 0); endothermic reactions absorb heat (ΔH > 0). Bond breaking requires energy; bond making releases energy. The activation energy (Ea) is the minimum energy needed for a reaction. Reaction rate increases with temperature, concentration, surface area, and catalysts. Catalysts provide an alternative pathway with lower Ea. Reversible reactions reach dynamic equilibrium when forward and reverse rates are equal. Le Chatelier\'s principle predicts equilibrium shifts.',
         svgKey: 'ech-physical',
+        threejs3dFn: 'createCollisionAnimation',
         landmarks: ['Exothermic (ΔH < 0, temp rises)', 'Endothermic (ΔH > 0, temp falls)', 'Activation energy (Ea)', 'Bond breaking (endothermic)', 'Bond making (exothermic)', 'Collision theory', 'Catalyst (lowers Ea)', 'Reversible reaction (⇌)', 'Le Chatelier\'s principle'],
         examQA: [
           { q: 'Explain in terms of bonds why the reaction H₂ + Cl₂ → 2HCl is exothermic.', a: 'Energy is needed to break the H−H bond and the Cl−Cl bond (endothermic). Energy is released when two H−Cl bonds form (exothermic). The energy released in forming H−Cl bonds is greater than the energy required to break H−H and Cl−Cl bonds. Net result: more energy is released than absorbed → the reaction is exothermic (ΔH < 0).', year: 'May/June 2022 Paper 2C' },
@@ -1138,6 +1147,7 @@ export const TOPIC_VISUALS = {
         section: 'Applied',
         description: 'Acids release H⁺ ions in solution (pH < 7); bases accept H⁺ ions. Alkalis are soluble bases (pH > 7). Neutralisation: acid + base → salt + water. Salts are prepared by reacting acids with metals, metal oxides, hydroxides, or carbonates. Strong acids (HCl, H₂SO₄, HNO₃) fully dissociate; weak acids (CH₃COOH) partially dissociate. Titration determines the exact volume of acid/alkali for neutralisation. The pH scale (0–14) measures H⁺ concentration.',
         svgKey: 'ech-acids-bases',
+        threejs3dFn: 'createReactionAnimation',
         landmarks: ['pH scale (0-14)', 'Acid (H⁺, pH < 7)', 'Alkali (OH⁻, pH > 7)', 'Neutralisation (salt + water)', 'Strong acid (fully dissociates)', 'Weak acid (partially dissociates)', 'Titration', 'Universal indicator', 'Salt preparation methods'],
         examQA: [
           { q: 'Describe how to prepare a pure dry sample of zinc sulfate crystals.', a: '1. Add excess zinc carbonate (or zinc/zinc oxide) to warm dilute sulfuric acid in a beaker — stir until no more reacts (excess solid ensures all acid reacts). 2. Filter off excess solid. 3. Gently heat the filtrate to evaporate most of the water — concentrate the solution. 4. Leave to cool and allow crystals to form. 5. Filter and pat dry between filter paper. Reaction: ZnCO₃ + H₂SO₄ → ZnSO₄ + H₂O + CO₂.', year: 'May/June 2022 Paper 2C' },
@@ -1153,6 +1163,7 @@ export const TOPIC_VISUALS = {
         section: 'Applied',
         description: 'Electrolysis uses electrical energy to decompose ionic compounds. Ions in molten or aqueous electrolytes are free to move. Cations (positive) move to the cathode (negative electrode) and are reduced. Anions (negative) move to the anode (positive electrode) and are oxidised. Electrolysis of brine (NaCl solution) produces chlorine at the anode, hydrogen at the cathode, and sodium hydroxide solution. Electroplating coats a metal object with a thin layer of another metal.',
         svgKey: 'ech-electrolysis',
+        threejs3dFn: "createFieldLines('electric')",
         landmarks: ['Electrolyte (molten/aqueous)', 'Cathode (−): reduction, cations', 'Anode (+): oxidation, anions', 'Electrolysis of brine (Cl₂/H₂/NaOH)', 'Electrolysis of water (H₂/O₂)', 'Electroplating', 'Purification of copper', 'Aluminium extraction (electrolysis of Al₂O₃)'],
         examQA: [
           { q: 'State the products formed at each electrode when brine (sodium chloride solution) is electrolysed.', a: 'Cathode (−): H⁺ ions from water are discharged — hydrogen gas (H₂) is produced: 2H⁺ + 2e⁻ → H₂. (H⁺ preferred over Na⁺). Anode (+): Cl⁻ ions are discharged — chlorine gas (Cl₂) produced: 2Cl⁻ → Cl₂ + 2e⁻. (Cl⁻ preferred over OH⁻ at high NaCl concentrations). Remaining in solution: Na⁺ and OH⁻ ions → sodium hydroxide solution (NaOH).', year: 'May/June 2022 Paper 2C' },
@@ -1168,6 +1179,7 @@ export const TOPIC_VISUALS = {
         section: 'Applied',
         description: 'The Haber Process manufactures ammonia from nitrogen and hydrogen: N₂ + 3H₂ ⇌ 2NH₃ (iron catalyst, 450°C, 200 atm). The Contact Process manufactures sulfuric acid: S → SO₂ → SO₃ (V₂O₅ catalyst, 450°C) → H₂SO₄. The blast furnace extracts iron from iron ore using coke (carbon monoxide reduction). Electrolysis extracts aluminium from purified Al₂O₃. Conditions in industrial processes represent economic compromises between yield, rate, and cost.',
         svgKey: 'ech-industrial',
+        threejs3dFn: 'createMetalLattice',
         landmarks: ['Haber Process (N₂ + 3H₂ ⇌ 2NH₃)', 'Iron catalyst (Haber)', '450°C, 200 atm (Haber compromise)', 'Contact Process (H₂SO₄)', 'V₂O₅ catalyst (Contact)', 'Blast furnace (Fe from Fe₂O₃)', 'Coke (C) → CO reduction', 'Aluminium extraction (electrolysis)', 'Nitrogen fixation'],
         examQA: [
           { q: 'Explain why the Haber process uses a temperature of about 450°C rather than a lower or higher temperature.', a: 'The forward reaction (N₂ + 3H₂ → 2NH₃) is exothermic. Lower temperature would give a higher equilibrium yield of NH₃ (equilibrium shifts right) but the rate would be too slow — economically unviable. Higher temperature gives a faster rate but poor yield (equilibrium shifts left — less NH₃). 450°C is a compromise: reasonable yield (~15%) at an acceptable rate. The iron catalyst also helps achieve a practical rate at this temperature.', year: 'May/June 2022 Paper 2C' },
@@ -1194,6 +1206,7 @@ export const TOPIC_VISUALS = {
         section: 'Forces & Motion',
         description: 'Speed = distance/time; velocity = displacement/time (vector); acceleration = Δv/t. Distance-time graphs have gradient = speed; velocity-time graphs have gradient = acceleration and area under = distance. Newton\'s three laws: 1st (inertia), 2nd (F = ma), 3rd (equal and opposite forces). Resultant forces cause acceleration; balanced forces mean constant velocity or rest. Stopping distance = thinking distance + braking distance. Momentum = mv; conservation of momentum applies in all collisions.',
         svgKey: 'eph-forces-motion',
+        threejs3dFn: 'createMotionAnimation',
         landmarks: ['Speed v = d/t', 'Acceleration a = Δv/t', 'Newton\'s 1st law (inertia)', 'Newton\'s 2nd law (F = ma)', 'Newton\'s 3rd law (action-reaction)', 'v-t graph (area = distance)', 'Stopping distance', 'Momentum p = mv', 'Conservation of momentum'],
         examQA: [
           { q: 'A car of mass 800 kg accelerates from 0 to 24 m/s in 6 s. Calculate (a) the acceleration and (b) the resultant force.', a: '(a) Acceleration = Δv/t = 24/6 = 4 m/s². (b) F = ma = 800 × 4 = 3200 N. This is the net/resultant force in the direction of motion — additional to any resistive forces that must also be overcome by the engine.', year: 'May/June 2022 Paper 2P' },
@@ -1241,6 +1254,7 @@ export const TOPIC_VISUALS = {
         section: 'Energy',
         description: 'Energy exists in multiple forms (kinetic, gravitational potential, elastic, thermal, chemical, nuclear, electrical, light/sound). Conservation of energy: energy cannot be created or destroyed. Efficiency = useful output ÷ total input. Work done = force × distance (W = Fd). Power = W/t (watts). Renewable energy sources (solar, wind, hydroelectric, tidal, geothermal) do not deplete; non-renewable sources (fossil fuels, nuclear) are finite. Sankey diagrams show energy transfers.',
         svgKey: 'eph-energy',
+        threejs3dFn: 'createEnergyTransfer',
         landmarks: ['Energy forms (KE/GPE/thermal/electrical)', 'Conservation of energy', 'Efficiency = useful output/total input', 'Work W = Fd (joules)', 'Power P = W/t (watts)', 'KE = ½mv²', 'GPE = mgh', 'Renewable (solar/wind/hydro/tidal)', 'Non-renewable (fossil fuels/nuclear)', 'Sankey diagram'],
         examQA: [
           { q: 'A 60 kg student climbs stairs of height 4 m in 5 s. Calculate (a) the work done against gravity and (b) the power output. (g = 10 N/kg)', a: '(a) Work = mgh = 60 × 10 × 4 = 2400 J. (b) Power = Work/time = 2400/5 = 480 W. This is the minimum power — the student\'s actual power output is higher due to inefficiency and accelerating their own body.', year: 'May/June 2022 Paper 2P' },
@@ -1256,6 +1270,7 @@ export const TOPIC_VISUALS = {
         section: 'Matter',
         description: 'Kinetic theory explains properties of matter: solids (regular lattice, vibrate in fixed positions), liquids (close but mobile particles, no fixed arrangement), gases (far apart, rapid random motion, no significant forces). Pressure in gases results from molecular collisions with container walls. Gas laws: at constant temperature, pV = constant (Boyle\'s law); at constant volume, p/T = constant; at constant pressure, V/T = constant. Absolute zero (0 K = −273°C) is when particle motion ceases. Specific heat capacity Q = mcΔT.',
         svgKey: 'eph-solids-liquids',
+        threejs3dFn: 'createParticleStates',
         landmarks: ['Solid (lattice, vibrating)', 'Liquid (mobile, close)', 'Gas (random, far apart)', 'Pressure = F/A', 'Boyle\'s law (p ∝ 1/V)', 'Charles\'s law (V ∝ T)', 'Absolute zero (0 K)', 'Specific heat capacity Q = mcΔT', 'Specific latent heat (state changes)'],
         examQA: [
           { q: 'Explain in terms of particles why a gas exerts pressure on the walls of its container.', a: 'Gas particles are in continuous random motion. They constantly collide with the container walls. Each collision exerts a small force on the wall (impulse = change in momentum). The total force from billions of collisions per second per unit area of the wall is the gas pressure. Increasing temperature increases particle speed → harder, more frequent collisions → higher pressure.', year: 'May/June 2022 Paper 2P' },
@@ -1271,6 +1286,7 @@ export const TOPIC_VISUALS = {
         section: 'Magnetism',
         description: 'Magnetic fields are regions where magnetic materials experience a force. A current-carrying conductor produces a magnetic field (right-hand rule for solenoids). Electromagnets: field strength increases with current, number of turns, and iron core. The motor effect: a current-carrying conductor in a magnetic field experiences a force (F = BIL). Electromagnetic induction: a conductor moving through a magnetic field (or changing flux) induces an EMF. Transformers use mutual induction: Vp/Vs = Np/Ns. AC transmission uses transformers to reduce power loss.',
         svgKey: 'eph-magnetism',
+        threejs3dFn: 'createEMInduction',
         landmarks: ['Magnetic field lines (N→S)', 'Right-hand rule (solenoid)', 'Electromagnet strength (I, turns, core)', 'Motor effect F = BIL', 'Fleming\'s left-hand rule (motor)', 'Electromagnetic induction (Faraday)', 'Lenz\'s law (direction)', 'Transformer equation Vp/Vs = Np/Ns', 'National Grid (step-up/step-down)'],
         examQA: [
           { q: 'State three ways to increase the strength of an electromagnet.', a: 'Increase the current in the coil — more ampere-turns per length. Increase the number of turns in the coil — stronger concentrated field. Add a soft iron core inside the coil — iron is easily magnetised and greatly concentrates the magnetic field. (Also: decrease the length of the coil to increase turns per unit length.)', year: 'May/June 2022 Paper 1P' },
@@ -1302,6 +1318,7 @@ export const TOPIC_VISUALS = {
         section: 'Nuclear & Space',
         description: 'Our Solar System contains the Sun, 8 planets, dwarf planets, moons, asteroids, and comets. Stars form from nebulae (gas/dust clouds) collapsing under gravity; nuclear fusion begins when temperature is high enough. A star\'s life cycle depends on mass: small stars → main sequence → red giant → white dwarf; massive stars → red supergiant → supernova → neutron star or black hole. The universe began with the Big Bang ~13.8 billion years ago; evidence includes galactic redshift and cosmic microwave background radiation.',
         svgKey: 'eph-astrophysics',
+        threejs3dFn: 'createOrbitAnimation',
         landmarks: ['Solar System structure', 'Nebula → protostar → main sequence', 'Red giant/supergiant', 'White dwarf (small stars)', 'Neutron star/black hole (massive stars)', 'Supernova', 'Nuclear fusion (H → He) in stars', 'Big Bang theory', 'Redshift (galaxies receding)', 'CMB radiation'],
         examQA: [
           { q: 'Describe the life cycle of a star much more massive than our Sun, from main sequence to its final state.', a: 'Massive star in main sequence: hydrogen fuses to helium in core. As hydrogen runs out, core contracts, outer layers expand → red supergiant. Core continues fusing heavier elements. Core collapses catastrophically → enormous supernova explosion (briefly outshines galaxy). Remnant core: if 1.4-3× solar mass → neutron star (extreme density); if >3× solar mass → black hole (gravity so strong nothing escapes, not even light).', year: 'May/June 2022 Paper 2P' },
