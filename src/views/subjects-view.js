@@ -778,7 +778,6 @@ function renderTopicPanel() {
 
     const activeSubj = sv.subjects.find(s => s.id === sv.activeId);
     const tvKey = activeSubj ? getTopicVisualsKey(activeSubj) : null;
-    console.log('[TV DEBUG]', JSON.stringify(activeSubj), '→', tvKey);
     const tvData = tvKey ? TOPIC_VISUALS[tvKey] : null;
     const tvTopic = tvData ? tvData.topics.find(tv =>
       tv.name.toLowerCase() === tp.name.toLowerCase() ||
