@@ -2512,7 +2512,7 @@ function go(v){
   if (!v) return;
   if (_homeEditMode && v !== 'dash') exitLayoutEdit();
   document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.v===v));
-  ["dash","focus","subjects","week","logs","toolkit","coverage","mybib"].forEach(x=>{
+  ["dash","focus","subjects","week","logs","toolkit","coverage","citation"].forEach(x=>{
     const el = document.getElementById("view-"+x);
     if (el) el.classList.toggle("hidden",x!==v);
   });
@@ -2525,7 +2525,7 @@ function go(v){
   if(v==="logs"){initPastPapers();}
   if(v==="toolkit")renderToolkit();
   if(v==="coverage")renderCoverage();
-  if(v==="mybib")renderMyBib();
+  if(v==="citation")renderCitation();
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
@@ -3074,6 +3074,9 @@ window.handlePasswordReset = handlePasswordReset;
 window.getAIRecommendation = getAIRecommendation;
 window.runWeeklyCheckIn = runWeeklyCheckIn;
 window.closeAIModal = closeAIModal;
+window.bibExtract = bibExtract;
+window.bibCopyOutput = bibCopyOutput;
+window.bibClear = bibClear;
 
 // Onboarding wizard
 window.wizNext = wizNext;
@@ -5348,11 +5351,11 @@ if (supabase) {
   });
 }
 
-/* ============ My Bib — Stage 1: file upload + text extraction ============ */
+/* ============ Sequora Citation — Stage 1: file upload + text extraction ============ */
 let _bibFile = null;
 let _bibInited = false;
 
-function renderMyBib() {
+function renderCitation() {
   if (_bibInited) return;
   _bibInited = true;
 
@@ -5410,14 +5413,23 @@ function _bibLoadScript(src) {
 }
 
 async function bibExtract() {
+  console.log('[CITATION] Extract clicked, mode:', _bibFile ? 'file' : 'paste');
   const pasteArea = document.getElementById('bib-paste-area');
 
   if (!_bibFile) {
     const txt = pasteArea.value.trim();
-    if (txt) { _bibShowOutput(txt); } return;
+    console.log('[CITATION] Paste extraction, chars:', txt.length);
+    if (txt) {
+      _bibShowOutput(txt);
+      console.log('[CITATION] Paste output shown');
+    } else {
+      console.warn('[CITATION] Paste area empty — nothing to extract');
+    }
+    return;
   }
 
   const ext = _bibFile.name.split('.').pop().toLowerCase();
+  console.log('[CITATION] File extraction, ext:', ext, 'size:', _bibFile.size);
   document.getElementById('bib-loading').style.display = 'block';
   document.getElementById('bib-error').style.display = 'none';
   document.getElementById('bib-stub').style.display = 'none';
@@ -5426,11 +5438,17 @@ async function bibExtract() {
   try {
     let text = '';
     if (ext === 'txt') {
+      console.log('[CITATION] Reading TXT file');
       text = await _bibFile.text();
+      console.log('[CITATION] TXT read, chars:', text.length);
     } else if (ext === 'pdf') {
+      console.log('[CITATION] Starting PDF.js extraction');
       text = await _bibExtractPDF(_bibFile);
+      console.log('[CITATION] PDF extraction done, chars:', text.length);
     } else if (ext === 'docx') {
+      console.log('[CITATION] Starting mammoth DOCX extraction');
       text = await _bibExtractDOCX(_bibFile);
+      console.log('[CITATION] DOCX extraction done, chars:', text.length);
     } else if (ext === 'pptx') {
       _bibShowStub('PowerPoint files can\'t be read client-side yet — paste the text directly, or export the PPTX as a PDF and upload that.');
       return;
@@ -5438,22 +5456,32 @@ async function bibExtract() {
       _bibShowStub('Image text extraction (OCR) is coming in Stage 2 — paste the text directly for now, or use a PDF/DOCX version of the source.');
       return;
     } else {
-      throw new Error('unsupported');
+      throw new Error('unsupported format: ' + ext);
     }
-    if (!text || !text.trim()) throw new Error('empty');
+    if (!text || !text.trim()) throw new Error('extraction produced empty text');
     _bibShowOutput(text.trim());
-  } catch {
+  } catch(err) {
+    console.error('[CITATION] Extraction failed:', err);
     document.getElementById('bib-loading').style.display = 'none';
     document.getElementById('bib-error').style.display = 'block';
   }
 }
 
 async function _bibExtractPDF(file) {
-  await _bibLoadScript('https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.min.js');
+  console.log('[CITATION] Loading PDF.js from unpkg…');
+  try {
+    await _bibLoadScript('https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.min.js');
+  } catch(e) {
+    console.error('[CITATION] PDF.js script load failed:', e);
+    throw e;
+  }
+  console.log('[CITATION] PDF.js loaded, window.pdfjsLib:', typeof window.pdfjsLib);
   const pdfjsLib = window.pdfjsLib;
+  if (!pdfjsLib) throw new Error('pdfjsLib not on window after script load');
   pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js';
   const buf = await file.arrayBuffer();
   const pdf = await pdfjsLib.getDocument({data: buf}).promise;
+  console.log('[CITATION] PDF loaded, pages:', pdf.numPages);
   let out = '';
   for (let i = 1; i <= pdf.numPages; i++) {
     const pg = await pdf.getPage(i);
@@ -5464,7 +5492,15 @@ async function _bibExtractPDF(file) {
 }
 
 async function _bibExtractDOCX(file) {
-  await _bibLoadScript('https://unpkg.com/mammoth@1.7.1/mammoth.browser.min.js');
+  console.log('[CITATION] Loading mammoth from unpkg…');
+  try {
+    await _bibLoadScript('https://unpkg.com/mammoth@1.7.1/mammoth.browser.min.js');
+  } catch(e) {
+    console.error('[CITATION] mammoth script load failed:', e);
+    throw e;
+  }
+  console.log('[CITATION] mammoth loaded, window.mammoth:', typeof window.mammoth);
+  if (!window.mammoth) throw new Error('mammoth not on window after script load');
   const buf = await file.arrayBuffer();
   const result = await window.mammoth.extractRawText({arrayBuffer: buf});
   return result.value;
