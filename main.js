@@ -5621,9 +5621,13 @@ async function bibFindCitations() {
 
     if (!resp.ok || data.error) {
       const errEl = document.getElementById('cit-error');
-      errEl.textContent = (data.code === 'INACTIVE' || data.code === 'UPGRADE_REQUIRED')
-        ? data.error
-        : 'Source search is temporarily unavailable';
+      if (data.error === 'busy') {
+        errEl.textContent = data.message || 'Source search is temporarily busy — please try again tomorrow.';
+      } else if (data.code === 'INACTIVE' || data.code === 'UPGRADE_REQUIRED') {
+        errEl.textContent = data.error;
+      } else {
+        errEl.textContent = 'Source search is temporarily unavailable';
+      }
       errEl.style.display = 'block';
       return;
     }
