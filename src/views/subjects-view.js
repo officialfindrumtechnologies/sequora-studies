@@ -781,7 +781,7 @@ function renderTopicPanel() {
     const tvData = tvKey ? TOPIC_VISUALS[tvKey] : null;
     const tvTopic = tvData ? tvData.topics.find(tv =>
       tv.name.toLowerCase() === tp.name.toLowerCase() ||
-      tp.name.toLowerCase().includes(tv.name.toLowerCase().split(' ')[0].toLowerCase())
+      tp.name.toLowerCase().includes(tv.name.toLowerCase().replace(/^\d+(\.\d+)*\s+/, '').split(' ')[0])
     ) : null;
     const hasVisual = !!(tvTopic && tvTopic.svgKey && TOPIC_SVGS[tvTopic.svgKey]);
     const visualBtn = hasVisual
