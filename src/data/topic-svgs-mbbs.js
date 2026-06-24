@@ -2966,5 +2966,1127 @@ export const TOPIC_SVGS_MBBS = {
 
       <text x="0" y="60" class="sm" text-anchor="middle">Permanent Sterilization</text>
     </g>
-  </svg>`
+  </svg>`,
+'mbbs-paeds-resuscitation': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="var(--border)"/>
+</marker>
+</defs>
+<rect width="400" height="300" fill="var(--surface)"/>
+<path d="M20,20 L180,20 L180,100 L20,100 Z" fill="none" stroke="var(--border)" stroke-width="2"/>
+<path d="M60,20 L60,100 M100,20 L100,100 M140,20 L140,100" stroke="var(--border)" stroke-width="1"/>
+<path d="M20,40 L180,40 M20,60 L180,60 M20,80 L180,80" stroke="var(--border)" stroke-width="1"/>
+<text x="40" y="35" font-family="sans-serif" font-size="10" fill="var(--text)" text-anchor="middle">A</text>
+<text x="80" y="35" font-family="sans-serif" font-size="10" fill="var(--text)" text-anchor="middle">P</text>
+<text x="120" y="35" font-family="sans-serif" font-size="10" fill="var(--text)" text-anchor="middle">G</text>
+<text x="160" y="35" font-family="sans-serif" font-size="10" fill="var(--text)" text-anchor="middle">A/R</text>
+<rect x="220" y="20" width="160" height="30" rx="5" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<text x="300" y="40" font-family="sans-serif" font-size="12" fill="var(--text)" text-anchor="middle">Assess crying/breathing</text>
+<path d="M300,50 L300,70" stroke="var(--border)" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="220" y="70" width="160" height="30" rx="5" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<text x="300" y="90" font-family="sans-serif" font-size="12" fill="var(--text)" text-anchor="middle">Clear airway, dry, stimulate</text>
+<path d="M300,100 L300,120" stroke="var(--border)" stroke-width="2" marker-end="url(#arrow)"/>
+<circle cx="300" cy="135" r="15" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<text x="300" y="140" font-family="sans-serif" font-size="12" fill="var(--text)" text-anchor="middle">BMV</text>
+<path d="M100,180 C80,180 70,200 80,220 C90,240 120,250 140,240 C150,230 140,210 130,200 C120,190 110,180 100,180 Z" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M80,220 C70,240 60,260 80,270 C100,280 120,270 120,250" fill="none" stroke="var(--text)" stroke-width="2"/>
+<circle cx="95" cy="205" r="3" fill="var(--text)"/>
+<path d="M85,215 Q90,218 95,215" fill="none" stroke="var(--text)" stroke-width="1"/>
+<path d="M75,205 L65,195 L55,210 L65,225 Z" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<rect x="35" y="195" width="20" height="30" rx="10" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<path d="M35,210 L15,210" stroke="var(--accent)" stroke-width="2"/>
+</svg>`,
+  'mbbs-paeds-prematurity': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+<rect width="400" height="300" fill="var(--surface)"/>
+<circle cx="80" cy="60" r="20" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M60,80 C40,120 40,160 80,180 C120,160 120,120 100,80" fill="none" stroke="var(--text)" stroke-width="2"/>
+<circle cx="80" cy="110" r="12" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<path d="M70,120 C60,140 70,150 80,160 C90,150 100,140 90,120 Z" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<text x="80" y="200" font-family="sans-serif" font-size="12" fill="var(--text)" text-anchor="middle">Kangaroo Mother Care</text>
+<path d="M220,100 Q200,80 230,60 Q260,80 240,100" fill="none" stroke="var(--border)" stroke-width="2"/>
+<circle cx="230" cy="75" r="15" fill="none" stroke="var(--text)" stroke-width="2" stroke-dasharray="2,2"/>
+<text x="230" y="120" font-family="sans-serif" font-size="10" fill="var(--text)" text-anchor="middle">No Surfactant (Collapsed)</text>
+<path d="M320,100 Q300,80 330,60 Q360,80 340,100" fill="none" stroke="var(--border)" stroke-width="2"/>
+<circle cx="330" cy="75" r="20" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<circle cx="330" cy="75" r="18" fill="none" stroke="var(--accent)" stroke-width="1" stroke-dasharray="1,3"/>
+<text x="330" y="120" font-family="sans-serif" font-size="10" fill="var(--text)" text-anchor="middle">With Surfactant</text>
+<rect x="50" y="220" width="300" height="60" rx="5" fill="none" stroke="var(--border)" stroke-width="2"/>
+<line x1="50" y1="250" x2="350" y2="250" stroke="var(--border)" stroke-width="1"/>
+<line x1="150" y1="220" x2="150" y2="280" stroke="var(--border)" stroke-width="1"/>
+<line x1="250" y1="220" x2="250" y2="280" stroke="var(--border)" stroke-width="1"/>
+<text x="100" y="240" font-family="sans-serif" font-size="12" fill="var(--accent)" text-anchor="middle">&lt; 1000g</text>
+<text x="100" y="270" font-family="sans-serif" font-size="12" fill="var(--text)" text-anchor="middle">ELBW</text>
+<text x="200" y="240" font-family="sans-serif" font-size="12" fill="var(--accent)" text-anchor="middle">1000-1499g</text>
+<text x="200" y="270" font-family="sans-serif" font-size="12" fill="var(--text)" text-anchor="middle">VLBW</text>
+<text x="300" y="240" font-family="sans-serif" font-size="12" fill="var(--accent)" text-anchor="middle">1500-2499g</text>
+<text x="300" y="270" font-family="sans-serif" font-size="12" fill="var(--text)" text-anchor="middle">LBW</text>
+</svg>`,
+  'mbbs-paeds-jaundice': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+<rect width="400" height="300" fill="var(--surface)"/>
+<polyline points="30,150 30,30 200,30" fill="none" stroke="var(--border)" stroke-width="2"/>
+<polyline points="30,150 200,150" fill="none" stroke="var(--border)" stroke-width="2"/>
+<path d="M50,130 Q100,60 180,40" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<path d="M50,140 Q100,90 180,70" fill="none" stroke="var(--text-dim)" stroke-width="2"/>
+<path d="M50,145 Q100,120 180,110" fill="none" stroke="var(--border)" stroke-width="2"/>
+<text x="110" y="50" font-family="sans-serif" font-size="10" fill="var(--text)" text-anchor="middle">High Risk</text>
+<text x="110" y="100" font-family="sans-serif" font-size="10" fill="var(--text)" text-anchor="middle">Int. Risk</text>
+<text x="110" y="140" font-family="sans-serif" font-size="10" fill="var(--text)" text-anchor="middle">Low Risk</text>
+<text x="115" y="165" font-family="sans-serif" font-size="10" fill="var(--text)" text-anchor="middle">Age (hours)</text>
+<text x="20" y="90" font-family="sans-serif" font-size="10" fill="var(--text)" text-anchor="middle" transform="rotate(-90 20 90)">Bilirubin</text>
+<rect x="230" y="40" width="40" height="20" rx="5" fill="none" stroke="var(--text)" stroke-width="2"/>
+<text x="250" y="54" font-family="sans-serif" font-size="10" fill="var(--text)" text-anchor="middle">4Z,15Z</text>
+<path d="M280,50 L320,50" stroke="var(--accent)" stroke-width="2"/>
+<circle cx="300" cy="50" r="8" fill="var(--surface)" stroke="var(--accent)"/>
+<text x="300" y="53" font-family="sans-serif" font-size="8" fill="var(--accent)" text-anchor="middle">hV</text>
+<rect x="330" y="40" width="40" height="20" rx="5" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<text x="350" y="54" font-family="sans-serif" font-size="10" fill="var(--accent)" text-anchor="middle">4Z,15E</text>
+<path d="M280,240 C260,200 300,160 340,160 C380,160 400,200 360,240 C340,260 300,260 280,240 Z" fill="none" stroke="var(--border)" stroke-width="2"/>
+<path d="M310,210 C315,190 325,190 330,210 C325,220 315,220 310,210 Z" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<circle cx="315" cy="205" r="4" fill="var(--accent)"/>
+<circle cx="325" cy="205" r="4" fill="var(--accent)"/>
+<text x="320" y="250" font-family="sans-serif" font-size="12" fill="var(--text)" text-anchor="middle">Basal Ganglia</text>
+<text x="320" y="265" font-family="sans-serif" font-size="12" fill="var(--accent)" text-anchor="middle">Kernicterus</text>
+</svg>`,
+  'mbbs-paeds-sepsis': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+<rect width="400" height="300" fill="var(--surface)"/>
+<rect x="150" y="20" width="100" height="30" rx="5" fill="none" stroke="var(--border)" stroke-width="2"/>
+<text x="200" y="40" font-family="sans-serif" font-size="12" fill="var(--text)" text-anchor="middle">Neonatal Sepsis</text>
+<path d="M200,50 L200,70" stroke="var(--border)" stroke-width="2"/>
+<path d="M100,70 L300,70" stroke="var(--border)" stroke-width="2"/>
+<path d="M100,70 L100,90" stroke="var(--border)" stroke-width="2"/>
+<path d="M300,70 L300,90" stroke="var(--border)" stroke-width="2"/>
+<rect x="40" y="90" width="120" height="40" rx="5" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<text x="100" y="105" font-family="sans-serif" font-size="12" fill="var(--text)" text-anchor="middle">Early Onset</text>
+<text x="100" y="120" font-family="sans-serif" font-size="10" fill="var(--text-dim)" text-anchor="middle">&lt; 72 hours</text>
+<rect x="240" y="90" width="120" height="40" rx="5" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<text x="300" y="105" font-family="sans-serif" font-size="12" fill="var(--text)" text-anchor="middle">Late Onset</text>
+<text x="300" y="120" font-family="sans-serif" font-size="10" fill="var(--text-dim)" text-anchor="middle">&gt; 72 hours</text>
+<text x="100" y="150" font-family="sans-serif" font-size="10" fill="var(--text)" text-anchor="middle">GBS, E. coli, Listeria</text>
+<text x="300" y="150" font-family="sans-serif" font-size="10" fill="var(--text)" text-anchor="middle">CONS, S. aureus</text>
+<rect x="50" y="180" width="300" height="100" rx="10" fill="none" stroke="var(--border)" stroke-width="2"/>
+<text x="200" y="200" font-family="sans-serif" font-size="14" font-weight="bold" fill="var(--text)" text-anchor="middle">Septic Screen Components</text>
+<circle cx="100" cy="230" r="15" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<text x="100" y="234" font-family="sans-serif" font-size="10" fill="var(--text)" text-anchor="middle">CBC</text>
+<circle cx="166" cy="230" r="15" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<text x="166" y="234" font-family="sans-serif" font-size="10" fill="var(--text)" text-anchor="middle">CRP</text>
+<circle cx="233" cy="230" r="15" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<text x="233" y="234" font-family="sans-serif" font-size="10" fill="var(--text)" text-anchor="middle">BCx</text>
+<circle cx="300" cy="230" r="15" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<text x="300" y="234" font-family="sans-serif" font-size="10" fill="var(--text)" text-anchor="middle">LP</text>
+</svg>`,
+  'mbbs-paeds-infant-feeding': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text-dim)"/>
+</marker>
+</defs>
+<rect width="400" height="300" fill="var(--surface)"/>
+<line x1="20" y1="50" x2="380" y2="50" stroke="var(--border)" stroke-width="2"/>
+<circle cx="40" cy="50" r="6" fill="var(--accent)"/>
+<text x="40" y="35" font-family="sans-serif" font-size="10" fill="var(--text)" text-anchor="middle">Birth</text>
+<text x="40" y="70" font-family="sans-serif" font-size="10" fill="var(--text-dim)" text-anchor="middle">BCG, OPV0</text>
+<circle cx="120" cy="50" r="6" fill="var(--accent)"/>
+<text x="120" y="35" font-family="sans-serif" font-size="10" fill="var(--text)" text-anchor="middle">6 Wks</text>
+<text x="120" y="70" font-family="sans-serif" font-size="10" fill="var(--text-dim)" text-anchor="middle">Penta1, OPV1</text>
+<circle cx="200" cy="50" r="6" fill="var(--accent)"/>
+<text x="200" y="35" font-family="sans-serif" font-size="10" fill="var(--text)" text-anchor="middle">10 Wks</text>
+<text x="200" y="70" font-family="sans-serif" font-size="10" fill="var(--text-dim)" text-anchor="middle">Penta2, OPV2</text>
+<circle cx="280" cy="50" r="6" fill="var(--accent)"/>
+<text x="280" y="35" font-family="sans-serif" font-size="10" fill="var(--text)" text-anchor="middle">14 Wks</text>
+<text x="280" y="70" font-family="sans-serif" font-size="10" fill="var(--text-dim)" text-anchor="middle">Penta3, OPV3</text>
+<circle cx="360" cy="50" r="6" fill="var(--accent)"/>
+<text x="360" y="35" font-family="sans-serif" font-size="10" fill="var(--text)" text-anchor="middle">9 Mos</text>
+<text x="360" y="70" font-family="sans-serif" font-size="10" fill="var(--text-dim)" text-anchor="middle">MR</text>
+<path d="M50,150 C70,120 120,120 140,150 C160,180 120,220 50,220 Z" fill="none" stroke="var(--border)" stroke-width="2"/>
+<circle cx="130" cy="160" r="10" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<path d="M150,140 C170,140 180,160 170,180 C160,190 140,180 135,170 C130,160 140,140 150,140 Z" fill="none" stroke="var(--text)" stroke-width="2"/>
+<text x="100" y="240" font-family="sans-serif" font-size="12" fill="var(--text)" text-anchor="middle">Good Attachment</text>
+<rect x="230" y="150" width="150" height="80" rx="5" fill="none" stroke="var(--border)" stroke-width="2"/>
+<line x1="230" y1="180" x2="380" y2="180" stroke="var(--border)" stroke-width="1"/>
+<text x="305" y="170" font-family="sans-serif" font-size="12" fill="var(--text)" text-anchor="middle">Complementary Feeding</text>
+<circle cx="260" cy="205" r="10" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<text x="260" y="209" font-family="sans-serif" font-size="10" fill="var(--text)" text-anchor="middle">6m</text>
+<path d="M280,205 L310,205" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrow)"/>
+<circle cx="330" cy="205" r="10" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<text x="330" y="209" font-family="sans-serif" font-size="10" fill="var(--text)" text-anchor="middle">2y+</text>
+</svg>`,
+  'mbbs-paeds-pem': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+<rect width="400" height="300" fill="var(--surface)"/>
+<circle cx="80" cy="50" r="15" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M70,65 C50,100 50,140 80,150 C110,140 110,100 90,65" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M70,150 L60,200 C50,210 70,220 80,200 Z" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<path d="M90,150 L100,200 C110,210 90,220 80,200 Z" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<ellipse cx="85" cy="120" rx="15" ry="10" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="2,2"/>
+<text x="80" y="240" font-family="sans-serif" font-size="12" fill="var(--text)" text-anchor="middle">Kwashiorkor</text>
+<text x="80" y="255" font-family="sans-serif" font-size="10" fill="var(--text-dim)" text-anchor="middle">(Edema, Hepatomegaly)</text>
+<circle cx="200" cy="50" r="12" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M190,62 L180,140 L220,140 L210,62" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M185,80 L215,80 M185,90 L215,90 M185,100 L215,100" stroke="var(--accent)" stroke-width="1"/>
+<path d="M185,140 L180,210 M215,140 L220,210" stroke="var(--text)" stroke-width="2"/>
+<text x="200" y="240" font-family="sans-serif" font-size="12" fill="var(--text)" text-anchor="middle">Marasmus</text>
+<text x="200" y="255" font-family="sans-serif" font-size="10" fill="var(--text-dim)" text-anchor="middle">(Severe Wasting)</text>
+<rect x="270" y="40" width="120" height="200" rx="5" fill="none" stroke="var(--border)" stroke-width="2"/>
+<text x="330" y="60" font-family="sans-serif" font-size="12" font-weight="bold" fill="var(--text)" text-anchor="middle">WHO 10 Steps</text>
+<line x1="270" y1="70" x2="390" y2="70" stroke="var(--border)" stroke-width="1"/>
+<text x="280" y="90" font-family="sans-serif" font-size="9" fill="var(--text)">1. Hypoglycemia</text>
+<text x="280" y="105" font-family="sans-serif" font-size="9" fill="var(--text)">2. Hypothermia</text>
+<text x="280" y="120" font-family="sans-serif" font-size="9" fill="var(--text)">3. Dehydration</text>
+<text x="280" y="135" font-family="sans-serif" font-size="9" fill="var(--text)">4. Electrolytes</text>
+<text x="280" y="150" font-family="sans-serif" font-size="9" fill="var(--text)">5. Infection</text>
+<text x="280" y="165" font-family="sans-serif" font-size="9" fill="var(--text)">6. Micronutrients</text>
+<text x="280" y="180" font-family="sans-serif" font-size="9" fill="var(--text)">7. Cautious feeding</text>
+<text x="280" y="195" font-family="sans-serif" font-size="9" fill="var(--text)">8. Catch-up growth</text>
+<text x="280" y="210" font-family="sans-serif" font-size="9" fill="var(--text)">9. Stimulation</text>
+<text x="280" y="225" font-family="sans-serif" font-size="9" fill="var(--text)">10. Follow-up</text>
+</svg>`,
+'mbbs-paeds-micronutrients': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="80" cy="80" rx="40" ry="25" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <circle cx="80" cy="80" r="15" fill="var(--accent)" opacity="0.5"/>
+  <path d="M 50 80 Q 55 85 60 80 Q 55 75 50 80" fill="var(--border)"/>
+  <text x="80" y="125" font-size="12" fill="var(--text-dim)" text-anchor="middle">Vit A: Bitot\'s Spots</text>
+  
+  <path d="M 160 150 Q 150 200 160 250" fill="none" stroke="var(--accent)" stroke-width="8" stroke-linecap="round"/>
+  <path d="M 200 150 Q 210 200 200 250" fill="none" stroke="var(--accent)" stroke-width="8" stroke-linecap="round"/>
+  <ellipse cx="180" cy="140" rx="30" ry="10" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <text x="180" y="270" font-size="12" fill="var(--text-dim)" text-anchor="middle">Vit D: Genu Varum</text>
+  
+  <line x1="260" y1="150" x2="260" y2="220" stroke="var(--text)" stroke-width="4"/>
+  <line x1="240" y1="160" x2="260" y2="160" stroke="var(--border)" stroke-width="3"/>
+  <circle cx="240" cy="160" r="4" fill="var(--accent)"/>
+  <line x1="240" y1="180" x2="260" y2="180" stroke="var(--border)" stroke-width="3"/>
+  <circle cx="240" cy="180" r="4" fill="var(--accent)"/>
+  <line x1="240" y1="200" x2="260" y2="200" stroke="var(--border)" stroke-width="3"/>
+  <circle cx="240" cy="200" r="4" fill="var(--accent)"/>
+  <line x1="280" y1="170" x2="260" y2="170" stroke="var(--border)" stroke-width="3"/>
+  <circle cx="280" cy="170" r="4" fill="var(--accent)"/>
+  <line x1="280" y1="190" x2="260" y2="190" stroke="var(--border)" stroke-width="3"/>
+  <circle cx="280" cy="190" r="4" fill="var(--accent)"/>
+  <text x="260" y="240" font-size="12" fill="var(--text-dim)" text-anchor="middle">Rachitic Rosary</text>
+  
+  <circle cx="340" cy="80" r="18" fill="var(--accent)" opacity="0.3" stroke="var(--accent)"/>
+  <circle cx="340" cy="80" r="6" fill="var(--surface)"/>
+  <text x="340" y="115" font-size="10" fill="var(--text)" text-anchor="middle">Normocytic</text>
+  <circle cx="340" cy="150" r="14" fill="var(--accent)" opacity="0.3" stroke="var(--accent)"/>
+  <circle cx="340" cy="150" r="8" fill="var(--surface)"/>
+  <text x="340" y="180" font-size="10" fill="var(--text)" text-anchor="middle">Microcytic (Iron)</text>
+</svg>`,
+  'mbbs-paeds-ari': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <rect x="20" y="20" width="100" height="40" rx="5" fill="var(--surface)" stroke="var(--text)" stroke-width="2"/>
+  <text x="70" y="45" font-size="12" fill="var(--text)" text-anchor="middle">Cough/Cold</text>
+  <path d="M 70 60 L 70 80" fill="none" stroke="var(--text)"/>
+  <polygon points="65,75 75,75 70,80" fill="var(--text)"/>
+  
+  <rect x="20" y="80" width="100" height="40" rx="5" fill="none" stroke="var(--accent)" stroke-width="2"/>
+  <text x="70" y="105" font-size="10" fill="var(--accent)" text-anchor="middle">Fast Breathing?</text>
+  <path d="M 70 120 L 70 140" fill="none" stroke="var(--text)"/>
+  <polygon points="65,135 75,135 70,140" fill="var(--text)"/>
+  
+  <rect x="20" y="140" width="100" height="40" rx="5" fill="var(--accent)" opacity="0.2"/>
+  <text x="70" y="155" font-size="10" fill="var(--text)" font-weight="bold" text-anchor="middle">Pneumonia</text>
+  <text x="70" y="170" font-size="10" fill="var(--text-dim)" text-anchor="middle">(Amoxicillin)</text>
+  
+  <path d="M 120 100 L 140 100" fill="none" stroke="var(--text)"/>
+  <polygon points="135,95 135,105 140,100" fill="var(--text)"/>
+  
+  <rect x="140" y="80" width="100" height="40" rx="5" fill="none" stroke="var(--accent)" stroke-width="2"/>
+  <text x="190" y="105" font-size="10" fill="var(--accent)" text-anchor="middle">Chest Indrawing?</text>
+  <path d="M 190 120 L 190 140" fill="none" stroke="var(--text)"/>
+  <polygon points="185,135 195,135 190,140" fill="var(--text)"/>
+  
+  <rect x="140" y="140" width="100" height="40" rx="5" fill="var(--accent)" opacity="0.5"/>
+  <text x="190" y="155" font-size="10" fill="var(--surface)" font-weight="bold" text-anchor="middle">Severe Pneumonia</text>
+  <text x="190" y="170" font-size="10" fill="var(--surface)" text-anchor="middle">(Admit + IV)</text>
+  
+  <rect x="270" y="20" width="100" height="120" fill="var(--text)" opacity="0.1" rx="5"/>
+  <path d="M 320 40 L 310 90 L 320 120 L 330 90 Z" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <line x1="280" y1="90" x2="360" y2="90" stroke="var(--border)" stroke-dasharray="2,2"/>
+  <text x="320" y="155" font-size="12" fill="var(--text-dim)" text-anchor="middle">Steeple Sign (Croup)</text>
+  
+  <circle cx="100" cy="240" r="30" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <circle cx="100" cy="240" r="20" fill="none" stroke="var(--text-dim)" stroke-dasharray="3,3"/>
+  <text x="100" y="285" font-size="10" fill="var(--text)" text-anchor="middle">Normal</text>
+  
+  <circle cx="250" cy="240" r="30" fill="none" stroke="var(--text)" stroke-width="4"/>
+  <path d="M 230 240 Q 250 220 270 240 Q 250 260 230 240" fill="var(--accent)" opacity="0.6"/>
+  <text x="250" y="285" font-size="10" fill="var(--text)" text-anchor="middle">Edema &amp; Mucus</text>
+  
+  <text x="175" y="210" font-size="12" fill="var(--text-dim)" font-weight="bold" text-anchor="middle">Bronchiolitis</text>
+</svg>`,
+  'mbbs-paeds-diarrhea': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <rect x="20" y="20" width="360" height="120" fill="none" stroke="var(--border)"/>
+  <line x1="20" y1="50" x2="380" y2="50" stroke="var(--border)"/>
+  <line x1="20" y1="90" x2="380" y2="90" stroke="var(--border)"/>
+  <line x1="140" y1="20" x2="140" y2="140" stroke="var(--border)"/>
+  <line x1="260" y1="20" x2="260" y2="140" stroke="var(--border)"/>
+  
+  <text x="80" y="40" font-size="12" fill="var(--text)" font-weight="bold" text-anchor="middle">No Dehydration</text>
+  <text x="200" y="40" font-size="12" fill="var(--accent)" font-weight="bold" text-anchor="middle">Some (Plan B)</text>
+  <text x="320" y="40" font-size="12" fill="var(--text)" font-weight="bold" text-anchor="middle">Severe (Plan C)</text>
+  
+  <text x="80" y="70" font-size="10" fill="var(--text-dim)" text-anchor="middle">Alert, drinks well</text>
+  <text x="200" y="70" font-size="10" fill="var(--text-dim)" text-anchor="middle">Restless/irritable</text>
+  <text x="320" y="70" font-size="10" fill="var(--text-dim)" text-anchor="middle">Lethargic/unconscious</text>
+  
+  <text x="80" y="115" font-size="10" fill="var(--text-dim)" text-anchor="middle">Skin pinch goes back</text>
+  <text x="200" y="115" font-size="10" fill="var(--text-dim)" text-anchor="middle">Pinch goes back slow</text>
+  <text x="320" y="115" font-size="10" fill="var(--text-dim)" text-anchor="middle">Goes back very slow</text>
+
+  <rect x="40" y="170" width="140" height="110" rx="10" fill="var(--surface)" stroke="var(--accent)" stroke-width="2"/>
+  <text x="110" y="190" font-size="12" fill="var(--text)" font-weight="bold" text-anchor="middle">ORS comp (mEq/L)</text>
+  <circle cx="80" cy="220" r="18" fill="var(--accent)" opacity="0.3"/>
+  <text x="80" y="224" font-size="10" fill="var(--text)" text-anchor="middle">Na 75</text>
+  <circle cx="140" cy="220" r="18" fill="none" stroke="var(--accent)" stroke-width="2"/>
+  <text x="140" y="224" font-size="10" fill="var(--text)" text-anchor="middle">Glu 75</text>
+  <circle cx="110" cy="255" r="14" fill="var(--text)" opacity="0.1"/>
+  <text x="110" y="259" font-size="10" fill="var(--text)" text-anchor="middle">K 20</text>
+  <text x="170" y="270" font-size="10" fill="var(--text-dim)" text-anchor="middle">Osm 245</text>
+
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M 0 0 L 8 4 L 0 8 z" fill="var(--accent)"/></marker></defs>
+  <path d="M 220 220 C 240 200, 260 200, 280 220 C 300 240, 320 240, 340 220" fill="none" stroke="var(--text)" stroke-width="3"/>
+  <line x1="230" y1="210" x2="230" y2="230" stroke="var(--accent)" stroke-width="2"/>
+  <line x1="270" y1="210" x2="270" y2="230" stroke="var(--accent)" stroke-width="2"/>
+  <line x1="310" y1="210" x2="310" y2="230" stroke="var(--accent)" stroke-width="2"/>
+  <rect x="270" y="170" width="20" height="20" rx="3" fill="var(--accent)"/>
+  <text x="280" y="184" font-size="10" fill="var(--surface)" font-weight="bold" text-anchor="middle">Zn</text>
+  <path d="M 280 195 L 280 215" fill="none" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="280" y="250" font-size="10" fill="var(--text-dim)" text-anchor="middle">Increases water abs.</text>
+  <text x="280" y="265" font-size="10" fill="var(--text-dim)" text-anchor="middle">Regenerates epithelium</text>
+</svg>`,
+  'mbbs-paeds-tb': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <path d="M 100 50 C 70 50, 40 100, 40 180 C 40 250, 80 280, 100 280 L 100 50" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <path d="M 120 50 C 150 50, 180 100, 180 180 C 180 250, 140 280, 120 280 L 120 50" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <line x1="110" y1="50" x2="110" y2="20" stroke="var(--text)" stroke-width="4"/>
+  <circle cx="60" cy="150" r="8" fill="var(--accent)"/>
+  <circle cx="105" cy="120" r="6" fill="var(--accent)" opacity="0.6"/>
+  <circle cx="105" cy="140" r="6" fill="var(--accent)" opacity="0.6"/>
+  <line x1="68" y1="145" x2="100" y2="125" stroke="var(--accent)" stroke-width="2" stroke-dasharray="2,2"/>
+  <text x="60" y="170" font-size="10" fill="var(--text)" text-anchor="middle">Ghon focus</text>
+  <text x="140" y="130" font-size="10" fill="var(--text)" text-anchor="middle">Hilar LN</text>
+  <text x="110" y="295" font-size="12" fill="var(--text-dim)" font-weight="bold" text-anchor="middle">Primary TB Complex</text>
+  
+  <rect x="220" y="20" width="160" height="80" rx="5" fill="var(--surface)" stroke="var(--border)"/>
+  <line x1="230" y1="70" x2="370" y2="70" stroke="var(--text)" stroke-width="2"/>
+  <line x1="250" y1="65" x2="250" y2="75" stroke="var(--text)"/>
+  <line x1="280" y1="65" x2="280" y2="75" stroke="var(--text)"/>
+  <line x1="320" y1="65" x2="320" y2="75" stroke="var(--text)"/>
+  <path d="M 250 55 C 265 40, 265 40, 280 55" fill="var(--accent)" opacity="0.4"/>
+  <path d="M 250 55 C 285 20, 285 20, 320 55" fill="none" stroke="var(--accent)" stroke-width="2"/>
+  <text x="265" y="45" font-size="10" fill="var(--accent)" text-anchor="middle">&gt;=5mm</text>
+  <text x="300" y="35" font-size="10" fill="var(--text)" text-anchor="middle">&gt;=10mm</text>
+  <text x="300" y="90" font-size="10" fill="var(--text-dim)" text-anchor="middle">Mantoux (Induration)</text>
+
+  <rect x="220" y="160" width="160" height="80" fill="none" stroke="var(--border)"/>
+  <rect x="220" y="160" width="60" height="80" fill="var(--accent)" opacity="0.2"/>
+  <line x1="280" y1="160" x2="280" y2="240" stroke="var(--border)"/>
+  <text x="250" y="185" font-size="10" fill="var(--text)" text-anchor="middle">Intensive</text>
+  <text x="250" y="200" font-size="12" fill="var(--accent)" font-weight="bold" text-anchor="middle">2 HRZE</text>
+  <text x="330" y="185" font-size="10" fill="var(--text)" text-anchor="middle">Continuation</text>
+  <text x="330" y="200" font-size="12" fill="var(--accent)" font-weight="bold" text-anchor="middle">4 HR</text>
+  <text x="300" y="230" font-size="10" fill="var(--text-dim)" text-anchor="middle">Pediatric DOTS</text>
+</svg>`,
+  'mbbs-paeds-vpd': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="60" cy="60" r="30" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <path d="M 45 55 Q 55 45 60 55 Q 65 45 75 55" fill="none" stroke="var(--text)"/>
+  <circle cx="60" cy="75" r="8" fill="none" stroke="var(--text)"/>
+  <circle cx="56" cy="75" r="2" fill="var(--surface)" stroke="var(--accent)"/>
+  <circle cx="64" cy="75" r="2" fill="var(--surface)" stroke="var(--accent)"/>
+  <text x="60" y="110" font-size="10" fill="var(--text-dim)" text-anchor="middle">Koplik Spots</text>
+  
+  <rect x="20" y="140" width="80" height="20" fill="var(--accent)" opacity="0.3"/>
+  <text x="60" y="154" font-size="10" fill="var(--text)" text-anchor="middle">Fever, CCC</text>
+  <polygon points="100,150 110,145 110,155" fill="var(--accent)"/>
+  <rect x="115" y="140" width="80" height="20" fill="none" stroke="var(--accent)"/>
+  <text x="155" y="154" font-size="10" fill="var(--text)" text-anchor="middle">Rash (Ceph-Caud)</text>
+  <text x="100" y="180" font-size="12" fill="var(--text-dim)" font-weight="bold" text-anchor="middle">Measles Timeline</text>
+
+  <path d="M 280 30 Q 310 10 340 30 L 340 90 Q 310 110 280 90 Z" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <path d="M 300 40 Q 310 70 300 80" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <path d="M 320 40 Q 310 70 320 80" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <path d="M 310 30 Q 315 50 310 60" fill="var(--accent)" opacity="0.6"/>
+  <path d="M 295 50 Q 305 60 295 70" fill="var(--surface)" stroke="var(--text-dim)"/>
+  <path d="M 325 50 Q 315 60 325 70" fill="var(--surface)" stroke="var(--text-dim)"/>
+  <text x="310" y="120" font-size="10" fill="var(--text-dim)" text-anchor="middle">Diphtheria: Grey Pseudomembrane</text>
+
+  <circle cx="200" cy="200" r="15" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <line x1="200" y1="215" x2="200" y2="260" stroke="var(--text)" stroke-width="2"/>
+  <line x1="200" y1="225" x2="180" y2="250" stroke="var(--text)" stroke-width="2"/>
+  <line x1="200" y1="225" x2="220" y2="250" stroke="var(--text)" stroke-width="2"/>
+  <line x1="200" y1="260" x2="180" y2="295" stroke="var(--text)" stroke-width="3"/>
+  <path d="M 200 260 Q 220 285 215 295" fill="none" stroke="var(--accent)" stroke-width="1" stroke-dasharray="2,2"/>
+  <text x="280" y="270" font-size="12" fill="var(--accent)" font-weight="bold" text-anchor="middle">Polio</text>
+  <text x="280" y="285" font-size="10" fill="var(--text-dim)" text-anchor="middle">Asymmetric Flaccid Paralysis</text>
+</svg>`,
+  'mbbs-paeds-cardio': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <path d="M 80 40 C 30 40, 30 130, 80 130 C 130 130, 130 40, 80 40" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <line x1="80" y1="40" x2="80" y2="70" stroke="var(--border)" stroke-width="2"/>
+  <line x1="80" y1="90" x2="80" y2="130" stroke="var(--border)" stroke-width="4"/>
+  <circle cx="80" cy="80" r="10" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="2,2"/>
+  
+  <text x="20" y="160" font-size="10" fill="var(--text)" font-weight="bold">P</text>
+  <text x="30" y="160" font-size="10" fill="var(--text-dim)">ulmonary stenosis</text>
+  <text x="20" y="175" font-size="10" fill="var(--text)" font-weight="bold">R</text>
+  <text x="30" y="175" font-size="10" fill="var(--text-dim)">VH</text>
+  <text x="20" y="190" font-size="10" fill="var(--text)" font-weight="bold">O</text>
+  <text x="30" y="190" font-size="10" fill="var(--text-dim)">verriding aorta</text>
+  <text x="20" y="205" font-size="10" fill="var(--text)" font-weight="bold">Ve</text>
+  <text x="35" y="205" font-size="10" fill="var(--text-dim)">ntricular septal defect</text>
+  <text x="80" y="230" font-size="12" fill="var(--accent)" font-weight="bold" text-anchor="middle">Tetralogy of Fallot</text>
+
+  <rect x="200" y="20" width="180" height="110" rx="5" fill="none" stroke="var(--border)"/>
+  <text x="290" y="40" font-size="12" fill="var(--text)" font-weight="bold" text-anchor="middle">Jones Criteria (RF)</text>
+  <text x="245" y="60" font-size="10" fill="var(--accent)" font-weight="bold" text-anchor="middle">MAJOR</text>
+  <text x="335" y="60" font-size="10" fill="var(--text)" font-weight="bold" text-anchor="middle">MINOR</text>
+  <text x="245" y="75" font-size="9" fill="var(--text-dim)" text-anchor="middle">Joints (Poly)</text>
+  <text x="245" y="85" font-size="9" fill="var(--text-dim)" text-anchor="middle">Carditis</text>
+  <text x="245" y="95" font-size="9" fill="var(--text-dim)" text-anchor="middle">Nodules</text>
+  <text x="245" y="105" font-size="9" fill="var(--text-dim)" text-anchor="middle">Erythema m.</text>
+  <text x="245" y="115" font-size="9" fill="var(--text-dim)" text-anchor="middle">Sydenham C.</text>
+  <text x="335" y="75" font-size="9" fill="var(--text-dim)" text-anchor="middle">Fever</text>
+  <text x="335" y="85" font-size="9" fill="var(--text-dim)" text-anchor="middle">Arthralgia</text>
+  <text x="335" y="95" font-size="9" fill="var(--text-dim)" text-anchor="middle">High CRP/ESR</text>
+  <text x="335" y="105" font-size="9" fill="var(--text-dim)" text-anchor="middle">Prolonged PR</text>
+  <line x1="290" y1="50" x2="290" y2="120" stroke="var(--border)"/>
+
+  <circle cx="210" cy="220" r="25" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <line x1="210" y1="195" x2="210" y2="215" stroke="var(--border)" stroke-width="2"/>
+  <line x1="210" y1="225" x2="210" y2="245" stroke="var(--border)" stroke-width="2"/>
+  <line x1="185" y1="220" x2="235" y2="220" stroke="var(--border)" stroke-width="2"/>
+  <circle cx="210" cy="220" r="4" fill="var(--accent)"/>
+  <text x="210" y="260" font-size="10" fill="var(--text-dim)" text-anchor="middle">ASD</text>
+
+  <circle cx="280" cy="220" r="25" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <line x1="280" y1="195" x2="280" y2="245" stroke="var(--border)" stroke-width="2"/>
+  <line x1="255" y1="220" x2="305" y2="220" stroke="var(--border)" stroke-width="2"/>
+  <circle cx="280" cy="235" r="4" fill="var(--accent)"/>
+  <text x="280" y="260" font-size="10" fill="var(--text-dim)" text-anchor="middle">VSD</text>
+
+  <path d="M 350 195 C 335 195, 335 215, 350 215" fill="none" stroke="var(--text)" stroke-width="3"/>
+  <path d="M 350 210 C 365 210, 365 230, 350 230" fill="none" stroke="var(--border)" stroke-width="3"/>
+  <line x1="340" y1="205" x2="360" y2="220" stroke="var(--accent)" stroke-width="3"/>
+  <text x="350" y="260" font-size="10" fill="var(--text-dim)" text-anchor="middle">PDA</text>
+</svg>`,
+'mbbs-paeds-nephrology': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="background:var(--surface);font-family:sans-serif;">
+  <rect x="10" y="10" width="185" height="135" fill="none" stroke="var(--border)" rx="4"/>
+  <rect x="205" y="10" width="185" height="135" fill="none" stroke="var(--border)" rx="4"/>
+  <rect x="10" y="155" width="380" height="135" fill="none" stroke="var(--border)" rx="4"/>
+  <text x="102" y="30" fill="var(--text)" font-size="12" font-weight="bold" text-anchor="middle">Nephrotic Triad</text>
+  <polygon points="102,50 62,110 142,110" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <circle cx="102" cy="50" r="14" fill="var(--surface)" stroke="var(--accent)" stroke-width="2"/>
+  <circle cx="62" cy="110" r="14" fill="var(--surface)" stroke="var(--accent)" stroke-width="2"/>
+  <circle cx="142" cy="110" r="14" fill="var(--surface)" stroke="var(--accent)" stroke-width="2"/>
+  <text x="102" y="54" fill="var(--text)" font-size="10" text-anchor="middle">Pr</text>
+  <text x="62" y="114" fill="var(--text)" font-size="10" text-anchor="middle">Alb</text>
+  <text x="142" y="114" fill="var(--text)" font-size="10" text-anchor="middle">Ed</text>
+  <path d="M102,68 L99,73 A3,3 0 0,0 105,73 Z" fill="var(--accent)"/>
+  <path d="M110,68 L107,73 A3,3 0 0,0 113,73 Z" fill="var(--accent)"/>
+  <text x="297" y="30" fill="var(--text)" font-size="12" font-weight="bold" text-anchor="middle">Glomerulonephritis</text>
+  <path d="M260,80 A 20 20 0 1 1 300,80" fill="none" stroke="var(--accent)" stroke-width="2"/>
+  <path d="M260,80 C265,50 295,50 300,80" fill="none" stroke="red" stroke-width="2"/>
+  <circle cx="270" cy="65" r="2" fill="red"/>
+  <circle cx="280" cy="60" r="2" fill="red"/>
+  <circle cx="290" cy="65" r="2" fill="red"/>
+  <text x="320" y="70" fill="var(--text)" font-size="10">RBC Casts</text>
+  <text x="320" y="85" fill="var(--text)" font-size="10">HTN</text>
+  <text x="200" y="175" fill="var(--text)" font-size="12" font-weight="bold" text-anchor="middle">Vesicoureteral Reflux (VUR) Grading</text>
+  <path d="M70,200 C85,200 85,230 70,230 C55,230 55,200 70,200 Z" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <path d="M75,215 L75,270" fill="none" stroke="var(--accent)" stroke-width="3"/>
+  <text x="70" y="285" fill="var(--text-dim)" font-size="10" text-anchor="middle">Grade 1</text>
+  <path d="M200,200 C215,200 215,230 200,230 C185,230 185,200 200,200 Z" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <path d="M205,215 C205,230 208,250 205,270 M195,215 C195,230 192,250 195,270" fill="none" stroke="var(--accent)" stroke-width="2"/>
+  <text x="200" y="285" fill="var(--text-dim)" font-size="10" text-anchor="middle">Grade 3 (Dilated)</text>
+  <path d="M330,195 C350,195 350,235 330,235 C310,235 310,195 330,195 Z" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <path d="M335,215 Q340,230 330,245 T335,270 M325,215 Q320,230 330,245 T325,270" fill="none" stroke="var(--accent)" stroke-width="2"/>
+  <text x="330" y="285" fill="var(--text-dim)" font-size="10" text-anchor="middle">Grade 5 (Tortuous)</text>
+</svg>`,
+  'mbbs-paeds-neurology': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="background:var(--surface);font-family:sans-serif;">
+  <rect x="10" y="10" width="185" height="135" fill="none" stroke="var(--border)" rx="4"/>
+  <text x="102" y="30" fill="var(--text)" font-size="12" font-weight="bold" text-anchor="middle">Cerebral Palsy Types</text>
+  <path d="M60,90 C50,60 80,40 110,40 C140,40 160,70 150,100 C140,120 100,120 80,110 Z" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <circle cx="100" cy="55" r="5" fill="var(--accent)"/>
+  <line x1="100" y1="55" x2="140" y2="55" stroke="var(--accent)"/>
+  <text x="145" y="58" fill="var(--text)" font-size="10">Spastic</text>
+  <circle cx="110" cy="80" r="5" fill="var(--accent)"/>
+  <line x1="110" y1="80" x2="140" y2="80" stroke="var(--accent)"/>
+  <text x="145" y="83" fill="var(--text)" font-size="10">Dyskinetic</text>
+  <path d="M135,100 C145,95 155,105 145,115 Z" fill="none" stroke="var(--accent)" stroke-width="1"/>
+  <circle cx="140" cy="105" r="4" fill="var(--accent)"/>
+  <line x1="140" y1="105" x2="140" y2="125" stroke="var(--accent)"/>
+  <text x="140" y="135" fill="var(--text)" font-size="10" text-anchor="middle">Ataxic</text>
+  <rect x="205" y="10" width="185" height="135" fill="none" stroke="var(--border)" rx="4"/>
+  <text x="297" y="30" fill="var(--text)" font-size="12" font-weight="bold" text-anchor="middle">Febrile Seizures</text>
+  <line x1="215" y1="45" x2="380" y2="45" stroke="var(--border)"/>
+  <text x="250" y="60" fill="var(--text-dim)" font-size="10" text-anchor="middle">Simple</text>
+  <text x="340" y="60" fill="var(--text-dim)" font-size="10" text-anchor="middle">Complex</text>
+  <text x="215" y="80" fill="var(--text)" font-size="10">Time:</text>
+  <text x="250" y="80" fill="var(--accent)" font-size="10" font-weight="bold" text-anchor="middle">&lt; 15m</text>
+  <text x="340" y="80" fill="var(--accent)" font-size="10" font-weight="bold" text-anchor="middle">&gt; 15m</text>
+  <text x="215" y="100" fill="var(--text)" font-size="10">Type:</text>
+  <text x="250" y="100" fill="var(--accent)" font-size="10" text-anchor="middle">Gen.</text>
+  <text x="340" y="100" fill="var(--accent)" font-size="10" text-anchor="middle">Focal</text>
+  <text x="215" y="120" fill="var(--text)" font-size="10">Freq:</text>
+  <text x="250" y="120" fill="var(--accent)" font-size="10" text-anchor="middle">1 / 24h</text>
+  <text x="340" y="120" fill="var(--accent)" font-size="10" text-anchor="middle">&gt;1 / 24h</text>
+  <rect x="10" y="155" width="380" height="135" fill="none" stroke="var(--border)" rx="4"/>
+  <text x="200" y="175" fill="var(--text)" font-size="12" font-weight="bold" text-anchor="middle">Meningitis Signs</text>
+  <path d="M50,240 C50,200 70,190 90,190 C100,190 105,185 115,190 C130,195 130,220 130,240" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <path d="M90,190 C95,185 105,185 115,190" fill="none" stroke="red" stroke-width="2"/>
+  <text x="90" y="260" fill="var(--text-dim)" font-size="10" text-anchor="middle">Bulging Fontanelle</text>
+  <path d="M220,260 L260,260 L260,200" fill="none" stroke="var(--border)" stroke-width="3"/>
+  <circle cx="260" cy="250" r="10" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <line x1="260" y1="260" x2="210" y2="260" stroke="var(--text)" stroke-width="3"/>
+  <line x1="210" y1="260" x2="230" y2="220" stroke="var(--text)" stroke-width="3"/>
+  <line x1="230" y1="220" x2="280" y2="220" stroke="var(--text)" stroke-width="3"/>
+  <path d="M230,220 L260,250" fill="none" stroke="var(--text)" stroke-width="1" stroke-dasharray="2,2"/>
+  <text x="250" y="215" fill="red" font-size="14" font-weight="bold">!</text>
+  <text x="250" y="280" fill="var(--text-dim)" font-size="10" text-anchor="middle">Kernig\'s Sign (Pain on ext)</text>
+</svg>`,
+  'mbbs-paeds-hematology': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="background:var(--surface);font-family:sans-serif;">
+  <rect x="10" y="10" width="185" height="135" fill="none" stroke="var(--border)" rx="4"/>
+  <text x="102" y="30" fill="var(--text)" font-size="12" font-weight="bold" text-anchor="middle">Thalassemia Major</text>
+  <path d="M70,100 C70,60 90,50 110,50 C130,50 130,70 130,100 C130,120 120,130 110,130 C90,130 70,120 70,100 Z" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <path d="M70,70 L60,60 M80,55 L75,40 M95,50 L95,35 M110,52 L115,38 M125,60 L135,50" stroke="var(--accent)" stroke-width="2"/>
+  <text x="102" y="145" fill="var(--text-dim)" font-size="10" text-anchor="middle">"Hair on end" &amp; Chipmunk Facies</text>
+  <rect x="205" y="10" width="185" height="135" fill="none" stroke="var(--border)" rx="4"/>
+  <text x="297" y="30" fill="var(--text)" font-size="12" font-weight="bold" text-anchor="middle">Hemophilia</text>
+  <text x="250" y="55" fill="var(--text)" font-size="10" text-anchor="middle">Intrinsic</text>
+  <text x="340" y="55" fill="var(--text)" font-size="10" text-anchor="middle">Extrinsic</text>
+  <path d="M250,65 L285,100 M340,65 L305,100 L295,120" stroke="var(--border)" stroke-width="2" fill="none"/>
+  <circle cx="270" cy="85" r="12" fill="var(--surface)" stroke="red" stroke-width="2"/>
+  <text x="270" y="89" fill="red" font-size="10" font-weight="bold" text-anchor="middle">VIII</text>
+  <circle cx="240" cy="75" r="12" fill="var(--surface)" stroke="red" stroke-width="2"/>
+  <text x="240" y="79" fill="red" font-size="10" font-weight="bold" text-anchor="middle">IX</text>
+  <text x="295" y="132" fill="var(--text)" font-size="10" text-anchor="middle">Clot</text>
+  <rect x="10" y="155" width="380" height="135" fill="none" stroke="var(--border)" rx="4"/>
+  <text x="200" y="175" fill="var(--text)" font-size="12" font-weight="bold" text-anchor="middle">Immune Thrombocytopenia (ITP)</text>
+  <circle cx="120" cy="220" r="15" fill="var(--text-dim)"/>
+  <circle cx="180" cy="230" r="15" fill="var(--text-dim)"/>
+  <path d="M120,195 L120,205 L115,210 M120,205 L125,210" stroke="var(--accent)" stroke-width="2" fill="none"/>
+  <path d="M195,215 L190,220 L190,225 M190,220 L185,215" stroke="var(--accent)" stroke-width="2" fill="none"/>
+  <path d="M240,240 C240,200 280,180 320,200 C340,210 340,250 320,260 C280,280 240,270 240,240 Z" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <text x="290" y="235" fill="var(--text)" font-size="12" text-anchor="middle">Spleen / Macrophage</text>
+  <text x="150" y="270" fill="var(--text-dim)" font-size="10" text-anchor="middle">IgG coats Platelets -&gt; Destruction</text>
+</svg>`,
+  'mbbs-paeds-gastro': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="background:var(--surface);font-family:sans-serif;">
+  <rect x="10" y="10" width="185" height="135" fill="none" stroke="var(--border)" rx="4"/>
+  <text x="102" y="30" fill="var(--text)" font-size="12" font-weight="bold" text-anchor="middle">Intussusception</text>
+  <path d="M30,80 L70,80 C70,80 75,70 85,70 L130,70" fill="none" stroke="var(--text)" stroke-width="3"/>
+  <path d="M30,100 L70,100 C70,100 75,110 85,110 L130,110" fill="none" stroke="var(--text)" stroke-width="3"/>
+  <path d="M70,85 L110,85 L110,95 L70,95" fill="none" stroke="var(--accent)" stroke-width="2"/>
+  <path d="M110,85 C120,85 120,95 110,95" fill="none" stroke="var(--accent)" stroke-width="2"/>
+  <circle cx="160" cy="90" r="20" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <circle cx="160" cy="90" r="12" fill="none" stroke="var(--text-dim)" stroke-width="2"/>
+  <circle cx="160" cy="90" r="4" fill="var(--accent)"/>
+  <text x="160" y="125" fill="var(--text-dim)" font-size="10" text-anchor="middle">Target Sign (US)</text>
+  <rect x="205" y="10" width="185" height="135" fill="none" stroke="var(--border)" rx="4"/>
+  <text x="297" y="30" fill="var(--text)" font-size="12" font-weight="bold" text-anchor="middle">Hirschsprung\'s</text>
+  <path d="M220,50 C240,50 250,60 250,80 C250,90 260,110 270,110 C290,110 290,120 290,130" fill="none" stroke="var(--text)" stroke-width="3"/>
+  <path d="M220,110 C240,110 245,110 250,110 C260,110 260,130 270,130 C290,130 290,140 290,140" fill="none" stroke="var(--text)" stroke-width="3"/>
+  <text x="235" y="80" fill="var(--text-dim)" font-size="10" text-anchor="middle">Dilated</text>
+  <text x="290" y="105" fill="var(--accent)" font-size="10" text-anchor="middle">Aganglionic</text>
+  <line x1="260" y1="100" x2="280" y2="120" stroke="red" stroke-width="2"/>
+  <line x1="280" y1="100" x2="260" y2="120" stroke="red" stroke-width="2"/>
+  <rect x="10" y="155" width="380" height="135" fill="none" stroke="var(--border)" rx="4"/>
+  <text x="200" y="175" fill="var(--text)" font-size="12" font-weight="bold" text-anchor="middle">Celiac Disease (Villous Atrophy)</text>
+  <path d="M50,250 L50,200 A10,10 0 0,1 70,200 L70,250 L90,250 L90,200 A10,10 0 0,1 110,200 L110,250" fill="none" stroke="var(--text)" stroke-width="3"/>
+  <text x="80" y="270" fill="var(--text-dim)" font-size="10" text-anchor="middle">Normal Villi</text>
+  <line x1="200" y1="200" x2="200" y2="260" stroke="var(--border)" stroke-width="2" stroke-dasharray="4,4"/>
+  <path d="M280,250 Q290,240 300,250 Q310,245 320,250 Q330,245 340,250" fill="none" stroke="var(--accent)" stroke-width="3"/>
+  <text x="310" y="270" fill="var(--text-dim)" font-size="10" text-anchor="middle">Flat/Atrophied Villi + Crypt Hyperplasia</text>
+</svg>`,
+  'mbbs-paeds-genetics': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="background:var(--surface);font-family:sans-serif;">
+  <rect x="10" y="10" width="185" height="135" fill="none" stroke="var(--border)" rx="4"/>
+  <text x="102" y="30" fill="var(--text)" font-size="12" font-weight="bold" text-anchor="middle">Down Syndrome</text>
+  <ellipse cx="60" cy="80" rx="30" ry="35" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <path d="M45,75 L55,70 M75,75 L65,70" stroke="var(--accent)" stroke-width="2"/>
+  <path d="M55,85 Q60,82 65,85" stroke="var(--text-dim)" stroke-width="1"/>
+  <path d="M120,110 L120,60 A5,5 0 0,1 130,60 L130,110 M130,65 A5,5 0 0,1 140,65 L140,110 M140,70 A5,5 0 0,1 150,70 L150,110 M150,75 A5,5 0 0,1 160,75 L160,110" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <path d="M120,110 L110,90 A5,5 0 0,1 120,85 Z" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <line x1="120" y1="95" x2="160" y2="95" stroke="var(--accent)" stroke-width="2"/>
+  <text x="102" y="135" fill="var(--text-dim)" font-size="10" text-anchor="middle">Upward Slant &amp; Single Palmar Crease</text>
+  <rect x="205" y="10" width="185" height="135" fill="none" stroke="var(--border)" rx="4"/>
+  <text x="297" y="30" fill="var(--text)" font-size="12" font-weight="bold" text-anchor="middle">Trisomy 21</text>
+  <path d="M260,60 Q265,75 270,60 M260,90 Q265,75 270,90" fill="none" stroke="var(--text)" stroke-width="4" stroke-linecap="round"/>
+  <path d="M280,60 Q285,75 290,60 M280,90 Q285,75 290,90" fill="none" stroke="var(--text)" stroke-width="4" stroke-linecap="round"/>
+  <path d="M300,60 Q305,75 310,60 M300,90 Q305,75 310,90" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/>
+  <text x="297" y="120" fill="var(--text-dim)" font-size="10" text-anchor="middle">3 Copies of Chromosome 21</text>
+  <rect x="10" y="155" width="380" height="135" fill="none" stroke="var(--border)" rx="4"/>
+  <text x="200" y="175" fill="var(--text)" font-size="12" font-weight="bold" text-anchor="middle">Congenital Hypothyroidism</text>
+  <circle cx="160" cy="220" r="25" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <path d="M150,230 Q160,240 170,230" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <path d="M155,230 Q160,245 165,230" fill="var(--accent)"/>
+  <circle cx="160" cy="195" r="10" fill="none" stroke="var(--accent)" stroke-width="1" stroke-dasharray="2,2"/>
+  <path d="M185,220 L220,220 L220,260 L185,260 Z" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <circle cx="202" cy="240" r="5" fill="none" stroke="var(--accent)" stroke-width="2"/>
+  <text x="270" y="210" fill="var(--text-dim)" font-size="10">- Large Fontanelle</text>
+  <text x="270" y="230" fill="var(--text-dim)" font-size="10">- Macroglossia</text>
+  <text x="270" y="250" fill="var(--text-dim)" font-size="10">- Umbilical Hernia</text>
+</svg>`,
+  'mbbs-paeds-imci': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="background:var(--surface);font-family:sans-serif;">
+  <rect x="10" y="10" width="185" height="160" fill="none" stroke="var(--border)" rx="4"/>
+  <text x="102" y="30" fill="var(--text)" font-size="12" font-weight="bold" text-anchor="middle">IMCI Triage</text>
+  <polygon points="102,45 80,75 124,75" fill="#ffcdd2" stroke="var(--border)"/>
+  <polygon points="80,75 55,110 149,110 124,75" fill="#fff9c4" stroke="var(--border)"/>
+  <polygon points="55,110 30,145 174,145 149,110" fill="#c8e6c9" stroke="var(--border)"/>
+  <text x="102" y="65" fill="#c62828" font-size="10" font-weight="bold" text-anchor="middle">Pink: Urgent</text>
+  <text x="102" y="100" fill="#f57f17" font-size="10" font-weight="bold" text-anchor="middle">Yellow: Clinic</text>
+  <text x="102" y="135" fill="#2e7d32" font-size="10" font-weight="bold" text-anchor="middle">Green: Home</text>
+  <rect x="205" y="10" width="185" height="160" fill="none" stroke="var(--border)" rx="4"/>
+  <text x="297" y="30" fill="var(--text)" font-size="12" font-weight="bold" text-anchor="middle">4 General Danger Signs</text>
+  <circle cx="230" cy="65" r="12" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <path d="M225,60 L235,60 M225,65 L235,65 M225,70 L235,70" stroke="var(--accent)" stroke-width="1"/>
+  <text x="250" y="68" fill="var(--text-dim)" font-size="10">Lethargic / Unconscious</text>
+  <path d="M220,90 L225,85 L230,95 L235,85 L240,90" fill="none" stroke="var(--accent)" stroke-width="2"/>
+  <text x="250" y="93" fill="var(--text-dim)" font-size="10">Convulsing</text>
+  <path d="M225,110 L235,110 L230,120 Z" fill="var(--surface)" stroke="var(--text)" stroke-width="1"/>
+  <circle cx="230" cy="125" r="2" fill="var(--accent)"/>
+  <text x="250" y="118" fill="var(--text-dim)" font-size="10">Vomiting Everything</text>
+  <path d="M225,135 L225,145 L235,145 L235,135" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <line x1="220" y1="130" x2="240" y2="150" stroke="red" stroke-width="2"/>
+  <text x="250" y="143" fill="var(--text-dim)" font-size="10">Unable to Drink/Breastfeed</text>
+  <rect x="10" y="180" width="380" height="110" fill="none" stroke="var(--border)" rx="4"/>
+  <text x="200" y="200" fill="var(--text)" font-size="12" font-weight="bold" text-anchor="middle">Assessment Flow Path</text>
+  <rect x="30" y="220" width="80" height="30" fill="var(--surface)" stroke="var(--accent)" rx="4"/>
+  <text x="70" y="239" fill="var(--text)" font-size="10" text-anchor="middle">Assess</text>
+  <path d="M110,235 L140,235 M135,230 L140,235 L135,240" fill="none" stroke="var(--text-dim)" stroke-width="2"/>
+  <rect x="145" y="220" width="90" height="30" fill="var(--surface)" stroke="var(--accent)" rx="4"/>
+  <text x="190" y="239" fill="var(--text)" font-size="10" text-anchor="middle">Classify</text>
+  <path d="M235,235 L265,235 M260,230 L265,235 L260,240" fill="none" stroke="var(--text-dim)" stroke-width="2"/>
+  <rect x="270" y="220" width="100" height="30" fill="var(--surface)" stroke="var(--accent)" rx="4"/>
+  <text x="320" y="239" fill="var(--text)" font-size="10" text-anchor="middle">Identify Treatment</text>
+  <path d="M320,250 L320,270 M315,265 L320,270 L325,265" fill="none" stroke="var(--text-dim)" stroke-width="2"/>
+  <text x="320" y="285" fill="var(--accent)" font-size="10" font-style="italic" text-anchor="middle">Treat / Counsel / Follow-up</text>
+</svg>`,
+'mbbs-ent-ear-anatomy': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<rect width="400" height="300" fill="var(--surface)"/>
+<path d="M 50 100 C 20 80, 10 130, 20 180" fill="none" stroke="var(--text)" stroke-width="3"/>
+<path d="M 20 180 C 30 220, 60 210, 60 190" fill="none" stroke="var(--text)" stroke-width="3"/>
+<path d="M 60 190 C 50 180, 40 150, 60 120" fill="none" stroke="var(--text)" stroke-width="3"/>
+<path d="M 60 120 C 70 110, 80 110, 80 130" fill="none" stroke="var(--text)" stroke-width="3"/>
+<path d="M 60 140 L 130 140" stroke="var(--text)" stroke-width="2"/>
+<path d="M 60 160 L 130 160" stroke="var(--text)" stroke-width="2"/>
+<line x1="130" y1="130" x2="130" y2="170" stroke="var(--accent)" stroke-width="3"/>
+<path d="M 130 150 C 140 140, 145 135, 150 145" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 150 145 C 160 140, 165 145, 160 155" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 160 155 L 175 150 L 175 160 Z" fill="none" stroke="var(--text)" stroke-width="2"/>
+<circle cx="190" cy="120" r="10" fill="none" stroke="var(--border)" stroke-width="2"/>
+<circle cx="205" cy="130" r="8" fill="none" stroke="var(--border)" stroke-width="2"/>
+<circle cx="180" cy="135" r="9" fill="none" stroke="var(--border)" stroke-width="2"/>
+<path d="M 175 155 C 190 140, 210 140, 220 155" fill="none" stroke="var(--accent)" stroke-width="3"/>
+<path d="M 220 155 C 230 170, 210 190, 195 180" fill="none" stroke="var(--accent)" stroke-width="3"/>
+<path d="M 195 180 C 185 170, 195 160, 205 165" fill="none" stroke="var(--accent)" stroke-width="3"/>
+<path d="M 205 165 C 210 170, 210 160, 200 155" fill="none" stroke="var(--accent)" stroke-width="3"/>
+<path d="M 130 170 C 140 190, 160 220, 180 230" fill="none" stroke="var(--text-dim)" stroke-width="4"/>
+<path d="M 180 230 C 200 240, 250 250, 280 270" fill="none" stroke="var(--text-dim)" stroke-width="4"/>
+<text x="30" y="80" fill="var(--text)" font-size="12">Pinna</text>
+<text x="80" y="125" fill="var(--text-dim)" font-size="10">EAC</text>
+<text x="110" y="190" fill="var(--accent)" font-size="10">Tympanic Membrane</text>
+<text x="140" y="125" fill="var(--text)" font-size="10">Ossicles</text>
+<text x="210" y="105" fill="var(--border)" font-size="10">Semicircular Canals</text>
+<text x="230" y="175" fill="var(--accent)" font-size="10">Cochlea</text>
+<text x="210" y="240" fill="var(--text-dim)" font-size="10">Eustachian Tube</text>
+<text x="280" y="285" fill="var(--text)" font-size="10">Nasopharynx</text>
+</svg>`,
+
+  'mbbs-ent-otitis-media': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<rect width="400" height="300" fill="var(--surface)"/>
+<circle cx="80" cy="120" r="50" fill="#ffe0e0" stroke="red" stroke-width="2"/>
+<circle cx="200" cy="120" r="50" fill="#e0e0e0" stroke="var(--text)" stroke-width="2"/>
+<circle cx="320" cy="120" r="50" fill="#e0e0e0" stroke="var(--text)" stroke-width="2"/>
+<path d="M 80 80 L 90 120 L 80 140" fill="none" stroke="red" stroke-width="3"/>
+<path d="M 200 80 L 210 120 L 200 140" fill="none" stroke="var(--text-dim)" stroke-width="3"/>
+<path d="M 320 80 L 330 120 L 320 140" fill="none" stroke="var(--text-dim)" stroke-width="3"/>
+<path d="M 60 100 Q 80 130, 70 150" fill="none" stroke="red" stroke-width="2"/>
+<path d="M 50 110 Q 70 140, 60 160" fill="none" stroke="red" stroke-width="1"/>
+<path d="M 100 90 Q 110 120, 90 150" fill="none" stroke="red" stroke-width="1"/>
+<circle cx="100" cy="130" r="15" fill="yellow" opacity="0.6"/>
+<circle cx="65" cy="110" r="10" fill="yellow" opacity="0.6"/>
+<circle cx="75" cy="140" r="8" fill="yellow" opacity="0.6"/>
+<circle cx="200" cy="130" r="15" fill="black"/>
+<circle cx="200" cy="120" r="40" fill="none" stroke="var(--text-dim)" stroke-dasharray="2,2"/>
+<path d="M 310 75 C 320 65, 330 65, 340 75 Z" fill="black"/>
+<circle cx="325" cy="72" r="8" fill="white" stroke="gray"/>
+<circle cx="332" cy="78" r="6" fill="white" stroke="gray"/>
+<circle cx="320" cy="82" r="5" fill="white" stroke="gray"/>
+<circle cx="328" cy="85" r="4" fill="white" stroke="gray"/>
+<text x="80" y="190" fill="var(--text)" font-size="12" text-anchor="middle">AOM</text>
+<text x="80" y="205" fill="var(--text-dim)" font-size="10" text-anchor="middle">Bulging, Erythema, Pus</text>
+<text x="200" y="190" fill="var(--text)" font-size="12" text-anchor="middle">Tubotympanic CSOM</text>
+<text x="200" y="205" fill="var(--text-dim)" font-size="10" text-anchor="middle">Central Perforation</text>
+<text x="320" y="190" fill="var(--text)" font-size="12" text-anchor="middle">Atticoantral CSOM</text>
+<text x="320" y="205" fill="var(--text-dim)" font-size="10" text-anchor="middle">Attic Perf + Cholesteatoma</text>
+<line x1="180" y1="230" x2="220" y2="230" stroke="var(--accent)" stroke-width="2"/>
+<line x1="300" y1="230" x2="340" y2="230" stroke="var(--accent)" stroke-width="2"/>
+<text x="200" y="245" fill="var(--accent)" font-size="10" text-anchor="middle">Safe Type</text>
+<text x="320" y="245" fill="red" font-size="10" text-anchor="middle">Unsafe Type</text>
+</svg>`,
+
+  'mbbs-ent-csom-complications': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<rect width="400" height="300" fill="var(--surface)"/>
+<path d="M 100 150 C 80 100, 120 40, 200 40 C 280 40, 320 100, 300 150" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 300 150 C 310 180, 280 210, 250 200 C 220 210, 200 240, 180 240" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 180 240 C 150 240, 120 200, 100 150" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 250 200 C 280 210, 290 240, 260 260" fill="none" stroke="var(--border)" stroke-width="2"/>
+<path d="M 260 260 C 230 250, 240 220, 250 200" fill="none" stroke="var(--border)" stroke-width="2"/>
+<circle cx="150" cy="180" r="20" fill="var(--surface)" stroke="var(--accent)" stroke-width="2"/>
+<circle cx="140" cy="170" r="4" fill="var(--accent)"/>
+<circle cx="160" cy="170" r="3" fill="var(--accent)"/>
+<circle cx="150" cy="190" r="5" fill="var(--accent)"/>
+<circle cx="140" cy="185" r="2" fill="var(--accent)"/>
+<circle cx="160" cy="185" r="2" fill="var(--accent)"/>
+<path d="M 170 180 Q 200 170, 200 220" fill="none" stroke="gold" stroke-width="3"/>
+<path d="M 200 220 L 200 260" fill="none" stroke="gold" stroke-width="3"/>
+<circle cx="190" cy="100" r="15" fill="red" opacity="0.7"/>
+<circle cx="190" cy="100" r="8" fill="yellow" opacity="0.8"/>
+<circle cx="270" cy="230" r="12" fill="red" opacity="0.7"/>
+<circle cx="270" cy="230" r="6" fill="yellow" opacity="0.8"/>
+<circle cx="130" cy="200" r="10" fill="red" opacity="0.7"/>
+<circle cx="130" cy="200" r="5" fill="yellow" opacity="0.8"/>
+<line x1="150" y1="160" x2="180" y2="115" stroke="var(--text)" stroke-width="1.5" stroke-dasharray="3,3"/>
+<polygon points="180,115 175,120 172,112" fill="var(--text)"/>
+<line x1="165" y1="190" x2="255" y2="225" stroke="var(--text)" stroke-width="1.5" stroke-dasharray="3,3"/>
+<polygon points="255,225 248,220 245,228" fill="var(--text)"/>
+<text x="210" y="90" fill="var(--text)" font-size="12">Temporal Lobe Abscess</text>
+<text x="290" y="240" fill="var(--text)" font-size="12">Cerebellar Abscess</text>
+<text x="80" y="215" fill="var(--text)" font-size="12">Mastoiditis</text>
+<text x="145" y="150" fill="var(--accent)" font-size="10">Middle Ear / Mastoid</text>
+<text x="205" y="260" fill="gold" font-size="10">Facial Nerve (VII)</text>
+<text x="200" y="25" fill="var(--text-dim)" font-size="14" font-weight="bold" text-anchor="middle">CSOM Intracranial &amp; Extracranial Complications</text>
+</svg>`,
+
+  'mbbs-ent-deafness': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<rect width="400" height="300" fill="var(--surface)"/>
+<g transform="translate(20, 20)">
+<line x1="30" y1="20" x2="30" y2="150" stroke="var(--text)" stroke-width="2"/>
+<line x1="30" y1="20" x2="180" y2="20" stroke="var(--text)" stroke-width="2"/>
+<line x1="30" y1="46" x2="180" y2="46" stroke="var(--border)" stroke-width="1" stroke-dasharray="2,2"/>
+<line x1="30" y1="72" x2="180" y2="72" stroke="var(--border)" stroke-width="1" stroke-dasharray="2,2"/>
+<line x1="30" y1="98" x2="180" y2="98" stroke="var(--border)" stroke-width="1" stroke-dasharray="2,2"/>
+<line x1="30" y1="124" x2="180" y2="124" stroke="var(--border)" stroke-width="1" stroke-dasharray="2,2"/>
+<line x1="60" y1="20" x2="60" y2="150" stroke="var(--border)" stroke-width="1" stroke-dasharray="2,2"/>
+<line x1="90" y1="20" x2="90" y2="150" stroke="var(--border)" stroke-width="1" stroke-dasharray="2,2"/>
+<line x1="120" y1="20" x2="120" y2="150" stroke="var(--border)" stroke-width="1" stroke-dasharray="2,2"/>
+<line x1="150" y1="20" x2="150" y2="150" stroke="var(--border)" stroke-width="1" stroke-dasharray="2,2"/>
+<text x="10" y="30" fill="var(--text)" font-size="10">0</text>
+<text x="5" y="70" fill="var(--text)" font-size="10">20</text>
+<text x="5" y="110" fill="var(--text)" font-size="10">40</text>
+<text x="5" y="150" fill="var(--text)" font-size="10">60</text>
+<text x="30" y="10" fill="var(--text-dim)" font-size="8">dB HL</text>
+<text x="50" y="165" fill="var(--text-dim)" font-size="8">250</text>
+<text x="80" y="165" fill="var(--text-dim)" font-size="8">500</text>
+<text x="110" y="165" fill="var(--text-dim)" font-size="8">1k</text>
+<text x="140" y="165" fill="var(--text-dim)" font-size="8">2k</text>
+<text x="170" y="165" fill="var(--text-dim)" font-size="8">4k</text>
+<line x1="50" y1="30" x2="80" y2="30" stroke="var(--text)" stroke-width="2" stroke-dasharray="4,4"/>
+<line x1="80" y1="30" x2="110" y2="35" stroke="var(--text)" stroke-width="2" stroke-dasharray="4,4"/>
+<line x1="110" y1="35" x2="140" y2="30" stroke="var(--text)" stroke-width="2" stroke-dasharray="4,4"/>
+<line x1="140" y1="30" x2="170" y2="40" stroke="var(--text)" stroke-width="2" stroke-dasharray="4,4"/>
+<path d="M 45 30 L 55 25 L 45 20" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 75 30 L 85 25 L 75 20" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 105 35 L 115 30 L 105 25" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 135 30 L 145 25 L 135 20" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 165 40 L 175 35 L 165 30" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<line x1="50" y1="90" x2="80" y2="95" stroke="var(--accent)" stroke-width="2"/>
+<line x1="80" y1="95" x2="110" y2="90" stroke="var(--accent)" stroke-width="2"/>
+<line x1="110" y1="90" x2="140" y2="100" stroke="var(--accent)" stroke-width="2"/>
+<line x1="140" y1="100" x2="170" y2="105" stroke="var(--accent)" stroke-width="2"/>
+<circle cx="50" cy="90" r="3" fill="var(--surface)" stroke="var(--accent)" stroke-width="1.5"/>
+<circle cx="80" cy="95" r="3" fill="var(--surface)" stroke="var(--accent)" stroke-width="1.5"/>
+<circle cx="110" cy="90" r="3" fill="var(--surface)" stroke="var(--accent)" stroke-width="1.5"/>
+<circle cx="140" cy="100" r="3" fill="var(--surface)" stroke="var(--accent)" stroke-width="1.5"/>
+<circle cx="170" cy="105" r="3" fill="var(--surface)" stroke="var(--accent)" stroke-width="1.5"/>
+<line x1="80" y1="35" x2="80" y2="85" stroke="var(--border)" stroke-width="2"/>
+<polygon points="80,85 77,80 83,80" fill="var(--border)"/>
+<polygon points="80,35 77,40 83,40" fill="var(--border)"/>
+<text x="85" y="65" fill="var(--text)" font-size="10">A-B Gap</text>
+<text x="60" y="185" fill="var(--text)" font-size="12" font-weight="bold">Conductive Hearing Loss</text>
+</g>
+<g transform="translate(200, 20)">
+<rect x="40" y="10" width="100" height="25" rx="5" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<text x="90" y="26" fill="var(--text)" font-size="10" text-anchor="middle">Weber Test</text>
+<line x1="90" y1="35" x2="40" y2="60" stroke="var(--text-dim)" stroke-width="1.5"/>
+<line x1="90" y1="35" x2="140" y2="60" stroke="var(--text-dim)" stroke-width="1.5"/>
+<rect x="0" y="60" width="80" height="35" rx="3" fill="none" stroke="var(--border)" stroke-width="1"/>
+<text x="40" y="73" fill="var(--text)" font-size="8" text-anchor="middle">Lateralizes to</text>
+<text x="40" y="85" fill="var(--text)" font-size="8" text-anchor="middle">POORER ear</text>
+<rect x="100" y="60" width="80" height="35" rx="3" fill="none" stroke="var(--border)" stroke-width="1"/>
+<text x="140" y="73" fill="var(--text)" font-size="8" text-anchor="middle">Lateralizes to</text>
+<text x="140" y="85" fill="var(--text)" font-size="8" text-anchor="middle">BETTER ear</text>
+<line x1="40" y1="95" x2="40" y2="115" stroke="var(--text-dim)" stroke-width="1.5"/>
+<line x1="140" y1="95" x2="140" y2="115" stroke="var(--text-dim)" stroke-width="1.5"/>
+<rect x="0" y="115" width="80" height="25" rx="3" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<text x="40" y="131" fill="var(--accent)" font-size="10" text-anchor="middle">Conductive Loss</text>
+<rect x="100" y="115" width="80" height="25" rx="3" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<text x="140" y="131" fill="var(--accent)" font-size="10" text-anchor="middle">Sensorineural Loss</text>
+<rect x="40" y="160" width="100" height="25" rx="5" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<text x="90" y="176" fill="var(--text)" font-size="10" text-anchor="middle">Rinne Test</text>
+<line x1="90" y1="185" x2="40" y2="210" stroke="var(--text-dim)" stroke-width="1.5"/>
+<line x1="90" y1="185" x2="140" y2="210" stroke="var(--text-dim)" stroke-width="1.5"/>
+<rect x="0" y="210" width="80" height="25" rx="3" fill="none" stroke="var(--border)" stroke-width="1"/>
+<text x="40" y="226" fill="var(--text)" font-size="8" text-anchor="middle">Positive (AC &amp;gt; BC)</text>
+<rect x="100" y="210" width="80" height="25" rx="3" fill="none" stroke="var(--border)" stroke-width="1"/>
+<text x="140" y="226" fill="var(--text)" font-size="8" text-anchor="middle">Negative (BC &amp;gt; AC)</text>
+<line x1="40" y1="235" x2="40" y2="255" stroke="var(--text-dim)" stroke-width="1.5"/>
+<line x1="140" y1="235" x2="140" y2="255" stroke="var(--text-dim)" stroke-width="1.5"/>
+<text x="40" y="265" fill="var(--accent)" font-size="10" text-anchor="middle">Normal / SNHL</text>
+<text x="140" y="265" fill="var(--accent)" font-size="10" text-anchor="middle">Conductive Loss</text>
+</g>
+</svg>`,
+
+  'mbbs-ent-vertigo': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<rect width="400" height="300" fill="var(--surface)"/>
+<g transform="translate(60, 80)">
+<polygon points="0,50 50,-30 100,50" fill="none" stroke="var(--accent)" stroke-width="3"/>
+<line x1="0" y1="50" x2="50" y2="-30" stroke="var(--accent)" stroke-width="1"/>
+<line x1="50" y1="-30" x2="100" y2="50" stroke="var(--accent)" stroke-width="1"/>
+<line x1="100" y1="50" x2="0" y2="50" stroke="var(--accent)" stroke-width="1"/>
+<circle cx="0" cy="50" r="4" fill="var(--accent)"/>
+<circle cx="50" cy="-30" r="4" fill="var(--accent)"/>
+<circle cx="100" cy="50" r="4" fill="var(--accent)"/>
+<text x="50" y="-40" fill="var(--text)" font-size="12" text-anchor="middle">Episodic Vertigo</text>
+<text x="-10" y="65" fill="var(--text)" font-size="12" text-anchor="middle">SNHL</text>
+<text x="110" y="65" fill="var(--text)" font-size="12" text-anchor="middle">Tinnitus</text>
+<text x="50" y="20" fill="var(--text-dim)" font-size="10" text-anchor="middle">Meniere\\'s Triad</text>
+</g>
+<g transform="translate(260, 70)">
+<path d="M 0 0 C -30 -30, -30 -70, 10 -70" fill="none" stroke="var(--border)" stroke-width="6"/>
+<path d="M 10 -70 C 50 -70, 50 -30, 20 0" fill="none" stroke="var(--border)" stroke-width="6"/>
+<path d="M 10 -10 C 40 10, 70 -10, 60 -40" fill="none" stroke="var(--text-dim)" stroke-width="6"/>
+<path d="M 60 -40 C 50 -70, 10 -50, 10 -20" fill="none" stroke="var(--text-dim)" stroke-width="6"/>
+<path d="M 5 5 C -20 30, -50 0, -30 -30" fill="none" stroke="var(--accent)" stroke-width="6"/>
+<path d="M -30 -30 C -10 -60, 20 -40, 10 -10" fill="none" stroke="var(--accent)" stroke-width="6"/>
+<circle cx="0" cy="0" r="15" fill="var(--surface)" stroke="var(--text)" stroke-width="2"/>
+<circle cx="-25" cy="-20" r="2" fill="var(--text)"/>
+<circle cx="-28" cy="-15" r="2" fill="var(--text)"/>
+<circle cx="-22" cy="-12" r="2" fill="var(--text)"/>
+<circle cx="-18" cy="-18" r="2" fill="var(--text)"/>
+<circle cx="-20" cy="-24" r="2" fill="var(--text)"/>
+<circle cx="-30" cy="-18" r="2" fill="var(--text)"/>
+<text x="20" y="30" fill="var(--text)" font-size="12" text-anchor="middle">BPPV (Otoliths in SCC)</text>
+</g>
+<g transform="translate(20, 220)">
+<text x="180" y="-30" fill="var(--text)" font-size="14" font-weight="bold" text-anchor="middle">Epley Maneuver</text>
+<circle cx="50" cy="0" r="15" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 65 0 L 70 -5 M 65 0 L 70 5" fill="none" stroke="var(--text)" stroke-width="2"/>
+<circle cx="50" cy="0" r="2" fill="var(--text)"/>
+<text x="50" y="30" fill="var(--text-dim)" font-size="10" text-anchor="middle">1. Head 45°</text>
+<line x1="80" y1="0" x2="110" y2="0" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow)"/>
+<polygon points="110,0 105,-3 105,3" fill="var(--accent)"/>
+<circle cx="140" cy="0" r="15" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 125 0 L 120 -5 M 125 0 L 120 5" fill="none" stroke="var(--text)" stroke-width="2"/>
+<circle cx="140" cy="0" r="2" fill="var(--text)"/>
+<text x="140" y="30" fill="var(--text-dim)" font-size="10" text-anchor="middle">2. Turn 90°</text>
+<line x1="170" y1="0" x2="200" y2="0" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow)"/>
+<polygon points="200,0 195,-3 195,3" fill="var(--accent)"/>
+<circle cx="230" cy="0" r="15" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 230 -15 L 225 -20 M 230 -15 L 235 -20" fill="none" stroke="var(--text)" stroke-width="2"/>
+<circle cx="230" cy="0" r="2" fill="var(--text)"/>
+<text x="230" y="30" fill="var(--text-dim)" font-size="10" text-anchor="middle">3. Roll body</text>
+<line x1="260" y1="0" x2="290" y2="0" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow)"/>
+<polygon points="290,0 285,-3 285,3" fill="var(--accent)"/>
+<circle cx="320" cy="0" r="15" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 320 15 L 315 20 M 320 15 L 325 20" fill="none" stroke="var(--text)" stroke-width="2"/>
+<circle cx="320" cy="0" r="2" fill="var(--text)"/>
+<text x="320" y="30" fill="var(--text-dim)" font-size="10" text-anchor="middle">4. Sit up</text>
+</g>
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent)"/>
+</marker>
+</defs>
+</svg>`,
+'mbbs-ent-nose-anatomy': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="var(--surface)"/>
+  <text x="200" y="25" fill="var(--text)" font-family="sans-serif" font-size="16" text-anchor="middle" font-weight="bold">Lateral Wall of Nose &amp; Osteomeatal Complex</text>
+  <path d="M40,80 C60,60 120,60 140,80 C160,100 160,180 140,200 C120,220 60,220 40,200 Z" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <path d="M140,100 C120,100 110,110 110,120 C110,130 120,140 140,140" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/>
+  <text x="145" y="125" fill="var(--text-dim)" font-family="sans-serif" font-size="12">Superior Turbinate</text>
+  <path d="M140,145 C110,145 90,155 90,170 C90,185 110,195 140,195" fill="none" stroke="var(--accent)" stroke-width="5" stroke-linecap="round"/>
+  <text x="145" y="175" fill="var(--text-dim)" font-family="sans-serif" font-size="12">Middle Turbinate</text>
+  <path d="M140,200 C100,200 70,220 70,240 C70,260 100,280 140,280" fill="none" stroke="var(--accent)" stroke-width="6" stroke-linecap="round"/>
+  <text x="145" y="245" fill="var(--text-dim)" font-family="sans-serif" font-size="12">Inferior Turbinate</text>
+  <circle cx="50" cy="120" r="5" fill="var(--border)"/>
+  <circle cx="50" cy="170" r="5" fill="var(--border)"/>
+  <circle cx="50" cy="240" r="5" fill="var(--border)"/>
+  <text x="35" y="125" fill="var(--text)" font-family="sans-serif" font-size="10" text-anchor="end">Meatuses</text>
+  <path d="M220,100 C240,60 280,60 300,100 L300,140 C280,160 240,160 220,140 Z" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <text x="260" y="125" fill="var(--text-dim)" font-family="sans-serif" font-size="12" text-anchor="middle">Maxillary Sinus</text>
+  <path d="M220,140 C200,140 190,130 190,110" fill="none" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M190,110 C190,90 200,80 220,80" fill="none" stroke="var(--accent)" stroke-width="3"/>
+  <circle cx="210" cy="150" r="10" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <text x="210" y="175" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">Uncinate Process</text>
+  <circle cx="180" cy="95" r="12" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <text x="180" y="75" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">Ethmoid Bulla</text>
+  <path d="M200,120 L210,130" fill="none" stroke="var(--accent)" stroke-width="2"/>
+  <path d="M250,220 C250,220 280,240 320,220 C360,200 380,240 380,240" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <path d="M260,230 L260,260 L360,260 L360,230" fill="none" stroke="var(--accent)" stroke-width="1" stroke-dasharray="4"/>
+</svg>`,
+  'mbbs-ent-epistaxis': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="var(--surface)"/>
+  <text x="200" y="20" fill="var(--text)" font-family="sans-serif" font-size="14" text-anchor="middle" font-weight="bold">Kiesselbach\'s Plexus &amp; Nasal Packing</text>
+  <path d="M50,80 C100,50 180,80 200,150 C200,220 150,280 50,280 Z" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <circle cx="90" cy="220" r="25" fill="var(--accent)" fill-opacity="0.2" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4"/>
+  <text x="90" y="255" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">Little\'s Area</text>
+  <path d="M90,220 L70,160" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+  <text x="60" y="155" fill="var(--text-dim)" font-family="sans-serif" font-size="9" text-anchor="end">Ant. Ethmoidal</text>
+  <path d="M90,220 L130,150" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+  <text x="135" y="145" fill="var(--text-dim)" font-family="sans-serif" font-size="9">Post. Ethmoidal</text>
+  <path d="M90,220 L170,180" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+  <text x="175" y="180" fill="var(--text-dim)" font-family="sans-serif" font-size="9">Sphenopalatine</text>
+  <path d="M90,220 L150,250" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+  <text x="155" y="255" fill="var(--text-dim)" font-family="sans-serif" font-size="9">Greater Palatine</text>
+  <path d="M90,220 L50,250" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+  <text x="45" y="255" fill="var(--text-dim)" font-family="sans-serif" font-size="9" text-anchor="end">Superior Labial</text>
+  <rect x="230" y="80" width="150" height="180" fill="none" stroke="var(--border)" stroke-width="2" rx="10"/>
+  <path d="M250,150 L350,150" fill="none" stroke="var(--border)" stroke-width="2" stroke-dasharray="4"/>
+  <text x="300" y="100" fill="var(--text)" font-family="sans-serif" font-size="12" text-anchor="middle" font-weight="bold">Anterior Packing</text>
+  <path d="M260,110 L280,110 L280,140 L260,140 Z" fill="var(--accent)" fill-opacity="0.3" stroke="var(--accent)" stroke-width="1"/>
+  <path d="M280,110 L300,110 L300,140 L280,140 Z" fill="var(--accent)" fill-opacity="0.3" stroke="var(--accent)" stroke-width="1"/>
+  <path d="M300,110 L320,110 L320,140 L300,140 Z" fill="var(--accent)" fill-opacity="0.3" stroke="var(--accent)" stroke-width="1"/>
+  <text x="300" y="180" fill="var(--text)" font-family="sans-serif" font-size="12" text-anchor="middle" font-weight="bold">Posterior Packing</text>
+  <circle cx="320" cy="210" r="15" fill="var(--accent)" fill-opacity="0.3" stroke="var(--accent)" stroke-width="2"/>
+  <path d="M320,210 L260,210" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <rect x="250" y="200" width="10" height="20" fill="var(--text-dim)"/>
+</svg>`,
+  'mbbs-ent-rhinitis': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="var(--surface)"/>
+  <text x="200" y="20" fill="var(--text)" font-family="sans-serif" font-size="16" text-anchor="middle" font-weight="bold">Rhinitis &amp; Sinusitis</text>
+  <path d="M30,80 C20,120 20,160 30,200 C60,200 80,150 80,100 C60,80 30,80 30,80 Z" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <path d="M80,140 C60,140 40,160 40,180 C40,200 60,200 80,180" fill="var(--accent)" fill-opacity="0.3" stroke="var(--accent)" stroke-width="2"/>
+  <text x="55" y="220" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">Pale Boggy</text>
+  <text x="55" y="235" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">Turbinate</text>
+  <circle cx="50" cy="170" r="3" fill="var(--text-dim)"/>
+  <circle cx="60" cy="180" r="3" fill="var(--text-dim)"/>
+  <circle cx="70" cy="165" r="3" fill="var(--text-dim)"/>
+  <rect x="120" y="50" width="120" height="230" fill="none" stroke="var(--border)" stroke-width="2" rx="5"/>
+  <text x="180" y="70" fill="var(--text)" font-family="sans-serif" font-size="12" text-anchor="middle" font-weight="bold">Timeline</text>
+  <path d="M150,100 L210,100" fill="none" stroke="var(--accent)" stroke-width="4"/>
+  <text x="180" y="90" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">&lt; 4 weeks</text>
+  <text x="180" y="115" fill="var(--text)" font-family="sans-serif" font-size="11" text-anchor="middle">Acute Sinusitis</text>
+  <path d="M150,150 L210,150" fill="none" stroke="var(--accent)" stroke-width="4" stroke-opacity="0.6"/>
+  <text x="180" y="140" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">4 - 12 weeks</text>
+  <text x="180" y="165" fill="var(--text)" font-family="sans-serif" font-size="11" text-anchor="middle">Subacute</text>
+  <path d="M150,200 L210,200" fill="none" stroke="var(--accent)" stroke-width="4" stroke-dasharray="2 2"/>
+  <text x="180" y="190" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">&gt; 12 weeks</text>
+  <text x="180" y="215" fill="var(--text)" font-family="sans-serif" font-size="11" text-anchor="middle">Chronic Sinusitis</text>
+  <path d="M180,120 L180,130" fill="none" stroke="var(--border)" stroke-width="1"/>
+  <path d="M180,170 L180,180" fill="none" stroke="var(--border)" stroke-width="1"/>
+  <path d="M260,100 C280,60 320,60 340,100 C360,150 340,200 300,200 C260,200 240,150 260,100 Z" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <path d="M260,100 C280,60 320,60 340,100 C360,150 340,200 300,200 C260,200 240,150 260,100 Z" fill="var(--text-dim)" fill-opacity="0.5"/>
+  <text x="300" y="220" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">Opaque Maxillary</text>
+  <text x="300" y="235" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">Sinus (CT Coronal)</text>
+  <circle cx="300" cy="140" r="15" fill="var(--surface)"/>
+  <path d="M300,125 L300,155 M285,140 L315,140" fill="none" stroke="var(--border)" stroke-width="1"/>
+</svg>`,
+  'mbbs-ent-nasal-polyps': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="var(--surface)"/>
+  <text x="200" y="20" fill="var(--text)" font-family="sans-serif" font-size="16" text-anchor="middle" font-weight="bold">Nasal Polyps &amp; Septal Deviation</text>
+  <path d="M50,100 C50,60 150,60 150,100 C150,180 150,260 100,260 C50,260 50,180 50,100 Z" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <path d="M100,60 C90,80 80,120 70,160 C70,180 90,190 95,170 C95,150 100,120 100,60 Z" fill="var(--accent)" fill-opacity="0.4" stroke="var(--accent)" stroke-width="1"/>
+  <path d="M100,60 C110,80 120,120 130,160 C130,180 110,190 105,170 C105,150 100,120 100,60 Z" fill="var(--accent)" fill-opacity="0.4" stroke="var(--accent)" stroke-width="1"/>
+  <text x="100" y="205" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">Bilateral</text>
+  <text x="100" y="220" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">Ethmoidal</text>
+  <circle cx="85" cy="160" r="3" fill="var(--border)"/>
+  <circle cx="115" cy="160" r="3" fill="var(--border)"/>
+  <path d="M220,100 C220,60 320,60 320,100 C320,180 320,260 270,260 C220,260 220,180 220,100 Z" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <path d="M230,130 C250,120 270,120 270,140 C270,160 250,170 250,190 C250,210 270,230 280,230 C290,230 310,210 310,190 C310,160 300,140 280,140" fill="var(--accent)" fill-opacity="0.4" stroke="var(--accent)" stroke-width="1"/>
+  <text x="270" y="280" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">Antrochoanal Polyp</text>
+  <rect x="180" y="50" width="10" height="200" fill="var(--surface)" stroke="var(--border)" stroke-width="2"/>
+  <path d="M190,150 L200,160 L190,170 Z" fill="var(--border)"/>
+  <text x="185" y="40" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">Deviated</text>
+  <text x="185" y="270" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">Septum (DNS)</text>
+  <path d="M250,180 L230,170" fill="none" stroke="var(--text)" stroke-width="1" stroke-dasharray="2"/>
+  <text x="225" y="165" fill="var(--text)" font-family="sans-serif" font-size="8" text-anchor="end">Maxillary</text>
+  <path d="M280,220 L300,230" fill="none" stroke="var(--text)" stroke-width="1" stroke-dasharray="2"/>
+  <text x="305" y="240" fill="var(--text)" font-family="sans-serif" font-size="8">Choana</text>
+</svg>`,
+  'mbbs-ent-pharynx-anatomy': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="var(--surface)"/>
+  <text x="200" y="20" fill="var(--text)" font-family="sans-serif" font-size="16" text-anchor="middle" font-weight="bold">Pharynx Anatomy &amp; Waldeyer\'s Ring</text>
+  <circle cx="120" cy="160" r="70" fill="none" stroke="var(--border)" stroke-width="2" stroke-dasharray="4 4"/>
+  <circle cx="120" cy="90" r="12" fill="var(--accent)" fill-opacity="0.6"/>
+  <text x="120" y="70" fill="var(--text)" font-family="sans-serif" font-size="10" text-anchor="middle">Pharyngeal (Adenoid)</text>
+  <circle cx="60" cy="130" r="8" fill="var(--accent)" fill-opacity="0.4"/>
+  <circle cx="180" cy="130" r="8" fill="var(--accent)" fill-opacity="0.4"/>
+  <text x="50" y="125" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="end">Tubal</text>
+  <text x="190" y="125" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Tubal</text>
+  <ellipse cx="70" cy="190" rx="10" ry="15" fill="var(--accent)" fill-opacity="0.6"/>
+  <ellipse cx="170" cy="190" rx="10" ry="15" fill="var(--accent)" fill-opacity="0.6"/>
+  <text x="50" y="215" fill="var(--text)" font-family="sans-serif" font-size="10" text-anchor="end">Palatine</text>
+  <text x="190" y="215" fill="var(--text)" font-family="sans-serif" font-size="10">Palatine</text>
+  <ellipse cx="120" cy="230" rx="20" ry="10" fill="var(--accent)" fill-opacity="0.6"/>
+  <text x="120" y="255" fill="var(--text)" font-family="sans-serif" font-size="10" text-anchor="middle">Lingual</text>
+  <path d="M280,60 L280,120 L300,120 L300,180 L280,180 L280,260" fill="none" stroke="var(--border)" stroke-width="3"/>
+  <path d="M280,120 L360,120" fill="none" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="2"/>
+  <path d="M280,180 L360,180" fill="none" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="2"/>
+  <text x="320" y="95" fill="var(--text)" font-family="sans-serif" font-size="12" text-anchor="middle">Nasopharynx</text>
+  <text x="320" y="155" fill="var(--text)" font-family="sans-serif" font-size="12" text-anchor="middle">Oropharynx</text>
+  <text x="320" y="225" fill="var(--text)" font-family="sans-serif" font-size="12" text-anchor="middle">Hypopharynx</text>
+  <text x="260" y="120" fill="var(--text-dim)" font-family="sans-serif" font-size="8" text-anchor="end">Hard Palate</text>
+  <text x="260" y="180" fill="var(--text-dim)" font-family="sans-serif" font-size="8" text-anchor="end">Hyoid Bone</text>
+</svg>`,
+'mbbs-ent-tonsillitis': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <g stroke="var(--text)" stroke-width="2" fill="none">
+    <path d="M50,80 Q100,50 150,80 Q150,150 100,180 Q50,150 50,80" fill="var(--surface)"/>
+    <path d="M60,90 Q100,70 140,90 L140,100 Q100,80 60,100 Z" fill="var(--border)"/>
+    <path d="M60,160 Q100,180 140,160 L140,150 Q100,170 60,150 Z" fill="var(--border)"/>
+    <path d="M80,95 Q100,85 120,95 Q130,120 100,125 Q70,120 80,95" fill="var(--text-dim)"/>
+    <circle cx="100" cy="100" r="15" fill="var(--surface)"/>
+    <path d="M70,100 Q60,120 70,140 Q80,120 70,100" fill="var(--accent)"/>
+    <path d="M130,100 Q140,120 130,140 Q120,120 130,100" fill="var(--accent)"/>
+    <circle cx="70" cy="110" r="3" fill="var(--surface)"/>
+    <circle cx="72" cy="125" r="2.5" fill="var(--surface)"/>
+    <circle cx="132" cy="115" r="3" fill="var(--surface)"/>
+    <circle cx="128" cy="130" r="2" fill="var(--surface)"/>
+    <circle cx="68" cy="118" r="2" fill="var(--surface)"/>
+    <path d="M250,50 Q280,50 290,70 Q280,100 290,120 Q300,140 280,160 Q260,160 250,150" stroke="var(--text)" fill="none"/>
+    <circle cx="270" cy="80" r="2" fill="var(--text)"/>
+    <path d="M285,115 L295,115" stroke="var(--text)"/>
+    <line x1="250" y1="200" x2="350" y2="200" stroke="var(--text)"/>
+    <line x1="250" y1="200" x2="250" y2="280" stroke="var(--text)"/>
+    <rect x="260" y="210" width="20" height="70" fill="var(--accent)"/>
+    <rect x="290" y="230" width="20" height="50" fill="var(--text-dim)"/>
+    <rect x="320" y="250" width="20" height="30" fill="var(--border)"/>
+    <text x="100" y="40" fill="var(--text)" font-family="sans-serif" font-size="14" text-anchor="middle">Acute Tonsillitis</text>
+    <text x="270" y="40" fill="var(--text)" font-family="sans-serif" font-size="14" text-anchor="middle">Adenoid Facies</text>
+    <text x="300" y="190" fill="var(--text)" font-family="sans-serif" font-size="14" text-anchor="middle">Paradise Criteria</text>
+    <text x="270" y="295" fill="var(--text)" font-family="sans-serif" font-size="12" text-anchor="middle">7/yr</text>
+    <text x="300" y="295" fill="var(--text)" font-family="sans-serif" font-size="12" text-anchor="middle">5/yr</text>
+    <text x="330" y="295" fill="var(--text)" font-family="sans-serif" font-size="12" text-anchor="middle">3/yr</text>
+  </g>
+</svg>`,
+  'mbbs-ent-pharyngeal-abscesses': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <g stroke="var(--text)" stroke-width="2" fill="none">
+    <text x="100" y="30" fill="var(--text)" font-family="sans-serif" font-size="14" text-anchor="middle" stroke="none">Quinsy (Peritonsillar)</text>
+    <path d="M30,60 Q100,40 170,60 Q170,160 100,180 Q30,160 30,60" fill="var(--surface)"/>
+    <path d="M40,70 Q100,50 160,70 L160,80 Q100,60 40,80 Z" fill="var(--border)"/>
+    <path d="M40,150 Q100,170 160,150 L160,140 Q100,160 40,140 Z" fill="var(--border)"/>
+    <path d="M120,70 Q160,110 130,140 Q90,140 110,100" fill="var(--accent)" opacity="0.6"/>
+    <path d="M50,80 Q70,110 60,130 Q40,110 50,80" fill="var(--text-dim)"/>
+    <path d="M100,70 Q100,100 80,120 Q70,100 90,70" fill="var(--surface)" stroke="var(--text)"/>
+    <circle cx="125" cy="105" r="15" fill="var(--accent)" stroke="none"/>
+    <path d="M120,105 L130,105 M125,100 L125,110" stroke="var(--surface)"/>
+    <path d="M90,125 L70,125" stroke="var(--text)" marker-end="url(#arrow)"/>
+    <text x="300" y="30" fill="var(--text)" font-family="sans-serif" font-size="14" text-anchor="middle" stroke="none">Retropharyngeal Abscess</text>
+    <path d="M230,60 Q260,60 270,80 Q250,110 260,150 Q260,180 250,220" stroke="var(--border)"/>
+    <path d="M320,60 L320,220 M340,60 L340,220" stroke="var(--text-dim)" stroke-dasharray="4,4"/>
+    <path d="M270,80 Q290,120 280,160" stroke="var(--text)"/>
+    <path d="M280,90 Q315,120 280,160" fill="var(--accent)" opacity="0.6" stroke="var(--accent)"/>
+    <line x1="310" y1="125" x2="330" y2="125" stroke="var(--text)" marker-end="url(#arrow)"/>
+    <line x1="285" y1="125" x2="265" y2="125" stroke="var(--text)" marker-end="url(#arrow)"/>
+    <defs>
+      <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text)"/>
+      </marker>
+    </defs>
+    <text x="350" y="130" fill="var(--text)" font-family="sans-serif" font-size="12" stroke="none">Spine</text>
+    <text x="250" y="130" fill="var(--text)" font-family="sans-serif" font-size="12" stroke="none">Pharynx</text>
+    <text x="300" y="250" fill="var(--accent)" font-family="sans-serif" font-size="12" text-anchor="middle" stroke="none">Widened Prevertebral Space</text>
+    <text x="100" y="250" fill="var(--text)" font-family="sans-serif" font-size="12" text-anchor="middle" stroke="none">Uvula Deviation</text>
+  </g>
+</svg>`,
+  'mbbs-ent-laryngeal-stridor': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <g stroke="var(--text)" stroke-width="2" fill="none">
+    <text x="100" y="30" fill="var(--text)" font-family="sans-serif" font-size="14" text-anchor="middle" stroke="none">Normal Open</text>
+    <circle cx="100" cy="80" r="40" stroke="var(--border)" fill="var(--surface)"/>
+    <path d="M100,45 L80,110 M100,45 L120,110" stroke="var(--text)"/>
+    <text x="200" y="30" fill="var(--text)" font-family="sans-serif" font-size="14" text-anchor="middle" stroke="none">Vocal Nodules</text>
+    <circle cx="200" cy="80" r="40" stroke="var(--border)" fill="var(--surface)"/>
+    <path d="M200,45 L180,110 M200,45 L220,110" stroke="var(--text)"/>
+    <circle cx="193" cy="65" r="3" fill="var(--accent)" stroke="none"/>
+    <circle cx="207" cy="65" r="3" fill="var(--accent)" stroke="none"/>
+    <text x="300" y="30" fill="var(--text)" font-family="sans-serif" font-size="14" text-anchor="middle" stroke="none">RLN Palsy (L)</text>
+    <circle cx="300" cy="80" r="40" stroke="var(--border)" fill="var(--surface)"/>
+    <path d="M300,45 L280,110" stroke="var(--text)"/>
+    <path d="M300,45 L305,110" stroke="var(--accent)"/>
+    <line x1="320" y1="70" x2="310" y2="70" marker-end="url(#arrow)" stroke="var(--text)"/>
+    <text x="100" y="160" fill="var(--text)" font-family="sans-serif" font-size="14" text-anchor="middle" stroke="none">Normal Closed</text>
+    <circle cx="100" cy="210" r="40" stroke="var(--border)" fill="var(--surface)"/>
+    <path d="M100,175 L100,245" stroke="var(--text)"/>
+    <text x="250" y="160" fill="var(--text)" font-family="sans-serif" font-size="14" text-anchor="middle" stroke="none">Nodules Location (Singer\'s nodes)</text>
+    <path d="M180,180 L320,180 M225,175 L225,185 M275,175 L275,185" stroke="var(--text-dim)"/>
+    <text x="200" y="200" fill="var(--text)" font-family="sans-serif" font-size="12" text-anchor="middle" stroke="none">Ant 1/3</text>
+    <text x="295" y="200" fill="var(--text)" font-family="sans-serif" font-size="12" text-anchor="middle" stroke="none">Post 2/3</text>
+    <circle cx="225" cy="180" r="5" fill="var(--accent)" stroke="none"/>
+    <text x="225" y="220" fill="var(--accent)" font-family="sans-serif" font-size="12" text-anchor="middle" stroke="none">Junction</text>
+    <path d="M225,205 L225,190" stroke="var(--accent)" marker-end="url(#arrow)"/>
+    <defs>
+      <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text)"/>
+      </marker>
+    </defs>
+  </g>
+</svg>`,
+  'mbbs-ent-tracheostomy': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <g stroke="var(--text)" stroke-width="2" fill="none">
+    <text x="120" y="30" fill="var(--text)" font-family="sans-serif" font-size="14" text-anchor="middle" stroke="none">Neck Anatomy &amp; Incision</text>
+    <path d="M100,50 L140,50 L130,80 L110,80 Z" fill="var(--surface)" stroke="var(--text-dim)"/>
+    <text x="60" y="65" fill="var(--text-dim)" font-family="sans-serif" font-size="12" stroke="none">Thyroid Cart.</text>
+    <rect x="110" y="85" width="20" height="10" rx="3" fill="var(--surface)" stroke="var(--border)"/>
+    <text x="60" y="95" fill="var(--border)" font-family="sans-serif" font-size="12" stroke="none">Cricoid Cart.</text>
+    <rect x="110" y="105" width="20" height="8" rx="2" fill="var(--surface)" stroke="var(--text)"/>
+    <rect x="110" y="118" width="20" height="8" rx="2" fill="var(--surface)" stroke="var(--text)"/>
+    <rect x="110" y="131" width="20" height="8" rx="2" fill="var(--surface)" stroke="var(--text)"/>
+    <rect x="110" y="144" width="20" height="8" rx="2" fill="var(--surface)" stroke="var(--text)"/>
+    <rect x="110" y="157" width="20" height="8" rx="2" fill="var(--surface)" stroke="var(--text)"/>
+    <text x="145" y="113" fill="var(--text)" font-family="sans-serif" font-size="10" stroke="none">1st Ring</text>
+    <text x="145" y="126" fill="var(--text)" font-family="sans-serif" font-size="10" stroke="none">2nd Ring</text>
+    <text x="145" y="139" fill="var(--text)" font-family="sans-serif" font-size="10" stroke="none">3rd Ring</text>
+    <text x="145" y="152" fill="var(--text)" font-family="sans-serif" font-size="10" stroke="none">4th Ring</text>
+    <line x1="100" y1="128" x2="140" y2="128" stroke="var(--accent)" stroke-dasharray="4,2" stroke-width="3"/>
+    <text x="180" y="132" fill="var(--accent)" font-family="sans-serif" font-size="12" stroke="none">Incision (2nd-3rd ring)</text>
+    <text x="280" y="30" fill="var(--text)" font-family="sans-serif" font-size="14" text-anchor="middle" stroke="none">Cross Section</text>
+    <circle cx="280" cy="120" r="40" stroke="var(--border)" stroke-width="4" fill="var(--surface)"/>
+    <path d="M280,80 Q320,80 320,120 Q320,160 280,160" stroke="var(--text)" fill="none" stroke-width="4"/>
+    <text x="280" y="65" fill="var(--text)" font-family="sans-serif" font-size="12" text-anchor="middle" stroke="none">Trachea (Cartilage)</text>
+    <path d="M280,200 L280,120 A 15 15 0 0 1 295 105 L300,105 L300,135 L295,135 A 15 15 0 0 0 280 150 L280,200 Z" fill="var(--text-dim)" stroke="var(--text)"/>
+    <ellipse cx="295" cy="120" rx="10" ry="15" fill="var(--accent)" opacity="0.5" stroke="var(--accent)"/>
+    <text x="330" y="125" fill="var(--accent)" font-family="sans-serif" font-size="12" stroke="none">Cuff Balloon</text>
+    <text x="210" y="190" fill="var(--text-dim)" font-family="sans-serif" font-size="12" stroke="none">Tracheostomy Tube</text>
+    <line x1="270" y1="185" x2="250" y2="185" stroke="var(--text-dim)" marker-end="url(#arrow)"/>
+    <defs>
+      <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text)"/>
+      </marker>
+    </defs>
+  </g>
+</svg>`,
+  'mbbs-ent-head-neck-cancers': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <g stroke="var(--text)" stroke-width="2" fill="none">
+    <text x="120" y="30" fill="var(--text)" font-family="sans-serif" font-size="14" text-anchor="middle" stroke="none">Neck Dissection Levels</text>
+    <path d="M40,50 L80,100 L160,100 L200,180 L200,220 L40,220 Z" stroke="var(--border)" fill="var(--surface)"/>
+    <path d="M80,100 L140,220 M110,100 L160,200" stroke="var(--text-dim)" fill="none"/>
+    <path d="M120,100 L180,220" stroke="var(--text-dim)" fill="none" opacity="0.5"/>
+    <text x="70" y="90" fill="var(--accent)" font-family="sans-serif" font-size="12" stroke="none">I</text>
+    <text x="100" y="120" fill="var(--text)" font-family="sans-serif" font-size="12" stroke="none">II</text>
+    <text x="120" y="160" fill="var(--text)" font-family="sans-serif" font-size="12" stroke="none">III</text>
+    <text x="140" y="200" fill="var(--text)" font-family="sans-serif" font-size="12" stroke="none">IV</text>
+    <text x="170" y="160" fill="var(--text)" font-family="sans-serif" font-size="12" stroke="none">V</text>
+    <text x="60" y="160" fill="var(--text)" font-family="sans-serif" font-size="12" stroke="none">VI</text>
+    <line x1="80" y1="130" x2="140" y2="130" stroke="var(--border)" stroke-dasharray="2,2"/>
+    <line x1="95" y1="170" x2="160" y2="170" stroke="var(--border)" stroke-dasharray="2,2"/>
+    <text x="300" y="30" fill="var(--text)" font-family="sans-serif" font-size="14" text-anchor="middle" stroke="none">Laryngeal Cancer Spread</text>
+    <rect x="260" y="60" width="80" height="40" fill="var(--surface)" stroke="var(--text)"/>
+    <rect x="260" y="100" width="80" height="30" fill="var(--accent)" opacity="0.2" stroke="var(--text)"/>
+    <rect x="260" y="130" width="80" height="40" fill="var(--surface)" stroke="var(--text)"/>
+    <text x="300" y="85" fill="var(--text)" font-family="sans-serif" font-size="12" text-anchor="middle" stroke="none">Supraglottic</text>
+    <text x="300" y="120" fill="var(--text)" font-family="sans-serif" font-size="12" text-anchor="middle" stroke="none">Glottic</text>
+    <text x="300" y="155" fill="var(--text)" font-family="sans-serif" font-size="12" text-anchor="middle" stroke="none">Subglottic</text>
+    <path d="M345,70 Q370,60 380,80" stroke="var(--accent)" marker-end="url(#arrow)"/>
+    <path d="M345,90 Q370,100 380,80" stroke="var(--accent)" marker-end="url(#arrow)"/>
+    <text x="360" y="55" fill="var(--accent)" font-family="sans-serif" font-size="10" stroke="none">Rich Lymph</text>
+    <path d="M345,115 L360,115" stroke="var(--border)" marker-end="url(#arrow)"/>
+    <text x="365" y="118" fill="var(--text-dim)" font-family="sans-serif" font-size="10" stroke="none">Poor Lymph</text>
+    <path d="M300,175 L300,195" stroke="var(--text)" marker-end="url(#arrow)"/>
+    <text x="300" y="210" fill="var(--text)" font-family="sans-serif" font-size="10" text-anchor="middle" stroke="none">To Paratracheal Nodes</text>
+    <circle cx="345" cy="70" r="2" fill="var(--accent)"/>
+    <circle cx="345" cy="90" r="2" fill="var(--accent)"/>
+    <circle cx="345" cy="115" r="2" fill="var(--border)"/>
+    <defs>
+      <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text)"/>
+      </marker>
+    </defs>
+  </g>
+</svg>`
 };
