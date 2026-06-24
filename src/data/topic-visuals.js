@@ -3033,6 +3033,11 @@ export const TOPIC_VISUALS = {
             ]
       }
     ]
+  },
+  mbbs_ophthalmology: {
+    "title": "MBBS Ophthalmology",
+    "slug": "mbbs_ophthalmology",
+    "topics": []
   }
 };
 
@@ -3098,6 +3103,7 @@ export function getTopicVisualsKey(subj) {
   if (name.includes('microbiology') || name.includes('micro'))  return 'mbbs_microbiology';
   if (name.includes('pathology'))                               return 'mbbs_pathology';
   if (name.includes('community'))                               return 'mbbs_community_medicine';
+  if (name.includes('ophthalmology') || name.includes('opth'))  return 'mbbs_ophthalmology';
   if (name.includes('medicine') && !name.includes('forensic') && !name.includes('community')) return 'mbbs_medicine';
   return null;
 }
