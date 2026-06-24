@@ -1710,5 +1710,1261 @@ export const TOPIC_SVGS_MBBS = {
   'mbbs-comm-communicable-disease-control': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><style>rect{fill:var(--surface)}.lbl{font-family:sans-serif;fill:var(--text);font-size:11px;font-weight:600}.sm{font-family:sans-serif;fill:var(--text-dim);font-size:9px}</style><rect width="400" height="300" rx="8"/><text x="200" y="14" text-anchor="middle" class="lbl" style="font-size:13px">Communicable Disease Control — Surveillance and Outbreak</text><line x1="8" y1="18" x2="392" y2="18" stroke="var(--text-dim)" stroke-width="0.5"/><text x="8" y="30" class="lbl">Outbreak Investigation — 10 Steps</text><rect x="8" y="34" width="183" height="130" rx="3" fill="var(--accent)" opacity=".08" stroke="var(--accent)" stroke-width="1"/><text x="14" y="50" class="sm"><tspan style="font-weight:600">1.</tspan> Verify diagnosis — lab confirmation</text><text x="14" y="64" class="sm"><tspan style="font-weight:600">2.</tspan> Confirm outbreak — expected vs observed</text><text x="14" y="78" class="sm"><tspan style="font-weight:600">3.</tspan> Define a case — case definition (lab/clinical)</text><text x="14" y="92" class="sm"><tspan style="font-weight:600">4.</tspan> Identify cases — active case finding</text><text x="14" y="106" class="sm"><tspan style="font-weight:600">5.</tspan> Describe by time, place, person (epi curve)</text><text x="14" y="120" class="sm"><tspan style="font-weight:600">6.</tspan> Develop hypothesis — source, route, risk</text><text x="14" y="134" class="sm"><tspan style="font-weight:600">7.</tspan> Test hypothesis — analytical study</text><text x="14" y="148" class="sm"><tspan style="font-weight:600">8.</tspan> Compare with hypothesis</text><text x="14" y="158" class="sm"><tspan style="font-weight:600">9.</tspan> Implement control measures</text><rect x="205" y="34" width="183" height="130" rx="3" fill="#4a9" opacity=".08" stroke="#4a9" stroke-width="1"/><text x="211" y="50" class="sm" style="font-weight:600">Surveillance Types</text><text x="211" y="64" class="sm">Active: seek cases proactively</text><text x="211" y="78" class="sm">Passive: rely on routine reporting</text><text x="211" y="92" class="sm">Sentinel: select sites/reporters</text><text x="211" y="106" class="sm">Event-based: rapid response</text><text x="211" y="122" class="sm" style="font-weight:600">Epi Curve Types</text><text x="211" y="136" class="sm">Point source: sharp peak, common</text><text x="211" y="148" class="sm">Propagated: successive waves (person-</text><text x="211" y="160" class="sm">to-person) — measles, COVID-19</text><line x1="8" y1="172" x2="392" y2="172" stroke="var(--text-dim)" stroke-width="0.5"/><text x="8" y="184" class="lbl">Chain of Infection and Interruption</text><rect x="8" y="188" width="55" height="40" rx="3" fill="#c55" opacity=".15" stroke="#c55" stroke-width="1"/><text x="35" y="204" text-anchor="middle" class="sm" style="font-weight:600">Agent</text><text x="35" y="218" text-anchor="middle" class="sm">bacteria virus</text><line x1="65" y1="208" x2="73" y2="208" stroke="var(--accent)" stroke-width="1.5"/><polygon points="71,204 79,208 71,212" fill="var(--accent)"/><rect x="79" y="188" width="55" height="40" rx="3" fill="var(--accent)" opacity=".15" stroke="var(--accent)" stroke-width="1"/><text x="106" y="204" text-anchor="middle" class="sm" style="font-weight:600">Reservoir</text><text x="106" y="218" text-anchor="middle" class="sm">human animal</text><line x1="136" y1="208" x2="144" y2="208" stroke="var(--accent)" stroke-width="1.5"/><polygon points="142,204 150,208 142,212" fill="var(--accent)"/><rect x="150" y="188" width="55" height="40" rx="3" fill="var(--accent)" opacity=".12" stroke="var(--accent)" stroke-width="1"/><text x="177" y="204" text-anchor="middle" class="sm" style="font-weight:600">Portal Exit</text><text x="177" y="218" text-anchor="middle" class="sm">resp, GI</text><line x1="207" y1="208" x2="215" y2="208" stroke="var(--accent)" stroke-width="1.5"/><polygon points="213,204 221,208 213,212" fill="var(--accent)"/><rect x="221" y="188" width="55" height="40" rx="3" fill="#4a9" opacity=".12" stroke="#4a9" stroke-width="1"/><text x="248" y="204" text-anchor="middle" class="sm" style="font-weight:600">Transmit</text><text x="248" y="218" text-anchor="middle" class="sm">droplet food</text><line x1="278" y1="208" x2="286" y2="208" stroke="var(--accent)" stroke-width="1.5"/><polygon points="284,204 292,208 284,212" fill="var(--accent)"/><rect x="292" y="188" width="55" height="40" rx="3" fill="#4a9" opacity=".15" stroke="#4a9" stroke-width="1"/><text x="319" y="204" text-anchor="middle" class="sm" style="font-weight:600">Portal Entry</text><text x="319" y="218" text-anchor="middle" class="sm">mouth mucosa</text><line x1="349" y1="208" x2="357" y2="208" stroke="var(--accent)" stroke-width="1.5"/><polygon points="355,204 363,208 355,212" fill="var(--accent)"/><rect x="363" y="188" width="29" height="40" rx="3" fill="#c55" opacity=".2" stroke="#c55" stroke-width="1"/><text x="377" y="204" text-anchor="middle" class="sm" style="font-weight:600">Host</text><text x="377" y="218" text-anchor="middle" class="sm">suscept</text><line x1="8" y1="236" x2="392" y2="236" stroke="var(--text-dim)" stroke-width="0.5"/><text x="8" y="248" class="lbl">Isolation vs Quarantine</text><rect x="8" y="252" width="183" height="40" rx="3" fill="#c55" opacity=".1" stroke="#c55" stroke-width="1"/><text x="100" y="267" text-anchor="middle" class="sm" style="font-weight:600">Isolation</text><text x="100" y="281" text-anchor="middle" class="sm">Separation of confirmed CASES from healthy</text><text x="100" y="291" text-anchor="middle" class="sm">Until non-infectious. LEGAL obligation</text><rect x="205" y="252" width="183" height="40" rx="3" fill="var(--accent)" opacity=".1" stroke="var(--accent)" stroke-width="1"/><text x="296" y="267" text-anchor="middle" class="sm" style="font-weight:600">Quarantine</text><text x="296" y="281" text-anchor="middle" class="sm">Restriction of EXPOSED contacts</text><text x="296" y="291" text-anchor="middle" class="sm">Duration = max incubation period</text></svg>`,
   'mbbs-comm-ncd-control': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><style>rect{fill:var(--surface)}.lbl{font-family:sans-serif;fill:var(--text);font-size:11px;font-weight:600}.sm{font-family:sans-serif;fill:var(--text-dim);font-size:9px}</style><rect width="400" height="300" rx="8"/><text x="200" y="14" text-anchor="middle" class="lbl" style="font-size:13px">Non-Communicable Disease Control — NCD Burden Bangladesh</text><line x1="8" y1="18" x2="392" y2="18" stroke="var(--text-dim)" stroke-width="0.5"/><text x="8" y="30" class="lbl">Major NCDs and Risk Factors</text><rect x="8" y="34" width="88" height="50" rx="3" fill="#c55" opacity=".15" stroke="#c55" stroke-width="1"/><text x="52" y="50" text-anchor="middle" class="sm" style="font-weight:600;fill:#c55">CVD</text><text x="52" y="64" text-anchor="middle" class="sm">IHD stroke HF</text><text x="52" y="76" text-anchor="middle" class="sm">30% of deaths BD</text><rect x="104" y="34" width="88" height="50" rx="3" fill="#c55" opacity=".12" stroke="#c55" stroke-width="1"/><text x="148" y="50" text-anchor="middle" class="sm" style="font-weight:600;fill:#c55">Cancer</text><text x="148" y="64" text-anchor="middle" class="sm">Lung, cervix, mouth</text><text x="148" y="76" text-anchor="middle" class="sm">12% of deaths</text><rect x="200" y="34" width="88" height="50" rx="3" fill="var(--accent)" opacity=".15" stroke="var(--accent)" stroke-width="1"/><text x="244" y="50" text-anchor="middle" class="sm" style="font-weight:600">Diabetes</text><text x="244" y="64" text-anchor="middle" class="sm">12% adults BD</text><text x="244" y="76" text-anchor="middle" class="sm">type 2 dominant</text><rect x="296" y="34" width="96" height="50" rx="3" fill="#4a9" opacity=".12" stroke="#4a9" stroke-width="1"/><text x="344" y="50" text-anchor="middle" class="sm" style="font-weight:600">COPD/Asthma</text><text x="344" y="64" text-anchor="middle" class="sm">Biomass fuel BD</text><text x="344" y="76" text-anchor="middle" class="sm">rural women</text><line x1="8" y1="91" x2="392" y2="91" stroke="var(--text-dim)" stroke-width="0.5"/><text x="8" y="103" class="lbl">Shared Modifiable Risk Factors</text><rect x="8" y="107" width="88" height="44" rx="3" fill="var(--accent)" opacity=".12" stroke="var(--accent)" stroke-width="1"/><text x="52" y="123" text-anchor="middle" class="sm" style="font-weight:600">Tobacco</text><text x="52" y="137" text-anchor="middle" class="sm">35% men smoke BD</text><rect x="104" y="107" width="88" height="44" rx="3" fill="#c55" opacity=".12" stroke="#c55" stroke-width="1"/><text x="148" y="123" text-anchor="middle" class="sm" style="font-weight:600">Physical</text><text x="148" y="137" text-anchor="middle" class="sm">Inactivity &gt;150 min/wk</text><rect x="200" y="107" width="88" height="44" rx="3" fill="#4a9" opacity=".12" stroke="#4a9" stroke-width="1"/><text x="244" y="123" text-anchor="middle" class="sm" style="font-weight:600">Unhealthy Diet</text><text x="244" y="137" text-anchor="middle" class="sm">Salt, fat, sugar</text><rect x="296" y="107" width="96" height="44" rx="3" fill="var(--accent)" opacity=".12" stroke="var(--accent)" stroke-width="1"/><text x="344" y="123" text-anchor="middle" class="sm" style="font-weight:600">Alcohol</text><text x="344" y="137" text-anchor="middle" class="sm">Though low BD</text><line x1="8" y1="158" x2="392" y2="158" stroke="var(--text-dim)" stroke-width="0.5"/><text x="8" y="170" class="lbl">HEARTS Package (WHO 2018) — Hypertension</text><rect x="8" y="174" width="55" height="50" rx="3" fill="#c55" opacity=".12" stroke="#c55" stroke-width="1"/><text x="35" y="190" text-anchor="middle" class="sm" style="font-weight:600">H</text><text x="35" y="204" text-anchor="middle" class="sm">Healthy</text><text x="35" y="218" text-anchor="middle" class="sm">lifestyle</text><rect x="71" y="174" width="55" height="50" rx="3" fill="var(--accent)" opacity=".12" stroke="var(--accent)" stroke-width="1"/><text x="98" y="190" text-anchor="middle" class="sm" style="font-weight:600">E</text><text x="98" y="204" text-anchor="middle" class="sm">Evidence-</text><text x="98" y="218" text-anchor="middle" class="sm">based Rx</text><rect x="134" y="174" width="55" height="50" rx="3" fill="#4a9" opacity=".12" stroke="#4a9" stroke-width="1"/><text x="161" y="190" text-anchor="middle" class="sm" style="font-weight:600">A</text><text x="161" y="204" text-anchor="middle" class="sm">Access to</text><text x="161" y="218" text-anchor="middle" class="sm">medicines</text><rect x="197" y="174" width="55" height="50" rx="3" fill="var(--accent)" opacity=".15" stroke="var(--accent)" stroke-width="1"/><text x="224" y="190" text-anchor="middle" class="sm" style="font-weight:600">R</text><text x="224" y="204" text-anchor="middle" class="sm">Risk-based</text><text x="224" y="218" text-anchor="middle" class="sm">CVD</text><rect x="260" y="174" width="55" height="50" rx="3" fill="#c55" opacity=".15" stroke="#c55" stroke-width="1"/><text x="287" y="190" text-anchor="middle" class="sm" style="font-weight:600">T</text><text x="287" y="204" text-anchor="middle" class="sm">Training</text><text x="287" y="218" text-anchor="middle" class="sm">workforce</text><rect x="323" y="174" width="69" height="50" rx="3" fill="#4a9" opacity=".15" stroke="#4a9" stroke-width="1"/><text x="357" y="190" text-anchor="middle" class="sm" style="font-weight:600">S</text><text x="357" y="204" text-anchor="middle" class="sm">Systems</text><text x="357" y="218" text-anchor="middle" class="sm">monitoring</text><line x1="8" y1="231" x2="392" y2="231" stroke="var(--text-dim)" stroke-width="0.5"/><text x="8" y="243" class="lbl">NCD Screening Programmes</text><text x="8" y="257" class="sm">Bangladesh NCD Corners: upazila level screening — BP, RBS, BMI, MUAC for NCDs. National target: 2030</text><text x="8" y="271" class="sm">WHO best buys: tobacco tax, salt reduction, alcohol policy, HBP treatment, cervical cancer vaccine+screen</text><text x="8" y="285" class="sm">NCD responsible for 67% of deaths in Bangladesh (2019). CVD 30%, Cancer 12%, COPD 10%, DM 3%</text><text x="8" y="299" class="sm">SDG 3.4: reduce premature NCD mortality by 1/3 by 2030. Prevention at population level cost-effective</text></svg>`,
   'mbbs-comm-health-education': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><style>rect{fill:var(--surface)}.lbl{font-family:sans-serif;fill:var(--text);font-size:11px;font-weight:600}.sm{font-family:sans-serif;fill:var(--text-dim);font-size:9px}</style><rect width="400" height="300" rx="8"/><text x="200" y="14" text-anchor="middle" class="lbl" style="font-size:13px">Health Education and Promotion — KAP and BCC</text><line x1="8" y1="18" x2="392" y2="18" stroke="var(--text-dim)" stroke-width="0.5"/><text x="8" y="30" class="lbl">KAP Model — Knowledge → Attitude → Practice</text><rect x="8" y="34" width="110" height="60" rx="4" fill="var(--accent)" opacity=".18" stroke="var(--accent)" stroke-width="1.5"/><text x="63" y="52" text-anchor="middle" class="sm" style="font-weight:600">KNOWLEDGE</text><text x="63" y="66" text-anchor="middle" class="sm">Awareness, facts</text><text x="63" y="80" text-anchor="middle" class="sm">Cognitive domain</text><line x1="120" y1="64" x2="130" y2="64" stroke="var(--accent)" stroke-width="1.5"/><polygon points="128,60 136,64 128,68" fill="var(--accent)"/><rect x="136" y="34" width="110" height="60" rx="4" fill="#4a9" opacity=".18" stroke="#4a9" stroke-width="1.5"/><text x="191" y="52" text-anchor="middle" class="sm" style="font-weight:600">ATTITUDE</text><text x="191" y="66" text-anchor="middle" class="sm">Belief, values</text><text x="191" y="80" text-anchor="middle" class="sm">Affective domain</text><line x1="248" y1="64" x2="258" y2="64" stroke="var(--accent)" stroke-width="1.5"/><polygon points="256,60 264,64 256,68" fill="var(--accent)"/><rect x="264" y="34" width="128" height="60" rx="4" fill="#c55" opacity=".15" stroke="#c55" stroke-width="1.5"/><text x="328" y="52" text-anchor="middle" class="sm" style="font-weight:600">PRACTICE</text><text x="328" y="66" text-anchor="middle" class="sm">Behaviour change</text><text x="328" y="80" text-anchor="middle" class="sm">Psychomotor domain</text><text x="200" y="110" text-anchor="middle" class="sm" style="font-weight:600">KAP gap: people may have knowledge but not change behaviour — attitude/motivation barriers</text><line x1="8" y1="117" x2="392" y2="117" stroke="var(--text-dim)" stroke-width="0.5"/><text x="8" y="129" class="lbl">BCC — Behaviour Change Communication</text><rect x="8" y="133" width="183" height="60" rx="3" fill="var(--accent)" opacity=".08" stroke="var(--accent)" stroke-width="1"/><text x="100" y="148" text-anchor="middle" class="sm" style="font-weight:600">Communication Channels</text><text x="14" y="162" class="sm">Mass: TV, radio, newspaper, billboard</text><text x="14" y="176" class="sm">Group: folk media, community meeting</text><text x="14" y="188" text-anchor="start" class="sm">Interpersonal: face-to-face counselling</text><rect x="205" y="133" width="183" height="60" rx="3" fill="#4a9" opacity=".08" stroke="#4a9" stroke-width="1"/><text x="296" y="148" text-anchor="middle" class="sm" style="font-weight:600">SBCC Steps</text><text x="211" y="162" class="sm">1. Assess situation (audience analysis)</text><text x="211" y="176" class="sm">2. Design message (simple/accurate)</text><text x="211" y="190" class="sm">3. Implement 4. Monitor 5. Evaluate</text><line x1="8" y1="200" x2="392" y2="200" stroke="var(--text-dim)" stroke-width="0.5"/><text x="8" y="212" class="lbl">Health Education Methods</text><rect x="8" y="216" width="88" height="44" rx="3" fill="var(--accent)" opacity=".1" stroke="var(--accent)" stroke-width="1"/><text x="52" y="231" text-anchor="middle" class="sm" style="font-weight:600">Individual</text><text x="52" y="245" text-anchor="middle" class="sm">Counselling</text><text x="52" y="258" text-anchor="middle" class="sm">Motivational Int.</text><rect x="104" y="216" width="88" height="44" rx="3" fill="#4a9" opacity=".1" stroke="#4a9" stroke-width="1"/><text x="148" y="231" text-anchor="middle" class="sm" style="font-weight:600">Group</text><text x="148" y="245" text-anchor="middle" class="sm">Lecture, seminar</text><text x="148" y="258" text-anchor="middle" class="sm">Role play, drama</text><rect x="200" y="216" width="88" height="44" rx="3" fill="#c55" opacity=".1" stroke="#c55" stroke-width="1"/><text x="244" y="231" text-anchor="middle" class="sm" style="font-weight:600">Mass Media</text><text x="244" y="245" text-anchor="middle" class="sm">TV/radio spots</text><text x="244" y="258" text-anchor="middle" class="sm">Social media</text><rect x="296" y="216" width="96" height="44" rx="3" fill="var(--accent)" opacity=".12" stroke="var(--accent)" stroke-width="1"/><text x="344" y="231" text-anchor="middle" class="sm" style="font-weight:600">Advocacy</text><text x="344" y="245" text-anchor="middle" class="sm">Policy change</text><text x="344" y="258" text-anchor="middle" class="sm">Legislation</text><line x1="8" y1="267" x2="392" y2="267" stroke="var(--text-dim)" stroke-width="0.5"/><text x="200" y="281" text-anchor="middle" class="sm">Health literacy: ability to obtain, process, understand health information for decisions. Lowest in rural BD women</text><text x="200" y="295" text-anchor="middle" class="sm">Ottawa Charter action areas: build policy, create environments, strengthen community action, develop skills, reorient services</text></svg>`,
+'mbbs-obgyn-antenatal': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <style>
+      .lbl { font-family: sans-serif; font-size: 10px; fill: var(--text); }
+      .sm { font-size: 8px; fill: var(--text-dim); }
+      .title { font-size: 12px; font-weight: bold; fill: var(--accent); }
+      @keyframes swell { 0% { opacity: 0.5; } 50% { opacity: 0.8; } 100% { opacity: 0.5; } }
+      .anim-swell { animation: swell 4s infinite; }
+    </style>
+    
+    <!-- Torso Anatomy & Fundal Heights -->
+    <text x="20" y="20" class="title">Anatomical Changes</text>
+    <path d="M40 250 C40 120 70 50 100 40 C130 50 160 120 160 250" fill="none" stroke="var(--text)" stroke-width="2"/>
+    
+    <!-- Fundal heights -->
+    <path class="anim-swell" d="M60 220 C60 120 140 120 140 220" fill="var(--accent)" opacity="0.3"/> <!-- 36w -->
+    <path d="M70 220 C70 150 130 150 130 220" fill="var(--accent)" opacity="0.5"/> <!-- 24w -->
+    <path d="M85 220 C85 190 115 190 115 220" fill="var(--accent)" opacity="0.7"/> <!-- 12w -->
+    
+    <!-- Landmarks -->
+    <circle cx="100" cy="165" r="3" fill="var(--text-dim)"/>
+    <path d="M90 220 L110 220" stroke="var(--text)" stroke-width="2"/>
+    <path d="M95 100 L105 100" stroke="var(--text)" stroke-width="2"/>
+    
+    <text x="170" y="110" class="lbl">36w (Xiphisternum)</text>
+    <text x="170" y="170" class="lbl">24w (Umbilicus)</text>
+    <text x="170" y="210" class="lbl">12w (Symphysis Pubis)</text>
 
+    <!-- Paths linking labels to anatomy -->
+    <path d="M105 100 L165 105" stroke="var(--border)" stroke-width="1" stroke-dasharray="2,2"/>
+    <path d="M103 165 L165 165" stroke="var(--border)" stroke-width="1" stroke-dasharray="2,2"/>
+    <path d="M110 220 L165 210" stroke="var(--border)" stroke-width="1" stroke-dasharray="2,2"/>
+
+    <!-- Physiological Changes (Blood Vol) -->
+    <text x="250" y="20" class="title">Mother\'s Blood Vol</text>
+    <rect x="250" y="30" width="130" height="90" fill="var(--surface)" stroke="var(--border)"/>
+    <path d="M250 120 L380 120 M250 30 L250 120" stroke="var(--text)" stroke-width="1"/>
+    
+    <path d="M250 120 Q300 40 380 35" fill="none" stroke="var(--accent)" stroke-width="2"/> <!-- Plasma -->
+    <path d="M250 120 Q300 80 380 75" fill="none" stroke="#e74c3c" stroke-width="2"/> <!-- RBC -->
+    
+    <text x="340" y="55" class="sm" fill="var(--accent)">Plasma (+50%)</text>
+    <text x="340" y="90" class="sm" fill="#e74c3c">RBC (+20-30%)</text>
+    <text x="280" y="105" class="sm">Physiological Anemia</text>
+
+    <!-- Booking Visit Screening Timeline -->
+    <text x="20" y="270" class="title">Booking Visit Timeline</text>
+    <rect x="150" y="260" width="70" height="20" rx="3" fill="var(--surface)" stroke="var(--accent)"/>
+    <rect x="240" y="260" width="70" height="20" rx="3" fill="var(--surface)" stroke="var(--accent)"/>
+    <rect x="330" y="260" width="60" height="20" rx="3" fill="var(--surface)" stroke="var(--accent)"/>
+    
+    <path d="M220 270 L240 270" stroke="var(--text)" marker-end="url(#arrow)"/>
+    <path d="M310 270 L330 270" stroke="var(--text)" marker-end="url(#arrow)"/>
+    
+    <text x="155" y="274" class="lbl">10-12w: Dating</text>
+    <text x="245" y="274" class="lbl">11-14w: Trisomy</text>
+    <text x="335" y="274" class="lbl">18-20w: Anomaly</text>
+  </svg>`,
+
+  'mbbs-obgyn-labor': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <style>
+      .lbl { font-family: sans-serif; font-size: 10px; fill: var(--text); }
+      .sm { font-size: 8px; fill: var(--text-dim); }
+      .title { font-size: 12px; font-weight: bold; fill: var(--accent); }
+      @keyframes dash { to { stroke-dashoffset: -20; } }
+      .anim-dash { stroke-dasharray: 4,4; animation: dash 2s linear infinite; }
+    </style>
+
+    <!-- WHO\'s Partogram -->
+    <text x="20" y="20" class="title">WHO\'s Partogram</text>
+    <rect x="20" y="30" width="160" height="120" fill="var(--surface)" stroke="var(--border)"/>
+    
+    <!-- Grid -->
+    <path d="M60 30 L60 150 M100 30 L100 150 M140 30 L140 150 M20 70 L180 70 M20 110 L180 110" stroke="var(--border)" stroke-width="0.5"/>
+    
+    <!-- Alert & Action Lines -->
+    <path d="M100 150 L180 30" stroke="var(--text)" stroke-width="2" class="anim-dash"/> <!-- Alert -->
+    <path d="M140 150 L220 30" stroke="#e74c3c" stroke-width="2" class="anim-dash"/> <!-- Action -->
+    
+    <!-- Dilation Curve -->
+    <path d="M20 150 Q70 140 100 100 Q130 50 150 30" fill="none" stroke="var(--accent)" stroke-width="2"/>
+    
+    <text x="110" y="145" class="sm">Alert</text>
+    <text x="150" y="145" class="sm">Action</text>
+    
+    <!-- Stages of Labor (Latent vs Active Cervical Dilation) -->
+    <text x="220" y="20" class="title">Cervical Dilation</text>
+    
+    <circle cx="250" cy="80" r="15" fill="none" stroke="var(--border)" stroke-width="2"/>
+    <circle cx="250" cy="80" r="3" fill="var(--accent)"/>
+    <text x="235" y="115" class="lbl">Latent (<4cm)</text>
+    
+    <circle cx="330" cy="80" r="30" fill="none" stroke="var(--border)" stroke-width="2"/>
+    <circle cx="330" cy="80" r="25" fill="var(--accent)" opacity="0.3"/>
+    <text x="315" y="130" class="lbl">Active (>4cm)</text>
+
+    <!-- Fetal Skull Mechanism -->
+    <text x="20" y="190" class="title">Fetal Skull Mechanism</text>
+    
+    <!-- 1. Engagement (Horizontal) -->
+    <ellipse cx="60" cy="240" rx="25" ry="18" fill="var(--surface)" stroke="var(--text)" stroke-width="1.5"/>
+    <path d="M35 240 L85 240 M60 222 L60 258" stroke="var(--accent)" stroke-width="1"/>
+    <polygon points="58,238 62,238 62,242 58,242" fill="var(--accent)"/> <!-- Fontanelle -->
+    <text x="35" y="280" class="sm">1. Engagement</text>
+
+    <!-- 2. Descent (Lower) -->
+    <ellipse cx="140" cy="250" rx="25" ry="18" fill="var(--surface)" stroke="var(--text)" stroke-width="1.5"/>
+    <path d="M115 250 L165 250 M140 232 L140 268" stroke="var(--accent)" stroke-width="1"/>
+    <text x="120" y="280" class="sm">2. Descent</text>
+
+    <!-- 3. Flexion (Angled) -->
+    <g transform="translate(220, 245) rotate(30)">
+      <ellipse cx="0" cy="0" rx="25" ry="18" fill="var(--surface)" stroke="var(--text)" stroke-width="1.5"/>
+      <path d="M-25 0 L25 0 M0 -18 L0 18" stroke="var(--accent)" stroke-width="1"/>
+    </g>
+    <text x="200" y="280" class="sm">3. Flexion</text>
+
+    <!-- 4. Internal Rotation (Vertical) -->
+    <ellipse cx="300" cy="240" rx="18" ry="25" fill="var(--surface)" stroke="var(--text)" stroke-width="1.5"/>
+    <path d="M282 240 L318 240 M300 215 L300 265" stroke="var(--accent)" stroke-width="1"/>
+    <polygon points="298,225 302,225 302,229 298,229" fill="var(--accent)"/> <!-- Fontanelle rotated -->
+    <text x="270" y="280" class="sm">4. Internal Rotation</text>
+
+    <path d="M90 240 L110 245" stroke="var(--border)" marker-end="url(#arrow)"/>
+    <path d="M170 245 L190 245" stroke="var(--border)" marker-end="url(#arrow)"/>
+    <path d="M250 245 L275 240" stroke="var(--border)" marker-end="url(#arrow)"/>
+  </svg>`,
+
+  'mbbs-obgyn-hypertension': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <style>
+      .lbl { font-family: sans-serif; font-size: 10px; fill: var(--text); }
+      .sm { font-size: 8px; fill: var(--text-dim); }
+      .title { font-size: 12px; font-weight: bold; fill: var(--accent); }
+      @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+      .anim-pulse { transform-origin: center; animation: pulse 2s infinite; }
+    </style>
+
+    <!-- Pathophysiology: Spiral Artery Remodeling -->
+    <text x="20" y="20" class="title">Pathophysiology: Remodeling Failure</text>
+    
+    <!-- Normal -->
+    <text x="20" y="40" class="lbl">Normal (Wide Lumen)</text>
+    <rect x="20" y="50" width="120" height="40" fill="var(--surface)" stroke="var(--border)" stroke-width="2"/>
+    <rect x="20" y="55" width="120" height="30" fill="var(--accent)" opacity="0.2"/>
+    <path d="M25 70 L130 70" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="2,2"/>
+    <circle cx="50" cy="70" r="5" fill="#e74c3c"/>
+    <circle cx="80" cy="70" r="5" fill="#e74c3c"/>
+    <circle cx="110" cy="70" r="5" fill="#e74c3c"/>
+    
+    <!-- Preeclampsia -->
+    <text x="20" y="110" class="lbl">Preeclampsia (Narrow/Spasm)</text>
+    <rect x="20" y="120" width="120" height="40" fill="var(--surface)" stroke="var(--border)" stroke-width="2"/>
+    <rect x="20" y="132" width="120" height="16" fill="var(--accent)" opacity="0.6"/>
+    <path d="M25 140 L130 140" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="2,2"/>
+    <circle cx="50" cy="140" r="3" fill="#e74c3c"/>
+    <circle cx="80" cy="140" r="3" fill="#e74c3c"/>
+    <circle cx="110" cy="140" r="3" fill="#e74c3c"/>
+    
+    <text x="150" y="135" class="sm" fill="#e74c3c">High Resistance &amp; Ischemia</text>
+    
+    <!-- HELLP Syndrome Flowchart -->
+    <text x="220" y="20" class="title">HELLP Syndrome</text>
+    
+    <rect x="220" y="40" width="160" height="30" rx="4" fill="var(--surface)" stroke="var(--border)"/>
+    <text x="280" y="58" class="lbl" font-weight="bold">HELLP</text>
+    
+    <path d="M300 70 L300 90" stroke="var(--text)" stroke-width="1.5" marker-end="url(#arrow)"/>
+    
+    <rect x="220" y="90" width="160" height="25" rx="4" fill="var(--surface)" stroke="var(--border)"/>
+    <text x="230" y="106" class="lbl"><tspan fill="#e74c3c" font-weight="bold">H</tspan>emolysis (Microangiopathic)</text>
+
+    <rect x="220" y="125" width="160" height="25" rx="4" fill="var(--surface)" stroke="var(--border)"/>
+    <text x="230" y="141" class="lbl"><tspan fill="#e74c3c" font-weight="bold">EL</tspan>evated Liver Enzymes</text>
+
+    <rect x="220" y="160" width="160" height="25" rx="4" fill="var(--surface)" stroke="var(--border)"/>
+    <text x="230" y="176" class="lbl"><tspan fill="#e74c3c" font-weight="bold">L</tspan>ow <tspan fill="#e74c3c" font-weight="bold">P</tspan>latelets (&lt;100k)</text>
+
+    <!-- MgSO4 Protocol -->
+    <text x="20" y="210" class="title">MgSO4 Seizure Prophylaxis Protocol</text>
+    
+    <rect x="20" y="230" width="130" height="40" rx="5" fill="var(--surface)" stroke="var(--accent)"/>
+    <text x="30" y="248" class="lbl" font-weight="bold">Loading Dose</text>
+    <text x="30" y="260" class="sm">4g IV over 15-20 mins</text>
+    
+    <path d="M150 250 L190 250" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow)"/>
+    
+    <rect x="190" y="230" width="130" height="40" rx="5" fill="var(--surface)" stroke="var(--accent)"/>
+    <text x="200" y="248" class="lbl" font-weight="bold">Maintenance Dose</text>
+    <text x="200" y="260" class="sm">1g/hr IV infusion</text>
+
+    <!-- Warning sign -->
+    <circle cx="350" cy="250" r="15" fill="#e74c3c" class="anim-pulse"/>
+    <text x="348" y="253" class="lbl" fill="#fff" font-weight="bold">!</text>
+    <text x="330" y="275" class="sm" fill="#e74c3c">Check Reflexes</text>
+
+  </svg>`,
+
+  'mbbs-obgyn-aph': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <style>
+      .lbl { font-family: sans-serif; font-size: 10px; fill: var(--text); }
+      .sm { font-size: 8px; fill: var(--text-dim); }
+      .title { font-size: 12px; font-weight: bold; fill: var(--accent); }
+    </style>
+
+    <text x="20" y="20" class="title">Placenta Previa (4 Grades)</text>
+    
+    <!-- Function to draw uterus: M 20,20 C 60,-10 80,40 50,70 C 40,80 30,70 30,60 Z -->
+    <!-- Type I: Low Lying -->
+    <g transform="translate(20, 40)">
+      <path d="M20 60 C10 10 70 10 60 60 C60 90 45 100 40 100 C35 100 20 90 20 60 Z" fill="var(--surface)" stroke="var(--border)" stroke-width="2"/>
+      <path d="M60 50 C55 60 45 70 45 80 L60 80 Z" fill="#e74c3c"/>
+      <text x="15" y="115" class="lbl">Type I (Low)</text>
+    </g>
+    
+    <!-- Type II: Marginal -->
+    <g transform="translate(110, 40)">
+      <path d="M20 60 C10 10 70 10 60 60 C60 90 45 100 40 100 C35 100 20 90 20 60 Z" fill="var(--surface)" stroke="var(--border)" stroke-width="2"/>
+      <path d="M60 60 C55 70 45 85 40 95 L60 95 Z" fill="#e74c3c"/>
+      <text x="10" y="115" class="lbl">Type II (Marginal)</text>
+    </g>
+
+    <!-- Type III: Partial -->
+    <g transform="translate(200, 40)">
+      <path d="M20 60 C10 10 70 10 60 60 C60 90 45 100 40 100 C35 100 20 90 20 60 Z" fill="var(--surface)" stroke="var(--border)" stroke-width="2"/>
+      <path d="M60 70 C45 80 40 95 30 90 L60 100 Z" fill="#e74c3c"/>
+      <text x="10" y="115" class="lbl">Type III (Partial)</text>
+    </g>
+
+    <!-- Type IV: Complete -->
+    <g transform="translate(290, 40)">
+      <path d="M20 60 C10 10 70 10 60 60 C60 90 45 100 40 100 C35 100 20 90 20 60 Z" fill="var(--surface)" stroke="var(--border)" stroke-width="2"/>
+      <path d="M25 80 C40 70 40 100 60 80 L55 100 L25 100 Z" fill="#e74c3c"/>
+      <text x="5" y="115" class="lbl">Type IV (Complete)</text>
+    </g>
+
+    <path d="M20 170 L380 170" stroke="var(--border)" stroke-width="1" stroke-dasharray="4,4"/>
+
+    <!-- Placental Abruption -->
+    <text x="20" y="190" class="title">Placental Abruption</text>
+
+    <!-- Revealed -->
+    <g transform="translate(20, 190)">
+      <path d="M20 60 C10 10 70 10 60 60 C60 90 45 100 40 100 C35 100 20 90 20 60 Z" fill="var(--surface)" stroke="var(--border)" stroke-width="2"/>
+      <path d="M25 20 C40 15 50 25 50 40 L25 40 Z" fill="#e74c3c"/> <!-- Placenta at fundus -->
+      <path d="M25 40 Q30 70 40 100" fill="none" stroke="#c0392b" stroke-width="3" stroke-dasharray="2,2"/> <!-- Bleeding out -->
+      <text x="15" y="115" class="lbl">Revealed</text>
+    </g>
+
+    <!-- Concealed -->
+    <g transform="translate(130, 190)">
+      <path d="M20 60 C10 10 70 10 60 60 C60 90 45 100 40 100 C35 100 20 90 20 60 Z" fill="var(--surface)" stroke="var(--border)" stroke-width="2"/>
+      <path d="M30 20 C45 15 50 25 50 40 L30 40 Z" fill="#e74c3c"/>
+      <path d="M20 25 Q30 35 30 50 Q20 40 20 25 Z" fill="#8e44ad"/> <!-- Dark concealed blood -->
+      <text x="15" y="115" class="lbl">Concealed</text>
+    </g>
+
+    <!-- Differentiation Box -->
+    <rect x="230" y="200" width="150" height="80" rx="5" fill="var(--surface)" stroke="var(--accent)"/>
+    <text x="240" y="215" class="lbl" font-weight="bold">Differentiation</text>
+    <text x="240" y="235" class="sm">Previa: Painless, Bright Red</text>
+    <text x="240" y="250" class="sm">Abruption: Painful, Dark Red</text>
+    <text x="240" y="265" class="sm">Previa: Soft, non-tender uterus</text>
+    <text x="240" y="280" class="sm" fill="#e74c3c">NEVER do vaginal exam in Previa!</text>
+
+  </svg>`,
+
+  'mbbs-obgyn-pph': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <style>
+      .lbl { font-family: sans-serif; font-size: 10px; fill: var(--text); }
+      .sm { font-size: 8px; fill: var(--text-dim); }
+      .title { font-size: 12px; font-weight: bold; fill: var(--accent); }
+    </style>
+
+    <text x="20" y="20" class="title">Primary PPH: The 4 Ts</text>
+
+    <!-- Tone (70%) -->
+    <rect x="20" y="30" width="80" height="90" rx="4" fill="var(--surface)" stroke="var(--border)"/>
+    <text x="25" y="45" class="lbl" font-weight="bold">Tone (70%)</text>
+    <path d="M40 70 C30 50 70 50 60 70 C60 90 55 100 50 100 C45 100 40 90 40 70 Z" fill="none" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="3,3"/>
+    <path d="M45 80 Q50 110 50 110" fill="none" stroke="#e74c3c" stroke-width="2"/>
+    <text x="25" y="115" class="sm">Atonic Uterus</text>
+
+    <!-- Tissue (20%) -->
+    <rect x="110" y="30" width="80" height="90" rx="4" fill="var(--surface)" stroke="var(--border)"/>
+    <text x="115" y="45" class="lbl" font-weight="bold">Tissue (20%)</text>
+    <path d="M130 70 C120 50 160 50 150 70 C150 90 145 100 140 100 C135 100 130 90 130 70 Z" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+    <polygon points="135,60 145,60 140,70" fill="#e74c3c"/> <!-- Retained placenta -->
+    <text x="115" y="115" class="sm">Retained Placenta</text>
+
+    <!-- Trauma (9%) -->
+    <rect x="200" y="30" width="80" height="90" rx="4" fill="var(--surface)" stroke="var(--border)"/>
+    <text x="205" y="45" class="lbl" font-weight="bold">Trauma (9%)</text>
+    <path d="M230 70 C220 50 260 50 250 70 C250 80 245 90 240 90" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+    <path d="M235 90 L240 105 M245 90 L240 105" fill="none" stroke="var(--text)" stroke-width="1.5"/> <!-- Cervix -->
+    <path d="M242 95 L248 100 L245 105 L250 110" fill="none" stroke="#e74c3c" stroke-width="2"/> <!-- Tear -->
+    <text x="205" y="115" class="sm">Lacerations/Tears</text>
+
+    <!-- Thrombin (1%) -->
+    <rect x="290" y="30" width="80" height="90" rx="4" fill="var(--surface)" stroke="var(--border)"/>
+    <text x="295" y="45" class="lbl" font-weight="bold">Thrombin (1%)</text>
+    <path d="M310 80 Q330 60 350 80 Q360 100 330 100 Q300 100 310 80 Z" fill="none" stroke="var(--border)" stroke-width="1.5"/>
+    <circle cx="320" cy="85" r="3" fill="#e74c3c"/>
+    <circle cx="330" cy="75" r="3" fill="#e74c3c"/>
+    <circle cx="340" cy="90" r="3" fill="#e74c3c"/>
+    <text x="295" y="115" class="sm">Coagulopathy</text>
+
+    <!-- Active Management Flowchart -->
+    <text x="20" y="160" class="title">Active Management of 3rd Stage</text>
+
+    <rect x="20" y="180" width="100" height="40" rx="5" fill="var(--surface)" stroke="var(--accent)"/>
+    <text x="30" y="198" class="lbl">1. Uterotonic</text>
+    <text x="30" y="210" class="sm">IM Oxytocin (10 IU)</text>
+
+    <path d="M120 200 L140 200" stroke="var(--text)" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+    <rect x="140" y="180" width="100" height="40" rx="5" fill="var(--surface)" stroke="var(--accent)"/>
+    <text x="150" y="198" class="lbl">2. CCT</text>
+    <text x="150" y="210" class="sm">Controlled Cord Traction</text>
+
+    <path d="M240 200 L260 200" stroke="var(--text)" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+    <rect x="260" y="180" width="100" height="40" rx="5" fill="var(--surface)" stroke="var(--accent)"/>
+    <text x="270" y="198" class="lbl">3. Massage</text>
+    <text x="270" y="210" class="sm">Uterine Massage</text>
+    
+    <rect x="80" y="240" width="240" height="40" rx="5" fill="var(--surface)" stroke="#e74c3c" stroke-width="2"/>
+    <text x="120" y="258" class="lbl" fill="#e74c3c" font-weight="bold">If PPH occurs: Call for help, Resuscitate (ABC)</text>
+    <text x="120" y="270" class="lbl" fill="#e74c3c">Empty Bladder, Bimanual Compression</text>
+  </svg>`,
+
+  'mbbs-obgyn-ectopic': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <style>
+      .lbl { font-family: sans-serif; font-size: 10px; fill: var(--text); }
+      .sm { font-size: 8px; fill: var(--text-dim); }
+      .title { font-size: 12px; font-weight: bold; fill: var(--accent); }
+      @keyframes throb { 0% { r: 4; fill: #e74c3c; } 50% { r: 6; fill: #c0392b; } 100% { r: 4; fill: #e74c3c; } }
+      .anim-throb { animation: throb 1.5s infinite; }
+    </style>
+
+    <text x="20" y="20" class="title">Ectopic Pregnancy Sites</text>
+    
+    <!-- Tubal Anatomy -->
+    <!-- Uterus -->
+    <path d="M170 120 C170 70 230 70 230 120 C230 160 210 180 200 180 C190 180 170 160 170 120 Z" fill="var(--surface)" stroke="var(--border)" stroke-width="2"/>
+    <!-- Left Tube -->
+    <path d="M170 85 Q110 70 80 110" fill="none" stroke="var(--border)" stroke-width="4"/>
+    <!-- Right Tube -->
+    <path d="M230 85 Q290 70 320 110" fill="none" stroke="var(--border)" stroke-width="4"/>
+    
+    <!-- Ovaries -->
+    <ellipse cx="100" cy="120" rx="10" ry="15" fill="var(--surface)" stroke="var(--border)"/>
+    <ellipse cx="300" cy="120" rx="10" ry="15" fill="var(--surface)" stroke="var(--border)"/>
+
+    <!-- Sites -->
+    <!-- Ampulla (~70%) -->
+    <circle cx="100" cy="85" r="5" class="anim-throb"/>
+    <text x="80" y="65" class="lbl">Ampulla (70%)</text>
+    
+    <!-- Isthmus (~12%) -->
+    <circle cx="260" cy="80" r="5" class="anim-throb"/>
+    <text x="245" y="65" class="lbl">Isthmus (12%)</text>
+    
+    <!-- Interstitial/Cornual (~2%) -->
+    <circle cx="170" cy="85" r="5" class="anim-throb"/>
+    <text x="135" y="75" class="lbl">Interstitial (2%)</text>
+
+    <!-- Ruptured vs Unruptured Tree -->
+    <text x="20" y="190" class="title">Management Decision Tree</text>
+    
+    <rect x="150" y="200" width="100" height="25" rx="4" fill="var(--surface)" stroke="var(--accent)"/>
+    <text x="160" y="216" class="lbl" font-weight="bold">Ectopic Confirmed</text>
+    
+    <path d="M200 225 L120 250" stroke="var(--text)" stroke-width="1.5"/>
+    <path d="M200 225 L280 250" stroke="var(--text)" stroke-width="1.5"/>
+    
+    <rect x="60" y="250" width="120" height="40" rx="4" fill="var(--surface)" stroke="var(--border)"/>
+    <text x="70" y="265" class="lbl">Stable, Unruptured</text>
+    <text x="70" y="280" class="sm" fill="var(--accent)">Medical: Methotrexate</text>
+
+    <rect x="220" y="250" width="120" height="40" rx="4" fill="var(--surface)" stroke="#e74c3c" stroke-width="2"/>
+    <!-- Rupture icon -->
+    <polygon points="225,255 230,260 235,250 240,260 245,255" fill="#e74c3c"/>
+    <path d="M235 265 Q240 280 230 285" fill="none" stroke="#e74c3c" stroke-width="2"/>
+    <text x="250" y="265" class="lbl">Unstable / Ruptured</text>
+    <text x="250" y="280" class="sm" fill="#e74c3c">Surgery (Salpingectomy)</text>
+
+  </svg>`,
+'mbbs-obgyn-multiple': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .lbl { font-family: sans-serif; font-size: 10px; fill: var(--text); }
+    .sm { font-size: 8px; fill: var(--text-dim); }
+    .pl { fill: var(--surface); stroke: var(--accent); stroke-width: 1.5; }
+    .ch { fill: none; stroke: var(--border); stroke-dasharray: 2,2; }
+    .am { fill: none; stroke: var(--accent); stroke-opacity: 0.5; }
+    .bb { fill: var(--text-dim); stroke: none; }
+    @keyframes pulse { 0% { r: 1.5; } 50% { r: 2.5; } 100% { r: 1.5; } }
+    .pulsing { animation: pulse 2s infinite; fill: red; }
+  </style>
+  <rect width="100%" height="100%" fill="var(--surface)"/>
+  
+  <text x="10" y="20" class="lbl" font-weight="bold">Chorionicity &amp; Amnionicity</text>
+  
+  <!-- DCDA -->
+  <circle cx="40" cy="50" r="20" class="ch" />
+  <circle cx="40" cy="50" r="16" class="am" />
+  <circle cx="36" cy="48" r="4" class="bb" />
+  <ellipse cx="40" cy="54" rx="4" ry="6" class="bb" />
+  
+  <circle cx="85" cy="50" r="20" class="ch" />
+  <circle cx="85" cy="50" r="16" class="am" />
+  <circle cx="81" cy="48" r="4" class="bb" />
+  <ellipse cx="85" cy="54" rx="4" ry="6" class="bb" />
+  <text x="62" y="80" class="sm" text-anchor="middle">DCDA</text>
+  
+  <!-- MCDA -->
+  <circle cx="160" cy="50" r="30" class="ch" />
+  <circle cx="145" cy="50" r="14" class="am" />
+  <circle cx="175" cy="50" r="14" class="am" />
+  <circle cx="141" cy="48" r="4" class="bb" />
+  <ellipse cx="145" cy="54" rx="4" ry="6" class="bb" />
+  <circle cx="171" cy="48" r="4" class="bb" />
+  <ellipse cx="175" cy="54" rx="4" ry="6" class="bb" />
+  <text x="160" y="90" class="sm" text-anchor="middle">MCDA</text>
+  
+  <!-- MCMA -->
+  <circle cx="240" cy="50" r="30" class="ch" />
+  <circle cx="240" cy="50" r="26" class="am" />
+  <circle cx="225" cy="48" r="4" class="bb" />
+  <ellipse cx="229" cy="54" rx="4" ry="6" class="bb" />
+  <circle cx="255" cy="48" r="4" class="bb" />
+  <ellipse cx="251" cy="54" rx="4" ry="6" class="bb" />
+  <text x="240" y="90" class="sm" text-anchor="middle">MCMA</text>
+  
+  <!-- TTTS -->
+  <text x="10" y="120" class="lbl" font-weight="bold">Twin-to-Twin Transfusion (TTTS)</text>
+  <ellipse cx="100" cy="160" rx="60" ry="30" class="pl" />
+  <path d="M 70,160 Q 50,130 50,140" stroke="var(--accent)" stroke-width="2" fill="none" />
+  <path d="M 130,160 Q 150,130 150,140" stroke="var(--border)" stroke-width="2" fill="none" />
+  <path d="M 75,155 Q 100,140 125,155" stroke="red" stroke-width="1.5" fill="none" stroke-dasharray="2,2" />
+  <path d="M 80,165 Q 100,170 120,165" stroke="blue" stroke-width="1.5" fill="none" stroke-dasharray="2,2" />
+  <circle cx="100" cy="148" r="1.5" class="pulsing" />
+  <text x="100" y="185" class="sm" text-anchor="middle">Vascular Anastomoses</text>
+  <text x="50" y="125" class="sm" text-anchor="middle">Donor</text>
+  <text x="150" y="125" class="sm" text-anchor="middle">Recipient</text>
+  
+  <!-- Breech -->
+  <text x="220" y="120" class="lbl" font-weight="bold">Breech Presentations</text>
+  <rect x="230" y="130" width="160" height="90" rx="4" stroke="var(--border)" fill="none" />
+  
+  <!-- Frank -->
+  <circle cx="260" cy="150" r="8" class="bb" />
+  <ellipse cx="260" cy="170" rx="8" ry="12" class="bb" />
+  <path d="M 255,180 L 250,140" stroke="var(--text-dim)" stroke-width="3" />
+  <path d="M 265,180 L 270,140" stroke="var(--text-dim)" stroke-width="3" />
+  <text x="260" y="210" class="sm" text-anchor="middle">Frank</text>
+  
+  <!-- Complete -->
+  <circle cx="310" cy="150" r="8" class="bb" />
+  <ellipse cx="310" cy="170" rx="8" ry="12" class="bb" />
+  <path d="M 305,180 L 295,180 L 305,170" stroke="var(--text-dim)" stroke-width="3" fill="none"/>
+  <path d="M 315,180 L 325,180 L 315,170" stroke="var(--text-dim)" stroke-width="3" fill="none"/>
+  <text x="310" y="210" class="sm" text-anchor="middle">Complete</text>
+  
+  <!-- Footling -->
+  <circle cx="360" cy="150" r="8" class="bb" />
+  <ellipse cx="360" cy="170" rx="8" ry="12" class="bb" />
+  <path d="M 355,180 L 345,180 L 355,170" stroke="var(--text-dim)" stroke-width="3" fill="none"/>
+  <path d="M 365,180 L 365,195" stroke="var(--text-dim)" stroke-width="3" fill="none"/>
+  <text x="360" y="210" class="sm" text-anchor="middle">Footling</text>
+</svg>`,
+
+  'mbbs-obgyn-medical': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .lbl { font-family: sans-serif; font-size: 10px; fill: var(--text); }
+    .sm { font-size: 8px; fill: var(--text-dim); }
+    .ax { stroke: var(--border); stroke-width: 1; }
+    .bar { fill: var(--accent); opacity: 0.7; }
+    .tr { stroke: red; stroke-dasharray: 2,2; }
+    .rbc { fill: #d9534f; }
+  </style>
+  <rect width="100%" height="100%" fill="var(--surface)"/>
+  
+  <text x="10" y="20" class="lbl" font-weight="bold">GDM Screening (75g OGTT)</text>
+  <path d="M 20,40 L 20,110 L 150,110" class="ax" fill="none" />
+  <rect x="30" y="70" width="20" height="40" class="bar" />
+  <rect x="70" y="45" width="20" height="65" class="bar" />
+  <rect x="110" y="60" width="20" height="50" class="bar" />
+  <text x="40" y="120" class="sm" text-anchor="middle">Fasting</text>
+  <text x="80" y="120" class="sm" text-anchor="middle">1-Hour</text>
+  <text x="120" y="120" class="sm" text-anchor="middle">2-Hour</text>
+  
+  <path d="M 15,70 L 55,70" class="tr" fill="none" />
+  <text x="40" y="65" class="sm" fill="red" text-anchor="middle">&gt;92</text>
+  <path d="M 55,45 L 95,45" class="tr" fill="none" />
+  <text x="80" y="40" class="sm" fill="red" text-anchor="middle">&gt;180</text>
+  <path d="M 95,60 L 135,60" class="tr" fill="none" />
+  <text x="120" y="55" class="sm" fill="red" text-anchor="middle">&gt;153</text>
+  
+  <text x="180" y="20" class="lbl" font-weight="bold">Fetal Effects of Maternal Hyperglycemia</text>
+  <rect x="180" y="30" width="200" height="90" rx="4" stroke="var(--border)" fill="none" />
+  <circle cx="230" cy="70" r="15" fill="#f0e6d2" stroke="var(--border)" />
+  <ellipse cx="230" cy="100" rx="25" ry="20" fill="#f0e6d2" stroke="var(--border)" />
+  <text x="230" y="65" class="sm" text-anchor="middle">Macrosomia</text>
+  
+  <path d="M 300,70 A 8 8 0 0 1 316,70 A 8 8 0 0 1 332,70 Q 332,85 316,95 Q 300,85 300,70" fill="red" />
+  <text x="316" y="105" class="sm" text-anchor="middle">Hypertrophy (Septal)</text>
+  
+  <path d="M 190,40 Q 200,30 210,40 T 230,40 T 250,40" stroke="blue" fill="none" stroke-width="2" opacity="0.4" />
+  <path d="M 190,50 Q 200,40 210,50 T 230,50 T 250,50" stroke="blue" fill="none" stroke-width="2" opacity="0.4" />
+  
+  <text x="10" y="150" class="lbl" font-weight="bold">Anemia in Pregnancy</text>
+  <path d="M 20,180 L 380,180" class="ax" fill="none" />
+  <circle cx="80" cy="180" r="4" fill="var(--accent)" />
+  <circle cx="200" cy="180" r="4" fill="var(--accent)" />
+  <circle cx="320" cy="180" r="4" fill="var(--accent)" />
+  
+  <text x="80" y="195" class="sm" text-anchor="middle">Trimester 1</text>
+  <text x="200" y="195" class="sm" text-anchor="middle">Trimester 2</text>
+  <text x="320" y="195" class="sm" text-anchor="middle">Trimester 3</text>
+  
+  <rect x="40" y="210" width="100" height="60" rx="4" stroke="var(--border)" fill="none" />
+  <text x="90" y="225" class="sm" text-anchor="middle" font-weight="bold">Iron Deficiency</text>
+  <circle cx="60" cy="245" r="8" class="rbc" />
+  <circle cx="60" cy="245" r="4" fill="var(--surface)" />
+  <text x="90" y="248" class="sm">Microcytic</text>
+  <text x="90" y="260" class="sm">Hypochromic</text>
+  
+  <rect x="180" y="210" width="180" height="60" rx="4" stroke="var(--border)" fill="none" />
+  <text x="270" y="225" class="sm" text-anchor="middle" font-weight="bold">Folate / B12 Deficiency</text>
+  <circle cx="210" cy="245" r="14" class="rbc" />
+  <circle cx="210" cy="245" r="3" fill="var(--surface)" />
+  <text x="240" y="248" class="sm">Macrocytic (Megaloblastic)</text>
+  <text x="240" y="260" class="sm">Hypersegmented Neutrophils</text>
+  
+  <circle cx="330" cy="245" r="10" fill="#e0e0f8" stroke="#888" />
+  <circle cx="325" cy="242" r="3" fill="purple" />
+  <circle cx="332" cy="240" r="3" fill="purple" />
+  <circle cx="335" cy="246" r="3" fill="purple" />
+  <circle cx="328" cy="250" r="3" fill="purple" />
+  <circle cx="322" cy="248" r="3" fill="purple" />
+</svg>`,
+
+  'mbbs-obgyn-operative': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .lbl { font-family: sans-serif; font-size: 10px; fill: var(--text); }
+    .sm { font-size: 8px; fill: var(--text-dim); }
+    .inc { stroke: red; stroke-width: 2; fill: none; stroke-dasharray: 3,3; }
+    .body { fill: none; stroke: var(--border); stroke-width: 1.5; }
+    .box { fill: var(--surface); stroke: var(--accent); rx: 4; ry: 4; }
+    .arr { stroke: var(--text-dim); stroke-width: 1; fill: none; }
+  </style>
+  <rect width="100%" height="100%" fill="var(--surface)"/>
+  
+  <text x="10" y="20" class="lbl" font-weight="bold">C-Section Incisions</text>
+  <path d="M 40,40 Q 60,80 40,120 Q 80,140 120,120 Q 100,80 120,40" class="body" />
+  <circle cx="80" cy="80" r="3" class="body" />
+  
+  <path d="M 80,90 L 80,120" class="inc" />
+  <text x="90" y="105" class="sm" fill="red">Classical</text>
+  
+  <path d="M 60,130 Q 80,140 100,130" class="inc" />
+  <text x="80" y="145" class="sm" fill="red" text-anchor="middle">Pfannenstiel</text>
+  
+  <text x="220" y="20" class="lbl" font-weight="bold">Instrumental Delivery</text>
+  <rect x="220" y="30" width="160" height="120" rx="4" stroke="var(--border)" fill="none" />
+  
+  <path d="M 240,60 Q 250,80 240,100 L 235,130 L 245,130 L 250,100" stroke="var(--text)" fill="#ddd" />
+  <path d="M 280,60 Q 270,80 280,100 L 285,130 L 275,130 L 270,100" stroke="var(--text)" fill="#ddd" />
+  <circle cx="260" cy="80" r="18" fill="var(--accent)" opacity="0.3" />
+  <text x="260" y="145" class="sm" text-anchor="middle">Forceps</text>
+  
+  <path d="M 330,60 Q 320,60 320,70 L 340,70 Q 340,60 330,60 Z" stroke="var(--text)" fill="#ddd" />
+  <path d="M 330,50 L 330,60" stroke="var(--text)" stroke-width="2" fill="none" />
+  <path d="M 330,40 L 330,50" stroke="var(--text)" stroke-width="1" stroke-dasharray="2,2" fill="none" />
+  <circle cx="330" cy="85" r="15" fill="var(--accent)" opacity="0.3" />
+  <text x="330" y="145" class="sm" text-anchor="middle">Ventouse</text>
+  
+  <text x="10" y="170" class="lbl" font-weight="bold">Indications for C-Section</text>
+  
+  <rect x="140" y="180" width="120" height="20" class="box" />
+  <text x="200" y="193" class="sm" text-anchor="middle">Indications</text>
+  
+  <path d="M 200,200 L 200,210" class="arr" />
+  <path d="M 80,210 L 320,210" class="arr" />
+  <path d="M 80,210 L 80,220" class="arr" />
+  <path d="M 200,210 L 200,220" class="arr" />
+  <path d="M 320,210 L 320,220" class="arr" />
+  
+  <rect x="30" y="220" width="100" height="25" class="box" />
+  <text x="80" y="232" class="sm" text-anchor="middle">Maternal</text>
+  <text x="80" y="241" class="sm" text-anchor="middle">Eclampsia, Prior CS</text>
+  
+  <rect x="150" y="220" width="100" height="25" class="box" />
+  <text x="200" y="232" class="sm" text-anchor="middle">Fetal</text>
+  <text x="200" y="241" class="sm" text-anchor="middle">Distress, Breech</text>
+  
+  <rect x="270" y="220" width="100" height="25" class="box" />
+  <text x="320" y="232" class="sm" text-anchor="middle">Placental</text>
+  <text x="320" y="241" class="sm" text-anchor="middle">Previa, Abruption</text>
+</svg>`,
+
+  'mbbs-obgyn-menstrual': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .lbl { font-family: sans-serif; font-size: 10px; fill: var(--text); }
+    .sm { font-size: 8px; fill: var(--text-dim); }
+    .ax { stroke: var(--border); stroke-width: 1; }
+    .fsh { stroke: #3498db; fill: none; stroke-width: 1.5; }
+    .lh { stroke: #e74c3c; fill: none; stroke-width: 1.5; }
+    .est { stroke: #2ecc71; fill: none; stroke-width: 1.5; }
+    .pro { stroke: #9b59b6; fill: none; stroke-width: 1.5; }
+    .box { fill: var(--surface); stroke: var(--accent); rx: 2; ry: 2; }
+  </style>
+  <rect width="100%" height="100%" fill="var(--surface)"/>
+  
+  <text x="10" y="20" class="lbl" font-weight="bold">Menstrual Cycle Hormones</text>
+  <path d="M 20,30 L 20,110 L 200,110" class="ax" fill="none" />
+  <path d="M 110,30 L 110,110" class="ax" stroke-dasharray="2,2" fill="none" />
+  <text x="110" y="120" class="sm" text-anchor="middle">Ovulation (Day 14)</text>
+  
+  <path d="M 20,90 Q 60,90 90,80 Q 110,50 120,80 Q 160,95 200,95" class="fsh" />
+  <text x="25" y="85" class="sm" fill="#3498db">FSH</text>
+  
+  <path d="M 20,95 Q 60,95 100,90 Q 110,20 120,90 Q 160,95 200,95" class="lh" />
+  <text x="115" y="30" class="sm" fill="#e74c3c">LH Surge</text>
+  
+  <path d="M 20,105 Q 80,100 100,50 Q 120,100 160,70 Q 190,100 200,100" class="est" />
+  <text x="60" y="65" class="sm" fill="#2ecc71">Estrogen</text>
+  
+  <path d="M 20,108 L 110,108 Q 150,40 180,80 Q 190,100 200,105" class="pro" />
+  <text x="160" y="55" class="sm" fill="#9b59b6">Progesterone</text>
+  
+  <text x="220" y="20" class="lbl" font-weight="bold">AUB: PALM-COEIN</text>
+  <rect x="220" y="30" width="160" height="90" class="box" fill="none" />
+  <line x1="300" y1="30" x2="300" y2="120" stroke="var(--border)" />
+  <text x="260" y="45" class="sm" text-anchor="middle" font-weight="bold">Structural</text>
+  <text x="340" y="45" class="sm" text-anchor="middle" font-weight="bold">Non-Structural</text>
+  
+  <text x="230" y="60" class="sm"><tspan font-weight="bold">P</tspan>olyp</text>
+  <text x="230" y="75" class="sm"><tspan font-weight="bold">A</tspan>denomyosis</text>
+  <text x="230" y="90" class="sm"><tspan font-weight="bold">L</tspan>eiomyoma</text>
+  <text x="230" y="105" class="sm"><tspan font-weight="bold">M</tspan>alignancy</text>
+  
+  <text x="310" y="60" class="sm"><tspan font-weight="bold">C</tspan>oagulopathy</text>
+  <text x="310" y="75" class="sm"><tspan font-weight="bold">O</tspan>vulatory dyn.</text>
+  <text x="310" y="90" class="sm"><tspan font-weight="bold">E</tspan>ndometrial</text>
+  <text x="310" y="105" class="sm"><tspan font-weight="bold">I</tspan>atrogenic, <tspan font-weight="bold">N</tspan>ot-class</text>
+  
+  <text x="10" y="150" class="lbl" font-weight="bold">Secondary Amenorrhea Evaluation</text>
+  <rect x="150" y="160" width="100" height="20" class="box" />
+  <text x="200" y="173" class="sm" text-anchor="middle">Pregnancy Test</text>
+  
+  <path d="M 200,180 L 200,200" class="ax" fill="none" />
+  <rect x="150" y="200" width="100" height="20" class="box" />
+  <text x="200" y="213" class="sm" text-anchor="middle">TSH, Prolactin, FSH</text>
+  
+  <path d="M 200,220 L 200,230" class="ax" fill="none" />
+  <path d="M 80,230 L 320,230" class="ax" fill="none" />
+  <path d="M 80,230 L 80,240" class="ax" fill="none" />
+  <path d="M 200,230 L 200,240" class="ax" fill="none" />
+  <path d="M 320,230 L 320,240" class="ax" fill="none" />
+  
+  <rect x="30" y="240" width="100" height="30" class="box" />
+  <text x="80" y="252" class="sm" text-anchor="middle">High FSH</text>
+  <text x="80" y="262" class="sm" text-anchor="middle">(Ovarian Failure)</text>
+  
+  <rect x="150" y="240" width="100" height="30" class="box" />
+  <text x="200" y="252" class="sm" text-anchor="middle">High Prolactin</text>
+  <text x="200" y="262" class="sm" text-anchor="middle">(Prolactinoma)</text>
+  
+  <rect x="270" y="240" width="100" height="30" class="box" />
+  <text x="320" y="252" class="sm" text-anchor="middle">Normal/Low FSH</text>
+  <text x="320" y="262" class="sm" text-anchor="middle">(Hypothal/PCOS)</text>
+</svg>`,
+
+  'mbbs-obgyn-pid': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .lbl { font-family: sans-serif; font-size: 10px; fill: var(--text); }
+    .sm { font-size: 8px; fill: var(--text-dim); }
+    .body { fill: var(--surface); stroke: var(--text); stroke-width: 1.5; }
+    .inf { fill: none; stroke: red; stroke-width: 2; stroke-dasharray: 4,4; }
+    .liv { fill: #d9534f; opacity: 0.8; stroke: #c9302c; }
+    .adh { stroke: #f39c12; stroke-width: 1.5; fill: none; }
+    .bact { fill: purple; }
+    @keyframes crawl { 100% { stroke-dashoffset: -8; } }
+    .crawling { animation: crawl 1s linear infinite; }
+  </style>
+  <rect width="100%" height="100%" fill="var(--surface)"/>
+  
+  <text x="10" y="20" class="lbl" font-weight="bold">PID Ascending Pathway</text>
+  <path d="M 60,140 L 60,100 Q 40,80 60,60 Q 80,40 100,60 Q 120,80 100,100 L 100,140 Z" class="body" />
+  <path d="M 60,60 Q 30,50 20,70 Q 30,80 40,70 L 60,65" class="body" />
+  <path d="M 100,60 Q 130,50 140,70 Q 130,80 120,70 L 100,65" class="body" />
+  <ellipse cx="25" cy="75" rx="8" ry="12" class="body" />
+  <ellipse cx="135" cy="75" rx="8" ry="12" class="body" />
+  
+  <path d="M 80,130 L 80,90 Q 70,70 40,65" class="inf crawling" />
+  <path d="M 80,90 Q 90,70 120,65" class="inf crawling" />
+  
+  <text x="80" y="150" class="sm" text-anchor="middle">Vagina/Cervix</text>
+  <text x="80" y="55" class="sm" text-anchor="middle">Uterus (Endometritis)</text>
+  <text x="35" y="45" class="sm" text-anchor="middle">Tubes (Salpingitis)</text>
+  
+  <text x="220" y="20" class="lbl" font-weight="bold">Fitz-Hugh-Curtis Syndrome</text>
+  <rect x="220" y="30" width="160" height="120" rx="4" stroke="var(--border)" fill="none" />
+  <path d="M 240,60 Q 300,50 350,90 Q 300,110 240,100 Z" class="liv" />
+  <path d="M 240,40 L 350,40" stroke="var(--text)" stroke-width="2" />
+  <text x="360" y="45" class="sm">Diaphragm /</text>
+  <text x="360" y="55" class="sm">Abd. Wall</text>
+  
+  <line x1="260" y1="40" x2="260" y2="65" class="adh" />
+  <line x1="280" y1="40" x2="280" y2="60" class="adh" />
+  <line x1="300" y1="40" x2="300" y2="62" class="adh" />
+  <line x1="320" y1="40" x2="320" y2="70" class="adh" />
+  
+  <text x="290" y="140" class="sm" text-anchor="middle">Violin String Adhesions (Perihepatitis)</text>
+  
+  <text x="10" y="180" class="lbl" font-weight="bold">Common Pathogens</text>
+  
+  <rect x="30" y="200" width="150" height="60" rx="4" stroke="var(--border)" fill="none" />
+  <text x="105" y="215" class="sm" text-anchor="middle" font-weight="bold">Chlamydia trachomatis</text>
+  <text x="105" y="230" class="sm" text-anchor="middle">Intracellular, inclusion bodies</text>
+  <polygon points="50,220 70,210 90,230 70,250" fill="#e0e0f8" stroke="#888" />
+  <circle cx="70" cy="230" r="5" fill="#aaa" />
+  <circle cx="60" cy="225" r="1.5" class="bact" />
+  <circle cx="63" cy="222" r="1.5" class="bact" />
+  <circle cx="58" cy="220" r="1.5" class="bact" />
+  
+  <rect x="210" y="200" width="150" height="60" rx="4" stroke="var(--border)" fill="none" />
+  <text x="285" y="215" class="sm" text-anchor="middle" font-weight="bold">Neisseria gonorrhoeae</text>
+  <text x="285" y="230" class="sm" text-anchor="middle">Gram-neg diplococci</text>
+  <circle cx="260" cy="240" r="3" fill="red" />
+  <circle cx="266" cy="240" r="3" fill="red" />
+  <circle cx="280" cy="245" r="3" fill="red" />
+  <circle cx="286" cy="245" r="3" fill="red" />
+  <circle cx="250" cy="250" r="3" fill="red" />
+  <circle cx="256" cy="250" r="3" fill="red" />
+</svg>`,
+
+  'mbbs-obgyn-fibroids': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .lbl { font-family: sans-serif; font-size: 10px; fill: var(--text); }
+    .sm { font-size: 8px; fill: var(--text-dim); }
+    .ut { fill: #f9eaee; stroke: var(--text); stroke-width: 2; }
+    .en { fill: #e5a5a5; stroke: none; }
+    .fib { fill: #d1b2b2; stroke: var(--text); stroke-width: 1; }
+    .aden { fill: #e5a5a5; opacity: 0.7; }
+    .box { fill: var(--surface); stroke: var(--accent); rx: 4; ry: 4; }
+    .arr { stroke: var(--text-dim); stroke-width: 1; fill: none; }
+  </style>
+  <rect width="100%" height="100%" fill="var(--surface)"/>
+  
+  <text x="10" y="20" class="lbl" font-weight="bold">Uterine Leiomyoma (Fibroids)</text>
+  <path d="M 60,120 L 60,80 Q 40,40 100,40 Q 160,40 140,80 L 140,120 Z" class="ut" />
+  <path d="M 90,110 L 95,60 L 105,60 L 110,110 Z" class="en" />
+  
+  <circle cx="100" cy="70" r="10" class="fib" />
+  <text x="100" y="90" class="sm" text-anchor="middle">Submucosal</text>
+  
+  <circle cx="70" cy="65" r="12" class="fib" />
+  <text x="60" y="50" class="sm" text-anchor="middle">Intramural</text>
+  
+  <circle cx="140" cy="55" r="10" class="fib" />
+  <text x="155" y="45" class="sm">Subserosal</text>
+  
+  <path d="M 120,40 L 130,20 L 140,40" class="fib" />
+  <circle cx="130" cy="15" r="8" class="fib" />
+  <text x="145" y="15" class="sm">Pedunculated</text>
+  
+  <text x="220" y="20" class="lbl" font-weight="bold">Adenomyosis</text>
+  <rect x="220" y="30" width="160" height="90" rx="4" stroke="var(--border)" fill="none" />
+  <path d="M 230,110 L 230,40 L 270,40 L 270,110 Z" class="en" />
+  <path d="M 270,110 L 270,40 L 370,40 L 370,110 Z" class="ut" />
+  
+  <circle cx="280" cy="60" r="6" class="aden" />
+  <circle cx="290" cy="80" r="8" class="aden" />
+  <circle cx="310" cy="50" r="5" class="aden" />
+  <path d="M 270,70 Q 290,70 290,60" stroke="#e5a5a5" stroke-width="4" fill="none" />
+  
+  <text x="250" y="105" class="sm" text-anchor="middle" font-weight="bold">Endometrium</text>
+  <text x="320" y="105" class="sm" text-anchor="middle" font-weight="bold">Myometrium</text>
+  <text x="320" y="70" class="sm" text-anchor="middle">Glands/Stroma</text>
+  <text x="320" y="80" class="sm" text-anchor="middle">invading muscle</text>
+  
+  <text x="10" y="160" class="lbl" font-weight="bold">Management of Symptomatic Fibroids</text>
+  
+  <rect x="150" y="170" width="100" height="20" class="box" />
+  <text x="200" y="183" class="sm" text-anchor="middle">Desires Fertility?</text>
+  
+  <path d="M 200,190 L 200,200" class="arr" />
+  <path d="M 100,200 L 300,200" class="arr" />
+  <path d="M 100,200 L 100,210" class="arr" />
+  <path d="M 300,200 L 300,210" class="arr" />
+  
+  <text x="110" y="198" class="sm">Yes</text>
+  <text x="280" y="198" class="sm">No</text>
+  
+  <rect x="50" y="210" width="100" height="30" class="box" />
+  <text x="100" y="222" class="sm" text-anchor="middle">Myomectomy</text>
+  <text x="100" y="232" class="sm" text-anchor="middle">(Hysteroscopic/Abd)</text>
+  
+  <rect x="250" y="210" width="100" height="30" class="box" />
+  <text x="300" y="222" class="sm" text-anchor="middle">Definitive / Intervent.</text>
+  
+  <path d="M 300,240 L 300,250" class="arr" />
+  <rect x="220" y="250" width="160" height="30" class="box" />
+  <text x="300" y="262" class="sm" text-anchor="middle">Hysterectomy, Uterine</text>
+  <text x="300" y="272" class="sm" text-anchor="middle">Artery Embolization (UAE)</text>
+</svg>`,
+'mbbs-obgyn-pcos': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <style>
+      .bg { fill: var(--surface); }
+      .lbl { fill: var(--text); font-size: 14px; font-family: sans-serif; font-weight: bold; }
+      .sm { fill: var(--text-dim); font-size: 10px; font-family: sans-serif; }
+      .stroke { stroke: var(--border); stroke-width: 2; fill: none; }
+      .stroke-thick { stroke: var(--border); stroke-width: 3; fill: none; }
+      .accent-stroke { stroke: var(--accent); stroke-width: 2; fill: none; }
+      .fill { fill: var(--border); opacity: 0.1; }
+      .accent-fill { fill: var(--accent); opacity: 0.2; }
+      .dot { fill: var(--accent); }
+      @keyframes pulse { 0% { transform: scale(0.98); opacity: 0.8; } 100% { transform: scale(1.02); opacity: 1; } }
+      .anim-pulse { animation: pulse 2s infinite alternate; transform-origin: center; }
+    </style>
+    <rect width="400" height="300" class="bg"/>
+    
+    <!-- Normal Ovary -->
+    <g transform="translate(60, 60)">
+      <ellipse cx="0" cy="0" rx="40" ry="25" class="stroke fill"/>
+      <circle cx="-15" cy="-5" r="4" class="stroke"/>
+      <circle cx="5" cy="-8" r="6" class="stroke"/>
+      <circle cx="15" cy="5" r="5" class="stroke"/>
+      <circle cx="-5" cy="10" r="3" class="stroke"/>
+      <circle cx="-25" cy="0" r="7" class="accent-stroke anim-pulse"/>
+      <text x="0" y="45" class="sm" text-anchor="middle">Normal Ovary</text>
+    </g>
+
+    <!-- Polycystic Ovary -->
+    <g transform="translate(200, 60)">
+      <ellipse cx="0" cy="0" rx="50" ry="35" class="stroke fill"/>
+      <circle cx="-35" cy="0" r="4" class="accent-stroke"/>
+      <circle cx="-28" cy="-15" r="4" class="accent-stroke"/>
+      <circle cx="-15" cy="-25" r="4" class="accent-stroke"/>
+      <circle cx="0" cy="-28" r="4" class="accent-stroke"/>
+      <circle cx="15" cy="-25" r="4" class="accent-stroke"/>
+      <circle cx="28" cy="-15" r="4" class="accent-stroke"/>
+      <circle cx="35" cy="0" r="4" class="accent-stroke"/>
+      <circle cx="28" cy="15" r="4" class="accent-stroke"/>
+      <circle cx="15" cy="25" r="4" class="accent-stroke"/>
+      <circle cx="0" cy="28" r="4" class="accent-stroke"/>
+      <circle cx="-15" cy="25" r="4" class="accent-stroke"/>
+      <circle cx="-28" cy="15" r="4" class="accent-stroke"/>
+      <text x="0" y="55" class="sm" text-anchor="middle">PCOS (String of Pearls)</text>
+    </g>
+
+    <!-- Endometriosis Sites -->
+    <g transform="translate(100, 180)">
+      <!-- Uterus & Tubes -->
+      <path d="M-20,-10 C-30,-40 30,-40 20,-10 C40,-15 60,-5 70,10 C60,20 40,5 20,5 C15,20 10,40 10,50 L-10,50 C-10,40 -15,20 -20,5 C-40,5 -60,20 -70,10 C-60,-5 -40,-15 -20,-10 Z" class="stroke fill"/>
+      <!-- Ovaries -->
+      <ellipse cx="-50" cy="15" rx="15" ry="10" class="stroke"/>
+      <ellipse cx="50" cy="15" rx="15" ry="10" class="stroke"/>
+      <!-- Endometriotic spots -->
+      <circle cx="-45" cy="15" r="3" class="dot"/>
+      <circle cx="52" cy="12" r="4" class="dot anim-pulse"/>
+      <circle cx="0" cy="40" r="2.5" class="dot"/>
+      <circle cx="8" cy="35" r="2" class="dot"/>
+      <circle cx="-30" cy="-5" r="2" class="dot"/>
+      <circle cx="30" cy="-5" r="2.5" class="dot"/>
+      
+      <text x="0" y="70" class="sm" text-anchor="middle">Endometriosis Sites</text>
+    </g>
+
+    <!-- Rotterdam Criteria -->
+    <g transform="translate(300, 160)">
+      <rect x="-40" y="0" width="80" height="100" rx="5" class="stroke fill"/>
+      <text x="0" y="20" class="sm" text-anchor="middle">Rotterdam</text>
+      <text x="0" y="32" class="sm" text-anchor="middle">(need 2 of 3)</text>
+      <path d="M-30,45 L-20,45" class="accent-stroke"/>
+      <text x="-10" y="48" class="sm">Oligo/Anov</text>
+      <path d="M-30,65 L-20,65" class="accent-stroke"/>
+      <text x="-10" y="68" class="sm">HyperAndro</text>
+      <path d="M-30,85 L-20,85" class="accent-stroke"/>
+      <text x="-10" y="88" class="sm">PCO on US</text>
+    </g>
+  </svg>`,
+
+  'mbbs-obgyn-prolapse': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <style>
+      .bg { fill: var(--surface); }
+      .lbl { fill: var(--text); font-size: 14px; font-family: sans-serif; font-weight: bold; }
+      .sm { fill: var(--text-dim); font-size: 10px; font-family: sans-serif; }
+      .stroke { stroke: var(--border); stroke-width: 2; fill: none; }
+      .accent-stroke { stroke: var(--accent); stroke-width: 2; fill: none; }
+      .fill { fill: var(--border); opacity: 0.1; }
+      .accent-fill { fill: var(--accent); opacity: 0.2; }
+      .muscle { stroke: #d9534f; stroke-width: 4; fill: none; opacity: 0.6; }
+      .arrow { fill: var(--accent); }
+    </style>
+    <rect width="400" height="300" class="bg"/>
+
+    <!-- Normal Anatomy -->
+    <g transform="translate(80, 100)">
+      <text x="0" y="-60" class="lbl" text-anchor="middle">Normal</text>
+      <!-- Bladder -->
+      <path d="M-30,0 C-10,0 -10,-30 -30,-30 C-50,-30 -50,0 -30,0 Z" class="stroke fill"/>
+      <path d="M-30,0 L-20,30" class="stroke"/>
+      <!-- Uterus & Vagina -->
+      <path d="M10,-10 C20,-40 0,-50 -10,-30 C-20,-10 -5,0 10,-10 Z" class="stroke fill"/>
+      <path d="M5,0 L-10,40 M15,0 L0,40" class="stroke"/>
+      <!-- Rectum -->
+      <path d="M30,-20 C40,-10 30,20 10,45" class="stroke"/>
+      <path d="M40,-20 C50,-10 40,20 20,45" class="stroke"/>
+      <!-- Pelvic Floor Muscle -->
+      <path d="M-40,25 Q-10,50 30,25" class="muscle"/>
+      <text x="-30" y="-40" class="sm">Bladder</text>
+      <text x="0" y="-55" class="sm">Uterus</text>
+      <text x="40" y="-25" class="sm">Rectum</text>
+    </g>
+
+    <!-- Cystocele -->
+    <g transform="translate(200, 100)">
+      <text x="0" y="-60" class="lbl" text-anchor="middle">Cystocele</text>
+      <!-- Bladder Prolapsing -->
+      <path d="M-20,10 C0,10 0,-20 -20,-20 C-40,-20 -40,10 -20,10 Z" class="accent-stroke accent-fill"/>
+      <path d="M-20,10 L-10,35" class="stroke"/>
+      <!-- Arrow -->
+      <path d="M-25,-10 L-15,5" class="accent-stroke"/>
+      <polygon points="-15,5 -20,0 -10,-5" class="arrow" transform="rotate(45 -15 5)"/>
+      <!-- Uterus & Vagina -->
+      <path d="M10,-10 C20,-40 0,-50 -10,-30 C-20,-10 -5,0 10,-10 Z" class="stroke fill"/>
+      <path d="M-10,15 L-10,40 M15,0 L0,40" class="stroke"/>
+      <!-- Rectum -->
+      <path d="M30,-20 C40,-10 30,20 10,45" class="stroke"/>
+      <path d="M40,-20 C50,-10 40,20 20,45" class="stroke"/>
+      <!-- Pelvic Floor Muscle -->
+      <path d="M-40,35 Q-10,60 30,25" class="muscle"/>
+    </g>
+
+    <!-- Rectocele -->
+    <g transform="translate(320, 100)">
+      <text x="0" y="-60" class="lbl" text-anchor="middle">Rectocele</text>
+      <!-- Bladder -->
+      <path d="M-30,0 C-10,0 -10,-30 -30,-30 C-50,-30 -50,0 -30,0 Z" class="stroke fill"/>
+      <path d="M-30,0 L-20,30" class="stroke"/>
+      <!-- Uterus & Vagina -->
+      <path d="M10,-10 C20,-40 0,-50 -10,-30 C-20,-10 -5,0 10,-10 Z" class="stroke fill"/>
+      <path d="M5,0 L-10,40 M20,15 L0,40" class="stroke"/>
+      <!-- Rectum Prolapsing -->
+      <path d="M30,-20 C40,-10 30,10 5,20 L10,45" class="accent-stroke accent-fill"/>
+      <path d="M40,-20 C50,-10 50,20 20,45" class="stroke"/>
+      <!-- Arrow -->
+      <path d="M35,0 L20,10" class="accent-stroke"/>
+      <!-- Pelvic Floor Muscle -->
+      <path d="M-40,25 Q-10,60 30,35" class="muscle"/>
+    </g>
+
+    <!-- Incontinence Types -->
+    <g transform="translate(60, 240)">
+      <rect x="0" y="0" width="120" height="40" rx="5" class="stroke"/>
+      <text x="60" y="15" class="sm" text-anchor="middle">Stress Incontinence</text>
+      <text x="60" y="30" class="sm" text-anchor="middle">Weak sphincter / cough</text>
+    </g>
+    <g transform="translate(220, 240)">
+      <rect x="0" y="0" width="120" height="40" rx="5" class="stroke"/>
+      <text x="60" y="15" class="sm" text-anchor="middle">Urge Incontinence</text>
+      <text x="60" y="30" class="sm" text-anchor="middle">Detrusor overactivity</text>
+    </g>
+  </svg>`,
+
+  'mbbs-obgyn-cervical': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <style>
+      .bg { fill: var(--surface); }
+      .lbl { fill: var(--text); font-size: 14px; font-family: sans-serif; font-weight: bold; }
+      .sm { fill: var(--text-dim); font-size: 10px; font-family: sans-serif; }
+      .stroke { stroke: var(--border); stroke-width: 2; fill: none; }
+      .accent-stroke { stroke: var(--accent); stroke-width: 2; fill: none; }
+      .fill { fill: var(--border); opacity: 0.1; }
+      .accent-fill { fill: var(--accent); opacity: 0.4; }
+      .cell { fill: var(--surface); stroke: var(--border); stroke-width: 1; }
+      .dysplasia { fill: var(--accent); opacity: 0.7; }
+    </style>
+    <rect width="400" height="300" class="bg"/>
+
+    <!-- Transformation Zone -->
+    <g transform="translate(80, 80)">
+      <text x="0" y="-50" class="lbl" text-anchor="middle">Cervix</text>
+      <!-- Cervix Outline -->
+      <path d="M-40,40 C-30,-20 30,-20 40,40" class="stroke fill"/>
+      <path d="M-10,40 L-10,0 M10,40 L10,0" class="stroke"/>
+      <!-- Squamocolumnar Junction -->
+      <ellipse cx="0" cy="40" rx="25" ry="10" class="accent-stroke stroke-dasharray=4"/>
+      <text x="0" y="65" class="sm" text-anchor="middle">Transformation Zone</text>
+      <path d="M-20,45 L-40,60 M20,45 L40,60" class="stroke"/>
+    </g>
+
+    <!-- CIN Progression Diagram -->
+    <g transform="translate(20, 160)">
+      <!-- Basement membrane -->
+      <path d="M0,80 L360,80" class="stroke"/>
+      
+      <!-- Normal -->
+      <text x="40" y="-10" class="sm" text-anchor="middle">Normal</text>
+      <rect x="20" y="0" width="40" height="80" class="fill"/>
+      <!-- Basal cells -->
+      <circle cx="30" cy="75" r="4" class="cell"/> <circle cx="40" cy="75" r="4" class="cell"/> <circle cx="50" cy="75" r="4" class="cell"/>
+      <!-- Squamous cells -->
+      <ellipse cx="40" cy="50" rx="15" ry="5" class="cell"/>
+      <ellipse cx="40" cy="30" rx="18" ry="4" class="cell"/>
+      <ellipse cx="40" cy="10" rx="20" ry="3" class="cell"/>
+
+      <!-- CIN 1 -->
+      <text x="120" y="-10" class="sm" text-anchor="middle">CIN 1</text>
+      <rect x="100" y="0" width="40" height="80" class="fill"/>
+      <circle cx="110" cy="75" r="4" class="dysplasia"/> <circle cx="120" cy="75" r="4" class="dysplasia"/> <circle cx="130" cy="75" r="4" class="dysplasia"/>
+      <circle cx="115" cy="65" r="4" class="dysplasia"/> <circle cx="125" cy="65" r="4" class="dysplasia"/>
+      <ellipse cx="120" cy="40" rx="15" ry="5" class="cell"/>
+      <ellipse cx="120" cy="20" rx="18" ry="4" class="cell"/>
+
+      <!-- CIN 2 -->
+      <text x="200" y="-10" class="sm" text-anchor="middle">CIN 2</text>
+      <rect x="180" y="0" width="40" height="80" class="fill"/>
+      <circle cx="190" cy="75" r="4" class="dysplasia"/> <circle cx="200" cy="75" r="4" class="dysplasia"/> <circle cx="210" cy="75" r="4" class="dysplasia"/>
+      <circle cx="195" cy="65" r="4" class="dysplasia"/> <circle cx="205" cy="65" r="4" class="dysplasia"/>
+      <circle cx="190" cy="55" r="4" class="dysplasia"/> <circle cx="200" cy="55" r="4" class="dysplasia"/> <circle cx="210" cy="55" r="4" class="dysplasia"/>
+      <circle cx="195" cy="45" r="4" class="dysplasia"/> <circle cx="205" cy="45" r="4" class="dysplasia"/>
+      <ellipse cx="200" cy="20" rx="18" ry="4" class="cell"/>
+
+      <!-- CIN 3 -->
+      <text x="280" y="-10" class="sm" text-anchor="middle">CIN 3 / CIS</text>
+      <rect x="260" y="0" width="40" height="80" class="fill"/>
+      <circle cx="270" cy="75" r="4" class="dysplasia"/> <circle cx="280" cy="75" r="4" class="dysplasia"/> <circle cx="290" cy="75" r="4" class="dysplasia"/>
+      <circle cx="275" cy="65" r="4" class="dysplasia"/> <circle cx="285" cy="65" r="4" class="dysplasia"/>
+      <circle cx="270" cy="55" r="4" class="dysplasia"/> <circle cx="280" cy="55" r="4" class="dysplasia"/> <circle cx="290" cy="55" r="4" class="dysplasia"/>
+      <circle cx="275" cy="45" r="4" class="dysplasia"/> <circle cx="285" cy="45" r="4" class="dysplasia"/>
+      <circle cx="270" cy="35" r="4" class="dysplasia"/> <circle cx="280" cy="35" r="4" class="dysplasia"/> <circle cx="290" cy="35" r="4" class="dysplasia"/>
+      <circle cx="275" cy="25" r="4" class="dysplasia"/> <circle cx="285" cy="25" r="4" class="dysplasia"/>
+      <circle cx="280" cy="15" r="4" class="dysplasia"/>
+
+      <!-- Cancer -->
+      <text x="350" y="-10" class="sm" text-anchor="middle">Invasive</text>
+      <circle cx="340" cy="75" r="4" class="dysplasia"/> <circle cx="350" cy="75" r="4" class="dysplasia"/> <circle cx="360" cy="75" r="4" class="dysplasia"/>
+      <circle cx="345" cy="65" r="4" class="dysplasia"/> <circle cx="355" cy="65" r="4" class="dysplasia"/>
+      <!-- Invasion -->
+      <circle cx="345" cy="90" r="4" class="dysplasia anim-pulse"/>
+      <circle cx="355" cy="95" r="4" class="dysplasia anim-pulse"/>
+      <circle cx="350" cy="105" r="4" class="dysplasia anim-pulse"/>
+      <path d="M330,80 L340,95 L360,85" class="accent-stroke"/>
+    </g>
+    
+    <!-- Flowchart box -->
+    <g transform="translate(240, 20)">
+      <rect x="0" y="0" width="140" height="90" rx="5" class="stroke"/>
+      <text x="70" y="15" class="sm" text-anchor="middle" font-weight="bold">Screening</text>
+      <rect x="10" y="25" width="120" height="20" class="fill"/>
+      <text x="70" y="38" class="sm" text-anchor="middle">Pap Smear / VIA</text>
+      <rect x="10" y="55" width="120" height="20" class="fill"/>
+      <text x="70" y="68" class="sm" text-anchor="middle">HPV DNA Testing</text>
+    </g>
+  </svg>`,
+
+  'mbbs-obgyn-ovarian': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <style>
+      .bg { fill: var(--surface); }
+      .lbl { fill: var(--text); font-size: 14px; font-family: sans-serif; font-weight: bold; }
+      .sm { fill: var(--text-dim); font-size: 10px; font-family: sans-serif; }
+      .stroke { stroke: var(--border); stroke-width: 2; fill: none; }
+      .stroke-thick { stroke: var(--border); stroke-width: 4; fill: none; }
+      .accent-stroke { stroke: var(--accent); stroke-width: 2; fill: none; }
+      .fill { fill: var(--border); opacity: 0.1; }
+      .accent-fill { fill: var(--accent); opacity: 0.3; }
+      .solid { fill: var(--accent); }
+    </style>
+    <rect width="400" height="300" class="bg"/>
+
+    <!-- Benign Cyst -->
+    <g transform="translate(100, 100)">
+      <text x="0" y="-60" class="lbl" text-anchor="middle">Benign Cyst</text>
+      <circle cx="0" cy="0" r="45" class="stroke fill"/>
+      <path d="M-30,-20 Q0,-40 30,-20" class="stroke" opacity="0.5"/>
+      <text x="0" y="60" class="sm" text-anchor="middle">Unilocular, thin-walled</text>
+      <text x="0" y="75" class="sm" text-anchor="middle">Anechoic</text>
+    </g>
+
+    <!-- Malignant Tumor -->
+    <g transform="translate(300, 100)">
+      <text x="0" y="-60" class="lbl" text-anchor="middle">Malignant Tumor</text>
+      <!-- Thick irregular wall -->
+      <path d="M0,-50 C30,-50 50,-20 45,10 C40,40 10,55 -20,45 C-50,35 -60,0 -30,-30 C-15,-45 -10,-50 0,-50 Z" class="stroke-thick fill"/>
+      <!-- Septations -->
+      <path d="M-30,-30 L20,30 M-20,45 L10,-10 M45,10 L-10,10" class="stroke"/>
+      <!-- Solid papillary parts -->
+      <polygon points="-10,10 -5,20 5,15 10,25 0,30 -15,20" class="solid"/>
+      <polygon points="20,30 30,25 35,35 25,40" class="solid"/>
+      <polygon points="-30,-30 -20,-25 -15,-35" class="solid"/>
+      <text x="0" y="60" class="sm" text-anchor="middle">Multilocular, thick septa</text>
+      <text x="0" y="75" class="sm" text-anchor="middle">Solid areas, Excrescences</text>
+    </g>
+
+    <!-- RMI Formula Visual -->
+    <g transform="translate(200, 240)">
+      <text x="0" y="-20" class="lbl" text-anchor="middle">Risk of Malignancy Index (RMI)</text>
+      <rect x="-140" y="-5" width="60" height="40" rx="5" class="stroke"/>
+      <text x="-110" y="15" class="lbl" text-anchor="middle">U</text>
+      <text x="-110" y="28" class="sm" text-anchor="middle">Ultrasound</text>
+      
+      <text x="-65" y="20" class="lbl" text-anchor="middle">×</text>
+
+      <rect x="-40" y="-5" width="60" height="40" rx="5" class="stroke"/>
+      <text x="-10" y="15" class="lbl" text-anchor="middle">M</text>
+      <text x="-10" y="28" class="sm" text-anchor="middle">Menopausal</text>
+      
+      <text x="35" y="20" class="lbl" text-anchor="middle">×</text>
+
+      <rect x="60" y="-5" width="60" height="40" rx="5" class="stroke"/>
+      <text x="90" y="15" class="lbl" text-anchor="middle">CA125</text>
+      <text x="90" y="28" class="sm" text-anchor="middle">Serum lvl</text>
+    </g>
+  </svg>`,
+
+  'mbbs-obgyn-endometrial': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <style>
+      .bg { fill: var(--surface); }
+      .lbl { fill: var(--text); font-size: 14px; font-family: sans-serif; font-weight: bold; }
+      .sm { fill: var(--text-dim); font-size: 10px; font-family: sans-serif; }
+      .stroke { stroke: var(--border); stroke-width: 2; fill: none; }
+      .accent-stroke { stroke: var(--accent); stroke-width: 2; fill: none; }
+      .fill { fill: var(--border); opacity: 0.1; }
+      .accent-fill { fill: var(--accent); opacity: 0.3; }
+      .thick { stroke-width: 4; }
+      .arrow { fill: var(--border); }
+    </style>
+    <rect width="400" height="300" class="bg"/>
+
+    <!-- Endometrial Hyperplasia to Cancer -->
+    <g transform="translate(100, 100)">
+      <text x="0" y="-60" class="lbl" text-anchor="middle">Endometrial Cancer</text>
+      <!-- Uterus -->
+      <path d="M-40,-30 C-60,-10 -60,20 -30,40 C-10,55 10,55 30,40 C60,20 60,-10 40,-30 C20,-40 -20,-40 -40,-30 Z" class="stroke fill"/>
+      <path d="M-10,48 L-10,70 M10,48 L10,70" class="stroke"/>
+      <!-- Endometrium (Thickened & Irregular) -->
+      <path d="M-20,-10 C-30,10 -20,30 0,35 C20,30 30,10 20,-10 C10,-20 -10,-20 -20,-10 Z" class="accent-stroke thick accent-fill"/>
+      <path d="M-10,0 Q0,-10 10,0 T-5,15 T10,25 T-10,15 Z" class="accent-stroke fill"/>
+      <text x="0" y="85" class="sm" text-anchor="middle">Thickened Endometrium</text>
+      <text x="0" y="100" class="sm" text-anchor="middle">Atypical Hyperplasia -> Carcinoma</text>
+    </g>
+
+    <!-- Flowchart for PMB -->
+    <g transform="translate(280, 50)">
+      <text x="0" y="-20" class="lbl" text-anchor="middle">PMB Assessment</text>
+      
+      <!-- Box 1 -->
+      <rect x="-50" y="0" width="100" height="30" rx="5" class="stroke"/>
+      <text x="0" y="18" class="sm" text-anchor="middle">Postmenop. Bleeding</text>
+      
+      <!-- Arrow -->
+      <path d="M0,30 L0,50" class="stroke"/>
+      <polygon points="-4,45 4,45 0,50" class="arrow"/>
+
+      <!-- Box 2 -->
+      <rect x="-50" y="50" width="100" height="30" rx="5" class="stroke"/>
+      <text x="0" y="68" class="sm" text-anchor="middle">Transvaginal US</text>
+
+      <!-- Branches -->
+      <path d="M-20,80 L-40,100" class="stroke"/>
+      <path d="M20,80 L40,100" class="stroke"/>
+
+      <!-- Box 3a -->
+      <rect x="-80" y="100" width="60" height="30" rx="5" class="stroke"/>
+      <text x="-50" y="118" class="sm" text-anchor="middle">&lt; 4mm</text>
+      <text x="-50" y="145" class="sm" text-anchor="middle">Atrophy</text>
+
+      <!-- Box 3b -->
+      <rect x="20" y="100" width="60" height="30" rx="5" class="accent-stroke"/>
+      <text x="50" y="118" class="sm" text-anchor="middle">&gt; 4mm</text>
+
+      <!-- Arrow -->
+      <path d="M50,130 L50,150" class="accent-stroke"/>
+
+      <!-- Box 4 -->
+      <rect x="20" y="150" width="60" height="30" rx="5" class="accent-stroke accent-fill"/>
+      <text x="50" y="168" class="sm" text-anchor="middle">Biopsy</text>
+    </g>
+
+    <!-- Vulvar Cancer -->
+    <g transform="translate(280, 240)">
+      <text x="0" y="-20" class="lbl" text-anchor="middle">Vulvar Cancer</text>
+      <ellipse cx="-15" cy="10" rx="10" ry="25" class="stroke fill" transform="rotate(-15 -15 10)"/>
+      <ellipse cx="15" cy="10" rx="10" ry="25" class="stroke fill" transform="rotate(15 15 10)"/>
+      <!-- Ulcer/Tumor -->
+      <circle cx="-18" cy="5" r="6" class="accent-stroke thick accent-fill"/>
+      <text x="0" y="45" class="sm" text-anchor="middle">Labia majora ulcer</text>
+    </g>
+  </svg>`,
+
+  'mbbs-obgyn-contraception': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <style>
+      .bg { fill: var(--surface); }
+      .lbl { fill: var(--text); font-size: 14px; font-family: sans-serif; font-weight: bold; }
+      .sm { fill: var(--text-dim); font-size: 10px; font-family: sans-serif; }
+      .stroke { stroke: var(--border); stroke-width: 2; fill: none; }
+      .accent-stroke { stroke: var(--accent); stroke-width: 2; fill: none; }
+      .fill { fill: var(--border); opacity: 0.1; }
+      .pill { fill: var(--accent); opacity: 0.8; }
+      .placebo { fill: var(--border); opacity: 0.4; }
+      .copper { stroke: #d35400; stroke-width: 3; fill: none; }
+    </style>
+    <rect width="400" height="300" class="bg"/>
+
+    <!-- COCP Blister Pack -->
+    <g transform="translate(80, 70)">
+      <text x="0" y="-40" class="lbl" text-anchor="middle">COCP / POP</text>
+      <rect x="-60" y="-25" width="120" height="70" rx="8" class="stroke fill"/>
+      <!-- Row 1 (7 active) -->
+      <circle cx="-45" cy="-10" r="4" class="pill"/> <circle cx="-30" cy="-10" r="4" class="pill"/> <circle cx="-15" cy="-10" r="4" class="pill"/> <circle cx="0" cy="-10" r="4" class="pill"/> <circle cx="15" cy="-10" r="4" class="pill"/> <circle cx="30" cy="-10" r="4" class="pill"/> <circle cx="45" cy="-10" r="4" class="pill"/>
+      <!-- Row 2 (7 active) -->
+      <circle cx="-45" cy="5" r="4" class="pill"/> <circle cx="-30" cy="5" r="4" class="pill"/> <circle cx="-15" cy="5" r="4" class="pill"/> <circle cx="0" cy="5" r="4" class="pill"/> <circle cx="15" cy="5" r="4" class="pill"/> <circle cx="30" cy="5" r="4" class="pill"/> <circle cx="45" cy="5" r="4" class="pill"/>
+      <!-- Row 3 (7 active) -->
+      <circle cx="-45" cy="20" r="4" class="pill"/> <circle cx="-30" cy="20" r="4" class="pill"/> <circle cx="-15" cy="20" r="4" class="pill"/> <circle cx="0" cy="20" r="4" class="pill"/> <circle cx="15" cy="20" r="4" class="pill"/> <circle cx="30" cy="20" r="4" class="pill"/> <circle cx="45" cy="20" r="4" class="pill"/>
+      <!-- Row 4 (7 placebo) -->
+      <circle cx="-45" cy="35" r="4" class="placebo"/> <circle cx="-30" cy="35" r="4" class="placebo"/> <circle cx="-15" cy="35" r="4" class="placebo"/> <circle cx="0" cy="35" r="4" class="placebo"/> <circle cx="15" cy="35" r="4" class="placebo"/> <circle cx="30" cy="35" r="4" class="placebo"/> <circle cx="45" cy="35" r="4" class="placebo"/>
+      <text x="0" y="60" class="sm" text-anchor="middle">Inhibits ovulation</text>
+    </g>
+
+    <!-- Subdermal Implant -->
+    <g transform="translate(280, 70)">
+      <text x="0" y="-40" class="lbl" text-anchor="middle">Implant</text>
+      <!-- Arm -->
+      <path d="M-20,-20 Q10,-20 20,-10 L30,40 Q0,40 -10,30 Z" class="stroke fill"/>
+      <!-- Implant -->
+      <rect x="-5" y="0" width="4" height="25" rx="2" class="accent-stroke" transform="rotate(-15 -5 0)"/>
+      <text x="0" y="60" class="sm" text-anchor="middle">Progestogen slowly released</text>
+    </g>
+
+    <!-- IUCD -->
+    <g transform="translate(100, 220)">
+      <text x="0" y="-40" class="lbl" text-anchor="middle">IUCD (Copper)</text>
+      <!-- Uterus -->
+      <path d="M-20,-10 C-30,-30 30,-30 20,-10 C25,0 15,10 10,20 L-10,20 C-15,10 -25,0 -20,-10 Z" class="stroke fill"/>
+      <!-- T-shaped IUD -->
+      <path d="M-10,-5 L10,-5 M0,-5 L0,15" class="copper"/>
+      <!-- Strings -->
+      <path d="M0,15 Q5,25 0,35 Q-5,45 0,50" class="accent-stroke" stroke-width="1"/>
+      <text x="0" y="60" class="sm" text-anchor="middle">Spermicidal / Inflammatory</text>
+    </g>
+
+    <!-- Tubal Ligation -->
+    <g transform="translate(280, 220)">
+      <text x="0" y="-40" class="lbl" text-anchor="middle">Tubal Ligation</text>
+      <!-- Uterus half & Tube -->
+      <path d="M-40,10 C-30,0 -20,-10 -20,-20 C0,-30 20,-20 30,-20" class="stroke"/>
+      <path d="M35,-20 C45,-20 50,-10 40,0" class="stroke"/> <!-- Fimbriae end disconnected -->
+      
+      <!-- Clip -->
+      <rect x="25" y="-28" width="10" height="16" class="accent-stroke accent-fill" transform="rotate(30 30 -20)"/>
+      <path d="M22,-35 L28,-25 M32,-15 L38,-5" class="stroke" stroke-width="1"/> <!-- Scissor/Tie marks -->
+
+      <text x="0" y="60" class="sm" text-anchor="middle">Permanent Sterilization</text>
+    </g>
+  </svg>`
 };
