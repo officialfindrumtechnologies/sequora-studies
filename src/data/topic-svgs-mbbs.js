@@ -2,6 +2,1283 @@
 // Batch 1/11: MBBS Physiology topics 1–5
 
 export const TOPIC_SVGS_MBBS = {
+  'mbbs-surg-wound-healing': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <style>
+      .lbl { font-family: sans-serif; font-size: 10px; fill: var(--text); }
+      .sm { font-family: sans-serif; font-size: 8px; fill: var(--text-dim); }
+      .title { font-family: sans-serif; font-size: 12px; font-weight: bold; fill: var(--accent); }
+      @keyframes pulse { 0% { opacity: 0.8; } 50% { opacity: 1; transform: scale(1.02); } 100% { opacity: 0.8; } }
+      .anim { animation: pulse 3s infinite; }
+    </style>
+    <rect width="400" height="300" fill="var(--surface)" />
+    
+    <!-- Primary Intention -->
+    <text x="20" y="30" class="title">Primary Intention</text>
+    <rect x="20" y="45" width="35" height="100" fill="var(--border)" rx="4"/>
+    <rect x="60" y="45" width="35" height="100" fill="var(--border)" rx="4"/>
+    <!-- Sutures -->
+    <line x1="30" y1="60" x2="85" y2="60" stroke="var(--text)" stroke-width="2"/>
+    <line x1="30" y1="90" x2="85" y2="90" stroke="var(--text)" stroke-width="2"/>
+    <line x1="30" y1="120" x2="85" y2="120" stroke="var(--text)" stroke-width="2"/>
+    <circle cx="58" cy="60" r="2" fill="var(--text)"/>
+    <circle cx="58" cy="90" r="2" fill="var(--text)"/>
+    <circle cx="58" cy="120" r="2" fill="var(--text)"/>
+
+    <!-- Secondary Intention -->
+    <text x="130" y="30" class="title">Secondary Intention</text>
+    <path d="M 130 45 L 150 45 Q 165 95 150 145 L 130 145 Z" fill="var(--border)"/>
+    <path d="M 210 45 L 190 45 Q 175 95 190 145 L 210 145 Z" fill="var(--border)"/>
+    <!-- Granulation -->
+    <circle cx="170" cy="130" r="4" fill="var(--accent)" class="anim"/>
+    <circle cx="163" cy="120" r="3" fill="var(--accent)"/>
+    <circle cx="176" cy="115" r="4" fill="var(--accent)" class="anim"/>
+    <circle cx="168" cy="105" r="3" fill="var(--accent)"/>
+    <circle cx="172" cy="95" r="3" fill="var(--accent)"/>
+    <circle cx="166" cy="85" r="2" fill="var(--accent)"/>
+    <circle cx="175" cy="75" r="3" fill="var(--accent)" class="anim"/>
+    
+    <!-- Suture Types -->
+    <text x="250" y="30" class="title">Suture Types</text>
+    <rect x="250" y="45" width="130" height="40" fill="none" stroke="var(--border)" rx="4"/>
+    <text x="260" y="60" class="sm">Continuous</text>
+    <path d="M 260 70 L 270 80 L 280 70 L 290 80 L 300 70" fill="none" stroke="var(--accent)" stroke-width="2"/>
+    
+    <rect x="250" y="105" width="130" height="40" fill="none" stroke="var(--border)" rx="4"/>
+    <text x="260" y="120" class="sm">Interrupted</text>
+    <ellipse cx="270" cy="130" rx="4" ry="6" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+    <ellipse cx="285" cy="130" rx="4" ry="6" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+    <ellipse cx="300" cy="130" rx="4" ry="6" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+
+    <!-- SSI Timeline -->
+    <text x="20" y="190" class="title">SSI (Surgical Site Infection) Timeline</text>
+    <line x1="20" y1="230" x2="380" y2="230" stroke="var(--text)" stroke-width="2"/>
+    <!-- Ticks -->
+    <line x1="30" y1="225" x2="30" y2="235" stroke="var(--text)" stroke-width="2"/>
+    <text x="20" y="250" class="lbl">Day 0</text>
+    <text x="20" y="265" class="sm">Surgery</text>
+    
+    <line x1="120" y1="225" x2="120" y2="235" stroke="var(--text)" stroke-width="2"/>
+    <text x="110" y="250" class="lbl">Day 3-5</text>
+    <text x="100" y="265" class="sm">Wound Erythema</text>
+
+    <line x1="220" y1="225" x2="220" y2="235" stroke="var(--text)" stroke-width="2"/>
+    <text x="210" y="250" class="lbl">Day 7-10</text>
+    <text x="200" y="265" class="sm">Purulent Discharge</text>
+
+    <line x1="360" y1="225" x2="360" y2="235" stroke="var(--text)" stroke-width="2"/>
+    <text x="345" y="250" class="lbl">Day 30</text>
+    <text x="330" y="265" class="sm">SSI Surveillance End</text>
+    
+    <polygon points="380,230 375,225 375,235" fill="var(--text)"/>
+  </svg>`,
+  'mbbs-surg-shock-fluids': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <style>
+      .lbl { font-family: sans-serif; font-size: 10px; fill: var(--text); }
+      .sm { font-family: sans-serif; font-size: 8px; fill: var(--text-dim); }
+      .title { font-family: sans-serif; font-size: 12px; font-weight: bold; fill: var(--accent); }
+      .up { fill: #e74c3c; }
+      .down { fill: #3498db; }
+      @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+      .anim { animation: float 3s infinite ease-in-out; }
+    </style>
+    <rect width="400" height="300" fill="var(--surface)" />
+    
+    <!-- Fluid Compartments -->
+    <text x="20" y="30" class="title">Fluid Compartments</text>
+    <rect x="20" y="50" width="150" height="100" fill="none" stroke="var(--border)" stroke-width="2"/>
+    <rect x="22" y="52" width="98" height="96" fill="var(--border)" opacity="0.5"/>
+    <text x="35" y="105" class="lbl">ICF (66%)</text>
+    <rect x="122" y="52" width="46" height="96" fill="var(--accent)" opacity="0.3"/>
+    <text x="130" y="70" class="sm">ECF</text>
+    <line x1="122" y1="110" x2="168" y2="110" stroke="var(--surface)" stroke-width="2"/>
+    <text x="126" y="95" class="sm">ISF(75%)</text>
+    <text x="125" y="130" class="sm">Plasma</text>
+
+    <!-- Hemodynamics -->
+    <text x="200" y="30" class="title">Hemodynamics</text>
+    <line x1="200" y1="45" x2="380" y2="45" stroke="var(--border)"/>
+    <text x="260" y="60" class="sm">Hypovolemic</text>
+    <text x="330" y="60" class="sm">Septic</text>
+    <line x1="200" y1="70" x2="380" y2="70" stroke="var(--border)" stroke-dasharray="2,2"/>
+    
+    <text x="205" y="90" class="lbl">Heart Rate</text>
+    <polygon points="280,82 275,90 285,90" class="up anim"/>
+    <polygon points="340,82 335,90 345,90" class="up anim"/>
+
+    <text x="205" y="115" class="lbl">Blood Press.</text>
+    <polygon points="280,118 275,110 285,110" class="down anim"/>
+    <polygon points="340,118 335,110 345,110" class="down anim"/>
+
+    <text x="205" y="140" class="lbl">SVR</text>
+    <polygon points="280,132 275,140 285,140" class="up anim"/>
+    <polygon points="340,143 335,135 345,135" class="down anim"/>
+
+    <!-- ATLS Fluid Resuscitation -->
+    <text x="20" y="180" class="title">ATLS Fluid Resuscitation</text>
+    
+    <rect x="20" y="200" width="100" height="30" fill="var(--border)" rx="15"/>
+    <text x="30" y="218" class="lbl">1L Crystalloid</text>
+    
+    <line x1="120" y1="215" x2="150" y2="215" stroke="var(--text)" stroke-width="2"/>
+    <polygon points="150,215 145,210 145,220" fill="var(--text)"/>
+    
+    <rect x="155" y="200" width="80" height="30" fill="var(--accent)" opacity="0.6" rx="4"/>
+    <text x="165" y="218" class="lbl">Assess Resp.</text>
+
+    <path d="M 235 215 L 255 215 L 255 190 L 265 190" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+    <polygon points="265,190 260,185 260,195" fill="var(--text)"/>
+    <rect x="270" y="175" width="110" height="25" fill="var(--surface)" stroke="var(--text)"/>
+    <text x="280" y="190" class="sm">Rapid Responder</text>
+
+    <line x1="235" y1="215" x2="265" y2="215" stroke="var(--text)" stroke-width="1.5"/>
+    <polygon points="265,215 260,210 260,220" fill="var(--text)"/>
+    <rect x="270" y="205" width="110" height="25" fill="var(--surface)" stroke="var(--text)"/>
+    <text x="280" y="220" class="sm">Transient Resp.</text>
+
+    <path d="M 235 215 L 255 215 L 255 240 L 265 240" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+    <polygon points="265,240 260,235 260,245" fill="var(--text)"/>
+    <rect x="270" y="235" width="110" height="25" fill="var(--surface)" stroke="var(--text)"/>
+    <text x="280" y="250" class="sm">Non-Responder</text>
+  </svg>`,
+  'mbbs-surg-trauma-atls': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <style>
+      .lbl { font-family: sans-serif; font-size: 10px; fill: var(--text); }
+      .sm { font-family: sans-serif; font-size: 8px; fill: var(--text-dim); }
+      .title { font-family: sans-serif; font-size: 12px; font-weight: bold; fill: var(--accent); }
+      @keyframes pop { 0% { r: 12; } 50% { r: 14; fill: var(--accent); } 100% { r: 12; } }
+      .anim { animation: pop 2s infinite; }
+    </style>
+    <rect width="400" height="300" fill="var(--surface)" />
+
+    <!-- ABCDE Primary Survey -->
+    <text x="20" y="30" class="title">Primary Survey</text>
+    
+    <circle cx="35" cy="60" r="12" fill="var(--border)" class="anim" style="animation-delay: 0s;"/>
+    <text x="31" y="64" class="lbl" fill="#fff">A</text>
+    <text x="55" y="63" class="lbl">Airway</text>
+    <line x1="35" y1="72" x2="35" y2="88" stroke="var(--text)"/>
+    
+    <circle cx="35" cy="100" r="12" fill="var(--border)" class="anim" style="animation-delay: 0.4s;"/>
+    <text x="31" y="104" class="lbl" fill="#fff">B</text>
+    <text x="55" y="103" class="lbl">Breathing</text>
+    <line x1="35" y1="112" x2="35" y2="128" stroke="var(--text)"/>
+    
+    <circle cx="35" cy="140" r="12" fill="var(--border)" class="anim" style="animation-delay: 0.8s;"/>
+    <text x="31" y="144" class="lbl" fill="#fff">C</text>
+    <text x="55" y="143" class="lbl">Circulation</text>
+    <line x1="35" y1="152" x2="35" y2="168" stroke="var(--text)"/>
+
+    <circle cx="35" cy="180" r="12" fill="var(--border)" class="anim" style="animation-delay: 1.2s;"/>
+    <text x="31" y="184" class="lbl" fill="#fff">D</text>
+    <text x="55" y="183" class="lbl">Disability</text>
+    <line x1="35" y1="192" x2="35" y2="208" stroke="var(--text)"/>
+
+    <circle cx="35" cy="220" r="12" fill="var(--border)" class="anim" style="animation-delay: 1.6s;"/>
+    <text x="31" y="224" class="lbl" fill="#fff">E</text>
+    <text x="55" y="223" class="lbl">Exposure</text>
+
+    <!-- FAST Scan Zones -->
+    <text x="160" y="30" class="title">FAST Scan Zones</text>
+    <path d="M 190 60 Q 210 50 230 60 L 235 150 Q 210 180 185 150 Z" fill="none" stroke="var(--text)" stroke-width="2"/>
+    <path d="M 185 150 L 180 230 M 235 150 L 240 230" fill="none" stroke="var(--text)" stroke-width="2"/>
+    
+    <ellipse cx="210" cy="80" rx="10" ry="6" fill="var(--accent)" opacity="0.6"/>
+    <text x="230" y="80" class="sm">Pericardial</text>
+    
+    <ellipse cx="190" cy="120" rx="8" ry="12" fill="var(--accent)" opacity="0.6"/>
+    <line x1="185" y1="120" x2="160" y2="120" stroke="var(--text)"/>
+    <text x="135" y="115" class="sm">Morison's</text>
+    
+    <ellipse cx="230" cy="125" rx="6" ry="10" fill="var(--accent)" opacity="0.6"/>
+    <text x="240" y="125" class="sm">Splenorenal</text>
+
+    <ellipse cx="210" cy="160" rx="12" ry="8" fill="var(--accent)" opacity="0.6"/>
+    <text x="230" y="165" class="sm">Suprapubic</text>
+
+    <!-- Triage Categories -->
+    <text x="280" y="30" class="title">Triage</text>
+    
+    <rect x="280" y="50" width="10" height="25" fill="#e74c3c"/>
+    <text x="300" y="60" class="lbl">Red</text>
+    <text x="300" y="70" class="sm">Immediate (P1)</text>
+
+    <rect x="280" y="90" width="10" height="25" fill="#f1c40f"/>
+    <text x="300" y="100" class="lbl">Yellow</text>
+    <text x="300" y="110" class="sm">Urgent (P2)</text>
+
+    <rect x="280" y="130" width="10" height="25" fill="#2ecc71"/>
+    <text x="300" y="140" class="lbl">Green</text>
+    <text x="300" y="150" class="sm">Delayed (P3)</text>
+
+    <rect x="280" y="170" width="10" height="25" fill="#34495e"/>
+    <text x="300" y="180" class="lbl">Black</text>
+    <text x="300" y="190" class="sm">Expectant</text>
+  </svg>`,
+  'mbbs-surg-burns': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <style>
+      .lbl { font-family: sans-serif; font-size: 10px; fill: var(--text); }
+      .sm { font-family: sans-serif; font-size: 8px; fill: var(--text-dim); }
+      .title { font-family: sans-serif; font-size: 12px; font-weight: bold; fill: var(--accent); }
+      @keyframes flicker { 0%, 100% { opacity: 0.8; } 50% { opacity: 1; transform: scaleY(1.05); } }
+      .flame { animation: flicker 1s infinite alternate; transform-origin: bottom; }
+    </style>
+    <rect width="400" height="300" fill="var(--surface)" />
+
+    <!-- Wallace Rule of Nines -->
+    <text x="20" y="30" class="title">Wallace's Rule of 9s</text>
+    <circle cx="80" cy="60" r="12" fill="var(--border)"/>
+    <text x="75" y="63" class="sm" fill="#fff">9%</text>
+
+    <rect x="65" y="75" width="30" height="60" fill="var(--border)"/>
+    <text x="72" y="105" class="lbl" fill="#fff">36%</text>
+
+    <rect x="45" y="75" width="15" height="50" fill="var(--border)" rx="4"/>
+    <text x="30" y="100" class="sm">9%</text>
+
+    <rect x="100" y="75" width="15" height="50" fill="var(--border)" rx="4"/>
+    <text x="120" y="100" class="sm">9%</text>
+
+    <polygon points="75,135 85,135 80,145" fill="var(--accent)"/>
+    <text x="90" y="142" class="sm">1%</text>
+
+    <rect x="65" y="145" width="12" height="60" fill="var(--border)" rx="4"/>
+    <text x="45" y="180" class="sm">18%</text>
+
+    <rect x="83" y="145" width="12" height="60" fill="var(--border)" rx="4"/>
+    <text x="100" y="180" class="sm">18%</text>
+
+    <!-- Burn Depth -->
+    <text x="200" y="30" class="title">Burn Depth</text>
+    
+    <rect x="200" y="45" width="150" height="25" fill="#fcdbb6" stroke="var(--border)"/>
+    <text x="360" y="60" class="lbl">Epidermis (1°)</text>
+    <path d="M 220 70 Q 230 65 240 70 T 260 70 T 280 70 T 300 70 T 320 70 T 340 70" fill="none" stroke="var(--text)" opacity="0.3"/>
+    
+    <rect x="200" y="70" width="150" height="40" fill="#f5bca9" stroke="var(--border)"/>
+    <text x="360" y="95" class="lbl">Dermis (2°)</text>
+    
+    <rect x="200" y="110" width="150" height="35" fill="#f0e68c" stroke="var(--border)"/>
+    <text x="360" y="130" class="lbl">SubQ (3°)</text>
+    
+    <!-- Hair Follicle & Gland -->
+    <path d="M 230 50 L 225 100 L 235 100 Z" fill="var(--text-dim)"/>
+    <circle cx="280" cy="95" r="4" fill="none" stroke="var(--text-dim)" stroke-width="2"/>
+    <path d="M 280 91 L 280 50" fill="none" stroke="var(--text-dim)" stroke-width="2"/>
+
+    <!-- Flames Indicator -->
+    <path d="M 210 40 Q 215 30 220 40 Q 215 35 210 40" fill="#e74c3c" class="flame"/>
+    <path d="M 250 65 Q 255 55 260 65 Q 255 60 250 65" fill="#e74c3c" class="flame"/>
+    <path d="M 310 105 Q 315 95 320 105 Q 315 100 310 105" fill="#e74c3c" class="flame"/>
+
+    <!-- Parkland Formula -->
+    <text x="200" y="180" class="title">Parkland Formula</text>
+    <rect x="200" y="195" width="180" height="50" fill="var(--border)" rx="6" opacity="0.2"/>
+    <text x="210" y="215" class="lbl">Total Fluid (24h) =</text>
+    <text x="220" y="235" class="title">4 mL × Weight (kg) × % TBSA</text>
+    <line x1="200" y1="250" x2="380" y2="250" stroke="var(--text)" stroke-dasharray="2,2"/>
+    <text x="205" y="265" class="sm">50% in first 8 hours, 50% in next 16 hours</text>
+  </svg>`,
+  'mbbs-surg-appendicitis': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <style>
+      .lbl { font-family: sans-serif; font-size: 10px; fill: var(--text); }
+      .sm { font-family: sans-serif; font-size: 8px; fill: var(--text-dim); }
+      .title { font-family: sans-serif; font-size: 12px; font-weight: bold; fill: var(--accent); }
+      @keyframes throb { 0%, 100% { stroke-width: 2; fill: #e74c3c; } 50% { stroke-width: 3; fill: #c0392b; } }
+      .inflamed { animation: throb 1.5s infinite; }
+    </style>
+    <rect width="400" height="300" fill="var(--surface)" />
+
+    <!-- Appendix Positions -->
+    <text x="20" y="30" class="title">Appendix Positions</text>
+    
+    <!-- Caecum & Ileum -->
+    <path d="M 60 60 L 60 140 Q 80 180 120 160 L 120 60" fill="none" stroke="var(--border)" stroke-width="20" stroke-linecap="round"/>
+    <path d="M 120 130 L 180 130" fill="none" stroke="var(--border)" stroke-width="12" stroke-linecap="round"/>
+    <line x1="90" y1="60" x2="90" y2="155" stroke="var(--text-dim)" stroke-width="2" stroke-dasharray="3,3"/>
+    
+    <!-- Appendix positions -->
+    <!-- Base -->
+    <circle cx="90" cy="155" r="5" fill="var(--text)"/>
+    
+    <!-- Retrocaecal (74%) -->
+    <path d="M 90 155 Q 85 130 90 100" fill="none" stroke="var(--text-dim)" stroke-width="5" stroke-linecap="round"/>
+    <text x="40" y="90" class="sm">Retrocaecal</text>
+    
+    <!-- Pelvic (21%) -->
+    <path d="M 90 155 Q 110 180 140 180" fill="none" stroke="var(--accent)" stroke-width="5" stroke-linecap="round" class="inflamed"/>
+    <text x="145" y="185" class="sm">Pelvic</text>
+
+    <!-- Subcaecal -->
+    <path d="M 90 155 Q 80 190 70 200" fill="none" stroke="var(--text-dim)" stroke-width="5" stroke-linecap="round"/>
+    <text x="35" y="210" class="sm">Subcaecal</text>
+
+    <!-- Alvarado Score -->
+    <text x="220" y="30" class="title">Alvarado Score (MANTRELS)</text>
+    <rect x="220" y="45" width="160" height="120" fill="none" stroke="var(--border)"/>
+    <line x1="220" y1="60" x2="380" y2="60" stroke="var(--border)"/>
+    <line x1="340" y1="45" x2="340" y2="165" stroke="var(--border)"/>
+    
+    <text x="225" y="56" class="sm">Sign/Symptom</text>
+    <text x="345" y="56" class="sm">Score</text>
+    
+    <text x="225" y="72" class="sm"><tspan font-weight="bold">M</tspan>igratory pain</text><text x="355" y="72" class="sm">1</text>
+    <text x="225" y="84" class="sm"><tspan font-weight="bold">A</tspan>norexia</text><text x="355" y="84" class="sm">1</text>
+    <text x="225" y="96" class="sm"><tspan font-weight="bold">N</tspan>ausea/Vomiting</text><text x="355" y="96" class="sm">1</text>
+    <text x="225" y="108" class="sm"><tspan font-weight="bold">T</tspan>enderness RIF</text><text x="355" y="108" class="sm" fill="var(--accent)">2</text>
+    <text x="225" y="120" class="sm"><tspan font-weight="bold">R</tspan>ebound tenderness</text><text x="355" y="120" class="sm">1</text>
+    <text x="225" y="132" class="sm"><tspan font-weight="bold">E</tspan>levated temperature</text><text x="355" y="132" class="sm">1</text>
+    <text x="225" y="144" class="sm"><tspan font-weight="bold">L</tspan>eukocytosis</text><text x="355" y="144" class="sm" fill="var(--accent)">2</text>
+    <text x="225" y="156" class="sm"><tspan font-weight="bold">S</tspan>hift to left</text><text x="355" y="156" class="sm">1</text>
+    <text x="225" y="175" class="lbl" fill="var(--accent)">> 7: High Probability</text>
+
+    <!-- McBurney's Point -->
+    <text x="20" y="230" class="title">McBurney's Point & Gridiron</text>
+    <path d="M 40 240 Q 100 245 160 240" fill="none" stroke="var(--border)" stroke-width="2"/>
+    <circle cx="100" cy="242" r="3" fill="var(--text)"/>
+    <text x="90" y="235" class="sm">Umbilicus</text>
+    
+    <circle cx="180" cy="280" r="3" fill="var(--text)"/>
+    <text x="185" y="285" class="sm">ASIS</text>
+    
+    <line x1="100" y1="242" x2="180" y2="280" stroke="var(--text)" stroke-dasharray="2,2"/>
+    
+    <!-- 2/3 and 1/3 mark -->
+    <circle cx="153" cy="267" r="4" fill="var(--accent)" class="inflamed"/>
+    <line x1="145" y1="275" x2="161" y2="259" stroke="var(--text)" stroke-width="2"/>
+    <text x="160" y="255" class="lbl">McBurney's</text>
+
+  </svg>`,
+  'mbbs-surg-hernia': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <style>
+      .lbl { font-family: sans-serif; font-size: 10px; fill: var(--text); }
+      .sm { font-family: sans-serif; font-size: 8px; fill: var(--text-dim); }
+      .title { font-family: sans-serif; font-size: 12px; font-weight: bold; fill: var(--accent); }
+      @keyframes dash { to { stroke-dashoffset: -20; } }
+      .flow { stroke-dasharray: 4,4; animation: dash 2s linear infinite; }
+    </style>
+    <rect width="400" height="300" fill="var(--surface)" />
+
+    <!-- Inguinal Canal & Hernia Types -->
+    <text x="20" y="30" class="title">Inguinal Canal (Direct vs Indirect)</text>
+    
+    <!-- Inguinal Ligament -->
+    <path d="M 40 150 Q 100 160 160 170" fill="none" stroke="var(--border)" stroke-width="6" stroke-linecap="round"/>
+    <text x="150" y="185" class="sm">Inguinal Ligament</text>
+    
+    <!-- Rings -->
+    <ellipse cx="60" cy="145" rx="8" ry="12" fill="none" stroke="var(--text)" stroke-width="2"/>
+    <text x="45" y="130" class="sm">Deep Ring</text>
+
+    <ellipse cx="140" cy="155" rx="6" ry="10" fill="none" stroke="var(--text)" stroke-width="2"/>
+    <text x="130" y="140" class="sm">Superficial Ring</text>
+
+    <!-- Inferior Epigastric Vessels -->
+    <path d="M 100 155 Q 90 120 100 80" fill="none" stroke="#e74c3c" stroke-width="4"/>
+    <path d="M 105 155 Q 95 120 105 80" fill="none" stroke="#3498db" stroke-width="4"/>
+    <text x="110" y="90" class="sm">Inf. Epigastric</text>
+
+    <!-- Hesselbach's Triangle -->
+    <path d="M 100 155 L 140 155 L 140 100 Z" fill="var(--border)" opacity="0.3"/>
+    <text x="115" y="135" class="sm" fill="var(--text)">Hesselbach's</text>
+    <text x="115" y="145" class="sm" fill="var(--text)">Triangle</text>
+
+    <!-- Hernia Paths -->
+    <!-- Indirect -->
+    <path d="M 50 100 Q 60 145 140 155" fill="none" stroke="var(--accent)" stroke-width="2" class="flow"/>
+    <polygon points="140,155 135,150 135,160" fill="var(--accent)"/>
+    <text x="50" y="90" class="lbl" fill="var(--accent)">Indirect</text>
+
+    <!-- Direct -->
+    <path d="M 125 100 L 125 145" fill="none" stroke="var(--accent)" stroke-width="2" class="flow"/>
+    <polygon points="125,145 120,140 130,140" fill="var(--accent)"/>
+    <text x="110" y="90" class="lbl" fill="var(--accent)">Direct</text>
+
+    <!-- Femoral Hernia / NAVEL -->
+    <text x="240" y="30" class="title">Femoral Anatomy (NAVEL)</text>
+    <rect x="230" y="60" width="150" height="15" fill="var(--border)"/>
+    <text x="270" y="55" class="sm">Inguinal Ligament</text>
+
+    <line x1="230" y1="75" x2="380" y2="75" stroke="var(--border)" stroke-dasharray="2,2"/>
+    
+    <!-- Structures -->
+    <!-- Nerve -->
+    <circle cx="250" cy="110" r="10" fill="#f1c40f"/>
+    <text x="246" y="114" class="lbl" fill="#fff">N</text>
+    <text x="240" y="135" class="sm">Nerve</text>
+
+    <!-- Artery -->
+    <circle cx="280" cy="110" r="12" fill="#e74c3c"/>
+    <text x="276" y="114" class="lbl" fill="#fff">A</text>
+    <text x="270" y="135" class="sm">Artery</text>
+
+    <!-- Vein -->
+    <circle cx="310" cy="110" r="14" fill="#3498db"/>
+    <text x="306" y="114" class="lbl" fill="#fff">V</text>
+    <text x="302" y="135" class="sm">Vein</text>
+
+    <!-- Empty (Femoral Canal) -->
+    <circle cx="340" cy="110" r="10" fill="none" stroke="var(--text)" stroke-width="2" stroke-dasharray="2,2"/>
+    <text x="336" y="114" class="lbl">E</text>
+    <text x="330" y="135" class="sm">Empty</text>
+    <text x="330" y="145" class="sm" fill="var(--accent)">(Hernia)</text>
+
+    <!-- Lymphatics -->
+    <circle cx="365" cy="110" r="6" fill="#2ecc71"/>
+    <text x="362" y="113" class="sm" fill="#fff">L</text>
+    <text x="355" y="135" class="sm">Lymph</text>
+
+    <!-- Femoral Sheath -->
+    <path d="M 265 90 L 325 90 L 325 130 L 265 130 Z" fill="none" stroke="var(--text-dim)" stroke-dasharray="4,2"/>
+    <text x="275" y="145" class="sm">Femoral Sheath</text>
+
+  </svg>`,
+  'mbbs-surg-biliary': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <style>
+      .bg { fill: var(--surface); }
+      .text { font-family: sans-serif; fill: var(--text); font-size: 12px; }
+      .sm { font-size: 10px; fill: var(--text-dim); }
+      .path-outline { stroke: var(--border); stroke-width: 2; fill: none; }
+      .organ { fill: #ffe6e6; stroke: var(--border); stroke-width: 1.5; }
+      .duct { stroke: #2ecc71; stroke-width: 4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .gb { fill: #27ae60; stroke: #1e8449; stroke-width: 1.5; }
+      .stone { fill: #f1c40f; stroke: #d4ac0d; stroke-width: 1; }
+      .accent { fill: var(--accent); }
+      .port { fill: none; stroke: var(--accent); stroke-width: 2; }
+      @keyframes pulse { 0% { opacity: 0.8; transform: scale(1); } 50% { opacity: 1; transform: scale(1.1); } 100% { opacity: 0.8; transform: scale(1); } }
+      .anim-stone { animation: pulse 2s infinite alternate; transform-origin: center; }
+    </style>
+  </defs>
+  <rect width="100%" height="100%" class="bg" />
+  
+  <path d="M40,60 Q100,20 180,60 Q150,110 90,100 Z" class="organ" opacity="0.5"/>
+  <text x="45" y="55" class="text sm">Liver</text>
+  
+  <path d="M100,80 L120,100 L140,80" class="duct"/>
+  <path d="M120,100 L120,130" class="duct"/>
+  <path d="M120,130 Q140,125 150,130" class="duct" stroke-width="3"/>
+  <path d="M120,130 L120,180" class="duct"/>
+  
+  <path d="M80,160 Q140,160 140,180 Q140,220 80,220" class="organ"/>
+  <text x="85" y="215" class="text sm">Duodenum</text>
+  
+  <path d="M148,128 C170,120 190,150 160,170 C145,180 140,140 148,128" class="gb"/>
+  
+  <circle cx="160" cy="155" r="5" class="stone anim-stone" />
+  <circle cx="155" cy="163" r="4" class="stone" />
+  <text x="175" y="155" class="text sm">Cholelithiasis</text>
+  
+  <circle cx="120" cy="165" r="5" class="stone anim-stone" />
+  <text x="130" y="170" class="text sm">Choledocholithiasis</text>
+
+  <g transform="translate(230, 30)">
+    <rect x="0" y="0" width="150" height="100" class="path-outline" rx="5" />
+    <text x="10" y="20" class="text" font-weight="bold">Charcot's Triad</text>
+    <path d="M 10 30 L 15 40 L 10 50 Z" class="accent"/>
+    <text x="25" y="45" class="text sm">RUQ Pain</text>
+    <rect x="10" y="55" width="5" height="15" fill="var(--accent)" />
+    <circle cx="12.5" cy="70" r="4" class="accent"/>
+    <text x="25" y="65" class="text sm">Fever</text>
+    <circle cx="12.5" cy="85" r="4" fill="#f1c40f"/>
+    <text x="25" y="85" class="text sm">Jaundice</text>
+    <text x="10" y="115" class="text sm" fill="var(--accent)">+ Hypotension &amp; Confusion</text>
+    <text x="10" y="125" class="text sm" fill="var(--accent)">= Reynolds Pentad</text>
+  </g>
+
+  <g transform="translate(250, 160)">
+    <ellipse cx="60" cy="60" rx="40" ry="60" class="path-outline" />
+    <circle cx="60" cy="80" r="3" class="path-outline" />
+    <circle cx="60" cy="90" r="4" class="port" />
+    <circle cx="60" cy="40" r="4" class="port" />
+    <circle cx="30" cy="60" r="4" class="port" />
+    <circle cx="90" cy="60" r="4" class="port" />
+    <text x="15" y="135" class="text sm">Lap Chole Port Sites</text>
+  </g>
+</svg>`,
+  'mbbs-surg-obstruction': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <style>
+      .bg { fill: var(--surface); }
+      .text { font-family: sans-serif; fill: var(--text); font-size: 12px; }
+      .sm { font-size: 10px; fill: var(--text-dim); }
+      .bowel { fill: #f5b7b1; stroke: #c0392b; stroke-width: 2; }
+      .lines { stroke: #c0392b; stroke-width: 1; fill: none; }
+      .box { stroke: var(--border); fill: none; stroke-width: 1.5; rx: 4; }
+      @keyframes swell { 0% { stroke-width: 1.5; } 50% { stroke-width: 3; stroke: var(--accent); } 100% { stroke-width: 1.5; } }
+      .adhesion { stroke: var(--accent); stroke-width: 2; stroke-dasharray: 2 2; fill: none; animation: swell 2s infinite; }
+    </style>
+  </defs>
+  <rect width="100%" height="100%" class="bg" />
+
+  <g transform="translate(20, 20)">
+    <rect x="0" y="0" width="170" height="120" class="box" />
+    <text x="10" y="20" class="text" font-weight="bold">SBO (Valvulae Conniventes)</text>
+    <path d="M 30,50 C 30,30 140,30 140,50 L 140,90 C 140,110 30,110 30,90 Z" class="bowel" />
+    <path d="M 30,55 L 140,55 M 30,65 L 140,65 M 30,75 L 140,75 M 30,85 L 140,85" class="lines" />
+    <text x="10" y="110" class="text sm">Crosses full width of bowel</text>
+  </g>
+
+  <g transform="translate(210, 20)">
+    <rect x="0" y="0" width="170" height="120" class="box" />
+    <text x="10" y="20" class="text" font-weight="bold">LBO (Haustra)</text>
+    <path d="M 30,50 Q 55,40 85,50 Q 115,40 140,50 L 140,90 Q 115,100 85,90 Q 55,100 30,90 Z" class="bowel" />
+    <path d="M 55,45 L 55,65 M 85,75 L 85,95 M 115,45 L 115,65" class="lines" />
+    <text x="10" y="110" class="text sm">Incomplete lines (does not cross)</text>
+  </g>
+
+  <g transform="translate(20, 160)">
+    <rect x="0" y="0" width="110" height="120" class="box" />
+    <text x="10" y="20" class="text" font-weight="bold">Sigmoid Volvulus</text>
+    <ellipse cx="55" cy="70" rx="30" ry="40" class="bowel" />
+    <path d="M 40,35 C 60,60 50,80 70,105" class="lines" stroke-width="2"/>
+    <text x="10" y="110" class="text sm">'Coffee Bean' Sign</text>
+  </g>
+
+  <g transform="translate(140, 160)">
+    <rect x="0" y="0" width="110" height="120" class="box" />
+    <text x="10" y="20" class="text" font-weight="bold">Intussusception</text>
+    <circle cx="55" cy="65" r="30" class="bowel" />
+    <circle cx="55" cy="65" r="20" class="lines" stroke-width="2" fill="#fadbd8" />
+    <circle cx="55" cy="65" r="10" class="lines" stroke-width="2" fill="#c0392b" />
+    <text x="10" y="110" class="text sm">'Target' Sign (US/CT)</text>
+  </g>
+
+  <g transform="translate(260, 160)">
+    <rect x="0" y="0" width="120" height="120" class="box" />
+    <text x="10" y="20" class="text" font-weight="bold">Adhesions</text>
+    <circle cx="35" cy="60" r="20" class="bowel" />
+    <circle cx="85" cy="70" r="20" class="bowel" />
+    <path d="M 50,50 L 60,65 L 75,60" class="adhesion" />
+    <text x="10" y="110" class="text sm">#1 Cause of SBO</text>
+  </g>
+</svg>`,
+  'mbbs-surg-peptic-ulcer': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <style>
+      .bg { fill: var(--surface); }
+      .text { font-family: sans-serif; fill: var(--text); font-size: 12px; }
+      .sm { font-size: 10px; fill: var(--text-dim); }
+      .stomach { fill: #f9ebea; stroke: #c0392b; stroke-width: 2; }
+      .ulcer { fill: #e74c3c; stroke: #900c3f; stroke-width: 1; }
+      .cxr { fill: none; stroke: var(--text); stroke-width: 2; }
+      .air { fill: #34495e; opacity: 0.8; }
+      .box { fill: var(--surface); stroke: var(--border); stroke-width: 1.5; rx: 4; }
+      .arrow { stroke: var(--text-dim); stroke-width: 1.5; fill: none; marker-end: url(#arr); }
+      @keyframes throb { 0% { r: 4; } 50% { r: 6; fill: var(--accent); } 100% { r: 4; } }
+      .bleed { animation: throb 1.5s infinite; }
+    </style>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--text-dim)"/>
+    </marker>
+  </defs>
+  <rect width="100%" height="100%" class="bg" />
+
+  <text x="20" y="20" class="text" font-weight="bold">Peptic Ulcer Disease</text>
+  <path d="M 80,40 L 80,80 C 80,110 120,110 140,160 C 160,210 240,210 280,180 C 320,150 320,110 280,80 C 240,50 140,80 120,60 L 120,40 Z" class="stomach"/>
+  
+  <circle cx="120" cy="115" r="5" class="ulcer bleed" />
+  <text x="15" y="115" class="text sm">Duodenal Ulcer (D1)</text>
+  <path d="M 100,115 L 115,115" class="arrow" />
+
+  <circle cx="160" cy="100" r="5" class="ulcer" />
+  <text x="175" y="95" class="text sm">Gastric Ulcer</text>
+  <text x="175" y="105" class="text sm">(Lesser Curvature)</text>
+
+  <g transform="translate(250, 20)">
+    <rect x="0" y="0" width="130" height="100" class="box" />
+    <text x="10" y="15" class="text sm" font-weight="bold">Erect CXR: Perforation</text>
+    <path d="M 20,60 Q 60,30 100,60" class="cxr" />
+    <path d="M 20,60 C 20,90 60,90 100,60" class="stomach" fill="#fadbd8" />
+    <path d="M 22,58 Q 60,35 98,58 Q 60,50 22,58 Z" class="air" />
+    <text x="35" y="85" class="text sm" fill="white">Liver</text>
+    <text x="45" y="45" class="text sm" fill="var(--text)">Air</text>
+  </g>
+
+  <g transform="translate(20, 220)">
+    <rect x="0" y="0" width="80" height="30" class="box" />
+    <text x="15" y="18" class="text sm">Endoscopy</text>
+    <path d="M 80,15 L 110,15" class="arrow" />
+    
+    <rect x="120" y="-10" width="100" height="50" class="box" />
+    <text x="130" y="8" class="text sm">Dual Therapy:</text>
+    <text x="130" y="20" class="text sm">- Adrenaline Inj.</text>
+    <text x="130" y="32" class="text sm">- Clip / Heater</text>
+    
+    <path d="M 220,15 L 250,15" class="arrow" />
+    
+    <rect x="260" y="-5" width="120" height="40" class="box" />
+    <text x="270" y="10" class="text sm">If fails / re-bleeds:</text>
+    <text x="270" y="25" class="text sm">Angio-embolize / Surgery</text>
+  </g>
+</svg>`,
+  'mbbs-surg-colorectal': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <style>
+      .bg { fill: var(--surface); }
+      .text { font-family: sans-serif; fill: var(--text); font-size: 12px; }
+      .sm { font-size: 10px; fill: var(--text-dim); }
+      .colon { fill: #e6b0aa; stroke: #922b21; stroke-width: 15; stroke-linejoin: round; stroke-linecap: round; }
+      .cancer { fill: #1abc9c; stroke: #0e6251; stroke-width: 2; }
+      .layer { stroke: var(--border); }
+      .mucosa { fill: #fadbd8; }
+      .submucosa { fill: #d2b4de; }
+      .muscularis { fill: #f5b041; }
+      .serosa { fill: #aed6f1; }
+      .cut { stroke: var(--accent); stroke-width: 2; stroke-dasharray: 4 4; fill: none; }
+      .box { fill: var(--surface); stroke: var(--border); rx: 4; }
+    </style>
+  </defs>
+  <rect width="100%" height="100%" class="bg" />
+
+  <text x="20" y="20" class="text" font-weight="bold">Colorectal Anatomy &amp; Resections</text>
+  
+  <path d="M 60,180 L 60,100 L 180,80 L 180,160 Q 180,180 200,200 L 200,240" class="colon" />
+  
+  <path d="M 40,80 L 100,120" class="cut" />
+  <path d="M 120,60 L 120,110" class="cut" />
+  <text x="40" y="70" class="text sm" fill="var(--accent)">Right Hemi</text>
+  
+  <path d="M 160,190 L 220,190" class="cut" />
+  <text x="225" y="195" class="text sm" fill="var(--accent)">Ant. Resection</text>
+
+  <circle cx="60" cy="150" r="6" class="cancer" />
+  <circle cx="180" cy="130" r="6" class="cancer" />
+  <circle cx="200" cy="220" r="6" class="cancer" />
+
+  <g transform="translate(230, 30)">
+    <rect x="0" y="0" width="150" height="140" class="box" />
+    <text x="10" y="15" class="text sm" font-weight="bold">TNM: T-Stage (Depth)</text>
+    
+    <rect x="30" y="30" width="100" height="20" class="layer mucosa" />
+    <text x="135" y="42" class="text sm">Mucosa</text>
+    
+    <rect x="30" y="50" width="100" height="20" class="layer submucosa" />
+    <text x="135" y="62" class="text sm">Submuc.</text>
+    
+    <rect x="30" y="70" width="100" height="20" class="layer muscularis" />
+    <text x="135" y="82" class="text sm">Musc.</text>
+    
+    <rect x="30" y="90" width="100" height="20" class="layer serosa" />
+    <text x="135" y="102" class="text sm">Serosa</text>
+
+    <ellipse cx="45" cy="40" rx="8" ry="10" class="cancer" />
+    <text x="38" y="25" class="text sm">T1</text>
+    <ellipse cx="70" cy="45" rx="8" ry="20" class="cancer" />
+    <text x="63" y="25" class="text sm">T2</text>
+    <ellipse cx="95" cy="55" rx="10" ry="30" class="cancer" />
+    <text x="88" y="25" class="text sm">T3</text>
+    <ellipse cx="120" cy="65" rx="12" ry="40" class="cancer" />
+    <text x="113" y="25" class="text sm">T4</text>
+  </g>
+
+  <g transform="translate(20, 250)">
+    <rect x="0" y="0" width="80" height="30" class="box" />
+    <text x="10" y="18" class="text sm">FOBT / FIT</text>
+    
+    <path d="M 80,15 L 110,15" stroke="var(--text-dim)" stroke-width="1.5" fill="none" />
+    
+    <rect x="120" y="0" width="80" height="30" class="box" />
+    <text x="130" y="18" class="text sm">Colonoscopy</text>
+    <text x="85" y="10" class="text sm">Positive</text>
+  </g>
+</svg>`,
+  'mbbs-surg-urolithiasis': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <style>
+      .bg { fill: var(--surface); }
+      .text { font-family: sans-serif; fill: var(--text); font-size: 12px; }
+      .sm { font-size: 10px; fill: var(--text-dim); }
+      .kidney { fill: #cd6155; stroke: #922b21; stroke-width: 1.5; }
+      .ureter { fill: none; stroke: #f5b041; stroke-width: 4; stroke-linecap: round; }
+      .bladder { fill: #f5b041; stroke: #d68910; stroke-width: 1.5; }
+      .stone { fill: #f1c40f; stroke: #000; stroke-width: 1; }
+      .bone { fill: #e5e8e8; stroke: #bdc3c7; }
+      .box { fill: var(--surface); stroke: var(--border); rx: 4; }
+      .arrow { stroke: var(--text-dim); stroke-width: 1.5; fill: none; marker-end: url(#arr); }
+      @keyframes blink { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 0; } }
+      .pulse-red { stroke: red; stroke-width: 2; fill: none; animation: blink 1s infinite; }
+    </style>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--text-dim)"/>
+    </marker>
+  </defs>
+  <rect width="100%" height="100%" class="bg" />
+
+  <text x="20" y="20" class="text" font-weight="bold">Urolithiasis: Sites &amp; Management</text>
+
+  <g transform="translate(40, 50)">
+    <path d="M 20,20 C -10,0 -10,60 20,80 C 40,90 50,60 30,50 Z" class="kidney" />
+    <path d="M 120,10 C 150,-10 150,50 120,70 C 100,80 90,50 110,40 Z" class="kidney" />
+    
+    <path d="M 30,50 Q 50,100 40,160" class="ureter" />
+    <path d="M 110,40 Q 90,90 100,160" class="ureter" />
+    
+    <ellipse cx="70" cy="180" rx="30" ry="25" class="bladder" />
+    
+    <circle cx="30" cy="55" r="4" class="stone" />
+    <circle cx="30" cy="55" r="8" class="pulse-red" />
+    <text x="-10" y="58" class="text sm">PUJ</text>
+    
+    <circle cx="100" cy="110" r="4" class="stone" />
+    <circle cx="100" cy="110" r="8" class="pulse-red" />
+    <text x="115" y="113" class="text sm">Pelvic Brim</text>
+    
+    <circle cx="45" cy="165" r="4" class="stone" />
+    <circle cx="45" cy="165" r="8" class="pulse-red" />
+    <text x="5" y="168" class="text sm">VUJ</text>
+  </g>
+
+  <g transform="translate(250, 40)">
+    <rect x="0" y="0" width="130" height="160" class="box" />
+    <text x="10" y="15" class="text sm" font-weight="bold">KUB X-ray</text>
+    
+    <rect x="55" y="25" width="20" height="15" class="bone" />
+    <rect x="55" y="42" width="20" height="15" class="bone" />
+    <rect x="55" y="59" width="20" height="15" class="bone" />
+    <rect x="55" y="76" width="20" height="15" class="bone" />
+    <rect x="55" y="93" width="20" height="15" class="bone" />
+    
+    <path d="M 20,120 Q 65,110 65,150 L 20,150 Z" class="bone" />
+    <path d="M 110,120 Q 65,110 65,150 L 110,150 Z" class="bone" />
+    
+    <path d="M 35,40 C 15,30 15,70 35,80 C 45,90 50,70 40,65 Z" class="kidney" fill="none" stroke-dasharray="2 2" />
+    <path d="M 95,35 C 115,25 115,65 95,75 C 85,85 80,65 90,60 Z" class="kidney" fill="none" stroke-dasharray="2 2" />
+    
+    <circle cx="35" cy="85" r="3" fill="#fff" stroke="#000" stroke-width="1" />
+    <path d="M 15,85 L 30,85" class="arrow" />
+    <text x="5" y="95" class="text sm">Stone</text>
+  </g>
+
+  <g transform="translate(20, 250)">
+    <rect x="0" y="0" width="80" height="30" class="box" />
+    <text x="10" y="18" class="text sm">Renal Stone</text>
+    
+    <path d="M 80,10 L 110,0" class="arrow" />
+    <path d="M 80,20 L 110,30" class="arrow" />
+    
+    <rect x="120" y="-15" width="100" height="25" class="box" />
+    <text x="130" y="0" class="text sm">&lt; 2cm: ESWL</text>
+    
+    <rect x="120" y="20" width="100" height="25" class="box" />
+    <text x="130" y="35" class="text sm">&gt; 2cm: PCNL</text>
+  </g>
+</svg>`,
+  'mbbs-surg-prostate': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <style>
+      .bg { fill: var(--surface); }
+      .text { font-family: sans-serif; fill: var(--text); font-size: 12px; }
+      .sm { font-size: 10px; fill: var(--text-dim); }
+      .bladder { fill: #f5b041; stroke: #d68910; stroke-width: 1.5; }
+      .urethra { fill: none; stroke: #f39c12; stroke-width: 4; }
+      .tz { fill: #d2b4de; stroke: #8e44ad; stroke-width: 1.5; }
+      .pz { fill: #f5b7b1; stroke: #c0392b; stroke-width: 1.5; }
+      .tumor { fill: #e74c3c; stroke: #900c3f; }
+      .bph { fill: #9b59b6; }
+      .box { fill: var(--surface); stroke: var(--border); rx: 4; }
+      .arrow { stroke: var(--text-dim); stroke-width: 1.5; fill: none; marker-end: url(#arr); }
+    </style>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--text-dim)"/>
+    </marker>
+  </defs>
+  <rect width="100%" height="100%" class="bg" />
+
+  <text x="20" y="20" class="text" font-weight="bold">Prostate Anatomy &amp; Pathology</text>
+
+  <g transform="translate(60, 60)">
+    <ellipse cx="60" cy="20" rx="40" ry="30" class="bladder" />
+    <text x="45" y="20" class="text sm">Bladder</text>
+    
+    <path d="M 60,50 L 60,130" class="urethra" />
+    
+    <path d="M 20,50 C -10,80 0,130 60,130 C 120,130 130,80 100,50 Z" class="pz" />
+    <text x="95" y="125" class="text sm">PZ (Cancer)</text>
+    <circle cx="90" cy="100" r="6" class="tumor" />
+    <circle cx="85" cy="110" r="4" class="tumor" />
+    
+    <ellipse cx="60" cy="80" rx="25" ry="30" class="tz" />
+    <text x="20" y="85" class="text sm">TZ (BPH)</text>
+    <circle cx="50" cy="70" r="5" class="bph" />
+    <circle cx="70" cy="85" r="6" class="bph" />
+    <circle cx="55" cy="95" r="4" class="bph" />
+  </g>
+
+  <g transform="translate(240, 40)">
+    <text x="0" y="10" class="text sm" font-weight="bold">IPSS Score (LUTS)</text>
+    <rect x="0" y="20" width="40" height="20" fill="#2ecc71" />
+    <rect x="40" y="20" width="50" height="20" fill="#f1c40f" />
+    <rect x="90" y="20" width="50" height="20" fill="#e74c3c" />
+    
+    <text x="10" y="34" class="text sm" fill="#fff">0-7</text>
+    <text x="50" y="34" class="text sm" fill="#fff">8-19</text>
+    <text x="100" y="34" class="text sm" fill="#fff">20-35</text>
+    
+    <text x="0" y="55" class="text sm">Mild</text>
+    <text x="45" y="55" class="text sm">Moderate</text>
+    <text x="100" y="55" class="text sm">Severe</text>
+
+    <rect x="0" y="70" width="140" height="40" class="box" />
+    <text x="10" y="85" class="text sm">Storage (FUN): Frequency,</text>
+    <text x="10" y="95" class="text sm">Urgency, Nocturia</text>
+    <text x="10" y="105" class="text sm">Voiding: Hesitancy, Dribble</text>
+  </g>
+
+  <g transform="translate(20, 220)">
+    <rect x="0" y="0" width="100" height="30" class="box" />
+    <text x="10" y="18" class="text sm">Elevated PSA / Abn DRE</text>
+    
+    <path d="M 100,15 L 140,15" class="arrow" />
+    
+    <rect x="150" y="-10" width="90" height="50" class="box" />
+    <text x="160" y="8" class="text sm">MRI Prostate</text>
+    <text x="160" y="20" class="text sm">-&gt; PIRADS</text>
+    <text x="160" y="32" class="text sm">-&gt; TRUS Biopsy</text>
+    
+    <path d="M 240,15 L 280,15" class="arrow" />
+    
+    <rect x="290" y="-5" width="80" height="40" class="box" />
+    <text x="300" y="10" class="text sm">Cancer:</text>
+    <text x="300" y="25" class="text sm">Gleason Score</text>
+  </g>
+  
+  <g transform="translate(20, 270)">
+     <text x="0" y="0" class="text sm">BPH Mgt: Alpha-blocker -&gt; 5-ARI -&gt; TURP</text>
+  </g>
+</svg>`,
+  'mbbs-surg-scrotal': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>
+  .lbl { font-family: sans-serif; font-size: 10px; fill: var(--text); }
+  .sm { font-size: 8px; fill: var(--text-dim); }
+  .box { fill: var(--surface); stroke: var(--border); stroke-width: 1; }
+  .path-red { stroke: #ef4444; stroke-width: 2; fill: none; }
+  .path-blue { stroke: #3b82f6; stroke-width: 2; fill: none; }
+  .arrow { stroke: var(--text-dim); stroke-width: 1; fill: none; marker-end: url(#arrowhead); }
+  @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+  .anim-pulse { transform-origin: center; animation: pulse 2s infinite; }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+    <polygon points="0 0, 6 2, 0 4" fill="var(--text-dim)"/>
+  </marker>
+</defs>
+<rect width="400" height="300" fill="var(--surface)"/>
+<!-- Normal -->
+<ellipse cx="60" cy="80" rx="15" ry="20" fill="#fca5a5" stroke="#ef4444"/>
+<path d="M50 70 Q 55 50, 65 55 Q 75 55, 70 70" fill="#f87171" stroke="#b91c1c"/>
+<path d="M65 55 L 65 30" class="path-blue"/>
+<text x="60" y="115" text-anchor="middle" class="lbl">Normal</text>
+
+<!-- Hydrocele -->
+<circle cx="140" cy="75" r="25" fill="#bae6fd" stroke="#0ea5e9" fill-opacity="0.5" class="anim-pulse"/>
+<ellipse cx="140" cy="80" rx="10" ry="15" fill="#fca5a5" stroke="#ef4444"/>
+<text x="140" y="115" text-anchor="middle" class="lbl">Hydrocele</text>
+<text x="140" y="125" text-anchor="middle" class="sm">(Transilluminates)</text>
+
+<!-- Varicocele -->
+<ellipse cx="220" cy="80" rx="15" ry="20" fill="#fca5a5" stroke="#ef4444"/>
+<path d="M225 55 Q 230 40, 220 30 Q 210 20, 225 10" class="path-blue" stroke-width="3"/>
+<path d="M215 55 Q 200 40, 215 30 Q 230 20, 215 10" class="path-blue" stroke-width="2"/>
+<text x="220" y="115" text-anchor="middle" class="lbl">Varicocele</text>
+<text x="220" y="125" text-anchor="middle" class="sm">Bag of worms</text>
+
+<!-- Torsion -->
+<ellipse cx="300" cy="80" rx="20" ry="15" fill="#fca5a5" stroke="#ef4444"/>
+<path d="M300 65 L 295 40 L 305 30 L 295 20" stroke="#000" stroke-width="2" fill="none"/>
+<text x="300" y="115" text-anchor="middle" class="lbl">Torsion</text>
+<text x="300" y="125" text-anchor="middle" class="sm">Twisted cord</text>
+
+<!-- Flowchart -->
+<rect x="150" y="150" width="100" height="20" rx="4" class="box"/>
+<text x="200" y="164" text-anchor="middle" class="lbl">Scrotal Swelling</text>
+
+<path d="M200 170 L 200 190" class="arrow"/>
+<path d="M120 190 L 280 190" stroke="var(--text-dim)" fill="none"/>
+<path d="M120 190 L 120 200" class="arrow"/>
+<path d="M280 190 L 280 200" class="arrow"/>
+
+<rect x="70" y="200" width="100" height="20" rx="4" class="box"/>
+<text x="120" y="214" text-anchor="middle" class="lbl">Painful</text>
+<rect x="230" y="200" width="100" height="20" rx="4" class="box"/>
+<text x="280" y="214" text-anchor="middle" class="lbl">Painless</text>
+
+<path d="M120 220 L 120 235" class="arrow"/>
+<path d="M280 220 L 280 235" class="arrow"/>
+
+<rect x="50" y="235" width="140" height="30" class="box"/>
+<text x="120" y="249" text-anchor="middle" class="sm">Torsion (urgent!)</text>
+<text x="120" y="259" text-anchor="middle" class="sm">Epididymo-orchitis</text>
+
+<rect x="210" y="235" width="140" height="40" class="box"/>
+<text x="280" y="249" text-anchor="middle" class="sm">Hydrocele / Varicocele</text>
+<text x="280" y="259" text-anchor="middle" class="sm">Epididymal cyst</text>
+<text x="280" y="269" text-anchor="middle" class="sm">Tumor (hard)</text>
+</svg>`,
+  'mbbs-surg-pvd': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>
+  .lbl { font-family: sans-serif; font-size: 10px; fill: var(--text); }
+  .sm { font-size: 8px; fill: var(--text-dim); }
+  .box { fill: var(--surface); stroke: var(--border); stroke-width: 1; }
+  .arrow { stroke: var(--text-dim); stroke-width: 1; fill: none; marker-end: url(#arrowhead); }
+  @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+  .anim-pulse { transform-origin: center; animation: pulse 2s infinite; }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+    <polygon points="0 0, 6 2, 0 4" fill="var(--text-dim)"/>
+  </marker>
+</defs>
+<rect width="400" height="300" fill="var(--surface)"/>
+<!-- Anatomy -->
+<path d="M 50 30 Q 60 100, 70 150 Q 80 200, 75 270 Q 55 270, 50 200 Q 40 100, 50 30" fill="#fef08a" stroke="#ca8a04" stroke-width="1" fill-opacity="0.3"/>
+<!-- Arteries -->
+<path d="M 60 30 L 60 100 L 65 150 M 60 100 L 50 140" stroke="#ef4444" stroke-width="3" fill="none"/>
+<path d="M 65 150 L 65 200 L 70 260 M 65 200 L 55 260" stroke="#ef4444" stroke-width="2" fill="none"/>
+<!-- Plaques -->
+<ellipse cx="60" cy="80" rx="3" ry="6" fill="#eab308" class="anim-pulse"/>
+<text x="90" y="80" class="lbl">Atherosclerosis</text>
+<path d="M85 78 L 65 80" class="arrow"/>
+
+<text x="100" y="40" class="sm">Femoral Art.</text>
+<text x="100" y="150" class="sm">Popliteal Art.</text>
+<text x="100" y="220" class="sm">Tibial Art.</text>
+
+<!-- Fontaine Stages -->
+<text x="250" y="25" text-anchor="middle" class="lbl" font-weight="bold">Fontaine\'s Stages (CLI)</text>
+<rect x="180" y="35" width="140" height="20" class="box"/>
+<text x="185" y="49" class="lbl">I. Asymptomatic</text>
+
+<rect x="180" y="65" width="140" height="20" class="box" fill="#fee2e2"/>
+<text x="185" y="79" class="lbl">II. Claudication</text>
+
+<rect x="180" y="95" width="140" height="20" class="box" fill="#fca5a5"/>
+<text x="185" y="109" class="lbl">III. Rest Pain</text>
+
+<rect x="180" y="125" width="140" height="20" class="box" fill="#f87171"/>
+<text x="185" y="139" class="lbl">IV. Ulcer / Gangrene</text>
+
+<!-- ABPI Scale -->
+<text x="250" y="170" text-anchor="middle" class="lbl" font-weight="bold">ABPI (Ankle-Brachial Index)</text>
+<path d="M 160 200 L 340 200" stroke="var(--border)" stroke-width="2"/>
+<path d="M 160 195 L 160 205 M 220 195 L 220 205 M 280 195 L 280 205 M 340 195 L 340 205" stroke="var(--border)" stroke-width="1"/>
+<text x="160" y="215" text-anchor="middle" class="sm">0.0</text>
+<text x="220" y="215" text-anchor="middle" class="sm">0.5</text>
+<text x="280" y="215" text-anchor="middle" class="sm">0.9</text>
+<text x="340" y="215" text-anchor="middle" class="sm">1.2</text>
+<rect x="160" y="185" width="60" height="5" fill="#ef4444"/>
+<rect x="220" y="185" width="60" height="5" fill="#facc15"/>
+<rect x="280" y="185" width="60" height="5" fill="#4ade80"/>
+<text x="190" y="180" text-anchor="middle" class="sm">Severe</text>
+<text x="250" y="180" text-anchor="middle" class="sm">Claudication</text>
+<text x="310" y="180" text-anchor="middle" class="sm">Normal</text>
+
+<!-- Claudication drawing -->
+<ellipse cx="280" cy="260" rx="10" ry="20" fill="#fca5a5" class="anim-pulse"/>
+<path d="M 280 260 L 260 250 M 280 260 L 255 260 M 280 260 L 260 270" stroke="#ef4444" stroke-width="1"/>
+<text x="300" y="260" class="lbl">Calf Pain on</text>
+<text x="300" y="270" class="lbl">Exertion</text>
+</svg>`,
+  'mbbs-surg-dvt': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>
+  .lbl { font-family: sans-serif; font-size: 10px; fill: var(--text); }
+  .sm { font-size: 8px; fill: var(--text-dim); }
+  .box { fill: var(--surface); stroke: var(--border); stroke-width: 1; }
+  .arrow { stroke: var(--text-dim); stroke-width: 1; fill: none; marker-end: url(#arrowhead); }
+  @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+  .anim-pulse { transform-origin: center; animation: pulse 2s infinite; }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+    <polygon points="0 0, 6 2, 0 4" fill="var(--text-dim)"/>
+  </marker>
+</defs>
+<rect width="400" height="300" fill="var(--surface)"/>
+<!-- Leg Venous Anatomy -->
+<path d="M 50 40 Q 60 120, 70 180 Q 80 250, 75 280 Q 55 280, 50 250 Q 40 120, 50 40" fill="#fef08a" stroke="#ca8a04" stroke-width="1" fill-opacity="0.3"/>
+<!-- Deep Vein -->
+<path d="M 60 40 L 60 120 L 65 180 L 65 250" stroke="#1e3a8a" stroke-width="4" fill="none"/>
+<!-- Superficial Vein (GSV) -->
+<path d="M 60 60 Q 75 100, 75 180 Q 75 230, 70 270" stroke="#3b82f6" stroke-width="2" fill="none"/>
+<!-- Perforators -->
+<path d="M 60 120 L 73 120 M 63 180 L 75 180 M 65 230 L 72 230" stroke="#3b82f6" stroke-width="2"/>
+<!-- Valves -->
+<path d="M 58 100 L 60 105 L 62 100 M 58 150 L 60 155 L 62 150" stroke="#bfdbfe" fill="none" stroke-width="1"/>
+<!-- Thrombus -->
+<path d="M 58 160 L 62 160 L 62 175 L 58 175 Z" fill="#ef4444" class="anim-pulse"/>
+
+<text x="85" y="70" class="lbl">SFJ (Saphenofemoral)</text>
+<text x="85" y="115" class="lbl">Deep Vein</text>
+<text x="85" y="200" class="lbl">Great Saphenous</text>
+<text x="85" y="170" class="lbl" fill="#ef4444">DVT</text>
+
+<!-- Virchow's Triad -->
+<text x="260" y="30" text-anchor="middle" class="lbl" font-weight="bold">Virchow\'s Triad</text>
+<polygon points="260,50 310,120 210,120" fill="none" stroke="var(--border)" stroke-width="2"/>
+<text x="260" y="45" text-anchor="middle" class="sm">Endothelial Injury</text>
+<text x="195" y="130" text-anchor="middle" class="sm">Venous Stasis</text>
+<text x="325" y="130" text-anchor="middle" class="sm">Hypercoagulability</text>
+<circle cx="260" cy="50" r="4" fill="#ef4444"/>
+<circle cx="210" cy="120" r="4" fill="#3b82f6"/>
+<circle cx="310" cy="120" r="4" fill="#eab308"/>
+
+<!-- CEAP -->
+<text x="260" y="160" text-anchor="middle" class="lbl" font-weight="bold">CEAP Classification (Varicose)</text>
+<rect x="170" y="170" width="80" height="20" class="box"/>
+<text x="175" y="184" class="sm">C1: Spider veins</text>
+<rect x="260" y="170" width="80" height="20" class="box"/>
+<text x="265" y="184" class="sm">C2: Varicose veins</text>
+
+<rect x="170" y="195" width="80" height="20" class="box"/>
+<text x="175" y="209" class="sm">C3: Edema</text>
+<rect x="260" y="195" width="80" height="20" class="box"/>
+<text x="265" y="209" class="sm">C4: Pigmentation</text>
+
+<rect x="170" y="220" width="80" height="20" class="box"/>
+<text x="175" y="234" class="sm">C5: Healed Ulcer</text>
+<rect x="260" y="220" width="80" height="20" class="box"/>
+<text x="265" y="234" class="sm">C6: Active Ulcer</text>
+
+<!-- Trendelenburg icon -->
+<path d="M 220 280 L 260 280 L 280 260" stroke="#fef08a" stroke-width="6" fill="none"/>
+<rect x="255" y="275" width="5" height="10" fill="#ef4444"/> <!-- Tourniquet -->
+<text x="300" y="275" class="sm">Trendelenburg</text>
+<text x="300" y="285" class="sm">Test (Tourniquet)</text>
+</svg>`,
+  'mbbs-surg-breast': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>
+  .lbl { font-family: sans-serif; font-size: 10px; fill: var(--text); }
+  .sm { font-size: 8px; fill: var(--text-dim); }
+  .box { fill: var(--surface); stroke: var(--border); stroke-width: 1; }
+  .arrow { stroke: var(--text-dim); stroke-width: 1; fill: none; marker-end: url(#arrowhead); }
+  @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+  .anim-pulse { transform-origin: center; animation: pulse 2s infinite; }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+    <polygon points="0 0, 6 2, 0 4" fill="var(--text-dim)"/>
+  </marker>
+</defs>
+<rect width="400" height="300" fill="var(--surface)"/>
+<!-- Breast Quadrants -->
+<circle cx="100" cy="100" r="50" fill="#fdf2f8" stroke="#fbcfe8" stroke-width="2"/>
+<circle cx="100" cy="100" r="10" fill="#f9a8d4"/> <!-- areola -->
+<circle cx="100" cy="100" r="3" fill="#ec4899"/> <!-- nipple -->
+<path d="M 50 100 L 150 100 M 100 50 L 100 150" stroke="#fbcfe8" stroke-dasharray="4"/>
+<text x="75" y="80" text-anchor="middle" class="lbl">UOQ</text>
+<text x="125" y="80" text-anchor="middle" class="lbl">UIQ</text>
+<text x="75" y="125" text-anchor="middle" class="lbl">LOQ</text>
+<text x="125" y="125" text-anchor="middle" class="lbl">LIQ</text>
+<text x="100" y="170" text-anchor="middle" class="sm">Most cancers in UOQ</text>
+
+<!-- Axillary Nodes -->
+<polygon points="180,40 220,100 180,120" fill="#fecaca" opacity="0.5" stroke="#ef4444"/>
+<text x="200" y="75" text-anchor="middle" class="sm" transform="rotate(30, 200, 75)">Pect. minor</text>
+<!-- Level 1 (lateral) -->
+<circle cx="160" cy="90" r="4" fill="#4ade80"/>
+<circle cx="165" cy="100" r="4" fill="#4ade80"/>
+<text x="160" y="115" class="sm">Level I</text>
+<!-- Level 2 (behind) -->
+<circle cx="190" cy="80" r="4" fill="#60a5fa"/>
+<circle cx="200" cy="85" r="4" fill="#60a5fa"/>
+<text x="195" y="100" class="sm">Level II</text>
+<!-- Level 3 (medial) -->
+<circle cx="230" cy="60" r="4" fill="#c084fc"/>
+<text x="240" y="65" class="sm">Level III</text>
+
+<!-- Triple Assessment Venn -->
+<text x="100" y="210" text-anchor="middle" class="lbl" font-weight="bold">Triple Assessment</text>
+<circle cx="100" cy="240" r="25" fill="#fca5a5" opacity="0.4" stroke="#ef4444"/>
+<circle cx="85" cy="265" r="25" fill="#60a5fa" opacity="0.4" stroke="#3b82f6"/>
+<circle cx="115" cy="265" r="25" fill="#4ade80" opacity="0.4" stroke="#22c55e"/>
+<text x="100" y="235" text-anchor="middle" class="sm">Clinical</text>
+<text x="75" y="270" text-anchor="middle" class="sm">Imaging</text>
+<text x="125" y="270" text-anchor="middle" class="sm">Pathology</text>
+
+<!-- Fibroadenoma vs Carcinoma -->
+<text x="300" y="180" text-anchor="middle" class="lbl" font-weight="bold">Fibroadenoma vs Carcinoma</text>
+<rect x="230" y="200" width="60" height="60" rx="4" class="box"/>
+<circle cx="260" cy="230" r="15" fill="#cbd5e1" stroke="#475569" stroke-width="2" class="anim-pulse"/>
+<text x="260" y="275" text-anchor="middle" class="sm">Smooth, Mobile</text>
+
+<rect x="310" y="200" width="60" height="60" rx="4" class="box"/>
+<path d="M 340 220 L 345 225 L 350 220 L 348 228 L 355 230 L 348 232 L 350 240 L 345 235 L 340 240 L 338 232 L 330 230 L 338 228 Z" fill="#94a3b8" stroke="#334155" stroke-width="1"/>
+<text x="340" y="275" text-anchor="middle" class="sm">Spiculated, Tethered</text>
+</svg>`,
+  'mbbs-surg-thyroid': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>
+  .lbl { font-family: sans-serif; font-size: 10px; fill: var(--text); }
+  .sm { font-size: 8px; fill: var(--text-dim); }
+  .box { fill: var(--surface); stroke: var(--border); stroke-width: 1; }
+  .arrow { stroke: var(--text-dim); stroke-width: 1; fill: none; marker-end: url(#arrowhead); }
+  @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+  .anim-pulse { transform-origin: center; animation: pulse 2s infinite; }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+    <polygon points="0 0, 6 2, 0 4" fill="var(--text-dim)"/>
+  </marker>
+</defs>
+<rect width="400" height="300" fill="var(--surface)"/>
+<!-- Thyroid Anatomy -->
+<rect x="70" y="40" width="20" height="80" fill="#f1f5f9" stroke="#94a3b8"/> <!-- Trachea -->
+<path d="M 70 50 L 90 50 M 70 60 L 90 60 M 70 70 L 90 70 M 70 80 L 90 80 M 70 90 L 90 90 M 70 100 L 90 100 M 70 110 L 90 110" stroke="#94a3b8"/>
+<!-- RLN -->
+<path d="M 65 120 L 65 40" stroke="#eab308" stroke-dasharray="2" stroke-width="2"/>
+<path d="M 95 120 L 95 40" stroke="#eab308" stroke-dasharray="2" stroke-width="2"/>
+<text x="65" y="130" text-anchor="middle" class="sm">RLN</text>
+<text x="95" y="130" text-anchor="middle" class="sm">RLN</text>
+
+<!-- Thyroid lobes -->
+<path d="M 60 50 Q 40 70, 60 100 Q 75 100, 75 80 L 85 80 Q 85 100, 100 100 Q 120 70, 100 50 Q 90 50, 85 70 L 75 70 Q 70 50, 60 50 Z" fill="#fca5a5" stroke="#ef4444" fill-opacity="0.8"/>
+<!-- Parathyroids -->
+<circle cx="55" cy="65" r="2" fill="#facc15" stroke="#ca8a04"/>
+<circle cx="55" cy="90" r="2" fill="#facc15" stroke="#ca8a04"/>
+<circle cx="105" cy="65" r="2" fill="#facc15" stroke="#ca8a04"/>
+<circle cx="105" cy="90" r="2" fill="#facc15" stroke="#ca8a04"/>
+<text x="130" y="70" class="sm">Parathyroids</text>
+
+<!-- Goiter Flowchart -->
+<text x="250" y="30" text-anchor="middle" class="lbl" font-weight="bold">Goiter Evaluation</text>
+<rect x="200" y="40" width="100" height="20" rx="4" class="box"/>
+<text x="250" y="54" text-anchor="middle" class="sm">TSH Level</text>
+
+<path d="M 250 60 L 250 80" class="arrow"/>
+<path d="M 210 80 L 290 80" stroke="var(--border)" fill="none"/>
+<path d="M 210 80 L 210 90" class="arrow"/>
+<path d="M 290 80 L 290 90" class="arrow"/>
+
+<rect x="170" y="90" width="80" height="20" rx="4" class="box"/>
+<text x="210" y="104" text-anchor="middle" class="sm">Low (Toxic)</text>
+<rect x="250" y="90" width="80" height="20" rx="4" class="box"/>
+<text x="290" y="104" text-anchor="middle" class="sm">Normal/High</text>
+
+<path d="M 210 110 L 210 120" class="arrow"/>
+<rect x="170" y="120" width="80" height="20" rx="4" class="box"/>
+<text x="210" y="134" text-anchor="middle" class="sm">Radionuclide Scan</text>
+
+<path d="M 290 110 L 290 120" class="arrow"/>
+<rect x="250" y="120" width="80" height="20" rx="4" class="box"/>
+<text x="290" y="134" text-anchor="middle" class="sm">USG -> FNAC</text>
+
+<!-- Thyrotoxicosis visual symptoms -->
+<text x="100" y="180" text-anchor="middle" class="lbl" font-weight="bold">Thyrotoxicosis Symptoms</text>
+<!-- Eye -->
+<path d="M 50 210 Q 70 190, 90 210 Q 70 230, 50 210 Z" fill="#fff" stroke="var(--border)"/>
+<circle cx="70" cy="210" r="8" fill="#3b82f6"/>
+<circle cx="70" cy="210" r="3" fill="#000"/>
+<text x="70" y="240" text-anchor="middle" class="sm">Exophthalmos</text>
+
+<!-- Heart -->
+<path d="M 140 200 C 140 200 130 190 120 200 C 110 210 140 230 140 230 C 140 230 170 210 160 200 C 150 190 140 200 140 200 Z" fill="#ef4444" class="anim-pulse"/>
+<path d="M 135 195 L 140 190 L 145 200 L 150 185 L 155 195" stroke="#fff" fill="none"/>
+<text x="140" y="240" text-anchor="middle" class="sm">Tachycardia/AF</text>
+
+<!-- Hand -->
+<path d="M 200 220 L 205 190 A 3 3 0 0 1 210 190 L 210 220 M 210 210 L 215 185 A 3 3 0 0 1 220 185 L 220 220 M 220 210 L 225 190 A 3 3 0 0 1 230 190 L 225 220" fill="none" stroke="var(--border)" stroke-width="2"/>
+<path d="M 215 175 L 210 180 M 225 175 L 220 180" stroke="var(--border)"/>
+<text x="215" y="240" text-anchor="middle" class="sm">Fine Tremor</text>
+
+<!-- Complications -->
+<rect x="280" y="170" width="100" height="80" rx="4" class="box" fill="#fee2e2"/>
+<text x="330" y="185" text-anchor="middle" class="sm" font-weight="bold">Complications</text>
+<text x="290" y="200" class="sm">- Hemorrhage</text>
+<text x="290" y="215" class="sm">- Airway obstruction</text>
+<text x="290" y="230" class="sm">- RLN injury (hoarse)</text>
+<text x="290" y="245" class="sm">- Hypocalcemia</text>
+</svg>`,
+  'mbbs-surg-neck-mass': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>
+  .lbl { font-family: sans-serif; font-size: 10px; fill: var(--text); }
+  .sm { font-size: 8px; fill: var(--text-dim); }
+  .box { fill: var(--surface); stroke: var(--border); stroke-width: 1; }
+  .arrow { stroke: var(--text-dim); stroke-width: 1; fill: none; marker-end: url(#arrowhead); }
+  @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+  .anim-pulse { transform-origin: center; animation: pulse 2s infinite; }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+    <polygon points="0 0, 6 2, 0 4" fill="var(--text-dim)"/>
+  </marker>
+</defs>
+<rect width="400" height="300" fill="var(--surface)"/>
+<!-- Neck Outline & Triangles -->
+<path d="M 80 40 L 80 90 L 120 120 L 120 200" fill="none" stroke="var(--border)" stroke-width="2"/> <!-- Jaw & Midline -->
+<path d="M 220 40 L 220 100 L 250 200" fill="none" stroke="var(--border)" stroke-width="2"/> <!-- Back of neck -->
+<path d="M 100 200 L 270 200" fill="none" stroke="var(--border)" stroke-width="2"/> <!-- Clavicle -->
+
+<!-- SCM Muscle -->
+<polygon points="180,60 160,200 190,200 210,60" fill="#fecaca" opacity="0.6"/>
+<text x="185" y="140" text-anchor="middle" class="sm" transform="rotate(-75, 185, 140)">SCM Muscle</text>
+
+<!-- Triangles -->
+<polygon points="120,120 160,200 180,60" fill="#bae6fd" opacity="0.3"/>
+<text x="145" y="160" text-anchor="middle" class="sm">Anterior</text>
+
+<polygon points="210,60 190,200 250,200" fill="#bbf7d0" opacity="0.3"/>
+<text x="225" y="160" text-anchor="middle" class="sm">Posterior</text>
+
+<!-- Lymph Node Levels (I-VI) -->
+<!-- I: Submental/Submandibular -->
+<circle cx="130" cy="110" r="6" fill="#fde047" stroke="#ca8a04"/>
+<text x="130" y="113" text-anchor="middle" class="sm" font-weight="bold">I</text>
+<!-- II: Upper Jugular -->
+<circle cx="170" cy="90" r="6" fill="#fde047" stroke="#ca8a04"/>
+<text x="170" y="93" text-anchor="middle" class="sm" font-weight="bold">II</text>
+<!-- III: Middle Jugular -->
+<circle cx="160" cy="130" r="6" fill="#fde047" stroke="#ca8a04"/>
+<text x="160" y="133" text-anchor="middle" class="sm" font-weight="bold">III</text>
+<!-- IV: Lower Jugular -->
+<circle cx="150" cy="170" r="6" fill="#fde047" stroke="#ca8a04"/>
+<text x="150" y="173" text-anchor="middle" class="sm" font-weight="bold">IV</text>
+<!-- V: Posterior Triangle -->
+<circle cx="215" cy="160" r="6" fill="#fde047" stroke="#ca8a04"/>
+<text x="215" y="163" text-anchor="middle" class="sm" font-weight="bold">V</text>
+<!-- VI: Anterior Compartment -->
+<circle cx="125" cy="170" r="6" fill="#fde047" stroke="#ca8a04"/>
+<text x="125" y="173" text-anchor="middle" class="sm" font-weight="bold">VI</text>
+
+<!-- Thyroglossal vs Branchial Cyst -->
+<text x="320" y="40" text-anchor="middle" class="lbl" font-weight="bold">Congenital Cysts</text>
+<circle cx="120" cy="140" r="8" fill="#a78bfa" class="anim-pulse"/>
+<path d="M 120 140 L 100 120" stroke="#a78bfa" stroke-dasharray="2"/>
+<text x="90" y="145" class="sm" fill="#7c3aed">Thyroglossal</text>
+<text x="90" y="155" class="sm" fill="#7c3aed">(Moves on swallowing)</text>
+
+<circle cx="170" cy="110" r="8" fill="#f472b6" class="anim-pulse"/>
+<text x="260" y="105" class="sm" fill="#db2777">Branchial Cyst</text>
+<text x="260" y="115" class="sm" fill="#db2777">(Ant. to upper SCM)</text>
+<path d="M 175 110 L 255 110" stroke="#f472b6" stroke-dasharray="2"/>
+
+<!-- Rule of 80s -->
+<text x="320" y="180" text-anchor="middle" class="lbl" font-weight="bold">Rule of 80\'s (Adults)</text>
+<circle cx="320" cy="220" r="25" fill="#fca5a5"/>
+<path d="M 320 220 L 320 195 A 25 25 0 0 1 343 210 Z" fill="#bbf7d0"/>
+<text x="320" y="260" text-anchor="middle" class="sm">80% of non-thyroid masses</text>
+<text x="320" y="270" text-anchor="middle" class="sm">are Neoplastic.</text>
+<text x="320" y="280" text-anchor="middle" class="sm">80% of those are Malignant.</text>
+<path d="M 310 225 L 280 235" stroke="var(--border)"/>
+<text x="280" y="245" class="sm" fill="#ef4444">Malignant</text>
+<path d="M 335 205 L 360 195" stroke="var(--border)"/>
+<text x="360" y="190" class="sm" fill="#16a34a">Benign</text>
+</svg>`,
+  'mbbs-med-ihd': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><style>@keyframes ecg_ihd{0%{stroke-dashoffset:600}100%{stroke-dashoffset:0}}@keyframes plq_pulse{0%,100%{opacity:.5}50%{opacity:1}}rect{fill:var(--surface)}.lbl{font-family:sans-serif;fill:var(--text);font-size:11px;font-weight:600}.sm{font-family:sans-serif;fill:var(--text-dim);font-size:9px}</style><rect width="400" height="300" rx="8"/><text x="200" y="16" text-anchor="middle" class="lbl" style="font-size:13px">Ischaemic Heart Disease</text><rect x="8" y="24" width="384" height="62" rx="4" fill="none" stroke="var(--border)" stroke-width="1"/><text x="14" y="36" class="lbl">ECG Patterns</text><line x1="12" y1="52" x2="388" y2="52" stroke="var(--border)" stroke-width=".5" stroke-dasharray="2 2"/><text x="14" y="48" class="sm">Normal:</text><path d="M58 52 L70 52 L74 46 L78 52 L86 52 L90 34 L96 64 L100 52 L108 49 L114 52" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-dasharray="600" style="animation:ecg_ihd 2s linear infinite"/><text x="130" y="48" class="sm">STEMI:</text><path d="M168 52 L178 52 L182 46 L186 52 L192 52 L196 34 L202 64 L206 42 L218 42 L226 52" fill="none" stroke="#e05050" stroke-width="1.8"/><rect x="205" y="38" width="16" height="6" rx="1" fill="#e05050" opacity=".2"/><text x="218" y="38" class="sm" style="fill:#e05050">ST↑</text><text x="244" y="48" class="sm">NSTEMI:</text><path d="M290 52 L300 52 L304 46 L308 52 L316 52 L320 36 L326 64 L330 56 L340 56 L348 52" fill="none" stroke="#d09030" stroke-width="1.8"/><text x="338" y="66" class="sm" style="fill:#d09030">ST↓</text><rect x="8" y="90" width="180" height="68" rx="4" fill="none" stroke="var(--border)" stroke-width="1"/><text x="14" y="104" class="lbl">Coronary Artery</text><path d="M20 130 Q50 120 80 130 Q100 136 120 130 Q140 120 170 130" fill="none" stroke="#e05050" stroke-width="3" opacity=".6"/><path d="M20 130 Q50 120 80 130 Q100 136 120 130 Q140 120 170 130" fill="none" stroke="var(--accent)" stroke-width="1.5"/><ellipse cx="100" cy="128" rx="14" ry="8" fill="#e05050" opacity=".4" style="animation:plq_pulse 2s infinite"/><text x="100" y="132" text-anchor="middle" style="font-family:sans-serif;fill:#fff;font-size:7px;font-weight:700">Plaque</text><text x="20" y="150" class="sm">Atherosclerotic plaque → luminal narrowing</text><rect x="196" y="90" width="196" height="68" rx="4" fill="none" stroke="var(--border)" stroke-width="1"/><text x="202" y="104" class="lbl">Troponin Timeline</text><circle cx="220" cy="120" r="3" fill="var(--accent)"/><circle cx="240" cy="115" r="3" fill="var(--accent)"/><circle cx="260" cy="108" r="3" fill="#e05050"/><circle cx="280" cy="105" r="3" fill="#e05050"/><circle cx="300" cy="108" r="3" fill="#e05050"/><circle cx="320" cy="114" r="3" fill="var(--accent)"/><circle cx="340" cy="118" r="3" fill="var(--accent)"/><path d="M220 120 L240 115 L260 108 L280 105 L300 108 L320 114 L340 118" fill="none" stroke="var(--accent)" stroke-width="1.2"/><text x="220" y="140" class="sm">0h</text><text x="258" y="140" class="sm">4-6h peak</text><text x="320" y="140" class="sm">10-14d</text><text x="202" y="152" class="sm">Trop I/T: rises 3-6h, peaks 12-24h</text><rect x="8" y="164" width="384" height="56" rx="4" fill="var(--accent)" opacity=".08"/><text x="14" y="178" class="lbl">Chest Pain Flow</text><rect x="14" y="184" width="58" height="18" rx="3" fill="var(--accent)" opacity=".25"/><text x="43" y="196" text-anchor="middle" class="sm">Chest Pain</text><text x="76" y="196" class="sm">→</text><rect x="82" y="184" width="50" height="18" rx="3" fill="var(--accent)" opacity=".25"/><text x="107" y="196" text-anchor="middle" class="sm">ECG+Trop</text><text x="136" y="196" class="sm">→</text><rect x="142" y="184" width="48" height="18" rx="3" fill="#e05050" opacity=".25"/><text x="166" y="196" text-anchor="middle" class="sm" style="fill:#e05050">STEMI</text><text x="194" y="196" class="sm">→</text><rect x="200" y="184" width="86" height="18" rx="3" fill="#e05050" opacity=".15"/><text x="243" y="196" text-anchor="middle" class="sm">PCI &lt;90min</text><rect x="142" y="206" width="48" height="18" rx="3" fill="#d09030" opacity=".2"/><text x="166" y="218" text-anchor="middle" class="sm" style="fill:#d09030">NSTEMI</text><text x="194" y="218" class="sm">→</text><rect x="200" y="206" width="86" height="18" rx="3" fill="#d09030" opacity=".15"/><text x="243" y="218" text-anchor="middle" class="sm">Medical Mx</text><rect x="292" y="184" width="94" height="18" rx="3" fill="var(--accent)" opacity=".15"/><text x="339" y="196" text-anchor="middle" class="sm">or Lysis &lt;12hr</text><rect x="8" y="226" width="384" height="68" rx="4" fill="none" stroke="var(--border)" stroke-width="1"/><text x="14" y="240" class="lbl">Management: MONA (Modified)</text><rect x="14" y="246" width="55" height="16" rx="2" fill="var(--accent)" opacity=".2"/><text x="41" y="257" text-anchor="middle" class="sm">Morphine</text><rect x="74" y="246" width="50" height="16" rx="2" fill="var(--accent)" opacity=".2"/><text x="99" y="257" text-anchor="middle" class="sm">O₂ (if &lt;94%)</text><rect x="129" y="246" width="48" height="16" rx="2" fill="var(--accent)" opacity=".2"/><text x="153" y="257" text-anchor="middle" class="sm">Nitrates</text><rect x="182" y="246" width="44" height="16" rx="2" fill="var(--accent)" opacity=".2"/><text x="204" y="257" text-anchor="middle" class="sm">Aspirin</text><rect x="231" y="246" width="56" height="16" rx="2" fill="var(--accent)" opacity=".2"/><text x="259" y="257" text-anchor="middle" class="sm">Clopidogrel</text><rect x="292" y="246" width="46" height="16" rx="2" fill="var(--accent)" opacity=".2"/><text x="315" y="257" text-anchor="middle" class="sm">Heparin</text><text x="14" y="280" class="sm">DAPT (Aspirin + P2Y12) post-PCI × 12 months | Statins | β-blocker | ACEi long-term</text></svg>`,
+  'mbbs-med-heart-failure': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><style>@keyframes hf_beat{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}@keyframes hf_pulse{0%{opacity:.4}50%{opacity:1}100%{opacity:.4}}rect{fill:var(--surface)}.lbl{font-family:sans-serif;fill:var(--text);font-size:11px;font-weight:600}.sm{font-family:sans-serif;fill:var(--text-dim);font-size:9px}</style><rect width="400" height="300" rx="8"/><text x="200" y="16" text-anchor="middle" class="lbl" style="font-size:13px">Heart Failure</text><g transform="translate(8,22)"><rect x="0" y="0" width="130" height="110" rx="4" fill="none" stroke="var(--border)" stroke-width="1"/><text x="65" y="14" text-anchor="middle" class="lbl">Heart Chambers</text><g transform="translate(15,18)" style="animation:hf_beat 1.5s infinite"><path d="M50 0 Q80 -5 90 20 Q95 40 80 60 L50 85 L20 60 Q5 40 10 20 Q20 -5 50 0Z" fill="#e05050" opacity=".15" stroke="#e05050" stroke-width="1.5"/><line x1="50" y1="10" x2="50" y2="85" stroke="var(--border)" stroke-width=".8"/><line x1="15" y1="38" x2="85" y2="38" stroke="var(--border)" stroke-width=".8"/><text x="30" y="30" text-anchor="middle" style="font-family:sans-serif;fill:var(--text-dim);font-size:7px">LA</text><text x="70" y="30" text-anchor="middle" style="font-family:sans-serif;fill:var(--text-dim);font-size:7px">RA</text><text x="30" y="60" text-anchor="middle" style="font-family:sans-serif;fill:var(--text-dim);font-size:7px">LV</text><text x="70" y="60" text-anchor="middle" style="font-family:sans-serif;fill:var(--text-dim);font-size:7px">RV</text><path d="M20 45 L20 72 Q20 78 30 78 L42 78" fill="none" stroke="#e05050" stroke-width="3" opacity=".5"/></g></g><rect x="144" y="22" width="120" height="110" rx="4" fill="none" stroke="var(--border)" stroke-width="1"/><text x="204" y="36" text-anchor="middle" class="lbl">HFrEF vs HFpEF</text><rect x="150" y="42" width="108" height="20" rx="2" fill="#e05050" opacity=".15"/><text x="204" y="55" text-anchor="middle" class="sm">HFrEF: EF &lt;40%</text><text x="204" y="66" text-anchor="middle" class="sm">Systolic dysfunction</text><text x="204" y="76" text-anchor="middle" class="sm">Dilated, thin walls</text><rect x="150" y="82" width="108" height="20" rx="2" fill="var(--accent)" opacity=".15"/><text x="204" y="95" text-anchor="middle" class="sm">HFpEF: EF ≥50%</text><text x="204" y="106" text-anchor="middle" class="sm">Diastolic dysfunction</text><text x="204" y="116" text-anchor="middle" class="sm">Thick walls, stiff</text><rect x="270" y="22" width="122" height="110" rx="4" fill="none" stroke="var(--border)" stroke-width="1"/><text x="331" y="36" text-anchor="middle" class="lbl">NYHA Class</text><rect x="276" y="42" width="110" height="14" rx="2" fill="var(--accent)" opacity=".1"/><text x="331" y="53" text-anchor="middle" class="sm">I: No limitation</text><rect x="276" y="58" width="110" height="14" rx="2" fill="var(--accent)" opacity=".2"/><text x="331" y="69" text-anchor="middle" class="sm">II: Slight limitation</text><rect x="276" y="74" width="110" height="14" rx="2" fill="#d09030" opacity=".2"/><text x="331" y="85" text-anchor="middle" class="sm">III: Marked limitation</text><rect x="276" y="90" width="110" height="14" rx="2" fill="#e05050" opacity=".25"/><text x="331" y="101" text-anchor="middle" class="sm">IV: Symptoms at rest</text><polygon points="335,107 331,115 339,115" fill="var(--accent)" opacity=".5"/><text x="331" y="127" text-anchor="middle" class="sm" style="fill:var(--accent)">Severity ↑</text><rect x="8" y="138" width="384" height="60" rx="4" fill="var(--accent)" opacity=".06"/><text x="14" y="152" class="lbl">Framingham Criteria (2 Major OR 1 Major + 2 Minor)</text><text x="14" y="166" class="sm" style="fill:var(--text)">Major:</text><rect x="54" y="156" width="40" height="14" rx="2" fill="#e05050" opacity=".15"/><text x="74" y="167" text-anchor="middle" class="sm">PND</text><rect x="98" y="156" width="38" height="14" rx="2" fill="#e05050" opacity=".15"/><text x="117" y="167" text-anchor="middle" class="sm">JVP↑</text><rect x="140" y="156" width="40" height="14" rx="2" fill="#e05050" opacity=".15"/><text x="160" y="167" text-anchor="middle" class="sm">Rales</text><rect x="184" y="156" width="52" height="14" rx="2" fill="#e05050" opacity=".15"/><text x="210" y="167" text-anchor="middle" class="sm">Oedema</text><rect x="240" y="156" width="60" height="14" rx="2" fill="#e05050" opacity=".15"/><text x="270" y="167" text-anchor="middle" class="sm">S3 Gallop</text><rect x="304" y="156" width="82" height="14" rx="2" fill="#e05050" opacity=".15"/><text x="345" y="167" text-anchor="middle" class="sm">Cardiomegaly</text><text x="14" y="186" class="sm" style="fill:var(--text)">Minor:</text><rect x="54" y="176" width="66" height="14" rx="2" fill="var(--accent)" opacity=".1"/><text x="87" y="187" text-anchor="middle" class="sm">Ankle oedema</text><rect x="124" y="176" width="60" height="14" rx="2" fill="var(--accent)" opacity=".1"/><text x="154" y="187" text-anchor="middle" class="sm">Night cough</text><rect x="188" y="176" width="52" height="14" rx="2" fill="var(--accent)" opacity=".1"/><text x="214" y="187" text-anchor="middle" class="sm">Dyspnoea</text><rect x="244" y="176" width="52" height="14" rx="2" fill="var(--accent)" opacity=".1"/><text x="270" y="187" text-anchor="middle" class="sm">Effusion</text><rect x="300" y="176" width="60" height="14" rx="2" fill="var(--accent)" opacity=".1"/><text x="330" y="187" text-anchor="middle" class="sm">Tachy &gt;120</text><rect x="8" y="204" width="384" height="38" rx="4" fill="none" stroke="var(--border)" stroke-width="1"/><text x="14" y="218" class="lbl">HFrEF Treatment Algorithm</text><rect x="14" y="224" width="48" height="14" rx="2" fill="var(--accent)" opacity=".3" style="animation:hf_pulse 2.5s infinite"/><text x="38" y="234" text-anchor="middle" class="sm">ACEi/ARB</text><text x="66" y="234" class="sm">→</text><rect x="72" y="224" width="52" height="14" rx="2" fill="var(--accent)" opacity=".25"/><text x="98" y="234" text-anchor="middle" class="sm">β-blocker</text><text x="128" y="234" class="sm">→</text><rect x="134" y="224" width="40" height="14" rx="2" fill="var(--accent)" opacity=".2"/><text x="154" y="234" text-anchor="middle" class="sm">MRA</text><text x="178" y="234" class="sm">→</text><rect x="184" y="224" width="50" height="14" rx="2" fill="var(--accent)" opacity=".15"/><text x="209" y="234" text-anchor="middle" class="sm">Diuretics</text><text x="238" y="234" class="sm">→</text><rect x="244" y="224" width="54" height="14" rx="2" fill="var(--accent)" opacity=".15"/><text x="271" y="234" text-anchor="middle" class="sm">ARNI/SGLT2i</text><text x="302" y="234" class="sm">→</text><rect x="308" y="224" width="44" height="14" rx="2" fill="var(--accent)" opacity=".1"/><text x="330" y="234" text-anchor="middle" class="sm">Digoxin</text><rect x="8" y="248" width="384" height="46" rx="4" fill="none" stroke="var(--border)" stroke-width="1"/><text x="14" y="262" class="lbl">Key Investigations</text><text x="14" y="276" class="sm">BNP/NT-proBNP: BNP &gt;100 pg/mL or NT-proBNP &gt;300 pg/mL suggestive</text><text x="14" y="288" class="sm">Echo: EF%, wall motion, valves | CXR: cardiomegaly, upper lobe diversion, Kerley B lines</text></svg>`,
+  'mbbs-med-hypertension': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><style>@keyframes htn_glow{0%,100%{opacity:.3}50%{opacity:.8}}@keyframes htn_flow{0%{stroke-dashoffset:20}100%{stroke-dashoffset:0}}rect{fill:var(--surface)}.lbl{font-family:sans-serif;fill:var(--text);font-size:11px;font-weight:600}.sm{font-family:sans-serif;fill:var(--text-dim);font-size:9px}</style><rect width="400" height="300" rx="8"/><text x="200" y="16" text-anchor="middle" class="lbl" style="font-size:13px">Hypertension</text><rect x="8" y="24" width="200" height="78" rx="4" fill="none" stroke="var(--border)" stroke-width="1"/><text x="14" y="38" class="lbl">BP Classification (ACC/AHA)</text><rect x="14" y="44" width="188" height="12" rx="2" fill="var(--accent)" opacity=".1"/><text x="18" y="53" class="sm">Normal</text><text x="150" y="53" text-anchor="end" class="sm">&lt;120/80</text><rect x="14" y="58" width="188" height="12" rx="2" fill="#d09030" opacity=".12"/><text x="18" y="67" class="sm">Elevated</text><text x="150" y="67" text-anchor="end" class="sm">120-129/&lt;80</text><rect x="14" y="72" width="188" height="12" rx="2" fill="#d09030" opacity=".2"/><text x="18" y="81" class="sm">Stage 1</text><text x="150" y="81" text-anchor="end" class="sm">130-139/80-89</text><rect x="14" y="86" width="188" height="12" rx="2" fill="#e05050" opacity=".2"/><text x="18" y="95" class="sm">Stage 2</text><text x="150" y="95" text-anchor="end" class="sm">≥140/90</text><rect x="168" y="44" width="34" height="54" rx="2" fill="#e05050" opacity=".08"/><text x="185" y="55" text-anchor="middle" style="font-family:sans-serif;fill:#e05050;font-size:8px;font-weight:700">Crisis</text><text x="185" y="65" text-anchor="middle" style="font-family:sans-serif;fill:#e05050;font-size:8px">&gt;180/</text><text x="185" y="75" text-anchor="middle" style="font-family:sans-serif;fill:#e05050;font-size:8px">120</text><rect x="214" y="24" width="178" height="78" rx="4" fill="none" stroke="var(--border)" stroke-width="1"/><text x="303" y="38" text-anchor="middle" class="lbl">End-Organ Damage</text><ellipse cx="303" cy="68" rx="18" ry="12" fill="var(--accent)" opacity=".25" style="animation:htn_glow 2s infinite"/><text x="303" y="72" text-anchor="middle" style="font-family:sans-serif;fill:var(--text);font-size:8px;font-weight:700">BP↑</text><line x1="285" y1="60" x2="248" y2="48" stroke="var(--accent)" stroke-width="1" stroke-dasharray="3 2" style="animation:htn_flow 1.5s linear infinite"/><circle cx="242" cy="46" r="10" fill="#e05050" opacity=".15" stroke="#e05050" stroke-width=".8"/><text x="242" y="44" text-anchor="middle" style="font-family:sans-serif;fill:var(--text);font-size:6px">Brain</text><text x="242" y="52" text-anchor="middle" style="font-family:sans-serif;fill:var(--text-dim);font-size:6px">Stroke</text><line x1="321" y1="60" x2="358" y2="48" stroke="var(--accent)" stroke-width="1" stroke-dasharray="3 2" style="animation:htn_flow 1.5s linear infinite"/><circle cx="364" cy="46" r="10" fill="#e05050" opacity=".15" stroke="#e05050" stroke-width=".8"/><text x="364" y="44" text-anchor="middle" style="font-family:sans-serif;fill:var(--text);font-size:6px">Heart</text><text x="364" y="52" text-anchor="middle" style="font-family:sans-serif;fill:var(--text-dim);font-size:6px">LVH</text><line x1="285" y1="76" x2="248" y2="88" stroke="var(--accent)" stroke-width="1" stroke-dasharray="3 2" style="animation:htn_flow 1.5s linear infinite"/><circle cx="242" cy="90" r="10" fill="#e05050" opacity=".15" stroke="#e05050" stroke-width=".8"/><text x="242" y="88" text-anchor="middle" style="font-family:sans-serif;fill:var(--text);font-size:6px">Kidney</text><text x="242" y="96" text-anchor="middle" style="font-family:sans-serif;fill:var(--text-dim);font-size:5.5px">CKD</text><line x1="321" y1="76" x2="358" y2="88" stroke="var(--accent)" stroke-width="1" stroke-dasharray="3 2" style="animation:htn_flow 1.5s linear infinite"/><circle cx="364" cy="90" r="10" fill="#e05050" opacity=".15" stroke="#e05050" stroke-width=".8"/><text x="364" y="88" text-anchor="middle" style="font-family:sans-serif;fill:var(--text);font-size:6px">Eye</text><text x="364" y="96" text-anchor="middle" style="font-family:sans-serif;fill:var(--text-dim);font-size:5.5px">Retinop.</text><rect x="8" y="108" width="384" height="80" rx="4" fill="var(--accent)" opacity=".06"/><text x="14" y="122" class="lbl">Treatment Algorithm</text><rect x="14" y="128" width="70" height="20" rx="3" fill="var(--accent)" opacity=".25"/><text x="49" y="141" text-anchor="middle" class="sm">Lifestyle Δ</text><text x="88" y="141" class="sm">→</text><rect x="94" y="128" width="56" height="20" rx="3" fill="var(--accent)" opacity=".25"/><text x="122" y="141" text-anchor="middle" class="sm">Monotherapy</text><text x="154" y="141" class="sm">→</text><rect x="160" y="128" width="76" height="20" rx="3" fill="var(--accent)" opacity=".2"/><text x="198" y="141" text-anchor="middle" class="sm">Dual Combination</text><text x="240" y="141" class="sm">→</text><rect x="246" y="128" width="76" height="20" rx="3" fill="var(--accent)" opacity=".15"/><text x="284" y="141" text-anchor="middle" class="sm">Triple Therapy</text><text x="326" y="141" class="sm">→</text><rect x="332" y="128" width="54" height="20" rx="3" fill="#e05050" opacity=".15"/><text x="359" y="141" text-anchor="middle" class="sm">+Spirono.</text><text x="14" y="162" class="sm" style="fill:var(--text)">Drug Classes:</text><rect x="90" y="152" width="44" height="14" rx="2" fill="var(--accent)" opacity=".15"/><text x="112" y="163" text-anchor="middle" class="sm">ACEi</text><rect x="138" y="152" width="36" height="14" rx="2" fill="var(--accent)" opacity=".15"/><text x="156" y="163" text-anchor="middle" class="sm">ARB</text><rect x="178" y="152" width="34" height="14" rx="2" fill="var(--accent)" opacity=".15"/><text x="195" y="163" text-anchor="middle" class="sm">CCB</text><rect x="216" y="152" width="52" height="14" rx="2" fill="var(--accent)" opacity=".15"/><text x="242" y="163" text-anchor="middle" class="sm">Thiazide</text><rect x="272" y="152" width="56" height="14" rx="2" fill="var(--accent)" opacity=".15"/><text x="300" y="163" text-anchor="middle" class="sm">β-blocker</text><text x="14" y="182" class="sm">ACEi/ARB: DM, CKD, HF | CCB: elderly, Black | Thiazide: uncomplicated | β-blocker: post-MI, HF</text><rect x="8" y="194" width="384" height="50" rx="4" fill="none" stroke="var(--border)" stroke-width="1"/><text x="14" y="208" class="lbl">Specific Populations</text><rect x="14" y="214" width="90" height="14" rx="2" fill="var(--accent)" opacity=".1"/><text x="59" y="224" text-anchor="middle" class="sm">DM: ACEi + CCB</text><rect x="108" y="214" width="90" height="14" rx="2" fill="var(--accent)" opacity=".1"/><text x="153" y="224" text-anchor="middle" class="sm">CKD: ACEi/ARB</text><rect x="202" y="214" width="90" height="14" rx="2" fill="var(--accent)" opacity=".1"/><text x="247" y="224" text-anchor="middle" class="sm">Pregnancy: Labetalol</text><rect x="296" y="214" width="90" height="14" rx="2" fill="var(--accent)" opacity=".1"/><text x="341" y="224" text-anchor="middle" class="sm">Black: CCB/Thiaz</text><text x="14" y="238" class="sm">Target: &lt;130/80 (high risk) or &lt;140/90 (general) | Resistant HTN: ≥3 drugs at max dose</text><rect x="8" y="250" width="384" height="44" rx="4" fill="none" stroke="var(--border)" stroke-width="1"/><text x="14" y="264" class="lbl">Secondary Causes (Screen if &lt;30y, resistant, or sudden onset)</text><text x="14" y="278" class="sm">Renal artery stenosis (FMD young ♀) | Phaeochromocytoma (paroxysmal, 24h catecholamines)</text><text x="14" y="290" class="sm">Conn\'s (primary aldosteronism: ↓K, ↑aldo) | Cushing\'s | Coarctation of aorta | OSA</text></svg>`,
+  'mbbs-med-arrhythmias': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><style>@keyframes arr_ecg{0%{stroke-dashoffset:400}100%{stroke-dashoffset:0}}@keyframes arr_vf{0%{d:path("M0 0 Q5 -8 10 0 Q15 6 20 0 Q25 -10 30 0 Q35 8 40 0")}50%{d:path("M0 0 Q5 6 10 0 Q15 -8 20 0 Q25 10 30 0 Q35 -6 40 0")}100%{d:path("M0 0 Q5 -8 10 0 Q15 6 20 0 Q25 -10 30 0 Q35 8 40 0")}}rect{fill:var(--surface)}.lbl{font-family:sans-serif;fill:var(--text);font-size:11px;font-weight:600}.sm{font-family:sans-serif;fill:var(--text-dim);font-size:9px}</style><rect width="400" height="300" rx="8"/><text x="200" y="16" text-anchor="middle" class="lbl" style="font-size:13px">Arrhythmias</text><rect x="8" y="24" width="190" height="58" rx="4" fill="none" stroke="var(--border)" stroke-width="1"/><text x="14" y="36" class="sm" style="fill:var(--text);font-weight:600">AF: Irregular, No P waves</text><line x1="14" y1="48" x2="190" y2="48" stroke="var(--border)" stroke-width=".3"/><path d="M18 48 L28 48 L32 40 L36 56 L40 48 L55 48 L60 42 L64 55 L68 48 L90 48 L94 40 L98 56 L102 48 L108 48 L118 48 L122 42 L126 54 L130 48 L155 48 L158 40 L162 56 L166 48 L180 48" fill="none" stroke="#e05050" stroke-width="1.5" stroke-dasharray="400" style="animation:arr_ecg 3s linear infinite"/><text x="14" y="72" class="sm">Irregularly irregular | f waves | CHA₂DS₂-VASc</text><rect x="204" y="24" width="188" height="58" rx="4" fill="none" stroke="var(--border)" stroke-width="1"/><text x="210" y="36" class="sm" style="fill:var(--text);font-weight:600">VT: Wide QRS (&gt;120ms)</text><line x1="210" y1="48" x2="384" y2="48" stroke="var(--border)" stroke-width=".3"/><path d="M214 48 L220 48 L224 30 L232 66 L240 30 L248 66 L256 30 L264 66 L272 30 L280 66 L288 30 L296 66 L304 30 L312 66 L316 48 L328 48 L332 30 L340 66 L348 30 L356 66 L364 30 L372 66 L376 48" fill="none" stroke="#e05050" stroke-width="1.5"/><text x="210" y="72" class="sm">Monomorphic = same QRS | Pulseless → shock</text><rect x="8" y="86" width="190" height="58" rx="4" fill="none" stroke="var(--border)" stroke-width="1"/><text x="14" y="98" class="sm" style="fill:var(--text);font-weight:600">Heart Block</text><line x1="14" y1="108" x2="190" y2="108" stroke="var(--border)" stroke-width=".3"/><text x="14" y="106" class="sm" style="fill:var(--accent)">1°: Long PR</text><path d="M86 108 L96 108 L100 104 L104 108 L120 108 L124 94 L130 118 L134 108 L142 106 L148 108" fill="none" stroke="var(--accent)" stroke-width="1.2"/><text x="14" y="118" class="sm" style="fill:#d09030">2° I: ↑PR then drop</text><text x="14" y="128" class="sm" style="fill:#d09030">2° II: Fixed drop</text><text x="14" y="138" class="sm" style="fill:#e05050">3°: Complete AV dissociation</text><rect x="204" y="86" width="188" height="58" rx="4" fill="none" stroke="var(--border)" stroke-width="1"/><text x="210" y="98" class="sm" style="fill:var(--text);font-weight:600">VF: Chaotic, No QRS</text><line x1="210" y1="110" x2="384" y2="110" stroke="var(--border)" stroke-width=".3"/><path d="M214 110 L220 104 L224 116 L228 106 L232 114 L236 104 L240 118 L244 102 L248 116 L252 106 L256 114 L260 104 L264 118 L268 102 L272 114 L276 108 L280 102 L284 116 L288 106 L292 114 L296 104 L300 118 L304 102 L308 116 L312 106 L316 114 L320 104 L324 116 L328 108 L332 102 L336 116 L340 106 L344 114 L348 104 L352 116 L356 108 L360 102 L364 114 L368 108 L376 110" fill="none" stroke="#e05050" stroke-width="1.5"/><text x="210" y="138" class="sm">Cardiac arrest rhythm → immediate defibrillation</text><rect x="8" y="150" width="384" height="62" rx="4" fill="var(--accent)" opacity=".06"/><text x="14" y="164" class="lbl">Simplified ACLS Algorithm</text><rect x="14" y="170" width="60" height="18" rx="3" fill="#e05050" opacity=".2"/><text x="44" y="182" text-anchor="middle" class="sm">Cardiac</text><text x="44" y="191" text-anchor="middle" class="sm">Arrest</text><text x="78" y="182" class="sm">→</text><rect x="84" y="170" width="56" height="18" rx="3" fill="var(--accent)" opacity=".2"/><text x="112" y="182" text-anchor="middle" class="sm">Shockable?</text><text x="144" y="182" class="sm">Y→</text><rect x="158" y="170" width="44" height="18" rx="3" fill="#e05050" opacity=".25"/><text x="180" y="182" text-anchor="middle" class="sm">Defib</text><text x="206" y="182" class="sm">→</text><rect x="212" y="170" width="40" height="18" rx="3" fill="var(--accent)" opacity=".2"/><text x="232" y="182" text-anchor="middle" class="sm">CPR 2m</text><text x="256" y="182" class="sm">→</text><rect x="262" y="170" width="56" height="18" rx="3" fill="var(--accent)" opacity=".2"/><text x="290" y="182" text-anchor="middle" class="sm">Adrenaline</text><rect x="324" y="170" width="60" height="18" rx="3" fill="var(--accent)" opacity=".15"/><text x="354" y="182" text-anchor="middle" class="sm">Amiodarone</text><rect x="84" y="192" width="56" height="14" rx="2" fill="var(--accent)" opacity=".1"/><text x="112" y="203" text-anchor="middle" class="sm">N → PEA/Asystole</text><text x="144" y="203" class="sm">→</text><text x="158" y="203" class="sm">Adrenaline 1mg q3-5min + CPR</text><rect x="8" y="218" width="384" height="76" rx="4" fill="none" stroke="var(--border)" stroke-width="1"/><text x="14" y="232" class="lbl">Rate vs Rhythm Control (AF)</text><rect x="14" y="238" width="180" height="50" rx="3" fill="var(--accent)" opacity=".08"/><text x="104" y="252" text-anchor="middle" class="sm" style="fill:var(--text);font-weight:600">Rate Control</text><text x="104" y="264" text-anchor="middle" class="sm">β-blocker (bisoprolol)</text><text x="104" y="276" text-anchor="middle" class="sm">CCB (diltiazem/verapamil)</text><text x="104" y="288" text-anchor="middle" class="sm">Digoxin (sedentary/HF)</text><rect x="200" y="238" width="186" height="50" rx="3" fill="var(--accent)" opacity=".08"/><text x="293" y="252" text-anchor="middle" class="sm" style="fill:var(--text);font-weight:600">Rhythm Control</text><text x="293" y="264" text-anchor="middle" class="sm">Flecainide (no structural HD)</text><text x="293" y="276" text-anchor="middle" class="sm">Amiodarone (structural HD)</text><text x="293" y="288" text-anchor="middle" class="sm">DC cardioversion (acute)</text></svg>`,
+  'mbbs-med-pneumonia': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><style>@keyframes pn_blink{0%,100%{opacity:.5}50%{opacity:1}}@keyframes pn_grow{0%{r:3}100%{r:5}}rect{fill:var(--surface)}.lbl{font-family:sans-serif;fill:var(--text);font-size:11px;font-weight:600}.sm{font-family:sans-serif;fill:var(--text-dim);font-size:9px}</style><rect width="400" height="300" rx="8"/><text x="200" y="16" text-anchor="middle" class="lbl" style="font-size:13px">Pneumonia</text><rect x="8" y="24" width="145" height="120" rx="4" fill="none" stroke="var(--border)" stroke-width="1"/><text x="80" y="38" text-anchor="middle" class="lbl">CXR — Lobar Consolidation</text><rect x="28" y="44" width="100" height="90" rx="4" fill="var(--text)" opacity=".06"/><text x="78" y="54" text-anchor="middle" class="sm">CXR PA view</text><ellipse cx="62" cy="80" rx="28" ry="30" fill="none" stroke="var(--text-dim)" stroke-width="1" opacity=".5"/><ellipse cx="94" cy="80" rx="28" ry="30" fill="none" stroke="var(--text-dim)" stroke-width="1" opacity=".5"/><ellipse cx="78" cy="70" rx="8" ry="6" fill="var(--text-dim)" opacity=".3"/><path d="M68 68 L62 58" stroke="var(--text-dim)" stroke-width=".8"/><path d="M88 68 L94 58" stroke="var(--text-dim)" stroke-width=".8"/><ellipse cx="100" cy="100" rx="18" ry="14" fill="#e05050" opacity=".3" style="animation:pn_blink 2s infinite"/><text x="100" y="104" text-anchor="middle" style="font-family:sans-serif;fill:#e05050;font-size:7px;font-weight:700">RLL</text><text x="100" y="112" text-anchor="middle" style="font-family:sans-serif;fill:#e05050;font-size:6px">opacity</text><text x="28" y="140" class="sm">Air bronchograms in lobar type</text><rect x="160" y="24" width="232" height="120" rx="4" fill="none" stroke="var(--border)" stroke-width="1"/><text x="166" y="38" class="lbl">CURB-65 Score</text><rect x="166" y="44" width="220" height="14" rx="2" fill="var(--accent)" opacity=".1"/><text x="172" y="55" class="sm" style="fill:var(--text);font-weight:600">C</text><text x="186" y="55" class="sm">Confusion (AMT ≤8)</text><rect x="166" y="60" width="220" height="14" rx="2" fill="var(--accent)" opacity=".1"/><text x="172" y="71" class="sm" style="fill:var(--text);font-weight:600">U</text><text x="186" y="71" class="sm">Urea &gt;7 mmol/L</text><rect x="166" y="76" width="220" height="14" rx="2" fill="var(--accent)" opacity=".1"/><text x="172" y="87" class="sm" style="fill:var(--text);font-weight:600">R</text><text x="186" y="87" class="sm">Respiratory rate ≥30/min</text><rect x="166" y="92" width="220" height="14" rx="2" fill="var(--accent)" opacity=".1"/><text x="172" y="103" class="sm" style="fill:var(--text);font-weight:600">B</text><text x="186" y="103" class="sm">BP: systolic &lt;90 or diastolic ≤60</text><rect x="166" y="108" width="220" height="14" rx="2" fill="var(--accent)" opacity=".1"/><text x="172" y="119" class="sm" style="fill:var(--text);font-weight:600">65</text><text x="186" y="119" class="sm">Age ≥65 years</text><text x="166" y="138" class="sm">0-1: Home | 2: Consider hospital | 3-5: Hospital (≥4 ICU)</text><rect x="8" y="150" width="384" height="46" rx="4" fill="var(--accent)" opacity=".06"/><text x="14" y="164" class="lbl">CAP vs HAP</text><rect x="14" y="170" width="180" height="20" rx="3" fill="var(--accent)" opacity=".12"/><text x="104" y="183" text-anchor="middle" class="sm" style="fill:var(--text);font-weight:600">CAP (Community-Acquired)</text><rect x="200" y="170" width="186" height="20" rx="3" fill="#d09030" opacity=".12"/><text x="293" y="183" text-anchor="middle" class="sm" style="fill:var(--text);font-weight:600">HAP (Hospital ≥48h)</text><text x="104" y="193" text-anchor="middle" class="sm">Onset outside hospital</text><text x="293" y="193" text-anchor="middle" class="sm">≥48h after admission</text><rect x="8" y="202" width="384" height="44" rx="4" fill="none" stroke="var(--border)" stroke-width="1"/><text x="14" y="216" class="lbl">Common Pathogens</text><circle cx="35" cy="232" r="8" fill="var(--accent)" opacity=".2" style="animation:pn_grow 1.5s infinite alternate"/><text x="35" y="235" text-anchor="middle" style="font-family:sans-serif;fill:var(--text);font-size:6px;font-weight:700">S.pn</text><text x="35" y="244" text-anchor="middle" class="sm">#1 CAP</text><circle cx="95" cy="232" r="8" fill="var(--accent)" opacity=".2"/><text x="95" y="235" text-anchor="middle" style="font-family:sans-serif;fill:var(--text);font-size:6px;font-weight:700">H.inf</text><text x="95" y="244" text-anchor="middle" class="sm">COPD</text><circle cx="155" cy="232" r="8" fill="var(--accent)" opacity=".2"/><text x="155" y="235" text-anchor="middle" style="font-family:sans-serif;fill:var(--text);font-size:6px;font-weight:700">Myco</text><text x="155" y="244" text-anchor="middle" class="sm">Atypical</text><circle cx="215" cy="232" r="8" fill="var(--accent)" opacity=".2"/><text x="215" y="235" text-anchor="middle" style="font-family:sans-serif;fill:var(--text);font-size:6px;font-weight:700">Legn</text><text x="215" y="244" text-anchor="middle" class="sm">AC/travel</text><circle cx="275" cy="232" r="8" fill="#e05050" opacity=".2"/><text x="275" y="235" text-anchor="middle" style="font-family:sans-serif;fill:var(--text);font-size:6px;font-weight:700">Pseudo</text><text x="275" y="244" text-anchor="middle" class="sm">HAP</text><circle cx="335" cy="232" r="8" fill="#e05050" opacity=".2"/><text x="335" y="235" text-anchor="middle" style="font-family:sans-serif;fill:var(--text);font-size:6px;font-weight:700">Staph</text><text x="335" y="244" text-anchor="middle" class="sm">Post-flu</text><rect x="8" y="252" width="384" height="42" rx="4" fill="none" stroke="var(--border)" stroke-width="1"/><text x="14" y="266" class="lbl">Treatment</text><text x="14" y="280" class="sm">CAP mild: Amoxicillin 500mg TDS 5d | Moderate: Amox + Clarithromycin | Severe: Co-amoxiclav + Clarithro IV</text><text x="14" y="290" class="sm">HAP: Piperacillin-tazobactam or Meropenem | Atypical: Macrolide or Doxycycline</text></svg>`,
+  'mbbs-med-tuberculosis': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><style>@keyframes tb_glow{0%,100%{opacity:.3}50%{opacity:.7}}@keyframes tb_inject{0%{stroke-dashoffset:10}100%{stroke-dashoffset:0}}rect{fill:var(--surface)}.lbl{font-family:sans-serif;fill:var(--text);font-size:11px;font-weight:600}.sm{font-family:sans-serif;fill:var(--text-dim);font-size:9px}</style><rect width="400" height="300" rx="8"/><text x="200" y="16" text-anchor="middle" class="lbl" style="font-size:13px">Tuberculosis</text><rect x="8" y="24" width="148" height="120" rx="4" fill="none" stroke="var(--border)" stroke-width="1"/><text x="82" y="38" text-anchor="middle" class="lbl">CXR — Pulmonary TB</text><rect x="28" y="44" width="108" height="92" rx="4" fill="var(--text)" opacity=".06"/><text x="82" y="54" text-anchor="middle" class="sm">CXR PA view</text><ellipse cx="65" cy="82" rx="28" ry="30" fill="none" stroke="var(--text-dim)" stroke-width="1" opacity=".5"/><ellipse cx="99" cy="82" rx="28" ry="30" fill="none" stroke="var(--text-dim)" stroke-width="1" opacity=".5"/><ellipse cx="82" cy="72" rx="8" ry="6" fill="var(--text-dim)" opacity=".3"/><path d="M72 70 L65 60" stroke="var(--text-dim)" stroke-width=".8"/><path d="M92 70 L99 60" stroke="var(--text-dim)" stroke-width=".8"/><circle cx="56" cy="62" r="10" fill="none" stroke="#e05050" stroke-width="1.5" stroke-dasharray="3 2" style="animation:tb_glow 2s infinite"/><circle cx="56" cy="62" r="5" fill="#e05050" opacity=".2"/><text x="56" y="65" text-anchor="middle" style="font-family:sans-serif;fill:#e05050;font-size:6px;font-weight:700">Cavity</text><text x="38" y="56" style="font-family:sans-serif;fill:#e05050;font-size:6px">Upper</text><text x="38" y="62" style="font-family:sans-serif;fill:#e05050;font-size:6px">lobe</text><ellipse cx="82" cy="73" rx="6" ry="5" fill="#d09030" opacity=".3" style="animation:tb_glow 2.5s infinite"/><text x="82" y="76" text-anchor="middle" style="font-family:sans-serif;fill:#d09030;font-size:5px;font-weight:700">Hilar LN</text><text x="28" y="140" class="sm">Cavitation + hilar lymphadenopathy</text><rect x="162" y="24" width="230" height="58" rx="4" fill="var(--accent)" opacity=".06"/><text x="168" y="38" class="lbl">DOTS Regimen</text><text x="168" y="52" class="sm" style="fill:var(--text);font-weight:600">Intensive Phase (2 months):</text><rect x="168" y="56" width="28" height="14" rx="2" fill="#e05050" opacity=".25"/><text x="182" y="67" text-anchor="middle" style="font-family:sans-serif;fill:var(--text);font-size:8px;font-weight:700">H</text><rect x="200" y="56" width="28" height="14" rx="2" fill="#d09030" opacity=".25"/><text x="214" y="67" text-anchor="middle" style="font-family:sans-serif;fill:var(--text);font-size:8px;font-weight:700">R</text><rect x="232" y="56" width="28" height="14" rx="2" fill="var(--accent)" opacity=".25"/><text x="246" y="67" text-anchor="middle" style="font-family:sans-serif;fill:var(--text);font-size:8px;font-weight:700">Z</text><rect x="264" y="56" width="28" height="14" rx="2" fill="var(--accent)" opacity=".2"/><text x="278" y="67" text-anchor="middle" style="font-family:sans-serif;fill:var(--text);font-size:8px;font-weight:700">E</text><text x="300" y="52" class="sm" style="fill:var(--text);font-weight:600">Continuation (4 months):</text><rect x="300" y="56" width="28" height="14" rx="2" fill="#e05050" opacity=".2"/><text x="314" y="67" text-anchor="middle" style="font-family:sans-serif;fill:var(--text);font-size:8px;font-weight:700">H</text><rect x="332" y="56" width="28" height="14" rx="2" fill="#d09030" opacity=".2"/><text x="346" y="67" text-anchor="middle" style="font-family:sans-serif;fill:var(--text);font-size:8px;font-weight:700">R</text><text x="168" y="80" class="sm">H=Isoniazid R=Rifampicin Z=Pyrazinamide E=Ethambutol</text><rect x="162" y="86" width="230" height="58" rx="4" fill="none" stroke="var(--border)" stroke-width="1"/><text x="168" y="100" class="lbl">Mantoux Test (TST)</text><line x1="168" y1="115" x2="384" y2="115" stroke="var(--border)" stroke-width=".5"/><rect x="168" y="106" width="50" height="12" rx="2" fill="var(--accent)" opacity=".08"/><text x="193" y="115" text-anchor="middle" class="sm">&lt;5mm</text><rect x="222" y="106" width="50" height="12" rx="2" fill="var(--accent)" opacity=".15"/><text x="247" y="115" text-anchor="middle" class="sm">5-9mm</text><rect x="276" y="106" width="50" height="12" rx="2" fill="#d09030" opacity=".2"/><text x="301" y="115" text-anchor="middle" class="sm">10-14mm</text><rect x="330" y="106" width="50" height="12" rx="2" fill="#e05050" opacity=".2"/><text x="355" y="115" text-anchor="middle" class="sm">≥15mm</text><text x="168" y="128" class="sm">≥5: HIV, close contacts, CXR changes | ≥10: healthcare workers, DM</text><text x="168" y="138" class="sm">≥15: no risk factors → positive | Intradermal PPD, read at 48-72h</text><circle cx="378" cy="130" r="6" fill="var(--accent)" opacity=".15" stroke="var(--accent)" stroke-width="1" stroke-dasharray="10" style="animation:tb_inject 1s linear infinite"/><rect x="8" y="150" width="384" height="42" rx="4" fill="none" stroke="var(--border)" stroke-width="1"/><text x="14" y="164" class="lbl">Drug Side Effects</text><rect x="14" y="170" width="86" height="14" rx="2" fill="#e05050" opacity=".1"/><text x="57" y="181" text-anchor="middle" class="sm">INH: Neuropathy</text><rect x="104" y="170" width="86" height="14" rx="2" fill="#d09030" opacity=".1"/><text x="147" y="181" text-anchor="middle" class="sm">RIF: Hepatitis, P450</text><rect x="194" y="170" width="86" height="14" rx="2" fill="var(--accent)" opacity=".1"/><text x="237" y="181" text-anchor="middle" class="sm">PZA: Gout, hepato</text><rect x="284" y="170" width="102" height="14" rx="2" fill="var(--accent)" opacity=".1"/><text x="335" y="181" text-anchor="middle" class="sm">EMB: Optic neuritis</text><text x="14" y="191" class="sm">INH: give B6 (pyridoxine) to prevent neuropathy | RIF: orange secretions, CYP inducer</text><rect x="8" y="198" width="384" height="44" rx="4" fill="#e05050" opacity=".06"/><text x="14" y="212" class="lbl" style="fill:#e05050">MDR-TB &amp; XDR-TB</text><rect x="14" y="218" width="180" height="18" rx="3" fill="#e05050" opacity=".12"/><text x="104" y="230" text-anchor="middle" class="sm" style="fill:var(--text);font-weight:600">MDR-TB: Resistant to INH + RIF</text><rect x="200" y="218" width="186" height="18" rx="3" fill="#e05050" opacity=".18"/><text x="293" y="230" text-anchor="middle" class="sm" style="fill:var(--text);font-weight:600">XDR-TB: MDR + FQ + injectable</text><text x="14" y="238" class="sm">Treatment: 9-20 months with Bedaquiline, Linezolid, Fluoroquinolone, Clofazimine</text><rect x="8" y="248" width="384" height="46" rx="4" fill="none" stroke="var(--border)" stroke-width="1"/><text x="14" y="262" class="lbl">Diagnosis Algorithm</text><text x="14" y="276" class="sm">Sputum AFB smear (ZN stain) × 2-3 | GeneXpert MTB/RIF (rapid, detects rifampicin resistance)</text><polygon points="200,265 196,260 204,260" fill="var(--accent)" opacity=".5"/><text x="14" y="288" class="sm">Culture (Löwenstein-Jensen): gold standard, 4-8 weeks | IGRA (QuantiFERON) for latent TB</text></svg>`,
+  'mbbs-med-asthma-copd': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><style>@keyframes spiro{0%{stroke-dashoffset:200}100%{stroke-dashoffset:0}}@keyframes breathe{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.12)}}rect{fill:var(--surface)}.lbl{font-family:sans-serif;fill:var(--text);font-size:11px;font-weight:600}.sm{font-family:sans-serif;fill:var(--text-dim);font-size:9px}</style><rect width="400" height="300" rx="8"/><text x="200" y="18" text-anchor="middle" class="lbl" style="font-size:13px">Asthma &amp; COPD — Spirometry &amp; Management</text><g transform="translate(10,26)"><text x="0" y="10" class="lbl">Spirometry Curves (Volume vs Time)</text><rect x="0" y="14" width="175" height="90" rx="4" fill="none" stroke="var(--border)" stroke-width="1"/><line x1="15" y1="98" x2="170" y2="98" stroke="var(--text-dim)" stroke-width=".8"/><line x1="15" y1="20" x2="15" y2="98" stroke="var(--text-dim)" stroke-width=".8"/><text x="8" y="58" text-anchor="middle" class="sm" transform="rotate(-90,8,58)">Vol(L)</text><text x="95" y="108" text-anchor="middle" class="sm">Time (s)</text><path d="M15 95 Q35 55 55 38 Q80 28 110 26 L170 25" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="200" style="animation:spiro 2.5s linear infinite"/><path d="M15 95 Q40 72 60 62 Q90 52 120 50 L170 49" fill="none" stroke="#e07" stroke-width="1.8" stroke-dasharray="5 3"/><path d="M15 95 Q30 75 45 65 Q60 58 80 55 L170 54" fill="none" stroke="#c33" stroke-width="1.5" stroke-dasharray="3 2"/><circle cx="170" cy="25" r="3" fill="var(--accent)"/><circle cx="170" cy="49" r="3" fill="#e07"/><circle cx="170" cy="54" r="3" fill="#c33"/><text x="112" y="22" class="sm" style="fill:var(--accent)">Normal</text><text x="112" y="47" class="sm" style="fill:#e07">Obstruct.</text><text x="112" y="66" class="sm" style="fill:#c33">Restrict.</text></g><g transform="translate(195,26)"><text x="0" y="10" class="lbl">FEV1/FVC Ratio</text><rect x="0" y="14" width="195" height="44" rx="4" fill="var(--accent)" opacity=".1"/><rect x="2" y="16" width="63" height="18" rx="3" fill="var(--accent)" opacity=".2"/><text x="33" y="28" text-anchor="middle" class="sm" style="font-weight:600">Normal</text><rect x="67" y="16" width="63" height="18" rx="3" fill="#e07" opacity=".2"/><text x="98" y="28" text-anchor="middle" class="sm" style="font-weight:600">Obstruct</text><rect x="132" y="16" width="61" height="18" rx="3" fill="#c33" opacity=".2"/><text x="162" y="28" text-anchor="middle" class="sm" style="font-weight:600">Restrict</text><text x="33" y="50" text-anchor="middle" class="sm">&gt;0.70</text><text x="98" y="50" text-anchor="middle" class="sm">&lt;0.70</text><text x="162" y="50" text-anchor="middle" class="sm">Normal/↑</text></g><g transform="translate(195,82)"><text x="0" y="10" class="lbl">GOLD Staging (COPD)</text><rect x="0" y="14" width="195" height="38" rx="4" fill="var(--accent)" opacity=".08"/><rect x="2" y="16" width="46" height="15" rx="2" fill="var(--accent)" opacity=".3"/><text x="25" y="26" text-anchor="middle" class="sm">I: ≥80%</text><rect x="50" y="16" width="46" height="15" rx="2" fill="var(--accent)" opacity=".25"/><text x="73" y="26" text-anchor="middle" class="sm">II: 50-79</text><rect x="98" y="16" width="46" height="15" rx="2" fill="#e07" opacity=".25"/><text x="121" y="26" text-anchor="middle" class="sm">III: 30-49</text><rect x="146" y="16" width="47" height="15" rx="2" fill="#c33" opacity=".25"/><text x="169" y="26" text-anchor="middle" class="sm">IV: &lt;30</text><text x="97" y="46" text-anchor="middle" class="sm">FEV1 % predicted post-bronchodilator</text></g><g transform="translate(10,130)"><text x="0" y="10" class="lbl">Stepwise Asthma Management</text><polygon points="95,14 190,70 0,70" fill="var(--accent)" opacity=".08" stroke="var(--accent)" stroke-width="1"/><polygon points="95,30 165,60 25,60" fill="var(--accent)" opacity=".12"/><polygon points="95,42 140,55 50,55" fill="var(--accent)" opacity=".18"/><text x="95" y="26" text-anchor="middle" class="sm">Step 5: Oral steroid/biologic</text><text x="95" y="40" text-anchor="middle" class="sm">Step 3-4: ICS+LABA</text><text x="95" y="53" text-anchor="middle" class="sm">Step 1-2: prn SABA / low ICS</text><text x="95" y="68" text-anchor="middle" class="sm">All steps: SABA rescue</text></g><g transform="translate(200,130)"><text x="0" y="10" class="lbl">Key Differences</text><rect x="0" y="14" width="190" height="72" rx="4" fill="var(--accent)" opacity=".06"/><text x="5" y="28" class="sm">Asthma: reversible, eosinophilic, atopy</text><text x="5" y="40" class="sm">  Triggers: allergen, exercise, cold</text><text x="5" y="52" class="sm">COPD: irreversible, neutrophilic, smoking</text><text x="5" y="64" class="sm">  FEV1 &lt;0.7 post-BD, ↑ RV/TLC</text><text x="5" y="78" class="sm">  Emphysema + chronic bronchitis</text></g><g transform="translate(10,210)"><text x="0" y="10" class="lbl">Breathing Curve</text><rect x="0" y="14" width="380" height="40" rx="4" fill="var(--accent)" opacity=".05"/><path d="M10 44 Q30 22 50 44 Q70 66 90 44 Q110 22 130 44 Q150 66 170 44 Q190 22 210 44 Q230 66 250 44 Q270 22 290 44 Q310 66 330 44 Q350 22 370 44" fill="none" stroke="var(--accent)" stroke-width="2" style="animation:breathe 3s ease-in-out infinite"/></g><text x="10" y="272" class="sm">Asthma: ↑ FeNO, ↑ eosinophils, positive BDR (&gt;12% &amp; 200mL) | COPD: ↓ DLCO in emphysema</text><text x="10" y="284" class="sm">Acute exacerbation: O₂ (88-92% COPD), nebulised SABA, systemic steroids, Abx if purulent sputum</text><rect x="10" y="288" width="380" height="4" rx="2" fill="var(--accent)" opacity=".2" style="animation:breathe 3s ease-in-out infinite"/></svg>`,
+  'mbbs-med-liver-disease': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><style>@keyframes lv_pulse{0%,100%{opacity:.6}50%{opacity:1}}@keyframes lv_flow{0%{stroke-dashoffset:20}100%{stroke-dashoffset:0}}rect{fill:var(--surface)}.lbl{font-family:sans-serif;fill:var(--text);font-size:11px;font-weight:600}.sm{font-family:sans-serif;fill:var(--text-dim);font-size:9px}</style><rect width="400" height="300" rx="8"/><text x="200" y="18" text-anchor="middle" class="lbl" style="font-size:13px">Liver Disease — Serology, Scoring &amp; Complications</text><g transform="translate(10,26)"><text x="0" y="10" class="lbl">Liver Anatomy</text><path d="M20 70 Q30 25 80 20 Q130 16 150 30 Q170 42 165 60 Q160 78 130 85 Q90 90 50 85 Q25 80 20 70Z" fill="var(--accent)" opacity=".15" stroke="var(--accent)" stroke-width="1.5"/><ellipse cx="85" cy="55" rx="12" ry="8" fill="none" stroke="#c33" stroke-width="1.2"/><text x="85" y="58" text-anchor="middle" style="font-family:sans-serif;fill:#c33;font-size:7px">Porta</text><path d="M85 63 L85 88" stroke="#c33" stroke-width="1.5" stroke-dasharray="4 2" style="animation:lv_flow 1.5s linear infinite"/><text x="85" y="98" text-anchor="middle" class="sm" style="fill:#c33">Portal v.</text><path d="M130 40 L155 20" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="4 2" style="animation:lv_flow 1.5s linear infinite"/><text x="162" y="18" class="sm" style="fill:var(--accent)">Hepatic v.</text><circle cx="60" cy="42" r="5" fill="var(--accent)" opacity=".3" style="animation:lv_pulse 2s infinite"/><text x="60" y="38" text-anchor="middle" style="font-family:sans-serif;fill:var(--text);font-size:7px">CBD</text><circle cx="45" cy="65" r="4" fill="#c33" opacity=".3"/><text x="20" y="66" class="sm">HA</text></g><g transform="translate(185,24)"><text x="0" y="10" class="lbl">Hepatitis B Serology</text><rect x="0" y="14" width="205" height="90" rx="4" fill="var(--accent)" opacity=".06"/><rect x="2" y="16" width="55" height="14" rx="2" fill="var(--accent)" opacity=".2"/><rect x="59" y="16" width="40" height="14" rx="2" fill="var(--accent)" opacity=".2"/><rect x="101" y="16" width="40" height="14" rx="2" fill="var(--accent)" opacity=".2"/><rect x="143" y="16" width="60" height="14" rx="2" fill="var(--accent)" opacity=".2"/><text x="29" y="26" text-anchor="middle" class="sm" style="font-weight:700">Marker</text><text x="79" y="26" text-anchor="middle" class="sm" style="font-weight:700">HBsAg</text><text x="121" y="26" text-anchor="middle" class="sm" style="font-weight:700">AntiHBs</text><text x="173" y="26" text-anchor="middle" class="sm" style="font-weight:700">Interpret</text><text x="29" y="42" text-anchor="middle" class="sm">Acute</text><text x="79" y="42" text-anchor="middle" class="sm">+</text><text x="121" y="42" text-anchor="middle" class="sm">−</text><text x="173" y="42" text-anchor="middle" class="sm">Active inf.</text><text x="29" y="54" text-anchor="middle" class="sm">Chronic</text><text x="79" y="54" text-anchor="middle" class="sm">+(&gt;6m)</text><text x="121" y="54" text-anchor="middle" class="sm">−</text><text x="173" y="54" text-anchor="middle" class="sm">Carrier</text><text x="29" y="66" text-anchor="middle" class="sm">Immune</text><text x="79" y="66" text-anchor="middle" class="sm">−</text><text x="121" y="66" text-anchor="middle" class="sm">+</text><text x="173" y="66" text-anchor="middle" class="sm">Recovered</text><text x="29" y="78" text-anchor="middle" class="sm">Vaccinated</text><text x="79" y="78" text-anchor="middle" class="sm">−</text><text x="121" y="78" text-anchor="middle" class="sm">+</text><text x="173" y="78" text-anchor="middle" class="sm">Only AntiHBs+</text><text x="29" y="98" text-anchor="middle" class="sm">IgM antiHBc = acute window | HBeAg = high replication</text></g><g transform="translate(10,130)"><text x="0" y="10" class="lbl">Child-Pugh Score (Cirrhosis Severity)</text><rect x="0" y="14" width="220" height="72" rx="4" fill="var(--accent)" opacity=".06"/><rect x="2" y="16" width="52" height="14" rx="2" fill="var(--accent)" opacity=".15"/><rect x="56" y="16" width="52" height="14" rx="2" fill="var(--accent)" opacity=".15"/><rect x="110" y="16" width="52" height="14" rx="2" fill="var(--accent)" opacity=".15"/><rect x="164" y="16" width="54" height="14" rx="2" fill="var(--accent)" opacity=".15"/><text x="28" y="26" text-anchor="middle" class="sm" style="font-weight:600">Param</text><text x="82" y="26" text-anchor="middle" class="sm" style="font-weight:600">1 pt</text><text x="136" y="26" text-anchor="middle" class="sm" style="font-weight:600">2 pts</text><text x="191" y="26" text-anchor="middle" class="sm" style="font-weight:600">3 pts</text><text x="28" y="40" text-anchor="middle" class="sm">Bilirubin</text><text x="82" y="40" text-anchor="middle" class="sm">&lt;2</text><text x="136" y="40" text-anchor="middle" class="sm">2-3</text><text x="191" y="40" text-anchor="middle" class="sm">&gt;3</text><text x="28" y="52" text-anchor="middle" class="sm">Albumin</text><text x="82" y="52" text-anchor="middle" class="sm">&gt;3.5</text><text x="136" y="52" text-anchor="middle" class="sm">2.8-3.5</text><text x="191" y="52" text-anchor="middle" class="sm">&lt;2.8</text><text x="28" y="64" text-anchor="middle" class="sm">INR</text><text x="82" y="64" text-anchor="middle" class="sm">&lt;1.7</text><text x="136" y="64" text-anchor="middle" class="sm">1.7-2.3</text><text x="191" y="64" text-anchor="middle" class="sm">&gt;2.3</text><text x="28" y="76" text-anchor="middle" class="sm">Ascites</text><text x="82" y="76" text-anchor="middle" class="sm">None</text><text x="136" y="76" text-anchor="middle" class="sm">Mild</text><text x="191" y="76" text-anchor="middle" class="sm">Mod-Sev</text></g><g transform="translate(240,130)"><rect x="0" y="14" width="150" height="40" rx="4" fill="var(--accent)" opacity=".1"/><text x="75" y="30" text-anchor="middle" class="sm" style="font-weight:600">A: 5-6 pts (good)</text><text x="75" y="42" text-anchor="middle" class="sm" style="font-weight:600">B: 7-9 | C: 10-15</text><text x="75" y="54" text-anchor="middle" class="sm">+ Encephalopathy grade</text></g><g transform="translate(10,218)"><text x="0" y="10" class="lbl">Complications of Cirrhosis</text><rect x="0" y="14" width="90" height="28" rx="4" fill="#c33" opacity=".15"/><text x="45" y="26" text-anchor="middle" class="sm">Variceal bleed</text><text x="45" y="38" text-anchor="middle" class="sm">Band ligation</text><rect x="95" y="14" width="100" height="28" rx="4" fill="#c33" opacity=".12"/><text x="145" y="26" text-anchor="middle" class="sm">Encephalopathy</text><text x="145" y="38" text-anchor="middle" class="sm">Lactulose+Rifaximin</text><rect x="200" y="14" width="65" height="28" rx="4" fill="#c33" opacity=".1"/><text x="232" y="26" text-anchor="middle" class="sm">SBP</text><text x="232" y="38" text-anchor="middle" class="sm">Ceftriaxone</text><rect x="270" y="14" width="65" height="28" rx="4" fill="#c33" opacity=".08"/><text x="302" y="26" text-anchor="middle" class="sm">HRS</text><text x="302" y="38" text-anchor="middle" class="sm">Terlipressin</text><rect x="340" y="14" width="50" height="28" rx="4" fill="#c33" opacity=".06"/><text x="365" y="26" text-anchor="middle" class="sm">HCC</text><text x="365" y="38" text-anchor="middle" class="sm">Screen</text></g><text x="10" y="272" class="sm">Portal HTN: HVPG &gt;5 mmHg (clinical &gt;10) | Ascites: SAAG &gt;1.1 = portal HTN</text><text x="10" y="284" class="sm">SBP: PMN &gt;250/mm³ in ascitic fluid | Prophylaxis: norfloxacin | MELD score for transplant listing</text><rect x="10" y="290" width="380" height="3" rx="1.5" fill="var(--accent)" opacity=".3" style="animation:lv_pulse 2s infinite"/></svg>`,
+  'mbbs-med-peptic-ulcer': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><style>@keyframes acid{0%{transform:translateY(0);opacity:.7}100%{transform:translateY(5px);opacity:.3}}@keyframes pump{0%,100%{r:4}50%{r:6}}rect{fill:var(--surface)}.lbl{font-family:sans-serif;fill:var(--text);font-size:11px;font-weight:600}.sm{font-family:sans-serif;fill:var(--text-dim);font-size:9px}</style><rect width="400" height="300" rx="8"/><text x="200" y="18" text-anchor="middle" class="lbl" style="font-size:13px">Peptic Ulcer Disease &amp; GERD</text><g transform="translate(10,26)"><text x="0" y="10" class="lbl">Stomach — Ulcer Locations</text><path d="M30 50 Q25 30 50 22 Q80 15 120 18 Q150 22 160 40 Q165 55 155 70 Q140 85 110 90 Q80 92 55 85 Q30 75 30 50Z" fill="var(--accent)" opacity=".1" stroke="var(--accent)" stroke-width="1.5"/><path d="M120 18 Q140 15 155 22 Q165 30 160 40" fill="none" stroke="var(--accent)" stroke-width="1.2"/><text x="145" y="14" class="sm">Pylorus</text><path d="M160 40 L190 38 Q200 37 205 40" fill="none" stroke="var(--accent)" stroke-width="1.5"/><text x="195" y="34" class="sm">Duodenum</text><circle cx="75" cy="55" r="6" fill="#c33" opacity=".5" style="animation:pump 2s infinite"/><text x="75" y="72" text-anchor="middle" class="sm" style="fill:#c33">Gastric ulcer</text><text x="75" y="82" text-anchor="middle" class="sm" style="fill:#c33">(lesser curve)</text><circle cx="195" cy="42" r="5" fill="#e07" opacity=".5" style="animation:pump 2s infinite"/><text x="210" y="50" class="sm" style="fill:#e07">Duodenal</text><text x="210" y="60" class="sm" style="fill:#e07">ulcer (D1)</text><circle cx="42" cy="35" r="3" fill="var(--accent)" opacity=".4" style="animation:acid 1.5s infinite"/><circle cx="55" cy="40" r="2.5" fill="var(--accent)" opacity=".4" style="animation:acid 1.5s infinite .3s"/><circle cx="48" cy="50" r="2" fill="var(--accent)" opacity=".3" style="animation:acid 1.5s infinite .6s"/><text x="10" y="95" class="sm">GU: pain with food | DU: pain 2-3h after, relieved by food</text></g><g transform="translate(230,26)"><text x="0" y="10" class="lbl">PPI Mechanism</text><rect x="0" y="14" width="160" height="55" rx="4" fill="var(--accent)" opacity=".06"/><ellipse cx="40" cy="42" rx="22" ry="15" fill="var(--accent)" opacity=".15" stroke="var(--accent)" stroke-width="1"/><text x="40" y="39" text-anchor="middle" style="font-family:sans-serif;fill:var(--text);font-size:8px;font-weight:600">H⁺/K⁺</text><text x="40" y="49" text-anchor="middle" style="font-family:sans-serif;fill:var(--text);font-size:7px">ATPase</text><line x1="62" y1="42" x2="90" y2="42" stroke="var(--accent)" stroke-width="1.5"/><text x="76" y="38" class="sm">→ H⁺</text><rect x="95" y="30" width="55" height="24" rx="3" fill="#c33" opacity=".2" stroke="#c33" stroke-width="1"/><text x="122" y="40" text-anchor="middle" class="sm" style="fill:#c33;font-weight:600">PPI blocks</text><text x="122" y="50" text-anchor="middle" class="sm" style="fill:#c33">irreversibly</text><text x="0" y="78" class="sm">Omeprazole, Lansoprazole</text><text x="0" y="88" class="sm">Take 30min before meals</text></g><g transform="translate(10,130)"><text x="0" y="10" class="lbl">H.pylori Diagnosis &amp; Treatment</text><rect x="0" y="16" width="380" height="30" rx="4" fill="var(--accent)" opacity=".06"/><rect x="5" y="19" width="85" height="22" rx="3" fill="var(--accent)" opacity=".15"/><text x="47" y="33" text-anchor="middle" class="sm">Urea breath test</text><text x="95" y="33" class="sm">→</text><rect x="100" y="19" width="65" height="22" rx="3" fill="var(--accent)" opacity=".15"/><text x="132" y="33" text-anchor="middle" class="sm">Stool Ag test</text><text x="170" y="33" class="sm">→</text><rect x="175" y="19" width="90" height="22" rx="3" fill="var(--accent)" opacity=".2"/><text x="220" y="30" text-anchor="middle" class="sm" style="font-weight:600">Triple therapy</text><text x="220" y="40" text-anchor="middle" class="sm">14 days</text><text x="270" y="33" class="sm">→</text><rect x="275" y="19" width="105" height="22" rx="3" fill="var(--accent)" opacity=".15"/><text x="327" y="30" text-anchor="middle" class="sm">PPI + Amoxicillin</text><text x="327" y="40" text-anchor="middle" class="sm">+ Clarithromycin</text><text x="5" y="60" class="sm">Eradication confirmed with UBT 4 wks post-Rx | Biopsy: CLO test, histology (gold standard)</text></g><g transform="translate(10,195)"><text x="0" y="10" class="lbl" style="fill:#c33">Alarm Symptoms (Red Flags)</text><rect x="0" y="14" width="200" height="55" rx="5" fill="#c33" opacity=".08" stroke="#c33" stroke-width="1.2"/><text x="10" y="28" class="sm">• Dysphagia, odynophagia</text><text x="10" y="40" class="sm">• Unintentional weight loss</text><text x="10" y="52" class="sm">• GI bleeding (haematemesis/melaena)</text><text x="10" y="64" class="sm">• Persistent vomiting, anaemia, mass</text></g><g transform="translate(220,195)"><text x="0" y="10" class="lbl">GERD Management</text><rect x="0" y="14" width="170" height="55" rx="4" fill="var(--accent)" opacity=".06"/><text x="10" y="28" class="sm">Lifestyle: weight loss, head elevation</text><text x="10" y="40" class="sm">Step-up: antacid → H2RA → PPI</text><text x="10" y="52" class="sm">Refractory: double PPI, pH study</text><text x="10" y="64" class="sm">Surgery: Nissen fundoplication</text></g><text x="10" y="272" class="sm">GU &gt;55yrs: biopsy to exclude malignancy | DU: rarely malignant | Zollinger-Ellison: gastrinoma, ↑ gastrin</text><text x="10" y="284" class="sm">Barrett's oesophagus: intestinal metaplasia → surveillance OGD q3-5yr | Complications: stricture, perforation</text><rect x="10" y="290" width="380" height="3" rx="1.5" fill="#c33" opacity=".2"/></svg>`,
+  'mbbs-med-acute-abdomen': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><style>@keyframes abd_pulse{0%,100%{opacity:.4}50%{opacity:.9}}@keyframes abd_pt{0%,100%{r:3}50%{r:5}}rect{fill:var(--surface)}.lbl{font-family:sans-serif;fill:var(--text);font-size:11px;font-weight:600}.sm{font-family:sans-serif;fill:var(--text-dim);font-size:9px}</style><rect width="400" height="300" rx="8"/><text x="200" y="18" text-anchor="middle" class="lbl" style="font-size:13px">Acute Abdomen — Regional Differentials</text><g transform="translate(10,26)"><text x="0" y="10" class="lbl">9-Region Abdomen Grid</text><rect x="15" y="14" width="150" height="130" rx="6" fill="var(--accent)" opacity=".05" stroke="var(--border)" stroke-width="1"/><line x1="65" y1="14" x2="65" y2="144" stroke="var(--border)" stroke-width=".8" stroke-dasharray="3 2"/><line x1="115" y1="14" x2="115" y2="144" stroke="var(--border)" stroke-width=".8" stroke-dasharray="3 2"/><line x1="15" y1="57" x2="165" y2="57" stroke="var(--border)" stroke-width=".8" stroke-dasharray="3 2"/><line x1="15" y1="100" x2="165" y2="100" stroke="var(--border)" stroke-width=".8" stroke-dasharray="3 2"/><text x="40" y="34" text-anchor="middle" style="font-family:sans-serif;fill:var(--text-dim);font-size:7px">RH</text><text x="90" y="34" text-anchor="middle" style="font-family:sans-serif;fill:var(--text-dim);font-size:7px">Epigastric</text><text x="140" y="34" text-anchor="middle" style="font-family:sans-serif;fill:var(--text-dim);font-size:7px">LH</text><text x="40" y="44" text-anchor="middle" style="font-family:sans-serif;fill:#c33;font-size:6px">Cholecyst.</text><text x="90" y="44" text-anchor="middle" style="font-family:sans-serif;fill:#c33;font-size:6px">Pancreat.</text><text x="140" y="44" text-anchor="middle" style="font-family:sans-serif;fill:#c33;font-size:6px">Spleen</text><text x="40" y="76" text-anchor="middle" style="font-family:sans-serif;fill:var(--text-dim);font-size:7px">R Lumbar</text><text x="90" y="76" text-anchor="middle" style="font-family:sans-serif;fill:var(--text-dim);font-size:7px">Umbilical</text><text x="140" y="76" text-anchor="middle" style="font-family:sans-serif;fill:var(--text-dim);font-size:7px">L Lumbar</text><text x="40" y="86" text-anchor="middle" style="font-family:sans-serif;fill:#c33;font-size:6px">Renal</text><text x="90" y="86" text-anchor="middle" style="font-family:sans-serif;fill:#c33;font-size:6px">SBO/AAA</text><text x="140" y="86" text-anchor="middle" style="font-family:sans-serif;fill:#c33;font-size:6px">Renal</text><text x="40" y="118" text-anchor="middle" style="font-family:sans-serif;fill:var(--text-dim);font-size:7px">RIF</text><text x="90" y="118" text-anchor="middle" style="font-family:sans-serif;fill:var(--text-dim);font-size:7px">Suprapubic</text><text x="140" y="118" text-anchor="middle" style="font-family:sans-serif;fill:var(--text-dim);font-size:7px">LIF</text><text x="40" y="128" text-anchor="middle" style="font-family:sans-serif;fill:#c33;font-size:6px">Appendix</text><text x="90" y="128" text-anchor="middle" style="font-family:sans-serif;fill:#c33;font-size:6px">UTI/gyn</text><text x="140" y="128" text-anchor="middle" style="font-family:sans-serif;fill:#c33;font-size:6px">Divertic.</text><circle cx="42" cy="120" r="4" fill="#c33" opacity=".4" style="animation:abd_pt 1.5s infinite"/><text x="30" y="140" class="sm" style="fill:#c33">McBurney's pt</text></g><g transform="translate(180,26)"><text x="0" y="10" class="lbl">Clinical Signs</text><rect x="0" y="14" width="210" height="56" rx="4" fill="var(--accent)" opacity=".06"/><text x="5" y="28" class="sm" style="font-weight:600">Murphy's sign:</text><text x="80" y="28" class="sm">RH pain on inspiration (cholecystitis)</text><text x="5" y="40" class="sm" style="font-weight:600">Rovsing's sign:</text><text x="85" y="40" class="sm">LIF pressure → RIF pain (appendicitis)</text><text x="5" y="52" class="sm" style="font-weight:600">McBurney's:</text><text x="73" y="52" class="sm">⅓ from ASIS to umbilicus (appendicitis)</text><text x="5" y="64" class="sm" style="font-weight:600">Grey Turner / Cullen:</text><text x="115" y="64" class="sm">flank/periumbilical bruising (panc)</text></g><g transform="translate(180,92)"><text x="0" y="10" class="lbl">Ranson Criteria (Pancreatitis)</text><rect x="0" y="14" width="105" height="60" rx="4" fill="var(--accent)" opacity=".1"/><text x="52" y="26" text-anchor="middle" class="sm" style="font-weight:600">Admission</text><text x="5" y="38" class="sm">Age &gt;55</text><text x="5" y="48" class="sm">WBC &gt;16k</text><text x="5" y="58" class="sm">Glucose &gt;200</text><text x="5" y="68" class="sm">LDH &gt;350, AST &gt;250</text><rect x="110" y="14" width="100" height="60" rx="4" fill="var(--accent)" opacity=".1"/><text x="160" y="26" text-anchor="middle" class="sm" style="font-weight:600">48 hrs</text><text x="115" y="38" class="sm">Hct drop &gt;10%</text><text x="115" y="48" class="sm">BUN rise &gt;5</text><text x="115" y="58" class="sm">Ca &lt;8, PaO₂ &lt;60</text><text x="115" y="68" class="sm">Base deficit &gt;4</text></g><g transform="translate(10,162)"><text x="0" y="10" class="lbl">Appendicitis vs Pancreatitis vs Cholecystitis</text><rect x="0" y="14" width="380" height="62" rx="4" fill="var(--accent)" opacity=".04"/><rect x="2" y="16" width="70" height="14" rx="2" fill="var(--accent)" opacity=".15"/><rect x="74" y="16" width="100" height="14" rx="2" fill="var(--accent)" opacity=".15"/><rect x="176" y="16" width="100" height="14" rx="2" fill="var(--accent)" opacity=".15"/><rect x="278" y="16" width="100" height="14" rx="2" fill="var(--accent)" opacity=".15"/><text x="37" y="26" text-anchor="middle" class="sm" style="font-weight:600">Feature</text><text x="124" y="26" text-anchor="middle" class="sm" style="font-weight:600">Appendicitis</text><text x="226" y="26" text-anchor="middle" class="sm" style="font-weight:600">Pancreatitis</text><text x="328" y="26" text-anchor="middle" class="sm" style="font-weight:600">Cholecystitis</text><text x="37" y="40" text-anchor="middle" class="sm">Pain</text><text x="124" y="40" text-anchor="middle" class="sm">Periumbilical→RIF</text><text x="226" y="40" text-anchor="middle" class="sm">Epigast→back</text><text x="328" y="40" text-anchor="middle" class="sm">RUQ, post-meal</text><text x="37" y="52" text-anchor="middle" class="sm">Key test</text><text x="124" y="52" text-anchor="middle" class="sm">CT/US, ↑WBC</text><text x="226" y="52" text-anchor="middle" class="sm">Lipase &gt;3× ULN</text><text x="328" y="52" text-anchor="middle" class="sm">US: wall &gt;3mm</text><text x="37" y="64" text-anchor="middle" class="sm">Rx</text><text x="124" y="64" text-anchor="middle" class="sm">Appendicectomy</text><text x="226" y="64" text-anchor="middle" class="sm">NBM, fluids, pain</text><text x="328" y="64" text-anchor="middle" class="sm">Cholecystectomy</text></g><text x="10" y="248" class="sm">Peritonism: guarding + rigidity + rebound | Erect CXR: free air under diaphragm = perforation</text><text x="10" y="260" class="sm">Alvarado score: MANTRELS (Migration, Anorexia, Nausea, Tenderness RIF, Rebound, Elevated WBC, Left shift, Subj)</text><text x="10" y="272" class="sm">Pancreatitis: gallstones (40%) and alcohol (40%) are top causes | ERCP if CBD stone</text><rect x="10" y="280" width="380" height="3" rx="1.5" fill="#c33" opacity=".25" style="animation:abd_pulse 2s infinite"/></svg>`,
+  'mbbs-med-aki': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><style>@keyframes neph_flow{0%{stroke-dashoffset:30}100%{stroke-dashoffset:0}}@keyframes aki_blink{0%,100%{opacity:.5}50%{opacity:1}}rect{fill:var(--surface)}.lbl{font-family:sans-serif;fill:var(--text);font-size:11px;font-weight:600}.sm{font-family:sans-serif;fill:var(--text-dim);font-size:9px}</style><rect width="400" height="300" rx="8"/><text x="200" y="18" text-anchor="middle" class="lbl" style="font-size:13px">Acute Kidney Injury — Classification &amp; Management</text><g transform="translate(10,26)"><text x="0" y="10" class="lbl">Nephron — AKI Cause Mapping</text><ellipse cx="45" cy="50" rx="18" ry="16" fill="var(--accent)" opacity=".15" stroke="var(--accent)" stroke-width="1.5"/><text x="45" y="47" text-anchor="middle" style="font-family:sans-serif;fill:var(--text);font-size:7px;font-weight:600">Glom.</text><text x="45" y="56" text-anchor="middle" style="font-family:sans-serif;fill:var(--text);font-size:6px">Bowman's</text><path d="M63 50 L90 50 Q100 50 100 60 L100 85 Q100 95 90 95 L75 95 Q65 95 65 85 L65 70" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="30" style="animation:neph_flow 2s linear infinite"/><text x="100" y="72" class="sm">Loop</text><path d="M65 70 L65 55 Q65 48 75 48 L120 48 L140 48" fill="none" stroke="var(--accent)" stroke-width="1.2"/><text x="115" y="44" class="sm">DCT</text><path d="M140 48 L140 90 L155 90" fill="none" stroke="var(--accent)" stroke-width="1.2"/><text x="145" y="82" class="sm">CD</text><path d="M15 35 L45 35" stroke="#c33" stroke-width="2"/><text x="8" y="30" style="font-family:sans-serif;fill:#c33;font-size:7px;font-weight:600">Aff.</text><circle cx="15" cy="35" r="3" fill="#c33" opacity=".6" style="animation:aki_blink 2s infinite"/></g><g transform="translate(10,70)"><rect x="0" y="0" width="55" height="24" rx="3" fill="#c33" opacity=".15" stroke="#c33" stroke-width=".8"/><text x="27" y="10" text-anchor="middle" style="font-family:sans-serif;fill:#c33;font-size:8px;font-weight:600">Pre-renal</text><text x="27" y="20" text-anchor="middle" style="font-family:sans-serif;fill:#c33;font-size:7px">↓ perfusion</text><rect x="60" y="0" width="55" height="24" rx="3" fill="#e07" opacity=".15" stroke="#e07" stroke-width=".8"/><text x="87" y="10" text-anchor="middle" style="font-family:sans-serif;fill:#e07;font-size:8px;font-weight:600">Intrinsic</text><text x="87" y="20" text-anchor="middle" style="font-family:sans-serif;fill:#e07;font-size:7px">ATN/GN/AIN</text><rect x="120" y="0" width="55" height="24" rx="3" fill="var(--accent)" opacity=".15" stroke="var(--accent)" stroke-width=".8"/><text x="147" y="10" text-anchor="middle" style="font-family:sans-serif;fill:var(--accent);font-size:8px;font-weight:600">Post-renal</text><text x="147" y="20" text-anchor="middle" style="font-family:sans-serif;fill:var(--accent);font-size:7px">Obstruction</text></g><g transform="translate(190,26)"><text x="0" y="10" class="lbl">KDIGO Staging</text><rect x="0" y="14" width="200" height="70" rx="4" fill="var(--accent)" opacity=".06"/><rect x="2" y="16" width="40" height="14" rx="2" fill="var(--accent)" opacity=".2"/><rect x="44" y="16" width="80" height="14" rx="2" fill="var(--accent)" opacity=".2"/><rect x="126" y="16" width="72" height="14" rx="2" fill="var(--accent)" opacity=".2"/><text x="22" y="26" text-anchor="middle" class="sm" style="font-weight:600">Stage</text><text x="84" y="26" text-anchor="middle" class="sm" style="font-weight:600">Creatinine</text><text x="162" y="26" text-anchor="middle" class="sm" style="font-weight:600">Urine Output</text><text x="22" y="42" text-anchor="middle" class="sm">1</text><text x="84" y="42" text-anchor="middle" class="sm">1.5-1.9× or ↑0.3</text><text x="162" y="42" text-anchor="middle" class="sm">&lt;0.5 mL/kg/h 6h</text><text x="22" y="56" text-anchor="middle" class="sm">2</text><text x="84" y="56" text-anchor="middle" class="sm">2.0-2.9× baseline</text><text x="162" y="56" text-anchor="middle" class="sm">&lt;0.5 mL/kg/h 12h</text><text x="22" y="70" text-anchor="middle" class="sm">3</text><text x="84" y="70" text-anchor="middle" class="sm">≥3× or Cr≥4.0</text><text x="162" y="70" text-anchor="middle" class="sm">&lt;0.3 / anuria 12h</text></g><g transform="translate(10,108)"><text x="0" y="10" class="lbl">Urine Indices — Pre-renal vs Intrinsic</text><rect x="0" y="14" width="380" height="56" rx="4" fill="var(--accent)" opacity=".04"/><rect x="2" y="16" width="95" height="14" rx="2" fill="var(--accent)" opacity=".15"/><rect x="99" y="16" width="140" height="14" rx="2" fill="var(--accent)" opacity=".15"/><rect x="241" y="16" width="137" height="14" rx="2" fill="var(--accent)" opacity=".15"/><text x="49" y="26" text-anchor="middle" class="sm" style="font-weight:600">Parameter</text><text x="169" y="26" text-anchor="middle" class="sm" style="font-weight:600">Pre-renal</text><text x="309" y="26" text-anchor="middle" class="sm" style="font-weight:600">Intrinsic (ATN)</text><text x="49" y="40" text-anchor="middle" class="sm">FENa</text><text x="169" y="40" text-anchor="middle" class="sm">&lt;1%</text><text x="309" y="40" text-anchor="middle" class="sm">&gt;2%</text><text x="49" y="52" text-anchor="middle" class="sm">Urine Na</text><text x="169" y="52" text-anchor="middle" class="sm">&lt;20 mEq/L</text><text x="309" y="52" text-anchor="middle" class="sm">&gt;40 mEq/L</text><text x="49" y="64" text-anchor="middle" class="sm">Urine Osm</text><text x="169" y="64" text-anchor="middle" class="sm">&gt;500 mOsm/kg</text><text x="309" y="64" text-anchor="middle" class="sm">&lt;350 mOsm/kg</text></g><g transform="translate(10,182)"><text x="0" y="10" class="lbl" style="fill:#c33">Dialysis Indications — AEIOU</text><rect x="0" y="14" width="380" height="38" rx="5" fill="#c33" opacity=".06" stroke="#c33" stroke-width="1"/><rect x="5" y="18" width="70" height="28" rx="3" fill="#c33" opacity=".12"/><text x="40" y="30" text-anchor="middle" class="sm" style="font-weight:600">A: Acidosis</text><text x="40" y="42" text-anchor="middle" class="sm">refractory</text><rect x="80" y="18" width="78" height="28" rx="3" fill="#c33" opacity=".1"/><text x="119" y="30" text-anchor="middle" class="sm" style="font-weight:600">E: Electrolyte</text><text x="119" y="42" text-anchor="middle" class="sm">K⁺ &gt;6.5</text><rect x="163" y="18" width="70" height="28" rx="3" fill="#c33" opacity=".08"/><text x="198" y="30" text-anchor="middle" class="sm" style="font-weight:600">I: Intoxication</text><text x="198" y="42" text-anchor="middle" class="sm">lithium, methanol</text><rect x="238" y="18" width="70" height="28" rx="3" fill="#c33" opacity=".06"/><text x="273" y="30" text-anchor="middle" class="sm" style="font-weight:600">O: Overload</text><text x="273" y="42" text-anchor="middle" class="sm">pulm oedema</text><rect x="313" y="18" width="65" height="28" rx="3" fill="#c33" opacity=".05"/><text x="345" y="30" text-anchor="middle" class="sm" style="font-weight:600">U: Uraemia</text><text x="345" y="42" text-anchor="middle" class="sm">pericarditis</text></g><g transform="translate(10,232)"><text x="0" y="10" class="lbl">Management Principles</text><text x="0" y="24" class="sm">1. Stop nephrotoxins (NSAIDs, aminoglycosides, ACEi) 2. Volume: IV fluids if pre-renal, restrict if overloaded</text><text x="0" y="36" class="sm">3. Treat cause (relieve obstruction, treat sepsis) 4. Monitor K⁺, pH, fluid balance 5. RRT if AEIOU criteria met</text></g><text x="10" y="284" class="sm">ATN recovery: polyuric phase → watch for hypoK | Contrast nephropathy: pre-hydrate with NaCl | Rhabdo: CK &gt;5× + IV NS</text><rect x="10" y="290" width="380" height="3" rx="1.5" fill="var(--accent)" opacity=".3" style="animation:aki_blink 2s infinite"/></svg>`,
+  'mbbs-med-ckd': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><style>@keyframes gfr_decline{0%{stroke-dashoffset:200}100%{stroke-dashoffset:0}}@keyframes ckd_pulse{0%,100%{opacity:.4}50%{opacity:1}}rect{fill:var(--surface)}.lbl{font-family:sans-serif;fill:var(--text);font-size:11px;font-weight:600}.sm{font-family:sans-serif;fill:var(--text-dim);font-size:9px}</style><rect width="400" height="300" rx="8"/><text x="200" y="18" text-anchor="middle" class="lbl" style="font-size:13px">Chronic Kidney Disease — Staging &amp; Complications</text><g transform="translate(10,26)"><text x="0" y="10" class="lbl">GFR Staging (G1–G5) — Declining Bar Chart</text><rect x="0" y="16" width="230" height="85" rx="4" fill="var(--accent)" opacity=".04"/><line x1="20" y1="92" x2="225" y2="92" stroke="var(--border)" stroke-width=".8"/><line x1="20" y1="20" x2="20" y2="92" stroke="var(--border)" stroke-width=".8"/><text x="12" y="28" text-anchor="end" class="sm">120</text><text x="12" y="55" text-anchor="end" class="sm">60</text><text x="12" y="88" text-anchor="end" class="sm">0</text><rect x="30" y="22" width="30" height="70" rx="3" fill="var(--accent)" opacity=".5"/><text x="45" y="18" text-anchor="middle" class="sm" style="font-weight:600">G1</text><text x="45" y="55" text-anchor="middle" style="font-family:sans-serif;fill:#fff;font-size:8px">≥90</text><rect x="68" y="32" width="30" height="60" rx="3" fill="var(--accent)" opacity=".4"/><text x="83" y="28" text-anchor="middle" class="sm" style="font-weight:600">G2</text><text x="83" y="60" text-anchor="middle" style="font-family:sans-serif;fill:#fff;font-size:8px">60-89</text><rect x="106" y="47" width="30" height="45" rx="3" fill="#e07" opacity=".45"/><text x="121" y="43" text-anchor="middle" class="sm" style="font-weight:600">G3</text><text x="121" y="68" text-anchor="middle" style="font-family:sans-serif;fill:#fff;font-size:8px">30-59</text><rect x="144" y="62" width="30" height="30" rx="3" fill="#c33" opacity=".45"/><text x="159" y="58" text-anchor="middle" class="sm" style="font-weight:600">G4</text><text x="159" y="78" text-anchor="middle" style="font-family:sans-serif;fill:#fff;font-size:8px">15-29</text><rect x="182" y="77" width="30" height="15" rx="3" fill="#c33" opacity=".6"/><text x="197" y="73" text-anchor="middle" class="sm" style="font-weight:600">G5</text><text x="197" y="88" text-anchor="middle" style="font-family:sans-serif;fill:#fff;font-size:7px">&lt;15</text><text x="115" y="102" text-anchor="middle" class="sm">GFR mL/min/1.73m²</text></g><g transform="translate(250,26)"><text x="0" y="10" class="lbl">Declining GFR Curve</text><rect x="0" y="14" width="140" height="70" rx="4" fill="var(--accent)" opacity=".04"/><line x1="10" y1="78" x2="135" y2="78" stroke="var(--border)" stroke-width=".8"/><line x1="10" y1="18" x2="10" y2="78" stroke="var(--border)" stroke-width=".8"/><path d="M10 22 Q35 24 55 35 Q80 50 100 62 Q120 72 135 76" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="200" style="animation:gfr_decline 4s linear infinite"/><circle cx="10" cy="22" r="3" fill="var(--accent)" style="animation:ckd_pulse 2s infinite"/><circle cx="55" cy="35" r="3" fill="#e07" opacity=".7"/><circle cx="100" cy="62" r="3" fill="#c33" opacity=".7"/><circle cx="135" cy="76" r="3" fill="#c33"/><text x="72" y="14" text-anchor="middle" class="sm">GFR over time →</text></g><g transform="translate(10,132)"><text x="0" y="10" class="lbl">Complications by Stage</text><rect x="0" y="14" width="380" height="52" rx="4" fill="var(--accent)" opacity=".04"/><rect x="2" y="16" width="92" height="14" rx="2" fill="var(--accent)" opacity=".15"/><rect x="96" y="16" width="92" height="14" rx="2" fill="var(--accent)" opacity=".15"/><rect x="190" y="16" width="92" height="14" rx="2" fill="var(--accent)" opacity=".15"/><rect x="284" y="16" width="94" height="14" rx="2" fill="var(--accent)" opacity=".15"/><text x="48" y="26" text-anchor="middle" class="sm" style="font-weight:600">Anaemia</text><text x="142" y="26" text-anchor="middle" class="sm" style="font-weight:600">Bone (2° HPT)</text><text x="236" y="26" text-anchor="middle" class="sm" style="font-weight:600">CVD Risk</text><text x="331" y="26" text-anchor="middle" class="sm" style="font-weight:600">Met. Acidosis</text><text x="48" y="40" text-anchor="middle" class="sm">↓ EPO → normocytic</text><text x="142" y="40" text-anchor="middle" class="sm">↑ PO₄, ↓ Ca, ↓ vitD</text><text x="236" y="40" text-anchor="middle" class="sm">#1 cause of death</text><text x="331" y="40" text-anchor="middle" class="sm">↓ NH₄⁺ excretion</text><text x="48" y="52" text-anchor="middle" class="sm">Rx: ESA (Hb 10-11.5)</text><text x="142" y="52" text-anchor="middle" class="sm">→ ↑ PTH, osteodyst</text><text x="236" y="52" text-anchor="middle" class="sm">LVH, accelerated AS</text><text x="331" y="52" text-anchor="middle" class="sm">NaHCO₃ if &lt;22</text><text x="48" y="64" text-anchor="middle" class="sm">IV iron first</text><text x="142" y="64" text-anchor="middle" class="sm">PO₄ binders, calcitriol</text><text x="236" y="64" text-anchor="middle" class="sm">BP &lt;130/80 (ACEi)</text><text x="331" y="64" text-anchor="middle" class="sm">Oral bicarb</text></g><g transform="translate(10,210)"><text x="0" y="10" class="lbl">Renal Replacement Therapy (RRT) — G5 or symptomatic</text><rect x="0" y="14" width="120" height="48" rx="4" fill="var(--accent)" opacity=".1"/><text x="60" y="28" text-anchor="middle" class="sm" style="font-weight:600">Haemodialysis</text><text x="60" y="40" text-anchor="middle" class="sm">3×/wk, 4h sessions</text><text x="60" y="52" text-anchor="middle" class="sm">AV fistula access</text><text x="60" y="60" text-anchor="middle" class="sm">Best Kt/V ≥1.2</text><rect x="130" y="14" width="120" height="48" rx="4" fill="var(--accent)" opacity=".1"/><text x="190" y="28" text-anchor="middle" class="sm" style="font-weight:600">Peritoneal Dialysis</text><text x="190" y="40" text-anchor="middle" class="sm">Daily, home-based</text><text x="190" y="52" text-anchor="middle" class="sm">Tenckhoff catheter</text><text x="190" y="60" text-anchor="middle" class="sm">Risk: peritonitis</text><rect x="260" y="14" width="130" height="48" rx="4" fill="var(--accent)" opacity=".15"/><text x="325" y="28" text-anchor="middle" class="sm" style="font-weight:600">Transplant (best)</text><text x="325" y="40" text-anchor="middle" class="sm">Living &gt; deceased donor</text><text x="325" y="52" text-anchor="middle" class="sm">Immunosuppression: CNI</text><text x="325" y="60" text-anchor="middle" class="sm">+ MMF + pred</text></g><text x="10" y="278" class="sm">CKD defined: GFR &lt;60 or kidney damage (albuminuria ACR &gt;30) for ≥3 months | Top causes: DM, HTN, GN</text><text x="10" y="290" class="sm">SGLT2i: renoprotective in CKD with albuminuria | Finerenone: MRA for DKD | Refer nephrology at G4/G5</text><rect x="10" y="294" width="380" height="3" rx="1.5" fill="var(--accent)" opacity=".3" style="animation:ckd_pulse 2s infinite"/></svg>`,
+  'mbbs-med-diabetes': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><style>@keyframes dm_pulse{0%,100%{opacity:.4}50%{opacity:1}}@keyframes dm_flow{0%{stroke-dashoffset:20}100%{stroke-dashoffset:0}}rect{fill:var(--surface)}.lbl{font-family:sans-serif;fill:var(--text);font-size:11px;font-weight:600}.sm{font-family:sans-serif;fill:var(--text-dim);font-size:9px}</style><rect width="400" height="300" rx="8"/><text x="200" y="18" text-anchor="middle" class="lbl" style="font-size:13px">Diabetes Mellitus</text><g transform="translate(8,24)"><text x="0" y="10" class="lbl">Glucose Homeostasis</text><ellipse cx="40" cy="36" rx="28" ry="14" fill="var(--accent)" opacity=".25"/><text x="40" y="40" text-anchor="middle" class="sm">Pancreas</text><path d="M70 36 L100 36" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="4 3" style="animation:dm_flow 1.5s linear infinite"/><rect x="102" y="26" width="50" height="20" rx="4" fill="var(--accent)" opacity=".2"/><text x="127" y="40" text-anchor="middle" class="sm">Insulin</text><path d="M154 36 L180 36" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="4 3" style="animation:dm_flow 1.5s linear infinite"/><rect x="182" y="26" width="55" height="20" rx="4" fill="var(--accent)" opacity=".15"/><text x="210" y="40" text-anchor="middle" class="sm">GLUT4 ↑</text><path d="M239 36 L262 36" fill="none" stroke="var(--accent)" stroke-width="1.5"/><circle cx="275" cy="36" r="12" fill="var(--accent)" opacity=".2" style="animation:dm_pulse 2s infinite"/><text x="275" y="40" text-anchor="middle" class="sm">Cell</text><text x="295" y="38" class="sm">↓ BG</text></g><g transform="translate(8,72)"><text x="0" y="10" class="lbl">Diagnostic Criteria</text><rect x="0" y="14" width="92" height="18" rx="3" fill="var(--accent)" opacity=".25"/><text x="46" y="27" text-anchor="middle" class="sm">FBS ≥126 mg/dL</text><rect x="96" y="14" width="96" height="18" rx="3" fill="var(--accent)" opacity=".2"/><text x="144" y="27" text-anchor="middle" class="sm">OGTT ≥200 mg/dL</text><rect x="196" y="14" width="80" height="18" rx="3" fill="var(--accent)" opacity=".2"/><text x="236" y="27" text-anchor="middle" class="sm">HbA1c ≥6.5%</text><rect x="280" y="14" width="105" height="18" rx="3" fill="var(--accent)" opacity=".15"/><text x="332" y="27" text-anchor="middle" class="sm">Random ≥200+Sx</text></g><g transform="translate(8,108)"><text x="0" y="10" class="lbl">Insulin Regimens</text><rect x="0" y="14" width="120" height="32" rx="4" fill="var(--accent)" opacity=".15"/><text x="60" y="27" text-anchor="middle" class="sm" style="font-weight:600">Basal-Bolus</text><text x="60" y="40" text-anchor="middle" class="sm">Glargine + Lispro</text><rect x="128" y="14" width="110" height="32" rx="4" fill="var(--accent)" opacity=".15"/><text x="183" y="27" text-anchor="middle" class="sm" style="font-weight:600">Premixed</text><text x="183" y="40" text-anchor="middle" class="sm">70/30 (NPH/Reg)</text><rect x="246" y="14" width="135" height="32" rx="4" fill="var(--accent)" opacity=".15"/><text x="313" y="27" text-anchor="middle" class="sm" style="font-weight:600">T2DM Oral Pathway</text><text x="313" y="40" text-anchor="middle" class="sm">Metformin → SU/SGLT2i</text></g><g transform="translate(8,152)"><text x="0" y="10" class="lbl">DKA vs HHS</text><rect x="0" y="14" width="60" height="16" rx="2" fill="var(--border)" opacity=".4"/><text x="30" y="26" text-anchor="middle" class="sm" style="font-weight:600">Feature</text><rect x="64" y="14" width="155" height="16" rx="2" fill="#c55" opacity=".2"/><text x="141" y="26" text-anchor="middle" class="sm" style="font-weight:600">DKA</text><rect x="223" y="14" width="160" height="16" rx="2" fill="var(--accent)" opacity=".2"/><text x="303" y="26" text-anchor="middle" class="sm" style="font-weight:600">HHS</text><text x="30" y="42" text-anchor="middle" class="sm">Type</text><text x="141" y="42" text-anchor="middle" class="sm">T1DM, ketoacidosis</text><text x="303" y="42" text-anchor="middle" class="sm">T2DM, hyperosmolar</text><text x="30" y="54" text-anchor="middle" class="sm">BG</text><text x="141" y="54" text-anchor="middle" class="sm">&gt;250 mg/dL</text><text x="303" y="54" text-anchor="middle" class="sm">&gt;600 mg/dL</text><text x="30" y="66" text-anchor="middle" class="sm">pH/Ketones</text><text x="141" y="66" text-anchor="middle" class="sm">&lt;7.3, ketones +++</text><text x="303" y="66" text-anchor="middle" class="sm">&gt;7.3, minimal</text><text x="30" y="78" text-anchor="middle" class="sm">Rx</text><text x="141" y="78" text-anchor="middle" class="sm">IV fluids+insulin+K⁺</text><text x="303" y="78" text-anchor="middle" class="sm">IV fluids first, insulin</text></g><g transform="translate(8,242)"><text x="0" y="10" class="lbl">Chronic Complications</text><circle cx="50" cy="30" r="10" fill="#c55" opacity=".3" style="animation:dm_pulse 2.5s infinite"/><text x="50" y="34" text-anchor="middle" class="sm">Eye</text><text x="50" y="48" text-anchor="middle" class="sm">Retinopathy</text><circle cx="130" cy="30" r="10" fill="#c55" opacity=".3"/><text x="130" y="34" text-anchor="middle" class="sm">Kid</text><text x="130" y="48" text-anchor="middle" class="sm">Nephropathy</text><circle cx="210" cy="30" r="10" fill="#c55" opacity=".3"/><text x="210" y="34" text-anchor="middle" class="sm">Nrv</text><text x="210" y="48" text-anchor="middle" class="sm">Neuropathy</text><circle cx="290" cy="30" r="10" fill="#c55" opacity=".3"/><text x="290" y="34" text-anchor="middle" class="sm">CVD</text><text x="290" y="48" text-anchor="middle" class="sm">MI/Stroke</text><circle cx="360" cy="30" r="10" fill="#c55" opacity=".3"/><text x="360" y="34" text-anchor="middle" class="sm">Ft</text><text x="360" y="48" text-anchor="middle" class="sm">Foot ulcer</text></g></svg>`,
+  'mbbs-med-thyroid': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><style>@keyframes th_glow{0%,100%{opacity:.3}50%{opacity:.8}}@keyframes th_blink{0%,100%{r:3}50%{r:5}}rect{fill:var(--surface)}.lbl{font-family:sans-serif;fill:var(--text);font-size:11px;font-weight:600}.sm{font-family:sans-serif;fill:var(--text-dim);font-size:9px}</style><rect width="400" height="300" rx="8"/><text x="200" y="18" text-anchor="middle" class="lbl" style="font-size:13px">Thyroid Disorders</text><g transform="translate(8,24)"><text x="0" y="10" class="lbl">Thyroid Gland</text><ellipse cx="80" cy="42" rx="30" ry="18" fill="var(--accent)" opacity=".2"/><ellipse cx="130" cy="42" rx="30" ry="18" fill="var(--accent)" opacity=".2"/><rect x="93" y="30" width="24" height="12" rx="3" fill="var(--accent)" opacity=".3"/><text x="105" y="40" text-anchor="middle" class="sm">Isthmus</text><circle cx="70" cy="38" r="4" fill="var(--accent)" opacity=".5" style="animation:th_blink 2s infinite"/><circle cx="90" cy="44" r="3" fill="var(--accent)" opacity=".5"/><circle cx="120" cy="38" r="4" fill="var(--accent)" opacity=".5" style="animation:th_blink 2s infinite .5s"/><circle cx="140" cy="44" r="3" fill="var(--accent)" opacity=".5"/><text x="70" y="66" text-anchor="middle" class="sm">L lobe</text><text x="140" y="66" text-anchor="middle" class="sm">R lobe</text><text x="180" y="36" class="sm">Follicles: T4 &gt; T3</text><text x="180" y="48" class="sm">T3 active (deiodinase)</text><text x="180" y="60" class="sm">TSH from ant. pituitary</text></g><g transform="translate(8,92)"><text x="0" y="10" class="lbl">Hypothyroid vs Hyperthyroid</text><rect x="0" y="14" width="70" height="16" rx="2" fill="var(--border)" opacity=".3"/><text x="35" y="26" text-anchor="middle" class="sm" style="font-weight:600">Feature</text><rect x="74" y="14" width="150" height="16" rx="2" fill="#48c" opacity=".2"/><text x="149" y="26" text-anchor="middle" class="sm" style="font-weight:600">Hypothyroid</text><rect x="228" y="14" width="156" height="16" rx="2" fill="#c55" opacity=".2"/><text x="306" y="26" text-anchor="middle" class="sm" style="font-weight:600">Hyperthyroid</text><text x="35" y="42" text-anchor="middle" class="sm">Sx</text><text x="149" y="42" text-anchor="middle" class="sm">Fatigue, wt gain, cold</text><text x="306" y="42" text-anchor="middle" class="sm">Tremor, wt loss, heat</text><text x="35" y="54" text-anchor="middle" class="sm">HR</text><text x="149" y="54" text-anchor="middle" class="sm">Bradycardia</text><text x="306" y="54" text-anchor="middle" class="sm">Tachycardia / AF</text><text x="35" y="66" text-anchor="middle" class="sm">TSH/T4</text><text x="149" y="66" text-anchor="middle" class="sm">↑TSH, ↓T4</text><text x="306" y="66" text-anchor="middle" class="sm">↓TSH, ↑T4</text><text x="35" y="78" text-anchor="middle" class="sm">Cause</text><text x="149" y="78" text-anchor="middle" class="sm">Hashimoto's (anti-TPO)</text><text x="306" y="78" text-anchor="middle" class="sm">Graves' (TSH-R Ab)</text></g><g transform="translate(8,180)"><text x="0" y="10" class="lbl">Graves' Disease Triad</text><ellipse cx="40" cy="36" rx="14" ry="10" fill="none" stroke="var(--accent)" stroke-width="1.5"/><circle cx="40" cy="35" r="5" fill="var(--accent)" opacity=".4"/><text x="40" y="56" text-anchor="middle" class="sm">Exophthalmos</text><ellipse cx="130" cy="34" rx="22" ry="12" fill="var(--accent)" opacity=".2" style="animation:th_glow 3s infinite"/><text x="130" y="38" text-anchor="middle" class="sm">Goitre</text><text x="130" y="56" text-anchor="middle" class="sm">Diffuse goitre</text><rect x="180" y="26" width="40" height="18" rx="3" fill="#c55" opacity=".2"/><text x="200" y="38" text-anchor="middle" class="sm">Shin</text><text x="200" y="56" text-anchor="middle" class="sm">Pretibial myx</text></g><g transform="translate(8,240)"><text x="0" y="10" class="lbl">Thyroid Storm Mx</text><rect x="0" y="14" width="70" height="18" rx="3" fill="#c55" opacity=".25"/><text x="35" y="27" text-anchor="middle" class="sm">β-blocker</text><path d="M72 23 L82 23" stroke="var(--accent)" stroke-width="1.5"/><rect x="84" y="14" width="72" height="18" rx="3" fill="#c55" opacity=".2"/><text x="120" y="27" text-anchor="middle" class="sm">PTU/Carbi</text><path d="M158 23 L168 23" stroke="var(--accent)" stroke-width="1.5"/><rect x="170" y="14" width="55" height="18" rx="3" fill="#c55" opacity=".15"/><text x="197" y="27" text-anchor="middle" class="sm">Iodine</text><path d="M227 23 L237 23" stroke="var(--accent)" stroke-width="1.5"/><rect x="239" y="14" width="55" height="18" rx="3" fill="#c55" opacity=".15"/><text x="266" y="27" text-anchor="middle" class="sm">Steroids</text><path d="M296 23 L306 23" stroke="var(--accent)" stroke-width="1.5"/><rect x="308" y="14" width="76" height="18" rx="3" fill="#c55" opacity=".1"/><text x="346" y="27" text-anchor="middle" class="sm">Cooling/ICU</text></g><g transform="translate(8,268)"><text x="0" y="10" class="lbl">TFT Interpretation</text><rect x="100" y="0" width="80" height="16" rx="2" fill="var(--accent)" opacity=".15"/><text x="140" y="12" text-anchor="middle" class="sm">1° Hypo: ↑TSH ↓T4</text><rect x="186" y="0" width="88" height="16" rx="2" fill="var(--accent)" opacity=".15"/><text x="230" y="12" text-anchor="middle" class="sm">2° Hypo: ↓TSH ↓T4</text><rect x="280" y="0" width="100" height="16" rx="2" fill="var(--accent)" opacity=".15"/><text x="330" y="12" text-anchor="middle" class="sm">Subclin: ↑TSH, N T4</text></g></svg>`,
+  'mbbs-med-stroke': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><style>@keyframes sk_pulse{0%,100%{opacity:.3}50%{opacity:.8}}@keyframes sk_dash{0%{stroke-dashoffset:16}100%{stroke-dashoffset:0}}rect{fill:var(--surface)}.lbl{font-family:sans-serif;fill:var(--text);font-size:11px;font-weight:600}.sm{font-family:sans-serif;fill:var(--text-dim);font-size:9px}</style><rect width="400" height="300" rx="8"/><text x="200" y="18" text-anchor="middle" class="lbl" style="font-size:13px">Stroke — Ischaemic vs Haemorrhagic</text><g transform="translate(8,24)"><text x="0" y="10" class="lbl">Brain Regions</text><ellipse cx="70" cy="48" rx="55" ry="38" fill="var(--border)" opacity=".15"/><text x="70" y="34" text-anchor="middle" class="sm">Cerebrum</text><ellipse cx="35" cy="50" rx="18" ry="14" fill="#48c" opacity=".3" style="animation:sk_pulse 3s infinite"/><text x="35" y="54" text-anchor="middle" class="sm" style="font-size:8px">Ischaemic</text><ellipse cx="95" cy="45" rx="14" ry="10" fill="#c33" opacity=".35" style="animation:sk_pulse 3s infinite .5s"/><text x="95" y="49" text-anchor="middle" class="sm" style="font-size:8px">Haem</text><text x="140" y="36" class="sm">Ischaemic 85%: thrombus/embolus</text><text x="140" y="48" class="sm">Haemorrhagic 15%: ICH / SAH</text><text x="140" y="60" class="sm">Penumbra = salvageable tissue</text></g><g transform="translate(8,88)"><text x="0" y="10" class="lbl">CT Findings</text><rect x="0" y="14" width="185" height="36" rx="4" fill="#48c" opacity=".12"/><text x="92" y="28" text-anchor="middle" class="sm" style="font-weight:600">Ischaemic</text><text x="92" y="42" text-anchor="middle" class="sm">Hypodense (dark), may be normal &lt;6h</text><rect x="192" y="14" width="192" height="36" rx="4" fill="#c33" opacity=".15"/><text x="288" y="28" text-anchor="middle" class="sm" style="font-weight:600">Haemorrhagic</text><text x="288" y="42" text-anchor="middle" class="sm">Hyperdense (bright white) on CT</text></g><g transform="translate(8,134)"><text x="0" y="10" class="lbl">NIHSS Scale (0–42)</text><rect x="0" y="14" width="60" height="10" rx="2" fill="var(--accent)" opacity=".6"/><text x="62" y="23" class="sm">0–4 Minor</text><rect x="0" y="28" width="120" height="10" rx="2" fill="var(--accent)" opacity=".45"/><text x="122" y="37" class="sm">5–15 Moderate</text><rect x="0" y="42" width="200" height="10" rx="2" fill="#c55" opacity=".4"/><text x="202" y="51" class="sm">16–20 Mod-Severe</text><rect x="0" y="56" width="300" height="10" rx="2" fill="#c33" opacity=".35"/><text x="302" y="65" class="sm">21–42 Severe</text></g><g transform="translate(8,204)"><text x="0" y="10" class="lbl">Thrombolysis (IV tPA / Alteplase)</text><rect x="0" y="14" width="100" height="20" rx="3" fill="var(--accent)" opacity=".25"/><text x="50" y="28" text-anchor="middle" class="sm">&lt;4.5 hrs onset</text><path d="M102 24 L115 24" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="4 3" style="animation:sk_dash 1s linear infinite"/><rect x="117" y="14" width="80" height="20" rx="3" fill="var(--accent)" opacity=".2"/><text x="157" y="28" text-anchor="middle" class="sm">CT: no bleed</text><path d="M199 24 L212 24" stroke="var(--accent)" stroke-width="1.5"/><rect x="214" y="14" width="80" height="20" rx="3" fill="var(--accent)" opacity=".2"/><text x="254" y="28" text-anchor="middle" class="sm">BP &lt;185/110</text><path d="M296 24 L309 24" stroke="var(--accent)" stroke-width="1.5"/><rect x="311" y="14" width="75" height="20" rx="3" fill="var(--accent)" opacity=".15"/><text x="348" y="28" text-anchor="middle" class="sm">tPA 0.9mg/kg</text><text x="0" y="48" class="sm">Exclusions: recent surgery, bleeding disorder, INR&gt;1.7, platelets&lt;100k</text></g><g transform="translate(8,260)"><text x="0" y="10" class="lbl">Secondary Prevention</text><rect x="0" y="14" width="75" height="16" rx="3" fill="var(--accent)" opacity=".15"/><text x="37" y="26" text-anchor="middle" class="sm">Antiplatelet</text><rect x="80" y="14" width="55" height="16" rx="3" fill="var(--accent)" opacity=".15"/><text x="107" y="26" text-anchor="middle" class="sm">Statin</text><rect x="140" y="14" width="75" height="16" rx="3" fill="var(--accent)" opacity=".15"/><text x="177" y="26" text-anchor="middle" class="sm">BP control</text><rect x="220" y="14" width="80" height="16" rx="3" fill="var(--accent)" opacity=".15"/><text x="260" y="26" text-anchor="middle" class="sm">AF → DOAC</text><rect x="305" y="14" width="80" height="16" rx="3" fill="var(--accent)" opacity=".15"/><text x="345" y="26" text-anchor="middle" class="sm">Carotid surg</text></g></svg>`,
+  'mbbs-med-meningitis': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><style>@keyframes mn_inflam{0%,100%{opacity:.2;stroke-width:1}50%{opacity:.7;stroke-width:2.5}}@keyframes mn_throb{0%,100%{r:4}50%{r:6}}rect{fill:var(--surface)}.lbl{font-family:sans-serif;fill:var(--text);font-size:11px;font-weight:600}.sm{font-family:sans-serif;fill:var(--text-dim);font-size:9px}</style><rect width="400" height="300" rx="8"/><text x="200" y="18" text-anchor="middle" class="lbl" style="font-size:13px">Meningitis &amp; Encephalitis</text><g transform="translate(8,24)"><text x="0" y="10" class="lbl">Meninges Cross-Section</text><rect x="0" y="16" width="160" height="10" rx="2" fill="var(--text-dim)" opacity=".4"/><text x="170" y="25" class="sm">Dura mater (outer)</text><rect x="0" y="30" width="160" height="6" rx="2" fill="var(--accent)" opacity=".3" style="animation:mn_inflam 2.5s infinite"/><text x="170" y="36" class="sm">Arachnoid mater</text><rect x="0" y="40" width="160" height="14" rx="2" fill="var(--accent)" opacity=".15"/><text x="80" y="50" text-anchor="middle" class="sm" style="font-size:8px">Subarachnoid space (CSF)</text><text x="170" y="50" class="sm">SAS — CSF, infection site</text><rect x="0" y="58" width="160" height="6" rx="2" fill="#c55" opacity=".3" style="animation:mn_inflam 2.5s infinite .4s"/><text x="170" y="65" class="sm">Pia mater (inner, on brain)</text><circle cx="320" cy="40" r="5" fill="#c55" opacity=".5" style="animation:mn_throb 2s infinite"/><text x="335" y="44" class="sm">Inflammation</text></g><g transform="translate(8,94)"><text x="0" y="10" class="lbl">CSF Findings Comparison</text><rect x="0" y="14" width="60" height="14" rx="2" fill="var(--border)" opacity=".3"/><text x="30" y="25" text-anchor="middle" class="sm" style="font-weight:600">Parameter</text><rect x="64" y="14" width="100" height="14" rx="2" fill="#c55" opacity=".2"/><text x="114" y="25" text-anchor="middle" class="sm" style="font-weight:600">Bacterial</text><rect x="168" y="14" width="80" height="14" rx="2" fill="#48c" opacity=".2"/><text x="208" y="25" text-anchor="middle" class="sm" style="font-weight:600">Viral</text><rect x="252" y="14" width="75" height="14" rx="2" fill="var(--accent)" opacity=".2"/><text x="289" y="25" text-anchor="middle" class="sm" style="font-weight:600">TB</text><rect x="331" y="14" width="55" height="14" rx="2" fill="var(--border)" opacity=".15"/><text x="358" y="25" text-anchor="middle" class="sm" style="font-weight:600">Normal</text><text x="30" y="40" text-anchor="middle" class="sm">Appear.</text><text x="114" y="40" text-anchor="middle" class="sm">Turbid/purulent</text><text x="208" y="40" text-anchor="middle" class="sm">Clear</text><text x="289" y="40" text-anchor="middle" class="sm">Fibrinous</text><text x="358" y="40" text-anchor="middle" class="sm">Clear</text><text x="30" y="52" text-anchor="middle" class="sm">Protein</text><text x="114" y="52" text-anchor="middle" class="sm">↑↑ (&gt;1 g/L)</text><text x="208" y="52" text-anchor="middle" class="sm">↑ mildly</text><text x="289" y="52" text-anchor="middle" class="sm">↑↑</text><text x="358" y="52" text-anchor="middle" class="sm">&lt;0.45</text><text x="30" y="64" text-anchor="middle" class="sm">Glucose</text><text x="114" y="64" text-anchor="middle" class="sm">↓↓ (&lt;40%)</text><text x="208" y="64" text-anchor="middle" class="sm">Normal</text><text x="289" y="64" text-anchor="middle" class="sm">↓↓</text><text x="358" y="64" text-anchor="middle" class="sm">&gt;60%</text><text x="30" y="76" text-anchor="middle" class="sm">WBC</text><text x="114" y="76" text-anchor="middle" class="sm">Neutrophils ↑↑</text><text x="208" y="76" text-anchor="middle" class="sm">Lymphocytes</text><text x="289" y="76" text-anchor="middle" class="sm">Lymphocytes</text><text x="358" y="76" text-anchor="middle" class="sm">&lt;5</text></g><g transform="translate(8,182)"><text x="0" y="10" class="lbl">Clinical Signs</text><rect x="0" y="14" width="130" height="28" rx="4" fill="var(--accent)" opacity=".15"/><text x="65" y="26" text-anchor="middle" class="sm" style="font-weight:600">Kernig's Sign</text><text x="65" y="38" text-anchor="middle" class="sm">Hip 90°→ can't extend knee</text><rect x="140" y="14" width="140" height="28" rx="4" fill="var(--accent)" opacity=".15"/><text x="210" y="26" text-anchor="middle" class="sm" style="font-weight:600">Brudzinski's Sign</text><text x="210" y="38" text-anchor="middle" class="sm">Neck flex → hip/knee flex</text><rect x="290" y="14" width="95" height="28" rx="4" fill="var(--accent)" opacity=".15"/><text x="337" y="26" text-anchor="middle" class="sm" style="font-weight:600">Triad</text><text x="337" y="38" text-anchor="middle" class="sm">Fever/neck/AMS</text></g><g transform="translate(8,222)"><text x="0" y="10" class="lbl">Empirical Antibiotic by Age</text><rect x="0" y="14" width="125" height="20" rx="3" fill="#c55" opacity=".2"/><text x="62" y="28" text-anchor="middle" class="sm">Neonate: Ampi+Gent</text><rect x="130" y="14" width="130" height="20" rx="3" fill="#c55" opacity=".18"/><text x="195" y="28" text-anchor="middle" class="sm">Child: Ceftriaxone+Vanco</text><rect x="265" y="14" width="120" height="20" rx="3" fill="#c55" opacity=".15"/><text x="325" y="28" text-anchor="middle" class="sm">Adult: Ceftri+Vanco</text><text x="0" y="48" class="sm">Add dexamethasone before/with 1st antibiotic dose (↓ mortality in pneumococcal)</text></g><g transform="translate(8,278)"><text x="0" y="10" class="sm">Encephalitis: HSV → aciclovir empirically | Temporal lobe involvement on MRI | PCR CSF diagnostic</text></g></svg>`,
+  'mbbs-med-tropical-infections': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><style>@keyframes tr_cycle{0%{opacity:.3}33%{opacity:1}66%{opacity:.3}100%{opacity:.3}}@keyframes tr_warn{0%,100%{fill-opacity:.2}50%{fill-opacity:.5}}rect{fill:var(--surface)}.lbl{font-family:sans-serif;fill:var(--text);font-size:11px;font-weight:600}.sm{font-family:sans-serif;fill:var(--text-dim);font-size:9px}</style><rect width="400" height="300" rx="8"/><text x="200" y="18" text-anchor="middle" class="lbl" style="font-size:13px">Tropical Infections</text><g transform="translate(8,24)"><text x="0" y="10" class="lbl">Malaria Lifecycle</text><ellipse cx="30" cy="38" rx="18" ry="10" fill="var(--text-dim)" opacity=".3" style="animation:tr_cycle 4s infinite"/><text x="30" y="42" text-anchor="middle" class="sm" style="font-size:8px">Mosquito</text><path d="M50 38 L75 38" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="4 2"/><text x="62" y="34" text-anchor="middle" class="sm" style="font-size:7px">bite</text><ellipse cx="100" cy="38" rx="20" ry="10" fill="var(--accent)" opacity=".2" style="animation:tr_cycle 4s infinite 1s"/><text x="100" y="42" text-anchor="middle" class="sm" style="font-size:8px">Liver</text><path d="M122 38 L147 38" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="4 2"/><text x="134" y="34" text-anchor="middle" class="sm" style="font-size:7px">merozoite</text><circle cx="170" cy="38" r="12" fill="#c33" opacity=".25" style="animation:tr_cycle 4s infinite 2s"/><text x="170" y="42" text-anchor="middle" class="sm" style="font-size:8px">RBC</text><path d="M184 38 L210 38" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="4 2"/><text x="197" y="34" text-anchor="middle" class="sm" style="font-size:7px">gametes</text><ellipse cx="235" cy="38" rx="18" ry="10" fill="var(--text-dim)" opacity=".3" style="animation:tr_cycle 4s infinite 3s"/><text x="235" y="42" text-anchor="middle" class="sm" style="font-size:8px">Mosquito</text><text x="270" y="34" class="sm">P.falciparum: severe</text><text x="270" y="46" class="sm">P.vivax: relapse (hypnozoite)</text></g><g transform="translate(8,78)"><text x="0" y="10" class="lbl">Malaria Species Comparison</text><rect x="0" y="14" width="60" height="14" rx="2" fill="var(--border)" opacity=".3"/><text x="30" y="25" text-anchor="middle" class="sm" style="font-weight:600">Feature</text><rect x="64" y="14" width="155" height="14" rx="2" fill="#c33" opacity=".2"/><text x="141" y="25" text-anchor="middle" class="sm" style="font-weight:600">P. falciparum</text><rect x="223" y="14" width="160" height="14" rx="2" fill="var(--accent)" opacity=".2"/><text x="303" y="25" text-anchor="middle" class="sm" style="font-weight:600">P. vivax</text><text x="30" y="40" text-anchor="middle" class="sm">Fever</text><text x="141" y="40" text-anchor="middle" class="sm">Irregular/daily</text><text x="303" y="40" text-anchor="middle" class="sm">48h (tertian)</text><text x="30" y="52" text-anchor="middle" class="sm">Severe</text><text x="141" y="52" text-anchor="middle" class="sm">Cerebral, multi-organ</text><text x="303" y="52" text-anchor="middle" class="sm">Rare (splenic rupture)</text><text x="30" y="64" text-anchor="middle" class="sm">Smear</text><text x="141" y="64" text-anchor="middle" class="sm">Ring forms, banana gamet.</text><text x="303" y="64" text-anchor="middle" class="sm">Schüffner's dots</text></g><g transform="translate(8,148)"><text x="0" y="10" class="lbl">Dengue Timeline</text><rect x="0" y="14" width="120" height="20" rx="3" fill="var(--accent)" opacity=".25"/><text x="60" y="28" text-anchor="middle" class="sm">NS1 Ag: Day 1–5</text><path d="M122 24 L140 24" stroke="var(--accent)" stroke-width="1.5"/><rect x="142" y="14" width="110" height="20" rx="3" fill="var(--accent)" opacity=".2"/><text x="197" y="28" text-anchor="middle" class="sm">IgM: Day 5+ (sens.)</text><path d="M254 24 L272 24" stroke="var(--accent)" stroke-width="1.5"/><rect x="274" y="14" width="110" height="20" rx="3" fill="var(--accent)" opacity=".15"/><text x="329" y="28" text-anchor="middle" class="sm">IgG: Day 7+ (2°)</text><rect x="0" y="38" width="384" height="24" rx="3" fill="#c55" opacity=".12" style="animation:tr_warn 3s infinite"/><text x="192" y="48" text-anchor="middle" class="sm" style="font-weight:600;fill:var(--text)">Warning Signs: abdo pain, persistent vomiting, pleural effusion, ↓platelets, ↑HCT</text><text x="192" y="58" text-anchor="middle" class="sm">Mucosal bleed, lethargy, hepatomegaly &gt;2cm → Severe Dengue</text></g><g transform="translate(8,218)"><text x="0" y="10" class="lbl">Typhoid (Salmonella typhi)</text><rect x="0" y="14" width="130" height="18" rx="3" fill="var(--accent)" opacity=".15"/><text x="65" y="27" text-anchor="middle" class="sm">Blood C/S: Wk 1 (gold)</text><rect x="136" y="14" width="100" height="18" rx="3" fill="var(--accent)" opacity=".15"/><text x="186" y="27" text-anchor="middle" class="sm">Widal: Wk 2 (↑O,H)</text><rect x="242" y="14" width="142" height="18" rx="3" fill="var(--accent)" opacity=".15"/><text x="313" y="27" text-anchor="middle" class="sm">Stool C/S: Wk 3 carrier</text></g><g transform="translate(8,252)"><text x="0" y="10" class="lbl">Treatment</text><rect x="0" y="14" width="140" height="28" rx="4" fill="var(--accent)" opacity=".18"/><text x="70" y="26" text-anchor="middle" class="sm" style="font-weight:600">Malaria: ACT</text><text x="70" y="38" text-anchor="middle" class="sm">Artesunate (severe) / AL</text><rect x="148" y="14" width="115" height="28" rx="4" fill="var(--accent)" opacity=".15"/><text x="205" y="26" text-anchor="middle" class="sm" style="font-weight:600">Dengue: Supportive</text><text x="205" y="38" text-anchor="middle" class="sm">IV fluids, monitor HCT</text><rect x="271" y="14" width="113" height="28" rx="4" fill="var(--accent)" opacity=".15"/><text x="327" y="26" text-anchor="middle" class="sm" style="font-weight:600">Typhoid: Ceftriaxone</text><text x="327" y="38" text-anchor="middle" class="sm">or Azithromycin</text></g></svg>`,
+  'mbbs-med-anaemia': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><style>@keyframes an_pop{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}@keyframes an_frag{0%{opacity:.3}50%{opacity:.9}100%{opacity:.3}}rect{fill:var(--surface)}.lbl{font-family:sans-serif;fill:var(--text);font-size:11px;font-weight:600}.sm{font-family:sans-serif;fill:var(--text-dim);font-size:9px}</style><rect width="400" height="300" rx="8"/><text x="200" y="18" text-anchor="middle" class="lbl" style="font-size:13px">Anaemia &amp; Haematological Emergencies</text><g transform="translate(8,24)"><text x="0" y="10" class="lbl">RBC Morphology (MCV Classification)</text><circle cx="40" cy="38" r="10" fill="#c33" opacity=".3" style="animation:an_pop 3s infinite"/><text x="40" y="42" text-anchor="middle" class="sm" style="font-size:8px">Small</text><text x="40" y="58" text-anchor="middle" class="sm">Microcytic</text><text x="40" y="68" text-anchor="middle" class="sm">&lt;80 fL</text><circle cx="140" cy="38" r="14" fill="#c33" opacity=".35"/><text x="140" y="42" text-anchor="middle" class="sm" style="font-size:8px">Normal</text><text x="140" y="58" text-anchor="middle" class="sm">Normocytic</text><text x="140" y="68" text-anchor="middle" class="sm">80–100 fL</text><circle cx="250" cy="38" r="18" fill="#c33" opacity=".3" style="animation:an_pop 3s infinite 1s"/><text x="250" y="42" text-anchor="middle" class="sm" style="font-size:8px">Large</text><text x="250" y="62" text-anchor="middle" class="sm">Macrocytic</text><text x="250" y="72" text-anchor="middle" class="sm">&gt;100 fL</text><text x="300" y="36" class="sm">IDA: ↓Fe ↓ferritin</text><text x="300" y="48" class="sm">Thalassaemia: target cells</text><text x="300" y="60" class="sm">B12/Folate: megaloblastic</text></g><g transform="translate(8,98)"><text x="0" y="10" class="lbl">Anaemia Comparison</text><rect x="0" y="14" width="55" height="14" rx="2" fill="var(--border)" opacity=".3"/><text x="27" y="25" text-anchor="middle" class="sm" style="font-weight:600">Type</text><rect x="58" y="14" width="120" height="14" rx="2" fill="#c55" opacity=".2"/><text x="118" y="25" text-anchor="middle" class="sm" style="font-weight:600">Iron Deficiency</text><rect x="182" y="14" width="100" height="14" rx="2" fill="#48c" opacity=".2"/><text x="232" y="25" text-anchor="middle" class="sm" style="font-weight:600">B12/Folate</text><rect x="286" y="14" width="98" height="14" rx="2" fill="var(--accent)" opacity=".2"/><text x="335" y="25" text-anchor="middle" class="sm" style="font-weight:600">Haemolytic</text><text x="27" y="40" text-anchor="middle" class="sm">MCV</text><text x="118" y="40" text-anchor="middle" class="sm">↓ (microcytic)</text><text x="232" y="40" text-anchor="middle" class="sm">↑ (macrocytic)</text><text x="335" y="40" text-anchor="middle" class="sm">Variable</text><text x="27" y="52" text-anchor="middle" class="sm">Smear</text><text x="118" y="52" text-anchor="middle" class="sm">Target, pencil cells</text><text x="232" y="52" text-anchor="middle" class="sm">Hyperseg. neutro.</text><text x="335" y="52" text-anchor="middle" class="sm">Schistocytes, sphero.</text><text x="27" y="64" text-anchor="middle" class="sm">Key Ix</text><text x="118" y="64" text-anchor="middle" class="sm">↓Ferritin, ↑TIBC</text><text x="232" y="64" text-anchor="middle" class="sm">↓B12, ↑MMA</text><text x="335" y="64" text-anchor="middle" class="sm">↑LDH, ↑retic, ↓hapto</text></g><g transform="translate(8,172)"><text x="0" y="10" class="lbl">Blood Smear Findings</text><ellipse cx="40" cy="32" rx="12" ry="6" fill="#c33" opacity=".3"/><circle cx="36" cy="32" r="2" fill="var(--surface)"/><text x="40" y="48" text-anchor="middle" class="sm">Target cell</text><polygon points="115,26 125,38 110,36 120,28 108,30" fill="#c33" opacity=".35" style="animation:an_frag 2.5s infinite"/><text x="115" y="48" text-anchor="middle" class="sm">Schistocyte</text><circle cx="190" cy="32" r="8" fill="none" stroke="#c33" stroke-width="2" opacity=".5"/><text x="190" y="48" text-anchor="middle" class="sm">Spherocyte</text><ellipse cx="270" cy="32" rx="14" ry="8" fill="#48c" opacity=".25"/><circle cx="262" cy="30" r="2" fill="#48c" opacity=".5"/><circle cx="268" cy="34" r="2" fill="#48c" opacity=".5"/><circle cx="274" cy="30" r="2" fill="#48c" opacity=".5"/><circle cx="278" cy="34" r="2" fill="#48c" opacity=".5"/><circle cx="266" cy="28" r="1.5" fill="#48c" opacity=".5"/><text x="270" y="48" text-anchor="middle" class="sm">Hyperseg. neutro.</text></g><g transform="translate(8,224)"><text x="0" y="10" class="lbl">DIC Pathophysiology</text><rect x="0" y="14" width="65" height="18" rx="3" fill="#c55" opacity=".25"/><text x="32" y="27" text-anchor="middle" class="sm">Trigger</text><path d="M67 23 L80 23" stroke="var(--accent)" stroke-width="1.5"/><rect x="82" y="14" width="85" height="18" rx="3" fill="#c55" opacity=".2"/><text x="124" y="27" text-anchor="middle" class="sm">TF release</text><path d="M169 23 L182 23" stroke="var(--accent)" stroke-width="1.5"/><rect x="184" y="14" width="70" height="18" rx="3" fill="#c55" opacity=".18"/><text x="219" y="27" text-anchor="middle" class="sm">Thrombin ↑↑</text><path d="M256 23 L269 23" stroke="var(--accent)" stroke-width="1.5"/><rect x="271" y="14" width="112" height="18" rx="3" fill="#c55" opacity=".15"/><text x="327" y="27" text-anchor="middle" class="sm">Consumption coag.</text><text x="0" y="46" class="sm">→ Simultaneous bleeding + thrombosis | ↑PT, ↑APTT, ↓fibrinogen, ↑D-dimer, schistocytes</text></g><g transform="translate(8,274)"><text x="0" y="10" class="lbl">Transfusion Reactions</text><rect x="100" y="0" width="90" height="16" rx="2" fill="#c55" opacity=".15"/><text x="145" y="12" text-anchor="middle" class="sm">Acute haemolytic</text><rect x="196" y="0" width="70" height="16" rx="2" fill="var(--accent)" opacity=".15"/><text x="231" y="12" text-anchor="middle" class="sm">Febrile (WBC)</text><rect x="272" y="0" width="60" height="16" rx="2" fill="var(--accent)" opacity=".12"/><text x="302" y="12" text-anchor="middle" class="sm">Allergic</text><rect x="338" y="0" width="48" height="16" rx="2" fill="#c55" opacity=".12"/><text x="362" y="12" text-anchor="middle" class="sm">TRALI</text></g></svg>`,
 
   // MBBS PHYS 1: Cell Physiology and Membrane Transport
   'mbbs-phys-cell-physiology': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><style>@keyframes nk_p{0%{transform:translateX(0)}50%{transform:translateX(8px)}100%{transform:translateX(0)}}@keyframes nk_q{0%{transform:translateX(0)}50%{transform:translateX(-6px)}100%{transform:translateX(0)}}rect{fill:var(--surface)}.lbl{font-family:sans-serif;fill:var(--text);font-size:11px;font-weight:600}.sm{font-family:sans-serif;fill:var(--text-dim);font-size:9px}</style><rect width="400" height="300" rx="8"/><text x="200" y="20" text-anchor="middle" class="lbl" style="font-size:13px">Cell Physiology — Membrane Transport</text><rect x="10" y="30" width="380" height="120" rx="6" fill="none" stroke="var(--accent)" stroke-width="2"/><line x1="200" y1="30" x2="200" y2="150" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="4 3"/><text x="100" y="48" text-anchor="middle" class="sm">Intracellular</text><text x="300" y="48" text-anchor="middle" class="sm">Extracellular</text><text x="100" y="63" text-anchor="middle" style="font-family:sans-serif;fill:var(--accent);font-size:10px;font-weight:600">K⁺ 140 mmol/L</text><text x="300" y="63" text-anchor="middle" style="font-family:sans-serif;fill:var(--accent);font-size:10px">K⁺ 4 mmol/L</text><text x="100" y="78" text-anchor="middle" style="font-family:sans-serif;fill:#e07;font-size:10px">Na⁺ 12 mmol/L</text><text x="300" y="78" text-anchor="middle" style="font-family:sans-serif;fill:#e07;font-size:10px;font-weight:600">Na⁺ 145 mmol/L</text><text x="100" y="93" text-anchor="middle" class="sm">−70 mV (RMP)</text><rect x="175" y="95" width="50" height="40" rx="6" fill="var(--accent)" opacity=".25"/><text x="200" y="112" text-anchor="middle" class="sm" style="fill:var(--text)">Na/K</text><text x="200" y="124" text-anchor="middle" class="sm" style="fill:var(--text)">ATPase</text><circle cx="160" cy="120" r="5" fill="#e07" style="animation:nk_q 2s infinite"/><circle cx="240" cy="108" r="4" fill="var(--accent)" style="animation:nk_p 2s infinite"/><text x="145" y="138" class="sm" style="fill:#e07">3Na⁺ out</text><text x="220" y="138" class="sm" style="fill:var(--accent)">2K⁺ in</text><g transform="translate(10,158)"><text x="0" y="12" class="lbl">Transport Types</text><rect x="0" y="18" width="90" height="30" rx="4" fill="var(--accent)" opacity=".15"/><text x="45" y="31" text-anchor="middle" class="sm">Diffusion</text><text x="45" y="42" text-anchor="middle" class="sm">↓ gradient</text><rect x="100" y="18" width="90" height="30" rx="4" fill="var(--accent)" opacity=".2"/><text x="145" y="31" text-anchor="middle" class="sm">Facilitated</text><text x="145" y="42" text-anchor="middle" class="sm">carrier/channel</text><rect x="200" y="18" width="90" height="30" rx="4" fill="var(--accent)" opacity=".25"/><text x="245" y="31" text-anchor="middle" class="sm">Active</text><text x="245" y="42" text-anchor="middle" class="sm">↑ gradient + ATP</text><rect x="300" y="18" width="75" height="30" rx="4" fill="var(--accent)" opacity=".15"/><text x="337" y="31" text-anchor="middle" class="sm">Osmosis</text><text x="337" y="42" text-anchor="middle" class="sm">H₂O, Δ[solute]</text></g><text x="10" y="270" class="sm">Resting membrane potential set by K⁺ permeability and Na/K-ATPase (electrogenic, −3 mV)</text></svg>`,

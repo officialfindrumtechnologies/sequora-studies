@@ -2062,10 +2062,978 @@ export const TOPIC_VISUALS = {
       }
     ]
   },
+  mbbs_medicine: {
+    subjectName: 'MBBS Medicine',
+    examCode: 'BMDC',
+    sections: ['Cardiology', 'Respiratory', 'Gastroenterology', 'Nephrology', 'Endocrinology', 'Neurology', 'Infectious Diseases', 'Haematology'],
+    topics: [
+      {
+            "id": "ischaemic-heart-disease",
+            "name": "Ischaemic Heart Disease",
+            "syllabusRef": "Phase IV Medicine",
+            "section": "Cardiology",
+            "description": "Ischaemic heart disease (IHD) results from reduced myocardial perfusion due to coronary artery atherosclerosis. Acute coronary syndromes (ACS) include unstable angina, NSTEMI, and STEMI. Stable angina presents as predictable exertional chest pain relieved by rest or GTN within 5 minutes. Unstable angina: rest pain, new-onset, or crescendo pattern — no troponin rise. NSTEMI: troponin positive, ST depression or T-wave inversion on ECG. STEMI: troponin positive with ST elevation ≥ 2mm in V1-V3 or ≥ 1mm in other contiguous leads; requires urgent reperfusion — primary PCI within 90 minutes of first medical contact (door-to-balloon) or thrombolysis (streptokinase/tenecteplase) within 12 hours if PCI unavailable. ECG changes in STEMI: hyperacute T waves → ST elevation → pathological Q waves → T-wave inversion. Troponin I/T rises 3–6 hours post-MI, peaks 12–24 hours, remains elevated 7–14 days. Risk stratification: TIMI score, GRACE score. Management: MONA (Morphine, Oxygen if SpO₂ <94%, Nitrates, Aspirin 300mg loading). Dual antiplatelet therapy (Aspirin + Clopidogrel/Ticagrelor). Anti-ischaemic: beta-blockers, statins (atorvastatin 80mg). ACEi for all post-MI. Complications of MI: arrhythmias (VF — commonest cause of early death), cardiogenic shock, papillary muscle rupture, ventricular septal defect, Dressler syndrome (2–6 weeks post-MI, autoimmune pericarditis).",
+            "svgKey": "mbbs-med-ihd",
+            "threejs3dFn": "createEMInduction",
+            "landmarks": [
+                  "STEMI criteria: ST elevation ≥ 2mm in V1-V3 or ≥ 1mm in two contiguous leads; urgent PCI <90min",
+                  "Troponin I/T rises 3–6 hrs post-MI, peaks 12–24 hrs — gold standard biomarker for myocardial injury",
+                  "MONA: Morphine + O₂ (if SpO₂<94%) + Nitrates + Aspirin 300mg — immediate ACS management",
+                  "VF is commonest cause of early death post-MI; Dressler syndrome occurs 2–6 weeks post-MI",
+                  "Dual antiplatelet: Aspirin + Clopidogrel 12 months post-ACS; Statin (atorvastatin 80mg) for all"
+            ],
+            "examQA": [
+                  {
+                        "q": "A 55-year-old male presents with crushing central chest pain radiating to the left arm for 2 hours. ECG shows ST elevation in leads II, III, aVF. Troponin is elevated. What is the diagnosis and immediate management?",
+                        "a": "Diagnosis: STEMI — inferior wall myocardial infarction (leads II, III, aVF correspond to RCA territory). Immediate management: (1) MONA protocol — Morphine 2–4mg IV for pain; Oxygen ONLY if SpO₂ <94%; Sublingual GTN 0.5mg (avoid if systolic BP <90mmHg or right ventricular MI); Aspirin 300mg stat chewed. (2) Dual antiplatelet — Clopidogrel 300–600mg or Ticagrelor 180mg loading. (3) Anticoagulation — Enoxaparin 1mg/kg SC or UFH. (4) Reperfusion: Primary PCI within 90 minutes (door-to-balloon) is gold standard; if PCI unavailable within 120 minutes, thrombolysis with streptokinase 1.5 MU IV over 1 hour or tenecteplase (weight-based). (5) Beta-blocker (metoprolol) if no contraindication. (6) ACEi (ramipril) within 24 hours. (7) Statin — atorvastatin 80mg."
+                  },
+                  {
+                        "q": "Differentiate between STEMI, NSTEMI, and unstable angina.",
+                        "a": "STEMI: Troponin POSITIVE + ST elevation on ECG (≥ 2mm V1-V3 or ≥ 1mm contiguous leads) or new LBBB. Complete coronary occlusion by thrombus. Transmural infarction. Requires urgent reperfusion (PCI/thrombolysis). NSTEMI: Troponin POSITIVE + ST depression, T-wave inversion, or non-diagnostic ECG. Partial/intermittent coronary occlusion. Subendocardial infarction. Medical management ± early invasive (angiography within 72 hours). UNSTABLE ANGINA: Troponin NEGATIVE + ischaemic ECG changes or normal ECG. Rest pain, new-onset angina, or crescendo angina (increasing frequency/severity). No myocardial necrosis. Managed medically with risk stratification (TIMI/GRACE score). All three form the ACUTE CORONARY SYNDROME (ACS) spectrum."
+                  },
+                  {
+                        "q": "What are the complications of myocardial infarction?",
+                        "a": "EARLY (0–72 hours): (1) Arrhythmias — VF most common cause of death in first 24 hours; VT; complete heart block (inferior MI); atrial fibrillation. (2) Cardiogenic shock — pump failure, BP <90mmHg, signs of hypoperfusion; 7% of STEMI. (3) Acute mitral regurgitation — papillary muscle rupture/dysfunction (day 2–7). (4) Ventricular septal rupture (day 3–5) — new pansystolic murmur + haemodynamic deterioration. (5) Free wall rupture — tamponade, usually fatal. LATE (weeks–months): (6) Dressler syndrome — autoimmune pericarditis 2–6 weeks post-MI; fever, pleuritic chest pain, pericardial rub, raised ESR; treat with NSAIDs/colchicine. (7) Left ventricular aneurysm — persistent ST elevation on ECG; mural thrombus risk. (8) Heart failure — due to loss of functional myocardium. (9) Recurrent MI/angina."
+                  }
+            ]
+      },
+      {
+            "id": "heart-failure",
+            "name": "Heart Failure",
+            "syllabusRef": "Phase IV Medicine",
+            "section": "Cardiology",
+            "description": "Heart failure (HF) is a clinical syndrome where the heart cannot pump sufficiently to meet metabolic demands or can only do so at elevated filling pressures. HFrEF (systolic HF): reduced ejection fraction <40% — impaired contractility; dilated ventricle. HFpEF (diastolic HF): preserved EF ≥ 50% — impaired relaxation/filling; concentric hypertrophy, stiff ventricle. HFmrEF: EF 40–49%. Framingham criteria for diagnosis: requires 2 major OR 1 major + 2 minor criteria. MAJOR: paroxysmal nocturnal dyspnoea, neck vein distension, rales/crepitations, cardiomegaly on CXR, acute pulmonary oedema, S3 gallop, elevated CVP >16cmH₂O, hepatojugular reflux. MINOR: bilateral ankle oedema, night cough, exertional dyspnoea, hepatomegaly, pleural effusion, heart rate >120bpm, weight loss >4.5kg in 5 days with treatment. NYHA Classification: I — no limitation of physical activity; II — slight limitation, comfortable at rest; III — marked limitation, comfortable only at rest; IV — symptoms at rest, unable to carry out any physical activity. Investigations: BNP/NT-proBNP (elevated in HF; BNP >100pg/mL or NT-proBNP >300pg/mL suggestive), echocardiography (EF, wall motion, valves), CXR (cardiomegaly, pulmonary congestion, Kerley B lines, pleural effusion). Management of HFrEF (mortality-reducing): ACEi/ARB (first-line), beta-blocker (bisoprolol/carvedilol/metoprolol — start low, titrate), MRA (spironolactone 25mg if still symptomatic), loop diuretics (furosemide — symptom relief only, no mortality benefit), ARNI (sacubitril/valsartan replaces ACEi if still symptomatic), SGLT2i (dapagliflozin — new addition). Digoxin: controls AF rate and reduces hospitalisation but NO mortality benefit. ICD for EF <35% (sudden cardiac death prevention). CRT for EF <35% + LBBB + QRS >150ms.",
+            "svgKey": "mbbs-med-heart-failure",
+            "threejs3dFn": "createEMInduction",
+            "landmarks": [
+                  "HFrEF: EF <40% (systolic); HFpEF: EF ≥ 50% (diastolic); HFmrEF: EF 40–49%",
+                  "Framingham criteria: 2 major OR 1 major + 2 minor — PND, JVD, rales, S3, cardiomegaly are MAJOR",
+                  "NYHA: I=no limitation; II=slight; III=marked limitation; IV=symptoms at rest",
+                  "HFrEF mortality-reducing drugs: ACEi + Beta-blocker + MRA + ARNI + SGLT2i — furosemide symptomatic only",
+                  "BNP >100pg/mL or NT-proBNP >300pg/mL supports HF diagnosis; Digoxin: no mortality benefit"
+            ],
+            "examQA": [
+                  {
+                        "q": "A 65-year-old with breathlessness, bilateral ankle swelling, and raised JVP has an echocardiogram showing EF 30%. Classify the heart failure and outline management.",
+                        "a": "Classification: HFrEF (Heart Failure with Reduced Ejection Fraction) — EF 30% is <40%. NYHA class depends on symptoms — if breathless on minimal exertion, likely NYHA III. Management of HFrEF: (1) ACEi (ramipril 1.25mg → titrate to 10mg) — first-line, mortality benefit, reduces preload and afterload. (2) Beta-blocker (bisoprolol 1.25mg → titrate to 10mg) — added once stable, NOT during acute decompensation; mortality benefit. (3) MRA (spironolactone 25–50mg) — if still symptomatic on ACEi+BB; monitor K+ and renal function. (4) Loop diuretic (furosemide 40–80mg) — for fluid overload/congestion relief; no mortality benefit. (5) If still symptomatic: switch ACEi to ARNI (sacubitril/valsartan). (6) SGLT2i (dapagliflozin 10mg) — added for additional mortality benefit. (7) ICD if EF <35% after ≥ 3 months optimal medical therapy (prevents sudden cardiac death). (8) CRT if LBBB + QRS >150ms. (9) Lifestyle: fluid restriction (<1.5L/day), salt restriction, daily weights, cardiac rehabilitation."
+                  },
+                  {
+                        "q": "What are the Framingham criteria for diagnosing heart failure?",
+                        "a": "Framingham criteria — diagnosis requires 2 MAJOR criteria OR 1 MAJOR + 2 MINOR criteria. MAJOR CRITERIA: (1) Paroxysmal nocturnal dyspnoea (PND) or orthopnoea; (2) Neck vein distension/elevated JVP; (3) Rales/bibasal crepitations; (4) Cardiomegaly on chest X-ray (cardiothoracic ratio >0.5); (5) Acute pulmonary oedema; (6) S3 gallop rhythm; (7) Increased CVP >16 cmH₂O; (8) Hepatojugular reflux; (9) Weight loss >4.5kg in 5 days with treatment. MINOR CRITERIA: (1) Bilateral ankle oedema; (2) Nocturnal cough; (3) Dyspnoea on ordinary exertion; (4) Hepatomegaly; (5) Pleural effusion; (6) Tachycardia (HR >120 bpm); (7) Decrease in vital capacity by ⅓ from maximum. A minor criterion is acceptable ONLY if it cannot be attributed to another medical condition. Sensitivity ~90%, specificity ~78%."
+                  },
+                  {
+                        "q": "Differentiate between systolic and diastolic heart failure.",
+                        "a": "SYSTOLIC HF (HFrEF): EF <40%. Impaired CONTRACTION — ventricle dilates (eccentric hypertrophy). Causes: IHD (most common), dilated cardiomyopathy, valvular disease. CXR: cardiomegaly, pulmonary congestion. Management: ACEi, BB, MRA, ARNI, SGLT2i all have mortality benefit. DIASTOLIC HF (HFpEF): EF ≥ 50%. Impaired RELAXATION/FILLING — ventricle stiff, concentric hypertrophy. Causes: hypertension (most common), hypertrophic cardiomyopathy, restrictive cardiomyopathy, aortic stenosis. Heart size may be NORMAL on CXR. Diagnosis: echo shows impaired diastolic filling, elevated E/e' ratio. Management: no drugs proven to reduce mortality; treat underlying cause (control BP, rate control for AF), diuretics for congestion, SGLT2i (emerging evidence). KEY DIFFERENCES: Systolic = pump failure (weak squeeze); Diastolic = filling failure (stiff wall). Both present with similar symptoms (dyspnoea, oedema, fatigue). Echocardiography differentiates the two by measuring EF."
+                  }
+            ]
+      },
+      {
+            "id": "hypertension",
+            "name": "Hypertension",
+            "syllabusRef": "Phase IV Medicine",
+            "section": "Cardiology",
+            "description": "Hypertension is persistent elevation of systemic arterial blood pressure. Defined as ≥ 140/90 mmHg (clinic) or ≥ 135/85 (ABPM/home). Classification (JNC 8 / ESC): Normal <120/80; Elevated 120–129/<80; Stage 1 HTN 130–139/80–89; Stage 2 HTN ≥ 140/≥ 90; Hypertensive crisis >180/120. WHO classification: Grade 1 (mild) 140–159/90–99; Grade 2 (moderate) 160–179/100–109; Grade 3 (severe) ≥ 180/≥ 110. Primary (essential) hypertension: 90–95% of cases — multifactorial (genetic + environmental: salt, obesity, stress, alcohol, sedentary). Secondary hypertension: 5–10% — renal (CKD, renal artery stenosis), endocrine (phaeochromocytoma, Conn syndrome, Cushing), coarctation of aorta, drugs (NSAIDs, OCP, steroids). End-organ damage: Brain — hypertensive encephalopathy, stroke, TIA. Heart — LVH, IHD, heart failure. Kidney — hypertensive nephrosclerosis, CKD, proteinuria. Eye — hypertensive retinopathy (Keith-Wagener-Barker grades I–IV: arteriolar narrowing → AV nipping → flame haemorrhages/cotton-wool spots → papilloedema). Vessels — aortic dissection, PAD. Management: Lifestyle (DASH diet, salt <5g/day, weight loss, exercise 150min/week, limit alcohol, stop smoking). Drug therapy: A/B, C, D approach — Under 55 or Black: ACEi/ARB first-line; Over 55 or Black: CCB (amlodipine) first-line. Step 2: ACEi/ARB + CCB. Step 3: ACEi/ARB + CCB + thiazide-like diuretic (indapamide). Step 4 (resistant): add spironolactone 25mg, alpha-blocker, or beta-blocker. BP target: <140/90 (general); <130/80 (diabetes, CKD with proteinuria). Hypertensive emergency: BP >180/120 with acute end-organ damage (encephalopathy, aortic dissection, acute HF, eclampsia) — IV labetalol, sodium nitroprusside, nicardipine; reduce MAP by 25% in first hour.",
+            "svgKey": "mbbs-med-hypertension",
+            "landmarks": [
+                  "HTN defined as ≥ 140/90 mmHg (clinic); Primary (essential) 90–95%, secondary 5–10%",
+                  "End-organ damage: LVH (heart), nephrosclerosis (kidney), retinopathy (eye), stroke (brain)",
+                  "Keith-Wagener-Barker retinopathy: I=AV narrowing, II=AV nipping, III=haemorrhages, IV=papilloedema",
+                  "First-line drugs: <55yr ACEi/ARB; >55yr or Black CCB; Step 3 add thiazide; Step 4 spironolactone",
+                  "Hypertensive emergency: >180/120 + end-organ damage — IV labetalol; reduce MAP by 25% in 1st hour"
+            ],
+            "examQA": [
+                  {
+                        "q": "A 50-year-old obese male has clinic BP readings of 160/100 mmHg on three occasions. He has no other comorbidities. How would you classify and manage his hypertension?",
+                        "a": "Classification: Stage 2 hypertension (WHO Grade 2 / moderate). Primary (essential) HTN most likely given age, obesity, no features of secondary cause. Management: (1) Lifestyle modification (all patients): DASH diet (rich in fruits, vegetables, whole grains, low-fat dairy), salt restriction <5g/day (WHO) or <6g/day, weight loss (target BMI <25), regular exercise (150 min/week moderate intensity), limit alcohol, smoking cessation. (2) Drug therapy (needed for Stage 2): Age <55 → start ACEi (ramipril 2.5–10mg) or ARB (losartan 50–100mg). Monitor creatinine and K+ at 2 weeks. If not at target (<140/90) at 4–8 weeks: Step 2 — add CCB (amlodipine 5–10mg). Step 3 — add thiazide-like diuretic (indapamide 2.5mg). Step 4 (resistant HTN) — add spironolactone 25mg if K+ ≤ 4.5. (3) Assess CV risk: lipid profile, fasting glucose, ECG (LVH), urine albumin, fundoscopy. (4) Target BP <140/90 mmHg. (5) Follow-up: monthly until target achieved, then 3–6 monthly."
+                  },
+                  {
+                        "q": "What are the causes of secondary hypertension and how do you screen for them?",
+                        "a": "Secondary hypertension (5–10%): suspect when: onset <30 or >55 years, resistant to ≥ 3 drugs, sudden onset, features of an underlying cause. RENAL (most common secondary cause): CKD — raised creatinine, reduced eGFR, proteinuria. Renal artery stenosis — renal bruit, flash pulmonary oedema; investigate with renal Doppler, MRA. ENDOCRINE: Phaeochromocytoma — paroxysmal HTN, headache, sweating, palpitations (triad); 24-hour urine metanephrines/catecholamines. Conn syndrome (primary hyperaldosteronism) — HTN + hypokalaemia; aldosterone/renin ratio (ARR). Cushing syndrome — moon face, striae, central obesity; overnight dexamethasone suppression test, 24-hour urinary cortisol. Hypothyroidism, hyperthyroidism, acromegaly. VASCULAR: Coarctation of aorta — upper limb HTN + radio-femoral delay; echo, CT aorta. DRUGS: NSAIDs, OCP, corticosteroids, erythropoietin, ciclosporin. SCREENING: Renal function + electrolytes + urinalysis for ALL. Further tests guided by clinical suspicion."
+                  },
+                  {
+                        "q": "Define hypertensive emergency and its management.",
+                        "a": "Hypertensive emergency: severely elevated BP (usually >180/120 mmHg) WITH evidence of acute end-organ damage. NOT defined by BP number alone — requires organ damage. TYPES OF END-ORGAN DAMAGE: Hypertensive encephalopathy — headache, confusion, seizures, papilloedema. Acute aortic dissection — tearing chest/back pain. Acute left ventricular failure/pulmonary oedema. Acute coronary syndrome. Eclampsia. Acute renal failure. MANAGEMENT: (1) Admit to ICU/HDU with continuous BP and cardiac monitoring. (2) IV antihypertensives: Labetalol IV infusion (first-line for most emergencies); Sodium nitroprusside (potent vasodilator, cyanide toxicity risk); Nicardipine IV (CCB); GTN infusion (for ACS/pulmonary oedema). (3) TARGET: Reduce MAP by no more than 25% in first hour; then gradually to 160/100 over next 2–6 hours; then normal over 24–48 hours. RATIONALE: Too-rapid reduction risks cerebral/coronary hypoperfusion, watershed infarcts. (4) EXCEPTION: Aortic dissection — rapid reduction to SBP <120 in 20 minutes (IV labetalol + nitroprusside). HYPERTENSIVE URGENCY: BP >180/120 WITHOUT acute end-organ damage — oral medications, no need for ICU."
+                  }
+            ]
+      },
+      {
+            "id": "arrhythmias",
+            "name": "Arrhythmias",
+            "syllabusRef": "Phase IV Medicine",
+            "section": "Cardiology",
+            "description": "Arrhythmias are disorders of heart rate, rhythm, or conduction. Atrial fibrillation (AF): most common sustained arrhythmia; irregularly irregular pulse, absent P waves on ECG, fibrillatory baseline. Causes: hypertension, IHD, valvular disease (mitral stenosis), thyrotoxicosis, alcohol, PE. CHA₂DS₂-VASc score for stroke risk → anticoagulation (warfarin or DOAC). Rate control (beta-blocker/CCB — first-line for most) vs rhythm control (amiodarone, flecainide, DC cardioversion). Heart block: 1st degree — prolonged PR >200ms (>5 small squares), benign; 2nd degree Mobitz Type I (Wenckebach) — progressive PR prolongation then dropped QRS, usually benign; 2nd degree Mobitz Type II — constant PR then sudden dropped QRS, risk of complete block, may need pacemaker; 3rd degree (complete) — complete AV dissociation, P waves and QRS independent, wide QRS escape rhythm, ALWAYS needs pacemaker. Ventricular tachycardia (VT): wide complex tachycardia (≥ 3 consecutive ventricular beats, rate >100bpm, QRS >120ms). Pulseless VT = cardiac arrest → defibrillation. VT with pulse: amiodarone 300mg IV, DC cardioversion if unstable. Ventricular fibrillation (VF): chaotic disorganised electrical activity, no cardiac output → cardiac arrest. ACLS algorithm: shockable rhythms (VF/pulseless VT) → defibrillation 200J biphasic → CPR 2 min → reassess → adrenaline 1mg IV every 3–5 min → amiodarone 300mg after 3rd shock, 150mg after 5th. Non-shockable (asystole/PEA): CPR + adrenaline 1mg IV every 3–5 min; identify reversible causes (4Hs: Hypoxia, Hypovolaemia, Hyper/hypokalaemia, Hypothermia; 4Ts: Thrombosis coronary/PE, Tension pneumothorax, Tamponade, Toxins).",
+            "svgKey": "mbbs-med-arrhythmias",
+            "threejs3dFn": "createEMInduction",
+            "landmarks": [
+                  "AF: irregularly irregular, no P waves; CHA₂DS₂-VASc ≥ 2 (male) or ≥ 3 (female) → anticoagulate",
+                  "Heart blocks: 1st=long PR; Mobitz I=Wenckebach (progressive PR); Mobitz II=dropped QRS; 3rd=AV dissociation",
+                  "ACLS shockable: VF/pulseless VT → defib 200J → CPR 2min → adrenaline q3–5min → amiodarone after 3rd shock",
+                  "Reversible causes of arrest: 4Hs (Hypoxia, Hypovolaemia, Hyper/hypokalaemia, Hypothermia) + 4Ts",
+                  "Rate control (BB/CCB) preferred for most AF; rhythm control for young/symptomatic/first episode"
+            ],
+            "examQA": [
+                  {
+                        "q": "A 72-year-old presents with palpitations and an irregularly irregular pulse at 140bpm. ECG shows absent P waves with fibrillatory baseline. What is the diagnosis and management?",
+                        "a": "Diagnosis: Atrial fibrillation (AF) with rapid ventricular response. Management: (1) Rate control (first-line for most patients): Beta-blocker (bisoprolol 2.5–10mg) or rate-limiting CCB (diltiazem/verapamil). Target resting HR <110bpm (lenient) or <80bpm (strict). Digoxin if sedentary/heart failure. (2) Stroke risk assessment — CHA₂DS₂-VASc score: C=CHF(1), H=HTN(1), A=Age≥75(2), D=DM(1), S=Stroke/TIA(2), V=Vascular disease(1), A=Age 65–74(1), Sc=Sex female(1). Score ≥ 2 in males or ≥ 3 in females → anticoagulate with DOAC (rivaroxaban, apixaban, edoxaban) or warfarin (target INR 2.0–3.0). (3) Assess HAS-BLED score for bleeding risk — does not contraindicate anticoagulation but guides monitoring. (4) Identify and treat underlying cause: thyroid function, echocardiography (valvular disease), electrolytes. (5) Rhythm control if: young, first episode, symptomatic despite rate control — amiodarone, flecainide (only if no structural heart disease), DC cardioversion (TOE first if AF >48 hours or unknown duration, or anticoagulate ≥ 3 weeks before)."
+                  },
+                  {
+                        "q": "Describe the degrees of heart block with ECG findings and management.",
+                        "a": "FIRST DEGREE: PR interval >200ms (>5 small squares) but all P waves conducted. Usually asymptomatic and benign. No treatment needed. Causes: athletes, digoxin, beta-blockers. SECOND DEGREE MOBITZ TYPE I (Wenckebach): Progressive PR prolongation until a QRS is dropped, then cycle resets. Block at AV node level. Usually benign, often in inferior MI. Rarely needs pacemaker. SECOND DEGREE MOBITZ TYPE II: Constant PR interval with intermittent dropped QRS (without warning). Block below AV node (His-Purkinje). HIGH RISK of progressing to complete heart block. Often needs permanent pacemaker. Associated with anterior MI. THIRD DEGREE (Complete heart block): Complete AV dissociation — P waves and QRS complexes are independent (atrial rate > ventricular rate). Escape rhythm: wide QRS (ventricular escape 20–40bpm). Causes: fibrosis, inferior MI, anterior MI, drugs (digoxin toxicity), post-cardiac surgery. ALWAYS requires pacemaker — temporary then permanent. Symptoms: syncope (Stokes-Adams attacks), dizziness, heart failure. Emergency: atropine 500mcg IV (may work for nodal block); isoprenaline infusion; transcutaneous pacing."
+                  },
+                  {
+                        "q": "Outline the ACLS algorithm for cardiac arrest.",
+                        "a": "ACLS (Advanced Cardiovascular Life Support) algorithm: (1) Confirm cardiac arrest: unresponsive, not breathing normally, no pulse. Call for help, start CPR (30:2 ratio, rate 100–120/min, depth 5–6cm). Attach defibrillator/monitor. (2) Assess rhythm: SHOCKABLE (VF/pulseless VT): Defibrillate — 200J biphasic (360J monophasic). Resume CPR immediately for 2 minutes. Recheck rhythm. Adrenaline 1mg IV after 3rd shock, then every 3–5 minutes. Amiodarone 300mg IV after 3rd shock, 150mg after 5th shock. Consider reversible causes. NON-SHOCKABLE (Asystole/PEA): CPR for 2 minutes. Adrenaline 1mg IV immediately, then every 3–5 minutes. NO defibrillation. Identify and treat reversible causes: 4Hs — Hypoxia (ventilate), Hypovolaemia (fluids), Hyper/hypokalaemia (correct K+), Hypothermia (warm). 4Ts — Thrombosis (coronary → PCI; PE → thrombolysis), Tension pneumothorax (needle decompression), cardiac Tamponade (pericardiocentesis), Toxins (specific antidotes). (3) Post-resuscitation care: targeted temperature management 32–36°C for 24 hours, coronary angiography if STEMI, ICU monitoring, neuroprognostication at 72 hours."
+                  }
+            ]
+      },
+      {
+            "id": "pneumonia",
+            "name": "Pneumonia",
+            "syllabusRef": "Phase IV Medicine",
+            "section": "Respiratory",
+            "description": "Pneumonia is infection of the lung parenchyma causing consolidation. Community-acquired pneumonia (CAP): acquired outside hospital or within 48 hours of admission. Hospital-acquired pneumonia (HAP): ≥ 48 hours after admission. Pathogens: CAP — Streptococcus pneumoniae (most common), Haemophilus influenzae, Mycoplasma pneumoniae (atypical), Legionella, Chlamydophila. HAP — Gram-negatives (Pseudomonas, Klebsiella, E. coli), MRSA, Acinetobacter. Aspiration pneumonia — anaerobes. Clinical features: cough (productive), fever, pleuritic chest pain, dyspnoea, tachypnoea, tachycardia. Signs: dull percussion, bronchial breathing, increased vocal fremitus, coarse crepitations over affected lobe. CXR: lobar consolidation (air bronchogram sign), patchy/bilateral infiltrates (atypical/viral). CURB-65 severity score: Confusion (AMT ≤ 8), Urea >7mmol/L, Respiratory rate ≥ 30, Blood pressure (SBP <90 or DBP ≤ 60), Age ≥ 65. Score 0–1: mild, outpatient oral antibiotics; Score 2: moderate, consider hospital; Score 3–5: severe, hospitalise (ICU if 4–5). Antibiotic selection: Mild CAP — Amoxicillin 500mg TDS 5 days (first-line) ± macrolide. Moderate — Amoxicillin + Clarithromycin (or doxycycline). Severe — IV Co-amoxiclav + IV Clarithromycin (or IV ceftriaxone + clarithromycin). HAP — Co-amoxiclav or piperacillin-tazobactam; if MRSA risk: add vancomycin. Atypical: macrolide (clarithromycin) or fluoroquinolone (levofloxacin). Complications: parapneumonic effusion, empyema, lung abscess, sepsis, ARDS.",
+            "svgKey": "mbbs-med-pneumonia",
+            "threejs3dFn": "createDiffusionAnimation",
+            "landmarks": [
+                  "S. pneumoniae is commonest CAP pathogen; Gram-negatives/MRSA dominate HAP",
+                  "CURB-65: C=Confusion, U=Urea>7, R=RR≥30, B=BP<90/60, 65=Age≥65 — score ≥3 = severe",
+                  "Mild CAP: oral Amoxicillin 500mg TDS; Severe CAP: IV Co-amoxiclav + IV Clarithromycin",
+                  "CXR: lobar consolidation with air bronchogram (bacterial); bilateral diffuse infiltrates (atypical/viral)",
+                  "Complications: parapneumonic effusion → empyema (pH <7.2 needs chest drain); lung abscess"
+            ],
+            "examQA": [
+                  {
+                        "q": "A 70-year-old presents with productive cough, fever 39°C, confusion, RR 32, BP 85/50. CXR shows right lower lobe consolidation. Calculate CURB-65 score and outline management.",
+                        "a": "CURB-65 calculation: C = Confusion (YES, AMT ≤ 8) = 1; U = Urea likely >7 (elderly, septic) = 1; R = RR 32 (≥ 30) = 1; B = BP 85/50 (SBP <90) = 1; 65 = Age 70 (≥ 65) = 1. Total = 5/5 — SEVERE pneumonia, 30-day mortality >30%. Management: (1) Admit to ICU/HDU. (2) IV antibiotics immediately: IV Co-amoxiclav 1.2g TDS + IV Clarithromycin 500mg BD (or IV Ceftriaxone 2g OD + IV Clarithromycin). (3) Oxygen — target SpO₂ 94–98% (88–92% if COPD). (4) IV fluids for hypotension — NS/Hartmann bolus; if no response, consider vasopressors (noradrenaline) = septic shock protocol. (5) Blood cultures BEFORE antibiotics (but do not delay Abx). (6) Investigations: FBC, CRP, U&E, LFTs, ABG, sputum culture, urinary pneumococcal/Legionella antigens. (7) Reassess at 48–72 hours — if improving, step down to oral; if not, review cultures, consider CT chest. (8) VTE prophylaxis (LMWH). (9) Review antibiotics at 48 hours with culture results."
+                  },
+                  {
+                        "q": "Differentiate between CAP and HAP in terms of pathogens and treatment.",
+                        "a": "CAP (Community-Acquired Pneumonia): Acquired outside hospital. PATHOGENS: S. pneumoniae (30–40%, most common), H. influenzae, M. pneumoniae (atypical — young adults), Legionella (contaminated water, hyponatraemia), Chlamydophila pneumoniae, S. aureus (post-influenza). Treatment: Mild — Amoxicillin 500mg PO TDS 5 days. Moderate — Amoxicillin + Clarithromycin. Severe — IV Co-amoxiclav + IV Clarithromycin. HAP (Hospital-Acquired Pneumonia): Onset ≥ 48 hours after hospital admission. PATHOGENS: Gram-negative bacilli (Pseudomonas aeruginosa, Klebsiella, E. coli, Acinetobacter — often MDR), MRSA, anaerobes (aspiration). Higher mortality (30–70%). Treatment: Early-onset (<5 days) — Co-amoxiclav or cephalosporin. Late-onset (≥ 5 days) or MDR risk — Piperacillin-tazobactam or Meropenem ± Vancomycin/Linezolid if MRSA suspected. Duration: 7–8 days (may extend for Pseudomonas). KEY DIFFERENCES: CAP = community organisms, often sensitive; HAP = hospital organisms, often resistant. HAP has higher mortality. Aspiration pneumonia: anaerobes — treat with amoxicillin-clavulanate or metronidazole + ceftriaxone."
+                  },
+                  {
+                        "q": "What are the CXR findings in different types of pneumonia?",
+                        "a": "BACTERIAL (typical) PNEUMONIA: Lobar consolidation — homogeneous opacification of one lobe. Air bronchogram sign — air-filled bronchi visible within consolidated lung. Silhouette sign — loss of cardiac/diaphragmatic border if adjacent lobe affected. PATCHY/BRONCHOPNEUMONIA: Multiple patches of consolidation, often bilateral, involving multiple lobes. Common in: H. influenzae, S. aureus, Gram-negatives. ATYPICAL PNEUMONIA: Bilateral diffuse interstitial/reticular infiltrates. Ground-glass opacities. Patchy bilateral involvement. Organisms: Mycoplasma, Legionella, Chlamydophila, viruses. COMPLICATIONS on CXR: Pleural effusion — blunting of costophrenic angle; lateral decubitus film confirms. Empyema — loculated effusion with air-fluid level. Lung abscess — thick-walled cavity with air-fluid level. ARDS — bilateral diffuse white-out. FOLLOW-UP CXR: Repeat at 6 weeks post-treatment to confirm resolution and exclude underlying malignancy (especially in smokers >50 years)."
+                  }
+            ]
+      },
+      {
+            "id": "tuberculosis",
+            "name": "Tuberculosis",
+            "syllabusRef": "Phase IV Medicine",
+            "section": "Respiratory",
+            "description": "Tuberculosis (TB) is caused by Mycobacterium tuberculosis, an acid-fast bacillus (AFB). Bangladesh is a high-burden country (estimated incidence ~221/100,000). Transmission: airborne droplet nuclei. Primary TB: initial infection, usually asymptomatic, Ghon focus (lower lobe lesion) + hilar lymphadenopathy = Ghon complex → most contained by cell-mediated immunity → latent TB. Reactivation/post-primary TB: upper lobe predilection, cavitation, highly infectious. Clinical features: chronic cough >2–3 weeks (productive, may be haemoptysis), night sweats, evening fever, weight loss, anorexia. Extrapulmonary TB (15–20%): lymph node (cervical = scrofula, most common EPTB), pleural, meningeal (TBM), miliary, skeletal (Pott spine), genitourinary, abdominal. Diagnosis: Sputum AFB smear (Ziehl-Neelsen staining — 3 specimens, early morning), GeneXpert MTB/RIF (rapid molecular — detects TB + rifampicin resistance in 2 hours, WHO-recommended first-line), culture (Löwenstein-Jensen media, 4–8 weeks — gold standard), CXR (upper lobe infiltrates/cavities, miliary pattern). Mantoux test (tuberculin skin test): 0.1mL PPD intradermal, read at 48–72 hours; ≥ 10mm positive in general population; ≥ 5mm in immunocompromised/contacts. DOTS (Directly Observed Treatment, Short-course): Intensive phase (2 months): HRZE — Isoniazid (H), Rifampicin (R), Pyrazinamide (Z), Ethambutol (E). Continuation phase (4 months): HR — Isoniazid + Rifampicin. Total: 2HRZE/4HR = 6 months for new pulmonary TB. Side effects: H=peripheral neuropathy (prevent with pyridoxine B6), R=hepatotoxicity/orange secretions/drug interactions (CYP inducer), Z=hyperuricaemia/hepatotoxicity, E=optic neuritis (visual acuity/colour vision). MDR-TB: resistant to at least Isoniazid AND Rifampicin; requires 9–20 months treatment with second-line drugs (fluoroquinolone, bedaquiline, linezolid, clofazimine). XDR-TB: MDR-TB + resistance to fluoroquinolone + injectable.",
+            "svgKey": "mbbs-med-tuberculosis",
+            "landmarks": [
+                  "DOTS regimen: 2HRZE/4HR = 6 months; H=INH, R=Rifampicin, Z=Pyrazinamide, E=Ethambutol",
+                  "GeneXpert MTB/RIF: rapid molecular test — detects TB + rifampicin resistance in 2 hours (WHO first-line)",
+                  "INH side effect: peripheral neuropathy — prevent with Pyridoxine (B6); Ethambutol: optic neuritis",
+                  "MDR-TB: resistant to INH + Rifampicin; needs 9–20 months with bedaquiline, fluoroquinolone, linezolid",
+                  "Mantoux: ≥ 10mm positive (general); ≥ 5mm in immunocompromised; read at 48–72 hours"
+            ],
+            "examQA": [
+                  {
+                        "q": "A 30-year-old presents with chronic cough for 4 weeks, night sweats, weight loss, and evening fever. CXR shows right upper lobe cavitary lesion. How would you investigate and manage?",
+                        "a": "Diagnosis: Highly suspicious for pulmonary tuberculosis (chronic cough, constitutional symptoms, upper lobe cavity). INVESTIGATION: (1) Sputum for AFB — GeneXpert MTB/RIF (first-line WHO-recommended) — detects TB DNA + rifampicin resistance in 2 hours; send 3 early-morning sputum specimens for AFB smear (Ziehl-Neelsen stain) and culture. (2) Sputum culture on LJ media (gold standard, takes 4–8 weeks) — with drug sensitivity testing. (3) CXR — already showing cavity; confirms diagnosis supportive. (4) HIV test — all TB patients must be tested. (5) Baseline bloods: LFTs (before hepatotoxic drugs), renal function, FBC, HbA1c/random blood glucose. (6) Visual acuity test (baseline before Ethambutol). MANAGEMENT — DOTS regimen: Intensive phase (2 months): HRZE daily — Isoniazid 5mg/kg, Rifampicin 10mg/kg, Pyrazinamide 25mg/kg, Ethambutol 15mg/kg. Continuation phase (4 months): HR daily. Total = 6 months. Add Pyridoxine 10mg daily (prevent INH neuropathy). Directly Observed Therapy. Notify public health. Contact tracing and screening. Repeat sputum at 2, 5, 6 months (conversion from positive to negative confirms cure)."
+                  },
+                  {
+                        "q": "What are the side effects of anti-TB drugs and how are they managed?",
+                        "a": "ISONIAZID (H): Peripheral neuropathy (most common — due to pyridoxine/B6 depletion) — prevent with pyridoxine 10–25mg daily. Hepatotoxicity (dose-dependent). SLE-like syndrome (rare). RIFAMPICIN (R): Hepatotoxicity (most hepatotoxic when combined with Z). Orange discolouration of urine, tears, sweat — warn patient. Potent CYP450 inducer — reduces efficacy of OCP, warfarin, antiretrovirals, steroids. Flu-like syndrome with intermittent dosing. PYRAZINAMIDE (Z): Hepatotoxicity (worst of all TB drugs). Hyperuricaemia → gout (inhibits uric acid excretion). Arthralgia. ETHAMBUTOL (E): Optic neuritis — loss of visual acuity, red-green colour blindness. Baseline visual acuity MUST be tested. Monthly monitoring. Stop immediately if visual symptoms occur — usually reversible. STREPTOMYCIN (S): Ototoxicity (vestibular and cochlear). Nephrotoxicity. Avoid in pregnancy. MANAGEMENT OF HEPATOTOXICITY: Stop all hepatotoxic drugs (H, R, Z). Monitor LFTs. Reintroduce one at a time when LFTs normalise: R first (least hepatotoxic alone), then H, then Z (most hepatotoxic). If Z cannot be reintroduced, extend treatment to 9 months (2HRE/7HR)."
+                  },
+                  {
+                        "q": "What is MDR-TB? How does it differ from XDR-TB in management?",
+                        "a": "MDR-TB (Multi-Drug Resistant TB): Resistant to at least Isoniazid (H) AND Rifampicin (R) — the two most potent first-line drugs. Detected by: GeneXpert (rifampicin resistance as proxy for MDR), LPA (line probe assay), phenotypic DST on culture. Causes: inadequate/incomplete treatment, poor adherence, poor drug quality, lack of DOTS. TREATMENT (WHO 2022): Shorter regimen (9–11 months): Bedaquiline + Pretomanid + Linezolid (BPaL) or longer regimen with fluoroquinolone (moxifloxacin/levofloxacin), bedaquiline, linezolid, clofazimine, cycloserine. Duration: 9–20 months depending on regimen. XDR-TB (Extensively Drug Resistant): MDR-TB PLUS resistance to any fluoroquinolone AND at least one injectable second-line drug (kanamycin/amikacin/capreomycin). TREATMENT: Extremely limited options. BPaL regimen (Bedaquiline + Pretomanid + Linezolid) for 6–9 months — TB PRACTECAL trial. Delamanid may be added. Individualised based on DST. Cure rate: MDR-TB ~60%; XDR-TB ~30–40%. Bangladesh: National Tuberculosis Control Programme (NTP) manages MDR-TB through programmatic management of drug-resistant TB (PMDT) centres."
+                  }
+            ]
+      },
+      {
+            "id": "asthma-copd",
+            "name": "Asthma and COPD",
+            "syllabusRef": "Phase IV Medicine",
+            "section": "Respiratory",
+            "description": "Asthma is a chronic inflammatory airway disease characterized by reversible airflow obstruction and bronchial hyperresponsiveness. COPD is characterized by persistent, usually progressive airflow limitation associated with enhanced chronic inflammatory response to noxious particles or gases. Diagnosis: Spirometry (FEV1/FVC < 0.70 post-bronchodilator for COPD; reversibility >12% and 200ml for asthma). Management: Asthma (ICS, LABA), COPD (SABA/SAMA, LAMA, LABA, ICS for frequent exacerbators).",
+            "svgKey": "mbbs-med-asthma-copd",
+            "landmarks": [
+                  "Spirometry: FEV1/FVC < 0.70 confirms obstructive defect",
+                  "Asthma: reversible obstruction (>12% and 200ml increase in FEV1)",
+                  "COPD GOLD criteria: 1 (≥80%), 2 (50-79%), 3 (30-49%), 4 (<30%)",
+                  "Asthma stepwise: SABA → low-ICS → low-ICS+LABA → med-ICS+LABA",
+                  "COPD exacerbation: oxygen, bronchodilators, systemic steroids, antibiotics"
+            ],
+            "examQA": [
+                  {
+                        "q": "Differentiate between Asthma and COPD based on spirometry.",
+                        "a": "Asthma shows reversible airflow obstruction (FEV1 increases by >12% and 200ml after bronchodilator). COPD shows mostly irreversible airflow obstruction with post-bronchodilator FEV1/FVC < 0.70."
+                  },
+                  {
+                        "q": "Outline the management of acute severe asthma.",
+                        "a": "O2 to maintain SpO2 94-98%, Nebulized Salbutamol, Nebulized Ipratropium, Systemic corticosteroids (IV hydrocortisone or oral prednisolone), IV magnesium sulfate if inadequate response."
+                  }
+            ]
+      },
+      {
+            "id": "liver-disease",
+            "name": "Liver Disease",
+            "syllabusRef": "Phase IV Medicine",
+            "section": "Gastroenterology",
+            "description": "Chronic liver disease and cirrhosis result from hepatocyte destruction and fibrosis. Common causes: Hepatitis B (most common worldwide and in Bangladesh), Hepatitis C, alcoholic liver disease, NAFLD/NASH, autoimmune hepatitis, Wilson disease, haemochromatosis. Hepatitis B serology: HBsAg positive = current infection (acute or chronic); anti-HBs positive = immune (vaccine or past infection); anti-HBc IgM = acute infection; HBeAg positive = high infectivity/replication; HBV DNA = viral load. Hepatitis C: anti-HCV + HCV RNA positive = active infection; treat with DAAs (sofosbuvir + daclatasvir/ledipasvir, 12 weeks, cure rate >95%). Child-Pugh score: 5 parameters (Albumin, Bilirubin, INR/PT, Ascites, Encephalopathy) — each scored 1–3. Class A (5–6): well-compensated; Class B (7–9): significant functional compromise; Class C (10–15): decompensated. MELD score for transplant prioritisation. Complications of cirrhosis: (1) Portal hypertension → oesophageal/gastric varices (variceal bleed = medical emergency — resuscitate, IV terlipressin, IV PPI, emergency endoscopy with band ligation within 12 hours; propranolol prophylaxis). (2) Ascites — sodium restriction, spironolactone 100mg ± furosemide 40mg; therapeutic paracentesis + albumin replacement if tense; SBP (spontaneous bacterial peritonitis) if ascitic WBC >250 neutrophils/mm³ — IV ceftriaxone/cefotaxime. (3) Hepatic encephalopathy — confusion, flapping tremor (asterixis), fetor hepaticus; precipitants: infection, GI bleed, constipation, electrolyte imbalance, sedatives; treat with lactulose (aim 2–3 soft stools/day) + rifaximin. (4) Hepatorenal syndrome — functional renal failure. (5) Hepatocellular carcinoma — screen with 6-monthly AFP + USS in cirrhotics.",
+            "svgKey": "mbbs-med-liver-disease",
+            "landmarks": [
+                  "HBsAg+ = current HBV; anti-HBs+ = immune; HBeAg+ = high replication; anti-HBc IgM = acute",
+                  "Child-Pugh: A(5–6)=compensated, B(7–9)=significant compromise, C(10–15)=decompensated cirrhosis",
+                  "Variceal bleed: resuscitate + IV terlipressin + emergency endoscopy band ligation within 12hrs",
+                  "SBP diagnosis: ascitic fluid >250 neutrophils/mm³; treat IV ceftriaxone; prophylaxis with norfloxacin",
+                  "Hepatic encephalopathy: lactulose (2–3 stools/day) + rifaximin; identify/treat precipitants"
+            ],
+            "examQA": [
+                  {
+                        "q": "A patient with known cirrhosis presents with haematemesis and melaena. BP 80/50, HR 120. How would you manage?",
+                        "a": "Diagnosis: Variceal haemorrhage (upper GI bleed in cirrhotic = variceal until proven otherwise). RESUSCITATION: (1) A-E approach. Two large-bore IV cannulae (14–16G). (2) IV crystalloid (NaCl 0.9% or Hartmann) — rapid bolus. (3) Crossmatch 6 units packed RBCs — transfuse if Hb <7g/dL (target 7–8g/dL; over-transfusion worsens portal pressure). (4) Correct coagulopathy: Vitamin K 10mg IV, FFP/platelets if actively bleeding with INR >1.5 or platelets <50. SPECIFIC TREATMENT: (5) IV Terlipressin 2mg bolus then 1–2mg every 4–6 hours (splanchnic vasoconstrictor — reduces portal pressure). Alternative: octreotide infusion. (6) IV PPI (pantoprazole 80mg bolus then infusion) — for any concurrent peptic ulceration. (7) IV broad-spectrum antibiotic (ceftriaxone 1g OD) — reduces infection/rebleeding/mortality in cirrhotic GI bleed. (8) EMERGENCY ENDOSCOPY (OGD) within 12 hours — endoscopic variceal band ligation (EVL) is gold standard; sclerotherapy if banding not possible. (9) If uncontrolled bleeding: Sengstaken-Blakemore tube (balloon tamponade — temporising). TIPS (transjugular intrahepatic portosystemic shunt) as rescue. (10) SECONDARY PROPHYLAXIS: propranolol (non-selective beta-blocker) + repeat EVL sessions until varices eradicated."
+                  },
+                  {
+                        "q": "Interpret hepatitis B serology: HBsAg+, anti-HBs−, HBeAg+, anti-HBc IgM+, HBV DNA high.",
+                        "a": "Interpretation: ACUTE HEPATITIS B with HIGH INFECTIVITY. HBsAg POSITIVE: Confirms current HBV infection (present in both acute and chronic). Anti-HBs NEGATIVE: Patient has NOT cleared the virus (not immune yet). HBeAg POSITIVE: Marker of active viral replication and HIGH INFECTIVITY — virus is actively replicating. Anti-HBc IgM POSITIVE: This is the KEY marker that distinguishes ACUTE from CHRONIC infection. IgM indicates RECENT/ACUTE infection (present in first 6 months). If it were anti-HBc IgG only, would suggest chronic/past infection. HBV DNA HIGH: Confirms active viral replication (quantitative measure of viral load). CLINICAL SIGNIFICANCE: This patient has acute hepatitis B with high viral load. Management: (1) Supportive — most acute HBV (95% in adults) resolves spontaneously. (2) Monitor LFTs, coagulation. (3) Antiviral therapy (tenofovir/entecavir) ONLY if fulminant hepatitis or protracted course. (4) If HBsAg persists >6 months → chronic hepatitis B. (5) Notify public health. (6) Screen contacts, vaccinate."
+                  },
+                  {
+                        "q": "What is hepatic encephalopathy? How is it graded and managed?",
+                        "a": "Hepatic encephalopathy (HE): neuropsychiatric syndrome in liver failure due to accumulation of neurotoxins (ammonia, manganese, mercaptans) that bypass hepatic clearance via portosystemic shunting. GRADING (West Haven): Grade I — trivial lack of awareness, shortened attention, mild asterixis. Grade II — lethargy, disorientation to time, obvious asterixis. Grade III — somnolent but rousable, confused, marked asterixis. Grade IV — coma, unresponsive, decerebrate posturing. PRECIPITANTS (must identify and treat): GI bleeding (protein load → ammonia), infection/SBP, constipation, electrolyte imbalance (hypokalaemia, metabolic alkalosis), dehydration, sedatives/opioids, excess dietary protein, renal failure. MANAGEMENT: (1) Identify and treat precipitant (most important step). (2) Lactulose 15–30mL 2–4 times daily — titrate to 2–3 soft stools per day. Mechanism: acidifies colonic lumen → converts NH₃ to NH₄+ (non-absorbable) + osmotic laxative effect. (3) Rifaximin 550mg BD — non-absorbable antibiotic, reduces ammonia-producing gut bacteria; added for recurrent HE. (4) Avoid sedatives, maintain nutrition (1.2–1.5g protein/kg/day — do NOT restrict protein). (5) Treat infection. (6) Correct electrolytes. (7) If Grade III–IV: consider ICU, intubation for airway protection."
+                  }
+            ]
+      },
+      {
+            "id": "peptic-ulcer-gerd",
+            "name": "Peptic Ulcer and GERD",
+            "syllabusRef": "Phase IV Medicine",
+            "section": "Gastroenterology",
+            "description": "Peptic ulcer disease (PUD): mucosal breach in stomach (gastric ulcer, GU) or duodenum (duodenal ulcer, DU) extending through muscularis mucosae. DU is 4× more common than GU. Causes: H. pylori infection (90% DU, 70% GU), NSAIDs (second commonest), Zollinger-Ellison syndrome (rare, gastrinoma). H. pylori diagnosis: Non-invasive — ¹³C Urea breath test (most accurate non-invasive), stool antigen test, serology (cannot distinguish current from past). Invasive (OGD) — CLO/rapid urease test, histology, culture. Stop PPI 2 weeks and antibiotics 4 weeks before testing. Triple therapy eradication: PPI (omeprazole 20mg BD) + Amoxicillin 1g BD + Clarithromycin 500mg BD for 7–14 days. If penicillin allergy: PPI + Clarithromycin + Metronidazole. Second-line (quadruple): PPI + Bismuth subsalicylate + Metronidazole + Tetracycline. Confirm eradication with urea breath test at 4 weeks post-treatment. GERD (Gastro-oesophageal reflux disease): reflux of gastric contents into oesophagus causing heartburn, regurgitation. Alarm symptoms (require urgent OGD): dysphagia, odynophagia, weight loss, anaemia, haematemesis/melaena, persistent vomiting, epigastric mass, age >55 with new dyspepsia. Complications of GERD: oesophagitis, stricture, Barrett oesophagus (intestinal metaplasia → premalignant → adenocarcinoma). PPI mechanism: irreversibly inhibits H+/K+-ATPase (proton pump) on parietal cell apical membrane → reduces gastric acid secretion by ≥ 95%. PPIs: omeprazole, esomeprazole, lansoprazole, pantoprazole. Long-term PPI risks: C. difficile, hypomagnesaemia, osteoporosis, B12 deficiency, community-acquired pneumonia.",
+            "svgKey": "mbbs-med-peptic-ulcer",
+            "landmarks": [
+                  "H. pylori causes 90% DU, 70% GU; ¹³C Urea breath test is best non-invasive diagnosis",
+                  "Triple therapy: PPI + Amoxicillin 1g BD + Clarithromycin 500mg BD × 7–14 days",
+                  "Alarm symptoms needing urgent OGD: Dysphagia, Weight loss, Anaemia, GI bleed, Age >55 new dyspepsia",
+                  "PPI irreversibly inhibits H+/K+-ATPase on parietal cells; reduces acid ≥ 95%",
+                  "Barrett oesophagus: intestinal metaplasia from chronic GERD → risk of oesophageal adenocarcinoma"
+            ],
+            "examQA": [
+                  {
+                        "q": "A 40-year-old presents with recurrent epigastric pain relieved by food. How would you investigate for H. pylori and manage if positive?",
+                        "a": "Clinical picture: Duodenal ulcer pattern (pain relieved by food, worse when hungry/at night). INVESTIGATION FOR H. PYLORI: Non-invasive (preferred initially): (1) ¹³C Urea breath test — most accurate non-invasive test. Patient drinks ¹³C-labelled urea; H. pylori urease splits it to ¹³CO₂ (detected in breath). Sensitivity/specificity >95%. (2) Stool antigen test — good alternative, cheaper. (3) Serology — detects anti-H.pylori IgG; cannot distinguish current from past infection. IMPORTANT: Stop PPI ≥ 2 weeks and antibiotics ≥ 4 weeks before testing (false negatives). MANAGEMENT IF POSITIVE: First-line TRIPLE THERAPY × 7–14 days: PPI (omeprazole 20mg BD) + Amoxicillin 1g BD + Clarithromycin 500mg BD. If penicillin allergy: PPI + Clarithromycin 500mg BD + Metronidazole 400mg BD. CONFIRM ERADICATION: Urea breath test or stool antigen test ≥ 4 weeks after completing treatment (off PPI for 2 weeks). If eradication fails: Second-line QUADRUPLE therapy: PPI + Bismuth subsalicylate + Metronidazole + Tetracycline × 14 days. Stop NSAIDs if applicable. OGD if: alarm symptoms, age >55, treatment failure."
+                  },
+                  {
+                        "q": "What are the alarm symptoms in dyspepsia and why are they important?",
+                        "a": "ALARM SYMPTOMS (Red Flags) in dyspepsia — indicate need for URGENT upper GI endoscopy (OGD) to exclude malignancy: (1) DYSPHAGIA — difficulty swallowing (progressive = cancer until proven otherwise). (2) ODYNOPHAGIA — painful swallowing. (3) UNINTENTIONAL WEIGHT LOSS — significant (>5% in 6 months). (4) PERSISTENT VOMITING — suggesting gastric outlet obstruction. (5) GI BLEEDING — haematemesis (vomiting blood), melaena (black tarry stools), iron deficiency anaemia. (6) EPIGASTRIC MASS — palpable on examination. (7) AGE >55 with NEW-ONSET dyspepsia (unexplained, persistent). IMPORTANCE: These features raise suspicion for gastric or oesophageal malignancy (adenocarcinoma, lymphoma), complicated peptic ulcer (bleeding, perforation, obstruction), or Barrett oesophagus. NICE guidelines: Urgent 2-week-wait referral for OGD if alarm features present. Without alarm features: test-and-treat for H. pylori (urea breath test → triple therapy if positive); trial of PPI for 4–8 weeks."
+                  },
+                  {
+                        "q": "Describe the complications of chronic GERD.",
+                        "a": "COMPLICATIONS OF CHRONIC GERD: (1) OESOPHAGITIS: Inflammation and erosion of oesophageal mucosa from repeated acid exposure. Grades (Los Angeles classification): A = ≤1 mucosal break ≤5mm; B = >5mm not bridging folds; C = continuous between folds <75% circumference; D = ≥75% circumference. Symptoms: heartburn, chest pain, dysphagia. Treatment: PPI for 8 weeks. (2) STRICTURE: Fibrotic narrowing from chronic inflammation and scarring. Presents with progressive dysphagia (initially solids, then liquids). Treatment: endoscopic balloon dilatation + long-term PPI. (3) BARRETT OESOPHAGUS: Intestinal metaplasia — normal squamous epithelium replaced by columnar epithelium with goblet cells. PREMALIGNANT — risk of oesophageal adenocarcinoma (0.5%/year). Diagnosed by endoscopy + biopsy (confirm intestinal metaplasia). Surveillance: endoscopy every 2–5 years depending on length. Treatment: high-dose PPI + endoscopic surveillance; radiofrequency ablation if dysplasia. (4) OESOPHAGEAL ADENOCARCINOMA: Complication of longstanding Barrett. Increasing incidence in developed countries. Risk factors: male, white, obesity, smoking, chronic GERD. (5) Other: dental erosion, chronic cough, laryngitis, aspiration pneumonia."
+                  }
+            ]
+      },
+      {
+            "id": "acute-abdomen",
+            "name": "Acute Abdomen",
+            "syllabusRef": "Phase IV Medicine",
+            "section": "Gastroenterology",
+            "description": "Acute abdomen refers to sudden onset of severe abdominal pain requiring urgent evaluation and often surgical intervention. Differential diagnosis by region: Right upper quadrant — acute cholecystitis (Murphy sign positive, USS gallstones), hepatitis, hepatic abscess. Epigastric — acute pancreatitis (boring pain radiating to back, raised amylase/lipase ≥ 3× ULN), perforated peptic ulcer. Left upper quadrant — splenic rupture/infarction. Right iliac fossa — acute appendicitis (McBurney point tenderness, Rovsing sign, psoas sign), ruptured ectopic pregnancy, ovarian torsion. Left iliac fossa — diverticulitis, sigmoid volvulus. Diffuse — perforated viscus (peritonism, rigid abdomen), mesenteric ischaemia, intestinal obstruction. Appendicitis: most common surgical emergency. Periumbilical pain migrating to RIF (visceral → somatic), anorexia, nausea/vomiting, low-grade fever, leukocytosis. McBurney point: ⅓ from ASIS to umbilicus. Rovsing sign: pain in RIF on palpation of LIF. Treatment: appendicectomy (open or laparoscopic). Acute pancreatitis: Causes GET SMASHED — Gallstones (most common), Ethanol (second), Trauma, Steroids, Mumps/Malignancy, Autoimmune, Scorpion sting, Hyperlipidaemia/Hypothermia/Hyperparathyroidism, ERCP, Drugs (azathioprine, valproate). Ranson criteria (at admission): Age >55, WBC >16,000, Glucose >200mg/dL, LDH >350, AST >250. At 48 hours: Hct drop >10%, BUN increase >5, Ca <8, PaO₂ <60, Base deficit >4, Fluid sequestration >6L. Score ≥ 3 = severe. Management: aggressive IV fluids (Hartmann 5–10mL/kg/hr), analgesia (NOT morphine — use pethidine or paracetamol), nil by mouth, NG tube if vomiting, antibiotics only if necrotising/infected, ERCP within 24 hours if gallstone pancreatitis with cholangitis.",
+            "svgKey": "mbbs-med-acute-abdomen",
+            "landmarks": [
+                  "Appendicitis: periumbilical → RIF migration; McBurney point ⅓ ASIS→umbilicus; Rovsing sign = RIF pain on LIF palpation",
+                  "Pancreatitis diagnosis: amylase/lipase ≥ 3× ULN; GET SMASHED causes (Gallstones #1, Ethanol #2)",
+                  "Ranson ≥ 3 at admission = severe pancreatitis; includes Age>55, WBC>16k, Glucose>200, LDH>350, AST>250",
+                  "Perforated viscus: rigid abdomen, absent bowel sounds, erect CXR shows free air under diaphragm",
+                  "Cholecystitis: Murphy sign positive (inspiratory arrest on RUQ palpation); USS shows gallstones + wall thickening"
+            ],
+            "examQA": [
+                  {
+                        "q": "A 25-year-old presents with periumbilical pain that has migrated to the right iliac fossa over 12 hours, with anorexia, nausea, and low-grade fever. What is the most likely diagnosis and management?",
+                        "a": "Most likely diagnosis: ACUTE APPENDICITIS. Classic history: (1) Periumbilical pain (visceral, from midgut stretch) migrating to RIF (somatic, from parietal peritoneum inflammation) — pathognomonic migration. (2) Anorexia (almost always present — absence questions diagnosis). (3) Nausea ± vomiting (usually after pain onset). (4) Low-grade fever (37.5–38.5°C). EXAMINATION: McBurney point tenderness (⅓ from ASIS to umbilicus). Rovsing sign: RIF pain on LIF palpation. Psoas sign: pain on extension of right hip (retrocaecal appendix). Guarding and rebound tenderness = localised peritonitis. INVESTIGATIONS: FBC (leukocytosis, neutrophilia). CRP (elevated). Urinalysis (exclude UTI/renal colic). Pregnancy test in females of reproductive age. USS abdomen (non-compressible appendix >6mm, appendicolith). CT abdomen (sensitivity >95% — used if diagnosis uncertain). MANAGEMENT: (1) IV access, fluids, analgesia (paracetamol + morphine). (2) IV antibiotics (co-amoxiclav or ceftriaxone + metronidazole) — preoperative and therapeutic. (3) APPENDICECTOMY — laparoscopic (preferred) or open. Surgery within 24 hours. (4) If perforated with abscess: percutaneous drainage + antibiotics; interval appendicectomy 6–8 weeks later."
+                  },
+                  {
+                        "q": "What are the Ranson criteria for acute pancreatitis severity?",
+                        "a": "RANSON CRITERIA — predicts severity and mortality in acute pancreatitis. AT ADMISSION (GA LAW): G = Glucose >200 mg/dL (>11.1 mmol/L). A = Age >55 years. L = LDH >350 IU/L. A = AST >250 IU/L. W = WBC >16,000/mm³. AT 48 HOURS (C HOBBS): C = Calcium <8 mg/dL (<2 mmol/L). H = Haematocrit fall >10%. O = Oxygen PaO₂ <60 mmHg. B = Base deficit >4 mEq/L. B = BUN increase >5 mg/dL. S = Sequestration of fluid >6 L. SCORING: 0–2 = mild (mortality <5%). 3–4 = moderate (mortality 15–20%). 5–6 = severe (mortality 40%). ≥ 7 = critical (mortality approaching 100%). ALTERNATIVE SCORES: APACHE II (most accurate — score ≥ 8 = severe). Glasgow/Imrie score (≥ 3 = severe). CT Severity Index (Balthazar score + necrosis). Revised Atlanta Classification: Mild (no organ failure), Moderately severe (transient organ failure <48hr), Severe (persistent organ failure >48hr)."
+                  },
+                  {
+                        "q": "Describe the clinical features and management of acute cholecystitis.",
+                        "a": "Acute cholecystitis: inflammation of gallbladder, usually from gallstone impaction in cystic duct (>90% calculous). CLINICAL FEATURES: Right upper quadrant (RUQ) pain — constant, severe, lasting >6 hours (distinguishes from biliary colic which is <6 hours). Pain radiates to right shoulder/scapula (referred via phrenic nerve). Nausea, vomiting. Fever (low-grade 37.5–39°C). Murphy sign POSITIVE: two-finger palpation of RUQ during inspiration → inspiratory arrest when inflamed gallbladder descends onto fingers (sensitivity 65%, specificity 87%). INVESTIGATIONS: FBC (leukocytosis). CRP elevated. LFTs (may be normal; ALP/GGT raised if stone in CBD). Amylase (mild elevation; if very high, consider pancreatitis). USS abdomen (FIRST investigation) — gallstones, gallbladder wall thickening >3mm, pericholecystic fluid, positive sonographic Murphy sign. HIDA scan (if USS equivocal) — non-filling of gallbladder confirms cystic duct obstruction. MANAGEMENT: (1) NPO, IV fluids, IV analgesia (diclofenac 75mg IM — first-line for biliary pain; paracetamol; morphine if needed). (2) IV antibiotics — co-amoxiclav 1.2g TDS or ceftriaxone + metronidazole. (3) EARLY CHOLECYSTECTOMY (laparoscopic) — within 72 hours of onset (Tokyo guidelines). Delay increases complication rate. (4) If unfit for surgery: percutaneous cholecystostomy drainage (interventional radiology). (5) Complications: empyema (pus), perforation, gallstone ileus, Mirizzi syndrome (stone compresses CBD)."
+                  }
+            ]
+      },
+      {
+            "id": "acute-kidney-injury",
+            "name": "Acute Kidney Injury",
+            "syllabusRef": "Phase IV Medicine",
+            "section": "Nephrology",
+            "description": "Acute kidney injury (AKI) is a rapid decline in renal function over hours to days. KDIGO classification: Stage 1 — Cr rise ≥ 26.5μmol/L within 48hr or 1.5–1.9× baseline within 7 days, or UO <0.5mL/kg/hr for 6–12hr. Stage 2 — Cr 2.0–2.9× baseline, or UO <0.5mL/kg/hr for ≥ 12hr. Stage 3 — Cr ≥ 3.0× baseline or ≥ 353.6μmol/L, or UO <0.3mL/kg/hr for ≥ 24hr, or anuria ≥ 12hr, or need for RRT. Causes: PRE-RENAL (70%): hypovolaemia (haemorrhage, dehydration, burns), hypotension (sepsis, cardiogenic shock), renal artery stenosis, drugs (NSAIDs, ACEi — reduce GFR). INTRA-RENAL (intrinsic, 25%): Acute tubular necrosis (ATN — most common intrinsic cause; ischaemic or nephrotoxic — aminoglycosides, contrast, myoglobin), glomerulonephritis, acute interstitial nephritis (drug-induced — penicillins, NSAIDs, PPIs), vasculitis. POST-RENAL (obstructive, 5%): urinary tract obstruction — BPH (most common in males), renal stones, pelvic malignancy, blocked catheter. Urine indices — pre-renal vs intrinsic: FENa <1% = pre-renal (avid sodium reabsorption); FENa >2% = intrinsic (tubular damage). Urine Na <20 = pre-renal; >40 = intrinsic. Urine osmolality >500 = pre-renal (concentrated); <350 = intrinsic (dilute). Urine sediment: muddy brown granular casts = ATN; RBC casts = glomerulonephritis; WBC casts = pyelonephritis/AIN. Management: treat cause, stop nephrotoxic drugs, restore volume (IV fluids for pre-renal), relieve obstruction (catheter/nephrostomy). Dialysis indications (AEIOU): Acidosis (pH <7.1 refractory), Electrolytes (hyperkalaemia >6.5 refractory to medical management), Intoxication (lithium, salicylates, methanol, ethylene glycol), Overload (pulmonary oedema refractory to diuretics), Uraemia (encephalopathy, pericarditis, bleeding).",
+            "svgKey": "mbbs-med-aki",
+            "landmarks": [
+                  "KDIGO AKI staging: Stage 1=Cr≥1.5×; Stage 2=Cr≥2×; Stage 3=Cr≥3× or ≥353.6μmol/L or need for RRT",
+                  "Pre-renal (70%): FENa <1%, urine Na <20, urine osmolality >500 — kidneys working properly, just underperfused",
+                  "ATN (most common intrinsic AKI): muddy brown granular casts; FENa >2%, urine Na >40",
+                  "Dialysis indications AEIOU: Acidosis, Electrolytes (K+>6.5), Intoxication, Overload, Uraemia",
+                  "Stop nephrotoxic drugs: NSAIDs, ACEi/ARB, aminoglycosides, contrast — commonest reversible cause"
+            ],
+            "examQA": [
+                  {
+                        "q": "A patient with sepsis has oliguria and serum creatinine has risen from 80 to 250μmol/L over 48 hours. Classify the AKI, identify the likely cause, and outline management.",
+                        "a": "AKI CLASSIFICATION: Creatinine rise from 80 to 250 = 3.1× baseline within 48 hours → KDIGO STAGE 3 (Cr ≥ 3× baseline). LIKELY CAUSE: Pre-renal AKI progressing to ATN. Sepsis causes hypotension → renal hypoperfusion (initially pre-renal). If prolonged, ischaemic ATN develops (intrinsic). Confirm with urine indices: FENa, urine Na, osmolality, microscopy for casts. MANAGEMENT: (1) Treat the CAUSE — sepsis: IV antibiotics (as per sepsis protocol), source control. (2) FLUID RESUSCITATION — IV crystalloid (30mL/kg bolus for sepsis). Monitor CVP, urine output, fluid balance. (3) Stop NEPHROTOXIC drugs — NSAIDs, ACEi, aminoglycosides, metformin. (4) Optimise HAEMODYNAMICS — vasopressors (noradrenaline) if MAP <65mmHg despite fluids. (5) Monitor: hourly urine output (catheterise), 6-hourly U&E, daily weight, fluid balance chart. (6) Treat COMPLICATIONS: Hyperkalaemia (K+ >6.5): calcium gluconate 10mL 10% IV, insulin-dextrose (10U actrapid + 50mL 50% dextrose), salbutamol 10mg nebulised; calcium resonium for ongoing K+ reduction. Acidosis: IV sodium bicarbonate if pH <7.1. Pulmonary oedema: furosemide 250mg IV (high dose needed in AKI). (7) DIALYSIS if refractory: AEIOU criteria met. (8) Renal referral if Stage 3, no improvement in 48 hours, or unknown cause."
+                  },
+                  {
+                        "q": "Differentiate pre-renal AKI from intrinsic renal AKI using urine indices.",
+                        "a": "URINE INDICES — key diagnostic tool: PRE-RENAL AKI (kidneys structurally intact, responding appropriately to underperfusion): FENa (Fractional Excretion of Na) <1% — kidneys avidly reabsorbing sodium. Urine Na <20 mEq/L — low sodium excretion. Urine osmolality >500 mOsm/kg — concentrated urine (kidneys concentrating maximally). Urine specific gravity >1.020. BUN/Cr ratio >20:1 (disproportionate urea reabsorption). Urine sediment: bland (no casts or cells), may have hyaline casts. INTRINSIC RENAL AKI (tubular damage — ATN most common): FENa >2% — damaged tubules cannot reabsorb sodium. Urine Na >40 mEq/L — sodium wasting. Urine osmolality <350 mOsm/kg — cannot concentrate (isosthenuria ≈ plasma). BUN/Cr ratio <15:1. Urine sediment: MUDDY BROWN GRANULAR CASTS (pathognomonic of ATN). Also: epithelial cell casts. GLOMERULONEPHRITIS: RBC casts (pathognomonic), dysmorphic RBCs, proteinuria. AIN: WBC casts, eosinophiluria, sterile pyuria. CAVEAT: FENa unreliable on diuretics — use FEUrea instead (<35% = pre-renal)."
+                  },
+                  {
+                        "q": "What are the indications for emergency dialysis in AKI?",
+                        "a": "Emergency dialysis indications — mnemonic AEIOU: A = ACIDOSIS: Severe metabolic acidosis (pH <7.1) refractory to IV sodium bicarbonate. Life-threatening cardiac effects of acidosis. E = ELECTROLYTES: Refractory hyperkalaemia (K+ >6.5 mEq/L) not responding to medical management (calcium gluconate + insulin-dextrose + salbutamol + resonium). ECG changes: peaked T waves → widened QRS → sine wave → cardiac arrest. I = INTOXICATION: Dialysable toxins — lithium, salicylates (aspirin), methanol, ethylene glycol, theophylline. Dialysis removes the toxin directly. O = OVERLOAD: Fluid overload causing pulmonary oedema refractory to IV furosemide (high-dose up to 500mg). Urgent ultrafiltration needed. U = URAEMIA: Uraemic encephalopathy (confusion, seizures, coma). Uraemic pericarditis (friction rub — risk of tamponade). Uraemic bleeding (platelet dysfunction). BUN >100mg/dL or Cr >800μmol/L with symptoms. MODALITY: Acute setting — intermittent haemodialysis (IHD) if haemodynamically stable; continuous renal replacement therapy (CRRT — CVVHDF) if haemodynamically unstable (septic shock). Vascular access: temporary internal jugular or femoral vascular catheter."
+                  }
+            ]
+      },
+      {
+            "id": "chronic-kidney-disease",
+            "name": "Chronic Kidney Disease",
+            "syllabusRef": "Phase IV Medicine",
+            "section": "Nephrology",
+            "description": "CKD is defined as abnormalities of kidney structure or function present for ≥ 3 months with health implications. GFR staging: G1 ≥ 90 (normal/high, with other evidence of kidney damage); G2 60–89 (mildly decreased); G3a 45–59 (mild-moderate); G3b 30–44 (moderate-severe); G4 15–29 (severely decreased); G5 <15 (kidney failure — ESRD). Albuminuria staging: A1 <30mg/g (normal); A2 30–300mg/g (moderately increased, microalbuminuria); A3 >300mg/g (severely increased, macroalbuminuria). Causes: Diabetes mellitus (most common cause worldwide), hypertension (second), glomerulonephritis, ADPKD, obstructive uropathy. Complications: (1) Anaemia — reduced erythropoietin (EPO) production; normocytic normochromic; treat with iron supplementation + ESAs (epoetin/darbepoetin), target Hb 10–12g/dL. (2) Renal osteodystrophy/secondary hyperparathyroidism — reduced 1,25-dihydroxyvitamin D → hypocalcaemia + hyperphosphataemia → PTH rises; treat with phosphate binders (calcium carbonate with meals, sevelamer), active vitamin D (alfacalcidol/calcitriol). (3) CVD — leading cause of death in CKD; accelerated atherosclerosis. (4) Metabolic acidosis — reduced H+ excretion and HCO₃ regeneration; treat with oral sodium bicarbonate. (5) Hyperkalaemia — reduced K+ excretion; dietary restriction, resonium, avoid K+-sparing drugs. (6) Fluid overload — salt/water restriction, diuretics. Management: BP control (<130/80 if proteinuria — ACEi/ARB first-line, renoprotective), glycaemic control in DM (HbA1c <7%), SGLT2i (dapagliflozin — reduces CKD progression), statin, lifestyle. Renal replacement therapy (RRT) when GFR <10–15 or symptomatic: Haemodialysis (HD — 3×/week for 4 hours), Peritoneal dialysis (PD — continuous ambulatory or automated), Renal transplant (best long-term survival — living donor preferred).",
+            "svgKey": "mbbs-med-ckd",
+            "landmarks": [
+                  "CKD GFR staging: G1≥90, G2=60–89, G3a=45–59, G3b=30–44, G4=15–29, G5=<15 (ESRD)",
+                  "DM is #1 cause of CKD worldwide; anaemia (EPO↓) and secondary hyperparathyroidism are key complications",
+                  "ACEi/ARB first-line for CKD with proteinuria (renoprotective); target BP <130/80",
+                  "Renal anaemia: normocytic normochromic, low EPO; treat with IV iron + ESA (target Hb 10–12)",
+                  "RRT options: Haemodialysis (3×/week), Peritoneal dialysis (CAPD/APD), Transplant (best survival)"
+            ],
+            "examQA": [
+                  {
+                        "q": "A 60-year-old diabetic has eGFR 25 mL/min/1.73m², Hb 8.5g/dL, Ca 7.8mg/dL, PO₄ 6.5mg/dL, PTH elevated. Classify the CKD and manage the complications.",
+                        "a": "CKD CLASSIFICATION: eGFR 25 = Stage G4 (severely decreased, 15–29). With diabetes as cause. COMPLICATIONS AND MANAGEMENT: (1) ANAEMIA (Hb 8.5): Renal anaemia — reduced EPO production. Check iron studies first: if ferritin <100 or TSAT <20%, give IV iron (ferric carboxymaltose). Start ESA (erythropoiesis-stimulating agent) — darbepoetin SC every 2 weeks. Target Hb 10–12g/dL (not higher — increased CVD risk). (2) SECONDARY HYPERPARATHYROIDISM (low Ca, high PO₄, high PTH): Pathophysiology: Reduced 1α-hydroxylase → low 1,25-(OH)₂D₃ → reduced Ca absorption → hypocalcaemia + reduced PO₄ excretion → hyperphosphataemia → PTH rises (secondary hyperparathyroidism) → renal osteodystrophy. Treatment: Phosphate binders with meals (calcium carbonate if Ca low; sevelamer/lanthanum if Ca normal/high). Active vitamin D (alfacalcidol 0.25–1mcg daily). Dietary phosphate restriction (<800mg/day). Cinacalcet (calcimimetic) if PTH remains high despite above. (3) GENERAL CKD G4 MANAGEMENT: BP target <130/80 — ACEi/ARB (monitor K+ and Cr). Glycaemic control (HbA1c <7%). SGLT2i (dapagliflozin — slows CKD progression). Statin (CVD prevention). Sodium bicarbonate if metabolic acidosis. Dietary K+ restriction. Plan for RRT — referral for vascular access (AV fistula creation) or PD catheter. Transplant workup if suitable."
+                  },
+                  {
+                        "q": "Compare haemodialysis, peritoneal dialysis, and renal transplantation.",
+                        "a": "HAEMODIALYSIS (HD): Blood pumped through semi-permeable membrane (dialyser) against dialysate. Access: AV fistula (best — mature in 6-8 weeks), AV graft, or central venous catheter (temporary). Frequency: 3×/week, 4 hours each. Advantages: efficient solute clearance, supervised (in-centre). Disadvantages: vascular access complications (stenosis, infection, steal syndrome), haemodynamic instability, dietary/fluid restrictions, 3×/week hospital visits. PERITONEAL DIALYSIS (PD): Peritoneal membrane as natural dialyser. CAPD: 4 exchanges daily (manual, 2L each). APD: automated overnight exchanges (cycler). Access: Tenckhoff catheter. Advantages: home-based, continuous (better haemodynamic stability), preserves residual renal function longer, more independence. Disadvantages: peritonitis (main complication — S. epidermidis most common), inadequate clearance in large patients, protein loss, encapsulating peritoneal sclerosis. RENAL TRANSPLANT: BEST long-term outcome. Living donor > deceased donor (better graft survival). 5-year graft survival: ~95% living, ~85% deceased. Requires lifelong immunosuppression: induction (basiliximab) + maintenance (tacrolimus + mycophenolate + prednisolone). Complications: rejection (hyperacute/acute/chronic), infection (CMV, BK virus), malignancy (skin cancer, PTLD), cardiovascular disease. Contraindications: active malignancy, active infection, severe CVD, non-compliance."
+                  },
+                  {
+                        "q": "What are the causes of anaemia in CKD and how is it managed?",
+                        "a": "CAUSES OF ANAEMIA IN CKD: (1) Reduced erythropoietin (EPO) production — PRIMARY cause. Damaged kidney → reduced EPO from peritubular fibroblasts. (2) Iron deficiency — reduced absorption, chronic blood loss (GI, dialysis circuit), frequent phlebotomy. Functional iron deficiency: adequate stores but impaired mobilisation (hepcidin elevated in CKD/inflammation). (3) Folate/B12 loss — dialysis. (4) Shortened RBC lifespan — uraemic toxins. (5) Chronic inflammation — hepcidin-mediated iron sequestration. (6) Bone marrow suppression — uraemic toxins, aluminium (historical), hyperparathyroidism (PTH suppresses erythropoiesis). INVESTIGATION: FBC (normocytic normochromic anaemia). Iron studies: ferritin, TSAT (transferrin saturation). Reticulocyte count. B12, folate. CRP (inflammation). MANAGEMENT: (1) IRON SUPPLEMENTATION — FIRST step: Target ferritin >200μg/L and TSAT >20%. IV iron (ferric carboxymaltose, iron sucrose) preferred in CKD — better absorption than oral. (2) ESA (Erythropoiesis-Stimulating Agent): Start when Hb <10g/dL after iron replete. Epoetin alfa/beta SC or IV; Darbepoetin SC (longer-acting). Target Hb 10–12g/dL (NOT >13 — increased thrombosis, stroke, CVD risk — CHOIR/CREATE trials). (3) Correct other deficiencies (B12, folate). (4) ESA resistance: consider iron deficiency, infection, hyperparathyroidism, aluminium toxicity, malignancy, anti-EPO antibodies (pure red cell aplasia — rare)."
+                  }
+            ]
+      },
+      {
+            "id": "diabetes-mellitus",
+            "name": "Diabetes Mellitus",
+            "syllabusRef": "Phase IV Medicine",
+            "section": "Endocrinology",
+            "description": "Diabetes mellitus (DM) is a group of metabolic disorders characterised by chronic hyperglycaemia resulting from defects in insulin secretion, insulin action, or both. Type 1 (5–10%): autoimmune destruction of pancreatic beta cells → absolute insulin deficiency; onset usually <30 years; lean; ketosis-prone. Type 2 (90–95%): insulin resistance + relative insulin deficiency; onset usually >40 years (but increasing in youth); associated with obesity, metabolic syndrome; strong family history. Diagnostic criteria (ADA/WHO): Fasting plasma glucose ≥ 126 mg/dL (7.0 mmol/L); 2-hour OGTT glucose ≥ 200 mg/dL (11.1 mmol/L); HbA1c ≥ 6.5% (48 mmol/mol); Random plasma glucose ≥ 200 mg/dL with symptoms (polyuria, polydipsia, weight loss). Pre-diabetes: IFG (100–125 mg/dL fasting), IGT (140–199 mg/dL 2hr OGTT), HbA1c 5.7–6.4%. HbA1c target: <7% (53 mmol/mol) for most adults; <6.5% if safe (young, no CVD); <8% if elderly/frail. Management Type 2: Lifestyle + Metformin (first-line — reduces hepatic glucose output, improves insulin sensitivity; CI: eGFR <30, lactic acidosis risk) → add SGLT2i or GLP-1RA (if CVD or CKD — cardiorenal benefit) → add sulfonylurea (gliclazide — stimulates insulin secretion, hypoglycaemia risk) or DPP-4i → insulin if uncontrolled. Insulin regimens: Basal only (glargine/detemir OD); Basal-bolus (glargine + rapid-acting insulin with meals — most physiological); Premixed (biphasic isophane 30/70 BD). Acute complications: DKA (Type 1 — high glucose, metabolic acidosis pH <7.3, ketonaemia >3mmol/L, ketonuria ++; treat with IV fluids + IV insulin infusion 0.1U/kg/hr + K+ replacement); HHS (Type 2 — glucose usually >30mmol/L, serum osmolality >320, no significant ketosis; gradual fluid replacement, low-dose insulin). Chronic complications: Microvascular — retinopathy (non-proliferative → proliferative → maculopathy; annual screening), nephropathy (microalbuminuria → macroproteinuria → ESRD; ACEi), neuropathy (peripheral sensorimotor — glove-and-stocking; autonomic — gastroparesis, erectile dysfunction). Macrovascular — IHD, stroke, peripheral vascular disease. Diabetic foot: neuropathy + PVD + infection → ulcers → gangrene → amputation; annual foot screening.",
+            "svgKey": "mbbs-med-diabetes",
+            "landmarks": [
+                  "DM diagnosis: FPG≥126, OGTT≥200, HbA1c≥6.5%, Random≥200+symptoms — any ONE is diagnostic",
+                  "HbA1c target <7% for most; reflects average glucose over 2–3 months (RBC lifespan)",
+                  "Metformin is first-line for T2DM; SGLT2i/GLP-1RA added early if CVD/CKD (cardiorenal benefit)",
+                  "DKA: pH<7.3, ketones>3mmol/L, glucose high — treat IV fluids + insulin 0.1U/kg/hr + K+ replacement",
+                  "Microvascular complications: retinopathy (annual screening), nephropathy (ACEi), neuropathy (foot care)"
+            ],
+            "examQA": [
+                  {
+                        "q": "A 22-year-old presents with polyuria, polydipsia, weight loss, and blood glucose of 25mmol/L. ABG shows pH 7.15, HCO₃ 10, ketones 5.5mmol/L. What is the diagnosis and management?",
+                        "a": "Diagnosis: DIABETIC KETOACIDOSIS (DKA) — most likely new-onset Type 1 diabetes. Diagnostic criteria met: Blood glucose >11mmol/L (25mmol/L ✔), pH <7.3 (7.15 ✔), Bicarbonate <15mmol/L (10 ✔), Ketonaemia >3mmol/L (5.5 ✔). MANAGEMENT (DKA Protocol): (1) IV FLUIDS (most important initial step): 0.9% NaCl — 1L in first hour, then 1L over 2 hours × 2, then 1L over 4 hours × 2. Switch to 10% dextrose when glucose <14mmol/L (to allow continued insulin without hypoglycaemia). (2) IV INSULIN: Fixed-rate insulin infusion (FRII) — 0.1 units/kg/hour (e.g., 50U Actrapid in 50mL NaCl at rate=weight×0.1). Target: glucose fall 3mmol/L/hour, ketones fall 0.5mmol/L/hour, bicarbonate rise 3mmol/L/hour. (3) POTASSIUM: K+ falls rapidly with insulin therapy. Add 40mmol KCl/L to each bag of fluid if K+ 3.5–5.5. If K+ <3.5: replace BEFORE starting insulin. If K+ >5.5: withhold K+, recheck in 1 hour. (4) Monitor: hourly glucose, 2-hourly K+/VBG, ketones, fluid balance, GCS. (5) Identify PRECIPITANT: infection (most common), missed insulin, new diagnosis, MI, surgery. (6) Switch to SC insulin when: eating and drinking, pH >7.3, ketones <0.6, HCO₃ >15. Give SC insulin 30 minutes before stopping IV. (7) Complications of treatment: hypoglycaemia, hypokalaemia, cerebral oedema (especially in children — too-rapid fluid/glucose correction)."
+                  },
+                  {
+                        "q": "Compare DKA and HHS.",
+                        "a": "DKA (Diabetic Ketoacidosis): TYPE: Usually Type 1 (can occur in T2). PATHOPHYSIOLOGY: Absolute insulin deficiency → unopposed glucagon → lipolysis → free fatty acids → ketogenesis (liver) → ketonaemia/ketonuria → metabolic acidosis. ONSET: Rapid (hours to 1–2 days). GLUCOSE: Usually 14–30mmol/L. pH: <7.3 (acidosis). KETONES: Elevated >3mmol/L (ketonaemia). OSMOLALITY: Variable (usually <320). FLUID DEFICIT: ~5–8L. MORTALITY: 1–5%. TREATMENT: Aggressive IV fluids + IV insulin infusion 0.1U/kg/hr + K+ replacement. HHS (Hyperosmolar Hyperglycaemic State): TYPE: Type 2. PATHOPHYSIOLOGY: Enough insulin to prevent ketogenesis but not enough for glucose control → severe hyperglycaemia → osmotic diuresis → severe dehydration → hyperosmolality. ONSET: Insidious (days to weeks). GLUCOSE: Very high, usually >30mmol/L (often >50). pH: >7.3 (no significant acidosis). KETONES: Absent or mild (<3). OSMOLALITY: >320 mOsm/kg (calculated: 2[Na]+glucose+urea). FLUID DEFICIT: ~10–15L (severe). MORTALITY: 10–20% (higher than DKA — older, comorbid patients). TREATMENT: Very cautious fluid replacement (0.9% NaCl, slower rate than DKA; aim osmolality drop <3–8 mOsm/kg/hr). LOW-DOSE insulin (0.05U/kg/hr) — avoid rapid glucose drop (cerebral oedema risk). VTE prophylaxis (high risk)."
+                  },
+                  {
+                        "q": "Outline the stepwise management of Type 2 diabetes.",
+                        "a": "STEPWISE MANAGEMENT (ADA/NICE): STEP 1 — LIFESTYLE + METFORMIN: Diet (Mediterranean/DASH), exercise (150 min/week), weight loss (5–10% body weight). Metformin 500mg OD → titrate to 1g BD over 4–8 weeks. Mechanism: reduces hepatic glucose output, improves insulin sensitivity. Side effects: GI (nausea, diarrhoea — reduce with MR formulation), lactic acidosis (rare — CI if eGFR <30). HbA1c target <7% (individualise). STEP 2 — ADD SECOND AGENT (if HbA1c >7% after 3–6 months): If CVD/CKD/HF: add SGLT2i (dapagliflozin, empagliflozin — cardiorenal benefit, weight loss, UTI risk) or GLP-1RA (liraglutide, semaglutide — weight loss, CV benefit, injectable/oral). If no CVD: add Sulfonylurea (gliclazide — cheap, effective; risk: hypoglycaemia, weight gain) or DPP-4i (sitagliptin — weight neutral, well tolerated). STEP 3 — TRIPLE THERAPY: Metformin + 2 other agents. Or Metformin + insulin. STEP 4 — INSULIN: Usually basal insulin (glargine/detemir) at bedtime, starting dose 10 units or 0.1–0.2U/kg. Titrate by 2 units every 3 days to fasting glucose target. If still uncontrolled: basal-bolus (add rapid-acting with meals). MONITORING: HbA1c every 3–6 months. Annual review: eyes (retinal screening), feet, kidneys (eGFR + uACR), lipids, BP."
+                  }
+            ]
+      },
+      {
+            "id": "thyroid-disorders",
+            "name": "Thyroid Disorders",
+            "syllabusRef": "Phase IV Medicine",
+            "section": "Endocrinology",
+            "description": "Thyroid disorders are among the most common endocrine conditions. Hypothyroidism: reduced thyroid hormone production. Causes: Hashimoto thyroiditis (autoimmune, most common in iodine-sufficient areas; anti-TPO antibodies), iodine deficiency (most common worldwide), post-thyroidectomy, post-radioactive iodine, drugs (amiodarone, lithium). Features: fatigue, weight gain, cold intolerance, constipation, dry skin, bradycardia, menorrhagia, myxoedema (non-pitting oedema), delayed relaxation of reflexes, depression, carpal tunnel syndrome. TFTs: TSH HIGH, T4 LOW (primary); TSH low/normal, T4 low (secondary/central). Treatment: levothyroxine (T4) — start 25–50mcg daily (lower in elderly/IHD), titrate by 25mcg every 4–6 weeks; target TSH normalisation (0.5–4.5 mU/L). Myxoedema coma: severe hypothyroidism emergency — hypothermia, bradycardia, hypotension, altered consciousness; treat with IV T3/T4, IV hydrocortisone, supportive care. Hyperthyroidism: excess thyroid hormone. Causes: Graves disease (most common — autoimmune, TSH receptor stimulating antibodies/TRAb), toxic multinodular goitre, toxic adenoma, subacute thyroiditis (de Quervain), amiodarone. Graves features: diffuse goitre with bruit, exophthalmos/orbitopathy (proptosis, lid retraction, periorbital oedema — unique to Graves), pretibial myxoedema, thyroid acropachy. Features of thyrotoxicosis: weight loss despite increased appetite, heat intolerance, palpitations/AF, tremor, anxiety, diarrhoea, oligomenorrhoea, lid lag. TFTs: TSH LOW, T4/T3 HIGH. Treatment: Anti-thyroid drugs (carbimazole first-line — block thyroid peroxidase; start 20–40mg daily then titrate; side effect: agranulocytosis — warn about sore throat/fever; propylthiouracil if first trimester pregnancy); Beta-blocker (propranolol 40mg TDS for symptom control); Radioactive iodine (¹³¹I — definitive treatment, often leads to hypothyroidism); Thyroidectomy (if large goitre, compression, patient preference). Thyroid storm: life-threatening thyrotoxicosis — high-dose propylthiouracil + IV hydrocortisone + propranolol + Lugol iodine (1 hour after PTU) + cooling + ICU.",
+            "svgKey": "mbbs-med-thyroid",
+            "landmarks": [
+                  "Hypothyroid TFTs: TSH↑, T4↓; Hyperthyroid: TSH↓, T4/T3↑ — TSH is best screening test",
+                  "Graves: TRAb+, exophthalmos, diffuse goitre with bruit, pretibial myxoedema — unique features",
+                  "Carbimazole first-line anti-thyroid drug; WARN: agranulocytosis (urgent FBC if sore throat/fever)",
+                  "Levothyroxine for hypothyroidism: start 25–50mcg, titrate by 25mcg q4–6wks; target TSH 0.5–4.5",
+                  "Thyroid storm: IV PTU + hydrocortisone + propranolol + Lugol iodine (after PTU) + cooling + ICU"
+            ],
+            "examQA": [
+                  {
+                        "q": "A 35-year-old female presents with weight loss, tremor, palpitations, and bilateral proptosis. TFTs show TSH <0.01, free T4 35. What is the diagnosis and management?",
+                        "a": "Diagnosis: GRAVES DISEASE (hyperthyroidism with exophthalmos/proptosis is pathognomonic of Graves). TFTs confirm thyrotoxicosis: TSH suppressed (<0.01), T4 elevated (35). INVESTIGATIONS: (1) TRAb (TSH receptor antibodies) — positive in >95% of Graves (confirms diagnosis). (2) Anti-TPO antibodies (may be positive). (3) FBC (baseline before carbimazole). (4) LFTs. (5) Thyroid ultrasound (diffuse enlargement, increased vascularity). (6) Radioiodine uptake scan if diagnosis uncertain — diffuse increased uptake in Graves (vs patchy in multinodular goitre). MANAGEMENT: (1) SYMPTOM CONTROL: Propranolol 40mg TDS (or atenolol 50mg) — controls palpitations, tremor, anxiety immediately while anti-thyroid drugs take effect. (2) ANTI-THYROID DRUG: Carbimazole 20–40mg daily — titration regimen (reduce dose as T4 normalises) or block-and-replace (high-dose carbimazole + levothyroxine). Duration: 12–18 months. WARN patient: agranulocytosis (0.1–0.5%) — if sore throat/fever, STOP drug immediately, urgent FBC. (3) DEFINITIVE TREATMENT (if relapse or intolerance): Radioactive iodine (¹³¹I) — single dose, effective in 6–12 weeks; contraindicated in pregnancy, active Graves eye disease. OR Thyroidectomy — if large goitre, compressive symptoms. (4) OPHTHALMOPATHY: Smoking cessation (worsens eye disease), artificial tears, selenium supplements, high-dose steroids/orbital radiotherapy if severe, surgical decompression if sight-threatening."
+                  },
+                  {
+                        "q": "What is thyroid storm and how is it managed?",
+                        "a": "THYROID STORM (thyrotoxic crisis): Life-threatening emergency of severe uncontrolled thyrotoxicosis. MORTALITY: 10–30% even with treatment. PRECIPITANTS: Infection (most common), surgery (especially thyroid), DKA, trauma, iodinated contrast, withdrawal of anti-thyroid drugs. DIAGNOSIS (Burch-Wartofsky Score >45): Thermoregulatory: high fever >40°C. Cardiovascular: tachycardia >140bpm, AF, heart failure. CNS: agitation, delirium, seizures, coma. GI: nausea, vomiting, diarrhoea, jaundice (ominous). MANAGEMENT (multi-drug approach — ORDER matters): (1) PROPYLTHIOURACIL (PTU) 200mg PO/NG q4hr (preferred over carbimazole — also blocks T4→T3 conversion). (2) IODINE (Lugol solution or potassium iodide) — given ≥ 1 HOUR after PTU (otherwise iodine would fuel more hormone synthesis). Blocks thyroid hormone release (Wolff-Chaikoff effect). (3) IV HYDROCORTISONE 200mg then 100mg q8hr — prevents adrenal crisis (thyroid hormones increase cortisol metabolism), blocks T4→T3 conversion. (4) PROPRANOLOL 60–80mg PO q4hr or IV 1mg slowly — controls tachycardia, blocks peripheral T4→T3 conversion. (5) Active COOLING — paracetamol (NOT aspirin — displaces T4 from TBG), cooling blankets. (6) SUPPORTIVE: ICU admission, IV fluids (high metabolic demand), treat precipitant (antibiotics if infection). (7) Consider plasmapheresis or cholestyramine in refractory cases."
+                  },
+                  {
+                        "q": "Compare hypothyroidism and hyperthyroidism.",
+                        "a": "HYPOTHYROIDISM: TFTs: TSH↑, T4↓ (primary); TSH low, T4↓ (secondary). CAUSES: Hashimoto (anti-TPO+, most common in iodine-sufficient), iodine deficiency (most common worldwide), post-surgery/RAI, drugs (amiodarone, lithium). FEATURES: Weight GAIN, cold intolerance, bradycardia, constipation, fatigue, dry skin, myxoedema, menorrhagia, delayed reflexes, depression, hyponatraemia. TREATMENT: Levothyroxine (T4) replacement lifelong. HYPERTHYROIDISM: TFTs: TSH↓, T4/T3↑. CAUSES: Graves disease (TRAb+, most common), toxic multinodular goitre, toxic adenoma, thyroiditis, amiodarone. FEATURES: Weight LOSS, heat intolerance, tachycardia/AF, diarrhoea, tremor, anxiety, lid lag, oligomenorrhoea, hypercalcaemia. Graves-specific: exophthalmos, pretibial myxoedema, thyroid acropachy. TREATMENT: Anti-thyroid drugs (carbimazole/PTU), beta-blocker, radioactive iodine, thyroidectomy. KEY CONTRASTS: Hypothyroid = everything SLOW (metabolism down); Hyperthyroid = everything FAST (metabolism up). Both can cause goitre. Both can be caused by amiodarone (type 1 = iodine excess; type 2 = destructive thyroiditis). Subclinical: abnormal TSH but normal T4 — may or may not need treatment."
+                  }
+            ]
+      },
+      {
+            "id": "stroke",
+            "name": "Stroke",
+            "syllabusRef": "Phase IV Medicine",
+            "section": "Neurology",
+            "description": "Stroke is a clinical syndrome of rapid-onset focal (or global) neurological deficit lasting >24 hours (or leading to death) due to vascular cause. TIA: symptoms resolve within 24 hours (most within 1 hour). Ischaemic stroke (85%): thrombotic or embolic occlusion of cerebral artery. Haemorrhagic stroke (15%): intracerebral haemorrhage (10%) or subarachnoid haemorrhage (5%). Ischaemic stroke — causes: large vessel atherosclerosis (ICA, MCA), cardioembolism (AF — most common embolic source, valvular disease, mural thrombus), small vessel disease (lacunar infarcts — lipohyalinosis). Clinical features by territory: MCA (most common) — contralateral hemiplegia (face and arm > leg), hemisensory loss, homonymous hemianopia, aphasia (dominant hemisphere), neglect (non-dominant). ACA — contralateral leg weakness > arm. PCA — homonymous hemianopia, visual agnosia. Posterior circulation — vertigo, diplopia, dysphagia, ataxia, crossed signs. NIHSS (National Institutes of Health Stroke Scale): 0–42 score assessing consciousness, gaze, visual fields, facial palsy, motor, ataxia, sensory, language, dysarthria, neglect. CT head: FIRST investigation — to exclude haemorrhage. Ischaemic stroke: CT may be NORMAL in first 6–12 hours (hyperdense MCA sign may be early); later shows hypodense area. Haemorrhagic: immediate hyperdense (white) lesion. Thrombolysis: IV alteplase (tPA) within 4.5 hours of symptom onset for ischaemic stroke (after CT excludes haemorrhage). Contraindications: active bleeding, recent surgery, BP >185/110 uncontrolled, INR >1.7, platelets <100,000. Thrombectomy: mechanical clot retrieval for large vessel occlusion within 6–24 hours (selected patients with salvageable tissue on perfusion imaging). Secondary prevention: antiplatelet (aspirin 300mg for 2 weeks then clopidogrel 75mg lifelong), statin (atorvastatin 80mg), BP control (<130/80), anticoagulation for AF (DOAC), lifestyle modification, carotid endarterectomy if ipsilateral ICA stenosis 70–99%.",
+            "svgKey": "mbbs-med-stroke",
+            "threejs3dFn": "createNerveImpulse",
+            "landmarks": [
+                  "CT head FIRST: exclude haemorrhage before thrombolysis; ischaemic=hypodense; haemorrhagic=hyperdense",
+                  "IV alteplase (tPA) within 4.5 hours of ischaemic stroke onset; thrombectomy up to 24hrs for LVO",
+                  "MCA stroke (most common): contralateral face+arm weakness > leg, aphasia (dominant), neglect (non-dominant)",
+                  "Secondary prevention: Aspirin 2wks then Clopidogrel 75mg + Statin 80mg + BP control + anticoagulate if AF",
+                  "NIHSS score 0–42: guides severity and thrombolysis eligibility; score >4 generally benefits from tPA"
+            ],
+            "examQA": [
+                  {
+                        "q": "A 70-year-old with AF presents with sudden onset right-sided weakness and expressive aphasia 2 hours ago. CT head is normal. What is the diagnosis and immediate management?",
+                        "a": "Diagnosis: ACUTE ISCHAEMIC STROKE — left MCA territory (right-sided weakness + expressive aphasia = Broca area, dominant hemisphere). Source likely cardioembolic (AF). CT normal at 2 hours is expected (ischaemic changes take 6–12 hours to appear; CT done to EXCLUDE haemorrhage). IMMEDIATE MANAGEMENT: (1) IV THROMBOLYSIS — alteplase (tPA) 0.9mg/kg (max 90mg): 10% as bolus over 1 minute, remaining 90% infused over 60 minutes. WITHIN the 4.5-hour window (2 hours — eligible). Check contraindications first: active bleeding, recent surgery <14 days, BP >185/110 (treat first), platelets <100k, INR >1.7, glucose <2.7 or >22.2mmol/L. (2) BP management: permissive hypertension (do NOT lower BP unless >185/110 pre-tPA or >180/105 post-tPA). Labetalol IV if needed. (3) Admit to acute stroke unit (evidence: stroke unit care reduces mortality by 20%). (4) NBM initially — swallowing assessment (SALT review within 4 hours) before oral intake. (5) Monitoring: neurological observations every 15 minutes for 2 hours post-tPA, then hourly. Repeat CT at 24 hours (or sooner if deterioration). (6) Secondary prevention (after 24 hours): Anticoagulation for AF — start DOAC at 2–14 days post-stroke (timing depends on infarct size; delay if large infarct — haemorrhagic transformation risk). Statin (atorvastatin 80mg). BP control long-term."
+                  },
+                  {
+                        "q": "How do you differentiate ischaemic from haemorrhagic stroke clinically and radiologically?",
+                        "a": "CLINICAL differentiation (unreliable — CT is essential): ISCHAEMIC (85%): May have preceding TIAs. Onset during sleep or rest. Focal neurological deficit corresponding to vascular territory. AF or carotid bruit may be present. HAEMORRHAGIC (15%): More likely to have severe headache at onset. More likely during exertion. Rapid deterioration, vomiting, reduced consciousness (raised ICP). Meningism if SAH. More likely if on anticoagulants. BUT: Cannot reliably distinguish clinically — MUST do CT. RADIOLOGICAL (CT HEAD — gold standard first investigation): ISCHAEMIC STROKE on CT: First 6–12 hours: CT may be NORMAL (tPA can still be given). Early signs: hyperdense MCA sign (clot in artery), loss of grey-white differentiation, sulcal effacement. After 12–24 hours: HYPODENSE (dark) area in vascular territory. MRI DWI (diffusion-weighted imaging): shows ischaemia within MINUTES (bright on DWI) — most sensitive early investigation. HAEMORRHAGIC STROKE on CT: IMMEDIATELY HYPERDENSE (bright white) — fresh blood is dense. Intracerebral: focal hyperdense lesion ± surrounding oedema. SAH: blood in subarachnoid space (star-shaped hyperdensity in basal cisterns). SIGNIFICANCE: CT excludes haemorrhage — if normal/ischaemic, tPA can be given within 4.5 hours. If haemorrhagic: NO thrombolysis, neurosurgical referral, reverse anticoagulation."
+                  },
+                  {
+                        "q": "What is the secondary prevention of stroke?",
+                        "a": "SECONDARY PREVENTION of ischaemic stroke (reduces recurrence by 80%): (1) ANTIPLATELET THERAPY: Aspirin 300mg daily for 2 weeks, then Clopidogrel 75mg daily LIFELONG (NICE). Alternative: aspirin + dipyridamole if clopidogrel intolerant. NOT aspirin + clopidogrel long-term (increased bleeding without benefit — MATCH trial). If AF: anticoagulation INSTEAD of antiplatelet — DOAC (apixaban 5mg BD, rivaroxaban 20mg OD) or warfarin (INR 2.0–3.0). (2) STATIN: Atorvastatin 80mg lifelong (regardless of baseline cholesterol — targets LDL <1.8mmol/L). (3) BLOOD PRESSURE control: Target <130/80. ACEi + thiazide (perindopril + indapamide — PROGRESS trial). Start 2 weeks post-stroke (not acutely). (4) CAROTID ENDARTERECTOMY: If ipsilateral ICA stenosis 70–99% (symptomatic — within 2 weeks of event). (5) LIFESTYLE: Smoking cessation, exercise, healthy diet, weight loss, limit alcohol. (6) GLYCAEMIC CONTROL: HbA1c <7% if diabetic. (7) CARDIAC ASSESSMENT: ECG (72hr Holter if paroxysmal AF suspected), echocardiography (intracardiac thrombus, PFO). PFO closure if <60 years with cryptogenic stroke. (8) DRIVING: DVLA notification; cannot drive for 1 month (car), 1 year (HGV). (9) REHABILITATION: MDT — physiotherapy, occupational therapy, SALT, psychology."
+                  }
+            ]
+      },
+      {
+            "id": "meningitis-encephalitis",
+            "name": "Meningitis and Encephalitis",
+            "syllabusRef": "Phase IV Medicine",
+            "section": "Neurology",
+            "description": "Meningitis: inflammation of the meninges (pia and arachnoid). Bacterial meningitis is a medical emergency — mortality 10–30% even with treatment. Causes by age: Neonates — Group B Streptococcus, E. coli, Listeria. Children 3 months–6 years — N. meningitidis (meningococcus), S. pneumoniae (pneumococcus), H. influenzae type b. Adults — S. pneumoniae (most common in adults), N. meningitidis. Elderly/immunocompromised — S. pneumoniae, Listeria monocytogenes, Gram-negatives. Clinical features: headache, fever, neck stiffness (meningism triad). Photophobia, altered consciousness, seizures. Kernig sign: pain/resistance on extending knee with hip flexed 90°. Brudzinski sign: neck flexion causes involuntary hip/knee flexion. Non-blanching petechial rash: meningococcal disease (septicaemia + meningitis). CSF findings: Bacterial — turbid/cloudy, WBC raised (neutrophils >1000), protein HIGH (>1g/L), glucose LOW (<⅓ of blood glucose or <2.2mmol/L), Gram stain/culture positive. Viral — clear, WBC raised (lymphocytes <1000), protein mildly raised, glucose NORMAL, culture negative. TB — clear/opalescent, WBC raised (lymphocytes 100–500), protein very HIGH (1–5g/L), glucose very LOW (<⅓ blood), ZN stain/culture (weeks), cobweb clot on standing. Empirical treatment: IMMEDIATE (do not wait for LP results if clinical suspicion): IV Ceftriaxone 2g BD (covers pneumococcus + meningococcus). Add IV Amoxicillin 2g 4-hourly if Listeria risk (age >50, immunocompromised, pregnancy). Add IV Dexamethasone 0.15mg/kg QDS (start before or with first dose of antibiotic — reduces mortality and neurological sequelae in pneumococcal meningitis; continue 4 days). Viral meningitis: supportive (self-limiting). HSV encephalitis: IV Aciclovir 10mg/kg TDS for 14–21 days (start empirically if encephalitis suspected — altered consciousness, seizures, temporal lobe signs). Encephalitis: inflammation of brain parenchyma. Most common cause: HSV-1 (herpes simplex). Features: fever, headache, altered behaviour/personality, seizures (especially temporal lobe), focal neurological signs. MRI: temporal lobe signal changes. EEG: periodic lateralised epileptiform discharges. LP: lymphocytic pleocytosis, HSV PCR positive.",
+            "svgKey": "mbbs-med-meningitis",
+            "threejs3dFn": "createNerveImpulse",
+            "landmarks": [
+                  "Bacterial meningitis CSF: turbid, neutrophils >1000, protein HIGH, glucose LOW (<⅓ blood), culture+",
+                  "Empirical treatment: IV Ceftriaxone 2g BD + IV Dexamethasone 0.15mg/kg QDS (before/with first Abx dose)",
+                  "Kernig sign: pain on knee extension with hip flexed; Brudzinski: neck flexion causes hip flexion",
+                  "HSV encephalitis: temporal lobe predilection; IV Aciclovir 10mg/kg TDS for 14–21 days — start empirically",
+                  "TB meningitis CSF: lymphocytes, very high protein, very low glucose, cobweb clot; treat 12 months"
+            ],
+            "examQA": [
+                  {
+                        "q": "A 20-year-old presents with sudden severe headache, fever 39.5°C, neck stiffness, photophobia, and a non-blanching petechial rash. What is the diagnosis and immediate management?",
+                        "a": "Diagnosis: MENINGOCOCCAL MENINGITIS with meningococcal septicaemia (N. meningitidis). The non-blanching petechial/purpuric rash is PATHOGNOMONIC of meningococcal disease. IMMEDIATE MANAGEMENT (time-critical — every minute counts): (1) If in community (GP/pre-hospital): IM Benzylpenicillin immediately (1.2g adult) — do NOT wait for hospital. (2) In hospital — DO NOT DELAY antibiotics for LP: IV Ceftriaxone 2g stat (covers N. meningitidis and S. pneumoniae). (3) IV Dexamethasone 0.15mg/kg (10mg in adults) QDS — give just BEFORE or WITH first antibiotic dose. Continue for 4 days. Reduces mortality in pneumococcal meningitis; may benefit meningococcal. (4) Blood cultures BEFORE antibiotics (if does not delay treatment). (5) Lumbar puncture — ONLY if no contraindications (raised ICP signs: papilloedema, focal neurology, GCS<12, seizures, coagulopathy — do CT first). LP: expect turbid CSF, high neutrophils, high protein, low glucose, Gram-negative diplococci. (6) Resuscitation if septic shock: IV fluids (bolus 20mL/kg), vasopressors if needed, ICU referral. (7) CONTACT TRACING: Household contacts — ciprofloxacin 500mg single dose (or rifampicin 600mg BD × 2 days) prophylaxis. Notify public health."
+                  },
+                  {
+                        "q": "Compare the CSF findings in bacterial, viral, and TB meningitis.",
+                        "a": "CSF FINDINGS comparison: BACTERIAL MENINGITIS: Appearance: TURBID/cloudy (pus). WBC: Very high (100–10,000/μL) — predominantly NEUTROPHILS (≥ 80%). Protein: HIGH (>1.0 g/L, often >2.0). Glucose: LOW (<⅓ of blood glucose, often <2.2 mmol/L). Gram stain: Positive in 60–90% (diplococci, rods). Culture: Positive (gold standard). VIRAL MENINGITIS: Appearance: CLEAR. WBC: Mildly raised (10–1000/μL) — predominantly LYMPHOCYTES. Protein: Mildly elevated (0.5–1.0 g/L). Glucose: NORMAL (≥ ⅔ of blood glucose). Gram stain: Negative. PCR: May detect specific virus (enterovirus, HSV). TB MENINGITIS: Appearance: CLEAR or slightly opalescent. WBC: Moderately raised (50–500/μL) — predominantly LYMPHOCYTES. Protein: VERY HIGH (1–5 g/L). Glucose: VERY LOW (<⅓ blood, often <1.5 mmol/L). ZN stain: Low sensitivity (<20%). Culture: Löwenstein-Jensen (2–8 weeks). Special: COBWEB CLOT on standing (fibrin web). GeneXpert on CSF. Treatment: 2HRZE/10HR (12 months total) + dexamethasone. FUNGAL (Cryptococcal — HIV patients): India ink positive, cryptococcal antigen positive, high opening pressure."
+                  },
+                  {
+                        "q": "How do you differentiate meningitis from encephalitis?",
+                        "a": "MENINGITIS: Inflammation of MENINGES (pia and arachnoid mater). FEATURES: Meningism triad — headache, fever, neck stiffness. Photophobia. Kernig/Brudzinski signs positive. CONSCIOUSNESS usually preserved initially (may deteriorate). No focal neurological signs typically. No seizures (unless complicated). CAUSES: Bacterial (S. pneumoniae, N. meningitidis), viral (enterovirus — most common), TB. INVESTIGATION: LP (CSF analysis — key diagnostic test). CT may be normal. ENCEPHALITIS: Inflammation of BRAIN PARENCHYMA. FEATURES: Altered behaviour/personality (early sign). Altered consciousness (confusion → coma). SEIZURES (common, especially temporal lobe). FOCAL neurological signs (hemiparesis, aphasia, cranial nerve palsies). Fever, headache. MENINGISM may or may not be present. CAUSES: HSV-1 (most common, most important — treatable), other viruses (VZV, EBV, CMV, arbovirus). INVESTIGATION: MRI — temporal lobe signal changes (HSV); EEG — periodic lateralised epileptiform discharges; LP — lymphocytic pleocytosis, HSV PCR positive. MENINGOENCEPHALITIS: Features of BOTH — meningism + altered consciousness + focal signs. TB meningitis often has encephalitic component. TREATMENT DIFFERENCE: Bacterial meningitis → antibiotics; HSV encephalitis → IV Aciclovir 10mg/kg TDS (start EMPIRICALLY if any suspicion — delay worsens outcome)."
+                  }
+            ]
+      },
+      {
+            "id": "tropical-infections",
+            "name": "Tropical Infections",
+            "syllabusRef": "Phase IV Medicine",
+            "section": "Infectious Disease & Haematology",
+            "description": "MALARIA: Caused by Plasmodium species transmitted by female Anopheles mosquito. P. falciparum (most severe, cerebral malaria, Bangladesh most common species), P. vivax (relapsing — hypnozoites in liver, requires primaquine), P. ovale (relapsing), P. malariae (chronic, nephrotic syndrome). Clinical features: paroxysmal fever with rigors (every 48hr P. falciparum/vivax, every 72hr P. malariae), headache, myalgia, splenomegaly, anaemia, jaundice. Severe malaria (P. falciparum): cerebral malaria (altered consciousness, seizures), severe anaemia (Hb <5), renal failure, ARDS, hypoglycaemia, parasitaemia >5%, DIC. Diagnosis: thick and thin blood film (gold standard — thick for detection, thin for speciation and quantification). RDT (rapid diagnostic test — HRP2 antigen for P. falciparum). Treatment: Uncomplicated P. falciparum — ACT (Artemisinin-based Combination Therapy): artemether-lumefantrine (Coartem) for 3 days. Severe malaria — IV artesunate (first-line) for ≥ 24 hours then switch to oral ACT. P. vivax/ovale: Chloroquine + Primaquine 14 days (check G6PD first — haemolysis risk). DENGUE: Caused by dengue virus (4 serotypes), transmitted by Aedes aegypti (day-biting mosquito). Clinical: high fever, severe headache (retro-orbital), myalgia/arthralgia (breakbone fever), maculopapular rash, thrombocytopenia, leukopenia. Diagnosis: NS1 antigen (positive days 1–5), IgM (positive day 5+), IgG (positive day 7+ or earlier in secondary). Warning signs (dengue haemorrhagic fever): abdominal pain, persistent vomiting, mucosal bleeding, hepatomegaly, rising haematocrit with falling platelets, pleural effusion, ascites. Severe dengue: shock (DSS), severe bleeding, organ impairment. Treatment: NO specific antiviral — supportive (IV fluids, paracetamol — AVOID NSAIDs/aspirin, platelet monitoring). TYPHOID: Salmonella typhi, faeco-oral. Features: stepladder fever, relative bradycardia, rose spots, hepatosplenomegaly, constipation (adults) or diarrhoea (children). Diagnosis: blood culture (gold standard, 1st week), Widal test (rising titre — not very reliable). Treatment: Ceftriaxone IV or Azithromycin PO (fluoroquinolone resistance increasing in Bangladesh).",
+            "svgKey": "mbbs-med-tropical-infections",
+            "landmarks": [
+                  "P. falciparum: most severe malaria species; severe = cerebral, Hb<5, renal failure, parasitaemia>5%",
+                  "ACT (artemether-lumefantrine) for uncomplicated malaria; IV artesunate for severe malaria",
+                  "Dengue diagnosis: NS1 antigen days 1–5, IgM day 5+; warning signs = abdominal pain, rising HCT, falling platelets",
+                  "P. vivax relapse: hypnozoites in liver → Primaquine 14 days needed; check G6PD first (haemolysis risk)",
+                  "Typhoid: stepladder fever, relative bradycardia, rose spots; blood culture gold standard; treat Ceftriaxone"
+            ],
+            "examQA": [
+                  {
+                        "q": "A patient returns from a rural area with high fever, rigors every 48 hours, splenomegaly, and jaundice. Blood film shows ring forms and banana-shaped gametocytes. Identify the species and outline management.",
+                        "a": "Diagnosis: MALARIA — Plasmodium falciparum. Clues: (1) Ring forms (trophozoites) — seen in all species. (2) BANANA/CRESCENT-shaped gametocytes — PATHOGNOMONIC of P. falciparum (other species have round gametocytes). (3) 48-hour fever cycle (tertian). (4) Jaundice and splenomegaly — haemolysis. ASSESS SEVERITY (WHO criteria for severe P. falciparum): Cerebral malaria (GCS <11), severe anaemia (Hb <5g/dL), renal failure (Cr >265μmol/L), ARDS, hypoglycaemia (<2.2mmol/L), parasitaemia >10%, acidosis, shock, DIC, haemoglobinuria. IF UNCOMPLICATED: ACT — Artemether-Lumefantrine (Coartem) for 3 days (6 doses at 0, 8, 24, 36, 48, 60 hours). OR Artesunate-Amodiaquine × 3 days. IF SEVERE: (1) IV Artesunate 2.4mg/kg at 0, 12, 24 hours then daily (minimum 24 hours IV). (2) Switch to oral ACT when able to take oral and parasitaemia <1%. (3) Supportive: IV fluids, blood transfusion if Hb <5, treat hypoglycaemia (50% dextrose), seizure management (diazepam), renal support (dialysis if needed), monitor hourly parasitaemia. (4) NO steroids (harmful in cerebral malaria). (5) Primaquine single dose as gametocytocidal (P. falciparum) to reduce transmission."
+                  },
+                  {
+                        "q": "Describe the warning signs of dengue and how you would manage severe dengue.",
+                        "a": "DENGUE WARNING SIGNS (indicate progression to severe dengue — require hospitalisation): (1) Abdominal pain — severe, persistent. (2) Persistent vomiting (≥ 3 episodes in 24 hours). (3) Clinical fluid accumulation — pleural effusion, ascites. (4) Mucosal bleeding — gum bleeding, epistaxis, haematemesis, melaena. (5) Lethargy/restlessness. (6) Hepatomegaly >2cm. (7) Rising haematocrit (HCT) with concurrent falling platelet count — haemoconcentration from plasma leakage. (8) Lab: platelet count <100,000/μL, HCT rise ≥ 20% above baseline. MANAGEMENT OF SEVERE DENGUE: (1) IV FLUID RESUSCITATION — isotonic crystalloid (NS or Ringer lactate): Start 5–10 mL/kg/hr for 1–2 hours. If improving: reduce to 2–3 mL/kg/hr; if not: increase rate, consider colloid (dextran 40, gelatin). If shock (Dengue Shock Syndrome): 20mL/kg bolus over 15–30 min; repeat if needed; if refractory → blood transfusion. (2) MONITORING: Hourly vitals, HCT every 2–4 hours, urine output (target >0.5mL/kg/hr), platelet count daily. (3) AVOID: NSAIDs and Aspirin (increase bleeding risk). Use PARACETAMOL only for fever. (4) Platelet transfusion ONLY if: active significant bleeding with platelets <10,000; or <20,000 with mucosal bleeding. Prophylactic transfusion is NOT recommended. (5) Blood transfusion if significant haemorrhage. (6) Monitor for organ impairment: liver failure, encephalopathy, myocarditis. (7) Critical phase: days 3–7 of illness (around defervescence) — highest risk of plasma leakage and shock."
+                  },
+                  {
+                        "q": "How is typhoid fever diagnosed and treated?",
+                        "a": "TYPHOID FEVER — Salmonella enterica serovar Typhi (faeco-oral route). DIAGNOSIS: (1) Blood culture — GOLD STANDARD. Highest yield in FIRST WEEK (positive in 60–80%). Collect before antibiotics. (2) Bone marrow culture — most sensitive (90%+), even after antibiotics started. Reserved for difficult cases. (3) Stool culture — positive in 2nd–3rd week (carrier detection). (4) Widal test — detects anti-O (acute) and anti-H (chronic) antibodies. Rising titre (4-fold) in paired sera more reliable than single test. LOW sensitivity and specificity — unreliable in endemic areas (cross-reactivity). (5) Typhidot (IgM/IgG rapid test) — better than Widal but not gold standard. (6) FBC: leukopenia with relative lymphocytosis (NOT leukocytosis — an important differentiator from other bacterial infections). TREATMENT: (1) Empirical: IV Ceftriaxone 2g OD × 14 days (first-line in Bangladesh due to fluoroquinolone resistance). OR Azithromycin 500mg OD PO × 7 days (uncomplicated, sensitivity confirmed). (2) Fluoroquinolones (ciprofloxacin) — historically first-line but increasing resistance in South Asia (>80% in BD). (3) Supportive: IV fluids, antipyretics (paracetamol). (4) COMPLICATIONS: Intestinal perforation (3rd week — most dangerous, needs surgery), GI haemorrhage, typhoid encephalopathy, myocarditis, osteomyelitis. (5) Carriers: chronic excretors — ciprofloxacin 750mg BD × 4 weeks or cholecystectomy if gallstones. (6) Prevention: safe water, sanitation, hygiene (WASH), typhoid conjugate vaccine (TCV — WHO recommended)."
+                  }
+            ]
+      },
+      {
+            "id": "anaemia-haematology",
+            "name": "Anaemia and Haematological Emergencies",
+            "syllabusRef": "Phase IV Medicine",
+            "section": "Infectious Disease & Haematology",
+            "description": "Anaemia: Hb <13g/dL (males), <12g/dL (females), <11g/dL (pregnant). Classification by MCV: MICROCYTIC (MCV <80fL): Iron deficiency anaemia (IDA — most common worldwide; causes: dietary, menorrhagia, GI blood loss, hookworm in BD; investigation: low ferritin, low serum iron, high TIBC; blood film: microcytic hypochromic, target cells, pencil cells; treat: oral ferrous sulfate 200mg TDS, investigate cause), Thalassaemia (defective globin chains; β-thal major: severe, transfusion-dependent, target cells, HbF raised; HbA2 raised in β-thal trait), Sideroblastic anaemia, chronic disease (can be normocytic). NORMOCYTIC (MCV 80–100fL): Anaemia of chronic disease (most common in hospitalised; low serum iron, low TIBC, high/normal ferritin, high hepcidin), CKD (EPO deficiency), aplastic anaemia, acute blood loss, haemolytic anaemia. MACROCYTIC (MCV >100fL): Megaloblastic — B12 deficiency (pernicious anaemia/malabsorption; subacute combined degeneration of cord — dorsal columns + lateral corticospinal tracts; blood film: hypersegmented neutrophils, oval macrocytes; treat: IM hydroxocobalamin), Folate deficiency (diet, pregnancy, malabsorption, methotrexate; treat: folic acid 5mg daily). Non-megaloblastic: alcohol, liver disease, hypothyroidism, reticulocytosis. HAEMOLYTIC ANAEMIA: increased RBC destruction. Features: jaundice (unconjugated bilirubinaemia), raised LDH, raised reticulocytes, low haptoglobin, raised urobilinogen. Coombs test: DAT positive = autoimmune (warm AIHA — IgG, treat steroids; cold AIHA — IgM complement). Inherited: sickle cell disease, G6PD deficiency (episodic haemolysis triggered by drugs/fava beans), hereditary spherocytosis. DIC (Disseminated Intravascular Coagulation): simultaneous widespread thrombosis and bleeding. Causes: sepsis (most common), trauma, obstetric (amniotic fluid embolism, placental abruption, eclampsia), malignancy, transfusion reaction. Labs: prolonged PT/APTT, low fibrinogen, high D-dimer, low platelets, schistocytes on film. Management: treat underlying cause, replace (FFP, cryoprecipitate, platelets, packed RBCs). Blood transfusion reactions: Acute haemolytic (ABO incompatibility — fever, rigors, flank pain, haemoglobinuria — stop transfusion immediately, IV fluids, send samples), febrile non-haemolytic (most common — paracetamol), allergic (urticaria — antihistamine), TRALI (non-cardiogenic pulmonary oedema — supportive), TACO (fluid overload — diuretics).",
+            "svgKey": "mbbs-med-anaemia",
+            "threejs3dFn": "createCellDivision",
+            "landmarks": [
+                  "IDA: low ferritin (<15), low iron, high TIBC; pencil cells + target cells; treat ferrous sulfate 200mg TDS + investigate cause",
+                  "B12 deficiency: macrocytic + hypersegmented neutrophils + subacute combined degeneration; IM hydroxocobalamin",
+                  "Haemolysis: unconjugated bilirubin↑, LDH↑, reticulocytes↑, haptoglobin↓; DAT+ = autoimmune",
+                  "DIC: PT/APTT prolonged, fibrinogen↓, D-dimer↑, platelets↓, schistocytes; treat CAUSE + replace components",
+                  "Acute haemolytic transfusion reaction (ABO mismatch): STOP transfusion immediately; IV fluids; recheck crossmatch"
+            ],
+            "examQA": [
+                  {
+                        "q": "A 30-year-old woman presents with fatigue, pallor, and heavy menstrual periods. Hb 8g/dL, MCV 65fL, ferritin 5μg/L. What is the diagnosis and management?",
+                        "a": "Diagnosis: IRON DEFICIENCY ANAEMIA (IDA). Evidence: Hb 8 (below 12 for female = anaemia), MCV 65fL (microcytic, <80), Ferritin 5μg/L (very low — <15 confirms IDA). Cause: Menorrhagia (heavy menstrual bleeding — most common cause of IDA in premenopausal women). INVESTIGATION: (1) Iron studies: serum iron (low), TIBC (high — transferrin increases to compensate), transferrin saturation (low <16%). (2) Blood film: microcytic HYPOCHROMIC red cells, pencil cells (elongated), target cells, anisocytosis. (3) Investigate cause: gynaecological assessment for menorrhagia. If no obvious cause/male/>50/GI symptoms: upper + lower GI endoscopy (exclude GI malignancy, coeliac disease). (4) Coeliac screen (anti-TTG antibodies). (5) Stool for occult blood. In Bangladesh: stool microscopy for hookworm. MANAGEMENT: (1) Oral iron: Ferrous sulfate 200mg (65mg elemental Fe) TWO to THREE times daily on empty stomach with vitamin C (enhances absorption). Continue for 3 months AFTER Hb normalises (to replenish stores). Side effects: constipation, black stools, nausea — reduce dose or switch to ferrous fumarate/gluconate. (2) If intolerant/malabsorption: IV iron (ferric carboxymaltose — single infusion). (3) TREAT THE CAUSE: gynaecological referral for menorrhagia (mirena IUS, tranexamic acid). (4) Expected response: reticulocyte rise in 1 week, Hb rises 1–2g/dL per month. (5) Blood transfusion only if haemodynamically compromised or Hb <7 with symptoms."
+                  },
+                  {
+                        "q": "What is DIC? Describe the pathophysiology, laboratory findings, and management.",
+                        "a": "DIC (Disseminated Intravascular Coagulation): Pathological activation of coagulation causing WIDESPREAD MICROTHROMBI formation in small vessels, with simultaneous CONSUMPTION of clotting factors and platelets, leading to paradoxical BLEEDING. PATHOPHYSIOLOGY: Trigger (tissue factor release/endothelial damage) → massive thrombin generation → widespread fibrin deposition in microvasculature → consumption of clotting factors (I, V, VIII), platelets, and fibrinogen → secondary fibrinolysis (plasmin activation) → D-dimers released + FDPs (which further impair clotting). Result: simultaneous THROMBOSIS (organ ischaemia) + HAEMORRHAGE (mucosal, puncture sites, post-surgical). CAUSES: Sepsis (most common — especially Gram-negative), obstetric (amniotic fluid embolism, placental abruption, eclampsia, HELLP), malignancy (acute promyelocytic leukaemia, mucin-secreting adenocarcinomas), massive trauma, burns, snake bites, transfusion reactions. LABORATORY: Platelets: LOW (consumed). PT/APTT: PROLONGED (clotting factors consumed). Fibrinogen: LOW (<1.5g/L — consumed). D-dimer: VERY HIGH (fibrin degradation products). Blood film: SCHISTOCYTES (fragmented red cells from microangiopathic haemolytic anaemia — RBCs sheared by fibrin strands). MANAGEMENT: (1) Treat the UNDERLYING CAUSE (most important — remove the trigger). (2) SUPPORTIVE REPLACEMENT: FFP (fresh frozen plasma) — replaces clotting factors if PT/APTT >1.5× normal. Cryoprecipitate — replaces fibrinogen if <1.5g/L. Platelet transfusion — if <50,000 with active bleeding or <20,000 with mucosal bleeding. Packed RBCs — for anaemia/haemorrhage. (3) Heparin: controversial — consider in chronic DIC with predominantly thrombotic features (e.g., malignancy). AVOID in acute DIC with active bleeding. (4) Tranexamic acid: anti-fibrinolytic — rarely used, may worsen thrombosis."
+                  },
+                  {
+                        "q": "Classify anaemia by MCV and give the key differentiating investigations for each type.",
+                        "a": "CLASSIFICATION BY MCV: MICROCYTIC (MCV <80fL): Iron deficiency — ferritin LOW (<15 diagnostic), serum iron LOW, TIBC HIGH, transferrin sat LOW. Film: hypochromic, pencil cells. Thalassaemia — Hb electrophoresis (HbA2 raised in β-thal trait >3.5%; HbF raised in β-thal major). Iron studies NORMAL. Target cells. Anaemia of chronic disease — ferritin NORMAL/HIGH, iron LOW, TIBC LOW. Sideroblastic — ring sideroblasts on bone marrow (Prussian blue stain). NORMOCYTIC (MCV 80–100fL): Anaemia of chronic disease (most common). CKD — check eGFR, EPO levels. Aplastic anaemia — pancytopenia, bone marrow biopsy (hypocellular). Acute blood loss — reticulocyte count HIGH. Haemolytic anaemia — reticulocytes HIGH, LDH HIGH, haptoglobin LOW, unconjugated bilirubin HIGH, DAT (Coombs) for autoimmune. MACROCYTIC (MCV >100fL): B12 deficiency — serum B12 LOW, methylmalonic acid HIGH. Film: oval macrocytes, hypersegmented neutrophils (≥ 5 lobes). Pernicious anaemia: anti-intrinsic factor antibodies. Folate deficiency — serum/RBC folate LOW. Same film as B12 but NO neurological features. Non-megaloblastic: reticulocyte count (high = reticulocytosis after bleed/haemolysis), LFTs (liver disease), TFTs (hypothyroidism), alcohol history. KEY INVESTIGATIONS for ALL anaemia: FBC + MCV, blood film, reticulocyte count, iron studies, B12/folate, LDH/haptoglobin/bilirubin (haemolysis screen), renal/liver/thyroid function."
+                  }
+            ]
+      }
+    ]
+  },
 
-
-
-
+  mbbs_surgery: {
+    subjectName: 'MBBS Surgery',
+    examCode: 'BMDC',
+    sections: ['Basic Principles & Trauma', 'Gastrointestinal Surgery', 'Urology', 'Vascular, Breast & Endocrine'],
+    topics: [
+      {
+            "id": "wound-healing",
+            "name": "Wound Healing & Management",
+            "syllabusRef": "Phase IV Surgery",
+            "section": "Basic Principles & Trauma",
+            "description": "Wound healing occurs in overlapping phases: haemostasis, inflammation, proliferation (granulation, angiogenesis), and remodelling (maturation). Primary intention involves wound edges brought together (e.g., surgical incision), minimizing scarring. Secondary intention leaves the wound open to heal from the base upwards (e.g., infected wounds, pressure ulcers), forming more granulation tissue and scar. Delayed primary closure is used for contaminated wounds. Surgical Site Infections (SSI) occur within 30 days of surgery. Management includes debridement, appropriate dressings, and antibiotics if systemic signs exist.",
+            "svgKey": "mbbs-surg-wound-healing",
+            "landmarks": [
+                  "Primary intention: clean edges opposed, minimal scar",
+                  "Secondary intention: heals from base, granulation tissue, larger scar",
+                  "Wound healing phases: haemostasis → inflammation → proliferation → remodelling",
+                  "SSI definition: infection within 30 days of surgery (or 1 yr if implant)"
+            ],
+            "examQA": [
+                  {
+                        "q": "What are the phases of wound healing?",
+                        "a": "1. Haemostasis (minutes): platelet plug, fibrin clot. 2. Inflammation (days 1-4): neutrophils then macrophages clear debris. 3. Proliferation (days 4-21): fibroblasts make collagen, angiogenesis, epithelialisation, granulation tissue forms. 4. Remodelling (up to 2 years): type III collagen replaced by type I, scar matures and strengthens."
+                  },
+                  {
+                        "q": "Differentiate primary and secondary intention healing.",
+                        "a": "Primary intention: edges are approximated (sutured/stapled), minimal granulation tissue, rapid healing, neat scar. Secondary intention: wound left open (due to infection/tissue loss), heals by granulation tissue filling the defect from the base upwards, wound contraction by myofibroblasts, wider scar."
+                  }
+            ]
+      },
+      {
+            "id": "shock-fluids",
+            "name": "Shock & Fluid Resuscitation",
+            "syllabusRef": "Phase IV Surgery",
+            "section": "Basic Principles & Trauma",
+            "description": "Shock is inadequate tissue perfusion leading to cellular hypoxia. Types: Hypovolaemic (haemorrhage, burns), Cardiogenic (MI), Distributive (sepsis, anaphylaxis), Obstructive (tension pneumothorax, tamponade). Hypovolaemic shock shows ↑HR, ↓BP, ↑SVR, ↓CO. Septic shock (early) shows ↑HR, ↓BP, ↓SVR (vasodilation), ↑CO (warm shock). Fluid resuscitation: IV crystalloids (0.9% NaCl or Hartmann's/Ringer's lactate) are first line. Blood products for haemorrhagic shock (1:1:1 ratio of PRBCs:FFP:Platelets in massive transfusion).",
+            "svgKey": "mbbs-surg-shock-fluids",
+            "landmarks": [
+                  "Hypovolaemic shock: ↑HR, ↓BP, ↑SVR (vasoconstriction), ↓CO",
+                  "Septic shock (early): ↑HR, ↓BP, ↓SVR (vasodilation), ↑CO",
+                  "Fluid choice: Isotonic crystalloids (Hartmann's or 0.9% Normal Saline) first line",
+                  "Massive transfusion protocol: 1:1:1 ratio of PRBC:FFP:Platelets"
+            ],
+            "examQA": [
+                  {
+                        "q": "Describe the haemodynamic changes in early septic shock compared to hypovolaemic shock.",
+                        "a": "Early septic shock (distributive) involves massive vasodilation leading to decreased Systemic Vascular Resistance (SVR), with a compensatory increase in Cardiac Output (CO) — resulting in warm extremities. Hypovolaemic shock has reduced circulating volume (decreased CO) with compensatory severe vasoconstriction (increased SVR) — resulting in cold, clammy extremities."
+                  },
+                  {
+                        "q": "What is the initial fluid resuscitation bolus for an adult in shock?",
+                        "a": "Initial bolus of 500 mL warm isotonic crystalloid (Hartmann's solution or 0.9% NaCl) given over less than 15 minutes. Reassess ABCDE. Repeat if necessary (up to 2000 mL). If no response or haemorrhagic shock, switch to blood products."
+                  }
+            ]
+      },
+      {
+            "id": "trauma-atls",
+            "name": "Trauma & ATLS",
+            "syllabusRef": "Phase IV Surgery",
+            "section": "Basic Principles & Trauma",
+            "description": "Advanced Trauma Life Support (ATLS) algorithm prioritizes life-threatening injuries: Primary Survey (A: Airway with C-spine protection, B: Breathing/ventilation, C: Circulation with haemorrhage control, D: Disability/neuro status, E: Exposure/environment). FAST (Focused Assessment with Sonography for Trauma) looks for free fluid in 4 areas: perihepatic (Morison's pouch), perisplenic, pelvic, pericardial. Triage sorts patients by urgency: Red (immediate), Yellow (urgent), Green (delayed), Black (dead/expectant).",
+            "svgKey": "mbbs-surg-trauma-atls",
+            "landmarks": [
+                  "ATLS Primary Survey: A-B-C-D-E protocol is strictly sequential",
+                  "Airway management includes simultaneous cervical spine restriction",
+                  "FAST scan: detects free intra-abdominal fluid (blood) in blunt trauma",
+                  "Morison's pouch (hepatorenal recess): most dependent area in supine patient"
+            ],
+            "examQA": [
+                  {
+                        "q": "Outline the ATLS Primary Survey.",
+                        "a": "A - Airway maintenance with cervical spine restriction. B - Breathing and ventilation (check for tension pneumothorax, massive haemothorax). C - Circulation with haemorrhage control (assess pulse, BP, capillary refill; apply pressure to bleeding; 2 large-bore IVs). D - Disability (GCS, pupil response). E - Exposure and environment control (remove clothing, prevent hypothermia)."
+                  },
+                  {
+                        "q": "What are the four views of a FAST scan?",
+                        "a": "1. Perihepatic view (RUQ) looking at Morison's pouch. 2. Perisplenic view (LUQ) looking at the splenorenal recess. 3. Pelvic view (suprapubic) looking at the pouch of Douglas/rectovesical pouch. 4. Pericardial view (subxiphoid) looking for pericardial effusion/tamponade."
+                  }
+            ]
+      },
+      {
+            "id": "burns",
+            "name": "Burns & Scalds",
+            "syllabusRef": "Phase IV Surgery",
+            "section": "Basic Principles & Trauma",
+            "description": "Burns are classified by depth: Epidermal (erythema, no blisters), Superficial partial-thickness (blisters, painful, blanches), Deep partial-thickness (mottled, variable pain, non-blanching), Full-thickness (leathery, white/charred, painless). Total Body Surface Area (TBSA) calculated by Wallace Rule of Nines: Head 9%, Each Arm 9%, Anterior Trunk 18%, Posterior Trunk 18%, Each Leg 18%, Perineum 1%. Fluid resuscitation required if >15% TBSA (adults). Parkland Formula: 4 mL × weight (kg) × %TBSA of crystalloid in first 24 hours (half in first 8 hrs, half in next 16 hrs).",
+            "svgKey": "mbbs-surg-burns",
+            "landmarks": [
+                  "Wallace Rule of Nines: Head 9%, Arms 9% each, Legs 18% each, Trunk 36%",
+                  "Parkland formula: 4 mL × weight(kg) × %TBSA = total 24hr fluid",
+                  "Full-thickness burns: destroy nerve endings so they are painless",
+                  "Give 50% of calculated fluid in the first 8 hours from time of injury"
+            ],
+            "examQA": [
+                  {
+                        "q": "A 70kg man sustains burns to his entire anterior trunk and entire right arm. Calculate his fluid requirement for the first 24 hours.",
+                        "a": "TBSA = 18% (anterior trunk) + 9% (right arm) = 27%. Parkland formula: 4 mL × 70 kg × 27% = 7560 mL. He needs 7560 mL of Hartmann's solution in 24 hours (3780 mL in the first 8 hours, 3780 mL in the next 16 hours)."
+                  },
+                  {
+                        "q": "How do you differentiate superficial partial-thickness from deep partial-thickness burns?",
+                        "a": "Superficial partial-thickness: affects epidermis and upper dermis, BLISTERS, very PAINFUL, BLANCHES to pressure, heals in 1-2 weeks without scar. Deep partial-thickness: affects deeper dermis, pale/mottled, LESS painful (nerve damage), NON-BLANCHING, requires excision/grafting."
+                  }
+            ]
+      },
+      {
+            "id": "appendicitis",
+            "name": "Acute Abdomen & Appendicitis",
+            "syllabusRef": "Phase IV Surgery",
+            "section": "Gastrointestinal Surgery",
+            "description": "Acute appendicitis is inflammation of the appendix, commonly presenting with periumbilical pain radiating to the right iliac fossa (RIF), anorexia, nausea, and low-grade fever. Anatomy: base arises from caecum at convergence of taeniae coli. Most common position: retrocaecal. Signs: McBurney's point tenderness (1/3 from ASIS to umbilicus), Rovsing's sign (LIF palpation causes RIF pain), Psoas sign. Alvarado score (MANTRELS) assesses probability. Management is appendectomy (laparoscopic or open gridiron incision).",
+            "svgKey": "mbbs-surg-appendicitis",
+            "landmarks": [
+                  "Pain shift: periumbilical (visceral T10) to RIF (somatic/parietal peritoneum)",
+                  "Alvarado Score: Migration, Anorexia, Nausea, Tenderness RIF (2), Rebound, Temp, Leukocytosis (2), Shift",
+                  "Most common appendix position: retrocaecal (74%); pelvic (21%)",
+                  "Gridiron incision: oblique incision through McBurney's point"
+            ],
+            "examQA": [
+                  {
+                        "q": "Explain the pathophysiology of the classic shifting pain in acute appendicitis.",
+                        "a": "Initial periumbilical pain is referred VISCERAL pain (midgut structures supply T10 dermatome) caused by appendiceal luminal obstruction and distension. As inflammation progresses and irritates the adjacent PARIETAL peritoneum, the pain localizes to the right iliac fossa (somatic pain, localized and sharp)."
+                  },
+                  {
+                        "q": "What is the Alvarado score and how is it interpreted?",
+                        "a": "A clinical scoring system (max 10 points) for appendicitis. M-Migration of pain (1), A-Anorexia (1), N-Nausea/vomiting (1), T-Tenderness in RIF (2 points), R-Rebound tenderness (1), E-Elevated temperature (1), L-Leukocytosis (2 points), S-Shift to left of neutrophils (1). Score 7-10: high probability (surgery); 5-6: equivocal (observe/scan); <5: unlikely."
+                  }
+            ]
+      },
+      {
+            "id": "hernia",
+            "name": "Hernias",
+            "syllabusRef": "Phase IV Surgery",
+            "section": "Gastrointestinal Surgery",
+            "description": "A hernia is the protrusion of a viscus or part of a viscus through an abnormal opening in the wall of its containing cavity. Inguinal hernias occur above and medial to the pubic tubercle. Indirect inguinal hernias pass through the deep inguinal ring (lateral to inferior epigastric vessels) down the canal. Direct inguinal hernias bulge directly through Hesselbach's triangle (medial to inferior epigastric vessels) due to posterior wall weakness. Femoral hernias occur below and lateral to the pubic tubercle, have a high risk of strangulation. Repair usually involves tension-free mesh (Lichtenstein repair).",
+            "svgKey": "mbbs-surg-hernia",
+            "landmarks": [
+                  "Indirect inguinal: lateral to inferior epigastric vessels, via deep ring",
+                  "Direct inguinal: medial to inferior epigastric vessels (Hesselbach's triangle)",
+                  "Femoral hernia: below/lateral to pubic tubercle, high strangulation risk",
+                  "Hesselbach's boundaries: rectus abdominis (medial), inguinal lig (inferior), inf. epigastric (lateral)"
+            ],
+            "examQA": [
+                  {
+                        "q": "Differentiate direct and indirect inguinal hernias anatomically.",
+                        "a": "Indirect: enters the deep inguinal ring LATERAL to the inferior epigastric vessels, traverses the entire inguinal canal within the spermatic cord coverings, and often descends into the scrotum. Direct: protrudes directly through a weakness in the posterior wall of the inguinal canal (Hesselbach's triangle) MEDIAL to the inferior epigastric vessels, rarely reaches the scrotum."
+                  },
+                  {
+                        "q": "Why do femoral hernias have a higher risk of strangulation than inguinal hernias?",
+                        "a": "Femoral hernias pass through the femoral canal, which has rigid, unyielding borders (inguinal ligament anteriorly, pectineal ligament posteriorly, lacunar ligament medially, femoral vein laterally). The narrow, rigid femoral ring acts as a tight neck, easily causing incarceration and strangulation of bowel."
+                  }
+            ]
+      },
+      {
+            "id": "biliary-tract",
+            "name": "Gallbladder & Biliary Tract",
+            "syllabusRef": "Phase IV Surgery",
+            "section": "Gastrointestinal Surgery",
+            "description": "Gallstone disease (cholelithiasis) is common (4 F's: Female, Fat, Forty, Fertile). Biliary colic: temporary cystic duct obstruction (RUQ pain, no fever). Acute cholecystitis: sustained cystic duct obstruction + inflammation (RUQ pain, fever, positive Murphy's sign). Choledocholithiasis: stone in common bile duct causing obstructive jaundice (raised ALP, conjugated bilirubin). Ascending cholangitis: CBD infection presenting with Charcot's triad (fever/rigors, RUQ pain, jaundice) or Reynolds' pentad (+ shock, altered mental status). Treatment: Laparoscopic cholecystectomy, ERCP for CBD stones.",
+            "svgKey": "mbbs-surg-biliary",
+            "landmarks": [
+                  "Charcot's triad: Fever/rigors + RUQ pain + Jaundice = Cholangitis",
+                  "Murphy's sign: arrest of inspiration on deep RUQ palpation (acute cholecystitis)",
+                  "Calot's triangle borders: cystic duct, common hepatic duct, inferior edge of liver",
+                  "Gold standard treatment for symptomatic gallstones: Laparoscopic cholecystectomy"
+            ],
+            "examQA": [
+                  {
+                        "q": "Differentiate biliary colic from acute cholecystitis.",
+                        "a": "Biliary colic presents with episodic, severe RUQ/epigastric pain lasting <6 hours (often post-prandial), NO fever, normal WCC, and NO peritoneal signs. Acute cholecystitis presents with constant, severe RUQ pain lasting >6 hours, accompanied by FEVER, leukocytosis, and a positive Murphy's sign (peritoneal irritation)."
+                  },
+                  {
+                        "q": "What is Reynolds' pentad and what does it signify?",
+                        "a": "Reynolds' pentad consists of Charcot's triad (fever/rigors, RUQ pain, jaundice) PLUS hypotension (shock) and altered mental status. It signifies severe suppurative ascending cholangitis with sepsis. This is a surgical emergency requiring urgent biliary decompression (ERCP or PTC) and broad-spectrum IV antibiotics."
+                  }
+            ]
+      },
+      {
+            "id": "obstruction",
+            "name": "Intestinal Obstruction",
+            "syllabusRef": "Phase IV Surgery",
+            "section": "Gastrointestinal Surgery",
+            "description": "Intestinal obstruction can be mechanical or functional (ileus). Small Bowel Obstruction (SBO) mostly caused by adhesions or hernias. Large Bowel Obstruction (LBO) mostly caused by malignancy, volvulus, or diverticular disease. Cardinal features: colicky abdominal pain, vomiting (early in SBO, late/feculent in LBO), absolute constipation (no flatus or feces), and abdominal distension. AXR: Valvulae conniventes (lines across entire width) in SBO; Haustra (incomplete lines) in LBO. Sigmoid volvulus shows \"coffee bean\" sign. Management: drip and suck (IV fluids, NGT), surgery if strangulated or unresolved.",
+            "svgKey": "mbbs-surg-obstruction",
+            "landmarks": [
+                  "Cardinal symptoms: Pain, Vomiting, Absolute constipation, Distension",
+                  "SBO causes: Adhesions (most common), hernias. AXR: valvulae conniventes (full width)",
+                  "LBO causes: Colorectal cancer (most common), volvulus. AXR: haustra (partial width)",
+                  "Sigmoid volvulus AXR: \"coffee bean\" or inverted U sign projecting from pelvis"
+            ],
+            "examQA": [
+                  {
+                        "q": "What are the four cardinal features of intestinal obstruction?",
+                        "a": "1. Colicky abdominal pain. 2. Vomiting (prominent and early in high obstruction). 3. Absolute constipation (failure to pass feces and flatus — prominent in large bowel obstruction). 4. Abdominal distension."
+                  },
+                  {
+                        "q": "How do you differentiate small bowel from large bowel on a plain abdominal X-ray?",
+                        "a": "Small bowel is central, has valvulae conniventes (mucosal folds that cross the ENTIRE width of the bowel loop), and diameter usually <3cm. Large bowel is peripheral, has haustra (folds that only cross PART of the width), and diameter is larger (caecum <9cm, colon <6cm)."
+                  }
+            ]
+      },
+      {
+            "id": "peptic-ulcer",
+            "name": "Peptic Ulcer Complications",
+            "syllabusRef": "Phase IV Surgery",
+            "section": "Gastrointestinal Surgery",
+            "description": "Peptic ulcer disease (PUD) is primarily caused by H. pylori and NSAIDs. Surgical complications include Perforation, Haemorrhage, and Gastric Outlet Obstruction. Perforation presents with sudden agonizing epigastric pain, rigid board-like abdomen, and absent bowel sounds. Erect CXR shows pneumoperitoneum (air under diaphragm). Management: resuscitation, IV antibiotics, urgent laparotomy and Graham patch repair. Haemorrhage presents with haematemesis/melaena; requires resuscitation and urgent endoscopy. Gastric outlet obstruction presents with projectile non-bilious vomiting containing undigested food; treat with NGT, IV fluids (correct hypochloraemic hypokalaemic metabolic alkalosis).",
+            "svgKey": "mbbs-surg-peptic-ulcer",
+            "landmarks": [
+                  "Perforation sign: rigid, board-like abdomen; erect CXR shows subdiaphragmatic air",
+                  "Perforated ulcer surgery: Graham patch (omental patch) closure",
+                  "Bleeding ulcer: posterior duodenal ulcer eroding gastroduodenal artery",
+                  "Gastric outlet obstruction metabolic state: hypochloraemic hypokalaemic metabolic alkalosis"
+            ],
+            "examQA": [
+                  {
+                        "q": "A 45-year-old man presents with sudden, agonizing abdominal pain. Abdomen is rigid and board-like. What is the likely diagnosis and key investigation?",
+                        "a": "Diagnosis: Perforated peptic ulcer causing generalized peritonitis. Key investigation: Erect chest X-ray (CXR) to look for pneumoperitoneum (free gas under the right hemidiaphragm)."
+                  },
+                  {
+                        "q": "What is the metabolic derangement in severe gastric outlet obstruction and why?",
+                        "a": "Hypochloraemic, hypokalaemic metabolic alkalosis with paradoxical aciduria. Severe vomiting causes loss of gastric HCl (loss of H+ and Cl- leading to alkalosis). Dehydration activates RAAS, causing the kidneys to retain Na+ at the expense of excreting K+ (hypokalaemia) and eventually H+ (paradoxical aciduria to save Na+ when K+ is depleted)."
+                  }
+            ]
+      },
+      {
+            "id": "colorectal",
+            "name": "Colorectal Cancer & Polyps",
+            "syllabusRef": "Phase IV Surgery",
+            "section": "Gastrointestinal Surgery",
+            "description": "Most colorectal cancers are adenocarcinomas arising from adenomatous polyps (adenoma-carcinoma sequence). Right-sided cancers (caecum/ascending) present with occult bleeding, iron deficiency anaemia, and a palpable mass. Left-sided cancers (descending/sigmoid) present with change in bowel habit, colicky pain, obstruction, and fresh per-rectal bleeding. Diagnosis: Colonoscopy and biopsy. Staging uses TNM and Dukes' classification. Surgery depends on location: Right hemicolectomy, Left hemicolectomy, Anterior resection (for high/mid rectal tumours preserving sphincter), Abdominoperineal resection (APR) for low rectal tumours (permanent colostomy).",
+            "svgKey": "mbbs-surg-colorectal",
+            "landmarks": [
+                  "Right-sided CRC: anaemia, occult blood, mass (rarely obstructs due to liquid stool)",
+                  "Left-sided CRC: change in bowel habit, bleeding, obstruction (apple-core lesion)",
+                  "Dukes Staging: A(mucosa/submucosa), B(through muscle wall), C(lymph nodes), D(mets)",
+                  "Low rectal cancer (<5cm from anal verge): Abdominoperineal Resection (APR) + permanent stoma"
+            ],
+            "examQA": [
+                  {
+                        "q": "Compare the clinical presentation of right-sided vs left-sided colon cancer.",
+                        "a": "Right-sided (caecum/ascending): The lumen is wide and stool is liquid, so obstruction is rare. Presents with occult bleeding leading to unexplained iron deficiency anaemia, fatigue, and a palpable mass in the right iliac fossa. Left-sided (descending/sigmoid): The lumen is narrower and stool is solid. Presents with change in bowel habit (constipation/diarrhoea), colicky abdominal pain, fresh rectal bleeding, and large bowel obstruction."
+                  },
+                  {
+                        "q": "What are the surgical options for rectal cancer depending on its distance from the anal margin?",
+                        "a": "Upper and middle third rectal cancers (usually >5cm from anal verge): Anterior Resection (AR) or Total Mesorectal Excision (TME) with primary anastomosis, preserving the anal sphincter. Lower third rectal cancers (<5cm from anal verge): Abdominoperineal Resection (APR), involving removal of the rectum and anal sphincter, requiring a permanent end colostomy."
+                  }
+            ]
+      },
+      {
+            "id": "urolithiasis",
+            "name": "Urolithiasis",
+            "syllabusRef": "Phase IV Surgery",
+            "section": "Urology",
+            "description": "Urinary stones are mostly calcium oxalate/phosphate (radiopaque). Other types: struvite (infection stones, staghorn), uric acid (radiolucent), cystine. Presentation: sudden, severe loin-to-groin colicky pain, restlessness, microscopic haematuria. Common impaction sites: Pelviureteric junction (PUJ), crossing the pelvic brim, Vesicoureteric junction (VUJ - narrowest point). Investigation: Non-contrast CT KUB (gold standard). Management: Analgesia (NSAIDs like diclofenac). <5mm pass spontaneously. >10mm or symptomatic require ESWL (Extracorporeal Shock Wave Lithotripsy), Ureteroscopy (URS), or PCNL (Percutaneous Nephrolithotomy for large/staghorn stones).",
+            "svgKey": "mbbs-surg-urolithiasis",
+            "landmarks": [
+                  "Gold standard investigation: Non-contrast CT KUB (detects all stones except indinavir)",
+                  "Ureter narrow points: PUJ, pelvic brim, VUJ (most common site of impaction)",
+                  "Struvite stones: associated with Proteus infection, form staghorn calculi",
+                  "PCNL indication: large renal stones (>2cm) or staghorn calculi"
+            ],
+            "examQA": [
+                  {
+                        "q": "What is the gold standard imaging modality for suspected renal colic?",
+                        "a": "Non-contrast CT KUB (Kidney, Ureter, Bladder). It is highly sensitive and specific, detecting over 99% of stones including radiolucent uric acid stones (unlike plain X-ray KUB)."
+                  },
+                  {
+                        "q": "Outline the surgical treatment options for urolithiasis based on size and location.",
+                        "a": "Stones <5mm: conservative (hydration, analgesia, medical expulsive therapy like tamsulosin). Ureteric stones <10mm: ESWL or Ureteroscopy (URS) with laser lithotripsy. Renal stones <2cm: ESWL or flexible URS. Renal stones >2cm or staghorn: Percutaneous Nephrolithotomy (PCNL)."
+                  }
+            ]
+      },
+      {
+            "id": "prostate",
+            "name": "BPH & Prostate Cancer",
+            "syllabusRef": "Phase IV Surgery",
+            "section": "Urology",
+            "description": "Benign Prostatic Hyperplasia (BPH) occurs in the transitional zone causing Lower Urinary Tract Symptoms (LUTS). Voiding symptoms: hesitancy, poor stream, terminal dribbling. Storage symptoms: urgency, frequency, nocturia. Assessment: DRE (smooth, enlarged), IPSS score, PSA. Medical treatment: Alpha-blockers (tamsulosin - relaxes smooth muscle), 5-alpha reductase inhibitors (finasteride - shrinks prostate over months). Surgical: TURP (Transurethral Resection of the Prostate). Prostate Cancer mostly occurs in the peripheral zone. DRE: hard, nodular, asymmetrical. Diagnosis via TRUS-guided or transperineal biopsy. Gleason score grades aggressiveness.",
+            "svgKey": "mbbs-surg-prostate",
+            "landmarks": [
+                  "BPH: Transitional zone, smooth/rubbery on DRE, treats with TURP",
+                  "Prostate Cancer: Peripheral zone, hard/craggy/nodular on DRE, graded by Gleason score",
+                  "Alpha-blockers (tamsulosin): rapid relief by relaxing prostate smooth muscle",
+                  "TURP syndrome complication: dilutional hyponatraemia from irrigation fluid absorption"
+            ],
+            "examQA": [
+                  {
+                        "q": "Categorize Lower Urinary Tract Symptoms (LUTS).",
+                        "a": "VOIDing (Obstructive) symptoms: Hesitancy, poor stream, straining to void, incomplete emptying, terminal dribbling. STORAGE (Irritative) symptoms: Frequency, urgency, urge incontinence, nocturia."
+                  },
+                  {
+                        "q": "What is TURP syndrome?",
+                        "a": "A potentially life-threatening complication of Transurethral Resection of the Prostate (TURP) caused by systemic absorption of large volumes of hypotonic irrigation fluid (e.g., 1.5% glycine). It leads to dilutional hyponatraemia, fluid overload, and water intoxication, presenting with confusion, bradycardia, hypertension, and potentially seizures or coma."
+                  }
+            ]
+      },
+      {
+            "id": "scrotal-swellings",
+            "name": "Scrotal Swellings",
+            "syllabusRef": "Phase IV Surgery",
+            "section": "Urology",
+            "description": "Scrotal swellings: differentiate if you can \"get above\" it (scrotal vs inguinoscrotal). Hydrocele: fluid in tunica vaginalis, transilluminates brilliantly, cannot palpate testis separately. Varicocele: dilated pampiniform plexus, \"bag of worms\", left-sided > right (due to left testicular vein draining into left renal vein at a right angle). Testicular torsion: surgical emergency, twisting of spermatic cord cutting off blood supply, severe sudden pain, absent cremasteric reflex, high-riding testis. Needs exploration <6 hours to save testis. Epididymo-orchitis: gradual onset, dysuria/fever, positive Prehn's sign (pain relief on elevating scrotum).",
+            "svgKey": "mbbs-surg-scrotal",
+            "landmarks": [
+                  "Hydrocele: brilliantly transilluminates, possible to get above it",
+                  "Varicocele: feels like a \"bag of worms\", mostly left-sided, reduces when supine",
+                  "Testicular torsion: sudden severe pain, high-riding testis, absent cremasteric reflex",
+                  "Torsion time window: surgical exploration and bilateral orchiopexy required within 6 hours"
+            ],
+            "examQA": [
+                  {
+                        "q": "A 15-year-old boy presents with sudden severe right testicular pain. The testis is high-riding and cremasteric reflex is absent. What is the diagnosis and management?",
+                        "a": "Diagnosis: Testicular Torsion. Management: Immediate surgical exploration (do NOT delay for imaging). The testis must be untwisted. If viable, bilateral orchiopexy (fixation) is performed to prevent future torsion. If necrotic, orchiectomy is performed. The golden time window to save the testis is within 6 hours of pain onset."
+                  },
+                  {
+                        "q": "Why are varicoceles more common on the left side?",
+                        "a": "The left testicular vein drains into the left renal vein at a perpendicular (90-degree) angle, creating higher hydrostatic pressure and turbulent flow. The right testicular vein drains directly into the low-pressure Inferior Vena Cava at an acute angle. Additionally, the left renal vein can be compressed between the SMA and aorta (Nutcracker phenomenon)."
+                  }
+            ]
+      },
+      {
+            "id": "pvd",
+            "name": "Peripheral Vascular Disease",
+            "syllabusRef": "Phase IV Surgery",
+            "section": "Vascular, Breast & Endocrine",
+            "description": "Peripheral Arterial Disease (PAD) is atherosclerosis of lower limb arteries. Intermittent Claudication: crampy muscle pain on exertion, relieved by rest. Chronic Limb Ischemia: rest pain (worse at night, relieved by hanging leg off bed), ischemic ulcers, gangrene. Examination: absent pulses, Buerger's test positive (pallor on elevation, reactive hyperemia on dependency), arterial ulcers (punched out, lateral malleolus, toes). Ankle-Brachial Pressure Index (ABPI): Normal >1.0, Claudication 0.5-0.9, Critical ischemia <0.5. Management: smoking cessation, exercise, statins, antiplatelets, angioplasty, or bypass (e.g., fem-pop).",
+            "svgKey": "mbbs-surg-pvd",
+            "landmarks": [
+                  "ABPI < 0.9 = PAD; ABPI < 0.5 = Critical Limb Ischemia",
+                  "Critical Limb Ischemia (CLI): rest pain >2 weeks + ischemic ulcers or gangrene",
+                  "Arterial ulcers: punched out, painful, located distally (toes, lateral malleolus)",
+                  "First-line management for claudication: smoking cessation and supervised exercise program"
+            ],
+            "examQA": [
+                  {
+                        "q": "Define Critical Limb Ischemia (CLI).",
+                        "a": "CLI is the end-stage of peripheral arterial disease characterized by inadequate blood flow to sustain tissue viability at rest. Diagnosis requires: Ischemic rest pain for >2 weeks (often requiring opiates, worse at night) AND/OR tissue loss (ischemic ulcers or gangrene). Associated with an ABPI < 0.5 or ankle systolic pressure <50 mmHg."
+                  },
+                  {
+                        "q": "Differentiate between an arterial and a venous leg ulcer clinically.",
+                        "a": "Arterial ulcer: PAINFUL, \"punched out\" edges, deep base with poor granulation, located distally (toes, heel, lateral malleolus), surrounding skin is cold/pale/hairless with absent pulses. Venous ulcer: Less painful, sloping edges, shallow base with red granulation, located in the gaiter area (medial malleolus), surrounding skin shows lipodermatosclerosis, venous eczema, and haemosiderin staining, normal pulses."
+                  }
+            ]
+      },
+      {
+            "id": "dvt",
+            "name": "Deep Vein Thrombosis & Varicose Veins",
+            "syllabusRef": "Phase IV Surgery",
+            "section": "Vascular, Breast & Endocrine",
+            "description": "DVT: blood clot in deep veins. Virchow's Triad: Stasis (immobility), Hypercoagulability (cancer, pregnancy, thrombophilia), Endothelial damage (surgery, trauma). Presents with unilateral calf swelling, pain, pitting edema, warmth. Diagnosis: Wells score, D-dimer, Doppler Ultrasound. Complication: Pulmonary Embolism (PE). Treatment: DOACs or LMWH. Varicose veins: dilated, tortuous superficial veins (saphenous system) due to valvular incompetence. CEAP classification. Trendelenburg test locates incompetent valves. Management: compression stockings, endovenous thermal ablation (EVLA), stripping.",
+            "svgKey": "mbbs-surg-dvt",
+            "landmarks": [
+                  "Virchow's Triad: Stasis + Hypercoagulability + Endothelial injury",
+                  "Wells Score: used to determine pre-test probability of DVT",
+                  "D-Dimer: high sensitivity (good for ruling out DVT in low Wells score), low specificity",
+                  "CEAP classification: used to grade chronic venous disorders (C0 to C6 for active ulcer)"
+            ],
+            "examQA": [
+                  {
+                        "q": "What is Virchow's Triad?",
+                        "a": "The three broad categories of factors that contribute to thrombosis: 1. Venous STASIS (e.g., prolonged immobility, long-haul flights, obesity, pregnancy). 2. HYPERCOAGULABILITY (e.g., active cancer, oral contraceptives, Factor V Leiden, pregnancy). 3. ENDOTHELIAL INJURY (e.g., surgery, trauma, central venous catheters)."
+                  },
+                  {
+                        "q": "What is the purpose of the Trendelenburg (tourniquet) test for varicose veins?",
+                        "a": "It is used to determine the site of valvular incompetence. The leg is elevated to empty the veins, a tourniquet is applied to the upper thigh (occluding the saphenofemoral junction - SFJ), and the patient stands. If the veins stay empty but fill rapidly from above when the tourniquet is released, the SFJ is incompetent. If they fill rapidly while the tourniquet is STILL ON, there are incompetent perforators below the tourniquet."
+                  }
+            ]
+      },
+      {
+            "id": "breast-disease",
+            "name": "Breast Diseases",
+            "syllabusRef": "Phase IV Surgery",
+            "section": "Vascular, Breast & Endocrine",
+            "description": "Benign: Fibroadenoma (young women, \"breast mouse\", firm, highly mobile), Fibrocystic change (cyclical pain, lumpiness), Breast abscess/mastitis (lactating women, S. aureus). Malignant: Breast carcinoma (most common female cancer). Risk factors: nulliparity, early menarche, late menopause, BRCA1/2. Presentation: painless, hard, irregular lump, skin tethering (dimpling/peau d'orange), nipple retraction, axillary lymphadenopathy. Triple Assessment is mandatory for any breast lump: 1) Clinical examination, 2) Imaging (Ultrasound <35yrs, Mammogram >35yrs), 3) Pathology (Core biopsy or FNA). Treatment: WLE (Wide Local Excision) or Mastectomy + Sentinel Lymph Node Biopsy + Radiotherapy + Endocrine therapy (Tamoxifen if ER+).",
+            "svgKey": "mbbs-surg-breast",
+            "landmarks": [
+                  "Triple Assessment: 1. Clinical Exam, 2. Imaging (US/Mammo), 3. Pathology (Biopsy)",
+                  "Imaging choice: Ultrasound for age <35 (dense breasts); Mammogram for >35",
+                  "Peau d'orange: caused by tumour infiltrating and blocking subcutaneous dermal lymphatics",
+                  "Sentinel Lymph Node Biopsy: identifies the first node draining the tumour to stage the axilla"
+            ],
+            "examQA": [
+                  {
+                        "q": "What are the components of the Triple Assessment for a breast lump?",
+                        "a": "1. Clinical examination (history and physical examination of breasts and regional lymph nodes). 2. Radiological imaging (Ultrasound for women <35 years due to dense breast tissue; Mammography for women >35 years). 3. Pathological assessment (Core needle biopsy for histology, or Fine Needle Aspiration Cytology (FNAC))."
+                  },
+                  {
+                        "q": "A 22-year-old presents with a 2cm firm, smooth, highly mobile, painless breast lump. What is the most likely diagnosis?",
+                        "a": "Fibroadenoma. It is the most common benign breast tumour in young women (typically <30 years). It is often referred to as a \"breast mouse\" because it is highly mobile. Triple assessment should still be performed (Exam, Ultrasound, Biopsy/FNAC) to confirm."
+                  }
+            ]
+      },
+      {
+            "id": "thyroid",
+            "name": "Thyroid & Parathyroid Surgery",
+            "syllabusRef": "Phase IV Surgery",
+            "section": "Vascular, Breast & Endocrine",
+            "description": "Goitre is an enlarged thyroid. Multinodular goitre is the most common cause. Thyrotoxicosis (hyperthyroidism): Graves' disease (diffuse toxic goitre, exophthalmos, autoantibodies). Symptoms: weight loss, palpitations, tremor, heat intolerance. Malignancy: Papillary (most common, young, lymphatic spread, orphan Annie nuclei), Follicular (haematogenous spread, bone/lung mets), Medullary (MEN syndrome, calcitonin), Anaplastic (elderly, very aggressive). Investigation: TFTs, Ultrasound, FNAC. Surgery (Thyroidectomy) complications: Haemorrhage (can cause airway obstruction), Recurrent Laryngeal Nerve (RLN) injury (hoarseness), Hypoparathyroidism (hypocalcaemia - perioral tingling, Trousseau's sign).",
+            "svgKey": "mbbs-surg-thyroid",
+            "landmarks": [
+                  "Papillary carcinoma: most common, lymphatic spread, excellent prognosis",
+                  "Recurrent Laryngeal Nerve injury: causes hoarseness (unilateral) or airway obstruction (bilateral)",
+                  "Post-op hypocalcaemia: due to parathyroid removal/injury; tingling, Chvostek/Trousseau signs",
+                  "FNAC limitation: cannot distinguish follicular adenoma (benign) from follicular carcinoma (malignant)"
+            ],
+            "examQA": [
+                  {
+                        "q": "What are the major specific complications of a total thyroidectomy?",
+                        "a": "1. Recurrent Laryngeal Nerve (RLN) injury: unilateral causes hoarseness; bilateral causes vocal cord paralysis and acute airway obstruction. 2. Damage/removal of Parathyroid glands: leads to transient or permanent hypoparathyroidism resulting in hypocalcaemia (tetany, perioral numbness, carpopedal spasm). 3. External branch of superior laryngeal nerve injury: voice fatigue, inability to sing high pitches. 4. Post-operative haemorrhage/haematoma: can compress the trachea causing urgent airway compromise."
+                  },
+                  {
+                        "q": "Why is Fine Needle Aspiration Cytology (FNAC) unable to diagnose follicular carcinoma of the thyroid?",
+                        "a": "FNAC only provides cells (cytology). The diagnostic feature differentiating a benign follicular adenoma from a malignant follicular carcinoma is CAPSULAR or VASCULAR INVASION. Invasion cannot be assessed on cytology alone; the entire capsule must be examined histologically after surgical excision (lobectomy/hemithyroidectomy)."
+                  }
+            ]
+      },
+      {
+            "id": "neck-masses",
+            "name": "Surgical Oncology & Neck Masses",
+            "syllabusRef": "Phase IV Surgery",
+            "section": "Vascular, Breast & Endocrine",
+            "description": "Neck lumps are common and differentiated by location and age. Rule of 80s for adult neck lumps: 80% are neoplastic, 80% of neoplastic are malignant, 80% of malignant are metastatic squamous cell carcinoma (often from upper aerodigestive tract). Midline lumps: Thyroglossal cyst (moves upwards on swallowing AND protruding tongue), Dermoid cyst, Thyroid mass (moves on swallowing only). Lateral lumps: Branchial cyst (anterior triangle, upper 1/3 of SCM, young adults), Cystic hygroma (posterior triangle, transilluminates brilliantly, infants), Lymphadenopathy (reactive, TB, lymphoma, metastatic). Investigation: FNAC is the first-line tissue diagnosis (NEVER do an open excisional biopsy first for a suspected malignant node to avoid tumor seeding).",
+            "svgKey": "mbbs-surg-neck-mass",
+            "landmarks": [
+                  "Thyroglossal cyst: moves upwards on swallowing AND protruding the tongue",
+                  "Branchial cyst: lateral neck, anterior to upper third of sternocleidomastoid",
+                  "Cystic hygroma: posterior triangle, congenital lymphatic malformation, brilliantly transilluminates",
+                  "FNAC is the gold standard initial tissue test for neck lumps; avoid open biopsy initially"
+            ],
+            "examQA": [
+                  {
+                        "q": "How do you clinically differentiate a thyroglossal cyst from a thyroid mass?",
+                        "a": "Both will move upwards on swallowing (as they are attached to the larynx/trachea). However, ONLY a thyroglossal cyst will move upwards when the patient is asked to PROTRUDE THEIR TONGUE. This is because the cyst remains attached to the base of the tongue (foramen caecum) via the thyroglossal duct tract."
+                  },
+                  {
+                        "q": "What is the \"Rule of 80s\" for neck lumps in adults?",
+                        "a": "It is a heuristic for non-thyroid neck masses in adults >40 years old: 80% of these lumps are neoplastic. Of those neoplastic lumps, 80% are malignant. Of those malignant lumps, 80% are metastatic (usually squamous cell carcinoma). Of those metastatic nodes, 80% arise from a primary tumor above the clavicle (head and neck cancer, e.g., oropharynx, larynx)."
+                  }
+            ]
+      }
+    ]
+  }
 };
 
 // Derive the TOPIC_VISUALS key from a subject object (from Supabase subjects table)
@@ -2130,5 +3098,6 @@ export function getTopicVisualsKey(subj) {
   if (name.includes('microbiology') || name.includes('micro'))  return 'mbbs_microbiology';
   if (name.includes('pathology'))                               return 'mbbs_pathology';
   if (name.includes('community'))                               return 'mbbs_community_medicine';
+  if (name.includes('medicine') && !name.includes('forensic') && !name.includes('community')) return 'mbbs_medicine';
   return null;
 }
