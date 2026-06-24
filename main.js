@@ -4290,15 +4290,23 @@ function _burgerOutsideClick(e) {
 
 function _bmSwatchesHtml() {
   const current = getCurrentThemeData();
-  return Object.entries(THEMES).map(([key, th]) => {
+  const pickerThemes = ['ascent', 'obsidian', 'midnight'];
+  
+  return `<div class="bm-theme-grid">` + pickerThemes.map(key => {
+    const th = THEMES[key];
     const accent = th.vars['--amber'];
     const bg = th.vars['--ink2'];
     const active = current.preset === key;
-    return `<div class="bm-swatch${active ? ' active' : ''}"
+    const isPremium = key !== 'ascent';
+    const locked = isPremium && userTier !== 'pro';
+    
+    return `<div class="bm-swatch${active ? ' active' : ''}${locked ? ' locked' : ''}"
       style="background:${bg};border-color:${active ? accent : 'transparent'};box-shadow:inset 0 0 0 4px ${accent}"
-      title="${th.label}"
-      onclick="bmSelectTheme('${key}')"></div>`;
-  }).join('');
+      title="${th.label}${locked ? ' (Pro)' : ''}"
+      onclick="bmSelectTheme('${key}')">
+      ${locked ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;color:rgba(255,255,255,0.8);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>' : ''}
+    </div>`;
+  }).join('') + `</div>`;
 }
 
 function _bmProfileHtml(prof) {
@@ -4336,8 +4344,9 @@ function renderBurgerMenu() {
     </div>
     <div class="bm-divider"></div>
     <div class="bm-section">
-      <div class="bm-section-label">Themes</div>
-      <button class="bm-open-ts" onclick="closeBurgerMenu();openThemeStudio()">Themes</button>
+      <div class="bm-section-label">Premium Themes</div>
+      ${_bmSwatchesHtml()}
+      <button class="bm-open-ts" style="margin-top:10px" onclick="closeBurgerMenu();openThemeStudio()">Open full Theme Studio</button>
     </div>
     <div class="bm-divider"></div>
     <div class="bm-section">
@@ -4406,6 +4415,11 @@ function _refreshBurgerSwatches(activeKey) {
 }
 
 window.bmSelectTheme = function(key) {
+  if (key !== 'ascent' && userTier !== 'pro') {
+    setToast('Upgrade to Pro to use ' + (THEMES[key]?.label || key));
+    showPaywall();
+    return;
+  }
   const themeData = { preset: key };
   applyTheme(themeData);
   saveTheme(themeData).catch(() => {});
