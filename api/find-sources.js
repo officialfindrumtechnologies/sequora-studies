@@ -38,6 +38,10 @@ export default async function handler(req, res) {
     return res.status(403).json({ error: 'Active subscription required.', code: 'INACTIVE' });
   }
 
+  if (sub.tier !== 'pro') {
+    return res.status(403).json({ error: 'Upgrade to Pro to use AI Web Grounding', code: 'UPGRADE_REQUIRED' });
+  }
+
   const geminiKey = process.env.GEMINI_API_KEY;
   if (!geminiKey) {
     console.error('[find-sources] GEMINI_API_KEY not configured');

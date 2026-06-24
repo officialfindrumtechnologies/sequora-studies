@@ -5605,6 +5605,13 @@ async function bibFindCitations() {
   }
 
   // Mode B: API fallback
+  if (userTier !== 'pro') {
+    const errEl = document.getElementById('cit-error');
+    errEl.innerHTML = 'Upgrade to Pro to use AI Web Grounding <a href="#" onclick="showPaywall(); return false;" style="color:var(--accent);text-decoration:underline;">Upgrade</a>';
+    errEl.style.display = 'block';
+    return;
+  }
+
   document.getElementById('cit-loading').style.display = 'block';
   try {
     const { data: { session } } = await supabase.auth.getSession();
