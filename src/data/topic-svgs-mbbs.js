@@ -4088,5 +4088,659 @@ export const TOPIC_SVGS_MBBS = {
       </marker>
     </defs>
   </g>
+</svg>`,
+'mbbs-opth-eye-anatomy': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <rect width="400" height="300" fill="var(--surface)" />
+    
+    <text x="200" y="25" fill="var(--text)" font-family="sans-serif" font-size="16" font-weight="bold" text-anchor="middle">Eye Anatomy &amp; Visual Pathway</text>
+    
+    <g transform="translate(100, 100)">
+      <circle cx="0" cy="0" r="60" fill="none" stroke="var(--border)" stroke-width="3"/>
+      <path d="M -42 -42 A 60 60 0 0 0 -42 42 A 40 40 0 0 1 -42 -42" fill="#e0f7fa" stroke="var(--accent)" stroke-width="2"/>
+      <path d="M -42 -42 A 40 40 0 0 0 -42 42 L -30 42 A 45 45 0 0 1 -30 -42 Z" fill="#b2ebf2" opacity="0.5"/>
+      <ellipse cx="-20" cy="0" rx="10" ry="25" fill="#fff9c4" stroke="var(--border)" stroke-width="1.5"/>
+      <path d="M -25 -25 L -35 -40" stroke="#f44336" stroke-width="2"/>
+      <path d="M -25 25 L -35 40" stroke="#f44336" stroke-width="2"/>
+      <circle cx="0" cy="0" r="57" fill="none" stroke="#f44336" stroke-width="2" stroke-dasharray="5,2"/>
+      <circle cx="0" cy="0" r="54" fill="none" stroke="#ffb300" stroke-width="2" stroke-dasharray="8,2"/>
+      <circle cx="54" cy="0" r="4" fill="#ff6f00"/>
+      <path d="M 45 -15 L 100 -20 L 100 20 L 45 15 Z" fill="#ffe082"/>
+      <path d="M 45 -15 Q 70 -20 100 -20" fill="none" stroke="var(--border)" stroke-width="2"/>
+      <path d="M 45 15 Q 70 20 100 20" fill="none" stroke="var(--border)" stroke-width="2"/>
+      <line x1="50" y1="0" x2="100" y2="0" stroke="#f44336" stroke-width="1.5"/>
+      <line x1="50" y1="5" x2="100" y2="5" stroke="#1e88e5" stroke-width="1.5"/>
+    </g>
+    
+    <text x="25" y="60" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Cornea</text>
+    <line x1="45" y1="65" x2="58" y2="100" stroke="var(--text-dim)" stroke-width="1"/>
+    <text x="45" y="145" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Lens</text>
+    <line x1="60" y1="140" x2="80" y2="100" stroke="var(--text-dim)" stroke-width="1"/>
+    <text x="145" y="65" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Retina</text>
+    <line x1="145" y1="70" x2="135" y2="60" stroke="var(--text-dim)" stroke-width="1"/>
+    <text x="180" y="130" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Optic Nerve</text>
+
+    <g transform="translate(300, 80)">
+      <circle cx="-30" cy="0" r="15" fill="none" stroke="var(--border)" stroke-width="2"/>
+      <circle cx="30" cy="0" r="15" fill="none" stroke="var(--border)" stroke-width="2"/>
+      <path d="M -30 15 L -10 60" fill="none" stroke="#e53935" stroke-width="3"/>
+      <path d="M -25 15 L 5 60" fill="none" stroke="#1e88e5" stroke-width="3"/>
+      <path d="M 30 15 L 10 60" fill="none" stroke="#1e88e5" stroke-width="3"/>
+      <path d="M 25 15 L -5 60" fill="none" stroke="#e53935" stroke-width="3"/>
+      <rect x="-10" y="55" width="20" height="10" fill="var(--surface)"/>
+      <path d="M 5 60 L -5 60" fill="none" stroke="#1e88e5" stroke-width="3"/>
+      <path d="M -5 60 L 5 60" fill="none" stroke="#e53935" stroke-width="3"/>
+      <path d="M -10 60 L -20 100" fill="none" stroke="#e53935" stroke-width="3"/>
+      <path d="M 10 60 L 20 100" fill="none" stroke="#1e88e5" stroke-width="3"/>
+      <circle cx="-20" cy="100" r="5" fill="#fbc02d"/>
+      <circle cx="20" cy="100" r="5" fill="#fbc02d"/>
+      <path d="M -20 100 Q -40 130 -25 160" fill="none" stroke="#e53935" stroke-width="2" stroke-dasharray="4,2"/>
+      <path d="M 20 100 Q 40 130 25 160" fill="none" stroke="#1e88e5" stroke-width="2" stroke-dasharray="4,2"/>
+      <path d="M -35 160 Q 0 180 35 160" fill="none" stroke="#8e24aa" stroke-width="5" stroke-linecap="round"/>
+    </g>
+    
+    <text x="360" y="70" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Eyes</text>
+    <text x="360" y="145" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Optic</text>
+    <text x="360" y="155" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Chiasm</text>
+    <text x="360" y="245" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Visual</text>
+    <text x="360" y="255" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Cortex</text>
+  </svg>`,
+  'mbbs-opth-refractive-errors': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <rect width="400" height="300" fill="var(--surface)" />
+    
+    <text x="200" y="20" fill="var(--text)" font-family="sans-serif" font-size="16" font-weight="bold" text-anchor="middle">Refractive Errors &amp; Correction</text>
+    
+    <g transform="translate(50, 80)">
+      <text x="150" y="-30" fill="var(--text)" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Myopia (Short-sightedness)</text>
+      <circle cx="50" cy="0" r="30" fill="none" stroke="var(--border)" stroke-width="2"/>
+      <path d="M 20 -15 A 20 20 0 0 0 20 15" fill="#e0f7fa" stroke="var(--border)" stroke-width="1.5"/>
+      <ellipse cx="30" cy="0" rx="4" ry="12" fill="#fff9c4" stroke="var(--border)" stroke-width="1"/>
+      <line x1="-30" y1="-15" x2="30" y2="-10" stroke="#ffeb3b" stroke-width="2"/>
+      <line x1="-30" y1="15" x2="30" y2="10" stroke="#ffeb3b" stroke-width="2"/>
+      <line x1="30" y1="-10" x2="60" y2="0" stroke="#ffeb3b" stroke-width="2"/>
+      <line x1="30" y1="10" x2="60" y2="0" stroke="#ffeb3b" stroke-width="2"/>
+      <line x1="60" y1="0" x2="80" y2="-10" stroke="#ffeb3b" stroke-width="2" stroke-dasharray="2,2"/>
+      <line x1="60" y1="0" x2="80" y2="10" stroke="#ffeb3b" stroke-width="2" stroke-dasharray="2,2"/>
+      
+      <line x1="120" y1="0" x2="160" y2="0" stroke="var(--text-dim)" stroke-width="2"/>
+      <text x="140" y="-10" fill="var(--text-dim)" font-family="sans-serif" font-size="9" text-anchor="middle">Correction</text>
+      
+      <g transform="translate(180, 0)">
+        <circle cx="50" cy="0" r="30" fill="none" stroke="var(--border)" stroke-width="2"/>
+        <path d="M 20 -15 A 20 20 0 0 0 20 15" fill="#e0f7fa" stroke="var(--border)" stroke-width="1.5"/>
+        <ellipse cx="30" cy="0" rx="4" ry="12" fill="#fff9c4" stroke="var(--border)" stroke-width="1"/>
+        <path d="M -10 -20 A 15 15 0 0 0 -10 20 L -5 20 A 15 15 0 0 0 -5 -20 Z" fill="#b3e5fc" stroke="#0288d1" stroke-width="1"/>
+        <line x1="-40" y1="-10" x2="-10" y2="-10" stroke="#ffeb3b" stroke-width="2"/>
+        <line x1="-40" y1="10" x2="-10" y2="10" stroke="#ffeb3b" stroke-width="2"/>
+        <line x1="-5" y1="-15" x2="30" y2="-10" stroke="#ffeb3b" stroke-width="2"/>
+        <line x1="-5" y1="15" x2="30" y2="10" stroke="#ffeb3b" stroke-width="2"/>
+        <line x1="30" y1="-10" x2="80" y2="0" stroke="#ffeb3b" stroke-width="2"/>
+        <line x1="30" y1="10" x2="80" y2="0" stroke="#ffeb3b" stroke-width="2"/>
+        <text x="-5" y="35" fill="var(--text-dim)" font-family="sans-serif" font-size="9" text-anchor="middle">Concave Lens</text>
+      </g>
+    </g>
+
+    <g transform="translate(50, 220)">
+      <text x="150" y="-30" fill="var(--text)" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Hypermetropia (Long-sightedness)</text>
+      <circle cx="50" cy="0" r="30" fill="none" stroke="var(--border)" stroke-width="2"/>
+      <path d="M 20 -15 A 20 20 0 0 0 20 15" fill="#e0f7fa" stroke="var(--border)" stroke-width="1.5"/>
+      <ellipse cx="30" cy="0" rx="4" ry="12" fill="#fff9c4" stroke="var(--border)" stroke-width="1"/>
+      <line x1="-30" y1="-15" x2="30" y2="-10" stroke="#ffeb3b" stroke-width="2"/>
+      <line x1="-30" y1="15" x2="30" y2="10" stroke="#ffeb3b" stroke-width="2"/>
+      <line x1="30" y1="-10" x2="100" y2="0" stroke="#ffeb3b" stroke-width="2" stroke-dasharray="2,2"/>
+      <line x1="30" y1="10" x2="100" y2="0" stroke="#ffeb3b" stroke-width="2" stroke-dasharray="2,2"/>
+      <line x1="30" y1="-10" x2="80" y2="-3" stroke="#ffeb3b" stroke-width="2"/>
+      <line x1="30" y1="10" x2="80" y2="3" stroke="#ffeb3b" stroke-width="2"/>
+      
+      <line x1="120" y1="0" x2="160" y2="0" stroke="var(--text-dim)" stroke-width="2"/>
+      <text x="140" y="-10" fill="var(--text-dim)" font-family="sans-serif" font-size="9" text-anchor="middle">Correction</text>
+      
+      <g transform="translate(180, 0)">
+        <circle cx="50" cy="0" r="30" fill="none" stroke="var(--border)" stroke-width="2"/>
+        <path d="M 20 -15 A 20 20 0 0 0 20 15" fill="#e0f7fa" stroke="var(--border)" stroke-width="1.5"/>
+        <ellipse cx="30" cy="0" rx="4" ry="12" fill="#fff9c4" stroke="var(--border)" stroke-width="1"/>
+        <path d="M -10 -20 A 15 40 0 0 1 -10 20 A 15 40 0 0 1 -10 -20 Z" fill="#b3e5fc" stroke="#0288d1" stroke-width="1"/>
+        <line x1="-40" y1="-15" x2="-12" y2="-10" stroke="#ffeb3b" stroke-width="2"/>
+        <line x1="-40" y1="15" x2="-12" y2="10" stroke="#ffeb3b" stroke-width="2"/>
+        <line x1="-8" y1="-7" x2="30" y2="-5" stroke="#ffeb3b" stroke-width="2"/>
+        <line x1="-8" y1="7" x2="30" y2="5" stroke="#ffeb3b" stroke-width="2"/>
+        <line x1="30" y1="-5" x2="80" y2="0" stroke="#ffeb3b" stroke-width="2"/>
+        <line x1="30" y1="5" x2="80" y2="0" stroke="#ffeb3b" stroke-width="2"/>
+        <text x="-10" y="35" fill="var(--text-dim)" font-family="sans-serif" font-size="9" text-anchor="middle">Convex Lens</text>
+      </g>
+    </g>
+  </svg>`,
+  'mbbs-opth-eyelid-adnexa': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <rect width="400" height="300" fill="var(--surface)" />
+    
+    <text x="200" y="20" fill="var(--text)" font-family="sans-serif" font-size="16" font-weight="bold" text-anchor="middle">Eyelid &amp; Adnexa Pathology</text>
+
+    <g transform="translate(100, 80)">
+      <text x="0" y="-40" fill="var(--text)" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Chalazion vs Stye</text>
+      <path d="M -50 0 Q 0 -30 50 0 Q 0 30 -50 0" fill="#fff" stroke="var(--border)" stroke-width="2"/>
+      <circle cx="0" cy="0" r="15" fill="#8d6e63"/>
+      <circle cx="0" cy="0" r="5" fill="#212121"/>
+      <path d="M -60 -5 Q 0 -40 60 -5" fill="none" stroke="#ffccbc" stroke-width="5" stroke-linecap="round"/>
+      <path d="M -60 5 Q 0 40 60 5" fill="none" stroke="#ffccbc" stroke-width="5" stroke-linecap="round"/>
+      <path d="M -30 -22 L -40 -35" stroke="var(--border)" stroke-width="1.5"/>
+      <path d="M -10 -28 L -15 -42" stroke="var(--border)" stroke-width="1.5"/>
+      <path d="M 10 -28 L 15 -42" stroke="var(--border)" stroke-width="1.5"/>
+      <path d="M 30 -22 L 40 -35" stroke="var(--border)" stroke-width="1.5"/>
+      
+      <circle cx="0" cy="-35" r="8" fill="#ffab91" stroke="#d84315" stroke-width="1"/>
+      <text x="0" y="-50" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">Chalazion</text>
+      <line x1="0" y1="-48" x2="0" y2="-43" stroke="var(--text-dim)" stroke-width="1"/>
+      
+      <circle cx="30" cy="-22" r="5" fill="#ff8a65" stroke="#d84315" stroke-width="1"/>
+      <circle cx="30" cy="-22" r="2" fill="#fff9c4"/>
+      <text x="45" y="-40" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Stye</text>
+      <line x1="45" y1="-38" x2="35" y2="-27" stroke="var(--text-dim)" stroke-width="1"/>
+    </g>
+
+    <g transform="translate(300, 80)">
+      <text x="0" y="-40" fill="var(--text)" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Ptosis</text>
+      <path d="M -50 0 Q 0 -30 50 0 Q 0 30 -50 0" fill="#fff" stroke="var(--border)" stroke-width="2"/>
+      <circle cx="0" cy="0" r="15" fill="#8d6e63"/>
+      <circle cx="0" cy="0" r="5" fill="#212121"/>
+      <path d="M -55 2 Q 0 -5 55 2" fill="#ffccbc" stroke="#e64a19" stroke-width="1.5"/>
+      <path d="M -60 5 Q 0 40 60 5" fill="none" stroke="#ffccbc" stroke-width="5" stroke-linecap="round"/>
+      <text x="0" y="45" fill="var(--text-dim)" font-family="sans-serif" font-size="9" text-anchor="middle">Drooping of upper lid</text>
+    </g>
+
+    <g transform="translate(100, 220)">
+      <text x="0" y="-40" fill="var(--text)" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Ectropion</text>
+      <path d="M -50 0 Q 0 -30 50 0 Q 0 30 -50 0" fill="#fff" stroke="var(--border)" stroke-width="2"/>
+      <circle cx="0" cy="0" r="15" fill="#8d6e63"/>
+      <circle cx="0" cy="0" r="5" fill="#212121"/>
+      <path d="M -60 -5 Q 0 -40 60 -5" fill="none" stroke="#ffccbc" stroke-width="5" stroke-linecap="round"/>
+      <path d="M -50 5 Q 0 45 50 5" fill="none" stroke="#e57373" stroke-width="6" stroke-linecap="round"/>
+      <path d="M -60 12 Q 0 55 60 12" fill="none" stroke="#ffccbc" stroke-width="4" stroke-linecap="round"/>
+      <line x1="-20" y1="28" x2="-25" y2="40" stroke="var(--border)" stroke-width="1"/>
+      <line x1="0" y1="31" x2="0" y2="45" stroke="var(--border)" stroke-width="1"/>
+      <line x1="20" y1="28" x2="25" y2="40" stroke="var(--border)" stroke-width="1"/>
+      <text x="0" y="55" fill="var(--text-dim)" font-family="sans-serif" font-size="9" text-anchor="middle">Lid turns outward</text>
+    </g>
+
+    <g transform="translate(300, 220)">
+      <text x="0" y="-40" fill="var(--text)" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Entropion</text>
+      <path d="M -50 0 Q 0 -30 50 0 Q 0 30 -50 0" fill="#fff" stroke="var(--border)" stroke-width="2"/>
+      <circle cx="0" cy="0" r="15" fill="#8d6e63"/>
+      <circle cx="0" cy="0" r="5" fill="#212121"/>
+      <path d="M -60 -5 Q 0 -40 60 -5" fill="none" stroke="#ffccbc" stroke-width="5" stroke-linecap="round"/>
+      <path d="M -50 5 Q 0 25 50 5" fill="none" stroke="#ffccbc" stroke-width="6" stroke-linecap="round"/>
+      <line x1="-20" y1="15" x2="-15" y2="2" stroke="var(--border)" stroke-width="1.5"/>
+      <line x1="0" y1="18" x2="0" y2="4" stroke="var(--border)" stroke-width="1.5"/>
+      <line x1="20" y1="15" x2="15" y2="2" stroke="var(--border)" stroke-width="1.5"/>
+      <path d="M -15 0 A 15 15 0 0 0 15 0" fill="none" stroke="#f44336" stroke-width="1.5" stroke-dasharray="2,2"/>
+      <text x="0" y="50" fill="var(--text-dim)" font-family="sans-serif" font-size="9" text-anchor="middle">Lid turns inward</text>
+    </g>
+  </svg>`,
+  'mbbs-opth-conjunctiva': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <rect width="400" height="300" fill="var(--surface)" />
+    
+    <text x="200" y="20" fill="var(--text)" font-family="sans-serif" font-size="16" font-weight="bold" text-anchor="middle">Conjunctival Conditions</text>
+
+    <g transform="translate(100, 80)">
+      <text x="0" y="-45" fill="var(--text)" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Conjunctivitis</text>
+      <path d="M -50 0 Q 0 -30 50 0 Q 0 30 -50 0" fill="#fff" stroke="var(--border)" stroke-width="2"/>
+      <path d="M -50 0 Q -25 -15 0 0 Q -25 15 -50 0" fill="#ffebee"/>
+      <path d="M -40 0 Q -20 -10 -10 5" fill="none" stroke="#e57373" stroke-width="1"/>
+      <path d="M -30 5 Q -15 15 -5 0" fill="none" stroke="#e57373" stroke-width="1"/>
+      <circle cx="-25" cy="-5" r="1.5" fill="#ef9a9a"/>
+      <circle cx="-15" cy="5" r="1.5" fill="#ef9a9a"/>
+      <text x="-25" y="45" fill="var(--text-dim)" font-family="sans-serif" font-size="9" text-anchor="middle">Viral</text>
+      <text x="-25" y="55" fill="var(--text-dim)" font-family="sans-serif" font-size="8" text-anchor="middle">(Watery, Follicles)</text>
+      
+      <path d="M 0 0 Q 25 -15 50 0 Q 25 15 0 0" fill="#fff3e0"/>
+      <path d="M 10 5 Q 25 15 40 0" fill="none" stroke="#ffb74d" stroke-width="1.5"/>
+      <path d="M 20 -5 Q 35 -10 45 0" fill="none" stroke="#ffb74d" stroke-width="1.5"/>
+      <circle cx="30" cy="10" r="3" fill="#fff59d" stroke="#fbc02d" stroke-width="0.5"/>
+      <circle cx="40" cy="5" r="2.5" fill="#fff59d" stroke="#fbc02d" stroke-width="0.5"/>
+      <circle cx="45" cy="0" r="2" fill="#fff59d"/>
+      <text x="25" y="45" fill="var(--text-dim)" font-family="sans-serif" font-size="9" text-anchor="middle">Bacterial</text>
+      <text x="25" y="55" fill="var(--text-dim)" font-family="sans-serif" font-size="8" text-anchor="middle">(Purulent)</text>
+      
+      <circle cx="0" cy="0" r="12" fill="#8d6e63"/>
+      <circle cx="0" cy="0" r="4" fill="#212121"/>
+    </g>
+
+    <g transform="translate(300, 80)">
+      <text x="0" y="-45" fill="var(--text)" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Pterygium</text>
+      <path d="M -50 0 Q 0 -30 50 0 Q 0 30 -50 0" fill="#fff" stroke="var(--border)" stroke-width="2"/>
+      <circle cx="0" cy="0" r="15" fill="#8d6e63"/>
+      <circle cx="0" cy="0" r="5" fill="#212121"/>
+      <path d="M -45 0 Q -20 -10 5 0 Q -20 10 -45 0" fill="#ffcdd2" opacity="0.8"/>
+      <path d="M -40 0 Q -15 -5 2 0" fill="none" stroke="#e53935" stroke-width="1"/>
+      <path d="M -40 0 Q -15 5 2 0" fill="none" stroke="#e53935" stroke-width="1"/>
+      <text x="0" y="45" fill="var(--text-dim)" font-family="sans-serif" font-size="9" text-anchor="middle">Fibrovascular tissue</text>
+      <text x="0" y="55" fill="var(--text-dim)" font-family="sans-serif" font-size="9" text-anchor="middle">invading cornea</text>
+    </g>
+
+    <g transform="translate(200, 220)">
+      <text x="0" y="-45" fill="var(--text)" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Trachoma</text>
+      <path d="M -60 0 Q 0 -35 60 0 Q 0 35 -60 0" fill="#fff" stroke="var(--border)" stroke-width="2"/>
+      <path d="M -55 -5 Q 0 -40 55 -5 Q 0 20 -55 -5" fill="#ef9a9a" stroke="#d32f2f" stroke-width="1.5"/>
+      <path d="M -40 -15 Q 0 -25 40 -15" fill="none" stroke="#fff" stroke-width="3" opacity="0.7"/>
+      <circle cx="-20" cy="-5" r="2" fill="#fff9c4"/>
+      <circle cx="-10" cy="-10" r="2" fill="#fff9c4"/>
+      <circle cx="0" cy="-5" r="2" fill="#fff9c4"/>
+      <circle cx="15" cy="-8" r="2" fill="#fff9c4"/>
+      <circle cx="25" cy="-3" r="2" fill="#fff9c4"/>
+      
+      <text x="-45" y="-30" fill="var(--text-dim)" font-family="sans-serif" font-size="8">Arlt\'s Line</text>
+      <line x1="-30" y1="-28" x2="-20" y2="-20" stroke="var(--text-dim)" stroke-width="1"/>
+      <text x="0" y="45" fill="var(--text-dim)" font-family="sans-serif" font-size="9" text-anchor="middle">Everted upper eyelid</text>
+    </g>
+  </svg>`,
+  'mbbs-opth-cornea': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <rect width="400" height="300" fill="var(--surface)" />
+    <text x="200" y="20" fill="var(--text)" font-family="sans-serif" font-size="16" font-weight="bold" text-anchor="middle">Corneal Diseases</text>
+
+    <g transform="translate(100, 100)">
+      <text x="0" y="-45" fill="var(--text)" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Bacterial Ulcer &amp; Hypopyon</text>
+      <path d="M -50 0 Q 0 -30 50 0 Q 0 30 -50 0" fill="#fff" stroke="var(--border)" stroke-width="2"/>
+      <circle cx="0" cy="0" r="16" fill="#8d6e63"/>
+      <path d="M -13 9 A 16 16 0 0 0 13 9 L -13 9 Z" fill="#fff59d" stroke="#fbc02d" stroke-width="1"/>
+      <circle cx="0" cy="0" r="4" fill="#212121"/>
+      <circle cx="-5" cy="-5" r="6" fill="#eceff1" opacity="0.8"/>
+      <circle cx="-5" cy="-5" r="3" fill="#cfd8dc"/>
+      
+      <line x1="-15" y1="20" x2="-25" y2="35" stroke="var(--text-dim)" stroke-width="1"/>
+      <text x="-25" y="45" fill="var(--text-dim)" font-family="sans-serif" font-size="9" text-anchor="middle">Hypopyon</text>
+    </g>
+
+    <g transform="translate(300, 100)">
+      <text x="0" y="-45" fill="var(--text)" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">HSV Dendritic Ulcer</text>
+      <path d="M -50 0 Q 0 -30 50 0 Q 0 30 -50 0" fill="#263238" stroke="var(--border)" stroke-width="2"/>
+      <circle cx="0" cy="0" r="16" fill="#455a64" opacity="0.5"/>
+      <circle cx="0" cy="0" r="4" fill="#111"/>
+      <path d="M -10 -10 L 0 -2 L 10 -5 M 0 -2 L 5 8 L 0 12 M 5 8 L 12 10" fill="none" stroke="#64dd17" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="-10" cy="-10" r="1.5" fill="#64dd17"/>
+      <circle cx="10" cy="-5" r="1.5" fill="#64dd17"/>
+      <circle cx="0" cy="12" r="1.5" fill="#64dd17"/>
+      <circle cx="12" cy="10" r="1.5" fill="#64dd17"/>
+      
+      <text x="0" y="45" fill="var(--text-dim)" font-family="sans-serif" font-size="9" text-anchor="middle">Fluorescein Stain</text>
+    </g>
+
+    <g transform="translate(200, 230)">
+      <text x="0" y="-40" fill="var(--text)" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Keratoconus (Lateral View)</text>
+      <circle cx="20" cy="0" r="30" fill="none" stroke="var(--border)" stroke-width="2"/>
+      <path d="M -10 -15 A 20 20 0 0 0 -10 15" fill="none" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="2,2"/>
+      <path d="M -10 -15 Q -40 0 -10 15" fill="#e0f7fa" stroke="#00bcd4" stroke-width="2" opacity="0.6"/>
+      <line x1="-5" y1="-15" x2="-5" y2="15" stroke="#f44336" stroke-width="2"/>
+      <ellipse cx="5" cy="0" rx="3" ry="10" fill="#fff9c4" stroke="var(--border)" stroke-width="1"/>
+      
+      <text x="-45" y="0" fill="var(--text-dim)" font-family="sans-serif" font-size="9" text-anchor="end">Conical</text>
+      <text x="-45" y="10" fill="var(--text-dim)" font-family="sans-serif" font-size="9" text-anchor="end">Protrusion</text>
+      <line x1="-40" y1="0" x2="-25" y2="0" stroke="var(--text-dim)" stroke-width="1"/>
+    </g>
+  </svg>`,
+'mbbs-opth-cataract': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <rect x="0" y="0" width="400" height="300" fill="var(--surface)"/>
+  
+  <circle cx="80" cy="80" r="30" fill="var(--surface)" stroke="var(--border)" stroke-width="2"/>
+  <circle cx="200" cy="80" r="30" fill="var(--surface)" stroke="var(--border)" stroke-width="2"/>
+  <circle cx="320" cy="80" r="30" fill="var(--surface)" stroke="var(--border)" stroke-width="2"/>
+  
+  <text x="80" y="130" font-size="12" fill="var(--text)" text-anchor="middle">Nuclear</text>
+  <text x="200" y="130" font-size="12" fill="var(--text)" text-anchor="middle">Cortical</text>
+  <text x="320" y="130" font-size="12" fill="var(--text)" text-anchor="middle">Subcapsular</text>
+  
+  <circle cx="80" cy="80" r="15" fill="var(--accent)" opacity="0.6"/>
+  <path d="M 200 50 L 200 65 M 200 110 L 200 95 M 170 80 L 185 80 M 230 80 L 215 80 M 178 58 L 190 70 M 222 102 L 210 90 M 222 58 L 210 70 M 178 102 L 190 90" stroke="var(--text-dim)" stroke-width="3"/>
+  <ellipse cx="320" cy="80" rx="10" ry="25" fill="var(--accent)" opacity="0.7"/>
+
+  <text x="100" y="180" font-size="14" fill="var(--text)" font-weight="bold">Phacoemulsification</text>
+  <path d="M 50 210 Q 100 190 120 220 Q 100 250 50 230" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <ellipse cx="90" cy="220" rx="12" ry="22" fill="none" stroke="var(--text-dim)" stroke-width="2"/>
+  <path d="M 150 190 L 100 215 L 98 218 L 148 193 Z" fill="var(--accent)"/>
+  <path d="M 95 220 Q 80 220 75 210" fill="none" stroke="var(--text)" stroke-width="2" stroke-dasharray="2,2"/>
+  
+  <text x="260" y="180" font-size="14" fill="var(--text)" font-weight="bold">IOL Implant</text>
+  <path d="M 230 210 Q 260 190 280 220 Q 260 250 230 230" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <ellipse cx="260" cy="220" rx="12" ry="22" fill="none" stroke="var(--text-dim)" stroke-width="2" stroke-dasharray="2,2"/>
+  <text x="255" y="260" font-size="12" fill="var(--text-dim)" text-anchor="middle">Aphakia</text>
+
+  <path d="M 320 210 Q 350 190 370 220 Q 350 250 320 230" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <circle cx="350" cy="220" r="10" fill="var(--surface)" stroke="var(--accent)" stroke-width="2"/>
+  <path d="M 350 210 Q 360 200 355 195 M 350 230 Q 340 240 345 245" fill="none" stroke="var(--accent)" stroke-width="2"/>
+  <text x="345" y="260" font-size="12" fill="var(--text)" text-anchor="middle">Pseudophakia</text>
+</svg>`,
+  'mbbs-opth-glaucoma': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <rect x="0" y="0" width="400" height="300" fill="var(--surface)"/>
+  
+  <text x="200" y="20" font-size="14" fill="var(--text)" text-anchor="middle" font-weight="bold">Glaucoma Pathophysiology</text>
+
+  <path d="M 40 80 Q 80 40 120 80 L 120 120 L 40 120 Z" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <path d="M 40 80 Q 80 50 120 80" fill="none" stroke="var(--text-dim)" stroke-width="2"/>
+  <path d="M 50 90 L 70 90" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M 110 90 L 90 90" stroke="var(--accent)" stroke-width="3"/>
+  <circle cx="80" cy="100" r="15" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <path d="M 80 90 Q 70 70 55 85" fill="none" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="2,2"/>
+  <text x="80" y="135" font-size="10" fill="var(--text)" text-anchor="middle">Open Angle (TM Block)</text>
+
+  <path d="M 160 80 Q 200 40 240 80 L 240 120 L 160 120 Z" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <path d="M 160 80 Q 200 50 240 80" fill="none" stroke="var(--text-dim)" stroke-width="2"/>
+  <path d="M 170 85 L 180 90" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M 230 85 L 220 90" stroke="var(--accent)" stroke-width="3"/>
+  <circle cx="200" cy="100" r="15" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <path d="M 200 90 Q 190 70 175 80" fill="none" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="2,2"/>
+  <text x="200" y="135" font-size="10" fill="var(--text)" text-anchor="middle">Angle Closure (Iris Block)</text>
+
+  <text x="330" y="50" font-size="12" fill="var(--text)" text-anchor="middle" font-weight="bold">Optic Disc</text>
+  <circle cx="330" cy="90" r="30" fill="none" stroke="var(--accent)" stroke-width="2"/>
+  <circle cx="330" cy="90" r="20" fill="var(--border)" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="3,3"/>
+  <path d="M 330 90 L 330 65 M 330 90 L 345 105 M 330 90 L 315 105" fill="none" stroke="var(--accent)" stroke-width="2"/>
+  <text x="330" y="135" font-size="10" fill="var(--text-dim)" text-anchor="middle">C/D Ratio &gt; 0.6</text>
+
+  <text x="200" y="180" font-size="14" fill="var(--text)" text-anchor="middle" font-weight="bold">Visual Field Defect Progression</text>
+  
+  <circle cx="100" cy="230" r="30" fill="var(--surface)" stroke="var(--border)" stroke-width="2"/>
+  <path d="M 90 210 Q 110 200 120 220 Q 110 210 90 210 Z" fill="var(--text-dim)"/>
+  <text x="100" y="275" font-size="10" fill="var(--text)" text-anchor="middle">Arcuate Scotoma</text>
+
+  <circle cx="200" cy="230" r="30" fill="var(--surface)" stroke="var(--border)" stroke-width="2"/>
+  <path d="M 200 200 A 30 30 0 1 0 200 260 A 30 30 0 1 0 200 200 M 200 210 A 20 20 0 1 1 200 250 A 20 20 0 1 1 200 210 Z" fill="var(--text-dim)"/>
+  <text x="200" y="275" font-size="10" fill="var(--text)" text-anchor="middle">Ring Scotoma</text>
+
+  <circle cx="300" cy="230" r="30" fill="var(--text-dim)" stroke="var(--border)" stroke-width="2"/>
+  <circle cx="300" cy="230" r="5" fill="var(--surface)"/>
+  <text x="300" y="275" font-size="10" fill="var(--text)" text-anchor="middle">Tunnel Vision</text>
+</svg>`,
+  'mbbs-opth-uveitis': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <rect x="0" y="0" width="400" height="300" fill="var(--surface)"/>
+  
+  <text x="200" y="25" font-size="16" fill="var(--text)" text-anchor="middle" font-weight="bold">Uveitis Clinical Features</text>
+
+  <path d="M 50 120 Q 120 70 190 120 Q 120 170 50 120 Z" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <circle cx="120" cy="120" r="30" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <circle cx="120" cy="120" r="10" fill="var(--text)"/>
+  
+  <path d="M 120 85 L 120 75 M 120 155 L 120 165 M 85 120 L 75 120 M 155 120 L 165 120 M 95 95 L 85 85 M 145 145 L 155 155 M 145 95 L 155 85 M 95 145 L 85 155" stroke="var(--accent)" stroke-width="2"/>
+  <text x="120" y="195" font-size="12" fill="var(--text)" text-anchor="middle">Ciliary Flush &amp; Irregular Pupil</text>
+
+  <path d="M 120 110 Q 130 110 125 120 Q 130 130 120 130 Q 110 130 115 120 Q 110 110 120 110 Z" fill="var(--text)"/>
+  <path d="M 125 120 L 130 120 M 115 120 L 110 120" stroke="var(--text-dim)" stroke-width="1"/>
+  <text x="120" y="210" font-size="10" fill="var(--text-dim)" text-anchor="middle">(Posterior Synechiae)</text>
+
+  <path d="M 230 120 Q 280 60 330 120 L 330 200 L 230 200 Z" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <path d="M 240 120 Q 280 80 320 120" fill="none" stroke="var(--text-dim)" stroke-width="3"/>
+  <ellipse cx="280" cy="130" rx="15" ry="25" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <path d="M 245 125 L 265 130" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M 315 125 L 295 130" stroke="var(--accent)" stroke-width="3"/>
+  
+  <path d="M 265 130 L 268 130 M 295 130 L 292 130" stroke="var(--text)" stroke-width="2"/>
+  <text x="280" y="65" font-size="12" fill="var(--text)" text-anchor="middle">Anterior Chamber Section</text>
+
+  <circle cx="280" cy="115" r="2" fill="var(--text-dim)"/>
+  <circle cx="270" cy="110" r="1.5" fill="var(--text-dim)"/>
+  <circle cx="290" cy="112" r="2" fill="var(--text-dim)"/>
+  <circle cx="275" cy="105" r="1" fill="var(--text-dim)"/>
+  <circle cx="285" cy="108" r="1.5" fill="var(--text-dim)"/>
+  <path d="M 340 110 L 295 110" stroke="var(--text)" stroke-width="1" marker-start="url(#arrow)"/>
+  <text x="345" y="113" font-size="10" fill="var(--text)">Keratic Precipitates</text>
+
+  <path d="M 245 150 Q 280 170 315 150 L 310 160 Q 280 180 250 160 Z" fill="var(--text-dim)" opacity="0.6"/>
+  <path d="M 250 180 L 280 155" stroke="var(--text)" stroke-width="1"/>
+  <text x="210" y="190" font-size="10" fill="var(--text)">Hypopyon</text>
+</svg>`,
+  'mbbs-opth-diabetic-retinopathy': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <rect x="0" y="0" width="400" height="300" fill="var(--surface)"/>
+  <text x="200" y="25" font-size="16" fill="var(--text)" text-anchor="middle" font-weight="bold">Diabetic Retinopathy</text>
+
+  <circle cx="120" cy="150" r="80" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <circle cx="80" cy="150" r="15" fill="none" stroke="var(--accent)" stroke-width="1" stroke-dasharray="2,2"/>
+  <circle cx="140" cy="150" r="10" fill="var(--border)" opacity="0.5"/>
+  
+  <text x="120" y="250" font-size="12" fill="var(--text)" text-anchor="middle" font-weight="bold">NPDR</text>
+
+  <path d="M 80 150 Q 100 110 150 90 M 80 150 Q 110 180 160 190 M 80 150 Q 130 130 180 150" fill="none" stroke="var(--text-dim)" stroke-width="2"/>
+  
+  <circle cx="110" cy="120" r="2" fill="var(--accent)"/>
+  <circle cx="140" cy="110" r="2" fill="var(--accent)"/>
+  <circle cx="160" cy="140" r="1.5" fill="var(--accent)"/>
+  <circle cx="130" cy="170" r="2" fill="var(--accent)"/>
+  
+  <path d="M 120 100 Q 123 98 125 102 Q 123 105 120 100 Z" fill="var(--accent)"/>
+  <path d="M 150 170 Q 155 168 153 173 Q 148 175 150 170 Z" fill="var(--accent)"/>
+  <path d="M 100 180 Q 98 185 103 183 Z" fill="var(--accent)"/>
+
+  <circle cx="155" cy="130" r="2" fill="none" stroke="var(--text)" stroke-width="1"/>
+  <circle cx="160" cy="128" r="1.5" fill="none" stroke="var(--text)" stroke-width="1"/>
+  <circle cx="158" cy="133" r="2" fill="none" stroke="var(--text)" stroke-width="1"/>
+  <text x="175" y="133" font-size="10" fill="var(--text)">Hard Exudates</text>
+  <text x="135" y="100" font-size="10" fill="var(--accent)">Dot-blot &amp; MA</text>
+
+
+  <circle cx="280" cy="150" r="80" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <circle cx="240" cy="150" r="15" fill="none" stroke="var(--accent)" stroke-width="1" stroke-dasharray="2,2"/>
+  <circle cx="300" cy="150" r="10" fill="var(--border)" opacity="0.5"/>
+  
+  <text x="280" y="250" font-size="12" fill="var(--text)" text-anchor="middle" font-weight="bold">PDR + PRP</text>
+
+  <path d="M 240 150 Q 260 110 310 90 M 240 150 Q 270 180 320 190" fill="none" stroke="var(--text-dim)" stroke-width="2"/>
+
+  <path d="M 240 150 Q 245 140 250 145 Q 255 140 250 135 Q 245 130 240 135 Q 235 145 240 150 Z" fill="none" stroke="var(--accent)" stroke-width="1"/>
+  <path d="M 280 105 Q 285 100 290 105 Q 295 95 285 95 Q 275 100 280 105 Z" fill="none" stroke="var(--accent)" stroke-width="1"/>
+  <text x="270" y="90" font-size="10" fill="var(--accent)">Neovascularization</text>
+
+  <circle cx="240" cy="90" r="3" fill="var(--text-dim)"/>
+  <circle cx="260" cy="85" r="3" fill="var(--text-dim)"/>
+  <circle cx="300" cy="80" r="3" fill="var(--text-dim)"/>
+  <circle cx="330" cy="100" r="3" fill="var(--text-dim)"/>
+  <circle cx="345" cy="130" r="3" fill="var(--text-dim)"/>
+  <circle cx="350" cy="160" r="3" fill="var(--text-dim)"/>
+  <circle cx="335" cy="190" r="3" fill="var(--text-dim)"/>
+  <circle cx="310" cy="210" r="3" fill="var(--text-dim)"/>
+  <circle cx="280" cy="215" r="3" fill="var(--text-dim)"/>
+  <circle cx="250" cy="210" r="3" fill="var(--text-dim)"/>
+  <text x="360" y="160" font-size="10" fill="var(--text-dim)">PRP Scars</text>
+</svg>`,
+  'mbbs-opth-hypertensive-retinopathy': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <rect x="0" y="0" width="400" height="300" fill="var(--surface)"/>
+  <text x="200" y="25" font-size="16" fill="var(--text)" text-anchor="middle" font-weight="bold">Hypertensive Retinopathy</text>
+
+  <rect x="30" y="40" width="130" height="110" fill="none" stroke="var(--border)" stroke-width="2"/>
+  <text x="95" y="60" font-size="12" fill="var(--text)" text-anchor="middle" font-weight="bold">Keith-Wagener-Barker</text>
+  <text x="40" y="80" font-size="10" fill="var(--text)">I: Mild narrowing</text>
+  <text x="40" y="100" font-size="10" fill="var(--text)">II: AV Nipping</text>
+  <text x="40" y="120" font-size="10" fill="var(--text)">III: Hemorr + CWS</text>
+  <text x="40" y="140" font-size="10" fill="var(--text)">IV: Papilledema</text>
+
+  <circle cx="260" cy="150" r="100" fill="none" stroke="var(--border)" stroke-width="2"/>
+  
+  <circle cx="210" cy="150" r="20" fill="none" stroke="var(--accent)" stroke-width="3" stroke-dasharray="4,4" opacity="0.6"/>
+  <text x="210" y="185" font-size="10" fill="var(--text)" text-anchor="middle">Papilledema (Gr IV)</text>
+
+  <path d="M 210 150 Q 230 100 280 80" fill="none" stroke="var(--text-dim)" stroke-width="4"/>
+  <path d="M 210 150 Q 240 120 290 110" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <circle cx="262" cy="118" r="6" fill="var(--surface)"/>
+  <path d="M 255 125 L 270 110" fill="none" stroke="var(--text)" stroke-width="2"/>
+  <path d="M 280 130 L 262 118" stroke="var(--text)" stroke-width="1"/>
+  <text x="290" y="130" font-size="10" fill="var(--text)">AV Nipping (Gr II)</text>
+
+  <path d="M 210 150 Q 240 190 300 210" fill="none" stroke="var(--text-dim)" stroke-width="4"/>
+  <path d="M 210 150 Q 260 170 320 180" fill="none" stroke="var(--text)" stroke-width="2"/>
+
+  <path d="M 250 165 L 280 172" fill="none" stroke="var(--surface)" stroke-width="1"/>
+
+  <path d="M 260 80 Q 265 85 270 82 Q 268 78 260 80 Z" fill="var(--accent)"/>
+  <path d="M 310 160 Q 315 163 320 160 Q 315 158 310 160 Z" fill="var(--accent)"/>
+  <text x="325" y="165" font-size="10" fill="var(--accent)">Flame Hemorrhage</text>
+
+  <ellipse cx="280" cy="140" rx="6" ry="4" fill="none" stroke="var(--text)" stroke-width="1" stroke-dasharray="2,2"/>
+  <ellipse cx="250" cy="190" rx="8" ry="5" fill="none" stroke="var(--text)" stroke-width="1" stroke-dasharray="2,2"/>
+  <text x="250" y="215" font-size="10" fill="var(--text)">Cotton Wool Spot (Gr III)</text>
+</svg>`,
+'mbbs-opth-retinal-detachment': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+<rect width="400" height="300" fill="var(--surface)"/>
+<line x1="200" y1="0" x2="200" y2="300" stroke="var(--border)" stroke-width="2"/>
+<line x1="200" y1="150" x2="400" y2="150" stroke="var(--border)" stroke-width="2"/>
+<text x="100" y="20" fill="var(--text)" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">Retinal Detachment</text>
+<circle cx="100" cy="140" r="70" fill="var(--surface)" stroke="var(--border)" stroke-width="2"/>
+<circle cx="100" cy="140" r="60" fill="none" stroke="red" stroke-width="2" stroke-dasharray="4,4"/>
+<path d="M 60 140 Q 80 120 120 100 Q 110 130 140 160" fill="rgba(255,100,100,0.3)" stroke="var(--accent)" stroke-width="2"/>
+<path d="M 80 110 L 90 100 L 95 105 Z" fill="var(--accent)"/>
+<text x="100" y="230" fill="var(--text-dim)" font-family="sans-serif" font-size="12" text-anchor="middle">Rhegmatogenous tear</text>
+<text x="300" y="20" fill="var(--text)" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">CRAO</text>
+<circle cx="300" cy="85" r="45" fill="#ffdcdc" stroke="var(--border)" stroke-width="2"/>
+<circle cx="280" cy="85" r="8" fill="#fff" stroke="var(--border)" stroke-width="1"/>
+<path d="M 280 85 Q 300 60 320 50 M 280 85 Q 290 110 310 120 M 280 85 L 260 70 M 280 85 L 260 100" stroke="#fca9a9" stroke-width="2" fill="none"/>
+<circle cx="315" cy="85" r="4" fill="red"/>
+<text x="300" y="145" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">Pale retina + cherry-red spot</text>
+<text x="300" y="170" fill="var(--text)" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">CRVO</text>
+<circle cx="300" cy="235" r="45" fill="var(--surface)" stroke="var(--border)" stroke-width="2"/>
+<circle cx="280" cy="235" r="8" fill="#ffe0e0" stroke="var(--border)" stroke-width="1"/>
+<path d="M 280 235 Q 300 200 320 205 M 280 235 Q 290 270 310 270 M 280 235 Q 260 210 255 230 M 280 235 Q 260 260 265 250" stroke="#a00" stroke-width="3" fill="none"/>
+<path d="M 290 220 Q 295 210 300 220 Z M 305 240 Q 315 250 310 260 Z M 270 215 Q 260 220 270 230 Z M 320 235 Q 330 225 335 240 Z M 290 260 Q 280 270 295 270 Z" fill="#c00"/>
+<text x="300" y="295" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">Blood and thunder</text>
+</svg>`,
+  'mbbs-opth-neuro-ophthalmology': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+<defs>
+<marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+<path d="M 0 0 L 10 5 L 0 10 Z" fill="var(--border)"/>
+</marker>
+</defs>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="20" fill="var(--text)" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">Optic Disc</text>
+<circle cx="100" cy="60" r="30" fill="var(--surface)" stroke="var(--border)" stroke-width="2"/>
+<circle cx="100" cy="60" r="10" fill="#fee" stroke="var(--border)" stroke-width="1"/>
+<text x="100" y="105" fill="var(--text-dim)" font-family="sans-serif" font-size="12" text-anchor="middle">Normal</text>
+<circle cx="300" cy="60" r="30" fill="var(--surface)" stroke="var(--border)" stroke-width="2"/>
+<circle cx="300" cy="60" r="14" fill="#fcc" stroke="red" stroke-width="1" stroke-dasharray="2,2"/>
+<path d="M 295 45 L 305 45 M 285 55 L 295 55 M 305 65 L 315 65 M 290 75 L 300 75" stroke="#a00" stroke-width="1"/>
+<text x="300" y="105" fill="var(--text-dim)" font-family="sans-serif" font-size="12" text-anchor="middle">Papilledema (Blurred)</text>
+<text x="200" y="130" fill="var(--text)" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">Swinging Flashlight (RAPD)</text>
+<ellipse cx="100" cy="160" rx="20" ry="10" fill="var(--surface)" stroke="var(--border)" stroke-width="2"/>
+<circle cx="100" cy="160" r="4" fill="var(--text)"/>
+<ellipse cx="160" cy="160" rx="20" ry="10" fill="var(--surface)" stroke="var(--border)" stroke-width="2"/>
+<circle cx="160" cy="160" r="4" fill="var(--text)"/>
+<path d="M 80 145 L 120 155 L 100 170 Z" fill="rgba(255,255,0,0.3)"/>
+<ellipse cx="260" cy="160" rx="20" ry="10" fill="var(--surface)" stroke="var(--border)" stroke-width="2"/>
+<circle cx="260" cy="160" r="8" fill="var(--text)"/>
+<ellipse cx="320" cy="160" rx="20" ry="10" fill="var(--surface)" stroke="var(--border)" stroke-width="2"/>
+<circle cx="320" cy="160" r="8" fill="var(--text)"/>
+<path d="M 300 145 L 340 155 L 320 170 Z" fill="rgba(255,255,0,0.3)"/>
+<text x="130" y="190" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">Constrict</text>
+<text x="290" y="190" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">Dilate (Paradoxical)</text>
+<text x="200" y="215" fill="var(--text)" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">Pupillary Reflex Pathway</text>
+<rect x="50" y="230" width="60" height="30" rx="5" fill="none" stroke="var(--border)" stroke-width="2"/>
+<text x="80" y="250" fill="var(--text)" font-family="sans-serif" font-size="10" text-anchor="middle">Retina</text>
+<path d="M 110 245 L 140 245" stroke="var(--border)" stroke-width="2" marker-end="url(#arrow2)"/>
+<rect x="140" y="230" width="80" height="30" rx="5" fill="none" stroke="var(--border)" stroke-width="2"/>
+<text x="180" y="250" fill="var(--text)" font-family="sans-serif" font-size="10" text-anchor="middle">Pretectal Nuc.</text>
+<path d="M 220 245 L 250 245" stroke="var(--border)" stroke-width="2" marker-end="url(#arrow2)"/>
+<rect x="250" y="230" width="100" height="30" rx="5" fill="none" stroke="var(--border)" stroke-width="2"/>
+<text x="300" y="250" fill="var(--text)" font-family="sans-serif" font-size="10" text-anchor="middle">Edinger-Westphal</text>
+<path d="M 300 260 L 300 280 L 100 280 L 100 260" stroke="var(--border)" stroke-width="2" fill="none" marker-end="url(#arrow2)"/>
+<text x="200" y="275" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">Oculomotor N. (CN III)</text>
+</svg>`,
+  'mbbs-opth-ocular-trauma': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+<defs>
+<marker id="arrow3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+<path d="M 0 0 L 10 5 L 0 10 Z" fill="var(--border)"/>
+</marker>
+</defs>
+<rect width="400" height="300" fill="var(--surface)"/>
+<line x1="133" y1="0" x2="133" y2="300" stroke="var(--border)" stroke-width="2"/>
+<line x1="266" y1="0" x2="266" y2="300" stroke="var(--border)" stroke-width="2"/>
+<text x="66" y="20" fill="var(--text)" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">Hyphema</text>
+<circle cx="66" cy="150" r="50" fill="var(--surface)" stroke="var(--border)" stroke-width="2"/>
+<circle cx="66" cy="150" r="25" fill="#333"/>
+<path d="M 23 175 A 50 50 0 0 0 109 175 Z" fill="#c00"/>
+<line x1="23" y1="175" x2="109" y2="175" stroke="#a00" stroke-width="2"/>
+<path d="M 20 80 L 50 110" stroke="var(--border)" stroke-width="3" marker-end="url(#arrow3)"/>
+<text x="66" y="230" fill="var(--text-dim)" font-family="sans-serif" font-size="12" text-anchor="middle">Blood in anterior</text>
+<text x="66" y="245" fill="var(--text-dim)" font-family="sans-serif" font-size="12" text-anchor="middle">chamber</text>
+<text x="200" y="20" fill="var(--text)" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">Blowout Fracture</text>
+<rect x="150" y="80" width="100" height="100" rx="20" fill="none" stroke="var(--border)" stroke-width="3"/>
+<ellipse cx="200" cy="130" rx="30" ry="30" fill="none" stroke="var(--border)" stroke-width="2"/>
+<path d="M 190 180 Q 200 210 210 180 Z" fill="rgba(200,0,0,0.5)"/>
+<path d="M 200 160 L 200 185" stroke="var(--accent)" stroke-width="4"/>
+<text x="200" y="230" fill="var(--text-dim)" font-family="sans-serif" font-size="12" text-anchor="middle">Teardrop sign</text>
+<text x="200" y="245" fill="var(--text-dim)" font-family="sans-serif" font-size="12" text-anchor="middle">Inferior rectus entrapped</text>
+<text x="333" y="20" fill="var(--text)" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">Chemical Burn</text>
+<ellipse cx="333" cy="150" rx="45" ry="30" fill="#fdd" stroke="var(--border)" stroke-width="2"/>
+<circle cx="333" cy="150" r="20" fill="#ddd" stroke="#aaa" stroke-width="1"/>
+<path d="M 313 150 A 20 20 0 0 1 353 150 A 25 25 0 0 0 308 150 Z" fill="#fff"/>
+<path d="M 320 100 Q 333 130 340 100" stroke="#f00" stroke-width="3" fill="none"/>
+<text x="333" y="230" fill="var(--text-dim)" font-family="sans-serif" font-size="12" text-anchor="middle">Limbal ischemia</text>
+<text x="333" y="245" fill="var(--text-dim)" font-family="sans-serif" font-size="12" text-anchor="middle">(pale limbus)</text>
+</svg>`,
+  'mbbs-opth-squint-strabismus': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+<defs>
+<marker id="arrow4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+<path d="M 0 0 L 10 5 L 0 10 Z" fill="var(--border)"/>
+</marker>
+</defs>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="100" y="20" fill="var(--text)" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">Esotropia</text>
+<ellipse cx="60" cy="50" rx="20" ry="10" fill="none" stroke="var(--border)" stroke-width="2"/>
+<circle cx="60" cy="50" r="4" fill="var(--text)"/>
+<ellipse cx="140" cy="50" rx="20" ry="10" fill="none" stroke="var(--border)" stroke-width="2"/>
+<circle cx="130" cy="50" r="4" fill="var(--text)"/>
+<text x="300" y="20" fill="var(--text)" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">Exotropia</text>
+<ellipse cx="260" cy="50" rx="20" ry="10" fill="none" stroke="var(--border)" stroke-width="2"/>
+<circle cx="260" cy="50" r="4" fill="var(--text)"/>
+<ellipse cx="340" cy="50" rx="20" ry="10" fill="none" stroke="var(--border)" stroke-width="2"/>
+<circle cx="350" cy="50" r="4" fill="var(--text)"/>
+<line x1="0" y1="80" x2="400" y2="80" stroke="var(--border)" stroke-width="2" stroke-dasharray="4,4"/>
+<text x="200" y="100" fill="var(--text)" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">Cover-Uncover Test</text>
+<rect x="50" y="110" width="80" height="30" rx="5" fill="none" stroke="var(--border)" stroke-width="2"/>
+<text x="90" y="130" fill="var(--text)" font-family="sans-serif" font-size="10" text-anchor="middle">Cover Fixating Eye</text>
+<path d="M 130 125 L 170 125" stroke="var(--border)" stroke-width="2" marker-end="url(#arrow4)"/>
+<rect x="170" y="110" width="80" height="30" rx="5" fill="none" stroke="var(--border)" stroke-width="2"/>
+<text x="210" y="130" fill="var(--text)" font-family="sans-serif" font-size="10" text-anchor="middle">Deviated Eye Moves</text>
+<path d="M 250 125 L 290 125" stroke="var(--border)" stroke-width="2" marker-end="url(#arrow4)"/>
+<rect x="290" y="110" width="80" height="30" rx="5" fill="none" stroke="var(--border)" stroke-width="2"/>
+<text x="330" y="130" fill="var(--text)" font-family="sans-serif" font-size="10" text-anchor="middle">Manifest Tropia</text>
+<line x1="0" y1="160" x2="400" y2="160" stroke="var(--border)" stroke-width="2" stroke-dasharray="4,4"/>
+<text x="200" y="180" fill="var(--text)" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">Concomitant vs Paralytic Squint</text>
+<rect x="50" y="200" width="140" height="80" fill="none" stroke="var(--border)" stroke-width="2"/>
+<text x="120" y="220" fill="var(--text)" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Concomitant</text>
+<text x="120" y="240" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">- Angle constant</text>
+<text x="120" y="255" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">- No diplopia</text>
+<text x="120" y="270" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">- Primary = Secondary dev</text>
+<rect x="210" y="200" width="140" height="80" fill="none" stroke="var(--border)" stroke-width="2"/>
+<text x="280" y="220" fill="var(--text)" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Paralytic</text>
+<text x="280" y="240" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">- Angle varies</text>
+<text x="280" y="255" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">- Diplopia present</text>
+<text x="280" y="270" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">- Sec dev &gt; Prim dev</text>
+</svg>`,
+  'mbbs-opth-community-opth': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+<defs>
+<marker id="arrow5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+<path d="M 0 0 L 10 5 L 0 10 Z" fill="var(--border)"/>
+</marker>
+</defs>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="20" fill="var(--text)" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">WHO Vision 2020</text>
+<rect x="80" y="30" width="240" height="40" rx="20" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<text x="200" y="55" fill="var(--accent)" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">"The Right to Sight"</text>
+<circle cx="60" cy="50" r="15" fill="none" stroke="var(--text)" stroke-width="2"/>
+<circle cx="340" cy="50" r="15" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 75 50 Q 200 90 325 50" fill="none" stroke="var(--text)" stroke-width="2"/>
+<text x="200" y="100" fill="var(--text)" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">Vitamin A Deficiency Progression</text>
+<path d="M 40 130 L 360 130" stroke="var(--border)" stroke-width="4" marker-end="url(#arrow5)"/>
+<circle cx="80" cy="130" r="6" fill="var(--text)"/>
+<text x="80" y="150" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">Night</text>
+<text x="80" y="162" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">Blindness</text>
+<circle cx="150" cy="130" r="6" fill="var(--text)"/>
+<text x="150" y="150" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">Xerophthalmia</text>
+<circle cx="230" cy="130" r="6" fill="var(--text)"/>
+<text x="230" y="150" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">Bitot\\'s</text>
+<text x="230" y="162" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">Spots</text>
+<circle cx="310" cy="130" r="6" fill="var(--text)"/>
+<text x="310" y="150" fill="var(--text-dim)" font-family="sans-serif" font-size="10" text-anchor="middle">Keratomalacia</text>
+<text x="200" y="195" fill="var(--text)" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">Causes of Preventable Blindness</text>
+<path d="M 150 240 L 150 200 A 40 40 0 1 1 120 213 Z" fill="var(--accent)"/>
+<path d="M 150 240 L 120 213 A 40 40 0 0 1 130 205 Z" fill="#6c9fce"/>
+<path d="M 150 240 L 130 205 A 40 40 0 0 1 150 200 Z" fill="#888"/>
+<rect x="220" y="210" width="10" height="10" fill="var(--accent)"/>
+<text x="240" y="220" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Cataract (~60%)</text>
+<rect x="220" y="230" width="10" height="10" fill="#6c9fce"/>
+<text x="240" y="240" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Refractive Err</text>
+<rect x="220" y="250" width="10" height="10" fill="#888"/>
+<text x="240" y="260" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Glaucoma</text>
 </svg>`
 };
