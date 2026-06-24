@@ -3038,6 +3038,607 @@ export const TOPIC_VISUALS = {
     "title": "MBBS Ophthalmology",
     "slug": "mbbs_ophthalmology",
     "topics": []
+  },
+  mbbs_obs_gynae: {
+    subjectName: 'MBBS Obstetrics & Gynaecology',
+    examCode: 'BMDC',
+    sections: ['Obstetrics', 'Gynaecology'],
+    topics: [
+      {
+        "id": "normal-pregnancy",
+        "name": "Normal Pregnancy & ANC",
+        "syllabusRef": "Phase IV Obs & Gynae",
+        "section": "Obstetrics",
+        "description": "Physiological changes, antenatal care schedule, TORCH infections, symphysis-fundal height",
+        "svgKey": "mbbs-obg-normal-pregnancy",
+        "landmarks": [
+          "SFH in cm ≈ gestational age in weeks from 24–36 weeks (McDonald's rule)",
+          "Booking investigations: blood group, Hb, VDRL, HIV, HBsAg, USS dating before 13 weeks",
+          "Anomaly USS at 20 weeks; GDM screen (75g OGTT) at 28 weeks",
+          "Anti-D 500 IU given at 28w and 34w to all Rh-negative mothers",
+          "TORCH = Toxoplasma, Other (syphilis/VZV), Rubella, CMV, HSV — major congenital infections"
+        ],
+        "examQA": [
+          {
+            "q": "A 26-year-old primigravida attends her booking visit at 10 weeks. Which blood tests are mandatory at this visit?",
+            "a": "ABO/Rh blood group, full blood count (Hb), VDRL/RPR (syphilis), HIV, HBsAg, rubella serology, and USS for dating/viability. Urine dipstick and MSU culture are also performed."
+          },
+          {
+            "q": "At 28 weeks' gestation, a Rh-negative mother has a negative indirect Coombs test. What is the management?",
+            "a": "Administer prophylactic anti-D immunoglobulin 500 IU IM. Repeat at 34 weeks. Anti-D is also given after any sensitising event (amniocentesis, antepartum haemorrhage, ECV, trauma)."
+          },
+          {
+            "q": "A primigravida's symphysis-fundal height measures 30 cm at her 28-week visit. What does this suggest?",
+            "a": "SFH of 30 cm at 28 weeks is within normal range (SFH ≈ weeks ± 3 cm from 24–36 weeks). Discrepancy >3 cm warrants USS to assess fetal growth, liquor volume, and placenta."
+          },
+          {
+            "q": "A pregnant woman is found to have IgM positive rubella serology at 8 weeks. What are the fetal risks?",
+            "a": "First-trimester primary rubella carries 85–90% risk of congenital rubella syndrome: sensorineural deafness (most common), congenital heart disease (PDA, pulmonary stenosis), cataracts, microcephaly, and intellectual disability."
+          }
+        ]
+      },
+      {
+        "id": "labour-delivery",
+        "name": "Labour & Delivery",
+        "syllabusRef": "Phase IV Obs & Gynae",
+        "section": "Obstetrics",
+        "description": "Stages of labour, partogram use, Bishop score, normal CTG, mechanism of labour",
+        "svgKey": "mbbs-obg-labour-delivery",
+        "landmarks": [
+          "Alert line: cervical dilation at 1 cm/h; action line is 4 hours to the right — intervention if crossed",
+          "Bishop score ≥8 = favourable cervix; <6 = unfavourable, consider ripening (prostaglandins)",
+          "Normal CTG: baseline 110–160 bpm, variability ≥5 bpm, ≥2 accelerations in 20 min, no pathological decelerations",
+          "Stage 2 time limits: nullipara 2 h active pushing; multipara 1 h (total stage 2 nullip 3 h, multip 2 h)",
+          "Mechanism LOA (left occiput anterior): engagement, descent, flexion, internal rotation, extension, restitution/external rotation, expulsion"
+        ],
+        "examQA": [
+          {
+            "q": "A multigravida's cervix is 5 cm dilated with intact membranes. Three hours later she is still 5 cm. The partogram alert line has been crossed. What is your management?",
+            "a": "Assess uterine contractions (aim 3–4 in 10 min lasting 40–60 s), fetal position, and pelvis. Amniotomy (ARM) if membranes intact; augment with Syntocinon infusion if contractions inadequate. Senior review; prepare for CS if no progress after 2 h augmentation."
+          },
+          {
+            "q": "A primigravida at term has a Bishop score of 4. How do you prepare the cervix for induction?",
+            "a": "Administer prostaglandin E2 (dinoprostone) gel or pessary intravaginally to ripen the cervix. Re-assess after 6 h. Misoprostol 25–50 µg vaginally is an alternative. Once Bishop ≥8, perform amniotomy and commence Syntocinon."
+          },
+          {
+            "q": "A CTG shows baseline 155 bpm, variability 2–3 bpm, no accelerations, and late decelerations after each contraction. How do you classify this CTG?",
+            "a": "Pathological CTG (two features non-reassuring: reduced variability, late decelerations). Stop Syntocinon, place mother in left lateral, give O2, IV fluids, FBS or immediate delivery. Late decelerations indicate uteroplacental insufficiency."
+          },
+          {
+            "q": "What is the mechanism of labour for a vertex presentation in left occiput anterior position?",
+            "a": "Engagement in transverse/oblique → descent with flexion → internal rotation (occiput rotates anteriorly to OA) → extension as head passes below symphysis pubis → restitution (head turns 45° to left) → external rotation (shoulders rotate to AP) → expulsion of body."
+          }
+        ]
+      },
+      {
+        "id": "aph",
+        "name": "Antepartum Haemorrhage",
+        "syllabusRef": "Phase IV Obs & Gynae",
+        "section": "Obstetrics",
+        "description": "Placenta praevia types I–IV, abruptio placentae, differential diagnosis and management",
+        "svgKey": "mbbs-obg-aph",
+        "landmarks": [
+          "APH = bleeding from genital tract ≥24 weeks (excluding show/local trauma); incidence ~3–5%",
+          "Placenta praevia: PAINLESS, fresh red blood; soft non-tender uterus; NO digital PV exam",
+          "Abruptio placentae: PAINFUL (constant); dark blood may be concealed; woody-hard uterus",
+          "Diagnosis of praevia: transabdominal/transvaginal USS — NOT digital PV examination",
+          "Kleihauer-Betke test: identifies fetal red blood cells in maternal circulation after abruption"
+        ],
+        "examQA": [
+          {
+            "q": "A 32-year-old multigravida at 34 weeks presents with sudden painless bright red vaginal bleeding. Uterus is soft and non-tender. Fetal heart rate is 148 bpm. What is the most likely diagnosis and immediate management?",
+            "a": "Placenta praevia. Immediate management: admit, do NOT perform digital PV, establish 2 large-bore IV lines, full blood count, cross-match 4–6 units, USS to confirm placental site. If haemodynamically stable and >34 weeks, consider delivery timing; if massive haemorrhage, emergency LSCS."
+          },
+          {
+            "q": "A primigravida at 30 weeks develops sudden severe constant abdominal pain with dark vaginal bleeding. Uterus is board-like. CTG shows prolonged deceleration. What is the diagnosis and management?",
+            "a": "Abruptio placentae with fetal distress. Emergency LSCS. Resuscitate with IV fluids, blood products. Coagulation screen urgently (risk of DIC). Concealed haemorrhage may be greater than visible — beware underestimating blood loss."
+          },
+          {
+            "q": "At 28 weeks USS confirms type III placenta praevia. The patient is asymptomatic. What is the management plan?",
+            "a": "Admit if any bleeding, otherwise close outpatient surveillance. Steroid course for fetal lung maturity. Repeat USS at 32 and 36 weeks (praevia may resolve with uterine growth). Elective LSCS at 37 weeks if persists; cross-match 4 units. Avoid digital PV at all times."
+          },
+          {
+            "q": "What risk factors predispose to placenta praevia?",
+            "a": "Previous caesarean section (strongest), uterine curettage, multiparity, multiple pregnancy, prior placenta praevia, assisted conception, older maternal age, and uterine anomalies. Previous CS increases risk ~1% per prior CS."
+          }
+        ]
+      },
+      {
+        "id": "hypertensive-disorders",
+        "name": "Hypertensive Disorders of Pregnancy",
+        "syllabusRef": "Phase IV Obs & Gynae",
+        "section": "Obstetrics",
+        "description": "Pre-eclampsia, HELLP syndrome, eclampsia, MgSO4 protocol, antihypertensive drugs",
+        "svgKey": "mbbs-obg-hypertensive-disorders",
+        "landmarks": [
+          "Pre-eclampsia: BP ≥140/90 + proteinuria ≥300 mg/24h after 20 weeks in previously normotensive woman",
+          "MgSO4 loading: 4 g IV over 10 min + 5 g IM each buttock; maintenance 5 g IM 4-hourly",
+          "Antidote for MgSO4 toxicity: calcium gluconate 10 mL of 10% IV over 10 min",
+          "HELLP = Haemolysis + Elevated Liver enzymes + Low Platelets (<100×10⁹/L)",
+          "Severe hypertension (≥160/110): urgent antihypertensives — labetalol 200 mg oral or IV, nifedipine 10 mg, hydralazine 5 mg IV"
+        ],
+        "examQA": [
+          {
+            "q": "A 24-year-old primigravida at 34 weeks has BP 158/105 mmHg, urine protein 3+, and headache. What is the diagnosis and immediate management?",
+            "a": "Severe pre-eclampsia. Admit, antihypertensives (labetalol 200 mg oral/IV, nifedipine 10 mg), MgSO4 for seizure prophylaxis (4 g IV loading + 5 g IM each buttock), steroids for fetal lung maturity, aim delivery within 24–48 h after stabilisation."
+          },
+          {
+            "q": "A patient with pre-eclampsia develops a grand mal seizure. What is the management of eclampsia?",
+            "a": "Secure airway (left lateral), O2, IV access. Terminate seizure: MgSO4 4 g IV over 5 min (or 10 mg diazepam IV). Load MgSO4 if not already given. Control BP. Deliver baby urgently (CS if not in labour). Monitor for recurrent seizures; maintenance MgSO4 24 h post-delivery."
+          },
+          {
+            "q": "A patient on MgSO4 loses her patellar reflexes and becomes drowsy. What is the management?",
+            "a": "STOP MgSO4 infusion immediately. Administer antidote: calcium gluconate 10 mL of 10% IV slowly over 10 min. Monitor respiratory rate (arrest at levels >5 mmol/L). Ensure urine output >25 mL/h (magnesium excreted renally). Check serum magnesium levels."
+          },
+          {
+            "q": "A woman presents with RUQ pain, jaundice, and thrombocytopenia at 32 weeks. LFTs are elevated. What is the diagnosis and management?",
+            "a": "HELLP syndrome. Stabilise, correct coagulopathy (FFP, platelets if <50×10⁹), MgSO4, antihypertensives. Delivery is the definitive treatment — proceed regardless of gestational age if maternal condition deteriorating."
+          }
+        ]
+      },
+      {
+        "id": "pph",
+        "name": "Postpartum Haemorrhage",
+        "syllabusRef": "Phase IV Obs & Gynae",
+        "section": "Obstetrics",
+        "description": "4T causes (Tone/Trauma/Tissue/Thrombin), uterotonics, B-Lynch suture, surgical management",
+        "svgKey": "mbbs-obg-pph",
+        "landmarks": [
+          "Primary PPH: blood loss ≥500 mL within 24 h of vaginal delivery (≥1000 mL after CS)",
+          "Uterine atony (Tone) accounts for 70–80% of PPH cases",
+          "Oxytocin 10 IU IM/IV is first-line uterectonic; ergometrine CI in hypertension and cardiac disease",
+          "Tranexamic acid 1 g IV within 3 h of delivery reduces PPH mortality — WHO recommendation",
+          "Massive PPH (>1500 mL): activate massive transfusion protocol; 1:1:1 ratio PRBC:FFP:platelets"
+        ],
+        "examQA": [
+          {
+            "q": "A patient delivers a 4.2 kg baby and has ongoing haemorrhage. Uterus is atonic. Blood loss is 800 mL. What is the stepwise management?",
+            "a": "Bimanual uterine compression; oxytocin 10 IU IV/IM, ergometrine 0.5 mg IM (if no HTN), carboprost 250 µg IM (may repeat up to 8 doses), misoprostol 800 µg sublingually, tranexamic acid 1 g IV. If medical Rx fails: balloon tamponade → B-Lynch suture → uterine artery ligation → hysterectomy."
+          },
+          {
+            "q": "A patient has PPH unresponsive to uterotonics. How is a B-Lynch suture performed and what does it achieve?",
+            "a": "A brace suture placed over the external surface of the uterus, compressing the uterine body longitudinally like a brace. It reduces blood flow to the placental bed and allows the uterus to contract. It avoids hysterectomy in ~80% of cases of refractory atony."
+          },
+          {
+            "q": "What are the risk factors for uterine atony and PPH?",
+            "a": "Overdistension (multiple pregnancy, polyhydramnios, macrosomia), prolonged labour, grand multiparity, uterine fibroids, general anaesthesia, magnesium sulphate use, chorioamnionitis, placenta praevia/accreta, and previous PPH."
+          },
+          {
+            "q": "Active management of third stage of labour prevents PPH. What does AMTSL involve?",
+            "a": "Active Management of Third Stage of Labour: (1) oxytocin 10 IU IM within 1 min of delivery; (2) controlled cord traction (Brandt-Andrews method); (3) uterine massage after placental delivery. Reduces incidence of PPH by 60%."
+          }
+        ]
+      },
+      {
+        "id": "preterm-labour",
+        "name": "Preterm Labour & PROM",
+        "syllabusRef": "Phase IV Obs & Gynae",
+        "section": "Obstetrics",
+        "description": "Gestational age thresholds, tocolysis, antenatal corticosteroids, cervical cerclage, PPROM management",
+        "svgKey": "mbbs-obg-preterm-labour",
+        "landmarks": [
+          "Preterm birth: delivery before 37+0 weeks; accounts for 75% of neonatal deaths",
+          "Betamethasone 12 mg IM × 2 doses 24 h apart (24–34 weeks) — reduces RDS, IVH, NEC",
+          "Tocolysis: nifedipine 20 mg oral (first-line) or atosiban IV — goal is 48-h delay for steroids",
+          "Cervical cerclage (Shirodkar/McDonald): placed at 12–14 weeks for cervical incompetence",
+          "PPROM: rupture of membranes before 37 weeks; GBS prophylaxis (benzyl penicillin 3 g stat)"
+        ],
+        "examQA": [
+          {
+            "q": "A woman at 29 weeks has regular contractions and cervix 3 cm dilated. How do you manage preterm labour?",
+            "a": "Admit. Tocolysis (nifedipine 20 mg oral) to delay delivery 48 h. Betamethasone 12 mg IM, repeat in 24 h (fetal lung maturity). MgSO4 IV for neuroprotection if <32 weeks. GBS prophylaxis. Arrange NICU cot. If delivery imminent, alert paediatrics."
+          },
+          {
+            "q": "What is the diagnosis and management of a woman presenting at 28 weeks with sudden gush of fluid per vaginum?",
+            "a": "Preterm Premature Rupture of Membranes (PPROM). Diagnose with speculum exam (pooling of liquor), ferning, nitrazine test, or AmniSure. Admit, monitor for chorioamnionitis (fever, tachycardia, uterine tenderness, offensive discharge). Antibiotics (erythromycin 250 mg QDS × 10 days). Corticosteroids. If ≥34 weeks or infection: deliver."
+          },
+          {
+            "q": "A primigravida has a history of two second-trimester losses at 18 and 20 weeks due to painless cervical dilation. What preventive measure is recommended?",
+            "a": "Cervical cerclage (Shirodkar or McDonald suture) placed at 12–14 weeks. Also offer progesterone supplementation (vaginal progesterone 200 mg nocte) from 16 weeks if cervical length <25 mm on USS. History-indicated cerclage based on clinical Hx of cervical incompetence."
+          },
+          {
+            "q": "Why is magnesium sulphate given in preterm labour at <32 weeks?",
+            "a": "Neuroprotection — MgSO4 reduces the risk of cerebral palsy by 30–40% in preterm neonates <32 weeks. Loading dose 4 g IV over 20–30 min, maintenance 1 g/h until delivery or 24 h. Separate indication from its role in eclampsia prevention."
+          }
+        ]
+      },
+      {
+        "id": "malpresentations",
+        "name": "Malpresentations & Malpositions",
+        "syllabusRef": "Phase IV Obs & Gynae",
+        "section": "Obstetrics",
+        "description": "Breech types, face/brow presentation, cord prolapse, external cephalic version",
+        "svgKey": "mbbs-obg-malpresentations",
+        "landmarks": [
+          "Breech incidence 3–4% at term; types: frank (65%, hips flexed/knees extended), complete (25%), footling (10%)",
+          "ECV offered at ≥36 weeks (nullipara) / ≥37 weeks (multipara); success ~50%; tocolysis used",
+          "Cord prolapse: obstetric emergency — knee-chest position, fill bladder, digital elevation of presenting part, emergency CS",
+          "Face presentation mento-anterior: can deliver vaginally; mento-posterior: always CS",
+          "Brow presentation: always requires CS (largest diameter — mentoparietal 13.5 cm)"
+        ],
+        "examQA": [
+          {
+            "q": "A primigravida at 37 weeks has a breech presentation confirmed on USS. What are the management options?",
+            "a": "Offer ECV (external cephalic version) at 37 weeks under tocolysis; CTG before and after. If ECV successful, await spontaneous labour. If ECV fails/refused, offer planned LSCS at 39 weeks (TERM breech trial showed higher neonatal morbidity with vaginal breech). Vaginal breech delivery only with experienced operator and emergency facilities."
+          },
+          {
+            "q": "A midwife calls you urgently: cord is felt at the vulva on vaginal examination in a labouring patient at 39 weeks. What is the immediate management?",
+            "a": "Cord prolapse. (1) Call for help — emergency CS team. (2) Relieve cord compression: knee-chest/Trendelenburg position OR fill bladder with 500 mL saline. (3) Keep cord warm and moist, do NOT handle excessively. (4) Emergency CS is definitive — target delivery within 30 min."
+          },
+          {
+            "q": "On vaginal examination a bony hard irregular surface with no fontanelle palpable is felt. USS confirms brow presentation. What is the management?",
+            "a": "Brow presentation (mento-parietal diameter 13.5 cm) cannot deliver vaginally. Proceed to LSCS. Ensure full assessment for any underlying cause (pelvic contraction, hydrocephalus, uterine anomaly)."
+          },
+          {
+            "q": "What is occipito-posterior position and how is it managed?",
+            "a": "OPP (occiput posterior, eg ROP/LOP): occiput faces posterior, leading to prolonged/painful labour. 90% rotate spontaneously to OA. If persistent: encourage maternal position change (hands-and-knees). If second stage failure: manual rotation + Kielland forceps, or ventouse, or CS. Increased risk of perineal trauma."
+          }
+        ]
+      },
+      {
+        "id": "operative-obstetrics",
+        "name": "Operative Obstetrics",
+        "syllabusRef": "Phase IV Obs & Gynae",
+        "section": "Obstetrics",
+        "description": "Caesarean section (LSCS vs classical), forceps vs ventouse, VBAC, symphysiotomy",
+        "svgKey": "mbbs-obg-operative-obstetrics",
+        "landmarks": [
+          "LSCS: Pfannenstiel (transverse suprapubic) incision; lower uterine segment transverse incision preferred",
+          "CS indications (3 Ps): Passenger (malpresentation, macrosomia), Pelvis (CPD, contracted), Powers (fetal distress, failed IOL)",
+          "Forceps: head at or below +2 station, must be OA/direct OP — 'trial forceps' in theatre",
+          "Ventouse: cup applied over posterior fontanelle; chignon forms; more neonatal scalp injuries",
+          "VBAC success ~80%; uterine rupture risk 0.5%; requires continuous CTG in labour"
+        ],
+        "examQA": [
+          {
+            "q": "A primigravida has been in second stage for 2.5 hours. CTG shows variable decelerations. Cervix fully dilated; head at +2 station, OA. What instrument delivery is appropriate?",
+            "a": "Forceps delivery (Neville-Barnes) in theatre (trial forceps). Criteria met: full dilation, head engaged ≥+2, OA position, empty bladder (catheterise), adequate anaesthesia. Perform episiotomy if needed. If forceps fail, proceed to CS."
+          },
+          {
+            "q": "A woman requests VBAC after one previous LSCS. What are the conditions and risks?",
+            "a": "VBAC success ~80% if previous one LSCS with transverse lower segment scar, no absolute indication for CS, cephalic presentation, no macrosomia. Risk of uterine rupture 0.5% (vs 0.02% elective repeat CS). Mandatory: continuous CTG, IV access, theatre immediately available, experienced team."
+          },
+          {
+            "q": "What are the complications specific to caesarean section?",
+            "a": "Intraoperative: haemorrhage (uterine/vessel injury), bladder/ureter injury, bowel injury. Postoperative: infection (wound/endometritis/UTI), VTE (5× risk vs vaginal), ileus, adhesions. Neonatal: respiratory morbidity (TTN). Future pregnancies: placenta praevia/accreta, uterine rupture."
+          },
+          {
+            "q": "What is symphysiotomy and when is it indicated?",
+            "a": "Division of the fibrocartilaginous pubic symphysis under local anaesthesia, widening the pelvic outlet by 2–3 cm. Indicated in resource-limited settings with cephalopelvic disproportion or obstructed labour where CS is unavailable. Complications: urethral injury, long-term pelvic instability, osteitis pubis."
+          }
+        ]
+      },
+      {
+        "id": "puerperal-complications",
+        "name": "Puerperal Complications",
+        "syllabusRef": "Phase IV Obs & Gynae",
+        "section": "Obstetrics",
+        "description": "Puerperal sepsis, VTE, puerperal psychosis, postnatal depression, mastitis",
+        "svgKey": "mbbs-obg-puerperal-complications",
+        "landmarks": [
+          "Puerperal sepsis: fever >38°C on any 2 of the first 10 days postpartum (excluding first 24 h); MC organism — Group A Streptococcus (GAS) most feared",
+          "VTE risk in puerperium is 5× higher than pregnancy; Virchow's triad: stasis, hypercoagulability, endothelial injury",
+          "Baby blues: days 3–5, transient, no treatment; Postnatal depression: weeks to months, SSRIs (sertraline) + CBT",
+          "Puerperal psychosis: 1–2 per 1000 deliveries, onset within 2 weeks, risk in bipolar — olanzapine + mood stabiliser",
+          "Mastitis: Staphylococcus aureus, flucloxacillin 500 mg QDS × 10 days; continue breastfeeding unless abscess"
+        ],
+        "examQA": [
+          {
+            "q": "A woman on day 4 postpartum has fever 39°C, offensive lochia, and uterine tenderness. What is the management?",
+            "a": "Puerperal endometritis/sepsis. Sepsis 6 bundle within 1 h: blood cultures, urine culture, high vaginal swab; IV antibiotics (co-amoxiclav 1.2 g TDS + metronidazole 500 mg TDS); IV fluids; O2. Monitor lactate. If features of severe sepsis, senior involvement and ICU. Remove any retained products (uterine evacuation)."
+          },
+          {
+            "q": "A woman on day 6 post LSCS presents with calf pain and swelling. What is your diagnostic approach and management?",
+            "a": "Suspect DVT. USS duplex scan of leg veins is first investigation. D-dimer elevated in postpartum period so not useful. If confirmed DVT: therapeutic LMWH (enoxaparin 1 mg/kg SC BD); treat for 6 weeks (or 3 months if PE). Warfarin and LMWH both safe in breastfeeding."
+          },
+          {
+            "q": "How do you distinguish baby blues from postnatal depression?",
+            "a": "Baby blues: transient tearfulness/emotional lability on days 3–5, self-limiting, no treatment required. Postnatal depression: persistent low mood, anhedonia, poor bonding starting weeks to months postpartum, affecting 10–15% of mothers. Edinburgh Postnatal Depression Scale (EPDS ≥13 = possible PND). Treat with sertraline (safe in breastfeeding) + psychological support."
+          },
+          {
+            "q": "What are the characteristic features that distinguish puerperal psychosis from PND?",
+            "a": "Puerperal psychosis (1–2 per 1000): acute onset within 2 weeks of delivery, florid psychosis with delusions (often about the baby), hallucinations, confusion, rapid mood fluctuations. Requires hospitalisation (mother-and-baby unit), antipsychotics (olanzapine), mood stabilisers. Strong risk if personal/family history of bipolar disorder."
+          }
+        ]
+      },
+      {
+        "id": "fetal-medicine",
+        "name": "Fetal Medicine",
+        "syllabusRef": "Phase IV Obs & Gynae",
+        "section": "Obstetrics",
+        "description": "Biophysical profile, umbilical artery Doppler, IUGR, rhesus isoimmunisation, prenatal diagnosis",
+        "svgKey": "mbbs-obg-fetal-medicine",
+        "landmarks": [
+          "BPP (Manning score) /10: NST + fetal breathing + body movements + tone + amniotic fluid; ≤6 = consider delivery",
+          "Umbilical artery Doppler: absent or reversed end-diastolic flow (AREDF) = severe IUGR, deliver",
+          "IUGR <10th centile; causes — placental (PE), fetal (chromosomal, infection), maternal (smoking, HTN)",
+          "Rhesus isoimmunisation prevented by anti-D Ig 500 IU at 28 and 34 weeks in Rh-ve mothers",
+          "Amniocentesis: 15–17 weeks, karyotype risk; CVS: 11–13 weeks — earlier result but higher miscarriage rate"
+        ],
+        "examQA": [
+          {
+            "q": "A BPP score of 6/10 at 36 weeks (absent breathing movements and oligohydramnios). What is the management?",
+            "a": "BPP 6/10 is equivocal — repeat in 6–12 h or proceed to delivery if ≥36 weeks. Oligohydramnios (AFI <5 cm) alone warrants urgent delivery at term. At 36 weeks with score 6 and oligohydramnios, deliver by induction or CS. AREDF on Doppler would mandate immediate delivery."
+          },
+          {
+            "q": "A Rh-negative woman at 30 weeks has a fall. Kleihauer test shows 0.4 mL fetal blood in maternal circulation. How much anti-D is required?",
+            "a": "Standard dose 500 IU anti-D covers up to 4 mL fetal red blood cells. 0.4 mL is within coverage. However, administer 500 IU IM anti-D within 72 h of event. Repeat Kleihauer 48 h later to confirm adequacy. If larger bleed suspected, increase dose: 125 IU per mL fetal RBCs above 4 mL."
+          },
+          {
+            "q": "What is the difference between amniocentesis and chorionic villus sampling?",
+            "a": "Amniocentesis: performed at 15–17 weeks; samples amniotic fluid; risk of miscarriage ~0.5–1%; results in 2–3 weeks. CVS: performed at 11–13 weeks transvaginally or transabdominally; samples chorionic villi; miscarriage risk ~1%; results in 1–2 weeks — allows earlier diagnosis and decision-making."
+          },
+          {
+            "q": "What are the features of hydrops fetalis from Rhesus isoimmunisation?",
+            "a": "Severe fetal haemolytic disease from anti-D IgG crossing placenta. USS shows: scalp oedema, ascites, pleural/pericardial effusion, placental thickening, polyhydramnios. Treat with intrauterine blood transfusion (IUT) under USS guidance. Monitor with middle cerebral artery peak systolic velocity (MCA-PSV) >1.5 MoM = anaemia."
+          }
+        ]
+      },
+      {
+        "id": "menstrual-disorders",
+        "name": "Menstrual Disorders",
+        "syllabusRef": "Phase IV Obs & Gynae",
+        "section": "Gynaecology",
+        "description": "PALM-COEIN classification, heavy menstrual bleeding, dysmenorrhoea, amenorrhoea, endometriosis, PCOS",
+        "svgKey": "mbbs-obg-menstrual-disorders",
+        "landmarks": [
+          "PALM-COEIN (FIGO 2011): Polyp, Adenomyosis, Leiomyoma, Malignancy — Coagulopathy, Ovulatory, Endometrial, Iatrogenic, Not-yet-classified",
+          "HMB (heavy menstrual bleeding): >80 mL per cycle, or flooding/clots causing social inconvenience",
+          "Primary dysmenorrhoea: prostaglandin-mediated, no pelvic pathology; treat with NSAIDs or COCP",
+          "PCOS (Rotterdam criteria 2 of 3): oligomenorrhoea, clinical/biochemical hyperandrogenism, polycystic ovaries on USS",
+          "Secondary amenorrhoea >3 months: exclude pregnancy first; then PCOS, hyperprolactinaemia, POI, Asherman's"
+        ],
+        "examQA": [
+          {
+            "q": "A 28-year-old woman complains of progressively worsening cyclical dysmenorrhoea, dyspareunia, and infertility. USS shows a 4 cm left ovarian cyst with low-level echoes. What is the likely diagnosis?",
+            "a": "Endometriosis with left ovarian endometrioma ('chocolate cyst'). Confirm with laparoscopy and histology. Treat: laparoscopic cystectomy preserving ovarian tissue, post-op hormonal suppression (COCP/GnRH agonist), and if infertile, refer for assisted conception."
+          },
+          {
+            "q": "A 19-year-old with BMI 32, irregular periods (6–8 weekly), acne, and hirsutism has LH:FSH ratio >2.5 and polycystic ovaries on USS. What is the diagnosis and management?",
+            "a": "PCOS (meets 2 of 3 Rotterdam criteria: oligomenorrhoea + hyperandrogenism + polycystic ovaries). Lifestyle modification first (weight loss 5–10% restores ovulation). For menstrual regulation: COCP. For hirsutism: COCP with cyproterone acetate. For fertility: clomifene or letrozole ovulation induction."
+          },
+          {
+            "q": "A 35-year-old presents with HMB and USS shows multiple intramural fibroids. What medical treatments are available?",
+            "a": "Levonorgestrel-IUS (Mirena) — first-line for HMB with fibroids, reduces bleeding 90%. Tranexamic acid 1 g TDS during menstruation (antifibrinolytic). NSAIDs (mefenamic acid). GnRH agonists (leuprorelin) reduce fibroid size 50% over 3 months — used pre-operatively. Surgical: myomectomy (preserves fertility) or hysterectomy."
+          },
+          {
+            "q": "A 25-year-old woman with secondary amenorrhoea for 4 months has serum prolactin of 4800 mIU/L. What is the investigation and management?",
+            "a": "Hyperprolactinaemia causing hypothalamic amenorrhoea. Request MRI pituitary to exclude prolactinoma. Check thyroid function (hypothyroidism causes raised prolactin). Treatment: cabergoline (dopamine agonist) 0.5 mg twice weekly reduces prolactin and restores menstruation in 90%."
+          }
+        ]
+      },
+      {
+        "id": "pid-stis",
+        "name": "PID & STIs",
+        "syllabusRef": "Phase IV Obs & Gynae",
+        "section": "Gynaecology",
+        "description": "Pelvic inflammatory disease, Chlamydia, gonorrhoea, Fitz-Hugh-Curtis syndrome, Bartholin's abscess",
+        "svgKey": "mbbs-obg-pid-stis",
+        "landmarks": [
+          "PID triad: cervical motion tenderness + uterine tenderness + adnexal tenderness — empirical treatment even without definitive diagnosis",
+          "Most common PID organisms: Chlamydia trachomatis (MC), N. gonorrhoeae, anaerobes, Mycoplasma genitalium",
+          "RCOG treatment: ceftriaxone 500 mg IM stat + doxycycline 100 mg BD + metronidazole 400 mg BD × 14 days",
+          "Fitz-Hugh-Curtis syndrome: perihepatitis from ascending PID — RUQ pain with 'violin-string' peritoneal adhesions",
+          "Bartholin's cyst: marsupialisation; Bartholin's abscess: I&D + Word catheter insertion"
+        ],
+        "examQA": [
+          {
+            "q": "A 22-year-old sexually active woman presents with lower abdominal pain and vaginal discharge for 3 days. Examination reveals cervical excitation and bilateral adnexal tenderness. Temperature 37.8°C. What is the diagnosis and management?",
+            "a": "Pelvic inflammatory disease (PID). Outpatient if mild: ceftriaxone 500 mg IM stat + doxycycline 100 mg BD × 14 d + metronidazole 400 mg BD × 14 d. Refer sexual contacts. Advise condom use. Inpatient if: severe, tubo-ovarian abscess, pregnancy, surgical emergency cannot be excluded. Follow-up at 72 h to assess response."
+          },
+          {
+            "q": "What are the long-term complications of untreated PID?",
+            "a": "Ectopic pregnancy (10-fold increased risk due to tubal damage), infertility (20% after one episode, 40% after two, 60% after three), chronic pelvic pain, tubo-ovarian abscess, perihepatitis (Fitz-Hugh-Curtis). Early treatment reduces long-term sequelae."
+          },
+          {
+            "q": "A woman presents with RUQ pain and is found to have PID on laparoscopy plus perihepatitis with adhesions. What is this syndrome?",
+            "a": "Fitz-Hugh-Curtis syndrome — perihepatitis secondary to direct spread of gonococcal or chlamydial infection to liver capsule. Violin-string adhesions seen between liver capsule and peritoneum. Treat underlying PID; adhesiolysis if severe. RUQ pain can mislead into hepatobiliary workup."
+          },
+          {
+            "q": "A woman at 28 weeks presents with a tender fluctuant swelling at the right posterior vaginal introitus. What is the diagnosis and management?",
+            "a": "Bartholin's abscess (Bartholin's gland at 5 and 7 o'clock positions of vaginal introitus). Incision and drainage under LA; insert Word catheter for 4–6 weeks to allow tract epithelialisation. Send pus for MC&S including gonorrhoea culture. Definitive: marsupialisation if recurrent."
+          }
+        ]
+      },
+      {
+        "id": "uterine-ovarian",
+        "name": "Uterine & Ovarian Pathology",
+        "syllabusRef": "Phase IV Obs & Gynae",
+        "section": "Gynaecology",
+        "description": "Uterine fibroids (leiomyoma types), ovarian cyst classification, dermoid cyst, ovarian torsion",
+        "svgKey": "mbbs-obg-uterine-ovarian",
+        "landmarks": [
+          "Fibroid classification: submucous (AUB, subfertility), intramural (bulk symptoms), subserous (pressure/torsion), pedunculated",
+          "GnRH agonists (leuprorelin) reduce fibroid size 50% over 3 months — pre-operative use only (rebound growth)",
+          "Dermoid cyst (mature teratoma): commonest benign ovarian tumour in women under 45; contains ectoderm derivatives (hair, teeth, sebum)",
+          "Ovarian torsion: acute pelvic pain + nausea; USS Doppler may show absent flow; surgical emergency — detorsion within 6 h",
+          "CA-125 raised in: epithelial ovarian cancer, endometriosis, fibroids, PID, pregnancy (not specific)"
+        ],
+        "examQA": [
+          {
+            "q": "A 34-year-old nullipara has submucous fibroids and HMB with subfertility. What treatment preserves fertility?",
+            "a": "Hysteroscopic resection of submucous fibroids (TCRM — transcervical resection of myoma) is first-line for fertility preservation. For intramural/subserous fibroids: open or laparoscopic myomectomy. Pre-treatment with GnRH agonist × 3 months reduces fibroid size and intraoperative bleeding. Uterine artery embolisation (UAE) is an option but may impair fertility."
+          },
+          {
+            "q": "A 19-year-old presents with an acute onset of right-sided pelvic pain, nausea and vomiting for 6 hours. Pelvic USS reveals a 6 cm right ovarian cyst with absent Doppler flow. What is the management?",
+            "a": "Ovarian torsion. Emergency laparoscopic detorsion (unwind the pedicle). Even if ovary appears necrotic, detorsion may restore function. Do not perform immediate oophorectomy if ovary can be untwisted. Cystectomy performed at same time. Bilateral salpingo-oophorectomy only if ovary is clearly non-viable."
+          },
+          {
+            "q": "USS of a 22-year-old shows a right ovarian cyst with high-level echoes containing a bright echogenic focus with posterior acoustic shadowing (teeth). What is the diagnosis and management?",
+            "a": "Dermoid cyst (mature cystic teratoma). Commonest benign ovarian tumour in young women; 10–15% bilateral. Contains ectodermal elements (hair, sebum, teeth, bone). Laparoscopic cystectomy preserving ovarian tissue. Risk of chemical peritonitis if rupture (sebaceous material). Send specimen for histology."
+          },
+          {
+            "q": "A postmenopausal woman has a complex bilateral ovarian cyst with septa and ascites. CA-125 is 890 U/mL. What is the most likely diagnosis and next step?",
+            "a": "Epithelial ovarian cancer until proven otherwise. Refer urgently to gynaecological oncologist. CT chest/abdomen/pelvis for staging. If CA-125 elevated + USS suspicious in postmenopausal women: RMI (Risk of Malignancy Index) >200 → refer to specialist centre for staging laparotomy."
+          }
+        ]
+      },
+      {
+        "id": "gynaecological-malignancies",
+        "name": "Gynaecological Malignancies",
+        "syllabusRef": "Phase IV Obs & Gynae",
+        "section": "Gynaecology",
+        "description": "Cervical cancer (CIN, HPV, staging), endometrial cancer, ovarian cancer, vulval cancer, FIGO staging",
+        "svgKey": "mbbs-obg-gynaecological-malignancies",
+        "landmarks": [
+          "Cervical cancer: HPV 16 & 18 cause 70%; E6 inactivates p53, E7 inactivates pRb; squamo-columnar junction (transformation zone) is origin",
+          "Cervical screening: Pap smear 25–64 years, 3-yearly (25–49) then 5-yearly (50–64); CIN2/3 → LLETZ/LEEP",
+          "Endometrial cancer: PMB (postmenopausal bleeding) must be investigated; risk factors — unopposed oestrogen, obesity, nulliparity, PCOS",
+          "Ovarian cancer: 'silent killer'; 75% present stage III/IV; BRCA1/2 carriers have 40–60% lifetime risk",
+          "HPV vaccine (Gardasil 9): protects against HPV 6, 11, 16, 18, 31, 33, 45, 52, 58 — given at age 11–12"
+        ],
+        "examQA": [
+          {
+            "q": "A 38-year-old woman's Pap smear shows high-grade squamous intraepithelial lesion (HSIL/CIN3). What is the management?",
+            "a": "Refer for colposcopy. Biopsy under colposcopic guidance to confirm CIN3. Treat with LLETZ (large loop excision of transformation zone) — removes TZ under LA, 90% cure rate. Alternatively laser ablation or cold coagulation for smaller lesions. Follow-up with Pap smear/HPV co-test at 6 and 12 months."
+          },
+          {
+            "q": "A 65-year-old postmenopausal woman presents with a single episode of vaginal bleeding. How is this investigated?",
+            "a": "PMB must be investigated to exclude endometrial cancer. Transvaginal USS: endometrial thickness ≥5 mm in postmenopausal women is abnormal. Endometrial biopsy (Pipelle) is definitive — outpatient procedure. If TVS shows thickening or biopsy inconclusive: hysteroscopy + directed biopsy."
+          },
+          {
+            "q": "A 55-year-old woman is found to have stage Ia endometrial cancer (confined to endometrium, no myometrial invasion) on hysteroscopic biopsy. What is the treatment?",
+            "a": "Total abdominal hysterectomy + bilateral salpingo-oophorectomy (TAH+BSO) with pelvic node assessment. Stage Ia low-grade: surgery alone, 5-year survival 90%. No adjuvant radiotherapy required. High-risk features (grade 3, deep myometrial invasion, cervical involvement) → add vaginal vault brachytherapy or pelvic radiotherapy."
+          },
+          {
+            "q": "A 48-year-old BRCA1 carrier wishes to discuss ovarian cancer risk reduction. What do you advise?",
+            "a": "Risk-reducing bilateral salpingo-oophorectomy (RRSO) is recommended at 35–40 years (after completing family) — reduces ovarian cancer risk by 95%, breast cancer risk 50% (premenopausal). Annual surveillance with CA-125 + USS has limited sensitivity. COCP use reduces risk by 50% in general population. COCP less evidence in BRCA1 carriers."
+          }
+        ]
+      },
+      {
+        "id": "contraception",
+        "name": "Contraception",
+        "syllabusRef": "Phase IV Obs & Gynae",
+        "section": "Gynaecology",
+        "description": "Combined OCP mechanisms, IUCD types, Pearl index, emergency contraception, sterilisation",
+        "svgKey": "mbbs-obg-contraception",
+        "landmarks": [
+          "COCP mechanism: suppresses ovulation (↓FSH/LH), thickens cervical mucus, thins endometrium; Pearl index ~7 (typical use)",
+          "LNG-IUS (Mirena): releases 20 µg LNG/day, highly effective (Pearl index 0.1–0.2), duration 5 years",
+          "Emergency contraception: LNG 1.5 mg within 72 h (85% effective); ulipristal acetate within 120 h (better efficacy); Cu-IUCD within 5 days (>99% effective)",
+          "Implant (Nexplanon): subdermal, 3-year duration, Pearl index 0.05 — highest efficacy reversible method",
+          "Lactational Amenorrhoea Method (LAM): ≥6 months, fully breastfeeding, amenorrhoeic = 98% effective"
+        ],
+        "examQA": [
+          {
+            "q": "A 28-year-old with migraine with aura requests COCP. Is this appropriate?",
+            "a": "NO — migraine with aura is a WHO Category 4 (absolute contraindication) for COCP due to 2–4× increased stroke risk (ischaemic stroke with focal neurological symptoms). Offer progestogen-only methods: POP (Cerazette), implant, or LNG-IUS, which are safe in this setting (WHO Category 2)."
+          },
+          {
+            "q": "A 22-year-old requests emergency contraception 60 hours after unprotected intercourse. What are the options?",
+            "a": "At 60 h: levonorgestrel 1.5 mg is still within 72 h window (less effective the later it's taken). Better option: ulipristal acetate 30 mg (ella) — effective up to 120 h, superior at 48–72 h. Most effective: copper IUCD (Cu-IUCD) within 5 days — >99% effective and provides ongoing contraception."
+          },
+          {
+            "q": "A multipara requests a method with no user-compliance issue and a Pearl index <0.1. What do you recommend?",
+            "a": "Nexplanon (etonogestrel subdermal implant): Pearl index 0.05, inserted in arm under LA, lasts 3 years, highly effective, rapidly reversible. Alternative: LNG-IUS Mirena (Pearl index ~0.1–0.2, lasts 5 years, also reduces HMB). Both require minimal user action after insertion."
+          },
+          {
+            "q": "What are the contraindications to Copper IUCD?",
+            "a": "Absolute CIs: pregnancy, unexplained uterine bleeding, suspected gynaecological malignancy, Wilson's disease (copper allergy), distorted uterine cavity (large fibroids). Relative CIs: active PID or STI (treat first, then insert), immunosuppression, anticoagulation. Copper IUCD increases menstrual blood loss by 30–50%."
+          }
+        ]
+      },
+      {
+        "id": "infertility",
+        "name": "Infertility",
+        "syllabusRef": "Phase IV Obs & Gynae",
+        "section": "Gynaecology",
+        "description": "Male and female causes, semen analysis, HSG, ovulation induction, IVF process, ICSI",
+        "svgKey": "mbbs-obg-infertility",
+        "landmarks": [
+          "Infertility: failure to conceive after 12 months of regular unprotected intercourse (6 months if >35 years)",
+          "WHO 2021 semen analysis normals: volume ≥1.5 mL, concentration ≥16×10⁶/mL, total motility ≥42%, morphology ≥4% (Kruger)",
+          "Day 21 progesterone >30 nmol/L confirms ovulation; AMH reflects ovarian reserve",
+          "Clomifene citrate 50–150 mg days 2–6: anti-oestrogen → ↑GnRH → ↑FSH → follicle recruitment",
+          "ICSI (intracytoplasmic sperm injection): single sperm injected directly into oocyte — for severe male factor infertility"
+        ],
+        "examQA": [
+          {
+            "q": "A couple has been trying to conceive for 18 months. Semen analysis shows: volume 2 mL, concentration 8×10⁶/mL, motility 30%, morphology 2%. How do you classify this and what is the management?",
+            "a": "Oligoasthenoteratospermia (OAT). Refer to urologist/andrologist. Identify reversible causes: varicocele, hormonal, infection (check FSH, LH, testosterone, prolactin). Lifestyle: stop smoking/alcohol, avoid heat. If no correctable cause: IVF with ICSI. Severe oligospermia (<5×10⁶/mL) or azoospermia → donor sperm or TESA/PESA."
+          },
+          {
+            "q": "A woman with PCOS has anovulatory infertility. Day 21 progesterone is 4 nmol/L. How do you induce ovulation?",
+            "a": "First-line: clomifene citrate 50 mg days 2–6, titrate to 150 mg. Monitor with transvaginal USS (follicle ≥18 mm = mature; trigger hCG 10 000 IU IM then timed intercourse). Second-line: letrozole (aromatase inhibitor, fewer multiple pregnancies than clomifene). Third-line: FSH injections (gonadotrophins) with intensive USS monitoring. If all fail: IVF."
+          },
+          {
+            "q": "A 32-year-old woman's HSG shows fill defect in the uterine cavity and non-filling of the right tube. What are the diagnoses and management?",
+            "a": "Intrauterine polyp or submucous fibroid (fill defect) — confirm and treat with hysteroscopy. Right tubal block — if unilateral, left tube patent, patient may still conceive. If bilateral tubal factor: IVF is treatment of choice (bypasses tubes). Check for prior PID history (Chlamydia serology/NAAT). Consider laparoscopy for direct visualisation."
+          },
+          {
+            "q": "What is the risk of ovarian hyperstimulation syndrome (OHSS) and how is it managed?",
+            "a": "OHSS occurs in ~1–2% of IVF cycles (severe); risk factors: PCOS, low BMI, high AFC, high E2 levels. Features: abdominal bloating/pain, nausea, ascites, pleural effusion, oliguria, haemoconcentration (Hct >45%), VTE risk. Mild: rest, fluids, analgesia. Severe: hospitalise, IV albumin, LMWH (VTE prophylaxis), drain ascites if tense, freeze all embryos."
+          }
+        ]
+      },
+      {
+        "id": "menopause-hrt",
+        "name": "Menopause & HRT",
+        "syllabusRef": "Phase IV Obs & Gynae",
+        "section": "Gynaecology",
+        "description": "Hormonal changes, menopause symptoms, HRT types and risks, premature ovarian insufficiency, osteoporosis",
+        "svgKey": "mbbs-obg-menopause-hrt",
+        "landmarks": [
+          "Menopause = 12 consecutive months of amenorrhoea; average age 51 years (normal range 45–55)",
+          "Diagnosis: clinical in women >45 years; FSH >30 IU/L on two readings 4–6 weeks apart in women <45",
+          "HRT: combined (oestrogen + progestogen if intact uterus) vs oestrogen-only (post-hysterectomy); routes: oral, transdermal patch, gel, vaginal",
+          "HRT risks: ↑ breast cancer (small, combined HRT), ↑ VTE (oral more than transdermal), ↑ stroke; benefits: ↓ osteoporosis, ↓ CVD (early use)",
+          "Premature ovarian insufficiency (POI): menopause before age 40 — HRT essential until natural menopause age (51) for bone and cardiovascular protection"
+        ],
+        "examQA": [
+          {
+            "q": "A 49-year-old woman complains of hot flushes, night sweats, poor sleep, and dyspareunia for 9 months. Her last period was 11 months ago. What is the diagnosis and management?",
+            "a": "Perimenopause with vasomotor symptoms and genitourinary syndrome. Diagnosis clinical (>45 years). Offer HRT: combined HRT (she still has uterus) — oestradiol gel/patch + micronised progesterone capsule (Utrogestan) is preferred (lower VTE/breast cancer risk vs synthetic progestogen). Local vaginal oestrogen cream for dyspareunia (minimal systemic absorption)."
+          },
+          {
+            "q": "A 38-year-old has FSH 58 IU/L on two occasions, is amenorrhoeic for 5 months, and has hot flushes. What is the diagnosis and management?",
+            "a": "Premature Ovarian Insufficiency (POI). Investigate: autoimmune screen (anti-ovarian antibodies), karyotype (Turner mosaic?), fragile X premutation. HRT is mandatory until age 51 (protects against osteoporosis, cardiovascular disease, cognitive decline). Contraception still needed if sexually active — POI does not mean complete sterility."
+          },
+          {
+            "q": "A 55-year-old postmenopausal woman asks about osteoporosis prevention. DEXA T-score is -2.8. What is the management?",
+            "a": "T-score <-2.5 = osteoporosis. Treatment: alendronate 70 mg weekly (bisphosphonate, inhibits osteoclasts — must be taken with water, upright ≥30 min). Calcium 1200 mg/day + vitamin D 800–1000 IU/day supplements. DEXA repeat in 2–3 years. HRT also prevents bone loss — consider if vasomotor symptoms co-exist."
+          },
+          {
+            "q": "What is the DEXA T-score classification and what does it mean clinically?",
+            "a": "T-score compared to peak bone mass of young adult: Normal ≥-1.0; Osteopenia -1.0 to -2.5; Osteoporosis ≤-2.5; Severe osteoporosis ≤-2.5 with fragility fracture. FRAX tool calculates 10-year fracture probability integrating T-score + clinical risk factors. Treat if FRAX >20% for major osteoporotic fracture or >3% hip fracture."
+          }
+        ]
+      },
+      {
+        "id": "gynaecological-emergencies",
+        "name": "Gynaecological Emergencies",
+        "syllabusRef": "Phase IV Obs & Gynae",
+        "section": "Gynaecology",
+        "description": "Ectopic pregnancy (sites, diagnosis, β-hCG discriminatory zone), ruptured ectopic, ovarian torsion",
+        "svgKey": "mbbs-obg-gynaecological-emergencies",
+        "landmarks": [
+          "Ectopic pregnancy: 95% tubal; ampullary portion 70–80%; risk factors — PID, prev ectopic, IUCD, IVF, tubal surgery",
+          "Discriminatory zone: β-hCG >1500–2000 IU/L with empty uterus on TVS = likely ectopic",
+          "Methotrexate (MTX) criteria: β-hCG <5000, unruptured, ≤3.5 cm, no fetal cardiac activity, no contraindications",
+          "Ruptured ectopic triad: amenorrhoea + acute abdomen + haemodynamic shock — shoulder tip pain from diaphragmatic irritation",
+          "Ovarian torsion: surgical emergency — laparoscopic detorsion ideally within 6 h even if Doppler absent"
+        ],
+        "examQA": [
+          {
+            "q": "A 26-year-old presents with 6 weeks amenorrhoea, lower abdominal pain, and light vaginal bleeding. Urine pregnancy test positive. TVS shows empty uterus with a 2.5 cm right adnexal mass and free fluid in POD. β-hCG is 3200 IU/L. What is the management?",
+            "a": "Ectopic pregnancy. β-hCG >1500 IU/L with empty uterus confirms. Haemodynamically stable: assess for MTX eligibility. Criteria: β-hCG <5000, mass ≤3.5 cm, no cardiac activity, no rupture. If eligible: MTX 50 mg/m² IM. Monitor β-hCG on days 4 and 7 (expect 15% fall). If fails (declining <15%): repeat MTX or surgery."
+          },
+          {
+            "q": "A patient has a sudden onset of severe right iliac fossa pain, is pale, BP 80/50 mmHg, pulse 130 bpm, with positive pregnancy test. What is the diagnosis and immediate management?",
+            "a": "Ruptured ectopic pregnancy with haemoperitoneum. Emergency laparotomy (or laparoscopy if experienced surgeon): resuscitate simultaneously with IV fluid/blood, O2, 2 large-bore IV cannulae, cross-match 6 units. Salpingectomy of affected tube. Post-op anti-D if Rh-negative. Do not delay surgery for stabilisation."
+          },
+          {
+            "q": "What is the expectant management of ectopic pregnancy and what are the criteria?",
+            "a": "Expectant management (observation alone): β-hCG <1000 IU/L and declining, patient asymptomatic, no free fluid, unruptured. Weekly β-hCG monitoring until negative. 70% resolve spontaneously. Advantages: avoids surgery and MTX side effects. Patient must understand risk of rupture and have immediate access to emergency care."
+          },
+          {
+            "q": "A 17-year-old with no pregnancy history presents with sudden severe right pelvic pain, nausea, and vomiting. Urine pregnancy test is negative. USS shows a 7 cm right ovarian cyst. Doppler shows absent blood flow to right ovary. What is the management?",
+            "a": "Ovarian torsion. Emergency laparoscopy for detorsion. Even with absent Doppler, do NOT proceed to oophorectomy without attempting untwisting — ovary may recover function. Perform cystectomy at same sitting. If ovary clearly gangrenous (>24 h torsion), salpingo-oophorectomy. Anti-emetics, analgesia, IV access pre-op."
+          }
+        ]
+      }
+    ]
   }
 };
 
@@ -3104,6 +3705,7 @@ export function getTopicVisualsKey(subj) {
   if (name.includes('pathology'))                               return 'mbbs_pathology';
   if (name.includes('community'))                               return 'mbbs_community_medicine';
   if (name.includes('ophthalmology') || name.includes('opth'))  return 'mbbs_ophthalmology';
+  if (name.includes('obstetrics') || name.includes('gynaecology') || name.includes('gynae') || name.includes('obs & gyn') || name.includes('obgyn')) return 'mbbs_obs_gynae';
   if (name.includes('medicine') && !name.includes('forensic') && !name.includes('community')) return 'mbbs_medicine';
   return null;
 }

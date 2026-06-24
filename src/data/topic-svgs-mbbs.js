@@ -4793,4 +4793,1000 @@ export const TOPIC_SVGS_MBBS = {
 <rect x="220" y="250" width="10" height="10" fill="#888"/>
 <text x="240" y="260" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Glaucoma</text>
 </svg>`
+,
+  'mbbs-obg-normal-pregnancy': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="14" class="h" text-anchor="middle">Normal Pregnancy &amp; ANC</text>
+<line x1="22" y1="265" x2="185" y2="265" stroke="var(--text)" stroke-width="1.5"/>
+<line x1="22" y1="265" x2="22" y2="30" stroke="var(--text)" stroke-width="1.5"/>
+<ellipse cx="50" cy="255" rx="9" ry="10" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<text x="50" y="275" class="s" text-anchor="middle">12w</text>
+<ellipse cx="80" cy="225" rx="13" ry="25" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<text x="80" y="275" class="s" text-anchor="middle">20w</text>
+<ellipse cx="110" cy="190" rx="17" ry="45" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<text x="110" y="275" class="s" text-anchor="middle">28w</text>
+<ellipse cx="140" cy="157" rx="20" ry="62" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<text x="140" y="275" class="s" text-anchor="middle">36w</text>
+<ellipse cx="168" cy="163" rx="18" ry="56" fill="none" stroke="var(--text)" stroke-width="2"/>
+<text x="168" y="275" class="s" text-anchor="middle">40w</text>
+<line x1="17" y1="218" x2="27" y2="218" stroke="var(--border)" stroke-width="1"/>
+<text x="15" y="221" class="s" text-anchor="end">Umb</text>
+<line x1="17" y1="140" x2="27" y2="140" stroke="var(--border)" stroke-width="1"/>
+<text x="15" y="143" class="s" text-anchor="end">Xiph</text>
+<text x="105" y="290" class="s" text-anchor="middle">SFH(cm) ≈ weeks after 24w</text>
+<text x="280" y="27" class="h" text-anchor="middle">ANC Schedule</text>
+<line x1="210" y1="35" x2="210" y2="260" stroke="var(--border)" stroke-width="2"/>
+<circle cx="210" cy="48" r="5" fill="var(--accent)"/>
+<text x="222" y="45" class="t">&lt;13w: Booking</text>
+<text x="222" y="55" class="s">Blood group·Hb·VDRL·HIV·HBsAg·USS dating</text>
+<circle cx="210" cy="88" r="4" fill="var(--text)"/>
+<text x="222" y="85" class="t">16w: Triple test / AFP</text>
+<text x="222" y="95" class="s">Down risk calculation</text>
+<circle cx="210" cy="128" r="4" fill="var(--text)"/>
+<text x="222" y="125" class="t">20w: Anomaly USS</text>
+<text x="222" y="135" class="s">Fetal morphology + placenta site</text>
+<circle cx="210" cy="168" r="4" fill="var(--text)"/>
+<text x="222" y="165" class="t">28w: GDM screen + Anti-D</text>
+<text x="222" y="175" class="s">75g OGTT; Rh-ve → 500IU Anti-D</text>
+<circle cx="210" cy="208" r="4" fill="var(--text)"/>
+<text x="222" y="205" class="t">36w: Presentation check</text>
+<text x="222" y="215" class="s">GBS swab; birth plan</text>
+<circle cx="210" cy="248" r="5" fill="var(--accent)"/>
+<text x="222" y="245" class="t">40w: EDD; IOL if overdue</text>
+<text x="222" y="255" class="s">Membrane sweep; USS AFI</text>
+<rect x="8" y="282" width="384" height="13" fill="none" stroke="var(--border)" rx="2" stroke-width="1"/>
+<text x="200" y="291" class="s" text-anchor="middle">TORCH: Toxoplasma · Other(syphilis/VZV) · Rubella · CMV · HSV — congenital infection</text>
+</svg>`,
+  'mbbs-obg-labour-delivery': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="105" y="12" class="h" text-anchor="middle">Partogram</text>
+<rect x="30" y="18" width="195" height="140" fill="none" stroke="var(--border)" stroke-width="1"/>
+<line x1="30" y1="46" x2="225" y2="46" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,2"/>
+<line x1="30" y1="74" x2="225" y2="74" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,2"/>
+<line x1="30" y1="102" x2="225" y2="102" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,2"/>
+<line x1="30" y1="130" x2="225" y2="130" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,2"/>
+<line x1="30" y1="158" x2="225" y2="158" stroke="var(--text)" stroke-width="1.5"/>
+<line x1="30" y1="18" x2="30" y2="158" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 64 158 L 161 18" stroke="#f39c12" stroke-width="2" fill="none"/>
+<path d="M 128 158 L 225 18" stroke="#e74c3c" stroke-width="2" fill="none"/>
+<path d="M 64 158 L 84 140 L 104 118 L 122 95 L 138 70 L 152 40" stroke="var(--accent)" stroke-width="2.5" fill="none"/>
+<text x="24" y="21" class="s" text-anchor="end">10</text>
+<text x="24" y="49" class="s" text-anchor="end">8</text>
+<text x="24" y="77" class="s" text-anchor="end">6</text>
+<text x="24" y="105" class="s" text-anchor="end">4</text>
+<text x="24" y="133" class="s" text-anchor="end">2</text>
+<text x="24" y="160" class="s" text-anchor="end">0cm</text>
+<text x="30" y="170" class="s">0h</text>
+<text x="96" y="170" class="s">4h</text>
+<text x="160" y="170" class="s">8h</text>
+<text x="215" y="170" class="s">12h</text>
+<rect x="32" y="175" width="7" height="5" fill="var(--accent)"/>
+<text x="42" y="181" class="s">Actual</text>
+<rect x="80" y="175" width="7" height="5" fill="#f39c12"/>
+<text x="90" y="181" class="s">Alert (1cm/h)</text>
+<rect x="148" y="175" width="7" height="5" fill="#e74c3c"/>
+<text x="158" y="181" class="s">Action (+4h)</text>
+<text x="305" y="12" class="h" text-anchor="middle">Bishop Score</text>
+<rect x="238" y="16" width="155" height="12" fill="var(--accent)" fill-opacity="0.3"/>
+<text x="256" y="25" class="s">Feature</text><text x="348" y="25" class="s" text-anchor="middle">Score 0→3</text>
+<rect x="238" y="28" width="155" height="11" fill="none" stroke="var(--border)" stroke-width="0.5"/>
+<text x="240" y="37" class="s">Dilation</text><text x="310" y="37" class="s">0/1-2/3-4/5+cm</text>
+<rect x="238" y="39" width="155" height="11" fill="none" stroke="var(--border)" stroke-width="0.5"/>
+<text x="240" y="48" class="s">Effacement</text><text x="310" y="48" class="s">0/40/60/80%</text>
+<rect x="238" y="50" width="155" height="11" fill="none" stroke="var(--border)" stroke-width="0.5"/>
+<text x="240" y="59" class="s">Station</text><text x="310" y="59" class="s">-3 / -1 / 0 / +1</text>
+<rect x="238" y="61" width="155" height="11" fill="none" stroke="var(--border)" stroke-width="0.5"/>
+<text x="240" y="70" class="s">Consistency</text><text x="310" y="70" class="s">Firm/Med/Soft</text>
+<rect x="238" y="72" width="155" height="11" fill="none" stroke="var(--border)" stroke-width="0.5"/>
+<text x="240" y="81" class="s">Position</text><text x="310" y="81" class="s">Post/Mid/Ant</text>
+<rect x="238" y="83" width="155" height="12" fill="var(--accent)" fill-opacity="0.15"/>
+<text x="315" y="92" class="s" text-anchor="middle">Score ≥8 = favourable cervix</text>
+<text x="305" y="107" class="h" text-anchor="middle">Normal CTG</text>
+<text x="240" y="120" class="s">Baseline: 110-160 bpm</text>
+<text x="240" y="132" class="s">Variability: ≥5 bpm</text>
+<text x="240" y="144" class="s">Accelerations ×2 in 20min</text>
+<text x="240" y="156" class="s">No late/prolonged decelerations</text>
+<text x="200" y="200" class="h" text-anchor="middle">Stages of Labour</text>
+<line x1="15" y1="218" x2="390" y2="218" stroke="var(--text)" stroke-width="2"/>
+<polygon points="390,218 383,213 383,223" fill="var(--text)"/>
+<circle cx="40" cy="218" r="6" fill="var(--accent)"/>
+<text x="40" y="233" class="s" text-anchor="middle">Latent</text>
+<text x="40" y="242" class="s" text-anchor="middle">&lt;4cm</text>
+<circle cx="130" cy="218" r="6" fill="var(--text)"/>
+<text x="130" y="233" class="s" text-anchor="middle">Stage 1 Active</text>
+<text x="130" y="242" class="s" text-anchor="middle">4-10cm (1cm/h)</text>
+<circle cx="240" cy="218" r="6" fill="var(--text)"/>
+<text x="240" y="233" class="s" text-anchor="middle">Stage 2</text>
+<text x="240" y="242" class="s" text-anchor="middle">Full → Delivery</text>
+<circle cx="340" cy="218" r="6" fill="var(--accent)"/>
+<text x="340" y="233" class="s" text-anchor="middle">Stage 3</text>
+<text x="340" y="242" class="s" text-anchor="middle">Placenta ≤30min</text>
+<text x="200" y="258" class="s" text-anchor="middle">Stage 2 max: Nullip 2h · Multip 1h (active pushing)</text>
+<text x="200" y="270" class="s" text-anchor="middle">Episiotomy: medio-lateral incision at 45° from midline</text>
+<text x="200" y="282" class="s" text-anchor="middle">Mechanism LOA: Engagement→Descent→Flexion→IR→Extension→ER→Expulsion</text>
+</svg>`,
+  'mbbs-obg-aph': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="14" class="h" text-anchor="middle">Antepartum Haemorrhage</text>
+<text x="200" y="27" class="t" text-anchor="middle" font-weight="bold">Placenta Praevia Classification</text>
+<ellipse cx="45" cy="72" rx="35" ry="45" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<rect x="12" y="97" width="28" height="11" fill="#e74c3c" rx="2"/>
+<text x="45" y="128" class="s" text-anchor="middle">Type I</text>
+<text x="45" y="137" class="s" text-anchor="middle">Low-lying</text>
+<ellipse cx="130" cy="72" rx="35" ry="45" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<rect x="97" y="107" width="25" height="12" fill="#e74c3c" rx="2"/>
+<text x="130" y="128" class="s" text-anchor="middle">Type II</text>
+<text x="130" y="137" class="s" text-anchor="middle">Marginal</text>
+<ellipse cx="228" cy="72" rx="35" ry="45" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<rect x="196" y="104" width="32" height="18" fill="#e74c3c" rx="2"/>
+<text x="228" y="128" class="s" text-anchor="middle">Type III</text>
+<text x="228" y="137" class="s" text-anchor="middle">Partial</text>
+<ellipse cx="345" cy="72" rx="35" ry="45" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<rect x="313" y="100" width="45" height="22" fill="#e74c3c" rx="2"/>
+<text x="345" y="128" class="s" text-anchor="middle">Type IV</text>
+<text x="345" y="137" class="s" text-anchor="middle">Complete</text>
+<line x1="26" y1="110" x2="45" y2="110" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="2,2"/>
+<line x1="110" y1="110" x2="130" y2="110" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="2,2"/>
+<line x1="210" y1="112" x2="230" y2="112" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="2,2"/>
+<line x1="327" y1="110" x2="347" y2="110" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="2,2"/>
+<text x="200" y="155" class="h" text-anchor="middle">APH: Praevia vs Abruptio</text>
+<rect x="10" y="160" width="185" height="12" fill="var(--accent)" fill-opacity="0.3"/>
+<text x="102" y="169" class="s" text-anchor="middle">Placenta Praevia</text>
+<rect x="205" y="160" width="185" height="12" fill="#e74c3c" fill-opacity="0.3"/>
+<text x="297" y="169" class="s" text-anchor="middle">Abruptio Placentae</text>
+<line x1="200" y1="160" x2="200" y2="240" stroke="var(--border)" stroke-width="1"/>
+<rect x="10" y="172" width="380" height="11" fill="none" stroke="var(--border)" stroke-width="0.5"/>
+<text x="12" y="181" class="s">Pain: PAINLESS, sudden onset</text>
+<text x="207" y="181" class="s">Pain: PAINFUL (constant, severe)</text>
+<rect x="10" y="183" width="380" height="11" fill="none" stroke="var(--border)" stroke-width="0.5"/>
+<text x="12" y="192" class="s">Blood: fresh red, revealed</text>
+<text x="207" y="192" class="s">Blood: dark; concealed or revealed</text>
+<rect x="10" y="194" width="380" height="11" fill="none" stroke="var(--border)" stroke-width="0.5"/>
+<text x="12" y="203" class="s">Uterus: SOFT, non-tender</text>
+<text x="207" y="203" class="s">Uterus: HARD (woody), tender</text>
+<rect x="10" y="205" width="380" height="11" fill="none" stroke="var(--border)" stroke-width="0.5"/>
+<text x="12" y="214" class="s">Fetal: usually well (at first)</text>
+<text x="207" y="214" class="s">Fetal: distress/death (hypoxia)</text>
+<rect x="10" y="216" width="380" height="11" fill="none" stroke="var(--border)" stroke-width="0.5"/>
+<text x="12" y="225" class="s">Dx: USS (placenta location)</text>
+<text x="207" y="225" class="s">Kleihauer-Betke: fetal cells in mat. blood</text>
+<rect x="10" y="227" width="380" height="11" fill="none" stroke="var(--border)" stroke-width="0.5"/>
+<text x="12" y="236" class="s">⚠ NO digital PV exam</text>
+<text x="207" y="236" class="s">Risk: HTN, trauma, smoking, cocaine</text>
+<text x="200" y="255" class="s" text-anchor="middle">APH = bleeding from genital tract ≥24 weeks gestation (excl. show/trauma)</text>
+<text x="200" y="267" class="s" text-anchor="middle">Praevia risk: prev CS, uterine surgery, multiparity, assisted conception</text>
+<text x="200" y="279" class="s" text-anchor="middle">Massive APH: 2 large-bore IVs, X-match 6 units, call senior, active resus</text>
+</svg>`,
+  'mbbs-obg-hypertensive-disorders': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="13" class="h" text-anchor="middle">Hypertensive Disorders of Pregnancy</text>
+<text x="80" y="26" class="t" text-anchor="middle" font-weight="bold">Pre-eclampsia Cascade</text>
+<rect x="20" y="30" width="120" height="20" fill="none" stroke="var(--accent)" stroke-width="1.5" rx="3"/>
+<text x="80" y="44" class="s" text-anchor="middle">Abnormal trophoblast invasion</text>
+<path d="M 80 50 L 80 58" stroke="var(--text)" stroke-width="1.5"/>
+<rect x="20" y="58" width="120" height="20" fill="none" stroke="var(--text)" stroke-width="1" rx="3"/>
+<text x="80" y="72" class="s" text-anchor="middle">↓ Placental perfusion</text>
+<path d="M 80 78 L 80 86" stroke="var(--text)" stroke-width="1.5"/>
+<rect x="20" y="86" width="120" height="20" fill="none" stroke="var(--text)" stroke-width="1" rx="3"/>
+<text x="80" y="100" class="s" text-anchor="middle">Placental factors (sFlt-1↑)</text>
+<path d="M 80 106 L 80 114" stroke="var(--text)" stroke-width="1.5"/>
+<rect x="20" y="114" width="120" height="20" fill="none" stroke="var(--text)" stroke-width="1" rx="3"/>
+<text x="80" y="128" class="s" text-anchor="middle">Endothelial dysfunction</text>
+<path d="M 80 134 L 80 142" stroke="var(--text)" stroke-width="1.5"/>
+<rect x="20" y="142" width="120" height="20" fill="#e74c3c" fill-opacity="0.2" stroke="#e74c3c" stroke-width="1" rx="3"/>
+<text x="80" y="156" class="s" text-anchor="middle">BP↑ + Proteinuria + Oedema</text>
+<rect x="20" y="168" width="120" height="28" fill="none" stroke="var(--border)" rx="3"/>
+<text x="80" y="181" class="s" text-anchor="middle">PE: BP≥140/90 + ≥300mg</text>
+<text x="80" y="191" class="s" text-anchor="middle">protein/24h after 20w</text>
+<text x="200" y="26" class="t" text-anchor="middle" font-weight="bold">HELLP Syndrome</text>
+<circle cx="188" cy="65" r="28" fill="none" stroke="#e74c3c" stroke-width="2"/>
+<text x="188" y="60" class="s" text-anchor="middle">H</text>
+<text x="188" y="70" class="s" text-anchor="middle">Haemolysis</text>
+<circle cx="215" cy="108" r="28" fill="none" stroke="#e67e22" stroke-width="2"/>
+<text x="215" y="103" class="s" text-anchor="middle">EL</text>
+<text x="215" y="113" class="s" text-anchor="middle">Elevated LFTs</text>
+<circle cx="170" cy="108" r="28" fill="none" stroke="#3498db" stroke-width="2"/>
+<text x="170" y="103" class="s" text-anchor="middle">LP</text>
+<text x="170" y="113" class="s" text-anchor="middle">Plt &lt;100×10⁹</text>
+<text x="193" y="150" class="s" text-anchor="middle">Onset often antepartum</text>
+<text x="193" y="161" class="s" text-anchor="middle">Delivery = definitive Rx</text>
+<text x="330" y="26" class="t" text-anchor="middle" font-weight="bold">MgSO₄ Protocol</text>
+<rect x="258" y="30" width="135" height="20" fill="none" stroke="var(--accent)" stroke-width="1.5" rx="3"/>
+<text x="325" y="44" class="s" text-anchor="middle">Loading: 4g IV over 10min</text>
+<rect x="258" y="54" width="135" height="20" fill="none" stroke="var(--text)" stroke-width="1" rx="3"/>
+<text x="325" y="68" class="s" text-anchor="middle">+ 5g IM each buttock</text>
+<rect x="258" y="78" width="135" height="20" fill="none" stroke="var(--text)" stroke-width="1" rx="3"/>
+<text x="325" y="92" class="s" text-anchor="middle">Maintenance: 5g IM 4-hourly</text>
+<text x="325" y="110" class="s" text-anchor="middle">Therapeutic range: 2-3.5 mmol/L</text>
+<rect x="268" y="114" width="120" height="16" fill="none" stroke="var(--border)" rx="2"/>
+<line x1="286" y1="114" x2="286" y2="130" stroke="#27ae60" stroke-width="2"/>
+<line x1="358" y1="114" x2="358" y2="130" stroke="#e74c3c" stroke-width="2"/>
+<text x="325" y="142" class="s" text-anchor="middle">↑ Toxicity → loss of reflexes</text>
+<text x="325" y="153" class="s" text-anchor="middle">Antidote: Ca gluconate 10ml 10%</text>
+<text x="325" y="170" class="h" text-anchor="middle">Antihypertensives</text>
+<rect x="258" y="174" width="135" height="14" fill="none" stroke="var(--border)" rx="2"/>
+<text x="325" y="184" class="s" text-anchor="middle">Labetalol 200mg oral (1st line)</text>
+<rect x="258" y="190" width="135" height="14" fill="none" stroke="var(--border)" rx="2"/>
+<text x="325" y="200" class="s" text-anchor="middle">Nifedipine 10mg SL/oral</text>
+<rect x="258" y="206" width="135" height="14" fill="none" stroke="var(--border)" rx="2"/>
+<text x="325" y="216" class="s" text-anchor="middle">Hydralazine 5mg IV (acute)</text>
+<text x="200" y="236" class="s" text-anchor="middle">Eclampsia = PE + convulsions; MgSO₄ prevents &amp; treats seizures</text>
+<text x="200" y="248" class="s" text-anchor="middle">Severe HTN: BP≥160/110 → urgent Rx; target &lt;150/100 mmHg</text>
+<text x="200" y="260" class="s" text-anchor="middle">Delivery: definitive Rx; mild PE aim ≥37w; severe → after stabilisation</text>
+<text x="200" y="272" class="s" text-anchor="middle">Gestational HTN: BP≥140/90 after 20w WITHOUT proteinuria</text>
+<text x="200" y="284" class="s" text-anchor="middle">Chronic HTN: pre-existing or &lt;20w; Rx methyldopa, labetalol, nifedipine</text>
+</svg>`,
+  'mbbs-obg-pph': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="13" class="h" text-anchor="middle">Postpartum Haemorrhage</text>
+<text x="80" y="27" class="t" text-anchor="middle" font-weight="bold">4T Causes of PPH</text>
+<circle cx="45" cy="72" r="32" fill="none" stroke="#e74c3c" stroke-width="2"/>
+<text x="45" y="67" class="t" text-anchor="middle" font-weight="bold">TONE</text>
+<text x="45" y="79" class="s" text-anchor="middle">70% of PPH</text>
+<text x="45" y="89" class="s" text-anchor="middle">Uterine atony</text>
+<circle cx="120" cy="72" r="32" fill="none" stroke="#e67e22" stroke-width="2"/>
+<text x="120" y="67" class="t" text-anchor="middle" font-weight="bold">TRAUMA</text>
+<text x="120" y="79" class="s" text-anchor="middle">Laceration</text>
+<text x="120" y="89" class="s" text-anchor="middle">Haematoma</text>
+<circle cx="45" cy="148" r="32" fill="none" stroke="#f39c12" stroke-width="2"/>
+<text x="45" y="143" class="t" text-anchor="middle" font-weight="bold">TISSUE</text>
+<text x="45" y="155" class="s" text-anchor="middle">Retained</text>
+<text x="45" y="165" class="s" text-anchor="middle">placenta/clots</text>
+<circle cx="120" cy="148" r="32" fill="none" stroke="#3498db" stroke-width="2"/>
+<text x="120" y="143" class="t" text-anchor="middle" font-weight="bold">THROMBIN</text>
+<text x="120" y="155" class="s" text-anchor="middle">Coagulopathy</text>
+<text x="120" y="165" class="s" text-anchor="middle">DIC, AFE</text>
+<text x="82" y="196" class="s" text-anchor="middle">Primary PPH: ≥500ml in 24h (≥1000ml CS) · Secondary PPH: 24h-6 weeks</text>
+<text x="245" y="27" class="t" text-anchor="middle" font-weight="bold">B-Lynch Suture</text>
+<ellipse cx="245" cy="115" rx="55" ry="70" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 215 160 C 195 160 188 80 218 50 C 235 35 258 35 275 50 C 305 80 298 160 275 160" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="5,2"/>
+<path d="M 218 50 L 218 32 L 272 32 L 272 50" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="5,2"/>
+<text x="245" y="192" class="s" text-anchor="middle">Brace suture compresses atonic uterus</text>
+<text x="350" y="27" class="t" text-anchor="middle" font-weight="bold">Uterotonics</text>
+<rect x="298" y="32" width="105" height="20" fill="var(--accent)" fill-opacity="0.3" rx="3" stroke="var(--accent)" stroke-width="1"/>
+<text x="350" y="46" class="s" text-anchor="middle">Oxytocin 10IU IM/IV</text>
+<rect x="298" y="56" width="105" height="20" fill="none" stroke="var(--text)" stroke-width="1" rx="3"/>
+<text x="350" y="70" class="s" text-anchor="middle">Ergometrine 0.5mg IM</text>
+<rect x="298" y="80" width="105" height="20" fill="none" stroke="var(--text)" stroke-width="1" rx="3"/>
+<text x="350" y="94" class="s" text-anchor="middle">Misoprostol 800mcg SL</text>
+<rect x="298" y="104" width="105" height="20" fill="none" stroke="var(--text)" stroke-width="1" rx="3"/>
+<text x="350" y="118" class="s" text-anchor="middle">Carboprost 250mcg IM</text>
+<rect x="298" y="128" width="105" height="20" fill="none" stroke="#e74c3c" stroke-width="1.5" rx="3"/>
+<text x="350" y="142" class="s" text-anchor="middle">Tranexamic acid 1g IV</text>
+<text x="350" y="163" class="t" text-anchor="middle" font-weight="bold">Surgical Rx</text>
+<text x="350" y="175" class="s" text-anchor="middle">Balloon tamponade</text>
+<text x="350" y="186" class="s" text-anchor="middle">B-Lynch suture</text>
+<text x="350" y="197" class="s" text-anchor="middle">Uterine artery ligation</text>
+<text x="350" y="208" class="s" text-anchor="middle">Hysterectomy (last resort)</text>
+<text x="200" y="222" class="s" text-anchor="middle">Ergometrine CI: hypertension, heart disease (causes vasospasm)</text>
+<text x="200" y="234" class="s" text-anchor="middle">Bimanual compression: while uterotonics work → compress uterus between hands</text>
+<text x="200" y="246" class="s" text-anchor="middle">Massive PPH: activate MTP (1:1:1 PRBC:FFP:Platelets), call haematologist</text>
+<text x="200" y="258" class="s" text-anchor="middle">Aortic compression: emergency temporising measure — fist over aorta through abdomen</text>
+</svg>`,
+  'mbbs-obg-preterm-labour': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="13" class="h" text-anchor="middle">Preterm Labour &amp; PROM</text>
+<text x="200" y="27" class="t" text-anchor="middle" font-weight="bold">Gestational Age &amp; Management Thresholds</text>
+<line x1="15" y1="48" x2="385" y2="48" stroke="var(--text)" stroke-width="2"/>
+<circle cx="55" cy="48" r="6" fill="#e74c3c"/>
+<text x="55" y="40" class="s" text-anchor="middle">23-24w</text>
+<text x="55" y="62" class="s" text-anchor="middle">Viability</text>
+<circle cx="130" cy="48" r="6" fill="#e67e22"/>
+<text x="130" y="40" class="s" text-anchor="middle">24-34w</text>
+<text x="130" y="62" class="s" text-anchor="middle">Steroids+Tocolysis</text>
+<circle cx="220" cy="48" r="6" fill="#f39c12"/>
+<text x="220" y="40" class="s" text-anchor="middle">34-36+6w</text>
+<text x="220" y="62" class="s" text-anchor="middle">Late preterm</text>
+<circle cx="310" cy="48" r="6" fill="var(--accent)"/>
+<text x="310" y="40" class="s" text-anchor="middle">37-41+6w</text>
+<text x="310" y="62" class="s" text-anchor="middle">Term</text>
+<circle cx="370" cy="48" r="5" fill="var(--text)"/>
+<text x="370" y="40" class="s" text-anchor="middle">≥42w</text>
+<text x="370" y="62" class="s" text-anchor="middle">Post-term</text>
+<text x="75" y="90" class="t" text-anchor="middle" font-weight="bold">Cervical Cerclage</text>
+<ellipse cx="75" cy="148" rx="40" ry="50" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<ellipse cx="75" cy="185" rx="12" ry="8" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<ellipse cx="75" cy="185" rx="18" ry="13" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="4,2"/>
+<text x="100" y="185" class="s">Cerclage suture</text>
+<text x="75" y="205" class="s" text-anchor="middle">Placed 12-14w</text>
+<text x="75" y="215" class="s" text-anchor="middle">CI: ruptured membranes</text>
+<text x="75" y="225" class="s" text-anchor="middle">Cervical incompetence</text>
+<text x="200" y="90" class="t" text-anchor="middle" font-weight="bold">Corticosteroids (24-34w)</text>
+<rect x="155" y="95" width="90" height="22" fill="none" stroke="var(--accent)" stroke-width="1.5" rx="3"/>
+<text x="200" y="108" class="s" text-anchor="middle">Betamethasone</text>
+<text x="200" y="117" class="s" text-anchor="middle">12mg IM × 2 doses</text>
+<path d="M 200 117 L 200 125" stroke="var(--text)" stroke-width="1"/>
+<rect x="155" y="125" width="90" height="16" fill="none" stroke="var(--border)" stroke-width="1" rx="3"/>
+<text x="200" y="136" class="s" text-anchor="middle">24 hours apart</text>
+<text x="200" y="153" class="s" text-anchor="middle">↑ surfactant → prevents RDS</text>
+<text x="200" y="164" class="s" text-anchor="middle">Prevents IVH, NEC</text>
+<text x="200" y="175" class="s" text-anchor="middle">Effect in 24-48h (lasts 7d)</text>
+<text x="330" y="90" class="t" text-anchor="middle" font-weight="bold">Tocolysis</text>
+<rect x="275" y="96" width="115" height="18" fill="none" stroke="var(--accent)" stroke-width="1.5" rx="3"/>
+<text x="332" y="109" class="s" text-anchor="middle">Nifedipine 20mg oral (1st line)</text>
+<rect x="275" y="118" width="115" height="18" fill="none" stroke="var(--text)" stroke-width="1" rx="3"/>
+<text x="332" y="131" class="s" text-anchor="middle">Atosiban IV (oxytocin ant.)</text>
+<rect x="275" y="140" width="115" height="18" fill="none" stroke="var(--border)" stroke-width="1" rx="3"/>
+<text x="332" y="153" class="s" text-anchor="middle">Ritodrine (β₂ agonist)</text>
+<text x="332" y="172" class="s" text-anchor="middle">Goal: delay 48h for steroids</text>
+<text x="332" y="183" class="s" text-anchor="middle">CI: chorioamnionitis, fetal distress</text>
+<text x="200" y="220" class="t" text-anchor="middle" font-weight="bold">GBS Prophylaxis (intrapartum)</text>
+<rect x="70" y="225" width="260" height="16" fill="none" stroke="var(--border)" rx="3" stroke-width="1"/>
+<text x="200" y="236" class="s" text-anchor="middle">Benzyl penicillin 3g IV stat, then 1.5g IV 4-hourly until delivery</text>
+<text x="200" y="253" class="s" text-anchor="middle">PROM = rupture at term before labour · PPROM = rupture before 37w</text>
+<text x="200" y="265" class="s" text-anchor="middle">PPROM Dx: speculum (pooling), ferning, AmniSure / fetal fibronectin</text>
+<text x="200" y="277" class="s" text-anchor="middle">PTL risk: cervical incompetence, infection, uterine anomaly, multiple pregnancy</text>
+</svg>`,
+  'mbbs-obg-malpresentations': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="13" class="h" text-anchor="middle">Malpresentations &amp; Malpositions</text>
+<text x="200" y="26" class="t" text-anchor="middle" font-weight="bold">Breech Types</text>
+<text x="55" y="38" class="s" text-anchor="middle">Frank (Extended) 65%</text>
+<ellipse cx="55" cy="98" rx="38" ry="50" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<ellipse cx="55" cy="93" rx="12" ry="22" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<circle cx="55" cy="60" r="12" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<path d="M 43 115 L 38 135 M 67 115 L 72 135" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+<text x="55" y="158" class="s" text-anchor="middle">Hips flexed</text>
+<text x="55" y="168" class="s" text-anchor="middle">Knees extended</text>
+<text x="195" y="38" class="s" text-anchor="middle">Complete (Flexed) 25%</text>
+<ellipse cx="195" cy="98" rx="38" ry="50" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<ellipse cx="195" cy="93" rx="12" ry="22" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<circle cx="195" cy="60" r="12" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<path d="M 183 110 C 172 122 176 134 183 128 M 207 110 C 218 122 214 134 207 128" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+<text x="195" y="158" class="s" text-anchor="middle">Hips &amp; knees</text>
+<text x="195" y="168" class="s" text-anchor="middle">both flexed</text>
+<text x="335" y="38" class="s" text-anchor="middle">Footling (Incomplete) 10%</text>
+<ellipse cx="335" cy="98" rx="38" ry="50" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<ellipse cx="335" cy="90" rx="12" ry="20" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<circle cx="335" cy="58" r="12" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<path d="M 328 110 L 318 128 L 308 133 M 342 110 L 352 128 L 362 133" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+<text x="335" y="158" class="s" text-anchor="middle">One/both feet</text>
+<text x="335" y="168" class="s" text-anchor="middle">presenting (high risk)</text>
+<rect x="10" y="178" width="185" height="38" fill="none" stroke="var(--accent)" stroke-width="1.5" rx="3"/>
+<text x="102" y="191" class="t" text-anchor="middle" font-weight="bold">ECV (External Cephalic Version)</text>
+<text x="102" y="203" class="s" text-anchor="middle">Offered ≥36w (nullip) / ≥37w (multip)</text>
+<text x="102" y="213" class="s" text-anchor="middle">Success ~50% · Under tocolysis · CTG before/after</text>
+<text x="280" y="183" class="t" text-anchor="middle" font-weight="bold">Cord Prolapse Emergency</text>
+<ellipse cx="280" cy="228" rx="60" ry="35" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<circle cx="280" cy="214" r="18" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<path d="M 278 222 C 255 240 260 258 280 256 C 300 254 305 240 285 226" stroke="#e74c3c" stroke-width="3" fill="none"/>
+<text x="280" y="267" class="s" text-anchor="middle">Cord below presenting part</text>
+<text x="280" y="278" class="s" text-anchor="middle">Knee-chest; fill bladder; emergency CS</text>
+<text x="102" y="232" class="s" text-anchor="middle">Brow: ALWAYS CS</text>
+<text x="102" y="243" class="s" text-anchor="middle">Shoulder: CS + internal version</text>
+<text x="102" y="254" class="s" text-anchor="middle">Face mento-ant: vaginal delivery</text>
+<text x="102" y="265" class="s" text-anchor="middle">Face mento-post: CS</text>
+<text x="102" y="278" class="s" text-anchor="middle">OPP (occipito-post): rotation/CS</text>
+</svg>`,
+  'mbbs-obg-operative-obstetrics': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="13" class="h" text-anchor="middle">Operative Obstetrics</text>
+<text x="85" y="27" class="t" text-anchor="middle" font-weight="bold">Caesarean Section</text>
+<ellipse cx="52" cy="88" rx="40" ry="55" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<line x1="14" y1="113" x2="90" y2="113" stroke="var(--accent)" stroke-width="2.5"/>
+<text x="52" y="152" class="s" text-anchor="middle">LSCS: Pfannenstiel</text>
+<text x="52" y="162" class="s" text-anchor="middle">(transverse, suprapubic)</text>
+<ellipse cx="148" cy="88" rx="40" ry="55" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<line x1="148" y1="42" x2="148" y2="128" stroke="#e74c3c" stroke-width="2.5"/>
+<text x="148" y="152" class="s" text-anchor="middle">Classical CS</text>
+<text x="148" y="162" class="s" text-anchor="middle">(vertical, rarely done)</text>
+<text x="85" y="183" class="t" text-anchor="middle" font-weight="bold">CS Indications (3 Ps)</text>
+<rect x="8" y="188" width="162" height="12" fill="none" stroke="var(--border)" rx="2"/>
+<text x="89" y="197" class="s" text-anchor="middle">Passenger: malpresentation, macrosomia</text>
+<rect x="8" y="202" width="162" height="12" fill="none" stroke="var(--border)" rx="2"/>
+<text x="89" y="211" class="s" text-anchor="middle">Pelvis: contracted, CPD</text>
+<rect x="8" y="216" width="162" height="12" fill="none" stroke="var(--border)" rx="2"/>
+<text x="89" y="225" class="s" text-anchor="middle">Powers: fetal distress, failed IOL</text>
+<text x="250" y="27" class="t" text-anchor="middle" font-weight="bold">Forceps</text>
+<path d="M 218 62 C 212 77 215 112 228 122 L 233 122 C 220 112 217 77 222 62 Z" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 278 62 C 284 77 281 112 268 122 L 263 122 C 276 112 279 77 274 62 Z" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<line x1="218" y1="62" x2="212" y2="47" stroke="var(--text)" stroke-width="2"/>
+<line x1="278" y1="62" x2="284" y2="47" stroke="var(--text)" stroke-width="2"/>
+<ellipse cx="248" cy="98" rx="22" ry="24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="4,2"/>
+<text x="248" y="142" class="s" text-anchor="middle">Neville-Barnes forceps</text>
+<text x="248" y="152" class="s" text-anchor="middle">Head at station +2 or below</text>
+<text x="248" y="162" class="s" text-anchor="middle">Trial in theatre</text>
+<text x="350" y="27" class="t" text-anchor="middle" font-weight="bold">Ventouse</text>
+<path d="M 325 57 C 320 57 314 67 320 77 L 340 87 L 360 77 C 366 67 360 57 355 57 Z" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<line x1="340" y1="57" x2="340" y2="42" stroke="var(--text)" stroke-width="2"/>
+<ellipse cx="340" cy="112" rx="25" ry="28" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<circle cx="340" cy="90" r="3" fill="var(--accent)"/>
+<text x="340" y="148" class="s" text-anchor="middle">Cup over posterior</text>
+<text x="340" y="158" class="s" text-anchor="middle">fontanelle; chignon forms</text>
+<text x="340" y="168" class="s" text-anchor="middle">Less maternal trauma</text>
+<rect x="200" y="183" width="190" height="14" fill="none" stroke="var(--border)" rx="3" stroke-width="1"/>
+<text x="295" y="193" class="s" text-anchor="middle">Forceps: more maternal trauma · Ventouse: more cephalhaematoma</text>
+<rect x="8" y="242" width="384" height="15" fill="none" stroke="var(--border)" rx="3" stroke-width="1"/>
+<text x="200" y="252" class="s" text-anchor="middle">Symphysiotomy: division pubic symphysis under LA — increases pelvic diameter 2-3cm</text>
+<text x="200" y="268" class="s" text-anchor="middle">VBAC: previous LSCS → 80% success; rupture risk 0.5%; continuous CTG mandatory</text>
+<text x="200" y="280" class="s" text-anchor="middle">CS complications: haemorrhage, infection, bladder/ureter injury, VTE, ileus</text>
+</svg>`,
+  'mbbs-obg-puerperal-complications': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="13" class="h" text-anchor="middle">Puerperal Complications</text>
+<text x="100" y="27" class="t" text-anchor="middle" font-weight="bold">Puerperal Sepsis Organisms</text>
+<text x="100" y="38" class="s" text-anchor="middle">Fever &gt;38°C for 24h (after 1st 24h postpartum)</text>
+<circle cx="48" cy="82" r="30" fill="none" stroke="#e74c3c" stroke-width="2"/>
+<text x="48" y="77" class="s" text-anchor="middle">Group A</text>
+<text x="48" y="87" class="s" text-anchor="middle">Strep (GAS)</text>
+<text x="48" y="97" class="s" text-anchor="middle">★ Most feared</text>
+<circle cx="125" cy="72" r="28" fill="none" stroke="#e67e22" stroke-width="2"/>
+<text x="125" y="67" class="s" text-anchor="middle">E. coli</text>
+<text x="125" y="77" class="s" text-anchor="middle">Gram -ve</text>
+<circle cx="48" cy="152" r="28" fill="none" stroke="#3498db" stroke-width="2"/>
+<text x="48" y="147" class="s" text-anchor="middle">Anaerobes</text>
+<text x="48" y="157" class="s" text-anchor="middle">Bacteroides</text>
+<circle cx="125" cy="142" r="28" fill="none" stroke="#f39c12" stroke-width="2"/>
+<text x="125" y="137" class="s" text-anchor="middle">Staph</text>
+<text x="125" y="147" class="s" text-anchor="middle">aureus</text>
+<text x="88" y="193" class="t" text-anchor="middle" font-weight="bold">Treatment</text>
+<rect x="10" y="198" width="170" height="13" fill="none" stroke="var(--accent)" stroke-width="1.5" rx="2"/>
+<text x="95" y="207" class="s" text-anchor="middle">Co-amoxiclav + metronidazole</text>
+<rect x="10" y="213" width="170" height="13" fill="none" stroke="var(--border)" stroke-width="1" rx="2"/>
+<text x="95" y="222" class="s" text-anchor="middle">Sepsis 6 bundle (cultures, IV, O₂)</text>
+<text x="305" y="27" class="t" text-anchor="middle" font-weight="bold">VTE in Puerperium (Risk ×5)</text>
+<circle cx="263" cy="78" r="25" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<text x="263" y="75" class="s" text-anchor="middle">Stasis</text>
+<text x="263" y="85" class="s" text-anchor="middle">(immobility)</text>
+<circle cx="312" cy="55" r="25" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<text x="312" y="50" class="s" text-anchor="middle">Hypercoagul-</text>
+<text x="312" y="60" class="s" text-anchor="middle">ability</text>
+<circle cx="358" cy="78" r="25" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<text x="358" y="75" class="s" text-anchor="middle">Endothelial</text>
+<text x="358" y="85" class="s" text-anchor="middle">injury</text>
+<text x="307" y="105" class="s" text-anchor="middle">Virchow\'s Triad</text>
+<rect x="240" y="112" width="150" height="16" fill="none" stroke="var(--text)" stroke-width="1" rx="2"/>
+<text x="315" y="123" class="s" text-anchor="middle">DVT (calf → iliofemoral)</text>
+<path d="M 315 128 L 315 136" stroke="var(--text)" stroke-width="1.5"/>
+<rect x="240" y="136" width="150" height="16" fill="none" stroke="#e74c3c" stroke-width="1.5" rx="2"/>
+<text x="315" y="147" class="s" text-anchor="middle">PE (pleuritic pain, dyspnoea)</text>
+<text x="315" y="168" class="t" text-anchor="middle" font-weight="bold">Treatment: LMWH</text>
+<text x="315" y="180" class="s" text-anchor="middle">Enoxaparin 1mg/kg SC BD</text>
+<text x="315" y="191" class="s" text-anchor="middle">Warfarin safe in breastfeeding</text>
+<text x="200" y="218" class="h" text-anchor="middle">Puerperal Psychosis</text>
+<rect x="10" y="223" width="380" height="14" fill="none" stroke="var(--border)" rx="3" stroke-width="1"/>
+<text x="200" y="233" class="s" text-anchor="middle">Incidence 1-2/1000 · Onset within 2 weeks · Features: delusions, hallucinations, confusion</text>
+<text x="200" y="249" class="s" text-anchor="middle">Risk: bipolar Hx, first episode, no sleep · Rx: olanzapine + mood stabilizer</text>
+<text x="200" y="261" class="s" text-anchor="middle">Baby blues: days 3-5 (normal, transient, no Rx) · Edinburgh scale screens PND</text>
+<text x="200" y="273" class="s" text-anchor="middle">PND: weeks-months · SSRIs (sertraline) safe in breastfeeding</text>
+<text x="200" y="285" class="s" text-anchor="middle">Mastitis: Staph aureus, flucloxacillin; continue breastfeeding unless abscess</text>
+</svg>`,
+  'mbbs-obg-fetal-medicine': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="13" class="h" text-anchor="middle">Fetal Medicine</text>
+<text x="95" y="27" class="t" text-anchor="middle" font-weight="bold">Biophysical Profile (BPP)</text>
+<rect x="10" y="32" width="180" height="14" fill="none" stroke="var(--border)" rx="2"/>
+<text x="12" y="42" class="s">NST (non-stress test)</text>
+<rect x="140" y="34" width="40" height="10" fill="var(--accent)" rx="2"/>
+<text x="160" y="42" class="s" fill="white" text-anchor="middle">2 pts</text>
+<rect x="10" y="48" width="180" height="14" fill="none" stroke="var(--border)" rx="2"/>
+<text x="12" y="58" class="s">Fetal breathing movements</text>
+<rect x="140" y="50" width="40" height="10" fill="var(--accent)" rx="2"/>
+<text x="160" y="58" class="s" fill="white" text-anchor="middle">2 pts</text>
+<rect x="10" y="64" width="180" height="14" fill="none" stroke="var(--border)" rx="2"/>
+<text x="12" y="74" class="s">Fetal body movements ×3</text>
+<rect x="140" y="66" width="40" height="10" fill="var(--accent)" rx="2"/>
+<text x="160" y="74" class="s" fill="white" text-anchor="middle">2 pts</text>
+<rect x="10" y="80" width="180" height="14" fill="none" stroke="var(--border)" rx="2"/>
+<text x="12" y="90" class="s">Fetal tone (flexion/extension)</text>
+<rect x="140" y="82" width="40" height="10" fill="var(--accent)" rx="2"/>
+<text x="160" y="90" class="s" fill="white" text-anchor="middle">2 pts</text>
+<rect x="10" y="96" width="180" height="14" fill="none" stroke="var(--border)" rx="2"/>
+<text x="12" y="106" class="s">Amniotic fluid (AFI ≥5cm)</text>
+<rect x="140" y="98" width="40" height="10" fill="var(--accent)" rx="2"/>
+<text x="160" y="106" class="s" fill="white" text-anchor="middle">2 pts</text>
+<text x="95" y="122" class="s" text-anchor="middle">Total /10: 8-10 normal · ≤6 = consider delivery</text>
+<text x="95" y="137" class="t" text-anchor="middle" font-weight="bold">Umbilical Artery Doppler</text>
+<path d="M 10 165 L 22 165 L 27 148 L 37 168 L 47 165 L 57 148 L 67 168 L 77 165 L 87 148 L 97 168" stroke="var(--accent)" stroke-width="2" fill="none"/>
+<text x="54" y="183" class="s" text-anchor="middle">Normal (diastolic flow)</text>
+<path d="M 110 165 L 122 165 L 127 148 L 137 165 L 147 165 L 157 148 L 167 165 L 177 165" stroke="#e74c3c" stroke-width="2" fill="none"/>
+<text x="145" y="183" class="s" text-anchor="middle">AREDF (→ deliver)</text>
+<line x1="105" y1="143" x2="105" y2="195" stroke="var(--border)" stroke-width="1" stroke-dasharray="3,2"/>
+<text x="300" y="27" class="t" text-anchor="middle" font-weight="bold">Rhesus Isoimmunisation</text>
+<circle cx="258" cy="72" r="20" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<text x="258" y="69" class="s" text-anchor="middle">Rh-ve</text>
+<text x="258" y="79" class="s" text-anchor="middle">mother</text>
+<circle cx="338" cy="72" r="20" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<text x="338" y="69" class="s" text-anchor="middle">Rh+ve</text>
+<text x="338" y="79" class="s" text-anchor="middle">fetal RBCs</text>
+<path d="M 280 70 L 314 70" stroke="var(--text)" stroke-width="1.5"/>
+<text x="297" y="65" class="s" text-anchor="middle">sensitises</text>
+<circle cx="258" cy="148" r="20" fill="none" stroke="#e74c3c" stroke-width="2"/>
+<text x="258" y="145" class="s" text-anchor="middle">Anti-D</text>
+<text x="258" y="155" class="s" text-anchor="middle">IgG</text>
+<circle cx="338" cy="148" r="20" fill="none" stroke="#e74c3c" stroke-width="2"/>
+<text x="338" y="145" class="s" text-anchor="middle">Fetal</text>
+<text x="338" y="155" class="s" text-anchor="middle">haemolysis</text>
+<path d="M 280 148 L 314 148" stroke="#e74c3c" stroke-width="1.5"/>
+<text x="297" y="143" class="s" text-anchor="middle">attacks</text>
+<text x="298" y="172" class="s" text-anchor="middle">→ HDN / hydrops fetalis</text>
+<rect x="230" y="180" width="155" height="22" fill="none" stroke="var(--accent)" stroke-width="1.5" rx="3"/>
+<text x="307" y="193" class="s" text-anchor="middle">Anti-D Ig prophylaxis</text>
+<text x="307" y="202" class="s" text-anchor="middle">500IU IM at 28+34w &amp; after events</text>
+<text x="200" y="222" class="h" text-anchor="middle">IUGR (&lt;10th centile)</text>
+<text x="200" y="235" class="s" text-anchor="middle">Placental: pre-eclampsia, abruption, infarcts</text>
+<text x="200" y="247" class="s" text-anchor="middle">Fetal: chromosomal (T21/18), infection (CMV/rubella)</text>
+<text x="200" y="259" class="s" text-anchor="middle">Maternal: smoking, malnutrition, HTN, SLE</text>
+<text x="200" y="271" class="s" text-anchor="middle">Amniocentesis: 15-17w (karyotype) · CVS: 11-13w</text>
+<text x="200" y="283" class="s" text-anchor="middle">Kleihauer test: acid elution detects fetal Hb in maternal blood</text>
+</svg>`,
+  'mbbs-obg-menstrual-disorders': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="13" class="h" text-anchor="middle">Menstrual Disorders</text>
+<text x="145" y="27" class="t" text-anchor="middle" font-weight="bold">PALM-COEIN Classification (AUB)</text>
+<rect x="8" y="32" width="60" height="20" fill="var(--accent)" fill-opacity="0.25" stroke="var(--accent)" stroke-width="1.5" rx="3"/>
+<text x="38" y="46" class="s" text-anchor="middle">P – Polyp</text>
+<rect x="72" y="32" width="70" height="20" fill="var(--accent)" fill-opacity="0.25" stroke="var(--accent)" stroke-width="1.5" rx="3"/>
+<text x="107" y="46" class="s" text-anchor="middle">A – Adenomyosis</text>
+<rect x="146" y="32" width="68" height="20" fill="var(--accent)" fill-opacity="0.25" stroke="var(--accent)" stroke-width="1.5" rx="3"/>
+<text x="180" y="46" class="s" text-anchor="middle">L – Leiomyoma</text>
+<rect x="218" y="32" width="62" height="20" fill="var(--accent)" fill-opacity="0.25" stroke="var(--accent)" stroke-width="1.5" rx="3"/>
+<text x="249" y="46" class="s" text-anchor="middle">M – Malignancy</text>
+<rect x="8" y="56" width="55" height="20" fill="none" stroke="var(--text)" stroke-width="1.5" rx="3"/>
+<text x="35" y="70" class="s" text-anchor="middle">C – Coag</text>
+<rect x="67" y="56" width="60" height="20" fill="none" stroke="var(--text)" stroke-width="1.5" rx="3"/>
+<text x="97" y="70" class="s" text-anchor="middle">O – Ovulatory</text>
+<rect x="131" y="56" width="64" height="20" fill="none" stroke="var(--text)" stroke-width="1.5" rx="3"/>
+<text x="163" y="70" class="s" text-anchor="middle">E – Endometrial</text>
+<rect x="199" y="56" width="56" height="20" fill="none" stroke="var(--text)" stroke-width="1.5" rx="3"/>
+<text x="227" y="70" class="s" text-anchor="middle">I – Iatrogenic</text>
+<rect x="259" y="56" width="46" height="20" fill="none" stroke="var(--text)" stroke-width="1.5" rx="3"/>
+<text x="282" y="70" class="s" text-anchor="middle">N – NEC</text>
+<text x="160" y="90" class="s" text-anchor="middle">Structural (PALM) · Non-structural (COEIN) · HMB: &gt;80mL/cycle</text>
+<text x="100" y="108" class="t" text-anchor="middle" font-weight="bold">Endometriosis Sites</text>
+<ellipse cx="100" cy="180" rx="75" ry="60" fill="none" stroke="var(--border)" stroke-width="1.5"/>
+<ellipse cx="100" cy="172" rx="18" ry="22" fill="none" stroke="var(--text)" stroke-width="2"/>
+<circle cx="60" cy="165" r="10" fill="#8B4513" fill-opacity="0.5" stroke="#8B4513" stroke-width="1.5"/>
+<circle cx="140" cy="165" r="10" fill="#8B4513" fill-opacity="0.5" stroke="#8B4513" stroke-width="1.5"/>
+<path d="M 82 162 C 68 154 60 155 53 165" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 118 162 C 132 154 140 155 147 165" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<circle cx="100" cy="200" r="8" fill="var(--accent)" fill-opacity="0.5" stroke="var(--accent)" stroke-width="1.5"/>
+<circle cx="100" cy="148" r="7" fill="#3498db" fill-opacity="0.3" stroke="#3498db" stroke-width="1.5"/>
+<text x="38" y="150" class="s" text-anchor="middle">Endometrioma</text>
+<text x="38" y="159" class="s" text-anchor="middle">\'chocolate cyst\'</text>
+<text x="100" y="218" class="s" text-anchor="middle">Pouch of Douglas (most common)</text>
+<text x="100" y="229" class="s" text-anchor="middle">→ dysmenorrhoea, dyspareunia</text>
+<text x="310" y="108" class="t" text-anchor="middle" font-weight="bold">Amenorrhoea</text>
+<rect x="258" y="113" width="110" height="18" fill="none" stroke="var(--accent)" stroke-width="1.5" rx="3"/>
+<text x="313" y="125" class="s" text-anchor="middle">Primary: no menses by 16y</text>
+<line x1="313" y1="131" x2="283" y2="148" stroke="var(--text)" stroke-width="1"/>
+<line x1="313" y1="131" x2="343" y2="148" stroke="var(--text)" stroke-width="1"/>
+<rect x="240" y="148" width="80" height="18" fill="none" stroke="var(--border)" rx="2"/>
+<text x="280" y="160" class="s" text-anchor="middle">Turner (45X0)</text>
+<rect x="326" y="148" width="82" height="18" fill="none" stroke="var(--border)" rx="2"/>
+<text x="367" y="160" class="s" text-anchor="middle">Imperforate hymen</text>
+<rect x="258" y="175" width="110" height="18" fill="none" stroke="var(--accent)" stroke-width="1.5" rx="3"/>
+<text x="313" y="187" class="s" text-anchor="middle">Secondary: ≥3 months</text>
+<text x="313" y="205" class="s" text-anchor="middle">Pregnancy (exclude 1st)</text>
+<text x="313" y="216" class="s" text-anchor="middle">PCOS (most common)</text>
+<text x="313" y="227" class="s" text-anchor="middle">Hypothalamic (stress/wt)</text>
+<text x="313" y="238" class="s" text-anchor="middle">Asherman\'s syndrome</text>
+<text x="313" y="249" class="s" text-anchor="middle">Hyperprolactinaemia</text>
+<text x="200" y="267" class="s" text-anchor="middle">Dysmenorrhoea: Primary (PGs) → NSAIDs/COCP · Secondary (PID/endo) → treat cause</text>
+<text x="200" y="279" class="s" text-anchor="middle">PCOS: oligomenorrhoea + androgen excess + polycystic ovaries (Rotterdam criteria, 2 of 3)</text>
+</svg>`,
+  'mbbs-obg-pid-stis': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="13" class="h" text-anchor="middle">Pelvic Inflammatory Disease &amp; STIs</text>
+<text x="95" y="27" class="t" text-anchor="middle" font-weight="bold">PID: Ascending Infection</text>
+<ellipse cx="95" cy="120" rx="25" ry="32" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 71 108 C 48 100 38 108 30 120 C 22 132 28 150 38 150" fill="none" stroke="#e74c3c" stroke-width="3"/>
+<path d="M 119 108 C 142 100 152 108 160 120 C 168 132 162 150 152 150" fill="none" stroke="#e74c3c" stroke-width="3"/>
+<ellipse cx="28" cy="150" rx="13" ry="10" fill="none" stroke="#e67e22" stroke-width="2"/>
+<ellipse cx="162" cy="150" rx="13" ry="10" fill="none" stroke="#e67e22" stroke-width="2"/>
+<path d="M 95 165 L 95 155" stroke="#e74c3c" stroke-width="2" stroke-dasharray="3,2"/>
+<text x="95" y="178" class="s" text-anchor="middle">Cervix (ascending route)</text>
+<circle cx="30" cy="68" r="22" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<text x="30" y="63" class="s" text-anchor="middle">Chlamydia</text>
+<text x="30" y="73" class="s" text-anchor="middle">★ MC</text>
+<circle cx="82" cy="55" r="22" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<text x="82" y="50" class="s" text-anchor="middle">N. gonorr-</text>
+<text x="82" y="60" class="s" text-anchor="middle">hoeae</text>
+<circle cx="152" cy="68" r="22" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<text x="152" y="63" class="s" text-anchor="middle">Anaerobes</text>
+<text x="152" y="73" class="s" text-anchor="middle">BV assoc.</text>
+<text x="95" y="205" class="t" text-anchor="middle" font-weight="bold">Fitz-Hugh-Curtis Syndrome</text>
+<path d="M 30 240 L 78 240 C 83 230 83 220 78 215" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<text x="55" y="255" class="s" text-anchor="middle">Liver (perihepatitis)</text>
+<path d="M 100 222 C 110 218 115 232 110 240 L 158 240" fill="none" stroke="#e74c3c" stroke-width="2"/>
+<text x="130" y="255" class="s" text-anchor="middle">Violin-string adhesions</text>
+<text x="95" y="268" class="s" text-anchor="middle">RUQ pain + PID = Fitz-Hugh-Curtis</text>
+<text x="305" y="27" class="t" text-anchor="middle" font-weight="bold">PID Treatment (RCOG)</text>
+<rect x="228" y="32" width="165" height="20" fill="var(--accent)" fill-opacity="0.3" stroke="var(--accent)" stroke-width="1.5" rx="3"/>
+<text x="310" y="46" class="s" text-anchor="middle">Ceftriaxone 500mg IM stat</text>
+<rect x="228" y="56" width="165" height="20" fill="none" stroke="var(--text)" stroke-width="1" rx="3"/>
+<text x="310" y="70" class="s" text-anchor="middle">+ Doxycycline 100mg BD × 14d</text>
+<rect x="228" y="80" width="165" height="20" fill="none" stroke="var(--text)" stroke-width="1" rx="3"/>
+<text x="310" y="94" class="s" text-anchor="middle">+ Metronidazole 400mg BD × 14d</text>
+<text x="310" y="115" class="t" text-anchor="middle" font-weight="bold">Diagnostic Criteria (≥1 needed)</text>
+<rect x="228" y="120" width="165" height="13" fill="none" stroke="var(--border)" rx="2"/>
+<text x="310" y="130" class="s" text-anchor="middle">Cervical motion tenderness</text>
+<rect x="228" y="134" width="165" height="13" fill="none" stroke="var(--border)" rx="2"/>
+<text x="310" y="144" class="s" text-anchor="middle">Uterine tenderness</text>
+<rect x="228" y="148" width="165" height="13" fill="none" stroke="var(--border)" rx="2"/>
+<text x="310" y="158" class="s" text-anchor="middle">Adnexal tenderness</text>
+<text x="310" y="178" class="t" text-anchor="middle" font-weight="bold">Bartholin\'s Cyst / Abscess</text>
+<ellipse cx="310" cy="215" rx="42" ry="24" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<circle cx="310" cy="215" r="10" fill="#e67e22" fill-opacity="0.5" stroke="#e67e22" stroke-width="1.5"/>
+<text x="310" y="246" class="s" text-anchor="middle">Posterolateral vaginal wall</text>
+<text x="310" y="258" class="s" text-anchor="middle">Cyst: Marsupialisation</text>
+<text x="310" y="270" class="s" text-anchor="middle">Abscess: I&amp;D + Word catheter</text>
+<text x="200" y="285" class="s" text-anchor="middle">Cervicitis: mucopurulent discharge; Rx: treat as PID empirically</text>
+</svg>`,
+  'mbbs-obg-uterine-ovarian': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="13" class="h" text-anchor="middle">Uterine &amp; Ovarian Pathology</text>
+<text x="100" y="27" class="t" text-anchor="middle" font-weight="bold">Fibroid (Leiomyoma) Types</text>
+<ellipse cx="100" cy="135" rx="70" ry="82" fill="none" stroke="var(--text)" stroke-width="2"/>
+<ellipse cx="100" cy="135" rx="22" ry="38" fill="none" stroke="var(--border)" stroke-width="1.5"/>
+<circle cx="100" cy="112" r="14" fill="#8B6914" fill-opacity="0.5" stroke="#8B6914" stroke-width="2"/>
+<text x="100" y="110" class="s" text-anchor="middle" fill="white">SM</text>
+<circle cx="58" cy="140" r="16" fill="#6B4914" fill-opacity="0.4" stroke="#6B4914" stroke-width="2"/>
+<text x="58" y="138" class="s" text-anchor="middle">IM</text>
+<circle cx="148" cy="88" r="16" fill="#4B3914" fill-opacity="0.3" stroke="#4B3914" stroke-width="2"/>
+<text x="148" y="86" class="s" text-anchor="middle">SS</text>
+<circle cx="152" cy="178" r="14" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<line x1="152" y1="164" x2="152" y2="157" stroke="var(--text)" stroke-width="2"/>
+<text x="152" y="198" class="s" text-anchor="middle">Pedunculated SS</text>
+<text x="22" y="230" class="s">SM = submucous (AUB)</text>
+<text x="22" y="241" class="s">IM = intramural (bulk symptoms)</text>
+<text x="22" y="252" class="s">SS = subserous (pressure)</text>
+<text x="22" y="263" class="s">Rx: GnRH agonist/myomectomy</text>
+<text x="22" y="274" class="s">UAE/hysterectomy if complete</text>
+<text x="300" y="27" class="t" text-anchor="middle" font-weight="bold">Ovarian Cyst Classification</text>
+<rect x="238" y="32" width="145" height="16" fill="var(--accent)" fill-opacity="0.3" stroke="var(--accent)" stroke-width="1.5" rx="3"/>
+<text x="310" y="43" class="s" text-anchor="middle">Ovarian Cyst</text>
+<line x1="283" y1="48" x2="263" y2="62" stroke="var(--text)" stroke-width="1"/>
+<line x1="337" y1="48" x2="357" y2="62" stroke="var(--text)" stroke-width="1"/>
+<rect x="228" y="62" width="72" height="16" fill="none" stroke="var(--text)" stroke-width="1" rx="3"/>
+<text x="264" y="73" class="s" text-anchor="middle">Functional</text>
+<rect x="316" y="62" width="72" height="16" fill="none" stroke="var(--text)" stroke-width="1" rx="3"/>
+<text x="352" y="73" class="s" text-anchor="middle">Pathological</text>
+<line x1="254" y1="78" x2="240" y2="92" stroke="var(--text)" stroke-width="1"/>
+<line x1="274" y1="78" x2="288" y2="92" stroke="var(--text)" stroke-width="1"/>
+<rect x="218" y="92" width="55" height="16" fill="none" stroke="var(--border)" rx="2"/>
+<text x="245" y="103" class="s" text-anchor="middle">Follicular</text>
+<rect x="258" y="92" width="55" height="16" fill="none" stroke="var(--border)" rx="2"/>
+<text x="285" y="103" class="s" text-anchor="middle">Corpus Lut.</text>
+<line x1="344" y1="78" x2="332" y2="92" stroke="var(--text)" stroke-width="1"/>
+<line x1="358" y1="78" x2="372" y2="92" stroke="var(--text)" stroke-width="1"/>
+<rect x="304" y="92" width="55" height="16" fill="none" stroke="var(--border)" rx="2"/>
+<text x="331" y="103" class="s" text-anchor="middle">Dermoid</text>
+<rect x="344" y="92" width="58" height="16" fill="none" stroke="var(--border)" rx="2"/>
+<text x="373" y="103" class="s" text-anchor="middle">Endometrioma</text>
+<text x="310" y="125" class="t" text-anchor="middle" font-weight="bold">Dermoid Cyst (Teratoma)</text>
+<ellipse cx="310" cy="178" rx="50" ry="44" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<ellipse cx="295" cy="168" rx="18" ry="14" fill="#DEB887" fill-opacity="0.4" stroke="#DEB887" stroke-width="1"/>
+<circle cx="315" cy="165" r="8" fill="#FFFACD" fill-opacity="0.8" stroke="var(--text-dim)" stroke-width="1"/>
+<text x="325" y="158" class="s">teeth</text>
+<path d="M 300 180 C 302 175 308 178 306 183 C 304 188 298 186 300 180 Z" fill="#4a4a4a" fill-opacity="0.5"/>
+<text x="310" y="230" class="s" text-anchor="middle">Contains: hair, teeth, sebum, bone</text>
+<text x="310" y="241" class="s" text-anchor="middle">Commonest benign ovarian tumour in young women</text>
+<text x="310" y="252" class="s" text-anchor="middle">Risk: 10-15% bilateral · Rx: laparoscopic cystectomy</text>
+<text x="200" y="270" class="s" text-anchor="middle">Torsion: acute severe pelvic pain + nausea → USS Doppler → emergency detorsion within 6h</text>
+<text x="200" y="282" class="s" text-anchor="middle">CA-125: raised in ovarian cancer but also endometriosis, fibroids, pregnancy (non-specific)</text>
+</svg>`,
+  'mbbs-obg-gynaecological-malignancies': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="13" class="h" text-anchor="middle">Gynaecological Malignancies</text>
+<text x="148" y="27" class="t" text-anchor="middle" font-weight="bold">CIN → Cervical Cancer Progression</text>
+<rect x="8" y="32" width="50" height="22" fill="#27ae60" fill-opacity="0.3" stroke="#27ae60" stroke-width="2" rx="3"/>
+<text x="33" y="47" class="s" text-anchor="middle">Normal</text>
+<path d="M 58 43 L 68 43" stroke="var(--text)" stroke-width="1.5"/>
+<rect x="68" y="32" width="42" height="22" fill="#f39c12" fill-opacity="0.3" stroke="#f39c12" stroke-width="2" rx="3"/>
+<text x="89" y="47" class="s" text-anchor="middle">CIN1</text>
+<path d="M 110 43 L 120 43" stroke="var(--text)" stroke-width="1.5"/>
+<rect x="120" y="32" width="42" height="22" fill="#e67e22" fill-opacity="0.3" stroke="#e67e22" stroke-width="2" rx="3"/>
+<text x="141" y="47" class="s" text-anchor="middle">CIN2</text>
+<path d="M 162 43 L 172 43" stroke="var(--text)" stroke-width="1.5"/>
+<rect x="172" y="32" width="42" height="22" fill="#e74c3c" fill-opacity="0.3" stroke="#e74c3c" stroke-width="2" rx="3"/>
+<text x="193" y="47" class="s" text-anchor="middle">CIN3</text>
+<path d="M 214 43 L 224 43" stroke="var(--text)" stroke-width="1.5"/>
+<rect x="224" y="32" width="55" height="22" fill="#e74c3c" fill-opacity="0.6" stroke="#e74c3c" stroke-width="2" rx="3"/>
+<text x="251" y="47" class="s" text-anchor="middle" fill="white">Invasive Ca</text>
+<text x="148" y="70" class="s" text-anchor="middle">HPV 16/18 (70% of cases) · E6 inhibits p53 · E7 inhibits pRb</text>
+<text x="55" y="88" class="t" text-anchor="middle" font-weight="bold">Transformation Zone</text>
+<ellipse cx="55" cy="140" rx="45" ry="55" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<ellipse cx="55" cy="175" rx="12" ry="10" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<ellipse cx="55" cy="168" rx="22" ry="14" fill="var(--accent)" fill-opacity="0.2" stroke="var(--accent)" stroke-width="2"/>
+<text x="55" y="200" class="s" text-anchor="middle">Squamo-columnar junction</text>
+<text x="55" y="210" class="s" text-anchor="middle">= site of CIN origin</text>
+<text x="55" y="228" class="t" text-anchor="middle" font-weight="bold">Screening</text>
+<text x="55" y="240" class="s" text-anchor="middle">Pap smear 25-64y (3-5yr)</text>
+<text x="55" y="252" class="s" text-anchor="middle">CIN2/3 → LLETZ/LEEP</text>
+<text x="55" y="264" class="s" text-anchor="middle">HPV vaccine: Gardasil 9</text>
+<text x="300" y="27" class="t" text-anchor="middle" font-weight="bold">FIGO Staging</text>
+<rect x="188" y="32" width="60" height="12" fill="none" stroke="var(--border)" rx="2"/>
+<text x="218" y="41" class="s" text-anchor="middle">Stage</text>
+<rect x="248" y="32" width="60" height="12" fill="var(--accent)" fill-opacity="0.3" rx="2"/>
+<text x="278" y="41" class="s" text-anchor="middle">Cervical</text>
+<rect x="308" y="32" width="84" height="12" fill="#e67e22" fill-opacity="0.2" rx="2"/>
+<text x="350" y="41" class="s" text-anchor="middle">Endometrial</text>
+<rect x="188" y="44" width="60" height="12" fill="none" stroke="var(--border)" rx="2"/>
+<text x="218" y="53" class="s" text-anchor="middle">I</text>
+<rect x="248" y="44" width="60" height="12" fill="none" stroke="var(--border)" rx="2"/>
+<text x="278" y="53" class="s" text-anchor="middle">Confined cervix</text>
+<rect x="308" y="44" width="84" height="12" fill="none" stroke="var(--border)" rx="2"/>
+<text x="350" y="53" class="s" text-anchor="middle">Confined uterus</text>
+<rect x="188" y="56" width="60" height="12" fill="none" stroke="var(--border)" rx="2"/>
+<text x="218" y="65" class="s" text-anchor="middle">II</text>
+<rect x="248" y="56" width="60" height="12" fill="none" stroke="var(--border)" rx="2"/>
+<text x="278" y="65" class="s" text-anchor="middle">Upper vagina</text>
+<rect x="308" y="56" width="84" height="12" fill="none" stroke="var(--border)" rx="2"/>
+<text x="350" y="65" class="s" text-anchor="middle">Cervix involved</text>
+<rect x="188" y="68" width="60" height="12" fill="none" stroke="var(--border)" rx="2"/>
+<text x="218" y="77" class="s" text-anchor="middle">III</text>
+<rect x="248" y="68" width="60" height="12" fill="none" stroke="var(--border)" rx="2"/>
+<text x="278" y="77" class="s" text-anchor="middle">Pelvic wall</text>
+<rect x="308" y="68" width="84" height="12" fill="none" stroke="var(--border)" rx="2"/>
+<text x="350" y="77" class="s" text-anchor="middle">Vagina/nodes</text>
+<rect x="188" y="80" width="60" height="12" fill="none" stroke="var(--border)" rx="2"/>
+<text x="218" y="89" class="s" text-anchor="middle">IV</text>
+<rect x="248" y="80" width="60" height="12" fill="none" stroke="var(--border)" rx="2"/>
+<text x="278" y="89" class="s" text-anchor="middle">Bladder/rectum</text>
+<rect x="308" y="80" width="84" height="12" fill="none" stroke="var(--border)" rx="2"/>
+<text x="350" y="89" class="s" text-anchor="middle">Distant mets</text>
+<text x="310" y="108" class="t" text-anchor="middle" font-weight="bold">Ovarian Cancer ("Silent Killer")</text>
+<text x="310" y="120" class="s" text-anchor="middle">Late presentation; trans-coelomic spread</text>
+<text x="310" y="132" class="s" text-anchor="middle">Risk: nulliparity, BRCA1/2, family Hx</text>
+<text x="310" y="144" class="s" text-anchor="middle">Protect: COCP, breastfeeding</text>
+<text x="310" y="156" class="s" text-anchor="middle">Marker: CA-125 (raised in 80%)</text>
+<text x="310" y="168" class="s" text-anchor="middle">Histology: serous (MC), mucinous</text>
+<text x="310" y="180" class="s" text-anchor="middle">Rx: staging laparotomy + carboplatin</text>
+<text x="310" y="198" class="t" text-anchor="middle" font-weight="bold">Endometrial Cancer</text>
+<text x="310" y="210" class="s" text-anchor="middle">PMB → TVS (endometrial thickness)</text>
+<text x="310" y="222" class="s" text-anchor="middle">Risk: unopposed E, obesity, PCOS</text>
+<text x="310" y="234" class="s" text-anchor="middle">Dx: Pipelle endometrial biopsy</text>
+<text x="310" y="246" class="s" text-anchor="middle">Rx: TAH + BSO ± chemoradiation</text>
+<text x="310" y="258" class="s" text-anchor="middle">5yr survival stage I: 85-90%</text>
+<text x="200" y="276" class="s" text-anchor="middle">Vulval Ca: SCC; itching + ulcer; Rx: wide local excision + groin node dissection</text>
+</svg>`,
+  'mbbs-obg-contraception': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="13" class="h" text-anchor="middle">Contraception</text>
+<text x="80" y="27" class="t" text-anchor="middle" font-weight="bold">Combined OCP — HPO Suppression</text>
+<circle cx="80" cy="58" r="22" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<text x="80" y="55" class="s" text-anchor="middle">Hypothal-</text>
+<text x="80" y="65" class="s" text-anchor="middle">amus</text>
+<path d="M 80 80 L 80 93" stroke="#e74c3c" stroke-width="2" stroke-dasharray="4,2"/>
+<circle cx="80" cy="112" r="22" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<text x="80" y="109" class="s" text-anchor="middle">Pituitary</text>
+<text x="80" y="119" class="s" text-anchor="middle">↓FSH/LH</text>
+<path d="M 80 134 L 80 147" stroke="#e74c3c" stroke-width="2" stroke-dasharray="4,2"/>
+<circle cx="80" cy="166" r="22" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<text x="80" y="163" class="s" text-anchor="middle">Ovary</text>
+<text x="80" y="173" class="s" text-anchor="middle">No ovulation</text>
+<text x="80" y="202" class="s" text-anchor="middle">+ Mucus thickening</text>
+<text x="80" y="213" class="s" text-anchor="middle">+ Endometrial thinning</text>
+<text x="80" y="226" class="s" text-anchor="middle">CI: migraine+aura, VTE</text>
+<text x="80" y="237" class="s" text-anchor="middle">stroke, liver disease</text>
+<text x="200" y="27" class="t" text-anchor="middle" font-weight="bold">Intrauterine Devices</text>
+<line x1="175" y1="55" x2="215" y2="55" stroke="var(--text)" stroke-width="3"/>
+<line x1="195" y1="55" x2="195" y2="120" stroke="var(--text)" stroke-width="3"/>
+<circle cx="175" cy="55" r="4" fill="var(--text)"/>
+<circle cx="215" cy="55" r="4" fill="var(--text)"/>
+<text x="195" y="138" class="s" text-anchor="middle">Copper IUCD</text>
+<text x="195" y="148" class="s" text-anchor="middle">Cu ions toxic to sperm</text>
+<text x="195" y="158" class="s" text-anchor="middle">Duration: 5-10yr</text>
+<line x1="250" y1="55" x2="290" y2="55" stroke="var(--accent)" stroke-width="3"/>
+<line x1="270" y1="55" x2="270" y2="120" stroke="var(--accent)" stroke-width="3"/>
+<rect x="258" y="95" width="24" height="20" fill="var(--accent)" fill-opacity="0.4" rx="4"/>
+<circle cx="250" cy="55" r="4" fill="var(--accent)"/>
+<circle cx="290" cy="55" r="4" fill="var(--accent)"/>
+<text x="270" y="148" class="s" text-anchor="middle">Mirena (LNG-IUS)</text>
+<text x="270" y="158" class="s" text-anchor="middle">LNG 20mcg/day</text>
+<text x="270" y="168" class="s" text-anchor="middle">Duration: 5yr</text>
+<text x="232" y="188" class="s" text-anchor="middle">Emergency: LNG 1.5mg ≤72h · Ulipristal ≤120h · Cu-IUCD ≤5 days</text>
+<text x="350" y="27" class="t" text-anchor="middle" font-weight="bold">Pearl Index (fail/100 WY)</text>
+<line x1="298" y1="32" x2="298" y2="195" stroke="var(--text)" stroke-width="1.5"/>
+<line x1="298" y1="195" x2="395" y2="195" stroke="var(--text)" stroke-width="1.5"/>
+<rect x="300" y="193" width="14" height="2" fill="var(--accent)"/>
+<text x="316" y="196" class="s">Implant 0.05</text>
+<rect x="300" y="170" width="14" height="25" fill="var(--accent)" fill-opacity="0.7"/>
+<text x="316" y="183" class="s">IUCD 0.8</text>
+<rect x="300" y="125" width="14" height="70" fill="#f39c12"/>
+<text x="316" y="158" class="s">OCP 7%</text>
+<rect x="300" y="70" width="14" height="125" fill="#e67e22"/>
+<text x="316" y="120" class="s">Condom 15%</text>
+<rect x="300" y="33" width="14" height="162" fill="#e74c3c" fill-opacity="0.5"/>
+<text x="316" y="80" class="s">None 85%</text>
+<text x="232" y="212" class="s" text-anchor="middle">Tubal ligation: Filshie clips · Vasectomy: safer, easier, day case</text>
+<text x="232" y="224" class="s" text-anchor="middle">COCP protects: endometrial/ovarian Ca · Slightly ↑ cervical/breast Ca</text>
+<text x="232" y="236" class="s" text-anchor="middle">POP (progestogen only): safe in breastfeeding, cardiovascular disease</text>
+<text x="232" y="248" class="s" text-anchor="middle">Depot provera: IM 3-monthly; return of fertility delayed 12-18 months</text>
+<text x="232" y="260" class="s" text-anchor="middle">Nexplanon (subdermal implant): 3yr, highest efficacy, inserted in arm</text>
+<text x="232" y="272" class="s" text-anchor="middle">LAM: ≥6 months, full breastfeeding, amenorrhoea = 98% effective</text>
+<text x="232" y="284" class="s" text-anchor="middle">Barrier: male condom 85% typical use, 98% perfect use; STI protection</text>
+</svg>`,
+  'mbbs-obg-infertility': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="13" class="h" text-anchor="middle">Infertility</text>
+<text x="90" y="27" class="t" text-anchor="middle" font-weight="bold">IVF Process</text>
+<rect x="8" y="32" width="165" height="20" fill="none" stroke="var(--accent)" stroke-width="1.5" rx="3"/>
+<text x="90" y="46" class="s" text-anchor="middle">1. Ovarian stimulation (FSH/hMG SC)</text>
+<path d="M 90 52 L 90 60" stroke="var(--text)" stroke-width="1.5"/>
+<rect x="8" y="60" width="165" height="20" fill="none" stroke="var(--text)" stroke-width="1" rx="3"/>
+<text x="90" y="74" class="s" text-anchor="middle">2. USS monitoring + E₂ levels</text>
+<path d="M 90 80 L 90 88" stroke="var(--text)" stroke-width="1.5"/>
+<rect x="8" y="88" width="165" height="20" fill="none" stroke="var(--text)" stroke-width="1" rx="3"/>
+<text x="90" y="102" class="s" text-anchor="middle">3. Egg retrieval (transvaginal, hCG trigger)</text>
+<path d="M 90 108 L 90 116" stroke="var(--text)" stroke-width="1.5"/>
+<rect x="8" y="116" width="165" height="20" fill="none" stroke="var(--text)" stroke-width="1" rx="3"/>
+<text x="90" y="130" class="s" text-anchor="middle">4. Fertilisation (IVF or ICSI)</text>
+<path d="M 90 136 L 90 144" stroke="var(--text)" stroke-width="1.5"/>
+<rect x="8" y="144" width="165" height="20" fill="none" stroke="var(--text)" stroke-width="1" rx="3"/>
+<text x="90" y="158" class="s" text-anchor="middle">5. Embryo culture (day 3 or blastocyst)</text>
+<path d="M 90 164 L 90 172" stroke="var(--text)" stroke-width="1.5"/>
+<rect x="8" y="172" width="165" height="20" fill="var(--accent)" fill-opacity="0.2" stroke="var(--accent)" stroke-width="1.5" rx="3"/>
+<text x="90" y="186" class="s" text-anchor="middle">6. Embryo transfer (day 5 blastocyst)</text>
+<text x="90" y="205" class="s" text-anchor="middle">Success rate: ~30-40% per cycle (&lt;35yr)</text>
+<text x="90" y="216" class="s" text-anchor="middle">Complication: OHSS (ovarian hyperstimulation)</text>
+<text x="200" y="27" class="t" text-anchor="middle" font-weight="bold">HSG (Hysterosalpingogram)</text>
+<ellipse cx="200" cy="95" rx="22" ry="28" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 178 85 C 160 75 145 82 138 95 C 131 108 138 122 148 118" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<path d="M 222 85 C 240 75 255 82 262 95 C 269 108 262 118 252 118" fill="none" stroke="#e74c3c" stroke-width="2" stroke-dasharray="4,2"/>
+<circle cx="148" cy="118" r="5" fill="var(--accent)" fill-opacity="0.6"/>
+<text x="138" y="134" class="s" text-anchor="middle">Spill (patent)</text>
+<text x="262" y="134" class="s" text-anchor="middle">No spill (blocked)</text>
+<text x="200" y="150" class="s" text-anchor="middle">Contrast outlines uterus + tubes</text>
+<text x="200" y="168" class="t" text-anchor="middle" font-weight="bold">Ovulation Induction</text>
+<rect x="158" y="172" width="84" height="16" fill="none" stroke="var(--accent)" stroke-width="1.5" rx="3"/>
+<text x="200" y="183" class="s" text-anchor="middle">Clomifene 50mg D2-6</text>
+<text x="200" y="198" class="s" text-anchor="middle">Anti-oestrogen → ↑ FSH release</text>
+<text x="200" y="209" class="s" text-anchor="middle">Monitor: USS (follicle ≥18mm mature)</text>
+<text x="335" y="27" class="t" text-anchor="middle" font-weight="bold">Semen Analysis (WHO 2021)</text>
+<rect x="278" y="32" width="117" height="13" fill="var(--accent)" fill-opacity="0.3" rx="2"/>
+<text x="336" y="41" class="s" text-anchor="middle">Parameter / Normal</text>
+<rect x="278" y="46" width="117" height="12" fill="none" stroke="var(--border)" rx="2"/>
+<text x="336" y="55" class="s" text-anchor="middle">Volume ≥1.5 mL</text>
+<rect x="278" y="59" width="117" height="12" fill="none" stroke="var(--border)" rx="2"/>
+<text x="336" y="68" class="s" text-anchor="middle">Concentration ≥16M/mL</text>
+<rect x="278" y="72" width="117" height="12" fill="none" stroke="var(--border)" rx="2"/>
+<text x="336" y="81" class="s" text-anchor="middle">Total motility ≥42%</text>
+<rect x="278" y="85" width="117" height="12" fill="none" stroke="var(--border)" rx="2"/>
+<text x="336" y="94" class="s" text-anchor="middle">Progressive mot. ≥30%</text>
+<rect x="278" y="98" width="117" height="12" fill="none" stroke="var(--border)" rx="2"/>
+<text x="336" y="107" class="s" text-anchor="middle">Morphology ≥4% (Kruger)</text>
+<text x="336" y="125" class="t" text-anchor="middle" font-weight="bold">Terminology</text>
+<text x="336" y="137" class="s" text-anchor="middle">Oligospermia: &lt;16M/mL</text>
+<text x="336" y="148" class="s" text-anchor="middle">Asthenospermia: &lt;42% motile</text>
+<text x="336" y="159" class="s" text-anchor="middle">Teratospermia: &lt;4% normal</text>
+<text x="336" y="170" class="s" text-anchor="middle">Azoospermia: no sperm</text>
+<text x="200" y="228" class="s" text-anchor="middle">Infertility = failure to conceive after 12 months regular unprotected intercourse</text>
+<text x="200" y="240" class="s" text-anchor="middle">Female causes: ovulatory 40% · tubal 30% · unexplained 30% · uterine</text>
+<text x="200" y="252" class="s" text-anchor="middle">D21 progesterone: confirms ovulation (&gt;30 nmol/L) · AMH: ovarian reserve</text>
+<text x="200" y="264" class="s" text-anchor="middle">Laparoscopy: direct visualisation, diagnose endometriosis/adhesions</text>
+<text x="200" y="276" class="s" text-anchor="middle">ICSI: intracytoplasmic sperm injection — for severe male factor infertility</text>
+</svg>`,
+  'mbbs-obg-menopause-hrt': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="13" class="h" text-anchor="middle">Menopause &amp; HRT</text>
+<text x="100" y="27" class="t" text-anchor="middle" font-weight="bold">Hormonal Changes</text>
+<line x1="20" y1="170" x2="185" y2="170" stroke="var(--text)" stroke-width="1.5"/>
+<line x1="20" y1="40" x2="20" y2="170" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 20 80 C 50 80 70 78 90 90 C 110 105 120 130 145 155 C 160 165 175 170 185 170" fill="none" stroke="#e74c3c" stroke-width="2.5"/>
+<path d="M 20 160 C 50 158 70 150 90 130 C 110 110 130 75 155 55 C 165 48 175 43 185 40" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+<path d="M 20 162 C 50 160 70 154 90 138 C 110 118 130 84 155 68 C 165 60 175 53 185 50" fill="none" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="5,2"/>
+<line x1="95" y1="35" x2="95" y2="175" stroke="var(--border)" stroke-width="1" stroke-dasharray="3,2"/>
+<text x="95" y="183" class="s" text-anchor="middle">Perimenopause</text>
+<text x="22" y="36" class="s">FSH↑</text>
+<text x="22" y="78" class="s">E₂↓</text>
+<text x="187" y="42" class="s">FSH</text>
+<text x="187" y="68" class="s">LH</text>
+<text x="187" y="165" class="s">E₂</text>
+<text x="100" y="196" class="s" text-anchor="middle">FSH&gt;30 IU/L diagnostic (age &gt;45)</text>
+<text x="100" y="207" class="s" text-anchor="middle">Menopause = 12m amenorrhoea</text>
+<text x="100" y="218" class="s" text-anchor="middle">Average age: 51yr (range 45-55)</text>
+<text x="215" y="27" class="t" text-anchor="middle" font-weight="bold">Symptoms</text>
+<circle cx="215" cy="75" r="28" fill="none" stroke="#e74c3c" stroke-width="2"/>
+<text x="215" y="70" class="s" text-anchor="middle">Vasomotor</text>
+<text x="215" y="80" class="s" text-anchor="middle">Hot flushes</text>
+<text x="215" y="90" class="s" text-anchor="middle">Night sweats</text>
+<circle cx="175" cy="140" r="28" fill="none" stroke="#e67e22" stroke-width="2"/>
+<text x="175" y="133" class="s" text-anchor="middle">Urogenital</text>
+<text x="175" y="143" class="s" text-anchor="middle">Atrophy</text>
+<text x="175" y="153" class="s" text-anchor="middle">Dyspareunia</text>
+<circle cx="255" cy="140" r="28" fill="none" stroke="#3498db" stroke-width="2"/>
+<text x="255" y="133" class="s" text-anchor="middle">Psycho-</text>
+<text x="255" y="143" class="s" text-anchor="middle">logical</text>
+<text x="255" y="153" class="s" text-anchor="middle">Insomnia</text>
+<text x="215" y="182" class="s" text-anchor="middle">+ Osteoporosis (DEXA): bisphosphonates</text>
+<text x="348" y="27" class="t" text-anchor="middle" font-weight="bold">HRT Types</text>
+<rect x="300" y="32" width="96" height="18" fill="none" stroke="var(--accent)" stroke-width="1.5" rx="3"/>
+<text x="348" y="44" class="s" text-anchor="middle">Combined HRT</text>
+<text x="348" y="57" class="s" text-anchor="middle">E + P (intact uterus)</text>
+<rect x="300" y="62" width="96" height="18" fill="none" stroke="var(--text)" stroke-width="1" rx="3"/>
+<text x="348" y="74" class="s" text-anchor="middle">Oestrogen-only</text>
+<text x="348" y="87" class="s" text-anchor="middle">Post-hysterectomy</text>
+<rect x="300" y="92" width="96" height="18" fill="none" stroke="var(--text)" stroke-width="1" rx="3"/>
+<text x="348" y="104" class="s" text-anchor="middle">Local oestrogen</text>
+<text x="348" y="117" class="s" text-anchor="middle">Vaginal symptoms</text>
+<text x="348" y="134" class="s" text-anchor="middle">Routes: oral, patch,</text>
+<text x="348" y="145" class="s" text-anchor="middle">gel, implant, ring</text>
+<text x="348" y="162" class="t" text-anchor="middle" font-weight="bold">Risks / Benefits</text>
+<text x="348" y="174" class="s" text-anchor="middle">↑ Breast Ca (small)</text>
+<text x="348" y="185" class="s" text-anchor="middle">↑ VTE, stroke (oral)</text>
+<text x="348" y="196" class="s" text-anchor="middle">↓ Osteoporosis</text>
+<text x="348" y="207" class="s" text-anchor="middle">↓ CVD (early use)</text>
+<text x="348" y="218" class="s" text-anchor="middle">↓ Colorectal Ca</text>
+<text x="200" y="238" class="s" text-anchor="middle">POI (premature ovarian insufficiency): &lt;40y — HRT essential until age 51 for bone/CV</text>
+<text x="200" y="250" class="s" text-anchor="middle">DEXA T-score: Normal &gt;-1 · Osteopenia -1 to -2.5 · Osteoporosis &lt;-2.5</text>
+<text x="200" y="262" class="s" text-anchor="middle">Alendronate 70mg weekly: inhibits osteoclasts; take with water, upright 30min</text>
+<text x="200" y="274" class="s" text-anchor="middle">GSM (genitourinary syndrome): local oestrogen cream — minimal systemic absorption</text>
+<text x="200" y="286" class="s" text-anchor="middle">Tibolone: synthetic steroid with oestrogenic, progestogenic, androgenic activity</text>
+</svg>`,
+  'mbbs-obg-gynaecological-emergencies': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="13" class="h" text-anchor="middle">Gynaecological Emergencies</text>
+<text x="100" y="27" class="t" text-anchor="middle" font-weight="bold">Ectopic Pregnancy Sites</text>
+<ellipse cx="100" cy="118" rx="35" ry="42" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 65 106 C 42 98 28 106 18 118 C 8 130 14 150 26 148" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 135 106 C 158 98 172 106 182 118 C 192 130 186 150 174 148" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<circle cx="162" cy="112" r="14" fill="#e74c3c" fill-opacity="0.6" stroke="#e74c3c" stroke-width="2"/>
+<text x="175" y="105" class="s">Ampulla</text>
+<text x="175" y="115" class="s">★ 70-80%</text>
+<circle cx="143" cy="106" r="7" fill="#e67e22" fill-opacity="0.5" stroke="#e67e22" stroke-width="1.5"/>
+<text x="143" y="95" class="s" text-anchor="middle">Isthmus 12%</text>
+<circle cx="125" cy="106" r="8" fill="#f39c12" fill-opacity="0.5" stroke="#f39c12" stroke-width="1.5"/>
+<text x="112" y="95" class="s">Cornual</text>
+<ellipse cx="35" cy="148" rx="14" ry="11" fill="none" stroke="var(--text-dim)" stroke-width="1.5"/>
+<circle cx="35" cy="148" r="7" fill="#3498db" fill-opacity="0.4" stroke="#3498db" stroke-width="1.5"/>
+<text x="22" y="165" class="s" text-anchor="middle">Ovarian 2%</text>
+<text x="100" y="182" class="s" text-anchor="middle">95% tubal (ampulla most common)</text>
+<text x="100" y="193" class="s" text-anchor="middle">Risk: PID, prev ectopic, IUCD, IVF</text>
+<text x="100" y="204" class="s" text-anchor="middle">Tubal surgery, smoking</text>
+<text x="260" y="27" class="t" text-anchor="middle" font-weight="bold">β-hCG &amp; Management</text>
+<line x1="205" y1="168" x2="320" y2="168" stroke="var(--text)" stroke-width="1.5"/>
+<line x1="205" y1="55" x2="205" y2="168" stroke="var(--text)" stroke-width="1.5"/>
+<text x="200" y="58" class="s" text-anchor="end">high</text>
+<text x="200" y="170" class="s" text-anchor="end">low</text>
+<path d="M 205 163 C 225 158 238 143 250 118 C 262 98 272 70 285 55" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+<path d="M 205 163 C 225 160 238 153 250 143 C 262 133 272 126 285 120" fill="none" stroke="#e74c3c" stroke-width="2.5" stroke-dasharray="5,2"/>
+<text x="286" y="52" class="s">IUP</text>
+<text x="286" y="118" class="s">Ectopic</text>
+<text x="205" y="178" class="s">Day 0</text>
+<text x="285" y="178" class="s">Day 14</text>
+<line x1="205" y1="110" x2="320" y2="110" stroke="var(--border)" stroke-width="1" stroke-dasharray="4,2"/>
+<text x="322" y="113" class="s">Disc. zone</text>
+<text x="322" y="122" class="s">1500 IU/L</text>
+<text x="362" y="27" class="t" text-anchor="middle" font-weight="bold">Rx</text>
+<rect x="332" y="32" width="65" height="22" fill="none" stroke="var(--accent)" stroke-width="1.5" rx="3"/>
+<text x="364" y="44" class="s" text-anchor="middle">Expectant</text>
+<text x="364" y="54" class="s" text-anchor="middle">hCG &lt;1000</text>
+<rect x="332" y="58" width="65" height="22" fill="none" stroke="var(--text)" stroke-width="1" rx="3"/>
+<text x="364" y="70" class="s" text-anchor="middle">Methotrex-</text>
+<text x="364" y="80" class="s" text-anchor="middle">ate IM</text>
+<rect x="332" y="84" width="65" height="22" fill="#e74c3c" fill-opacity="0.2" stroke="#e74c3c" stroke-width="1.5" rx="3"/>
+<text x="364" y="96" class="s" text-anchor="middle">Surgery</text>
+<text x="364" y="106" class="s" text-anchor="middle">Laparoscopy</text>
+<text x="260" y="198" class="h" text-anchor="middle">Ovarian Torsion</text>
+<text x="260" y="211" class="s" text-anchor="middle">Acute severe pelvic pain + nausea/vomiting</text>
+<text x="260" y="223" class="s" text-anchor="middle">Risk: large cyst (&gt;5cm), dermoid, pregnancy</text>
+<text x="260" y="235" class="s" text-anchor="middle">USS Doppler: absent flow (not always absent)</text>
+<text x="260" y="247" class="s" text-anchor="middle">Emergency: detorsion within 6h; oophorectomy</text>
+<text x="100" y="222" class="t" text-anchor="middle" font-weight="bold">Ruptured Ectopic</text>
+<text x="100" y="234" class="s" text-anchor="middle">Haemoperitoneum → collapse</text>
+<text x="100" y="246" class="s" text-anchor="middle">Shoulder tip pain (diaphragm)</text>
+<text x="100" y="258" class="s" text-anchor="middle">Emergency laparotomy/</text>
+<text x="100" y="270" class="s" text-anchor="middle">laparoscopy + salpingectomy</text>
+<text x="100" y="282" class="s" text-anchor="middle">Resuscitate IV fluid/blood</text>
+</svg>`
 };
