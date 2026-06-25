@@ -5788,5 +5788,1012 @@ export const TOPIC_SVGS_MBBS = {
 <text x="100" y="258" class="s" text-anchor="middle">Emergency laparotomy/</text>
 <text x="100" y="270" class="s" text-anchor="middle">laparoscopy + salpingectomy</text>
 <text x="100" y="282" class="s" text-anchor="middle">Resuscitate IV fluid/blood</text>
+</svg>`,
+
+  'mbbs-ent-ear-anatomy': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="13" class="h" text-anchor="middle">Ear Anatomy — Cross Section</text>
+<line x1="135" y1="17" x2="135" y2="255" stroke="var(--border)" stroke-width="1" stroke-dasharray="4,3"/>
+<line x1="268" y1="17" x2="268" y2="255" stroke="var(--border)" stroke-width="1" stroke-dasharray="4,3"/>
+<text x="67" y="27" class="t" text-anchor="middle">External</text>
+<text x="200" y="27" class="t" text-anchor="middle">Middle Ear</text>
+<text x="334" y="27" class="t" text-anchor="middle">Inner Ear</text>
+<path d="M 8 85 Q 55 75 135 92 L 135 178 Q 55 185 8 178 Z" fill="var(--border)" fill-opacity="0.25" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 8 85 Q 0 130 8 178" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+<circle cx="38" cy="82" r="3" fill="var(--accent)" fill-opacity="0.6"/>
+<circle cx="62" cy="78" r="2.5" fill="var(--accent)" fill-opacity="0.6"/>
+<circle cx="88" cy="76" r="2" fill="var(--accent)" fill-opacity="0.6"/>
+<text x="67" y="73" class="s" text-anchor="middle">ceruminous glands</text>
+<path d="M 135 86 Q 143 130 135 178" fill="none" stroke="var(--text)" stroke-width="3.5"/>
+<text x="138" y="196" class="s">TM</text>
+<rect x="135" y="88" width="133" height="88" fill="var(--accent)" fill-opacity="0.04" stroke="var(--border)" stroke-width="0.5"/>
+<line x1="138" y1="132" x2="165" y2="110" stroke="var(--text)" stroke-width="2.5"/>
+<circle cx="168" cy="107" r="7" fill="var(--accent)" fill-opacity="0.75" stroke="var(--text)" stroke-width="1"/>
+<text x="148" y="103" class="s">Malleus</text>
+<path d="M 175 106 L 205 118 L 208 135" fill="none" stroke="#e74c3c" stroke-width="2.5"/>
+<circle cx="205" cy="116" r="5" fill="#e74c3c" fill-opacity="0.8"/>
+<text x="190" y="105" class="s">Incus</text>
+<ellipse cx="221" cy="137" rx="4" ry="7" fill="#3498db" fill-opacity="0.8" stroke="var(--text)" stroke-width="1"/>
+<line x1="208" y1="135" x2="217" y2="137" stroke="var(--text)" stroke-width="1.5"/>
+<text x="212" y="155" class="s">Stapes</text>
+<ellipse cx="236" cy="135" rx="7" ry="11" fill="none" stroke="var(--text)" stroke-width="2"/>
+<text x="240" y="125" class="s">OW</text>
+<ellipse cx="236" cy="165" rx="6" ry="8" fill="var(--border)" fill-opacity="0.5" stroke="var(--text)" stroke-width="1.5"/>
+<text x="240" y="178" class="s">RW</text>
+<path d="M 178 175 Q 188 200 168 228" fill="none" stroke="var(--text-dim)" stroke-width="2" stroke-dasharray="3,2"/>
+<text x="130" y="235" class="s">Eustachian tube</text>
+<text x="145" y="245" class="s">→ nasopharynx</text>
+<rect x="268" y="55" width="125" height="190" fill="var(--accent)" fill-opacity="0.03" stroke="var(--accent)" stroke-width="1" stroke-dasharray="3,2" rx="4"/>
+<path d="M 332 205 A 28 17 0 1 1 332 204" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+<path d="M 332 200 A 18 11 0 1 1 332 199" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<path d="M 332 196 A 9 6 0 1 1 332 195" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<circle cx="332" cy="193" r="3" fill="var(--accent)"/>
+<text x="332" y="233" class="s" text-anchor="middle">Cochlea</text>
+<text x="332" y="242" class="s" text-anchor="middle">2.75 turns</text>
+<ellipse cx="318" cy="105" rx="22" ry="32" fill="none" stroke="#3498db" stroke-width="2"/>
+<ellipse cx="336" cy="122" rx="18" ry="17" fill="none" stroke="#e74c3c" stroke-width="2" transform="rotate(-25 336 122)"/>
+<ellipse cx="307" cy="118" rx="15" ry="24" fill="none" stroke="#2ecc71" stroke-width="2" transform="rotate(20 307 118)"/>
+<text x="361" y="90" class="s">Sup SCC</text>
+<text x="361" y="118" class="s">Lat SCC</text>
+<text x="361" y="143" class="s">Post SCC</text>
+<circle cx="295" cy="153" r="9" fill="var(--accent)" fill-opacity="0.25" stroke="var(--text)" stroke-width="1.5"/>
+<text x="275" y="151" class="s">Vest-</text>
+<text x="275" y="161" class="s">ibule</text>
+<path d="M 270 178 L 258 192" fill="none" stroke="var(--text-dim)" stroke-width="1.5"/>
+<text x="248" y="200" class="s">CN VIII</text>
+<rect x="0" y="255" width="400" height="45" fill="var(--border)" fill-opacity="0.2" rx="2"/>
+<circle cx="15" cy="268" r="4" fill="var(--accent)" fill-opacity="0.75"/>
+<text x="22" y="272" class="s">Malleus</text>
+<circle cx="68" cy="268" r="4" fill="#e74c3c" fill-opacity="0.8"/>
+<text x="75" y="272" class="s">Incus</text>
+<circle cx="112" cy="268" r="4" fill="#3498db" fill-opacity="0.8"/>
+<text x="119" y="272" class="s">Stapes (footplate in OW)</text>
+<circle cx="230" cy="268" r="4" fill="#2ecc71" fill-opacity="0.8"/>
+<text x="237" y="272" class="s">Post. SCC</text>
+<text x="8" y="286" class="s">Ossicles amplify ×20 (area ratio TM:OW ≈ 17:1 + lever 1.3). OW=oval window; RW=round window.</text>
+<text x="8" y="296" class="s">Cochlea: scala vestibuli + media (endolymph K⁺-rich +80 mV) + tympani; hair cells on organ of Corti (tonotopy).</text>
+</svg>`,
+
+  'mbbs-ent-hearing-loss': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="110" y="13" class="h" text-anchor="middle">Pure Tone Audiogram</text>
+<text x="310" y="13" class="h" text-anchor="middle">Tuning Fork Tests</text>
+<line x1="48" y1="22" x2="48" y2="215" stroke="var(--text)" stroke-width="1.5"/>
+<line x1="48" y1="215" x2="225" y2="215" stroke="var(--text)" stroke-width="1.5"/>
+<line x1="48" y1="40" x2="225" y2="40" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,2"/>
+<line x1="48" y1="60" x2="225" y2="60" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,2"/>
+<line x1="48" y1="80" x2="225" y2="80" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,2"/>
+<line x1="48" y1="100" x2="225" y2="100" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,2"/>
+<line x1="48" y1="120" x2="225" y2="120" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,2"/>
+<line x1="48" y1="140" x2="225" y2="140" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,2"/>
+<line x1="48" y1="160" x2="225" y2="160" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,2"/>
+<line x1="48" y1="180" x2="225" y2="180" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,2"/>
+<rect x="48" y="22" width="177" height="18" fill="#2ecc71" fill-opacity="0.15"/>
+<text x="50" y="34" class="s">Normal (0-25 dB)</text>
+<line x1="68" y1="210" x2="68" y2="220" stroke="var(--text)" stroke-width="1"/>
+<line x1="98" y1="210" x2="98" y2="220" stroke="var(--text)" stroke-width="1"/>
+<line x1="128" y1="210" x2="128" y2="220" stroke="var(--text)" stroke-width="1"/>
+<line x1="158" y1="210" x2="158" y2="220" stroke="var(--text)" stroke-width="1"/>
+<line x1="188" y1="210" x2="188" y2="220" stroke="var(--text)" stroke-width="1"/>
+<line x1="218" y1="210" x2="218" y2="220" stroke="var(--text)" stroke-width="1"/>
+<circle cx="68" cy="105" r="4" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<circle cx="98" cy="112" r="4" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<circle cx="128" cy="118" r="4" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<circle cx="158" cy="122" r="4" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<circle cx="188" cy="118" r="4" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<circle cx="218" cy="114" r="4" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<path d="M 68 105 L 98 112 L 128 118 L 158 122 L 188 118 L 218 114" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<path d="M 66 40 L 62 40 L 62 46 L 66 46" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
+<path d="M 96 40 L 92 40 L 92 46 L 96 46" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
+<path d="M 126 40 L 122 40 L 122 46 L 126 46" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
+<path d="M 156 40 L 152 40 L 152 46 L 156 46" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
+<path d="M 186 40 L 182 40 L 182 46 L 186 46" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
+<path d="M 216 40 L 212 40 L 212 46 L 216 46" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
+<path d="M 64 43 L 94 43 L 124 43 L 154 43 L 184 43 L 214 43" fill="none" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="4,2"/>
+<line x1="75" y1="43" x2="75" y2="104" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="2,2"/>
+<polygon points="75,104 71,96 79,96" fill="#f39c12"/>
+<text x="77" y="75" class="s" fill="#f39c12">ABG</text>
+<text x="40" y="26" class="s" text-anchor="end">0</text>
+<text x="40" y="43" class="s" text-anchor="end">20</text>
+<text x="40" y="63" class="s" text-anchor="end">40</text>
+<text x="40" y="83" class="s" text-anchor="end">60</text>
+<text x="40" y="103" class="s" text-anchor="end">80</text>
+<text x="40" y="123" class="s" text-anchor="end">100</text>
+<text x="68" y="228" class="s" text-anchor="middle">250</text>
+<text x="98" y="228" class="s" text-anchor="middle">500</text>
+<text x="128" y="228" class="s" text-anchor="middle">1k</text>
+<text x="158" y="228" class="s" text-anchor="middle">2k</text>
+<text x="188" y="228" class="s" text-anchor="middle">4k</text>
+<text x="218" y="228" class="s" text-anchor="middle">8k</text>
+<text x="10" y="130" class="s" transform="rotate(-90 10 130)">dB HL</text>
+<text x="130" y="241" class="s" text-anchor="middle">Frequency (Hz)</text>
+<circle cx="50" cy="252" r="4" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<text x="57" y="255" class="s">Air cond. (CHL elevated threshold)</text>
+<path d="M 46 265 L 42 265 L 42 270 L 46 270" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
+<text x="50" y="270" class="s">Bone cond. (normal in CHL)</text>
+<text x="8" y="285" class="s">CHL: Rinne -ve, Weber → bad ear, ABG present, Tymp B/C</text>
+<text x="8" y="295" class="s">SNHL: Rinne +ve, Weber → good ear, no ABG, Tymp A</text>
+<line x1="238" y1="18" x2="238" y2="298" stroke="var(--border)" stroke-width="1"/>
+<text x="315" y="26" class="t" text-anchor="middle" font-weight="bold">Rinne Test (512 Hz)</text>
+<rect x="242" y="30" width="153" height="55" fill="var(--border)" fill-opacity="0.15" rx="3"/>
+<text x="248" y="43" class="t">Rinne +ve: AC &gt; BC</text>
+<text x="248" y="53" class="s">Fork: mastoid then ear, louder at ear</text>
+<text x="248" y="63" class="s">= Normal OR SNHL</text>
+<text x="248" y="73" class="s" fill="#e74c3c">Rinne -ve: BC &gt; AC = Conductive HL</text>
+<text x="248" y="83" class="s">Mastoid louder; can\'t hear at ear</text>
+<text x="315" y="100" class="t" text-anchor="middle" font-weight="bold">Weber Test</text>
+<rect x="242" y="105" width="153" height="80" fill="var(--border)" fill-opacity="0.1" rx="3"/>
+<ellipse cx="315" cy="142" rx="22" ry="28" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 293 142 Q 288 142 289 149 Q 290 156 293 152" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 337 142 Q 342 142 341 149 Q 340 156 337 152" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<line x1="315" y1="114" x2="315" y2="129" stroke="var(--text)" stroke-width="2"/>
+<line x1="311" y1="117" x2="315" y2="114" stroke="var(--text)" stroke-width="2"/>
+<line x1="319" y1="117" x2="315" y2="114" stroke="var(--text)" stroke-width="2"/>
+<path d="M 300 142 L 280 142" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<polygon points="280,142 287,138 287,146" fill="var(--accent)"/>
+<text x="243" y="138" class="s" fill="var(--accent)">CHL:</text>
+<text x="243" y="148" class="s">bad ear</text>
+<path d="M 330 142 L 350 142" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
+<polygon points="350,142 343,138 343,146" fill="#e74c3c"/>
+<text x="352" y="138" class="s" fill="#e74c3c">SNHL:</text>
+<text x="352" y="148" class="s">good ear</text>
+<text x="315" y="200" class="t" text-anchor="middle" font-weight="bold">Tympanogram</text>
+<rect x="242" y="204" width="153" height="80" fill="var(--border)" fill-opacity="0.1" rx="3"/>
+<path d="M 255 270 Q 262 228 270 238 Q 278 248 286 270" fill="none" stroke="#2ecc71" stroke-width="2"/>
+<path d="M 296 258 L 322 258" fill="none" stroke="#e74c3c" stroke-width="2"/>
+<path d="M 332 270 Q 338 238 345 248 Q 352 260 360 275" fill="none" stroke="#f39c12" stroke-width="2"/>
+<text x="266" y="284" class="s" fill="#2ecc71">A:normal</text>
+<text x="302" y="272" class="s" fill="#e74c3c">B:flat</text>
+<text x="336" y="280" class="s" fill="#f39c12">C:-ve</text>
+</svg>`,
+
+  'mbbs-ent-otitis-media': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="13" class="h" text-anchor="middle">Tympanic Membrane Views (Right Ear)</text>
+<line x1="100" y1="17" x2="100" y2="248" stroke="var(--border)" stroke-width="1"/>
+<line x1="200" y1="17" x2="200" y2="248" stroke="var(--border)" stroke-width="1"/>
+<line x1="300" y1="17" x2="300" y2="248" stroke="var(--border)" stroke-width="1"/>
+<text x="50" y="27" class="t" text-anchor="middle">Normal</text>
+<text x="150" y="27" class="t" text-anchor="middle">AOM</text>
+<text x="250" y="27" class="t" text-anchor="middle">CSOM Tubotympanic</text>
+<text x="350" y="27" class="t" text-anchor="middle">CSOM Atticoantral</text>
+<ellipse cx="50" cy="125" rx="42" ry="50" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 22 100 Q 50 93 78 100" fill="var(--border)" fill-opacity="0.4" stroke="var(--text)" stroke-width="1"/>
+<line x1="50" y1="148" x2="50" y2="106" stroke="var(--text)" stroke-width="2.5"/>
+<circle cx="50" cy="105" r="3" fill="var(--text)"/>
+<circle cx="50" cy="149" r="3" fill="var(--accent)"/>
+<polygon points="50,149 64,165 71,153" fill="var(--accent)" fill-opacity="0.5"/>
+<text x="50" y="210" class="s" text-anchor="middle">Cone of light</text>
+<text x="50" y="220" class="s" text-anchor="middle">5 o\'clock</text>
+<text x="50" y="230" class="s" text-anchor="middle">Umbo at TM centre</text>
+<ellipse cx="150" cy="125" rx="45" ry="53" fill="#e74c3c" fill-opacity="0.12" stroke="#e74c3c" stroke-width="2.5"/>
+<path d="M 125 100 Q 150 93 175 100" fill="#e74c3c" fill-opacity="0.3" stroke="#e74c3c" stroke-width="1.5"/>
+<line x1="150" y1="125" x2="132" y2="96" stroke="#e74c3c" stroke-width="1.5"/>
+<line x1="150" y1="125" x2="118" y2="120" stroke="#e74c3c" stroke-width="1.5"/>
+<line x1="150" y1="125" x2="120" y2="155" stroke="#e74c3c" stroke-width="1.5"/>
+<line x1="150" y1="125" x2="150" y2="180" stroke="#e74c3c" stroke-width="1.5"/>
+<line x1="150" y1="125" x2="180" y2="160" stroke="#e74c3c" stroke-width="1.5"/>
+<line x1="150" y1="125" x2="182" y2="125" stroke="#e74c3c" stroke-width="1.5"/>
+<line x1="120" y1="150" x2="180" y2="150" stroke="#3498db" stroke-width="1.5" stroke-dasharray="3,2"/>
+<text x="150" y="210" class="s" text-anchor="middle">Bulging red TM</text>
+<text x="150" y="220" class="s" text-anchor="middle">Radiating vessels</text>
+<text x="150" y="230" class="s" text-anchor="middle">Fluid level (dashed)</text>
+<ellipse cx="250" cy="125" rx="42" ry="50" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 222 100 Q 250 93 278 100" fill="var(--border)" fill-opacity="0.4" stroke="var(--text)" stroke-width="1"/>
+<ellipse cx="252" cy="135" rx="23" ry="27" fill="var(--surface)" stroke="var(--accent)" stroke-width="2"/>
+<ellipse cx="252" cy="135" rx="18" ry="21" fill="var(--accent)" fill-opacity="0.08"/>
+<path d="M 230 128 Q 240 122 252 110 Q 264 122 274 128" fill="none" stroke="var(--text-dim)" stroke-width="1.5" stroke-dasharray="2,2"/>
+<text x="250" y="210" class="s" text-anchor="middle">Central perforation</text>
+<text x="250" y="220" class="s" text-anchor="middle">Pars tensa</text>
+<text x="250" y="230" class="s" text-anchor="middle">SAFE (no cholesteatoma)</text>
+<ellipse cx="350" cy="125" rx="42" ry="50" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 323 100 Q 350 90 377 100 Q 368 116 350 112 Q 332 116 323 100 Z" fill="#f39c12" fill-opacity="0.3" stroke="#f39c12" stroke-width="2"/>
+<circle cx="350" cy="105" r="9" fill="white" fill-opacity="0.85" stroke="#e74c3c" stroke-width="1.5"/>
+<line x1="350" y1="148" x2="350" y2="122" stroke="var(--text-dim)" stroke-width="1.5" stroke-dasharray="3,2"/>
+<ellipse cx="350" cy="120" rx="11" ry="6" fill="var(--border)" fill-opacity="0.5" stroke="var(--text-dim)" stroke-width="1"/>
+<text x="350" y="210" class="s" text-anchor="middle">Attic retraction (orange)</text>
+<text x="350" y="220" class="s" text-anchor="middle">Cholesteatoma (white ring)</text>
+<text x="350" y="230" class="s" text-anchor="middle">UNSAFE — mastoidectomy</text>
+<rect x="0" y="248" width="400" height="52" fill="var(--border)" fill-opacity="0.2"/>
+<text x="200" y="260" class="t" text-anchor="middle" font-weight="bold">Key Differences — CSOM</text>
+<text x="8" y="272" class="s">Tubotympanic (Safe): central perf, pars tensa, mucoid odourless discharge, no cholesteatoma → myringoplasty</text>
+<text x="8" y="282" class="s">Atticoantral (Unsafe): marginal/attic (pars flaccida) perf, offensive discharge, cholesteatoma → mastoidectomy</text>
+<text x="8" y="292" class="s">AOM organisms: S. pneumoniae 40% · H. influenzae 25% · M. catarrhalis → amoxicillin 7-10 days</text>
+</svg>`,
+
+  'mbbs-ent-otitis-externa': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="96" y="13" class="h" text-anchor="middle">Otitis Externa (EAC view)</text>
+<text x="300" y="13" class="h" text-anchor="middle">Mastoiditis + Bezold Abscess</text>
+<line x1="196" y1="17" x2="196" y2="290" stroke="var(--border)" stroke-width="1"/>
+<ellipse cx="90" cy="128" rx="72" ry="82" fill="none" stroke="var(--text)" stroke-width="2"/>
+<ellipse cx="90" cy="128" rx="35" ry="42" fill="var(--accent)" fill-opacity="0.05" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="3,2"/>
+<path d="M 18 98 Q 52 80 90 80 Q 128 80 162 98" fill="#e74c3c" fill-opacity="0.15" stroke="#e74c3c" stroke-width="1.5"/>
+<path d="M 18 158 Q 52 178 90 178 Q 128 178 162 158" fill="#e74c3c" fill-opacity="0.15" stroke="#e74c3c" stroke-width="1.5"/>
+<circle cx="75" cy="168" r="4" fill="#e74c3c" fill-opacity="0.9"/>
+<circle cx="90" cy="172" r="4" fill="#e74c3c" fill-opacity="0.9"/>
+<circle cx="105" cy="168" r="4" fill="#e74c3c" fill-opacity="0.9"/>
+<circle cx="83" cy="162" r="3" fill="#e74c3c" fill-opacity="0.7"/>
+<ellipse cx="90" cy="128" rx="12" ry="18" fill="none" stroke="var(--text)" stroke-width="2" stroke-dasharray="3,2"/>
+<path d="M 18 98 Q 6 128 18 158" fill="none" stroke="var(--text)" stroke-width="2.5"/>
+<text x="90" y="125" class="s" text-anchor="middle">Narrowed</text>
+<text x="90" y="135" class="s" text-anchor="middle">lumen</text>
+<text x="90" y="107" class="s" text-anchor="middle">TM</text>
+<text x="5" y="132" class="s" fill="#e74c3c">Tragus</text>
+<text x="5" y="142" class="s" fill="#e74c3c">pain ✓</text>
+<text x="90" y="232" class="s" text-anchor="middle">Diffuse OE: Pseudomonas + Staph aureus</text>
+<text x="90" y="242" class="s" text-anchor="middle">Malignant OE: Pseudomonas in diabetics</text>
+<text x="90" y="252" class="s" text-anchor="middle">→ skull base osteomyelitis; CN VI palsy</text>
+<text x="90" y="262" class="s" text-anchor="middle">Rx: topical ciprofloxacin (diffuse)</text>
+<text x="90" y="272" class="s" text-anchor="middle">IV pip-taz/ciprofloxacin (malignant)</text>
+<path d="M 210 28 Q 270 18 340 32 Q 385 52 382 158 Q 380 228 312 252 Q 252 264 210 244 Z" fill="var(--border)" fill-opacity="0.2" stroke="var(--text)" stroke-width="2"/>
+<rect x="218" y="42" width="14" height="10" fill="none" stroke="var(--text-dim)" stroke-width="0.8" rx="2"/>
+<rect x="236" y="38" width="14" height="10" fill="none" stroke="var(--text-dim)" stroke-width="0.8" rx="2"/>
+<rect x="254" y="36" width="15" height="10" fill="none" stroke="var(--text-dim)" stroke-width="0.8" rx="2"/>
+<rect x="274" y="36" width="18" height="11" fill="none" stroke="var(--text-dim)" stroke-width="0.8" rx="2"/>
+<rect x="298" y="38" width="15" height="11" fill="none" stroke="var(--text-dim)" stroke-width="0.8" rx="2"/>
+<rect x="318" y="43" width="15" height="11" fill="none" stroke="var(--text-dim)" stroke-width="0.8" rx="2"/>
+<rect x="222" y="56" width="17" height="10" fill="none" stroke="var(--text-dim)" stroke-width="0.8" rx="2"/>
+<rect x="244" y="52" width="17" height="10" fill="none" stroke="var(--text-dim)" stroke-width="0.8" rx="2"/>
+<rect x="266" y="50" width="18" height="11" fill="none" stroke="var(--text-dim)" stroke-width="0.8" rx="2"/>
+<rect x="290" y="52" width="17" height="11" fill="none" stroke="var(--text-dim)" stroke-width="0.8" rx="2"/>
+<rect x="238" y="68" width="80" height="48" fill="#e74c3c" fill-opacity="0.12" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="3,2" rx="4"/>
+<text x="278" y="90" class="s" text-anchor="middle" fill="#e74c3c">Coalescent</text>
+<text x="278" y="100" class="s" text-anchor="middle" fill="#e74c3c">mastoiditis</text>
+<text x="278" y="110" class="s" text-anchor="middle">pinna pushed fwd</text>
+<path d="M 218 244 Q 213 262 216 282" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 216 268 Q 224 282 236 292 Q 252 300 276 297" fill="none" stroke="#e74c3c" stroke-width="2" stroke-dasharray="4,2"/>
+<ellipse cx="282" cy="294" rx="22" ry="7" fill="#e74c3c" fill-opacity="0.3" stroke="#e74c3c" stroke-width="1.5"/>
+<text x="282" y="298" class="s" text-anchor="middle">Bezold abscess</text>
+<path d="M 210 240 L 268 290" fill="none" stroke="var(--text-dim)" stroke-width="1.5"/>
+<text x="205" y="245" class="s" text-anchor="end">SCM</text>
+<text x="296" y="155" class="s">Complications:</text>
+<text x="296" y="165" class="s">• Bezold abscess</text>
+<text x="296" y="175" class="s">• Sigmoid sinus</text>
+<text x="296" y="185" class="s">  thrombosis</text>
+<text x="296" y="195" class="s">• Facial palsy CN VII</text>
+<text x="296" y="205" class="s">• Meningitis</text>
+<text x="296" y="215" class="s">• Brain abscess</text>
+<text x="296" y="225" class="s">Rx: IV co-amoxiclav</text>
+<text x="296" y="235" class="s">± Schwartze proc.</text>
+</svg>`,
+
+  'mbbs-ent-vertigo-tinnitus': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<line x1="200" y1="0" x2="200" y2="300" stroke="var(--border)" stroke-width="1" stroke-dasharray="4,3"/>
+<line x1="0" y1="150" x2="400" y2="150" stroke="var(--border)" stroke-width="1" stroke-dasharray="4,3"/>
+<text x="100" y="13" class="h" text-anchor="middle">Inner Ear Labyrinth</text>
+<path d="M 120 108 A 25 16 0 1 1 120 107" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+<path d="M 120 103 A 16 10 0 1 1 120 102" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<path d="M 120 99 A 8 5 0 1 1 120 98" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<circle cx="120" cy="96" r="2.5" fill="var(--accent)"/>
+<ellipse cx="82" cy="65" rx="20" ry="28" fill="none" stroke="#3498db" stroke-width="2"/>
+<ellipse cx="97" cy="80" rx="17" ry="15" fill="none" stroke="#e74c3c" stroke-width="2" transform="rotate(-25 97 80)"/>
+<ellipse cx="74" cy="77" rx="13" ry="22" fill="none" stroke="#2ecc71" stroke-width="2" transform="rotate(20 74 77)"/>
+<circle cx="94" cy="98" r="8" fill="var(--accent)" fill-opacity="0.25" stroke="var(--text)" stroke-width="1.5"/>
+<ellipse cx="94" cy="92" rx="5" ry="4" fill="none" stroke="var(--text-dim)" stroke-width="1"/>
+<ellipse cx="90" cy="102" rx="4" ry="5" fill="none" stroke="var(--text-dim)" stroke-width="1"/>
+<circle cx="70" cy="50" r="4" fill="#3498db" fill-opacity="0.6"/>
+<circle cx="85" cy="87" r="3" fill="#e74c3c" fill-opacity="0.6"/>
+<circle cx="74" cy="78" r="4" fill="#f39c12"/>
+<text x="28" y="63" class="s">Sup SCC</text>
+<text x="22" y="85" class="s">Lat SCC</text>
+<text x="130" y="78" class="s">Vestibule</text>
+<text x="130" y="88" class="s">utricle+saccule</text>
+<text x="120" y="135" class="s" text-anchor="middle">Cochlea 2.75 turns</text>
+<text x="10" y="108" class="s" fill="#f39c12">BPPV: canalith</text>
+<text x="10" y="118" class="s" fill="#f39c12">in post. SCC</text>
+<text x="300" y="13" class="h" text-anchor="middle">Dix-Hallpike + Epley</text>
+<rect x="212" y="28" width="22" height="42" fill="var(--border)" fill-opacity="0.4" stroke="var(--text)" stroke-width="1" rx="3"/>
+<circle cx="223" cy="22" r="8" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<text x="222" y="80" class="s" text-anchor="middle">1.Sit 45°</text>
+<path d="M 236 50 L 248 50" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<polygon points="248,50 242,46 242,54" fill="var(--text)"/>
+<rect x="250" y="45" width="50" height="20" fill="var(--border)" fill-opacity="0.4" stroke="var(--accent)" stroke-width="1.5" rx="3"/>
+<circle cx="250" cy="52" r="8" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<path d="M 252 45 L 262 33" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<polygon points="262,33 258,39 266,40" fill="var(--accent)"/>
+<text x="276" y="80" class="s" text-anchor="middle">2. Lie back</text>
+<text x="276" y="90" class="s" text-anchor="middle">ear down</text>
+<text x="268" y="30" class="s" fill="var(--accent)">nystagmus</text>
+<rect x="208" y="105" width="183" height="38" fill="var(--border)" fill-opacity="0.1" rx="2"/>
+<text x="300" y="116" class="t" text-anchor="middle" font-weight="bold">Epley (4 positions → utricle)</text>
+<text x="212" y="127" class="s">① Sit+45°R  ② R ear down (wait)</text>
+<text x="212" y="137" class="s">③ turn 90° L  ④ roll L (nose down)  ⑤ sit</text>
+<text x="100" y="163" class="h" text-anchor="middle">Meniere\'s — Hydrops</text>
+<ellipse cx="70" cy="220" rx="44" ry="30" fill="none" stroke="var(--text-dim)" stroke-width="1.5" stroke-dasharray="3,2"/>
+<ellipse cx="70" cy="220" rx="37" ry="24" fill="#3498db" fill-opacity="0.2" stroke="#3498db" stroke-width="2"/>
+<path d="M 70 190 L 70 182" fill="none" stroke="#3498db" stroke-width="1.5"/>
+<polygon points="70,182 66,189 74,189" fill="#3498db"/>
+<path d="M 70 250 L 70 258" fill="none" stroke="#3498db" stroke-width="1.5"/>
+<polygon points="70,258 66,251 74,251" fill="#3498db"/>
+<path d="M 26 220 L 18 220" fill="none" stroke="#3498db" stroke-width="1.5"/>
+<polygon points="18,220 25,217 25,223" fill="#3498db"/>
+<path d="M 114 220 L 122 220" fill="none" stroke="#3498db" stroke-width="1.5"/>
+<polygon points="122,220 115,217 115,223" fill="#3498db"/>
+<text x="70" y="218" class="s" text-anchor="middle" fill="#3498db">Hydrops</text>
+<text x="70" y="228" class="s" text-anchor="middle">endolymph</text>
+<text x="128" y="175" class="s">Triad:</text>
+<text x="128" y="186" class="s">• Vertigo &gt;20 min</text>
+<text x="128" y="197" class="s">• SNHL (low-freq)</text>
+<text x="128" y="208" class="s">• Tinnitus+fullness</text>
+<text x="128" y="220" class="s">Rx: low-Na diet</text>
+<text x="128" y="231" class="s">Betahistine 16mg TDS</text>
+<text x="128" y="242" class="s">IT gentamicin (intract.)</text>
+<text x="300" y="163" class="h" text-anchor="middle">Acoustic Neuroma (CPA)</text>
+<rect x="245" y="170" width="35" height="95" fill="var(--border)" fill-opacity="0.5" stroke="var(--text)" stroke-width="1.5" rx="3"/>
+<path d="M 280 218 Q 315 185 355 205 Q 375 240 355 268 Q 320 285 280 268 Z" fill="var(--border)" fill-opacity="0.3" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 280 220 L 280 268" fill="none" stroke="var(--text-dim)" stroke-width="1"/>
+<path d="M 280 232 L 308 232" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<circle cx="320" cy="232" r="15" fill="#e74c3c" fill-opacity="0.3" stroke="#e74c3c" stroke-width="2"/>
+<text x="263" y="228" class="s" text-anchor="middle">Brain-</text>
+<text x="263" y="238" class="s" text-anchor="middle">stem</text>
+<text x="320" y="229" class="s" text-anchor="middle" fill="#e74c3c">AN</text>
+<text x="320" y="239" class="s" text-anchor="middle">mass</text>
+<text x="322" y="242" class="s" text-anchor="middle">CN VIII</text>
+<text x="248" y="283" class="s">Unilateral SNHL+tinnitus</text>
+<text x="248" y="293" class="s">MRI Gd; NF2 if bilateral</text>
+</svg>`,
+
+  'mbbs-ent-nose-sinuses': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<line x1="196" y1="0" x2="196" y2="300" stroke="var(--border)" stroke-width="1"/>
+<text x="98" y="13" class="h" text-anchor="middle">Lateral Nasal Wall</text>
+<text x="298" y="13" class="h" text-anchor="middle">Coronal — Paranasal Sinuses</text>
+<line x1="15" y1="25" x2="185" y2="25" stroke="var(--text-dim)" stroke-width="1"/>
+<line x1="15" y1="282" x2="185" y2="282" stroke="var(--text-dim)" stroke-width="1"/>
+<path d="M 185 42 Q 160 46 148 58 Q 140 68 152 73 L 185 71" fill="var(--accent)" fill-opacity="0.2" stroke="var(--text)" stroke-width="1.5"/>
+<text x="187" y="55" class="s">Sup. T.</text>
+<path d="M 185 95 Q 148 102 128 128 Q 115 150 142 155 L 185 152" fill="var(--accent)" fill-opacity="0.3" stroke="var(--accent)" stroke-width="1.5"/>
+<text x="187" y="118" class="s">Mid. T.</text>
+<path d="M 185 188 Q 140 196 118 220 Q 108 238 138 242 L 185 240" fill="var(--border)" fill-opacity="0.5" stroke="var(--text)" stroke-width="1.5"/>
+<text x="187" y="210" class="s">Inf. T.</text>
+<rect x="88" y="110" width="42" height="35" fill="#f39c12" fill-opacity="0.2" stroke="#f39c12" stroke-width="2" stroke-dasharray="3,2" rx="3"/>
+<text x="109" y="122" class="s" text-anchor="middle" fill="#f39c12">OMU</text>
+<text x="109" y="132" class="s" text-anchor="middle" fill="#f39c12">mid meatus</text>
+<path d="M 108 75 L 108 110" fill="none" stroke="#3498db" stroke-width="1.5"/>
+<polygon points="108,110 104,103 112,103" fill="#3498db"/>
+<text x="50" y="78" class="s" fill="#3498db">Frontal ↓</text>
+<path d="M 70 148 L 95 138" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<polygon points="95,138 87,135 88,142" fill="var(--accent)"/>
+<text x="15" y="150" class="s" fill="var(--accent)">Max sinus</text>
+<text x="15" y="160" class="s">(uphill drain)</text>
+<path d="M 152 192 L 145 210" fill="none" stroke="var(--text-dim)" stroke-width="1.5"/>
+<polygon points="145,210 149,203 154,208" fill="var(--text-dim)"/>
+<text x="128" y="192" class="s">NLD</text>
+<text x="25" y="63" class="s">Sup. meatus:</text>
+<text x="25" y="71" class="s">Post eth+Sphenoid</text>
+<text x="25" y="200" class="s">Inf. meatus:</text>
+<text x="25" y="208" class="s">NLD drains here</text>
+<path d="M 210 18 Q 298 5 388 18 L 388 240 Q 298 252 210 240 Z" fill="var(--border)" fill-opacity="0.1" stroke="var(--text)" stroke-width="1.5"/>
+<polygon points="255,22 238,62 272,62" fill="#3498db" fill-opacity="0.2" stroke="#3498db" stroke-width="1.5"/>
+<polygon points="341,22 324,62 358,62" fill="#3498db" fill-opacity="0.2" stroke="#3498db" stroke-width="1.5"/>
+<text x="254" y="48" class="s" text-anchor="middle">Frontal</text>
+<text x="341" y="48" class="s" text-anchor="middle">Frontal</text>
+<rect x="244" y="65" width="16" height="11" fill="#2ecc71" fill-opacity="0.25" stroke="#2ecc71" stroke-width="1" rx="1"/>
+<rect x="262" y="65" width="16" height="11" fill="#2ecc71" fill-opacity="0.25" stroke="#2ecc71" stroke-width="1" rx="1"/>
+<rect x="321" y="65" width="16" height="11" fill="#2ecc71" fill-opacity="0.25" stroke="#2ecc71" stroke-width="1" rx="1"/>
+<rect x="339" y="65" width="16" height="11" fill="#2ecc71" fill-opacity="0.25" stroke="#2ecc71" stroke-width="1" rx="1"/>
+<text x="261" y="63" class="s">Ethmoid</text>
+<text x="329" y="63" class="s">Ethmoid</text>
+<line x1="298" y1="22" x2="298" y2="240" stroke="var(--text)" stroke-width="2"/>
+<rect x="218" y="108" width="72" height="72" fill="var(--accent)" fill-opacity="0.15" stroke="var(--accent)" stroke-width="1.5" rx="5"/>
+<rect x="310" y="108" width="72" height="72" fill="var(--accent)" fill-opacity="0.15" stroke="var(--accent)" stroke-width="1.5" rx="5"/>
+<text x="254" y="148" class="s" text-anchor="middle">Maxillary</text>
+<text x="346" y="148" class="s" text-anchor="middle">Maxillary</text>
+<rect x="270" y="78" width="56" height="26" fill="#e74c3c" fill-opacity="0.15" stroke="#e74c3c" stroke-width="1.5" rx="3"/>
+<text x="298" y="93" class="s" text-anchor="middle">Sphenoid</text>
+<path d="M 246 108 Q 268 100 290 108" fill="var(--border)" fill-opacity="0.5" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 306 108 Q 326 100 350 108" fill="var(--border)" fill-opacity="0.5" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 250 108 L 268 96" fill="none" stroke="#f39c12" stroke-width="1.5"/>
+<polygon points="268,96 263,101 268,106" fill="#f39c12"/>
+<text x="218" y="100" class="s" fill="#f39c12">OMU ostium</text>
+<rect x="210" y="195" width="178" height="46" fill="var(--border)" fill-opacity="0.2" rx="2"/>
+<text x="299" y="207" class="s" text-anchor="middle" font-weight="bold">Sinus Drainage Summary</text>
+<text x="214" y="218" class="s">Frontal / Max / Ant. ethmoid → middle meatus (OMU)</text>
+<text x="214" y="228" class="s">Post. ethmoid + Sphenoid → sup. meatus / SphenoEth. recess</text>
+<text x="214" y="238" class="s">NLD → inferior meatus  |  FESS targets OMU</text>
+</svg>`,
+
+  'mbbs-ent-epistaxis': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<line x1="200" y1="0" x2="200" y2="300" stroke="var(--border)" stroke-width="1"/>
+<text x="100" y="13" class="h" text-anchor="middle">Nasal Septum — Little\'s Area</text>
+<text x="300" y="13" class="h" text-anchor="middle">Management Algorithm</text>
+<rect x="18" y="22" width="162" height="225" fill="var(--border)" fill-opacity="0.15" stroke="var(--text)" stroke-width="2" rx="4"/>
+<path d="M 18 140 Q 55 134 98 140 L 98 247 L 18 247 Z" fill="var(--accent)" fill-opacity="0.1" stroke="var(--accent)" stroke-width="1" stroke-dasharray="3,2"/>
+<text x="58" y="198" class="s" text-anchor="middle" fill="var(--accent)">Cartilage</text>
+<path d="M 98 22 L 180 22 L 180 247 L 98 247 L 98 140 Q 138 134 180 140" fill="var(--border)" fill-opacity="0.2" stroke="var(--text-dim)" stroke-width="1"/>
+<text x="138" y="138" class="s" text-anchor="middle">Bony</text>
+<text x="138" y="148" class="s" text-anchor="middle">(ethmoid+vomer)</text>
+<ellipse cx="58" cy="172" rx="30" ry="38" fill="#e74c3c" fill-opacity="0.15" stroke="#e74c3c" stroke-width="2"/>
+<text x="58" y="170" class="s" text-anchor="middle" fill="#e74c3c">Little\'s</text>
+<text x="58" y="181" class="s" text-anchor="middle" fill="#e74c3c">area</text>
+<path d="M 58 22 L 58 134" fill="none" stroke="#e74c3c" stroke-width="2"/>
+<polygon points="58,134 54,126 62,126" fill="#e74c3c"/>
+<text x="60" y="19" class="s" fill="#e74c3c">Ant. ethmoidal</text>
+<path d="M 58 247 L 58 210" fill="none" stroke="#3498db" stroke-width="2"/>
+<polygon points="58,210 54,218 62,218" fill="#3498db"/>
+<text x="60" y="262" class="s" fill="#3498db">Sup. labial</text>
+<path d="M 180 162 L 88 168" fill="none" stroke="#2ecc71" stroke-width="2"/>
+<polygon points="88,168 96,163 96,173" fill="#2ecc71"/>
+<text x="182" y="160" class="s" fill="#2ecc71">Sphenopalat.</text>
+<path d="M 180 75 L 90 158" fill="none" stroke="#f39c12" stroke-width="2"/>
+<polygon points="90,158 90,149 97,156" fill="#f39c12"/>
+<text x="182" y="73" class="s" fill="#f39c12">Post. ethmoidal</text>
+<path d="M 180 245 L 92 188" fill="none" stroke="#9b59b6" stroke-width="2"/>
+<polygon points="92,188 100,190 96,198" fill="#9b59b6"/>
+<text x="182" y="250" class="s" fill="#9b59b6">Gr. palatine</text>
+<text x="100" y="275" class="s" text-anchor="middle">90% bleeds from Little\'s (Kiesselbach\'s plexus)</text>
+<text x="100" y="285" class="s" text-anchor="middle">5-artery anastomosis at anteroinferior septum</text>
+<rect x="208" y="20" width="186" height="30" fill="var(--border)" fill-opacity="0.3" rx="3"/>
+<text x="301" y="32" class="t" text-anchor="middle" font-weight="bold">1. First Aid (ALL)</text>
+<text x="301" y="43" class="s" text-anchor="middle">Pinch SOFT part 10-20 min. Lean FORWARD.</text>
+<path d="M 301 52 L 301 60" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<polygon points="301,60 297,53 305,53" fill="var(--text)"/>
+<rect x="208" y="62" width="186" height="28" fill="var(--accent)" fill-opacity="0.1" stroke="var(--accent)" stroke-width="1" rx="3"/>
+<text x="301" y="74" class="t" text-anchor="middle">2. Cautery (anterior, visible)</text>
+<text x="301" y="84" class="s" text-anchor="middle">Silver nitrate — unilateral ONLY</text>
+<path d="M 301 92 L 301 100" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<polygon points="301,100 297,93 305,93" fill="var(--text)"/>
+<rect x="208" y="102" width="186" height="28" fill="var(--accent)" fill-opacity="0.1" stroke="var(--accent)" stroke-width="1" rx="3"/>
+<text x="301" y="114" class="t" text-anchor="middle">3. Anterior packing</text>
+<text x="301" y="124" class="s" text-anchor="middle">BIPP ribbon gauze / Rapid Rhino</text>
+<path d="M 301 132 L 301 140" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<polygon points="301,140 297,133 305,133" fill="var(--text)"/>
+<rect x="208" y="142" width="186" height="36" fill="#e74c3c" fill-opacity="0.1" stroke="#e74c3c" stroke-width="1.5" rx="3"/>
+<text x="301" y="154" class="t" text-anchor="middle">4. Posterior — Foley catheter</text>
+<text x="301" y="164" class="s" text-anchor="middle">12-14 Fr; inflate 10-15 mL balloon</text>
+<text x="301" y="174" class="s" text-anchor="middle">in nasopharynx + ant. BIPP pack</text>
+<path d="M 301 180 L 301 188" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<polygon points="301,188 297,181 305,181" fill="var(--text)"/>
+<rect x="208" y="190" width="186" height="36" fill="#e74c3c" fill-opacity="0.2" stroke="#e74c3c" stroke-width="2" rx="3"/>
+<text x="301" y="202" class="t" text-anchor="middle">5. Surgical / Embolisation</text>
+<text x="301" y="212" class="s" text-anchor="middle">ESPAL = endoscopic sphenopalat.</text>
+<text x="301" y="222" class="s" text-anchor="middle">artery ligation (gold standard)</text>
+<rect x="208" y="238" width="186" height="55" fill="var(--border)" fill-opacity="0.2" rx="2"/>
+<text x="212" y="250" class="s" font-weight="bold">Posterior signs: blood in oropharynx, HTN, elderly</text>
+<text x="212" y="260" class="s">Anterior: 90%, visible, pinchable, children+young adults</text>
+<text x="212" y="270" class="s">Never cauterise BOTH sides → septal perforation</text>
+<text x="212" y="280" class="s">Warfarin epistaxis: correct INR (vit K ± FFP) first</text>
+<text x="212" y="290" class="s">Juv. angiofibroma: adolescent males — no biopsy!</text>
+</svg>`,
+
+  'mbbs-ent-rhinitis-sinusitis': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="100" y="13" class="h" text-anchor="middle">Allergic Rhinitis — ARIA</text>
+<text x="300" y="13" class="h" text-anchor="middle">Orbital Complications (Chandler)</text>
+<line x1="200" y1="0" x2="200" y2="300" stroke="var(--border)" stroke-width="1"/>
+<text x="68" y="26" class="t" text-anchor="middle">Intermittent</text>
+<text x="143" y="26" class="t" text-anchor="middle">Persistent</text>
+<rect x="10" y="28" width="80" height="42" fill="#2ecc71" fill-opacity="0.15" stroke="#2ecc71" stroke-width="1.5" rx="2"/>
+<text x="50" y="42" class="s" text-anchor="middle">Mild</text>
+<text x="50" y="52" class="s" text-anchor="middle">Intermittent</text>
+<text x="50" y="62" class="s" text-anchor="middle">Step 1 Rx</text>
+<rect x="98" y="28" width="88" height="42" fill="var(--accent)" fill-opacity="0.15" stroke="var(--accent)" stroke-width="1.5" rx="2"/>
+<text x="142" y="42" class="s" text-anchor="middle">Mild</text>
+<text x="142" y="52" class="s" text-anchor="middle">Persistent</text>
+<text x="142" y="62" class="s" text-anchor="middle">INCS 1st line</text>
+<rect x="10" y="78" width="80" height="42" fill="#f39c12" fill-opacity="0.15" stroke="#f39c12" stroke-width="1.5" rx="2"/>
+<text x="50" y="92" class="s" text-anchor="middle">Mod-Severe</text>
+<text x="50" y="102" class="s" text-anchor="middle">Intermittent</text>
+<text x="50" y="112" class="s" text-anchor="middle">INCS+AH</text>
+<rect x="98" y="78" width="88" height="42" fill="#e74c3c" fill-opacity="0.15" stroke="#e74c3c" stroke-width="2" rx="2"/>
+<text x="142" y="92" class="s" text-anchor="middle">Mod-Severe</text>
+<text x="142" y="102" class="s" text-anchor="middle">Persistent</text>
+<text x="142" y="112" class="s" text-anchor="middle">INCS+AH ± AIT</text>
+<text x="10" y="75" class="s">Mild</text>
+<text x="10" y="130" class="s">Mod-Sev</text>
+<text x="100" y="135" class="h" text-anchor="middle">Allergic Cascade</text>
+<circle cx="30" cy="162" r="14" fill="#3498db" fill-opacity="0.2" stroke="#3498db" stroke-width="1.5"/>
+<text x="30" y="160" class="s" text-anchor="middle">Aller-</text>
+<text x="30" y="169" class="s" text-anchor="middle">gen</text>
+<path d="M 44 162 L 56 162" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<polygon points="56,162 50,158 50,166" fill="var(--text)"/>
+<circle cx="72" cy="162" r="14" fill="var(--accent)" fill-opacity="0.2" stroke="var(--accent)" stroke-width="1.5"/>
+<text x="72" y="160" class="s" text-anchor="middle">IgE on</text>
+<text x="72" y="169" class="s" text-anchor="middle">mast</text>
+<path d="M 86 162 L 98 162" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<polygon points="98,162 92,158 92,166" fill="var(--text)"/>
+<circle cx="114" cy="162" r="14" fill="#f39c12" fill-opacity="0.2" stroke="#f39c12" stroke-width="1.5"/>
+<text x="114" y="160" class="s" text-anchor="middle">Degranu-</text>
+<text x="114" y="169" class="s" text-anchor="middle">lation</text>
+<path d="M 128 162 L 140 162" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<polygon points="140,162 134,158 134,166" fill="var(--text)"/>
+<circle cx="158" cy="162" r="18" fill="#e74c3c" fill-opacity="0.2" stroke="#e74c3c" stroke-width="1.5"/>
+<text x="158" y="158" class="s" text-anchor="middle">Hist.</text>
+<text x="158" y="167" class="s" text-anchor="middle">LT</text>
+<text x="158" y="176" class="s" text-anchor="middle">PG</text>
+<text x="100" y="205" class="t" text-anchor="middle" font-weight="bold">ARIA Criteria</text>
+<text x="10" y="215" class="s">Intermittent: &lt;4 days/wk OR &lt;4 weeks</text>
+<text x="10" y="225" class="s">Persistent: ≥4 days/wk AND ≥4 weeks</text>
+<text x="10" y="235" class="s">INCS = intranasal corticosteroid (1st line persistent)</text>
+<text x="10" y="245" class="s">AH = antihistamine | AIT = allergen immunotherapy</text>
+<text x="10" y="255" class="s">Acute bacterial rhinosinusitis Rx: amoxicillin 500mg TDS ×7d</text>
+<text x="10" y="265" class="s">if &gt;7-10 days no improvement/worsening after URTI</text>
+<text x="10" y="275" class="s">Chronic rhinosinusitis ≥12 wks; FESS if medical Rx fails</text>
+<text x="210" y="26" class="t">I   Periorbital cellulitis</text>
+<rect x="208" y="30" width="185" height="28" fill="#2ecc71" fill-opacity="0.15" stroke="#2ecc71" stroke-width="1" rx="2"/>
+<text x="212" y="42" class="s">Lid oedema, no proptosis → IV antibiotics</text>
+<text x="212" y="52" class="s">Preseptal — medial to orbital septum</text>
+<rect x="208" y="62" width="185" height="28" fill="#2ecc71" fill-opacity="0.2" stroke="#2ecc71" stroke-width="1" rx="2"/>
+<text x="210" y="72" class="t">II  Orbital cellulitis</text>
+<text x="212" y="82" class="s">Proptosis, restricted EOM → IV antibiotics</text>
+<rect x="208" y="94" width="185" height="28" fill="#f39c12" fill-opacity="0.2" stroke="#f39c12" stroke-width="1.5" rx="2"/>
+<text x="210" y="104" class="t">III  Subperiosteal abscess</text>
+<text x="212" y="114" class="s">Pus: periorbita ↔ orbital wall → drain</text>
+<rect x="208" y="126" width="185" height="28" fill="#e74c3c" fill-opacity="0.2" stroke="#e74c3c" stroke-width="2" rx="2"/>
+<text x="210" y="136" class="t">IV  Orbital abscess</text>
+<text x="212" y="146" class="s">Pus in orbital fat → urgent drain + Ophtho</text>
+<rect x="208" y="158" width="185" height="28" fill="#e74c3c" fill-opacity="0.35" stroke="#e74c3c" stroke-width="2" rx="2"/>
+<text x="210" y="168" class="t">V   Cavernous sinus thrombosis</text>
+<text x="212" y="178" class="s">Bilateral signs, meningism → ICU + IV abx</text>
+<ellipse cx="295" cy="220" rx="45" ry="35" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<ellipse cx="295" cy="220" rx="22" ry="20" fill="none" stroke="var(--text-dim)" stroke-width="1"/>
+<circle cx="295" cy="220" r="6" fill="var(--accent)" fill-opacity="0.4"/>
+<path d="M 250 220 L 208 220" fill="none" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="3,2"/>
+<text x="220" y="215" class="s" fill="#e74c3c">spread</text>
+<text x="295" y="270" class="s" text-anchor="middle">Orbital = sinusitis complication</text>
+<text x="295" y="280" class="s" text-anchor="middle">Commonest source: ethmoid sinus</text>
+<text x="295" y="290" class="s" text-anchor="middle">Pott\'s puffy tumour = frontal osteomyelitis</text>
+</svg>`,
+
+  'mbbs-ent-nasal-polyps-dns': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<line x1="200" y1="0" x2="200" y2="300" stroke="var(--border)" stroke-width="1"/>
+<text x="100" y="13" class="h" text-anchor="middle">Nasal Polyps</text>
+<text x="300" y="13" class="h" text-anchor="middle">Deviated Nasal Septum</text>
+<ellipse cx="82" cy="95" rx="68" ry="72" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 82 28 L 82 162" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 82 48 Q 108 52 118 68 Q 125 80 112 86 L 82 88" fill="var(--accent)" fill-opacity="0.3" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 82 100 Q 118 105 130 125 Q 138 140 122 145 L 82 143" fill="var(--accent)" fill-opacity="0.4" stroke="var(--accent)" stroke-width="1.5"/>
+<ellipse cx="102" cy="118" rx="12" ry="18" fill="var(--border)" fill-opacity="0.8" stroke="var(--text-dim)" stroke-width="1.5"/>
+<ellipse cx="108" cy="108" rx="10" ry="15" fill="var(--border)" fill-opacity="0.8" stroke="var(--text-dim)" stroke-width="1.5"/>
+<path d="M 108 90 L 104 103" fill="none" stroke="var(--text-dim)" stroke-width="1.5"/>
+<path d="M 110 90 L 108 93" fill="none" stroke="var(--text-dim)" stroke-width="1.5"/>
+<text x="130" y="108" class="s">Polyps</text>
+<text x="130" y="118" class="s">pale/grey</text>
+<text x="130" y="128" class="s">insensate</text>
+<text x="130" y="138" class="s">middle meatus</text>
+<text x="50" y="48" class="s">Sup turb</text>
+<text x="50" y="105" class="s">Mid turb</text>
+<text x="82" y="180" class="h" text-anchor="middle">Samter\'s Triad (AERD)</text>
+<circle cx="60" cy="220" r="22" fill="var(--accent)" fill-opacity="0.15" stroke="var(--accent)" stroke-width="1.5"/>
+<circle cx="105" cy="220" r="22" fill="#e74c3c" fill-opacity="0.15" stroke="#e74c3c" stroke-width="1.5"/>
+<circle cx="82" cy="248" r="22" fill="#f39c12" fill-opacity="0.15" stroke="#f39c12" stroke-width="1.5"/>
+<text x="60" y="218" class="s" text-anchor="middle">Nasal</text>
+<text x="60" y="228" class="s" text-anchor="middle">Polyps</text>
+<text x="105" y="218" class="s" text-anchor="middle">Asthma</text>
+<text x="82" y="248" class="s" text-anchor="middle" fill="#f39c12">Aspirin</text>
+<text x="82" y="258" class="s" text-anchor="middle" fill="#f39c12">NSAID ↑LT</text>
+<text x="82" y="278" class="s" text-anchor="middle">COX-1 inhib → leukotriene excess</text>
+<text x="82" y="288" class="s" text-anchor="middle">Dupilumab (anti-IL4/13) for recurrent CRSwNP</text>
+<text x="300" y="26" class="t" text-anchor="middle" font-weight="bold">DNS Cross-Sections (coronal)</text>
+<text x="232" y="45" class="s">Normal</text>
+<ellipse cx="250" cy="72" rx="26" ry="22" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<line x1="250" y1="50" x2="250" y2="94" stroke="var(--text)" stroke-width="2"/>
+<ellipse cx="250" cy="62" rx="12" ry="8" fill="var(--border)" fill-opacity="0.4" stroke="var(--text-dim)" stroke-width="1"/>
+<ellipse cx="250" cy="82" rx="12" ry="8" fill="var(--border)" fill-opacity="0.4" stroke="var(--text-dim)" stroke-width="1"/>
+<text x="340" y="45" class="s">Moderate DNS</text>
+<ellipse cx="355" cy="72" rx="26" ry="22" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 355 50 Q 362 62 358 74 Q 354 84 355 94" fill="none" stroke="#e74c3c" stroke-width="2.5"/>
+<ellipse cx="342" cy="62" rx="10" ry="8" fill="var(--border)" fill-opacity="0.3" stroke="var(--text-dim)" stroke-width="1"/>
+<ellipse cx="366" cy="80" rx="15" ry="8" fill="var(--border)" fill-opacity="0.5" stroke="var(--text-dim)" stroke-width="1"/>
+<text x="232" y="108" class="s">Severe DNS</text>
+<ellipse cx="250" cy="135" rx="26" ry="22" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 250 113 Q 264 120 268 132 Q 270 144 250 157" fill="none" stroke="#e74c3c" stroke-width="3"/>
+<ellipse cx="235" cy="124" rx="8" ry="7" fill="var(--border)" fill-opacity="0.3" stroke="var(--text-dim)" stroke-width="1"/>
+<ellipse cx="260" cy="145" rx="17" ry="8" fill="var(--border)" fill-opacity="0.6" stroke="var(--text-dim)" stroke-width="1"/>
+<text x="340" y="108" class="s">SMR L-strut</text>
+<rect x="316" y="112" width="68" height="45" fill="var(--border)" fill-opacity="0.3" stroke="var(--text)" stroke-width="1.5" rx="2"/>
+<rect x="316" y="112" width="8" height="45" fill="var(--accent)" fill-opacity="0.4" stroke="var(--accent)" stroke-width="1"/>
+<rect x="316" y="154" width="68" height="8" fill="var(--accent)" fill-opacity="0.4" stroke="var(--accent)" stroke-width="1"/>
+<path d="M 324 124 L 384 124 L 384 154 L 334 154" fill="none" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="3,2"/>
+<text x="350" y="140" class="s" fill="#e74c3c">Resected</text>
+<text x="350" y="150" class="s" fill="#e74c3c">area</text>
+<text x="322" y="172" class="s">L-strut: dorsal+caudal strips</text>
+<text x="322" y="182" class="s">preserved → no saddle deformity</text>
+<text x="210" y="210" class="t" font-weight="bold">Septoplasty vs SMR:</text>
+<text x="210" y="222" class="s">Septoplasty (modern): preserves cartilage, scores/repositions → preferred</text>
+<text x="210" y="232" class="s">SMR (Killian\'s): removes cartilage subperichondrially, L-strut left; saddle risk</text>
+<text x="210" y="244" class="t" font-weight="bold">Polyp exam: pale/grey, insensate, won\'t blanch with decongest.</text>
+<text x="210" y="256" class="s">vs turbinate: pink, sensitive, shrinks with decongestant</text>
+<text x="210" y="268" class="s">Unilateral polyp in adult → BIOPSY (malignancy/inverted papilloma)</text>
+<text x="210" y="280" class="s">Unilateral in child → antrochoanal polyp (Killian\'s — from maxillary sinus)</text>
+</svg>`,
+
+  'mbbs-ent-tonsils-adenoids': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<line x1="200" y1="0" x2="200" y2="300" stroke="var(--border)" stroke-width="1"/>
+<text x="100" y="13" class="h" text-anchor="middle">Waldeyer\'s Ring</text>
+<text x="300" y="13" class="h" text-anchor="middle">Tonsil Grading + Quinsy</text>
+<ellipse cx="100" cy="95" rx="75" ry="65" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<ellipse cx="100" cy="38" rx="28" ry="18" fill="var(--accent)" fill-opacity="0.3" stroke="var(--accent)" stroke-width="2"/>
+<text x="100" y="35" class="s" text-anchor="middle">Adenoid</text>
+<text x="100" y="45" class="s" text-anchor="middle">(nasopharyngeal)</text>
+<ellipse cx="58" cy="95" rx="20" ry="26" fill="var(--accent)" fill-opacity="0.4" stroke="var(--accent)" stroke-width="2"/>
+<ellipse cx="142" cy="95" rx="20" ry="26" fill="var(--accent)" fill-opacity="0.4" stroke="var(--accent)" stroke-width="2"/>
+<text x="30" y="93" class="s">Palatine</text>
+<text x="30" y="103" class="s">tonsil</text>
+<text x="155" y="93" class="s">Palatine</text>
+<text x="155" y="103" class="s">tonsil</text>
+<path d="M 75 120 Q 100 130 125 120" fill="var(--text-dim)" fill-opacity="0.3" stroke="var(--text-dim)" stroke-width="1.5"/>
+<ellipse cx="100" cy="148" rx="18" ry="12" fill="var(--accent)" fill-opacity="0.2" stroke="var(--text-dim)" stroke-width="1.5"/>
+<text x="100" y="148" class="s" text-anchor="middle">Lingual tonsil</text>
+<path d="M 68 75 Q 58 65 48 60" fill="none" stroke="var(--text-dim)" stroke-width="1.5"/>
+<text x="20" y="60" class="s">Lat. pharyngeal</text>
+<text x="20" y="70" class="s">bands</text>
+<text x="100" y="180" class="h" text-anchor="middle">Quinsy (Peritonsillar Abscess)</text>
+<ellipse cx="100" cy="225" rx="70" ry="48" fill="var(--border)" fill-opacity="0.15" stroke="var(--text)" stroke-width="1.5"/>
+<ellipse cx="72" cy="215" rx="20" ry="26" fill="var(--accent)" fill-opacity="0.3" stroke="var(--accent)" stroke-width="1.5"/>
+<ellipse cx="128" cy="215" rx="20" ry="26" fill="var(--accent)" fill-opacity="0.3" stroke="var(--accent)" stroke-width="1.5"/>
+<ellipse cx="82" cy="198" rx="28" ry="18" fill="#e74c3c" fill-opacity="0.3" stroke="#e74c3c" stroke-width="2"/>
+<path d="M 100 198 Q 118 200 122 208" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 100 198 Q 104 195 115 195" fill="none" stroke="var(--text)" stroke-width="2"/>
+<text x="58" y="195" class="s" text-anchor="middle" fill="#e74c3c">Quinsy</text>
+<text x="58" y="205" class="s" text-anchor="middle" fill="#e74c3c">L side</text>
+<text x="140" y="200" class="s">Uvula displaced</text>
+<text x="140" y="210" class="s">to R (contralat.)</text>
+<text x="100" y="288" class="s" text-anchor="middle">Trismus + hot potato voice + uvula displaced</text>
+<text x="210" y="26" class="t" font-weight="bold">Tonsil Grading (Brodsky)</text>
+<ellipse cx="242" cy="62" rx="26" ry="22" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<ellipse cx="228" cy="62" rx="10" ry="14" fill="var(--accent)" fill-opacity="0.3" stroke="var(--accent)" stroke-width="1.5"/>
+<ellipse cx="256" cy="62" rx="10" ry="14" fill="var(--accent)" fill-opacity="0.3" stroke="var(--accent)" stroke-width="1.5"/>
+<text x="242" y="95" class="s" text-anchor="middle">Grade 1</text>
+<text x="242" y="105" class="s" text-anchor="middle">&lt;25% airway</text>
+<ellipse cx="310" cy="62" rx="26" ry="22" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<ellipse cx="296" cy="62" rx="14" ry="16" fill="var(--accent)" fill-opacity="0.4" stroke="var(--accent)" stroke-width="1.5"/>
+<ellipse cx="324" cy="62" rx="14" ry="16" fill="var(--accent)" fill-opacity="0.4" stroke="var(--accent)" stroke-width="1.5"/>
+<text x="310" y="95" class="s" text-anchor="middle">Grade 2</text>
+<text x="310" y="105" class="s" text-anchor="middle">25-50%</text>
+<ellipse cx="242" cy="148" rx="26" ry="22" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<ellipse cx="228" cy="148" rx="18" ry="20" fill="var(--accent)" fill-opacity="0.5" stroke="var(--accent)" stroke-width="1.5"/>
+<ellipse cx="256" cy="148" rx="18" ry="20" fill="var(--accent)" fill-opacity="0.5" stroke="var(--accent)" stroke-width="1.5"/>
+<text x="242" y="181" class="s" text-anchor="middle">Grade 3</text>
+<text x="242" y="191" class="s" text-anchor="middle">50-75%</text>
+<ellipse cx="310" cy="148" rx="26" ry="22" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<ellipse cx="310" cy="148" rx="24" ry="20" fill="var(--accent)" fill-opacity="0.6" stroke="#e74c3c" stroke-width="2"/>
+<line x1="310" y1="128" x2="310" y2="168" stroke="var(--text)" stroke-width="2"/>
+<text x="310" y="181" class="s" text-anchor="middle">Grade 4 (kissing)</text>
+<text x="310" y="191" class="s" text-anchor="middle">&gt;75% airway</text>
+<text x="210" y="210" class="t" font-weight="bold">Tonsillectomy Indications (Paradise)</text>
+<text x="212" y="222" class="s">≥7 sore throats/year  OR  ≥5/yr × 2 yrs  OR  ≥3/yr × 3 yrs</text>
+<text x="212" y="232" class="s">Obstructive sleep apnoea (OSA) — absolute indication</text>
+<text x="212" y="242" class="s">Quinsy (interval tonsillectomy 6-8 wks after drainage)</text>
+<text x="210" y="255" class="t" font-weight="bold">Adenoid effects:</text>
+<text x="212" y="267" class="s">Nasal obstruct, hyponasal speech, glue ear, adenoid facies</text>
+<text x="212" y="278" class="s">Lateral SXR: adenoid pad:airway ratio</text>
+<text x="212" y="289" class="s">Rx: adenoidectomy ± grommets</text>
+</svg>`,
+
+  'mbbs-ent-pharyngitis-laryngitis': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<line x1="200" y1="0" x2="200" y2="300" stroke="var(--border)" stroke-width="1"/>
+<text x="100" y="13" class="h" text-anchor="middle">Retropharyngeal Abscess</text>
+<text x="300" y="13" class="h" text-anchor="middle">Ludwig Angina + Centor</text>
+<rect x="55" y="22" width="90" height="155" fill="var(--border)" fill-opacity="0.2" stroke="var(--text)" stroke-width="2" rx="3"/>
+<text x="100" y="36" class="s" text-anchor="middle">Vertebral</text>
+<text x="100" y="46" class="s" text-anchor="middle">bodies</text>
+<line x1="55" y1="62" x2="145" y2="62" stroke="var(--text)" stroke-width="1.5"/>
+<line x1="55" y1="108" x2="145" y2="108" stroke="var(--text)" stroke-width="1.5"/>
+<line x1="55" y1="154" x2="145" y2="154" stroke="var(--text)" stroke-width="1.5"/>
+<rect x="15" y="22" width="40" height="155" fill="var(--border)" fill-opacity="0.1" stroke="var(--text-dim)" stroke-width="1" rx="2"/>
+<path d="M 15 22 L 15 177 Q 12 200 10 230" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 15 22 Q 5 90 10 177" fill="none" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="3,2"/>
+<text x="5" y="108" class="s" text-anchor="middle" transform="rotate(-90 5 108)">Pharynx</text>
+<path d="M 14 55 L 14 145" fill="none" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="2,2"/>
+<rect x="16" y="35" width="38" height="50" fill="#e74c3c" fill-opacity="0.2" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="3,2" rx="2"/>
+<text x="35" y="55" class="s" text-anchor="middle" fill="#e74c3c">Retro-</text>
+<text x="35" y="65" class="s" text-anchor="middle" fill="#e74c3c">pharyngeal</text>
+<text x="35" y="75" class="s" text-anchor="middle" fill="#e74c3c">space</text>
+<ellipse cx="35" cy="50" rx="14" ry="12" fill="#e74c3c" fill-opacity="0.3" stroke="#e74c3c" stroke-width="2"/>
+<text x="35" y="47" class="s" text-anchor="middle" fill="#e74c3c">Abscess</text>
+<text x="35" y="57" class="s" text-anchor="middle">bulge</text>
+<text x="100" y="195" class="s" text-anchor="middle">Retropharyngeal abscess:</text>
+<text x="100" y="205" class="s" text-anchor="middle">neck stiffness, drooling, stridor</text>
+<text x="100" y="215" class="s" text-anchor="middle">CT neck → transoral drainage</text>
+<text x="100" y="225" class="s" text-anchor="middle">Risk: mediastinitis / Lemierre</text>
+<path d="M 100 62 Q 115 68 130 62" fill="var(--border)" fill-opacity="0.5" stroke="var(--text)" stroke-width="1.5"/>
+<text x="100" y="248" class="h" text-anchor="middle">Ludwig Angina</text>
+<path d="M 30 265 Q 100 258 170 265" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 30 265 Q 18 272 20 282" fill="none" stroke="var(--text-dim)" stroke-width="1.5"/>
+<path d="M 170 265 Q 182 272 180 282" fill="none" stroke="var(--text-dim)" stroke-width="1.5"/>
+<ellipse cx="100" cy="276" rx="50" ry="12" fill="#e74c3c" fill-opacity="0.2" stroke="#e74c3c" stroke-width="1.5"/>
+<ellipse cx="100" cy="270" rx="30" ry="8" fill="#e74c3c" fill-opacity="0.3" stroke="#e74c3c" stroke-width="1.5"/>
+<text x="100" y="272" class="s" text-anchor="middle" fill="#e74c3c">Floor of mouth</text>
+<text x="100" y="293" class="s" text-anchor="middle">Bilateral submandibular: airway emergency, IV pen+metronidazole</text>
+<text x="210" y="26" class="t" font-weight="bold">Centor (McIsaac) Score</text>
+<rect x="208" y="30" width="185" height="88" fill="var(--border)" fill-opacity="0.1" rx="3"/>
+<rect x="208" y="30" width="185" height="14" fill="var(--accent)" fill-opacity="0.3"/>
+<text x="212" y="41" class="s" font-weight="bold">Criterion (+1 each)</text><text x="370" y="41" class="s" text-anchor="end">Score</text>
+<line x1="208" y1="44" x2="393" y2="44" stroke="var(--border)" stroke-width="0.5"/>
+<text x="212" y="54" class="s">Tonsillar exudate</text><text x="390" y="54" class="s" text-anchor="end">+1</text>
+<text x="212" y="64" class="s">Tender ant. cervical LN</text><text x="390" y="64" class="s" text-anchor="end">+1</text>
+<text x="212" y="74" class="s">Fever &gt;38°C</text><text x="390" y="74" class="s" text-anchor="end">+1</text>
+<text x="212" y="84" class="s">No cough</text><text x="390" y="84" class="s" text-anchor="end">+1</text>
+<text x="212" y="94" class="s">Age 3-14 (+1) / Age &gt;45 (-1)</text><text x="390" y="94" class="s" text-anchor="end">±1</text>
+<text x="212" y="104" class="s">Score 0-1: no Abx | 2-3: swab | 4-5: penicillin V 10d</text>
+<text x="210" y="132" class="t" font-weight="bold">EBV (Glandular Fever)</text>
+<rect x="208" y="136" width="185" height="55" fill="#f39c12" fill-opacity="0.1" stroke="#f39c12" stroke-width="1.5" rx="3"/>
+<text x="212" y="148" class="s">Exudative tonsillitis + lymphadenopathy</text>
+<text x="212" y="158" class="s">+ splenomegaly + atypical lymphocytes</text>
+<text x="212" y="168" class="s" fill="#e74c3c" font-weight="bold">AVOID amoxicillin → maculopapular rash 80%</text>
+<text x="212" y="178" class="s">Monospot / Paul-Bunnell heterophile Ab test</text>
+<text x="212" y="188" class="s">No contact sports × 3-4 wks (spleen rupture)</text>
+<text x="210" y="207" class="t" font-weight="bold">Acute Epiglottitis</text>
+<rect x="208" y="210" width="185" height="55" fill="#e74c3c" fill-opacity="0.1" stroke="#e74c3c" stroke-width="2" rx="3"/>
+<text x="212" y="222" class="s">H. influenzae Hib (adults: Group A Strep)</text>
+<text x="212" y="232" class="s">Tripod posture, drooling, toxic, muffled voice</text>
+<text x="212" y="242" class="s" fill="#e74c3c">DO NOT examine throat → precipitates obstruct.</text>
+<text x="212" y="252" class="s">Secure airway under GA in theatre first</text>
+<text x="212" y="262" class="s">Thumbprint sign on lateral neck X-ray</text>
+</svg>`,
+
+  'mbbs-ent-hoarseness-vocal': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="13" class="h" text-anchor="middle">Laryngoscopy Views — Vocal Cord Disorders</text>
+<line x1="200" y1="17" x2="200" y2="175" stroke="var(--border)" stroke-width="1"/>
+<line x1="0" y1="175" x2="400" y2="175" stroke="var(--border)" stroke-width="1"/>
+<text x="100" y="27" class="t" text-anchor="middle">Normal (inspiration)</text>
+<text x="300" y="27" class="t" text-anchor="middle">Vocal Cord Polyp (unilateral)</text>
+<text x="100" y="187" class="t" text-anchor="middle">Vocal Cord Nodules (bilateral)</text>
+<text x="300" y="187" class="t" text-anchor="middle">Unilateral RLN Palsy (paramedian)</text>
+<circle cx="100" cy="100" r="60" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 58 80 Q 100 60 142 80 L 100 120 Z" fill="var(--accent)" fill-opacity="0.1" stroke="var(--accent)" stroke-width="1.5"/>
+<path d="M 60 100 Q 78 120 100 125 Q 122 120 140 100" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 60 100 Q 78 80 100 75 Q 122 80 140 100" fill="none" stroke="var(--text)" stroke-width="2"/>
+<circle cx="62" cy="100" r="5" fill="var(--border)" fill-opacity="0.7" stroke="var(--text)" stroke-width="1"/>
+<circle cx="138" cy="100" r="5" fill="var(--border)" fill-opacity="0.7" stroke="var(--text)" stroke-width="1"/>
+<path d="M 68 75 Q 100 50 132 75" fill="var(--border)" fill-opacity="0.5" stroke="var(--text)" stroke-width="1.5"/>
+<text x="100" y="150" class="s" text-anchor="middle">Cords abducted</text>
+<text x="100" y="160" class="s" text-anchor="middle">Open glottic chink</text>
+<circle cx="300" cy="100" r="60" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 260 100 Q 278 120 300 125 Q 322 120 340 100" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 260 100 Q 278 80 300 75 Q 322 80 340 100" fill="none" stroke="var(--text)" stroke-width="2"/>
+<circle cx="262" cy="100" r="5" fill="var(--border)" fill-opacity="0.7" stroke="var(--text)" stroke-width="1"/>
+<circle cx="338" cy="100" r="5" fill="var(--border)" fill-opacity="0.7" stroke="var(--text)" stroke-width="1"/>
+<path d="M 268 75 Q 300 50 332 75" fill="var(--border)" fill-opacity="0.5" stroke="var(--text)" stroke-width="1.5"/>
+<ellipse cx="285" cy="92" rx="10" ry="7" fill="#e74c3c" fill-opacity="0.7" stroke="#e74c3c" stroke-width="1.5"/>
+<text x="300" y="150" class="s" text-anchor="middle">Unilateral polyp L cord</text>
+<text x="300" y="160" class="s" text-anchor="middle">ant 1/3; microlaryngoscopy excise</text>
+<circle cx="100" cy="240" r="60" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 60 240 Q 78 260 100 265 Q 122 260 140 240" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 60 240 Q 78 220 100 215 Q 122 220 140 240" fill="none" stroke="var(--text)" stroke-width="2"/>
+<circle cx="62" cy="240" r="5" fill="var(--border)" fill-opacity="0.7" stroke="var(--text)" stroke-width="1"/>
+<circle cx="138" cy="240" r="5" fill="var(--border)" fill-opacity="0.7" stroke="var(--text)" stroke-width="1"/>
+<path d="M 68 215 Q 100 190 132 215" fill="var(--border)" fill-opacity="0.5" stroke="var(--text)" stroke-width="1.5"/>
+<circle cx="92" cy="228" r="5" fill="#f39c12" fill-opacity="0.9" stroke="#f39c12" stroke-width="1.5"/>
+<circle cx="108" cy="228" r="5" fill="#f39c12" fill-opacity="0.9" stroke="#f39c12" stroke-width="1.5"/>
+<text x="100" y="292" class="s" text-anchor="middle">Bilateral nodes ant 1/3 junction</text>
+<circle cx="300" cy="240" r="60" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 260 240 Q 278 260 300 265 Q 322 260 340 240" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 260 240 Q 270 228 285 222 Q 295 218 300 215" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 300 215 Q 318 220 335 235 Q 340 240 340 240" fill="none" stroke="var(--text-dim)" stroke-width="2" stroke-dasharray="3,2"/>
+<circle cx="262" cy="240" r="5" fill="var(--border)" fill-opacity="0.7" stroke="var(--text)" stroke-width="1"/>
+<circle cx="338" cy="240" r="5" fill="var(--border)" fill-opacity="0.7" stroke="var(--text)" stroke-width="1"/>
+<path d="M 268 215 Q 300 190 332 215" fill="var(--border)" fill-opacity="0.5" stroke="var(--text)" stroke-width="1.5"/>
+<text x="300" y="292" class="s" text-anchor="middle">L cord paramedian (dashed)</text>
+<rect x="0" y="176" width="400" height="10" fill="var(--border)" fill-opacity="0.1"/>
+<rect x="0" y="290" width="400" height="10" fill="var(--border)" fill-opacity="0.1"/>
+<text x="8" y="298" class="s">Hoarseness &gt;3 wks in smoker/drinker &gt;50 yrs = malignancy till proven. L RLN palsy: bovine cough + paramedian cord</text>
+</svg>`,
+
+  'mbbs-ent-laryngeal-carcinoma': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<line x1="185" y1="0" x2="185" y2="300" stroke="var(--border)" stroke-width="1"/>
+<text x="92" y="13" class="h" text-anchor="middle">Larynx — Subregions</text>
+<text x="292" y="13" class="h" text-anchor="middle">TNM + Treatment</text>
+<rect x="55" y="22" width="115" height="45" fill="#3498db" fill-opacity="0.15" stroke="#3498db" stroke-width="1.5" rx="3"/>
+<text x="112" y="38" class="t" text-anchor="middle" fill="#3498db">SUPRAGLOTTIS</text>
+<text x="112" y="50" class="s" text-anchor="middle">Epiglottis, aryepiglottic folds</text>
+<text x="112" y="61" class="s" text-anchor="middle">False vocal cords, arytenoids</text>
+<path d="M 55 67 Q 72 72 85 68 L 85 80 Q 72 84 55 80 Z" fill="var(--border)" fill-opacity="0.5" stroke="var(--text-dim)" stroke-width="1"/>
+<path d="M 170 67 Q 153 72 140 68 L 140 80 Q 153 84 170 80 Z" fill="var(--border)" fill-opacity="0.5" stroke="var(--text-dim)" stroke-width="1"/>
+<text x="30" y="77" class="s">False</text>
+<text x="30" y="87" class="s">cords</text>
+<rect x="55" y="80" width="115" height="32" fill="var(--accent)" fill-opacity="0.2" stroke="var(--accent)" stroke-width="2" rx="2"/>
+<path d="M 55 93 Q 72 86 85 90 L 85 108 Q 72 112 55 108 Z" fill="var(--accent)" fill-opacity="0.5" stroke="var(--accent)" stroke-width="1.5"/>
+<path d="M 170 93 Q 153 86 140 90 L 140 108 Q 153 112 170 108 Z" fill="var(--accent)" fill-opacity="0.5" stroke="var(--accent)" stroke-width="1.5"/>
+<text x="112" y="98" class="t" text-anchor="middle" fill="var(--accent)">GLOTTIS (TRUE CORDS)</text>
+<text x="112" y="108" class="s" text-anchor="middle">65% of laryngeal carcinomas</text>
+<text x="30" y="100" class="s">True</text>
+<text x="30" y="110" class="s">cords</text>
+<rect x="55" y="115" width="115" height="40" fill="#e74c3c" fill-opacity="0.12" stroke="#e74c3c" stroke-width="1.5" rx="3"/>
+<text x="112" y="131" class="t" text-anchor="middle" fill="#e74c3c">SUBGLOTTIS</text>
+<text x="112" y="141" class="s" text-anchor="middle">Below true cords to</text>
+<text x="112" y="151" class="s" text-anchor="middle">inferior cricoid. Rare 5%.</text>
+<path d="M 55 155 Q 70 185 112 195 Q 154 185 170 155" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 70 155 L 80 175 L 145 175 L 155 155" fill="var(--border)" fill-opacity="0.3" stroke="var(--text)" stroke-width="1.5"/>
+<text x="112" y="172" class="s" text-anchor="middle">Cricoid</text>
+<text x="30" y="140" class="s">Thyroid</text>
+<text x="30" y="150" class="s">cartilage</text>
+<path d="M 55 22 L 55 155" fill="none" stroke="var(--text-dim)" stroke-width="1"/>
+<path d="M 170 22 L 170 155" fill="none" stroke="var(--text-dim)" stroke-width="1"/>
+<text x="92" y="210" class="s" text-anchor="middle">Glottic: early hoarseness, sparse lymphatics → favourable</text>
+<text x="92" y="220" class="s" text-anchor="middle">Supraglottic: early nodal spread (rich lymphatics)</text>
+<text x="92" y="230" class="s" text-anchor="middle">Risk factors: Smoking ×10-15; Alcohol (synergistic ×35)</text>
+<text x="92" y="240" class="s" text-anchor="middle">T3=cord fixity; T4=cartilage invasion/extralaryngeal</text>
+<text x="200" y="26" class="t" font-weight="bold">T Staging</text>
+<rect x="190" y="30" width="200" height="13" fill="var(--accent)" fill-opacity="0.3" rx="2"/>
+<text x="194" y="40" class="s">T1: 1 subsite, normal mobility — T2: adj subsite</text>
+<rect x="190" y="45" width="200" height="13" fill="var(--border)" fill-opacity="0.2" rx="2"/>
+<text x="194" y="55" class="s">T3: cord fixity — T4: thyroid cartilage/extralaryngeal</text>
+<text x="200" y="73" class="t" font-weight="bold">Nodal Levels (neck)</text>
+<circle cx="220" cy="105" r="8" fill="var(--accent)" fill-opacity="0.3" stroke="var(--accent)" stroke-width="1.5"/>
+<circle cx="240" cy="92" r="8" fill="var(--accent)" fill-opacity="0.3" stroke="var(--accent)" stroke-width="1.5"/>
+<circle cx="260" cy="95" r="8" fill="var(--accent)" fill-opacity="0.3" stroke="var(--accent)" stroke-width="1.5"/>
+<circle cx="278" cy="105" r="8" fill="var(--accent)" fill-opacity="0.3" stroke="var(--accent)" stroke-width="1.5"/>
+<circle cx="290" cy="120" r="8" fill="var(--border)" fill-opacity="0.5" stroke="var(--text-dim)" stroke-width="1.5"/>
+<text x="220" y="125" class="s" text-anchor="middle">I</text>
+<text x="240" y="112" class="s" text-anchor="middle">IIa</text>
+<text x="260" y="115" class="s" text-anchor="middle">III</text>
+<text x="278" y="125" class="s" text-anchor="middle">IV</text>
+<text x="290" y="140" class="s" text-anchor="middle">V</text>
+<text x="200" y="158" class="t" font-weight="bold">Treatment</text>
+<rect x="190" y="162" width="200" height="13" fill="#2ecc71" fill-opacity="0.2" rx="2"/>
+<text x="194" y="172" class="s">T1-2 glottic N0: Radiotherapy (60-66Gy) OR TLM laser</text>
+<rect x="190" y="178" width="200" height="13" fill="#f39c12" fill-opacity="0.2" rx="2"/>
+<text x="194" y="188" class="s">T3 N0: concurrent CRT (cisplatin+RT) = organ preservation</text>
+<rect x="190" y="194" width="200" height="13" fill="#e74c3c" fill-opacity="0.2" rx="2"/>
+<text x="194" y="204" class="s">T4 / failed CRT: total laryngectomy + neck dissection</text>
+<rect x="190" y="215" width="200" height="80" fill="var(--border)" fill-opacity="0.15" rx="3"/>
+<text x="194" y="226" class="t" font-weight="bold">Voice after laryngectomy:</text>
+<text x="194" y="238" class="s">TEP (Blom-Singer) = gold standard (80-90%)</text>
+<text x="194" y="248" class="s">Oesophageal speech (swallow air)</text>
+<text x="194" y="258" class="s">Electrolarynx (handheld vibrator)</text>
+<text x="194" y="270" class="s">Supraglottic SCC: rich bilateral lymphatics</text>
+<text x="194" y="280" class="s">→ 40-55% have nodes at presentation</text>
+<text x="194" y="290" class="s">Glottic: N0 in 65% → T1 5-yr &gt;90%</text>
+</svg>`,
+
+  'mbbs-ent-neck-swellings': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<line x1="185" y1="0" x2="185" y2="300" stroke="var(--border)" stroke-width="1"/>
+<text x="92" y="13" class="h" text-anchor="middle">Neck Anatomy + Swellings</text>
+<text x="292" y="13" class="h" text-anchor="middle">Classification + Key Features</text>
+<path d="M 30 22 Q 92 15 154 22 L 165 200 Q 92 215 19 200 Z" fill="var(--border)" fill-opacity="0.15" stroke="var(--text)" stroke-width="2"/>
+<path d="M 45 22 L 140 200" stroke="var(--text)" stroke-width="2"/>
+<path d="M 140 22 L 45 200" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="3,2"/>
+<text x="58" y="80" class="s">Anterior</text>
+<text x="58" y="90" class="s">triangle</text>
+<text x="112" y="80" class="s">Posterior</text>
+<text x="112" y="90" class="s">triangle</text>
+<circle cx="92" cy="38" r="10" fill="#3498db" fill-opacity="0.4" stroke="#3498db" stroke-width="2"/>
+<text x="92" y="35" class="s" text-anchor="middle" fill="#3498db">TG</text>
+<text x="92" y="45" class="s" text-anchor="middle">cyst</text>
+<path d="M 92 28 L 92 20 L 88 16" fill="none" stroke="#3498db" stroke-width="1.5"/>
+<circle cx="65" cy="125" r="12" fill="var(--accent)" fill-opacity="0.4" stroke="var(--accent)" stroke-width="2"/>
+<text x="65" y="122" class="s" text-anchor="middle">Bran-</text>
+<text x="65" y="132" class="s" text-anchor="middle">chial</text>
+<circle cx="130" cy="100" r="14" fill="#2ecc71" fill-opacity="0.4" stroke="#2ecc71" stroke-width="2"/>
+<text x="130" y="97" class="s" text-anchor="middle">Cystic</text>
+<text x="130" y="107" class="s" text-anchor="middle">hygroma</text>
+<circle cx="75" cy="165" r="7" fill="var(--text-dim)" fill-opacity="0.5" stroke="var(--text-dim)" stroke-width="1.5"/>
+<circle cx="88" cy="155" r="6" fill="var(--text-dim)" fill-opacity="0.5" stroke="var(--text-dim)" stroke-width="1.5"/>
+<circle cx="100" cy="165" r="7" fill="var(--text-dim)" fill-opacity="0.5" stroke="var(--text-dim)" stroke-width="1.5"/>
+<text x="88" y="180" class="s" text-anchor="middle">Lymph nodes</text>
+<circle cx="30" cy="200" r="10" fill="#e74c3c" fill-opacity="0.4" stroke="#e74c3c" stroke-width="2"/>
+<text x="30" y="197" class="s" text-anchor="middle" fill="#e74c3c">Virch-</text>
+<text x="30" y="207" class="s" text-anchor="middle" fill="#e74c3c">ow</text>
+<text x="8" y="222" class="s">Left supraclavicular</text>
+<text x="8" y="232" class="s">→ GI malignancy</text>
+<text x="8" y="242" class="s">(thoracic duct)</text>
+<text x="8" y="260" class="s">Rule of 80s (adults &gt;40 yrs):</text>
+<text x="8" y="270" class="s">80% lateral neck masses = malignant</text>
+<text x="8" y="280" class="s">80% malignant = metastatic SCC</text>
+<rect x="192" y="20" width="200" height="50" fill="#3498db" fill-opacity="0.1" stroke="#3498db" stroke-width="1.5" rx="3"/>
+<text x="292" y="32" class="t" text-anchor="middle" fill="#3498db">MIDLINE SWELLINGS</text>
+<text x="196" y="44" class="s">Thyroglossal cyst: moves on swallow + tongue protrus.</text>
+<text x="196" y="54" class="s">Rx: Sistrunk op (cyst+hyoid body+tract to foramen caecum)</text>
+<rect x="192" y="75" width="200" height="55" fill="var(--accent)" fill-opacity="0.1" stroke="var(--accent)" stroke-width="1.5" rx="3"/>
+<text x="292" y="87" class="t" text-anchor="middle">LATERAL SWELLINGS</text>
+<text x="196" y="99" class="s">Branchial cyst: ant. SCM upper-mid 1/3; cholesterol crystals</text>
+<text x="196" y="109" class="s">Adults &gt;40: exclude cystic SCC met (tonsil/tongue base HPV)</text>
+<text x="196" y="119" class="s">Cystic hygroma: post. triangle; transilluminates; present birth</text>
+<rect x="192" y="135" width="200" height="42" fill="#2ecc71" fill-opacity="0.1" stroke="#2ecc71" stroke-width="1.5" rx="3"/>
+<text x="292" y="147" class="t" text-anchor="middle">LYMPH NODE MASS</text>
+<text x="196" y="159" class="s">USS+FNAC first; CT neck+thorax; panendoscopy if SCC met</text>
+<text x="196" y="169" class="s">LN levels I-VI; EBV/TB/lymphoma/metastasis</text>
+<rect x="192" y="182" width="200" height="28" fill="#e74c3c" fill-opacity="0.15" stroke="#e74c3c" stroke-width="2" rx="3"/>
+<text x="292" y="194" class="t" text-anchor="middle" fill="#e74c3c">Virchow\'s Node</text>
+<text x="196" y="204" class="s">L supraclavicular; GI cancer (Troisier\'s sign)</text>
+<rect x="192" y="215" width="200" height="80" fill="var(--border)" fill-opacity="0.15" rx="3"/>
+<text x="292" y="227" class="t" text-anchor="middle">Clinical Signs — Diagnosis</text>
+<text x="196" y="239" class="s">Moves on swallow only → thyroid/thyroglossal</text>
+<text x="196" y="249" class="s">Swallow + tongue protrusion → thyroglossal (only)</text>
+<text x="196" y="259" class="s">Transilluminates → cystic hygroma/branchial cyst</text>
+<text x="196" y="269" class="s">Hard non-tender → malignancy</text>
+<text x="196" y="279" class="s">Hot tender → infective lymphadenitis / abscess</text>
+<text x="196" y="289" class="s">Pulsatile → carotid body tumour / aneurysm</text>
+</svg>`,
+
+  'mbbs-ent-airway-emergencies': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<line x1="200" y1="0" x2="200" y2="170" stroke="var(--border)" stroke-width="1"/>
+<line x1="0" y1="170" x2="400" y2="170" stroke="var(--border)" stroke-width="1"/>
+<text x="100" y="13" class="h" text-anchor="middle">Croup vs Epiglottitis</text>
+<text x="300" y="13" class="h" text-anchor="middle">Heimlich + Cricothyrotomy</text>
+<rect x="5" y="18" width="190" height="145" fill="var(--border)" fill-opacity="0.1" rx="2"/>
+<rect x="5" y="18" width="190" height="14" fill="var(--accent)" fill-opacity="0.3" rx="2"/>
+<text x="52" y="29" class="s" text-anchor="middle" font-weight="bold">Croup</text><text x="148" y="29" class="s" text-anchor="middle" font-weight="bold">Epiglottitis</text>
+<line x1="5" y1="32" x2="195" y2="32" stroke="var(--border)" stroke-width="0.5"/>
+<line x1="100" y1="18" x2="100" y2="163" stroke="var(--border)" stroke-width="0.5"/>
+<text x="8" y="41" class="s" fill="var(--text-dim)">Age</text><text x="52" y="41" class="s" text-anchor="middle">6m-3 yr</text><text x="148" y="41" class="s" text-anchor="middle">2-7 yr (adults too)</text>
+<line x1="5" y1="44" x2="195" y2="44" stroke="var(--border)" stroke-width="0.5"/>
+<text x="8" y="53" class="s" fill="var(--text-dim)">Onset</text><text x="52" y="53" class="s" text-anchor="middle">Gradual</text><text x="148" y="53" class="s" text-anchor="middle">Sudden (&lt;24h)</text>
+<line x1="5" y1="56" x2="195" y2="56" stroke="var(--border)" stroke-width="0.5"/>
+<text x="8" y="65" class="s" fill="var(--text-dim)">Fever</text><text x="52" y="65" class="s" text-anchor="middle">Low (38°C)</text><text x="148" y="65" class="s" text-anchor="middle">High (39-40°C)</text>
+<line x1="5" y1="68" x2="195" y2="68" stroke="var(--border)" stroke-width="0.5"/>
+<text x="8" y="77" class="s" fill="var(--text-dim)">Cough</text><text x="52" y="77" class="s" text-anchor="middle">Barking seal</text><text x="148" y="77" class="s" text-anchor="middle">Absent/muffled</text>
+<line x1="5" y1="80" x2="195" y2="80" stroke="var(--border)" stroke-width="0.5"/>
+<text x="8" y="89" class="s" fill="var(--text-dim)">Posture</text><text x="52" y="89" class="s" text-anchor="middle">Prefers lying</text><text x="148" y="89" class="s" text-anchor="middle" fill="#e74c3c">Tripod (leaning fwd)</text>
+<line x1="5" y1="92" x2="195" y2="92" stroke="var(--border)" stroke-width="0.5"/>
+<text x="8" y="101" class="s" fill="var(--text-dim)">Drool</text><text x="52" y="101" class="s" text-anchor="middle">No</text><text x="148" y="101" class="s" text-anchor="middle" fill="#e74c3c">Yes (dysphagia)</text>
+<line x1="5" y1="104" x2="195" y2="104" stroke="var(--border)" stroke-width="0.5"/>
+<text x="8" y="113" class="s" fill="var(--text-dim)">X-ray</text><text x="52" y="113" class="s" text-anchor="middle">Steeple sign (AP)</text><text x="148" y="113" class="s" text-anchor="middle">Thumbprint (lat.)</text>
+<line x1="5" y1="116" x2="195" y2="116" stroke="var(--border)" stroke-width="0.5"/>
+<text x="8" y="125" class="s" fill="var(--text-dim)">Cause</text><text x="52" y="125" class="s" text-anchor="middle">Parainfluenza</text><text x="148" y="125" class="s" text-anchor="middle">Hib / GAS</text>
+<line x1="5" y1="128" x2="195" y2="128" stroke="var(--border)" stroke-width="0.5"/>
+<text x="8" y="137" class="s" fill="var(--text-dim)">Rx</text><text x="52" y="137" class="s" text-anchor="middle">Dexa + neb adrenaline</text><text x="148" y="137" class="s" text-anchor="middle" fill="#e74c3c">GA intubation first!</text>
+<line x1="5" y1="140" x2="195" y2="140" stroke="var(--border)" stroke-width="0.5"/>
+<text x="8" y="149" class="s" fill="var(--text-dim)">Key rule</text><text x="52" y="149" class="s" text-anchor="middle">Don\'t distress child</text><text x="148" y="149" class="s" text-anchor="middle" fill="#e74c3c">NO throat exam</text>
+<rect x="210" y="20" width="58" height="130" fill="var(--border)" fill-opacity="0.1" stroke="var(--text)" stroke-width="1.5" rx="3"/>
+<circle cx="239" cy="32" r="11" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<rect x="218" y="44" width="20" height="35" fill="var(--border)" fill-opacity="0.5" stroke="var(--text)" stroke-width="1"/>
+<rect x="248" y="44" width="12" height="35" fill="var(--border)" fill-opacity="0.5" stroke="var(--text)" stroke-width="1"/>
+<path d="M 210 62 Q 200 68 200 80" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 268 62 Q 278 68 278 80" fill="none" stroke="var(--text)" stroke-width="2"/>
+<rect x="226" y="70" width="26" height="18" fill="#e74c3c" fill-opacity="0.4" stroke="#e74c3c" stroke-width="1.5" rx="2"/>
+<path d="M 239 70 L 239 55" fill="none" stroke="#e74c3c" stroke-width="2"/>
+<polygon points="239,55 235,63 243,63" fill="#e74c3c"/>
+<text x="239" y="104" class="s" text-anchor="middle">5 upward</text>
+<text x="239" y="113" class="s" text-anchor="middle">abdominal</text>
+<text x="239" y="122" class="s" text-anchor="middle">thrusts</text>
+<text x="239" y="134" class="s" text-anchor="middle">Heimlich</text>
+<text x="239" y="143" class="s" text-anchor="middle">manoeuvre</text>
+<rect x="278" y="20" width="115" height="130" fill="var(--border)" fill-opacity="0.1" rx="3"/>
+<text x="335" y="32" class="t" text-anchor="middle" font-weight="bold">Cricothyroid Membrane</text>
+<rect x="295" y="40" width="80" height="20" fill="var(--border)" fill-opacity="0.5" stroke="var(--text)" stroke-width="1.5" rx="2"/>
+<text x="335" y="53" class="s" text-anchor="middle">Thyroid cartilage</text>
+<rect x="295" y="65" width="80" height="12" fill="#e74c3c" fill-opacity="0.4" stroke="#e74c3c" stroke-width="2" rx="1"/>
+<text x="335" y="74" class="s" text-anchor="middle" fill="#e74c3c">CTM ← stab here</text>
+<rect x="295" y="82" width="80" height="18" fill="var(--border)" fill-opacity="0.5" stroke="var(--text)" stroke-width="1.5" rx="2"/>
+<text x="335" y="94" class="s" text-anchor="middle">Cricoid cartilage</text>
+<path d="M 335 65 L 335 105" fill="none" stroke="#e74c3c" stroke-width="2" stroke-dasharray="3,2"/>
+<circle cx="335" cy="108" r="5" fill="#e74c3c" fill-opacity="0.7"/>
+<text x="335" y="122" class="s" text-anchor="middle">Needle: 14G, 45°</text>
+<text x="335" y="132" class="s" text-anchor="middle">caudally. Jet O2</text>
+<text x="335" y="142" class="s" text-anchor="middle">15L/min (30-45 min)</text>
+<text x="335" y="152" class="s" text-anchor="middle">CICO emergency</text>
+<text x="5" y="180" class="t" font-weight="bold">Stridor classification:</text>
+<text x="5" y="192" class="s">Inspiratory → supraglottic/glottic obstruction</text>
+<text x="5" y="202" class="s">Expiratory → subglottic/tracheal</text>
+<text x="5" y="212" class="s">Biphasic → fixed subglottic stenosis</text>
+<text x="200" y="180" class="t" font-weight="bold">Foreign body airway:</text>
+<text x="200" y="192" class="s">&gt;1yr: 5 back blows then 5 Heimlich thrusts</text>
+<text x="200" y="202" class="s">&lt;1yr: 5 back blows then 5 chest thrusts (NO Heimlich)</text>
+<text x="200" y="212" class="s">Unconscious: CPR, check airway after 30 compressions</text>
+<text x="5" y="228" class="t" font-weight="bold">Croup Westley score — management:</text>
+<text x="5" y="240" class="s">Mild: dexamethasone 0.15mg/kg oral/IM (single dose)</text>
+<text x="5" y="250" class="s">Mod-severe: neb adrenaline (1:1000, 5mL) + dexamethasone</text>
+<text x="5" y="260" class="s">Admit if recurrent nebulisations needed or SpO2 impaired</text>
+<text x="5" y="275" class="t" font-weight="bold">Epiglottitis key mantra:</text>
+<text x="5" y="287" class="s">Keep child CALM, UPRIGHT with parent → theatre → controlled intubation → THEN IV ceftriaxone</text>
+<text x="5" y="297" class="s">Extubate 24-48h when oedema resolves. Never use Heliox as definitive management.</text>
 </svg>`
 };

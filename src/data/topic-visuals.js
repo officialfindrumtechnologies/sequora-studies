@@ -3639,6 +3639,509 @@ export const TOPIC_VISUALS = {
         ]
       }
     ]
+  },
+  mbbs_ent: {
+    subjectName: 'MBBS Ear, Nose & Throat',
+    examCode: 'BMDC',
+    sections: ['Ear', 'Nose & Sinuses', 'Throat & Larynx', 'Head & Neck'],
+    topics: [
+      {
+        "id": "ear-anatomy",
+        "name": "Anatomy of the Ear",
+        "syllabusRef": "Phase IV ENT",
+        "section": "Ear",
+        "description": "External, middle, inner ear — ossicles, cochlea, vestibular apparatus, Eustachian tube",
+        "svgKey": "mbbs-ent-ear-anatomy",
+        "landmarks": [
+          "Ossicular chain amplifies sound ×20 via area ratio (TM 55 mm² : oval window 3.2 mm²) and lever mechanism",
+          "Eustachian tube equalises middle ear pressure; opens on swallowing/yawning; children shorter/horizontal → AOM risk",
+          "Cochlea: 2.75 turns; scala vestibuli + scala media (endolymph, K⁺-rich) + scala tympani; organ of Corti on basilar membrane",
+          "CN VIII (vestibulocochlear): cochlear division (hearing) + vestibular division (balance); emerges at CPA (cerebellopontine angle)",
+          "Semicircular canals detect angular acceleration; utricle/saccule detect linear acceleration via otoliths"
+        ],
+        "examQA": [
+          {
+            "q": "Name the three ossicles in order from lateral to medial and explain their function.",
+            "a": "Malleus (attached to tympanic membrane) → Incus (body + short/long processes) → Stapes (footplate in oval window). Function: impedance matching — amplifies sound pressure ×20 (area ratio TM:OW ≈ 17:1 plus lever ratio ≈ 1.3). Essential for efficient transfer of sound energy from air (low impedance) to inner ear fluid (high impedance)."
+          },
+          {
+            "q": "Why are young children prone to recurrent acute otitis media?",
+            "a": "The Eustachian tube in children is shorter, wider, and more horizontal than in adults. This allows nasopharyngeal bacteria to ascend more easily. Poor tensor veli palatini development impairs active tube opening. Enlarged adenoids obstruct the Eustachian tube orifice further."
+          },
+          {
+            "q": "Describe the structure of the cochlea relevant to sensorineural hearing.",
+            "a": "The cochlea has 2.75 turns. Three compartments: scala vestibuli and scala tympani contain perilymph (Na⁺-rich); scala media contains endolymph (K⁺-rich, +80 mV). The organ of Corti sits on the basilar membrane — inner hair cells (3,500) are primary transducers; outer hair cells (12,000) amplify/tune. High-frequency sounds decoded at base; low-frequency at apex (tonotopy)."
+          },
+          {
+            "q": "What is the significance of the cerebellopontine angle (CPA) in ENT?",
+            "a": "The CPA is between cerebellum and pons, traversed by CN VII (facial) and CN VIII (vestibulocochlear). Acoustic neuroma (vestibular schwannoma) arises from CN VIII at this site — most common CPA tumour. Presents with unilateral SNHL, tinnitus, and eventually facial palsy. Diagnosed by MRI with gadolinium. Other CPA lesions: meningioma, epidermoid cyst."
+          }
+        ]
+      },
+      {
+        "id": "hearing-loss",
+        "name": "Hearing Loss and Audiometry",
+        "syllabusRef": "Phase IV ENT",
+        "section": "Ear",
+        "description": "Conductive vs sensorineural HL — tuning fork tests Rinne/Weber, pure tone audiogram, tympanogram",
+        "svgKey": "mbbs-ent-hearing-loss",
+        "threejs3dFn": "createLongitudinalWave",
+        "landmarks": [
+          "Rinne +ve: AC > BC (normal or SNHL); Rinne –ve: BC > AC (conductive HL) — fork at mastoid then 1 cm from ear",
+          "Weber: mid-forehead/vertex — lateralises to affected ear in CHL; to better ear in SNHL",
+          "Air-bone gap: difference between AC and BC thresholds on audiogram — hallmark of conductive hearing loss",
+          "Pure tone average (PTA): average of 500 + 1000 + 2000 Hz thresholds; normal < 25 dB HL",
+          "Tympanogram Type A (normal peak); Type B (flat — OME/perforation); Type C (peak < –100 daPa, Eustachian dysfunction)"
+        ],
+        "examQA": [
+          {
+            "q": "A 40-year-old has right ear hearing loss. Rinne test: AC < BC on right; Weber lateralises to right. What is the diagnosis?",
+            "a": "Right conductive hearing loss. Rinne negative (BC > AC) confirms conductive deficit. Weber lateralises to the affected (right) ear in CHL — bone-conducted sound is reflected to that side. Causes: wax, AOM, CSOM, otosclerosis, ossicular discontinuity. Confirm with audiogram showing air-bone gap."
+          },
+          {
+            "q": "Describe the pure tone audiogram pattern in otosclerosis.",
+            "a": "Conductive hearing loss with an air-bone gap. Air conduction thresholds elevated at low-mid frequencies; bone conduction near normal. Classic: Carhart notch — dip in bone conduction at 2000 Hz (mechanical artefact of stapes fixation). Tympanogram type As (reduced compliance). Confirmed by CT temporal bone (halo sign around oval window)."
+          },
+          {
+            "q": "A 65-year-old has bilateral symmetrical sloping high-frequency hearing loss, no air-bone gap. What is the diagnosis?",
+            "a": "Presbycusis (age-related sensorineural hearing loss). Bilateral symmetrical high-frequency SNHL (cochlear type, outer hair cell degeneration at basal turn). Rinne positive bilaterally, Weber central. No air-bone gap. Managed with digital hearing aids; profound loss → cochlear implant assessment."
+          },
+          {
+            "q": "What is a tympanogram and what does a Type B pattern indicate?",
+            "a": "Tympanometry measures tympanic membrane compliance as ear canal pressure varies. Type B = flat curve (no compliance peak), indicating middle ear effusion (glue ear — most common), TM perforation, or tympanosclerosis. Canal volume differentiates: small (0.3–0.5 mL) in OME; large (>2 mL) in perforation."
+          }
+        ]
+      },
+      {
+        "id": "otitis-media",
+        "name": "Otitis Media",
+        "syllabusRef": "Phase IV ENT",
+        "section": "Ear",
+        "description": "Acute OM — organisms/treatment; chronic suppurative OM — tubotympanic vs atticoantral; cholesteatoma",
+        "svgKey": "mbbs-ent-otitis-media",
+        "landmarks": [
+          "AOM commonest organism: Streptococcus pneumoniae (40%), H. influenzae (25%), Moraxella catarrhalis — treat with amoxicillin 7–10 days",
+          "CSOM tubotympanic (safe): central perforation, mucoid discharge, no cholesteatoma — myringoplasty",
+          "CSOM atticoantral (unsafe/dangerous): marginal/attic perforation, offensive discharge, cholesteatoma — mastoidectomy required",
+          "Cholesteatoma: keratinising squamous epithelium invading middle ear/mastoid; erodes ossicles and bone; risk of intracranial complications",
+          "Grommets (ventilation tubes): inserted in OME (glue ear) — equalise pressure, treat conductive HL; extrude naturally in 6–12 months"
+        ],
+        "examQA": [
+          {
+            "q": "A 3-year-old presents with acute ear pain, fever 39°C, and a bulging red tympanic membrane. What is the diagnosis and management?",
+            "a": "Acute otitis media. Organisms: S. pneumoniae, H. influenzae, M. catarrhalis. Management: analgesia (paracetamol/ibuprofen). Antibiotics if <2 years, bilateral, or severe: amoxicillin 40–50 mg/kg/day for 7–10 days; penicillin allergy: azithromycin. Most resolve spontaneously."
+          },
+          {
+            "q": "Distinguish between tubotympanic and atticoantral CSOM.",
+            "a": "Tubotympanic (safe): central TM perforation, mucoid odourless discharge, no cholesteatoma. Intracranial complications rare. Managed medically or myringoplasty. Atticoantral (unsafe): marginal/attic (pars flaccida) perforation, offensive purulent discharge, cholesteatoma. Risk of ossicular erosion, facial nerve palsy, labyrinthitis, intracranial complications. Requires mastoidectomy."
+          },
+          {
+            "q": "What is cholesteatoma and why is it dangerous?",
+            "a": "Cholesteatoma is abnormal keratinising squamous epithelium in the middle ear/mastoid. It slowly expands, eroding bone via matrix metalloproteinase activity. Complications: ossicular erosion (hearing loss), lateral SCC fistula (vertigo), facial nerve palsy (VII), labyrinthitis, and intracranial spread — meningitis, sigmoid sinus thrombosis, brain abscess. Treatment: surgical excision (mastoidectomy)."
+          },
+          {
+            "q": "A 6-year-old has bilateral 35 dB conductive hearing loss, flat tympanograms, and delayed speech. What is the diagnosis and management?",
+            "a": "Otitis media with effusion (OME/glue ear). Most common cause of childhood hearing loss. Watchful waiting 3 months first. If persists: grommet insertion under GA, often with adenoidectomy. Hearing aids are alternative if surgery declined. Grommets extrude spontaneously in 6–12 months."
+          }
+        ]
+      },
+      {
+        "id": "otitis-externa",
+        "name": "Otitis Externa and Mastoiditis",
+        "syllabusRef": "Phase IV ENT",
+        "section": "Ear",
+        "description": "Malignant otitis externa — Pseudomonas, mastoiditis complications — Bezold abscess",
+        "svgKey": "mbbs-ent-otitis-externa",
+        "landmarks": [
+          "Acute diffuse OE (swimmer's ear): Pseudomonas aeruginosa + Staphylococcus aureus — treat with topical gentamicin/ciprofloxacin drops",
+          "Malignant (necrotising) OE: Pseudomonas in diabetics/immunocompromised — skull base osteomyelitis; IV ciprofloxacin/pip-taz",
+          "Acute mastoiditis: complication of AOM — erythema/swelling over mastoid, pinna pushed forward; CT confirms; IV antibiotics ± cortical mastoidectomy",
+          "Bezold abscess: mastoiditis extending through mastoid tip → deep neck, tracking along SCM; rare but serious",
+          "Furunculosis (outer third EAC): Staph. aureus — incision/drainage if pointing; flucloxacillin"
+        ],
+        "examQA": [
+          {
+            "q": "A 65-year-old diabetic has severe otalgia, purulent discharge, granulation tissue on EAC floor, and 6th nerve palsy. What is the diagnosis and management?",
+            "a": "Malignant (necrotising) otitis externa — Pseudomonas aeruginosa invading skull base. CT temporal bone (bone erosion), Tc-99m bone scan (sensitive), Gallium-67 scan (monitors response). Management: IV antipseudomonal therapy (ciprofloxacin 6–8 weeks; pip-taz); diabetic control; surgical debridement if spreading. Mortality 15–20% with intracranial spread."
+          },
+          {
+            "q": "A 5-year-old with 2-week AOM develops fever, mastoid tenderness, and the pinna is pushed downward and forward. CT shows coalescent mastoid air cells. What is the management?",
+            "a": "Acute coalescent mastoiditis. IV antibiotics: co-amoxiclav or ceftriaxone. If no improvement in 24–48 h or abscess formation: cortical mastoidectomy (Schwartze procedure). Watch for: subperiosteal abscess, Bezold abscess, facial palsy, sigmoid sinus thrombosis, meningitis."
+          },
+          {
+            "q": "How do you differentiate acute otitis externa from acute otitis media with perforation?",
+            "a": "OE: pain worse on moving pinna/tragus; swollen narrowed EAC; normal TM if visible; no fever usually. AOM with perforation: recent URTI, sudden pain relief when perforation occurs, mucoid discharge from middle ear, TM perforation visible, fever. Tuning fork: OE → normal; AOM + effusion → conductive HL."
+          },
+          {
+            "q": "What is a Bezold abscess and how does it present?",
+            "a": "Extension of mastoiditis through the mastoid tip into the digastric space, tracking along the SCM inferiorly. Presents as tender neck swelling at SCM posterior border with preceding mastoiditis. CT neck confirms. Management: surgical drainage + IV antibiotics + mastoidectomy. Can spread to mediastinum (Luc's abscess) if untreated."
+          }
+        ]
+      },
+      {
+        "id": "vertigo-tinnitus",
+        "name": "Vertigo and Tinnitus",
+        "syllabusRef": "Phase IV ENT",
+        "section": "Ear",
+        "description": "BPPV — Dix-Hallpike/Epley, Meniere disease — endolymphatic hydrops, acoustic neuroma",
+        "svgKey": "mbbs-ent-vertigo-tinnitus",
+        "landmarks": [
+          "BPPV: otolith (canalith) in posterior SCC; Dix-Hallpike positive (upbeat-torsional nystagmus, <30 s latency, fatiguable); Epley manoeuvre",
+          "Meniere disease: endolymphatic hydrops — triad of episodic vertigo (>20 min), unilateral SNHL (low-frequency), ipsilateral tinnitus/aural fullness",
+          "Vestibular neuritis: acute prolonged vertigo (hours–days), no hearing loss, horizontal nystagmus; post-viral; betahistine + prochlorperazine",
+          "Acoustic neuroma (vestibular schwannoma): unilateral SNHL + tinnitus ± vertigo; MRI gadolinium; NF2 if bilateral",
+          "Tinnitus red flags: unilateral, pulsatile (glomus tumour), associated with HL or vertigo → urgent investigation"
+        ],
+        "examQA": [
+          {
+            "q": "A 55-year-old has brief (30-second) rotational vertigo triggered by rolling over in bed. Dix-Hallpike left: upbeat-torsional nystagmus after 5-second latency, resolves in 20 seconds. What is the diagnosis and treatment?",
+            "a": "BPPV of the left posterior semicircular canal. Canaliths (otoliths) displaced into the SCC. Treatment: Epley canalith repositioning manoeuvre — 4 head positions moving debris from posterior SCC into utricle. 85–90% cure after 1–3 sessions. Brandt-Daroff exercises as home alternative."
+          },
+          {
+            "q": "A 42-year-old has episodic vertigo 2–4 hours, left-sided roaring tinnitus, aural fullness, and fluctuating hearing loss. What is the diagnosis and management?",
+            "a": "Meniere's disease — endolymphatic hydrops. AAO-HNS criteria: ≥2 episodes vertigo ≥20 min, audiometrically confirmed SNHL, tinnitus/fullness. Management: low-salt diet (<1500 mg/day), betahistine 16 mg TDS, diuretics (thiazide). Intractable: intratympanic gentamicin (chemical labyrinthectomy) or endolymphatic sac decompression."
+          },
+          {
+            "q": "Describe the Epley manoeuvre for right-sided BPPV.",
+            "a": "Four positions: (1) Sitting upright, head turned 45° right. (2) Lie back rapidly — head 20–30° below horizontal, right ear down — wait until nystagmus stops. (3) Turn head 90° left (now left ear down) — hold 30 s. (4) Roll body further left (nose toward floor) — hold 30 s. (5) Return to sitting. Debris moves from posterior SCC ampulla into the utricle."
+          },
+          {
+            "q": "A 35-year-old has progressive unilateral right-sided tinnitus and SNHL over 18 months. MRI shows 2 cm contrast-enhancing right CPA mass. What is the diagnosis and management?",
+            "a": "Acoustic neuroma (vestibular schwannoma) — CN VIII Schwann cells, usually at internal auditory meatus. 90% unilateral; bilateral = NF2. Options: (1) Observation with serial MRI (small tumours, elderly). (2) Stereotactic radiosurgery (Gamma Knife) for tumours <3 cm. (3) Microsurgical excision for larger tumours (translabyrinthine/middle fossa/retrosigmoid)."
+          }
+        ]
+      },
+      {
+        "id": "nose-sinuses-anatomy",
+        "name": "Anatomy of the Nose and Sinuses",
+        "syllabusRef": "Phase IV ENT",
+        "section": "Nose & Sinuses",
+        "description": "Nasal cavity, lateral wall — turbinates, sinuses — drainage patterns, ostiomeatal unit",
+        "svgKey": "mbbs-ent-nose-sinuses",
+        "landmarks": [
+          "Lateral wall turbinates: superior, middle, inferior — inferior is largest; inferior turbinate hypertrophy → nasal obstruction",
+          "Ostiomeatal unit (OMU): drainage pathway for anterior ethmoid, frontal, and maxillary sinuses into middle meatus — key target in FESS",
+          "Sinus drainage: frontal/maxillary/anterior ethmoid → middle meatus (hiatus semilunaris); posterior ethmoid/sphenoid → superior meatus/sphenoethmoid recess",
+          "Nasolacrimal duct drains into inferior meatus; sphenopalatine foramen at posterior end of middle turbinate — main posterior nasal blood supply",
+          "Nasal septum: septal cartilage (anterior) + perpendicular plate of ethmoid + vomer (posterior) — deviations cause obstruction"
+        ],
+        "examQA": [
+          {
+            "q": "Where do the maxillary sinuses drain and what is the clinical significance?",
+            "a": "The maxillary sinus drains via the maxillary ostium into the hiatus semilunaris in the middle meatus. The ostium is in the superomedial wall — not the floor — so drainage is gravity-independent, requiring active ciliary transport ('uphill drainage'). This explains why maxillary sinusitis is prone to chronicity. FESS targets the OMU to restore drainage. Dental root abscesses (upper molars/premolars) can cause unilateral maxillary sinusitis."
+          },
+          {
+            "q": "What is the ostiomeatal unit (OMU) and why is it important?",
+            "a": "The OMU is the functional unit comprising the infundibulum, uncinate process, hiatus semilunaris, ethmoidal bulla, and middle meatus — common drainage pathway for maxillary, frontal, and anterior ethmoid sinuses. OMU obstruction (mucosal oedema, polyps, deviated septum) causes recurrent rhinosinusitis. CT sinuses in coronal plane best demonstrates OMU anatomy. FESS widening the OMU restores mucociliary clearance."
+          },
+          {
+            "q": "Describe the blood supply of the nasal cavity relevant to epistaxis.",
+            "a": "Arterial supply: sphenopalatine artery (branch of maxillary — posterior septum/lateral wall); anterior ethmoidal artery (from ophthalmic/internal carotid — anterosuperior septum); posterior ethmoidal artery; greater palatine artery; superior labial artery (from facial artery). Little's area (Kiesselbach's plexus) at anteroinferior septum — anastomosis of all five; commonest site of epistaxis."
+          },
+          {
+            "q": "A patient has chronic nasal obstruction with septum deviated right and compensatory left inferior turbinate hypertrophy. What operations may be indicated?",
+            "a": "Septoplasty (preferred — preserves cartilage) or SMR to straighten the septum. If inferior turbinate hypertrophy persists post-septoplasty: submucous diathermy, radiofrequency turbinate reduction, or lateral outfracture. Topical steroid spray trial pre-operatively. Combined septorhinoplasty if cosmetic deformity also present."
+          }
+        ]
+      },
+      {
+        "id": "epistaxis",
+        "name": "Epistaxis",
+        "syllabusRef": "Phase IV ENT",
+        "section": "Nose & Sinuses",
+        "description": "Little's area, anterior vs posterior epistaxis, causes, management — pinching/packing/cautery, Foley catheter",
+        "svgKey": "mbbs-ent-epistaxis",
+        "landmarks": [
+          "Little's area (Kiesselbach's plexus): anterior inferior nasal septum — confluence of 5 arteries; 90% of epistaxis; venous haemangiomas in children",
+          "Posterior epistaxis: from sphenopalatine artery — severe, older patients, HTN; blood seen in oropharynx; needs posterior pack/balloon",
+          "First aid: pinch the soft cartilaginous part of nose (not bony bridge) for 10–20 min; lean forward; ice pack to nose/neck",
+          "Silver nitrate cautery: anterior epistaxis, unilateral, visible bleeding point — never cauterise both sides simultaneously (septal perforation)",
+          "Foley catheter posterior pack: 12–14 Fr catheter inflated in nasopharynx with 10–15 mL saline; anterior pack added"
+        ],
+        "examQA": [
+          {
+            "q": "A 70-year-old hypertensive on warfarin presents with heavy right-sided nosebleed uncontrolled by 20 minutes of pinching. Blood is seen in the oropharynx. What is the management?",
+            "a": "Posterior epistaxis. IV access, FBC, clotting (INR), cross-match. Correct warfarin: vitamin K IV ± FFP if INR markedly elevated. Topical vasoconstrictors (cocaine 4%/phenylephrine+lidocaine). Insert Foley catheter (12–14 Fr) into nasopharynx, inflate 10–15 mL saline; pull forward and clamp. Add anterior BIPP pack. Admit. If fails: endoscopic sphenopalatine artery ligation or embolisation."
+          },
+          {
+            "q": "An 8-year-old has recurrent right-sided epistaxis. A dilated vessel is visible on the anterior septum. What is the management?",
+            "a": "Anterior epistaxis from Little's area — visible vessel. Silver nitrate cautery (unilateral, visible point, 90% success). Anaesthetise with topical lidocaine. Apply silver nitrate stick to bleeding point for 3–5 seconds. Advise saline nasal spray, avoid nose-picking, petroleum jelly application. Never cauterise both sides simultaneously. If recurs: sclerotherapy or septoplasty."
+          },
+          {
+            "q": "What are the causes of epistaxis in a child versus an elderly patient?",
+            "a": "Children: mainly anterior (Little's area) — idiopathic, nose-picking, URTI, low humidity. Rarely: juvenile angiofibroma (adolescent males — unilateral epistaxis, nasal obstruction; biopsy contraindicated), bleeding diathesis. Elderly: posterior (sphenopalatine artery) — hypertension (commonest), atherosclerosis, NSAIDs/anticoagulants, HHT (Osler-Weber-Rendu — telangiectases on lips/tongue), nasopharyngeal carcinoma."
+          },
+          {
+            "q": "Describe the surgical management options for recurrent or intractable epistaxis.",
+            "a": "Endoscopic sphenopalatine artery ligation (ESPAL): gold standard for posterior epistaxis — via sphenopalatine foramen at posterior end of middle turbinate. Anterior ethmoidal artery ligation: Lynch incision for anterosuperior bleeds. Arterial embolisation: interventional radiology to internal maxillary artery branches; for failed endoscopic surgery or coagulopathy. Septoplasty/SMR if DNS contributes."
+          }
+        ]
+      },
+      {
+        "id": "rhinitis-sinusitis",
+        "name": "Rhinitis and Sinusitis",
+        "syllabusRef": "Phase IV ENT",
+        "section": "Nose & Sinuses",
+        "description": "Allergic rhinitis — ARIA classification; acute/chronic sinusitis — organisms, FESS, complications",
+        "svgKey": "mbbs-ent-rhinitis-sinusitis",
+        "landmarks": [
+          "ARIA classification: Intermittent (<4 days/week or <4 weeks) vs Persistent (≥4 days/week AND ≥4 weeks) × Mild vs Moderate-Severe",
+          "Allergic rhinitis Rx ladder: allergen avoidance → intranasal corticosteroid (1st-line) → antihistamine → allergen immunotherapy (AIT)",
+          "Acute sinusitis: viral (URTI) most common; bacterial — Strep. pneumoniae, H. influenzae, Moraxella; treat >7 days with amoxicillin",
+          "Chronic rhinosinusitis (CRS): ≥12 weeks of symptoms; CRS with nasal polyps (CRSwNP) often eosinophilic; FESS if medical Rx fails",
+          "Complications of sinusitis: orbital (Chandler stages I–V); intracranial (meningitis, brain abscess, Pott's puffy tumour)"
+        ],
+        "examQA": [
+          {
+            "q": "A 25-year-old has persistent sneezing, watery rhinorrhoea, itchy eyes, and nasal congestion for 6 months (spring-summer). Skin prick test positive to grass pollens. How do you manage this?",
+            "a": "Persistent moderate-severe seasonal allergic rhinitis. Management: (1) Allergen avoidance (sunglasses, stay indoors peak pollen times). (2) Intranasal corticosteroid spray first-line (fluticasone/mometasone once daily). (3) Non-sedating antihistamine (loratadine/cetirizine) for breakthrough. (4) If uncontrolled: allergen immunotherapy (subcutaneous or sublingual) for ≥3 years."
+          },
+          {
+            "q": "A 35-year-old has 10 days of nasal congestion, purulent nasal discharge, facial pain worse on bending forward, and maxillary tooth pain. What is the diagnosis and management?",
+            "a": "Acute bacterial rhinosinusitis (ABRS). ≥2 cardinal symptoms lasting >7–10 days without improvement, or worsening after initial URTI. Management: steam inhalation, nasal saline irrigation, analgesia, intranasal decongestant (≤5 days). Antibiotics if severe/worsening: amoxicillin 500 mg TDS × 7 days; allergy: doxycycline."
+          },
+          {
+            "q": "What are the Chandler stages of orbital complications of sinusitis and which require surgery?",
+            "a": "Chandler: I — Periorbital (preseptal) cellulitis: lid oedema, no proptosis. II — Orbital cellulitis: proptosis, restricted EOM. III — Subperiosteal abscess. IV — Orbital abscess. V — Cavernous sinus thrombosis: bilateral signs, meningism. Stages I-II: IV antibiotics. Stages III-V: urgent surgical drainage + IV antibiotics + ophthalmology."
+          },
+          {
+            "q": "Describe the principles of FESS (Functional Endoscopic Sinus Surgery).",
+            "a": "FESS aims to restore drainage and ventilation via the OMU. Under GA, 0° and 30° Hopkins rod telescopes used. Procedures: uncinectomy → maxillary antrostomy → anterior ethmoidectomy → frontal recess clearance → posterior ethmoidectomy/sphenoidotomy as needed. Guided by preoperative coronal CT. Mucociliary clearance preserved (unlike radical Caldwell-Luc). Post-op: nasal saline douching + intranasal steroids."
+          }
+        ]
+      },
+      {
+        "id": "nasal-polyps-dns",
+        "name": "Nasal Polyps and Deviated Nasal Septum",
+        "syllabusRef": "Phase IV ENT",
+        "section": "Nose & Sinuses",
+        "description": "Nasal polyp types, associations — Samter's triad, DNS — grading/SMR operation",
+        "svgKey": "mbbs-ent-nasal-polyps-dns",
+        "landmarks": [
+          "Nasal polyps: bilateral, pale/grey, insensate, arise from middle meatus; associated with CRS, asthma, aspirin sensitivity",
+          "Samter's triad (AERD): nasal polyps + asthma + aspirin/NSAID hypersensitivity — COX-1 inhibition → leukotriene excess",
+          "Unilateral nasal polyp in adults → always biopsy (malignancy, inverted papilloma); in child → antrochoanal polyp (Killian's polyp) from maxillary sinus",
+          "DNS grading: mild → moderate (turbinate touching septum) → severe (complete obstruction); SMR vs septoplasty",
+          "SMR (Killian's operation): subperichondrial/subperiosteal resection leaving L-strut (dorsal + caudal strips); preserves support"
+        ],
+        "examQA": [
+          {
+            "q": "A 45-year-old asthmatic with aspirin sensitivity presents with bilateral nasal polyps and reduced smell. Describe Samter's triad and management.",
+            "a": "Samter's triad (AERD): (1) Nasal polyposis, (2) Bronchial asthma, (3) Aspirin/NSAID sensitivity (COX-1 inhibition → leukotriene overproduction → bronchospasm). Avoid NSAIDs/aspirin. High-dose intranasal steroids + oral steroid course. FESS for recurrence. Biologics (dupilumab — anti-IL-4/IL-13) now licensed for recurrent CRSwNP. Aspirin desensitisation after surgery in selected cases."
+          },
+          {
+            "q": "A 12-year-old boy has unilateral right nasal obstruction and a single polyp in the right nostril. What is the most likely diagnosis?",
+            "a": "Antrochoanal polyp (Killian's polyp) — arises from maxillary sinus mucosa, passes through the natural or accessory ostium to fill the choana. Unilateral, solitary. Contrast with bilateral polyps which arise from ethmoid sinuses and are associated with CRS/asthma/AERD. Treatment: endoscopic removal with excision of sinus cystic portion to prevent recurrence."
+          },
+          {
+            "q": "What is the difference between SMR and septoplasty?",
+            "a": "SMR (Killian's): removes cartilage and bone subperichondrially, leaving L-strut and perichondrium. Risk of saddle nose deformity if over-resected. Septoplasty (preferred modern approach): preserves cartilage — scores, morselises, or repositions deviated segments while maintaining structural support. Lower risk of saddle deformity. Septorhinoplasty combines both for functional/cosmetic indications."
+          },
+          {
+            "q": "How do you differentiate a nasal polyp from the inferior turbinate on clinical examination?",
+            "a": "Nasal polyp: pale/grey, smooth, insensate (no pain on probing), glistening, mobile, gelatinous — does not blanch with vasoconstrictors (poor blood supply). Inferior turbinate: pink/red, same colour as mucosa, sensitive to touch (pain when probed), shrinks with topical decongestant. Polyps arise from middle meatus; turbinate is a fixed bony structure."
+          }
+        ]
+      },
+      {
+        "id": "tonsils-adenoids",
+        "name": "Tonsils and Adenoids",
+        "syllabusRef": "Phase IV ENT",
+        "section": "Throat & Larynx",
+        "description": "Quinsy — peritonsillar abscess, tonsillectomy indications, adenoid hypertrophy — features",
+        "svgKey": "mbbs-ent-tonsils-adenoids",
+        "landmarks": [
+          "Quinsy (peritonsillar abscess): pus between superior pole of tonsil and superior constrictor; hot potato voice, trismus, uvula displaced contralaterally",
+          "Tonsillectomy indications (SIGN): ≥7 sore throats/year, or ≥5/year for 2 years, or ≥3/year for 3 years (Paradise criteria); OSA; quinsy",
+          "Waldeyer's ring: palatine tonsils (bilateral), nasopharyngeal tonsil (adenoid), lingual tonsil, lateral pharyngeal bands",
+          "Adenoid hypertrophy: nasal obstruction, hyponasal speech, mouth breathing, snoring, glue ear (Eustachian obstruction), adenoid facies",
+          "Post-tonsillectomy reactionary haemorrhage (<24 h): return to theatre; secondary haemorrhage (5–10 days): infection → antibiotics ± re-exploration"
+        ],
+        "examQA": [
+          {
+            "q": "A 22-year-old has 4 days of worsening sore throat, hot potato voice, trismus, and uvula deviated to the left. What is the diagnosis and management?",
+            "a": "Right peritonsillar abscess (quinsy). Management: (1) Needle aspiration or incision and drainage under local anaesthetic — at superior pole of tonsil, lateral to uvula. (2) IV benzylpenicillin + metronidazole (anaerobes). (3) Hydration. (4) Interval tonsillectomy 6–8 weeks later. Same-session tonsillectomy ('quinsy tonsillectomy') for second episode or patient request."
+          },
+          {
+            "q": "A 6-year-old has snoring, mouth breathing, witnessed apnoeas, and recurrent ear infections. Examination reveals grade 3/4 tonsils and hyponasal voice. What is the management?",
+            "a": "Adenotonsillar hypertrophy with obstructive sleep-disordered breathing and recurrent OME. Adenotonsillectomy (gold standard for paediatric OSA) plus grommet insertion if OME/conductive HL present. Pre-op polysomnography if complex or obese. Obstructive sleep apnoea is an absolute indication for adenotonsillectomy regardless of infection frequency."
+          },
+          {
+            "q": "A 7-year-old has had 8 episodes of tonsillitis this year, each confirmed by throat swab (Group A Streptococcus). How do you counsel about tonsillectomy?",
+            "a": "Meets Paradise criteria (≥7 episodes/year). Tonsillectomy reduces sore throat frequency. Risks: primary haemorrhage (0.5%), secondary haemorrhage (1–2% days 5–10 due to infection), pain × 2 weeks. Benefits: reduced tonsilitis, time off school. Procedure: dissection tonsillectomy (cold steel + tie) or bipolar diathermy. Prophylactic penicillin V is conservative alternative."
+          },
+          {
+            "q": "What are the features of adenoid hypertrophy and how is it investigated?",
+            "a": "Features: nasal obstruction (mouth breathing, snoring), hyponasal speech, recurrent URTI, chronic serous otitis media (Eustachian tube blocked by adenoid), adenoid facies (elongated face, open mouth, high arched palate, class II malocclusion). Investigation: lateral soft tissue neck X-ray (adenoid pad vs airway ratio); flexible nasal endoscopy — gold standard to visualise nasopharynx."
+          }
+        ]
+      },
+      {
+        "id": "pharyngitis-laryngitis",
+        "name": "Pharyngitis and Laryngitis",
+        "syllabusRef": "Phase IV ENT",
+        "section": "Throat & Larynx",
+        "description": "Acute/chronic organisms, complications — retropharyngeal abscess, Ludwig angina",
+        "svgKey": "mbbs-ent-pharyngitis-laryngitis",
+        "landmarks": [
+          "Centor score (modified McIsaac): tonsillar exudate + tender anterior cervical LN + fever + no cough + age 3–14 = 1 each; score ≥3 → swab + penicillin V",
+          "Retropharyngeal abscess: between posterior pharyngeal wall and prevertebral fascia; neck stiffness, drooling, stridor; CT neck; surgical drainage",
+          "Ludwig angina: bilateral submandibular/sublingual space cellulitis; woody floor of mouth; life-threatening airway emergency; IV penicillin + metronidazole + surgical decompression",
+          "Infectious mononucleosis (EBV): exudative pharyngitis + lymphadenopathy + splenomegaly; avoid amoxicillin (rash); Monospot test",
+          "Acute epiglottitis: H. influenzae type b (adults now Group A Strep); severe dysphagia, drooling, muffled voice — secure airway first"
+        ],
+        "examQA": [
+          {
+            "q": "A 2-year-old has fever, difficulty swallowing, drooling, neck stiffness, and bulging of the posterior pharyngeal wall. What is the diagnosis and immediate management?",
+            "a": "Retropharyngeal abscess. Urgent CT neck with contrast confirms. Management: (1) Secure airway (senior anaesthetist + ENT). (2) IV ampicillin + clindamycin or cefuroxime + metronidazole. (3) Surgical drainage via transoral approach (incision of posterior pharyngeal wall in theatre, head-down to prevent aspiration). Complications: airway obstruction, mediastinitis, Lemierre syndrome."
+          },
+          {
+            "q": "A 50-year-old diabetic has floor of mouth swelling, wooden induration of submandibular region bilaterally, drooling, and muffled voice. What is the diagnosis and treatment?",
+            "a": "Ludwig's angina — bilateral submandibular/sublingual/submental space cellulitis (usually odontogenic — lower second/third molar). Airway emergency. Management: (1) Awake fibreoptic intubation or surgical airway (tracheostomy under LA). (2) IV penicillin + metronidazole ± gentamicin. (3) Surgical decompression (multiple space drainage). (4) Dental extraction once infection controlled."
+          },
+          {
+            "q": "A 19-year-old has exudative tonsillitis, cervical lymphadenopathy, splenomegaly, and 60% atypical lymphocytes. A doctor prescribes amoxicillin. What happens?",
+            "a": "Infectious mononucleosis (EBV). Amoxicillin causes a widespread maculopapular rash in 70–90% of EBV patients — MUST be avoided. Diagnosis: Monospot/Paul-Bunnell heterophile antibody test. Management: rest, analgesia, hydration; avoid contact sports (spleen rupture risk) for 3–4 weeks. Steroids if airway threatened. LFTs — transaminitis common."
+          },
+          {
+            "q": "What is the Centor (modified McIsaac) score and how does it guide management?",
+            "a": "Points: +1 each for tonsillar exudate, tender anterior cervical LN, fever >38°C, absence of cough; +1 if age 3–14; -1 if age >45. Score 0–1: no antibiotics. Score 2–3: rapid antigen test/culture; treat if positive. Score 4–5: empiric penicillin V × 10 days (Group A Strep). Prevents rheumatic fever (1% risk with untreated GAS in susceptible populations)."
+          }
+        ]
+      },
+      {
+        "id": "hoarseness-vocal",
+        "name": "Hoarseness and Vocal Cord Disorders",
+        "syllabusRef": "Phase IV ENT",
+        "section": "Throat & Larynx",
+        "description": "Causes — GERD/malignancy/palsy, indirect laryngoscopy, vocal cord polyp/nodule",
+        "svgKey": "mbbs-ent-hoarseness-vocal",
+        "landmarks": [
+          "Hoarseness >3 weeks in smoker/drinker >50 years = laryngeal malignancy until proven otherwise — urgent indirect laryngoscopy + biopsy",
+          "Left recurrent laryngeal nerve palsy: aortic aneurysm, lung apex (Pancoast), mediastinal LN, post-thyroid surgery — paramedian position, bovine cough",
+          "Vocal cord nodules (singer's nodes): bilateral, at anterior 1/3 junction, voice misuse — voice therapy first-line; microlaryngoscopy if refractory",
+          "Vocal cord polyp: unilateral, at anterior 1/3, haemorrhagic or fibrous — microlaryngoscopy excision",
+          "Reflux laryngitis (GERD): posterior commissure oedema, interarytenoid hypertrophy; treat with PPI + lifestyle; commonest cause of chronic laryngitis"
+        ],
+        "examQA": [
+          {
+            "q": "A 58-year-old smoker has 6 weeks of progressive hoarseness. Indirect laryngoscopy shows an irregular white lesion on the right vocal cord with impaired mobility. What is the management?",
+            "a": "Suspected laryngeal carcinoma. Urgent panendoscopy under GA: microlaryngoscopy with biopsy. CT neck/thorax for staging. If malignancy confirmed: MDT discussion — early T1/T2 glottic: radiotherapy (preserves voice) or transoral laser microsurgery (TLM). Advanced: total laryngectomy ± post-op chemoradiotherapy."
+          },
+          {
+            "q": "Describe the view of the larynx on indirect laryngoscopy and what structures are visible.",
+            "a": "Patient sitting, tongue protruded. Mirror or 70° rigid scope placed in oropharynx. View: epiglottis (posterior), arytenoids (paired posterior), aryepiglottic folds, false vocal cords (vestibular folds), true vocal cords (white, adducted on phonation, abducted on inspiration). Vocal cord lesions, fixity, oedema, and subglottic extension assessed."
+          },
+          {
+            "q": "A 35-year-old teacher has voice fatigue and bilateral symmetric nodules at the anterior third of both vocal cords. What is the diagnosis and management?",
+            "a": "Vocal cord nodules (teacher's/singer's nodes) — fibrous reactive lesions at point of maximum cord vibration (anterior 1/3). Caused by voice misuse. Management: (1) Voice therapy first-line — reduce vocal abuse, hydration, voice rest. (2) If no improvement after 3 months: microlaryngoscopy with cold steel excision. Avoid laser (scarring + pitch change). Post-op voice therapy essential."
+          },
+          {
+            "q": "A 45-year-old has hoarseness after thyroid surgery. Mirror laryngoscopy shows the left vocal cord in paramedian position. What nerve is injured and what are the long-term options?",
+            "a": "Left recurrent laryngeal nerve (RLN) palsy — runs in tracheo-oesophageal groove, vulnerable near Berry's ligament and inferior thyroid artery. Breathy weak voice, bovine cough. If voice inadequate after 12 months (permanent palsy): (1) Injection medialization (temporary) with Restylane/Teflon. (2) Type 1 thyroplasty (Isshiki) — permanent medialization with silastic block."
+          }
+        ]
+      },
+      {
+        "id": "laryngeal-carcinoma",
+        "name": "Laryngeal Carcinoma",
+        "syllabusRef": "Phase IV ENT",
+        "section": "Throat & Larynx",
+        "description": "Risk factors, TNM staging, supraglottic vs glottic vs subglottic, laryngectomy, radiotherapy",
+        "svgKey": "mbbs-ent-laryngeal-carcinoma",
+        "landmarks": [
+          "Glottic carcinoma (most common, 65%): presents early with hoarseness; limited lymphatics → favourable nodal spread; T1 >90% 5-year survival",
+          "Supraglottic (30%): rich lymphatics → early bilateral nodal spread; presents late with dysphagia/odynophagia; worse prognosis",
+          "Risk factors: cigarette smoking (×10–15 risk), alcohol (synergistic ×35), laryngopharyngeal reflux, asbestos, HPV (rare)",
+          "T staging: T1 — limited to subsite (normal mobility); T2 — extends to adjacent subsite; T3 — cord fixity; T4 — invades thyroid cartilage/extralaryngeal structures",
+          "Total laryngectomy: permanent tracheostome; voice via tracheo-oesophageal prosthesis (TEP), oesophageal speech, or electrolarynx"
+        ],
+        "examQA": [
+          {
+            "q": "A 62-year-old smoker has 3-month hoarseness. Laryngoscopy reveals T2N0 right glottic SCC. What are the treatment options?",
+            "a": "T2N0 glottic SCC. Options: (1) Radiotherapy 60–66 Gy — voice preservation, 80–90% local control, 6 weeks outpatient. (2) Transoral laser microsurgery (TLM) — CO2 laser cordectomy, good voice, single session but expert required. Both equally effective. No neck dissection needed for N0 glottic. Smoking cessation mandatory. Follow-up laryngoscopy 6-weekly initially."
+          },
+          {
+            "q": "A patient has T3N2 supraglottic SCC. What is the management?",
+            "a": "Advanced supraglottic carcinoma with bilateral nodes. MDT discussion. Options: (1) Larynx-preserving concurrent chemoradiotherapy (cisplatin + RT) — organ preservation. (2) Total laryngectomy + bilateral neck dissection + post-operative chemoradiotherapy. Selection depends on pre-treatment swallowing function, patient fitness. PEG tube placement prior to RT. Response assessment CT 12 weeks post-treatment."
+          },
+          {
+            "q": "How does laryngeal carcinoma spread and why does glottic cancer have a better prognosis than supraglottic?",
+            "a": "Glottic region has sparse lymphatics — nodal spread occurs late (N0 in 65% at presentation). Supraglottic has rich bilateral lymphatic drainage to levels II–IV — 40–55% have nodal metastases at presentation. Glottic tumours cause early hoarseness even when small (T1), allowing early detection. Subglottic is rarest (5%) and has worst prognosis — late presentation, bilateral paratracheal nodes."
+          },
+          {
+            "q": "Describe the post-laryngectomy voice rehabilitation options.",
+            "a": "Total laryngectomy creates a permanent tracheostome. Voice options: (1) TEP with Blom-Singer voice prosthesis — gold standard; occludes stoma, air from trachea vibrates PE segment; 80–90% success. (2) Oesophageal speech — swallow air, regurgitate as oesophageal vibration; months of training, no prosthesis. (3) Electrolarynx — handheld vibrating device to neck; robotic voice; immediate post-op use."
+          }
+        ]
+      },
+      {
+        "id": "neck-swellings",
+        "name": "Neck Swellings",
+        "syllabusRef": "Phase IV ENT",
+        "section": "Head & Neck",
+        "description": "Midline — thyroglossal cyst/dermoid; lateral — branchial cyst/cystic hygroma/lymph node; Virchow node",
+        "svgKey": "mbbs-ent-neck-swellings",
+        "landmarks": [
+          "Thyroglossal cyst: midline, moves upward with swallowing AND tongue protrusion (attached to hyoid); Sistrunk operation",
+          "Branchial cyst: lateral, at anterior border of SCM at junction of upper/middle third; lined with squamous epithelium, cholesterol crystals; from 2nd branchial cleft",
+          "Cystic hygroma (lymphatic malformation): posterior triangle, trans-illuminates brilliantly, present at birth/infancy; sclerotherapy or surgical excision",
+          "Virchow's node (Troisier's sign): enlarged left supraclavicular node → intra-abdominal malignancy (gastric cancer) via thoracic duct",
+          "Rule of 80s: 80% of lateral neck masses in adults >40 years are malignant; 80% of malignant lateral neck masses are metastatic SCC"
+        ],
+        "examQA": [
+          {
+            "q": "A 25-year-old has a 3 cm midline neck swelling that moves upward on swallowing and on tongue protrusion. Present since childhood. What is the diagnosis and treatment?",
+            "a": "Thyroglossal cyst — remnant of thyroglossal duct (from foramen caecum at tongue base to thyroid). Moves with swallowing (attached to hyoid) AND with tongue protrusion (unique distinguishing feature). Treatment: Sistrunk operation — excision of cyst + central portion of hyoid bone + tissue up to foramen caecum to prevent recurrence (3–5% vs 50% if cyst alone removed)."
+          },
+          {
+            "q": "A 20-year-old has a 4 cm fluctuant painless lump at the anterior border of the upper third of the right SCM. Aspiration yields creamy fluid with cholesterol crystals. What is the diagnosis?",
+            "a": "Branchial cyst — from incomplete obliteration of the second branchial cleft. Located deep to SCM, anterior to its anterior border, upper-middle third junction. Cholesterol crystals in fluid (pathognomonic). Treatment: surgical excision. In adults >40 years, exclude cystic metastasis from SCC of tonsil/tongue base (HPV-related) — send fluid for cytology."
+          },
+          {
+            "q": "A 50-year-old man has a hard non-tender left supraclavicular lymph node. He has early satiety and weight loss. What is the significance?",
+            "a": "Virchow's node (Troisier's sign) — left supraclavicular region drains abdominal organs via the thoracic duct. Hard, non-tender supraclavicular node + GI symptoms = intra-abdominal malignancy until proven otherwise (gastric cancer most common; also pancreatic, colonic). Urgent upper GI endoscopy + CT abdomen/chest/pelvis. FNAC confirms metastatic adenocarcinoma."
+          },
+          {
+            "q": "What is the systematic approach to a lateral neck lump in clinical practice?",
+            "a": "History: age, duration, pain, weight loss, smoking/alcohol, fever, dysphagia. Examination: site (anterior/posterior triangle), consistency (soft/firm/hard/fluctuant), transillumination, movement with swallowing/tongue protrusion, associated masses. Investigations: USS ± FNAC first; CT neck+thorax; MRI for deep structures. If metastatic SCC: panendoscopy (nasopharynx, tongue base, tonsils, pyriform fossa, supraglottis) to find primary."
+          }
+        ]
+      },
+      {
+        "id": "airway-emergencies",
+        "name": "Airway Emergencies",
+        "syllabusRef": "Phase IV ENT",
+        "section": "Head & Neck",
+        "description": "Causes by age, croup vs epiglottitis, foreign body — Heimlich manoeuvre, emergency tracheostomy",
+        "svgKey": "mbbs-ent-airway-emergencies",
+        "landmarks": [
+          "Croup (laryngotracheobronchitis): parainfluenza virus, 6 months–3 years; barking cough, inspiratory stridor, steeple sign on AP neck X-ray; nebulised adrenaline + dexamethasone",
+          "Epiglottitis: Haemophilus influenzae type b (now Streptococcus in post-Hib era); sudden onset, tripod posture, drooling, toxic, thumbprint sign — do NOT examine throat",
+          "Heimlich manoeuvre: fist below xiphisternum above umbilicus, 5 upward abdominal thrusts — NOT for infants (<1 year), use back blows",
+          "Cricothyrotomy vs tracheostomy: cricothyrotomy quicker — between thyroid and cricoid cartilage; first choice in CICO (can't intubate can't oxygenate)",
+          "Stridor: inspiratory → supraglottic/glottic; expiratory → subglottic/tracheal; biphasic → subglottic stenosis; assess severity by work of breathing and O2 sat"
+        ],
+        "examQA": [
+          {
+            "q": "A 2-year-old develops barking cough, hoarse voice, and inspiratory stridor at night. Temperature 37.8°C. O2 saturations normal. What is the diagnosis and management?",
+            "a": "Croup (laryngotracheobronchitis) — parainfluenza virus. Westley score to assess severity. Mild: single dose dexamethasone 0.15–0.6 mg/kg PO/IM. Moderate-severe: nebulised adrenaline (1:1000, 5 mL) + dexamethasone. Admit if recurrent nebulisations needed or saturations impaired. Avoid distressing child (worsens obstruction)."
+          },
+          {
+            "q": "A 4-year-old develops sudden fever 40°C, severe sore throat, drooling, muffled voice, and sits in tripod position refusing to lie down. What is the critical first step?",
+            "a": "Epiglottitis — bacterial (Group A Strep or Hib). DO NOT examine the throat or take a throat swab (can precipitate complete obstruction). Keep child calm, sitting upright with parent. Call senior anaesthetist and ENT immediately. Take to theatre for controlled intubation under inhalational anaesthesia. IV ceftriaxone + dexamethasone post-intubation. Extubate when oedema subsides (24–48 h)."
+          },
+          {
+            "q": "A 50-year-old collapses at a restaurant after eating steak, cannot speak, and is turning cyanotic. Describe the Heimlich manoeuvre.",
+            "a": "Complete foreign body airway obstruction — universal choking sign. Heimlich manoeuvre: stand behind patient, arms around upper abdomen; make a fist (thumb inward), place between navel and xiphisternum; cover with other hand; deliver 5 firm upward abdominal thrusts. If ineffective: repeat up to 5 times then alternate with 5 back blows. If unconscious: CPR with airway checks after each 30 compressions. Direct laryngoscopy ± Magill forceps if available."
+          },
+          {
+            "q": "Describe the anatomical landmarks for an emergency cricothyrotomy and its indications.",
+            "a": "Indication: CICO (cannot intubate cannot oxygenate) emergency. Anatomy: cricothyroid membrane (CTM) between thyroid cartilage (superior) and cricoid cartilage (inferior), midline soft depression below thyroid notch, 0.9 × 3 cm. Surgical technique: stab incision through skin and CTM, dilate with tracheal hook/dilator, insert cuffed tube 6 mm ID. Needle cricothyrotomy: 14G cannula at 45° caudally, jet insufflation O2 at 15 L/min — buys 30–45 min. Convert to formal tracheostomy when stabilised."
+          }
+        ]
+      }
+    ]
   }
 };
 
@@ -3706,6 +4209,7 @@ export function getTopicVisualsKey(subj) {
   if (name.includes('community'))                               return 'mbbs_community_medicine';
   if (name.includes('ophthalmology') || name.includes('opth'))  return 'mbbs_ophthalmology';
   if (name.includes('obstetrics') || name.includes('gynaecology') || name.includes('gynae') || name.includes('obs & gyn') || name.includes('obgyn')) return 'mbbs_obs_gynae';
+  if (name.includes('ear, nose') || name.includes('ent') || name.includes('otolaryngology') || name.includes('otorhinolaryngology')) return 'mbbs_ent';
   if (name.includes('medicine') && !name.includes('forensic') && !name.includes('community')) return 'mbbs_medicine';
   return null;
 }
