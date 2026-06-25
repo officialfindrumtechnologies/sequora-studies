@@ -74,7 +74,7 @@ const EDX_AL_DATES = {
 };
 
 function _genEdxIgcse(code, folder, years, papers) {
-  const base = 'Edexcel%20IGCSE';
+  const base = 'edexcel-igcse';
   const out = [];
   for (const yr of years) {
     for (const [sessKey, sessName] of [['Jan', 'January'], ['Jun', 'June']]) {
@@ -90,7 +90,7 @@ function _genEdxIgcse(code, folder, years, papers) {
 }
 
 function _genEdxAl(code, folder, years, papers) {
-  const base = 'Edexcel%20A%20Level';
+  const base = 'edexcel-a-level';
   const out = [];
   for (const yr of years) {
     const date = EDX_AL_DATES[yr];
@@ -118,7 +118,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Mathematics',
     qualification: 'IGCSE / O Level',
     examBoard: 'Cambridge IGCSE',
-    papers: _genCam('IGCSE', '0580', 'Mathematics%20(0580)', CAM_YEARS, CAM_SESS, [
+    papers: _genCam('cambridge-IGCSE', '0580', 'mathematics-(0580)', CAM_YEARS, CAM_SESS, [
       [1, 'P1 (Core)'], [2, 'P2 (Extended)'], [3, 'P3 (Core)'], [4, 'P4 (Extended)'],
     ]),
   },
@@ -127,7 +127,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Physics',
     qualification: 'IGCSE / O Level',
     examBoard: 'Cambridge IGCSE',
-    papers: _genCam('IGCSE', '0625', 'Physics%20(0625)', CAM_YEARS, CAM_SESS, [
+    papers: _genCam('cambridge-IGCSE', '0625', 'physics-(0625)', CAM_YEARS, CAM_SESS, [
       [1, 'P1'], [2, 'P2'], [3, 'P3'],
     ]),
   },
@@ -136,7 +136,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Chemistry',
     qualification: 'IGCSE / O Level',
     examBoard: 'Cambridge IGCSE',
-    papers: _genCam('IGCSE', '0620', 'Chemistry%20(0620)', CAM_YEARS, CAM_SESS, [
+    papers: _genCam('cambridge-IGCSE', '0620', 'chemistry-(0620)', CAM_YEARS, CAM_SESS, [
       [1, 'P1'], [2, 'P2'], [3, 'P3'],
     ]),
   },
@@ -145,7 +145,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Biology',
     qualification: 'IGCSE / O Level',
     examBoard: 'Cambridge IGCSE',
-    papers: _genCam('IGCSE', '0610', 'Biology%20(0610)', CAM_YEARS, CAM_SESS, [
+    papers: _genCam('cambridge-IGCSE', '0610', 'biology-(0610)', CAM_YEARS, CAM_SESS, [
       [1, 'P1'], [2, 'P2'], [3, 'P3'],
     ]),
   },
@@ -154,7 +154,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Economics',
     qualification: 'IGCSE / O Level',
     examBoard: 'Cambridge IGCSE',
-    papers: _genCam('IGCSE', '0455', 'Economics%20(0455)', CAM_YEARS, CAM_SESS, [
+    papers: _genCam('cambridge-IGCSE', '0455', 'economics-(0455)', CAM_YEARS, CAM_SESS, [
       [1, 'P1'], [2, 'P2'],
     ]),
   },
@@ -163,7 +163,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Business Studies',
     qualification: 'IGCSE / O Level',
     examBoard: 'Cambridge IGCSE',
-    papers: _genCam('IGCSE', '0450', 'Business%20Studies%20(0450)', CAM_YEARS, CAM_SESS, [
+    papers: _genCam('cambridge-IGCSE', '0450', 'business-studies-(0450)', CAM_YEARS, CAM_SESS, [
       [1, 'P1'], [2, 'P2'],
     ]),
   },
@@ -174,49 +174,49 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Mathematics A',
     qualification: 'IGCSE / O Level',
     examBoard: 'Edexcel IGCSE',
-    papers: _genEdxIgcse('4MA1', 'Mathematics%20A%20(4MA1)', EDX_IG_YEARS, ['1H', '2H', '1F', '2F']),
+    papers: _genEdxIgcse('4MA1', 'mathematics-a-(4ma1)', EDX_IG_YEARS, ['1H', '2H', '1F', '2F']),
   },
 
   '4PH1': {
     subjectName: 'Physics',
     qualification: 'IGCSE / O Level',
     examBoard: 'Edexcel IGCSE',
-    papers: _genEdxIgcse('4PH1', 'Physics%20(4PH1)', EDX_IG_YEARS, ['1P', '2P']),
+    papers: _genEdxIgcse('4PH1', 'physics-(4ph1)', EDX_IG_YEARS, ['1P', '2P']),
   },
 
   '4CH1': {
     subjectName: 'Chemistry',
     qualification: 'IGCSE / O Level',
     examBoard: 'Edexcel IGCSE',
-    papers: _genEdxIgcse('4CH1', 'Chemistry%20(4CH1)', EDX_IG_YEARS, ['1C', '2C']),
+    papers: _genEdxIgcse('4CH1', 'chemistry-(4ch1)', EDX_IG_YEARS, ['1C', '2C']),
   },
 
   '4BI1': {
     subjectName: 'Biology',
     qualification: 'IGCSE / O Level',
     examBoard: 'Edexcel IGCSE',
-    papers: _genEdxIgcse('4BI1', 'Biology%20(4BI1)', EDX_IG_YEARS, ['1B', '2B']),
+    papers: _genEdxIgcse('4BI1', 'biology-(4bi1)', EDX_IG_YEARS, ['1B', '2B']),
   },
 
   '4AC1': {
     subjectName: 'Accounting',
     qualification: 'IGCSE / O Level',
     examBoard: 'Edexcel IGCSE',
-    papers: _genEdxIgcse('4AC1', 'Accounting%20(4AC1)', EDX_IG_YEARS, ['01']),
+    papers: _genEdxIgcse('4AC1', 'accounting-(4ac1)', EDX_IG_YEARS, ['01']),
   },
 
   '4EC1': {
     subjectName: 'Economics',
     qualification: 'IGCSE / O Level',
     examBoard: 'Edexcel IGCSE',
-    papers: _genEdxIgcse('4EC1', 'Economics%20(4EC1)', EDX_IG_YEARS, ['01', '02']),
+    papers: _genEdxIgcse('4EC1', 'economics-(4ec1)', EDX_IG_YEARS, ['01', '02']),
   },
 
   '4BS1': {
     subjectName: 'Business Studies',
     qualification: 'IGCSE / O Level',
     examBoard: 'Edexcel IGCSE',
-    papers: _genEdxIgcse('4BS1', 'Business%20Studies%20(4BS1)', EDX_IG_YEARS, ['01', '02']),
+    papers: _genEdxIgcse('4BS1', 'business-studies-(4bs1)', EDX_IG_YEARS, ['01', '02']),
   },
 
   // ── Cambridge A Level ──────────────────────────────────────────────────────
@@ -225,7 +225,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Mathematics',
     qualification: 'A Level',
     examBoard: 'Cambridge',
-    papers: _genCam('A%20Levels', '9709', 'Mathematics%20(9709)', CAM_YEARS, CAM_SESS, [
+    papers: _genCam('a-levels', '9709', 'mathematics-(9709)', CAM_YEARS, CAM_SESS, [
       [1, 'P1 (Pure 1)'], [2, 'P2 (Pure 2)'], [3, 'P3 (Pure 3)'],
       [4, 'P4 (Mechanics)'], [5, 'P5 (Stats 1)'], [6, 'P6 (Stats 2)'],
     ]),
@@ -235,7 +235,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Physics',
     qualification: 'A Level',
     examBoard: 'Cambridge',
-    papers: _genCam('A%20Levels', '9702', 'Physics%20(9702)', CAM_YEARS, CAM_SESS, [
+    papers: _genCam('a-levels', '9702', 'physics-(9702)', CAM_YEARS, CAM_SESS, [
       [1, 'P1 (MCQ)'], [2, 'P2 (AS Structured)'], [3, 'P3 (Practical)'],
       [4, 'P4 (A2 Structured)'], [5, 'P5 (Planning)'],
     ]),
@@ -245,7 +245,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Chemistry',
     qualification: 'A Level',
     examBoard: 'Cambridge',
-    papers: _genCam('A%20Levels', '9701', 'Chemistry%20(9701)', CAM_YEARS, CAM_SESS, [
+    papers: _genCam('a-levels', '9701', 'chemistry-(9701)', CAM_YEARS, CAM_SESS, [
       [1, 'P1 (MCQ)'], [2, 'P2 (AS Structured)'], [3, 'P3 (Practical)'],
       [4, 'P4 (A2 Structured)'], [5, 'P5 (Planning)'],
     ]),
@@ -255,7 +255,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Biology',
     qualification: 'A Level',
     examBoard: 'Cambridge',
-    papers: _genCam('A%20Levels', '9700', 'Biology%20(9700)', CAM_YEARS, CAM_SESS, [
+    papers: _genCam('a-levels', '9700', 'biology-(9700)', CAM_YEARS, CAM_SESS, [
       [1, 'P1 (MCQ)'], [2, 'P2 (AS Structured)'], [3, 'P3 (Practical)'],
       [4, 'P4 (A2 Structured)'], [5, 'P5 (Planning)'],
     ]),
@@ -265,7 +265,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Economics',
     qualification: 'A Level',
     examBoard: 'Cambridge',
-    papers: _genCam('A%20Levels', '9708', 'Economics%20(9708)', CAM_YEARS, CAM_SESS, [
+    papers: _genCam('a-levels', '9708', 'economics-(9708)', CAM_YEARS, CAM_SESS, [
       [1, 'P1 (MCQ)'], [2, 'P2 (Data Response)'],
       [3, 'P3 (MCQ)'],  [4, 'P4 (Essay)'],
     ]),
@@ -381,28 +381,28 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Mathematics',
     qualification: 'A Level',
     examBoard: 'Edexcel',
-    papers: _genEdxAl('9MA0', 'Mathematics%20(9MA0)', EDX_AL_YEARS, ['01', '02', '03']),
+    papers: _genEdxAl('9MA0', 'mathematics-(9ma0)', EDX_AL_YEARS, ['01', '02', '03']),
   },
 
   '9PH0': {
     subjectName: 'Physics',
     qualification: 'A Level',
     examBoard: 'Edexcel',
-    papers: _genEdxAl('9PH0', 'Physics%20(9PH0)', EDX_AL_YEARS, ['01', '02', '03']),
+    papers: _genEdxAl('9PH0', 'physics-(9ph0)', EDX_AL_YEARS, ['01', '02', '03']),
   },
 
   '9CH0': {
     subjectName: 'Chemistry',
     qualification: 'A Level',
     examBoard: 'Edexcel',
-    papers: _genEdxAl('9CH0', 'Chemistry%20(9CH0)', EDX_AL_YEARS, ['01', '02', '03']),
+    papers: _genEdxAl('9CH0', 'chemistry-(9ch0)', EDX_AL_YEARS, ['01', '02', '03']),
   },
 
   '9BI0': {
     subjectName: 'Biology',
     qualification: 'A Level',
     examBoard: 'Edexcel',
-    papers: _genEdxAl('9BI0', 'Biology%20(9BI0)', EDX_AL_YEARS, ['01', '02', '03']),
+    papers: _genEdxAl('9BI0', 'biology-(9bi0)', EDX_AL_YEARS, ['01', '02', '03']),
   },
 };
 

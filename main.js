@@ -2487,7 +2487,7 @@ function ppOpenPaper(url, label) {
     }
   }, 8000);
 
-  iframe.src = url;
+  iframe.src = 'https://mozilla.github.io/pdf.js/web/viewer.html?file=' + encodeURIComponent(url);
   overlay.classList.remove('hidden');
   document.body.style.overflow = 'hidden';
 }
