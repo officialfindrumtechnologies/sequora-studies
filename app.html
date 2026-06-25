@@ -803,27 +803,20 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text
 .pp-paper-btn.ms:hover{border-color:rgba(74,222,128,.4);background:rgba(74,222,128,.08)}
 .pp-empty{font-family:var(--mono);font-size:12px;color:var(--text-dim);padding:32px;text-align:center;border:1px solid var(--border);border-radius:var(--r);background:var(--surface);line-height:1.7}
 /* PDF viewer modal */
-.pp-pdf-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:1000;display:flex;flex-direction:column;animation:fadein .18s ease}
-.pp-pdf-overlay.hidden{display:none}
-.pp-pdf-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0}
-.pp-pdf-title{font-family:var(--mono);font-size:11px;color:var(--text);font-weight:500;letter-spacing:.03em;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.pp-pdf-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.pp-pdf-newtab{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.05em;padding:5px 12px;border-radius:var(--rs);cursor:pointer;border:1px solid rgba(var(--glow-color),.3);background:rgba(var(--glow-color),.07);color:var(--accent);transition:all .15s}
-.pp-pdf-newtab:hover{border-color:rgba(var(--glow-color),.55);background:rgba(var(--glow-color),.13)}
-.pp-pdf-close{background:transparent;border:1px solid var(--border);border-radius:var(--rs);color:var(--text-dim);font-family:var(--mono);font-size:11px;padding:5px 10px;cursor:pointer;transition:all .15s}
-.pp-pdf-close:hover{border-color:var(--red);color:var(--red)}
-.pp-pdf-body{flex:1;position:relative;overflow:hidden}
-.pp-pdf-iframe{width:100%;height:100%;border:none;display:block}
-.pp-pdf-spinner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:var(--bg);transition:opacity .3s}
-.pp-pdf-spinner.gone{opacity:0;pointer-events:none}
-.pp-spinner-ring{width:34px;height:34px;border:2.5px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:pp-spin .8s linear infinite}
-@keyframes pp-spin{to{transform:rotate(360deg)}}
-.pp-spinner-lbl{font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:.08em}
-.pp-pdf-fallback{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:var(--bg)}
-.pp-pdf-fallback.show{display:flex}
-.pp-fallback-msg{font-family:var(--mono);font-size:12px;color:var(--text-dim);text-align:center;line-height:1.8;max-width:320px}
-.pp-fallback-btn{font-family:var(--body);font-size:14px;font-weight:600;padding:10px 24px;border-radius:var(--rs);cursor:pointer;border:1px solid var(--accent);background:rgba(var(--glow-color),.07);color:var(--accent);transition:all .15s}
-.pp-fallback-btn:hover{background:rgba(var(--glow-color),.16)}
+.pp-link-panel{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:2px solid var(--border);padding:14px 20px 20px;z-index:1000;animation:slideup .2s ease}
+.pp-link-panel.hidden{display:none}
+@keyframes slideup{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.pp-link-panel-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+.pp-link-label{font-family:var(--mono);font-size:12px;color:var(--text);font-weight:600;letter-spacing:.03em}
+.pp-link-close{background:transparent;border:none;color:var(--text-dim);font-size:18px;cursor:pointer;line-height:1;padding:2px 6px}
+.pp-link-close:hover{color:var(--red)}
+.pp-link-body{display:flex;gap:10px;flex-wrap:wrap}
+.pp-link-btn{font-family:var(--body);font-size:14px;font-weight:600;padding:10px 22px;border-radius:var(--rs);cursor:pointer;text-decoration:none;display:inline-block;transition:all .15s}
+.pp-link-btn.primary{border:1px solid rgba(var(--glow-color),.4);background:rgba(var(--glow-color),.08);color:var(--accent)}
+.pp-link-btn.primary:hover{background:rgba(var(--glow-color),.18)}
+.pp-link-btn.fallback{border:1px solid var(--border);background:var(--bg);color:var(--text-dim)}
+.pp-link-btn.fallback:hover{border-color:var(--text-dim);color:var(--text)}
+.pp-link-note{font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-top:10px;letter-spacing:.03em}
 
 /* ── IB level badges ─────────────────────────────────────────── */
 .ib-lv-badge{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:1px 6px;border-radius:3px;vertical-align:middle;margin-left:4px;flex-shrink:0}
@@ -1344,25 +1337,16 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
   </section>
 
   <!-- PDF viewer modal (full-screen, outside section) -->
-  <div id="pp-pdf-overlay" class="pp-pdf-overlay hidden">
-    <div class="pp-pdf-head">
-      <span class="pp-pdf-title" id="pp-pdf-title"></span>
-      <div class="pp-pdf-actions">
-        <button class="pp-pdf-newtab" id="pp-pdf-newtab-btn" onclick="ppOpenNewTab()">Open in new tab →</button>
-        <button class="pp-pdf-close" onclick="ppClosePdfModal()">✕ Close</button>
-      </div>
+  <div id="pp-link-panel" class="pp-link-panel hidden">
+    <div class="pp-link-panel-head">
+      <span class="pp-link-label" id="pp-link-label"></span>
+      <button class="pp-link-close" onclick="ppClosePaperPanel()">✕</button>
     </div>
-    <div class="pp-pdf-body">
-      <iframe id="pp-pdf-iframe" class="pp-pdf-iframe" title="Past paper PDF"></iframe>
-      <div class="pp-pdf-spinner" id="pp-pdf-spinner">
-        <div class="pp-spinner-ring"></div>
-        <span class="pp-spinner-lbl">Loading PDF…</span>
-      </div>
-      <div class="pp-pdf-fallback" id="pp-pdf-fallback">
-        <span class="pp-fallback-msg">This PDF couldn't load in the viewer — the host may block embedding.<br>Open it directly in a new tab instead.</span>
-        <button class="pp-fallback-btn" onclick="ppOpenNewTab()">Open in new tab →</button>
-      </div>
+    <div class="pp-link-body">
+      <a id="pp-link-primary" class="pp-link-btn primary" href="#" target="_blank" rel="noopener">Open PDF →</a>
+      <a id="pp-link-fallback" class="pp-link-btn fallback" href="#" target="_blank" rel="noopener">Try PapaCambridge →</a>
     </div>
+    <div class="pp-link-note">Opens in a new tab — if the link is broken, try PapaCambridge</div>
   </div>
 
   <!-- ================= COVERAGE MAP ================= -->

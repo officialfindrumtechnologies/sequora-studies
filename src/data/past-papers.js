@@ -30,6 +30,23 @@ const IB_SESS  = [['May', 'May'], ['Nov', 'November']];
 const IB_YEARS = _y(2019, 2024); // Math AA/AI full range
 const IB_YEARS_S = _y(2019, 2023); // Sciences/Humanities (2024 not yet widely available)
 
+// PapaCambridge search URL builder
+function _papaCamUrl(qualification, examBoard, subjectName, code, year, session) {
+  const subjSlug = subjectName.toLowerCase().replace(/\s+/g, '-');
+  const sessMap = {
+    'May/June': 'may-june', 'Oct/Nov': 'october-november',
+    'January': 'january', 'June': 'june', 'May': 'may', 'November': 'november',
+  };
+  const sessSlug = sessMap[session] ?? session.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  let prefix;
+  if (examBoard === 'Cambridge') prefix = 'as-and-a-level';
+  else if (examBoard === 'Cambridge IGCSE') prefix = 'cambridge-igcse';
+  else if (examBoard === 'Edexcel') prefix = 'edexcel-international-a-level';
+  else if (examBoard === 'Edexcel IGCSE') prefix = 'edexcel-igcse';
+  else prefix = 'ib';
+  return `https://pastpapers.papacambridge.com/papers/caie/${prefix}-${subjSlug}-${code.toLowerCase()}-${year}-${sessSlug}`;
+}
+
 // Cambridge URL builders
 function _camUrl(base, folder, year, code, sess, type, pv) {
   const y2 = String(year).slice(2);
@@ -405,6 +422,13 @@ export const PAST_PAPERS_DB = {
     papers: _genEdxAl('9BI0', 'biology-(9bi0)', EDX_AL_YEARS, ['01', '02', '03']),
   },
 };
+
+// Attach PapaCambridge search URLs to every entry
+for (const [code, subj] of Object.entries(PAST_PAPERS_DB)) {
+  for (const p of subj.papers) {
+    p.pcUrl = _papaCamUrl(subj.qualification, subj.examBoard, subj.subjectName, code, p.year, p.session);
+  }
+}
 
 /**
  * Get past paper entries for a given exam code.

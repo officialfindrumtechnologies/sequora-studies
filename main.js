@@ -2257,7 +2257,6 @@ async function renderCoverage(){
 /* ============ past papers ============ */
 let _ppTab = 'papers';
 let _ppActiveCode = null; // exam_code currently viewing papers for
-let _ppActiveUrl = null;  // current PDF URL for "open in new tab"
 let _ppUserSubjects = []; // cached subjects from Supabase
 
 function ppSwitchTab(tab) {
@@ -2349,7 +2348,7 @@ function _ppBuildYearHtml(papers, labelPrefix) {
     if (!yr[p.session]) yr[p.session] = {};
     const sess = yr[p.session];
     if (!sess[p.paper]) sess[p.paper] = {};
-    sess[p.paper][p.component] = p.url;
+    sess[p.paper][p.component] = { url: p.url, pcUrl: p.pcUrl || '' };
   }
   let html = '';
   const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
@@ -2362,8 +2361,8 @@ function _ppBuildYearHtml(papers, labelPrefix) {
         html += `<div class="pp-paper-group">
           <div class="pp-paper-label">${_ppEsc(paperLabel)}</div>
           <div class="pp-paper-btns">`;
-        if (comps.QP) html += `<button class="pp-paper-btn qp" onclick="ppOpenPaper('${_ppEsc(comps.QP)}','${_ppEsc(label + ' QP')}')">QP</button>`;
-        if (comps.MS) html += `<button class="pp-paper-btn ms" onclick="ppOpenPaper('${_ppEsc(comps.MS)}','${_ppEsc(label + ' MS')}')">MS</button>`;
+        if (comps.QP) html += `<button class="pp-paper-btn qp" onclick="ppOpenPaper('${_ppEsc(comps.QP.url)}','${_ppEsc(comps.QP.pcUrl)}','${_ppEsc(label + ' QP')}')">QP</button>`;
+        if (comps.MS) html += `<button class="pp-paper-btn ms" onclick="ppOpenPaper('${_ppEsc(comps.MS.url)}','${_ppEsc(comps.MS.pcUrl)}','${_ppEsc(label + ' MS')}')">MS</button>`;
         html += `</div></div>`;
       }
       html += `</div></div>`;
@@ -2441,71 +2440,24 @@ function ppBackToSubjects() {
 }
 window.ppBackToSubjects = ppBackToSubjects;
 
-function ppOpenPaper(url, label) {
-  _ppActiveUrl = url;
-  const overlay = document.getElementById('pp-pdf-overlay');
-  const iframe = document.getElementById('pp-pdf-iframe');
-  const titleEl = document.getElementById('pp-pdf-title');
-  const spinner = document.getElementById('pp-pdf-spinner');
-  const fallback = document.getElementById('pp-pdf-fallback');
-  if (!overlay || !iframe) return;
-
-  if (titleEl) titleEl.textContent = label;
-  if (spinner) spinner.classList.remove('gone');
-  if (fallback) fallback.classList.remove('show');
-
-  // Detect load/error
-  const onLoad = () => {
-    if (spinner) spinner.classList.add('gone');
-    iframe.removeEventListener('load', onLoad);
-    iframe.removeEventListener('error', onError);
-  };
-  const onError = () => {
-    if (spinner) spinner.classList.add('gone');
-    if (fallback) fallback.classList.add('show');
-    iframe.removeEventListener('load', onLoad);
-    iframe.removeEventListener('error', onError);
-  };
-  iframe.addEventListener('load', onLoad);
-  iframe.addEventListener('error', onError);
-
-  // Timeout fallback for X-Frame-Options blocks (browser won't fire error)
-  setTimeout(() => {
-    // If spinner still showing after 8s, try to detect blank/blocked iframe
-    if (!spinner?.classList.contains('gone')) {
-      try {
-        // Access contentDocument — throws if cross-origin blocked
-        const doc = iframe.contentDocument;
-        if (!doc || doc.body?.innerHTML === '') {
-          if (spinner) spinner.classList.add('gone');
-          if (fallback) fallback.classList.add('show');
-        }
-      } catch (e) {
-        // Cross-origin means something loaded (or was blocked by CORS, not X-Frame)
-        if (spinner) spinner.classList.add('gone');
-      }
-    }
-  }, 8000);
-
-  iframe.src = 'https://mozilla.github.io/pdf.js/web/viewer.html?file=' + encodeURIComponent(url);
-  overlay.classList.remove('hidden');
-  document.body.style.overflow = 'hidden';
+function ppOpenPaper(url, pcUrl, label) {
+  const panel = document.getElementById('pp-link-panel');
+  const labelEl = document.getElementById('pp-link-label');
+  const primaryBtn = document.getElementById('pp-link-primary');
+  const fallbackBtn = document.getElementById('pp-link-fallback');
+  if (!panel) return;
+  if (labelEl) labelEl.textContent = label;
+  if (primaryBtn) primaryBtn.href = url;
+  if (fallbackBtn) fallbackBtn.href = pcUrl || 'https://pastpapers.papacambridge.com/';
+  panel.classList.remove('hidden');
 }
 window.ppOpenPaper = ppOpenPaper;
 
-function ppClosePdfModal() {
-  const overlay = document.getElementById('pp-pdf-overlay');
-  const iframe = document.getElementById('pp-pdf-iframe');
-  if (overlay) overlay.classList.add('hidden');
-  if (iframe) iframe.src = '';
-  document.body.style.overflow = '';
+function ppClosePaperPanel() {
+  const panel = document.getElementById('pp-link-panel');
+  if (panel) panel.classList.add('hidden');
 }
-window.ppClosePdfModal = ppClosePdfModal;
-
-function ppOpenNewTab() {
-  if (_ppActiveUrl) window.open(_ppActiveUrl, '_blank', 'noopener');
-}
-window.ppOpenNewTab = ppOpenNewTab;
+window.ppClosePaperPanel = ppClosePaperPanel;
 
 /* ============ nav ============ */
 function go(v){
