@@ -3035,9 +3035,508 @@ export const TOPIC_VISUALS = {
     ]
   },
   mbbs_ophthalmology: {
-    "title": "MBBS Ophthalmology",
-    "slug": "mbbs_ophthalmology",
-    "topics": []
+    subjectName: 'MBBS Ophthalmology',
+    examCode: 'BMDC',
+    sections: ['Anterior Segment', 'Posterior Segment', 'Neuro-ophthalmology', 'Paediatric & Systemic'],
+    topics: [
+      {
+        "id": "eye-anatomy",
+        "name": "Anatomy of the Eye",
+        "syllabusRef": "Phase IV Ophthalmology",
+        "section": "Anterior Segment",
+        "description": "Globe layers — fibrous/uveal/retinal, anterior/posterior segments, lens, vitreous, extraocular muscles",
+        "svgKey": "mbbs-opth-eye-anatomy",
+        "landmarks": [
+          "Globe: 24 mm axial length; 3 coats — fibrous (sclera 5/6 + cornea 1/6), uveal (choroid+ciliary+iris), retinal (10 layers)",
+          "Aqueous humour produced by ciliary body epithelium; drains via trabecular meshwork → Canal of Schlemm → episcleral veins",
+          "Fovea centralis (within macula): highest cone density, no rods, no vessels — site of maximum visual acuity (6/6)",
+          "6 extraocular muscles: SR/IR/MR/IO (CN III), SO (CN IV — trochlear), LR (CN VI — abducens); mnemonic LR6 SO4 AO3",
+          "Vitreous: 4 mL, 99% water + hyaluronic acid; attached at optic disc and vitreous base anteriorly"
+        ],
+        "examQA": [
+          {
+            "q": "Name the three coats of the eyeball and their subdivisions.",
+            "a": "1. Fibrous coat: sclera (posterior 5/6, opaque, protective) + cornea (anterior 1/6, transparent, main refracting surface). 2. Uveal (vascular) coat: choroid (nutrition) + ciliary body (aqueous production, accommodation) + iris (pupil). 3. Retinal (nervous) coat: RPE + 9 neuronal layers; fovea centralis is the point of maximum acuity."
+          },
+          {
+            "q": "Which cranial nerves supply the extraocular muscles? Give the muscle and its action.",
+            "a": "CN III (oculomotor): SR (elevation), IR (depression), MR (adduction), IO (elevation in adduction, extorsion). CN IV (trochlear): SO — depression and intorsion in the adducted position. CN VI (abducens): LR — abduction only. Mnemonic: LR6 SO4, rest CN III."
+          },
+          {
+            "q": "Describe the pathway of aqueous humour and its clinical significance.",
+            "a": "Produced by ciliary body non-pigmented epithelium → posterior chamber → through pupil → anterior chamber → trabecular meshwork (conventional, 90%) → Canal of Schlemm → episcleral veins. Uveoscleral route (10%): ciliary body → supraciliary space. Obstruction at any point raises IOP — key mechanism of glaucoma."
+          },
+          {
+            "q": "What is the difference between the anterior and posterior segments?",
+            "a": "Anterior segment: structures in front of the vitreous — cornea, anterior chamber (aqueous), iris, ciliary body, and lens. Contains aqueous humour (~0.25 mL). Posterior segment: all structures behind the lens — vitreous body (4 mL), retina, choroid, and optic disc. The vitreous base is the strongest attachment between vitreous and retina."
+          }
+        ]
+      },
+      {
+        "id": "refraction-va",
+        "name": "Visual Acuity and Refraction",
+        "syllabusRef": "Phase IV Ophthalmology",
+        "section": "Anterior Segment",
+        "description": "Snellen chart, pinhole test, myopia/hypermetropia/astigmatism/presbyopia — correction",
+        "svgKey": "mbbs-opth-refraction",
+        "threejs3dFn": "createRayRefraction",
+        "landmarks": [
+          "Snellen VA: distance tested / smallest line read — 6/6 normal; 6/60 = legal blindness threshold in UK; WHO blindness <3/60 in better eye",
+          "Pinhole test: limits peripheral rays, eliminates refractive error — improvement suggests refractive cause (not amblyopia/organic disease)",
+          "Myopia (short-sightedness): long axial length → image focuses in front of retina; corrected with concave (−ve) spherical lens",
+          "Hypermetropia (long-sightedness): short axial length → image behind retina; corrected with convex (+ve) lens; accommodation can mask mild cases in young",
+          "Presbyopia: reduced accommodation >40 years from lens stiffening; needs +ve reading addition (near add +1.0D at 40 → +3.25D at 65)"
+        ],
+        "examQA": [
+          {
+            "q": "A 45-year-old teacher notices difficulty reading small print but distance vision is normal. What is the diagnosis and management?",
+            "a": "Presbyopia — loss of accommodation due to lens stiffening with age. Normal distance VA (emmetropic); difficulty at near. Reading addition: +1.0–1.5D at age 45, increasing to +3.25D by 65. Options: reading glasses, bifocal or varifocal lenses. LASIK monovision is an option for suitable patients."
+          },
+          {
+            "q": "Explain the pinhole test and when it is useful.",
+            "a": "A pinhole disc (1–2 mm aperture) placed in front of the eye eliminates peripheral (aberrant) light rays, reducing the blur circle on the retina. If VA improves with pinhole, the cause is refractive (myopia, hypermetropia, astigmatism). If VA does not improve, the cause is amblyopia, macular disease, optic nerve disease, or media opacity. It is a quick bedside test requiring no equipment."
+          },
+          {
+            "q": "A 10-year-old has distance VA 6/36 correctable to 6/6 with −3.0 DS lenses. What is the diagnosis and treatment?",
+            "a": "Myopia of −3.0 dioptres. Long axial length or increased corneal curvature causes image to fall in front of the retina. Treatment: spectacles or contact lenses with concave (minus sphere) lenses. LASIK surgery after age 18 and stable refraction. Axial myopia progression risk — orthokeratology or atropine 0.01% may slow progression in children."
+          },
+          {
+            "q": "Differentiate myopia and hypermetropia in terms of anatomy, optics and correction.",
+            "a": "Myopia: long axial length (or steep cornea) → parallel rays focus in front of retina → blurred distant vision → correct with concave (−ve, diverging) lens. Hypermetropia: short axial length → focus behind retina → blurred near/far → correct with convex (+ve, converging) lens. Young hypermetropes compensate by accommodation but develop asthenopia (eyestrain)."
+          }
+        ]
+      },
+      {
+        "id": "conjunctivitis",
+        "name": "Conjunctivitis",
+        "syllabusRef": "Phase IV Ophthalmology",
+        "section": "Anterior Segment",
+        "description": "Bacterial — purulent/organisms; viral — adenovirus/EKC; allergic — papillae vs follicles; trachoma — WHO grading",
+        "svgKey": "mbbs-opth-conjunctivitis",
+        "landmarks": [
+          "Bacterial: purulent discharge, morning crusting; organisms — S. aureus, S. pneumoniae, H. influenzae; treat topical chloramphenicol 0.5% 2-hourly",
+          "Viral EKC (adenovirus 8/19): watery discharge, follicles, preauricular lymphadenopathy, pseudomembranes; self-limiting 2–3 weeks; highly contagious",
+          "Allergic: bilateral itching + ropy discharge + PAPILLAE (cobblestone) on upper tarsal conjunctiva; VKC → shield ulcer risk; treat mast cell stabilisers + antihistamines",
+          "Trachoma (C. trachomatis serotypes A/B/Ba/C): WHO stages TF→TI→TS→TT→CO; leading infectious cause of blindness; SAFE strategy; azithromycin 1g stat",
+          "Papillae (central vascular core; bacterial/allergic) vs follicles (lymphoid, avascular; viral/chlamydial/toxic)"
+        ],
+        "examQA": [
+          {
+            "q": "A 30-year-old returns from a swimming pool with bilateral red eyes, watery discharge, and painful pre-auricular lymph nodes. What is the diagnosis and management?",
+            "a": "Epidemic keratoconjunctivitis (EKC) — adenoviral conjunctivitis (serotypes 8, 19, 37). Highly contagious. Management: symptomatic (lubricants, cold compresses); topical antibiotic drops to prevent secondary infection; avoid sharing towels; isolate from work 2 weeks. Pseudomembranes: remove gently. Subepithelial infiltrates may cause prolonged photophobia."
+          },
+          {
+            "q": "Distinguish between papillae and follicles on slit-lamp examination.",
+            "a": "Papillae: red, flat-topped or polygonal elevations with a central vascular core (blood vessel visible at apex); seen in bacterial and allergic conjunctivitis. Giant papillae (>1 mm) on upper tarsal in VKC ('cobblestone'). Follicles: pale grey/white mounds, avascular (no central vessel), composed of lymphoid germinal centres; seen in viral (adenovirus) and chlamydial conjunctivitis."
+          },
+          {
+            "q": "Explain the WHO trachoma grading system and the SAFE strategy.",
+            "a": "WHO grades: TF (trachomatous follicles — ≥5 follicles on upper tarsal conjunctiva), TI (intense inflammation obscuring >50% tarsal vessels), TS (conjunctival scarring — Arlt's line), TT (trichiasis — inturned lashes touching globe), CO (corneal opacity). SAFE strategy: Surgery (trichiasis), Antibiotics (azithromycin 1g stat), Face washing, Environmental improvement."
+          },
+          {
+            "q": "A neonate presents on day 3 with bilateral purulent eye discharge. What are the differential diagnoses?",
+            "a": "Ophthalmia neonatorum: Day 1–2 chemical (silver nitrate), Day 2–4 Neisseria gonorrhoeae (most serious — copious pus, rapid corneal perforation; treat IV ceftriaxone), Day 5–14 Chlamydia trachomatis (most common cause; treat oral erythromycin 14 days). Prophylaxis at birth: tetracycline 1% ointment or povidone-iodine 2.5%."
+          }
+        ]
+      },
+      {
+        "id": "corneal-disorders",
+        "name": "Corneal Disorders",
+        "syllabusRef": "Phase IV Ophthalmology",
+        "section": "Anterior Segment",
+        "description": "Corneal ulcer — bacterial/fungal/Acanthamoeba/herpetic; keratoconus; keratoplasty indications",
+        "svgKey": "mbbs-opth-corneal-disorders",
+        "landmarks": [
+          "Bacterial corneal ulcer: Pseudomonas (contact lens), S. pneumoniae (trauma); pain/photophobia/hypopyon; scrape for culture before antibiotics; topical ciprofloxacin/ofloxacin hourly",
+          "Herpetic (HSV-1) keratitis: dendritic ulcer (branching) → stains with fluorescein/Rose Bengal; treat topical aciclovir 3%; NEVER topical steroids alone (causes geographic ulcer)",
+          "Fungal ulcer (Fusarium/Aspergillus): post-trauma with vegetable matter; feathery margins, dry appearance; treat natamycin 5% / voriconazole; slow response",
+          "Acanthamoeba keratitis: contact lens wearers + swimming; ring infiltrate + severe pain out of proportion; PHMB + chlorhexidine drops; prolonged treatment 6–12 months",
+          "Keratoconus: progressive conical protrusion, thinning; Munson sign (lower lid V-shape in downgaze), Fleischer ring (Fe deposits), scissor reflex on retinoscopy; Rx: RGP → collagen cross-linking → keratoplasty"
+        ],
+        "examQA": [
+          {
+            "q": "A 25-year-old contact lens wearer presents with a painful red eye, photophobia, and a central corneal ulcer with mucopurulent discharge. How do you manage this?",
+            "a": "Suspected bacterial corneal ulcer (Pseudomonas in contact lens wearers). Management: Stop wearing lenses; corneal scrape (Kimura spatula) for microscopy + culture on blood agar, chocolate agar, Sabouraud; start intensive topical fluoroquinolone (ciprofloxacin 0.3% or ofloxacin) every 15–30 min initially; cycloplegia (atropine); review daily; discontinue antibiotics once epithelium healed."
+          },
+          {
+            "q": "A 40-year-old presents with a branching corneal ulcer with reduced corneal sensation after a cold sore. What is the diagnosis and treatment?",
+            "a": "Herpes simplex keratitis — dendritic ulcer. Reduced corneal sensation (CN V involvement). Rose Bengal stains the virus-infected cells at the fronds. Treatment: topical aciclovir 3% ointment 5 times daily for 14 days. NEVER use topical corticosteroids alone (cause geographic ulcer, perforation). Debridement can help. Oral aciclovir for recurrences. Neurotrophic keratopathy if recurrent."
+          },
+          {
+            "q": "What is keratoconus and what are its clinical signs?",
+            "a": "Progressive non-inflammatory ectasia of the cornea causing conical protrusion and thinning. Associated with Down syndrome, atopy, eye rubbing. Signs: Munson sign (V-shape of lower lid in downgaze), Fleischer ring (iron deposits at base of cone, cobalt blue light), Vogt striae (fine vertical stress lines in stroma), scissor reflex/irregular retinoscopy reflex. Management: spectacles → RGP lenses → collagen cross-linking (CXL, halts progression) → keratoplasty (PKP or DALK)."
+          },
+          {
+            "q": "What are the indications for corneal transplantation (keratoplasty)?",
+            "a": "Penetrating keratoplasty (PKP — full thickness): Fuchs endothelial dystrophy, corneal scar/leucoma, keratoconus (failed contact lenses), failed previous graft, bullous keratopathy. Lamellar procedures: DSAEK/DMEK (endothelial only — Fuchs), DALK (deep anterior — keratoconus, stroma disease, preserves host endothelium). Success rates: PKP ~90% at 1 year; failure causes: rejection, infection, high astigmatism."
+          }
+        ]
+      },
+      {
+        "id": "glaucoma",
+        "name": "Glaucoma",
+        "syllabusRef": "Phase IV Ophthalmology",
+        "section": "Anterior Segment",
+        "description": "Primary open-angle vs acute closed-angle — IOP/optic disc/visual field changes, tonometry, trabeculectomy",
+        "svgKey": "mbbs-opth-glaucoma",
+        "landmarks": [
+          "Normal IOP: 10–21 mmHg; Goldmann applanation tonometry — gold standard; non-contact (air puff) tonometry for screening",
+          "POAG: insidious, open angle, IOP often >21 mmHg (or normal tension glaucoma), C:D ratio >0.6, arcuate VF defect; first-line: prostaglandin analogue (latanoprost 0.005%)",
+          "Acute angle-closure glaucoma (AACG): sudden severe eye pain + headache + vomiting + coloured haloes; IOP >40 mmHg, mid-dilated fixed pupil, cloudy cornea; EMERGENCY — IV acetazolamide + pilocarpine + laser peripheral iridotomy",
+          "Optic disc cupping: C:D ratio >0.6; inferior > superior > nasal > temporal rim loss (ISNT rule violated); disc haemorrhage; bayonet sign (vessel bends at cup margin)",
+          "Visual field loss sequence: blind spot enlargement → arcuate scotoma → Bjerrum scotoma → nasal step → double arcuate → temporal island → central/temporal island last"
+        ],
+        "examQA": [
+          {
+            "q": "A 65-year-old is found to have IOP 26 mmHg, C:D ratio 0.7, and an arcuate scotoma on Humphrey field analyser. What is the diagnosis and first-line treatment?",
+            "a": "Primary open-angle glaucoma (POAG). The open anterior chamber angle distinguishes it from angle-closure. First-line: prostaglandin analogue (latanoprost 0.005% once nightly) — increases uveoscleral outflow. Alternatives: timolol (beta-blocker, reduces aqueous production), dorzolamide (CAI), brimonidine. Target IOP: 30% reduction from baseline. Monitor disc/VF every 6 months. Surgery (trabeculectomy) if drops fail."
+          },
+          {
+            "q": "A 55-year-old woman presents to A&E with sudden severe right eye pain, blurred vision, vomiting, and seeing haloes around lights. IOP right eye = 55 mmHg. What is the management?",
+            "a": "Acute angle-closure glaucoma (AACG). Immediate: IV acetazolamide 500 mg + topical pilocarpine 2% (constricts pupil, pulls iris away from angle) + topical timolol + anti-emetics. Supine position (lens falls back). Reduce IOP: IV mannitol if refractory. Once IOP controlled: laser peripheral iridotomy (LPI) to both eyes. Fellow eye LPI prophylactically — risk 50% in 5 years without treatment."
+          },
+          {
+            "q": "Describe the optic disc changes in glaucoma.",
+            "a": "Progressive cupping: C:D ratio increases >0.6 (normal <0.4). ISNT rule violated (normal: Inferior > Superior > Nasal > Temporal rim width). Notching of inferior or superior neuroretinal rim first. Disc haemorrhage (Drance haemorrhage) — often precedes field loss. Bayonet sign: vessel bends at disc margin then over edge. Peripapillary atrophy (beta zone). RNFL defects on OCT. Asymmetry of C:D >0.2 between eyes is suspicious."
+          },
+          {
+            "q": "What is trabeculectomy and what are its complications?",
+            "a": "Trabeculectomy: surgical creation of new drainage channel through limbus under a scleral flap into a subconjunctival bleb. Indicated when drops/laser fail to control IOP. Early complications: hypotony (IOP <5), shallow AC, bleb leak, choroidal detachment. Late complications: bleb failure (fibrosis — mitomycin C used to prevent), blebitis/endophthalmitis, cataract acceleration. Success 80% at 5 years with adjunctive antimetabolites."
+          }
+        ]
+      },
+      {
+        "id": "cataract",
+        "name": "Cataract",
+        "syllabusRef": "Phase IV Ophthalmology",
+        "section": "Anterior Segment",
+        "description": "Types — nuclear/cortical/PSC/congenital; risk factors; ECCE vs phacoemulsification; IOL calculation",
+        "svgKey": "mbbs-opth-cataract",
+        "landmarks": [
+          "Nuclear cataract: yellowing/brunescence of nucleus; myopic shift (index myopia) — patient notices improved near vision initially; commonest age-related type",
+          "Posterior subcapsular cataract (PSC): steroid use, diabetes, radiation, myotonic dystrophy; most symptomatic (glare, near vision worse); blocks axial rays",
+          "Congenital cataract: TORCH, galactosaemia (galactose-1-phosphate uridyl transferase deficiency), Down syndrome, maternal steroid; leucocoria; surgery <6–8 weeks to prevent deprivation amblyopia",
+          "Phacoemulsification: ultrasound lens fragmentation through 2.8 mm clear corneal incision; posterior capsule left intact for in-the-bag IOL; faster recovery than ECCE",
+          "IOL power: SRK/T formula — P = A − 2.5L − 0.9K (A=constant, L=axial length, K=keratometry); target emmetropia; modern formulas: Haigis, Barrett Universal II"
+        ],
+        "examQA": [
+          {
+            "q": "A 70-year-old with type 2 diabetes and long-term steroid use has VA 6/36. Slit-lamp shows posterior subcapsular opacity. What are the risk factors for PSC cataract?",
+            "a": "PSC cataract risk factors: systemic corticosteroids (most potent, even inhaled), diabetes mellitus, ionising radiation, posterior segment inflammation/uveitis, myotonic dystrophy, high myopia. PSC causes disproportionate glare and near vision loss because it lies at the posterior nodal point of the lens. Treatment: cataract extraction by phacoemulsification + IOL once affecting daily activities."
+          },
+          {
+            "q": "Describe the steps of phacoemulsification cataract surgery.",
+            "a": "1. Clear corneal incision 2.8 mm. 2. Viscoelastic injected. 3. Capsulorhexis — circular anterior capsule opening (5–5.5 mm). 4. Hydrodissection — fluid separates lens from capsule. 5. Phacoemulsification — ultrasound probe fragments nucleus ('divide and conquer' or 'stop-and-chop'). 6. I/A (irrigation-aspiration) clears cortex. 7. IOL inserted in-the-bag (posterior capsule preserved). 8. Remove viscoelastic. Incision self-sealing or 1 suture."
+          },
+          {
+            "q": "A 4-week-old baby has a white pupillary reflex (leucocoria) in the right eye. What is the management?",
+            "a": "Congenital cataract causing leucocoria — urgent surgical emergency. Surgery must be performed <6–8 weeks to prevent irreversible deprivation amblyopia (critical period of visual development). Steps: examination under anaesthesia, anterior vitrectomy + lensectomy (IOL deferred if <2 years), contact lens or aphakic glasses for optical rehabilitation, then patching of the normal eye (occlusion therapy) to treat amblyopia. Systemic investigations: TORCH serology, galactosaemia screen, genetics."
+          },
+          {
+            "q": "How is intraocular lens power calculated?",
+            "a": "IOL power (P) using SRK/T formula: P = A − 2.5L − 0.9K, where A = IOL manufacturer constant, L = axial length (mm, measured by IOLMaster biometry), K = average keratometry (dioptres). For long eyes (myopia): reduce power. Short eyes (hypermetropia): increase power. Modern formulas: Haigis, Holladay 2, Barrett Universal II (best for extreme eyes). Target: emmetropia post-op."
+          }
+        ]
+      },
+      {
+        "id": "uveitis",
+        "name": "Uveitis",
+        "syllabusRef": "Phase IV Ophthalmology",
+        "section": "Anterior Segment",
+        "description": "Anterior — HLA-B27/ankylosing spondylitis; posterior — toxoplasma/CMV; panuveitis — sarcoid/Behcet",
+        "svgKey": "mbbs-opth-uveitis",
+        "landmarks": [
+          "Anterior uveitis (iritis): photophobia, ciliary flush (perilimbal injection), KPs on endothelium, flare (protein) and cells in AC; posterior synechiae → seclusio pupillae → iris bombé → secondary glaucoma",
+          "HLA-B27 associations: ankylosing spondylitis (recurrent acute anterior uveitis, male, unilateral alternating), Reiter syndrome, psoriatic arthritis, reactive arthritis, IBD",
+          "Posterior uveitis: toxoplasma retinochoroiditis — white fluffy lesion adjacent to pigmented retinochoroidal scar (headlight in fog); treat sulfadiazine + pyrimethamine + folinic acid",
+          "CMV retinitis: in immunocompromised (AIDS CD4 <50); pizza-pie appearance (haemorrhages + yellow necrosis along vessels); treat IV/oral ganciclovir, intravitreal implant",
+          "Panuveitis: sarcoidosis (mutton-fat KPs, snowball opacities, candle-wax dripping periphlebitis), Behcet (hypopyon uveitis + oral/genital ulcers), VKH (poliosis, vitiligo, bilateral granulomatous)"
+        ],
+        "examQA": [
+          {
+            "q": "A 28-year-old man with low back pain presents with a painful red right eye, photophobia, and blurred vision. Slit-lamp shows cells and flare in the anterior chamber with fine KPs. What is the most likely diagnosis and associations?",
+            "a": "Acute anterior uveitis (iritis/iridocyclitis). In a young man with low back pain, HLA-B27-associated disease (ankylosing spondylitis most likely) should be suspected. Investigations: HLA-B27 typing, sacroiliac joint X-ray/MRI, ESR, CRP, ANA. Treatment: topical steroids (prednisolone 1% hourly), mydriatic/cycloplegic (cyclopentolate 1% — prevents synechiae, relieves ciliary spasm). Systemic steroids if severe."
+          },
+          {
+            "q": "What are keratic precipitates (KPs) and how do their characteristics help diagnosis?",
+            "a": "KPs are deposits of inflammatory cells (lymphocytes, macrophages) on the corneal endothelium, especially inferior (Arlt triangle). Fine KPs: lymphocytic, seen in viral uveitis (HSV, HZO), non-granulomatous. Mutton-fat KPs: large, greasy, stellate deposits of epithelioid cells and macrophages — granulomatous uveitis: sarcoidosis, TB, sympathetic ophthalmia, VKH syndrome. Stellate (dispersed): Fuchs heterochromic uveitis."
+          },
+          {
+            "q": "An HIV-positive patient with CD4 count 40 presents with floaters and painless visual loss. Fundus shows yellow-white retinal necrosis with haemorrhages along vessels. What is the treatment?",
+            "a": "CMV retinitis. Fundus: 'pizza-pie' or 'scrambled eggs' appearance. Treatment: ganciclovir (IV induction 5 mg/kg twice daily x14–21 days, then maintenance) or valganciclovir oral (900 mg BD induction). Intravitreal ganciclovir implant for zone 1 (near disc/macula). Cidofovir or foscarnet for resistant cases. Crucial: start/optimise HAART to raise CD4. Monitor for retinal detachment (complication)."
+          },
+          {
+            "q": "Describe Behcet disease affecting the eye.",
+            "a": "Behcet disease: vasculitis affecting medium vessels. Ocular features: recurrent severe hypopyon uveitis (anterior), retinal vasculitis (obliterative), vitritis, retinal vascular occlusions. Diagnostic criteria (ISG): recurrent oral ulcers + 2 of: genital ulcers, uveitis, skin lesions (erythema nodosum, pseudofolliculitis), pathergy test positive. Treatment: systemic immunosuppression — azathioprine, cyclosporine, biologics (infliximab); intravitreal steroids. Common in Silk Road countries."
+          }
+        ]
+      },
+      {
+        "id": "retinal-disorders",
+        "name": "Retinal Disorders",
+        "syllabusRef": "Phase IV Ophthalmology",
+        "section": "Posterior Segment",
+        "description": "Retinal detachment — rhegmatogenous/tractional; CRVO/CRAO — clinical features/fundus; diabetic retinopathy — ETDRS staging",
+        "svgKey": "mbbs-opth-retinal-disorders",
+        "landmarks": [
+          "Rhegmatogenous RD: retinal tear (horseshoe/round) → liquefied vitreous enters sub-retinal space; high myopia, aphakia, trauma risk; Shafer sign (tobacco dust = pigment cells in vitreous)",
+          "CRAO (central retinal artery occlusion): pale oedematous retina, cherry-red spot at fovea (choroidal supply intact); RAPD; treat within 90 min — ocular massage, AC paracentesis, IOP reduction",
+          "CRVO (central retinal vein occlusion): dilated tortuous veins + flame haemorrhages all 4 quadrants + disc oedema + cotton-wool spots; investigate BP, lipids, glaucoma, thrombophilia",
+          "ETDRS diabetic retinopathy: mild NPDR (microaneurysms only) → moderate (+ haemorrhages/EX/CWS) → severe (4-2-1 rule: >20 haem in 4 quads OR VB in 2+ quads OR IRMA in 1+ quad) → PDR (neovascularisation)",
+          "4-2-1 rule for severe NPDR: any one criterion = 50% risk of developing PDR within 1 year"
+        ],
+        "examQA": [
+          {
+            "q": "A 55-year-old myope sees a curtain descending from above in the left eye with preceding flashes and floaters. What is the diagnosis and management?",
+            "a": "Rhegmatogenous retinal detachment. Prodrome: photopsia (traction on retina), vitreous floaters (pigment/blood = Shafer sign). Superior tear → inferior curtain defect. Urgent ophthalmic review. Management: surgical — pneumatic retinopexy (office procedure, gas bubble), scleral buckle (encircling band), or pars plana vitrectomy (PPV) with gas/oil tamponade. Cryotherapy or laser to seal tear. Success rate >90% if macula-on; 70–80% if macula-off."
+          },
+          {
+            "q": "A 70-year-old presents with sudden painless loss of vision in one eye. Fundus shows a pale, oedematous retina with a cherry-red spot at the macula. What is the diagnosis and immediate management?",
+            "a": "Central retinal artery occlusion (CRAO). Atheroembolism from carotid artery/heart most common cause. Cherry-red spot: fovea receives choroidal supply (unobstructed), surrounding pale retina has no arterial supply. Immediate (within 90 min): digital ocular massage, anterior chamber paracentesis (lower IOP), IV acetazolamide, breathe 95% O2 + 5% CO2 (carbogen). Urgent stroke workup: carotid Doppler, echo, ECG, hypercoagulable screen."
+          },
+          {
+            "q": "What is the 4-2-1 rule in diabetic retinopathy and why is it important?",
+            "a": "The 4-2-1 rule defines severe NPDR (pre-proliferative DR): ANY ONE of: >20 intraretinal haemorrhages in all 4 quadrants; venous beading in 2 or more quadrants; intraretinal microvascular abnormalities (IRMA) in 1 or more quadrant. Importance: 50% risk of progression to PDR within 1 year without treatment. Indicates critical point for: optimising glycaemic/BP control, ophthalmology referral for laser (PRP), and anti-VEGF consideration."
+          },
+          {
+            "q": "Distinguish between rhegmatogenous and tractional retinal detachment.",
+            "a": "Rhegmatogenous RD: retinal break/tear allows fluid entry between neurosensory retina and RPE; associated with myopia, PVD, trauma; mobile, corrugated appearance; convex; treat surgically. Tractional RD: fibrovascular membranes pull retina anteriorly without break; complication of PDR, proliferative sickle cell, ROP; immobile, concave, tent-shaped; treat with vitrectomy + membrane peeling +/- silicone oil. Exudative/serous RD: no break, no traction; subretinal fluid from choroid (VKH, metastases, CSR); shifts with position."
+          }
+        ]
+      },
+      {
+        "id": "optic-nerve",
+        "name": "Optic Nerve Disorders",
+        "syllabusRef": "Phase IV Ophthalmology",
+        "section": "Neuro-ophthalmology",
+        "description": "Papilloedema vs papillitis, optic neuritis — MS association, optic atrophy — causes/fundus appearance",
+        "svgKey": "mbbs-opth-optic-nerve",
+        "threejs3dFn": "createNerveImpulse",
+        "landmarks": [
+          "Papilloedema: bilateral disc swelling from raised ICP; VA normal early; no pain on movement; Frisen grading I–V (C-shaped halo → complete disc obscuration); causes — SOL, malignant HTN, idiopathic ICP",
+          "Papillitis (optic neuritis): unilateral, painful eye movement (retrobulbar — no disc swelling initially), reduced VA, RAPD, dyschromatopsia; MS in 50% within 15 years (ONTT study)",
+          "Foster Kennedy syndrome: frontal lobe meningioma → ipsilateral optic atrophy (direct compression) + contralateral papilloedema (raised ICP); anosmia",
+          "RAPD (relative afferent pupillary defect): swinging flashlight test — affected eye shows paradoxical dilation; present in optic nerve/retinal disease; absent in pure cataract/cortical disease",
+          "Optic atrophy: pale waxy disc; primary (optic nerve/chiasm lesion — glaucoma, MS, CRAO, tumour, B12 deficiency, Leber hereditary optic neuropathy); secondary (after papilloedema, retinal disease)"
+        ],
+        "examQA": [
+          {
+            "q": "A 25-year-old woman has pain on eye movement, VA 6/36, and a RAPD in the right eye. Fundus is normal. What is the diagnosis and investigation?",
+            "a": "Retrobulbar optic neuritis (ON). Disc appears normal as inflammation is behind the globe. Key features: painful eye movement, central scotoma, dyschromatopsia (red desaturation), RAPD. Investigation: MRI brain + orbits with gadolinium — if ≥2 T2 lesions, risk of MS is 72% at 15 years (ONTT). Treatment: IV methylprednisolone 1g/day x3 days speeds recovery but does not improve final VA. Refer neurology. Beta-interferon if high MS risk."
+          },
+          {
+            "q": "Differentiate papilloedema from papillitis.",
+            "a": "Papilloedema: raised ICP → bilateral disc swelling; VA initially normal; no pain on eye movement; no RAPD (bilateral → Marcus Gunn absent); no colour vision loss early. Papillitis: inflammatory optic neuropathy; usually unilateral; painful eye movement; reduced VA and colour vision; RAPD present; associated with MS, viral infection, sarcoid, Lyme disease. Key: papilloedema bilateral + vision preserved early; papillitis unilateral + vision reduced."
+          },
+          {
+            "q": "A 50-year-old man has unilateral optic atrophy and anosmia on the right, with left papilloedema. What is the likely diagnosis?",
+            "a": "Foster Kennedy syndrome: subfrontal (olfactory groove) meningioma. The tumour directly compresses the ipsilateral optic nerve causing optic atrophy. Simultaneously, raised ICP from the mass causes contralateral papilloedema. Anosmia is from olfactory nerve compression. Pseudo-Foster Kennedy syndrome: sequential bilateral optic neuritis (bilateral ON at different times). Investigate with MRI brain with gadolinium + contrast."
+          },
+          {
+            "q": "How do you perform the swinging flashlight test and what does it detect?",
+            "a": "Technique: dim room, patient fixes at distance. Shine bright light in each eye alternately (2 seconds each), watching pupils. Normal: both pupils constrict equally. RAPD (Marcus Gunn pupil): when light swings to affected eye, both pupils paradoxically dilate (afferent input from that eye is reduced). Indicates: optic nerve disease (ON, glaucoma, CRAO) or extensive retinal disease. Does NOT indicate: pure media opacity, cortical visual loss, bilateral symmetric optic neuropathy."
+          }
+        ]
+      },
+      {
+        "id": "ocular-trauma",
+        "name": "Ocular Trauma",
+        "syllabusRef": "Phase IV Ophthalmology",
+        "section": "Anterior Segment",
+        "description": "Chemical burns — acid vs alkali/first aid; blunt trauma — hyphema/lens dislocation; penetrating injury",
+        "svgKey": "mbbs-opth-ocular-trauma",
+        "landmarks": [
+          "Alkali burns (lime/NaOH/ammonia) worse than acid: saponify cell membranes, penetrate deeply, continue hours after contact; FIRST AID: immediate copious irrigation ≥30 min, check pH 7.4 (continue until neutral)",
+          "Hyphema: blood in anterior chamber after blunt trauma; risk of rebleed days 2–5 (fibrinolysis); IOP elevation + corneal blood-staining if total; bed rest + cycloplegia; avoid aspirin/NSAIDs",
+          "Roper-Hall classification: Grade I (epithelial erosion, no limbal ischaemia), II (<1/3 limbal ischaemia), III (1/3–1/2 limbal ischaemia, hazy cornea), IV (>1/2 limbal ischaemia, opaque cornea) — limbal ischaemia is worst prognostic sign",
+          "Blow-out fracture: orbital floor fractured; inferior rectus entrapment → vertical diplopia; enophthalmos; infraorbital hypoaesthesia; CT orbit; repair if diplopia/enophthalmos persist >2 weeks",
+          "Open globe (penetrating injury): Seidel test positive (fluorescein diluted by aqueous); NEVER patch with pressure; metal shield; IV antibiotics (cefuroxime + metronidazole); NPO; urgent vitreoretinal surgery"
+        ],
+        "examQA": [
+          {
+            "q": "A labourer has cement powder thrown into both eyes. He presents 30 minutes later with severe pain and corneal oedema. What is the immediate management?",
+            "a": "Alkali (calcium hydroxide/cement) chemical burn. IMMEDIATE: irrigate copiously with 0.9% saline or Ringer lactate for at least 30 minutes; check pH every 5 minutes; continue until pH reaches 7.4. Double evert eyelids, remove particulate matter with cotton swab. Topical anaesthetic (tetracaine) for patient comfort. After irrigation: grade burn (Roper-Hall/Dua), topical steroids (intensive), ascorbate, amniotic membrane grafting if severe. Limbal stem cell transplantation for grade III–IV burns."
+          },
+          {
+            "q": "A 20-year-old is hit by a squash ball. The following day he has pain, photophobia, and a visible fluid level of blood in the anterior chamber. What are the risks and management?",
+            "a": "Hyphema (blood in anterior chamber). Graded I–IV by height. Risks: secondary haemorrhage (rebleed days 2–5 from clot lysis — 25% risk), raised IOP (corneal blood staining if IOP >25 for >6 days), angle recession glaucoma (long term). Management: bed rest, head elevated 30–45°, cycloplegia, topical steroids, avoid NSAIDs/aspirin. IOP: timolol/acetazolamide; avoid miotics. Surgical washout if: IOP uncontrolled, total hyphema >9 days, corneal blood staining."
+          },
+          {
+            "q": "What is the Seidel test and when is it positive?",
+            "a": "Seidel test: concentrated fluorescein (2% strip) applied to suspected wound on slit-lamp with cobalt blue light. Positive = fluorescein diluted by leaking aqueous appearing as a streaming green rivulet (darker fluorescein washed away by clear aqueous). Indicates full-thickness wound (perforating injury or wound dehiscence). Action: shield the eye (do NOT patch — pressure worsens extrusion), IV antibiotics, anti-emetics, NPO, urgent referral for surgical repair. Never apply pressure to an open globe."
+          },
+          {
+            "q": "Describe the management of a penetrating eye injury in the emergency department.",
+            "a": "1. History: mechanism (glass, metal, BB pellet), velocity, time. 2. Examine gently — do NOT apply pressure; check VA; look for peaked pupil, iris prolapse, vitreous in wound. 3. Seidel test confirms open globe. 4. CT orbit (not MRI if metallic FB). 5. Protect: rigid eye shield (not pad), NPO, anti-emetics (prevent Valsalva). 6. IV antibiotics: cefuroxime 1.5g 8-hourly + metronidazole 500mg 8-hourly. 7. Tetanus prophylaxis. 8. Urgent vitreoretinal surgical repair. Prognosis: BETT score predicts outcome."
+          }
+        ]
+      },
+      {
+        "id": "strabismus-amblyopia",
+        "name": "Strabismus and Amblyopia",
+        "syllabusRef": "Phase IV Ophthalmology",
+        "section": "Anterior Segment",
+        "description": "Types of squint — concomitant/paralytic, cover test, Hirschberg, amblyopia — treatment/occlusion",
+        "svgKey": "mbbs-opth-strabismus",
+        "landmarks": [
+          "Cover test: cover/uncover one eye — reveals heterotropia (manifest squint); alternate cover test — reveals heterophoria (latent squint); watch for fixation movement",
+          "Hirschberg test: corneal light reflex — 1 mm decentration ≈ 7°; nasal reflex = exotropia; temporal reflex = esotropia; asymmetric reflex indicates strabismus",
+          "Concomitant squint: angle constant in all gaze directions; no diplopia (suppression); children; most common — convergent esotropia; treat refractive error first",
+          "Paralytic (incomitant) squint: angle varies with direction of gaze; diplopia; head tilt/face turn; adults; CN III/IV/VI palsy; primary vs secondary deviation (Hering law)",
+          "Amblyopia: reduced VA (≥2 Snellen lines difference) in structurally normal eye; sensitive period <8 years; deprivation/strabismic/refractive; treat underlying cause + patching better eye 2 h/day"
+        ],
+        "examQA": [
+          {
+            "q": "A 4-year-old is noticed to have a convergent squint. How do you perform the cover test?",
+            "a": "Cover-uncover test: fixate on a target. Cover one eye — watch uncovered eye: if it moves (inward → esotropia; outward → exotropia) then that eye was previously deviated (manifest strabismus). Alternate cover test: alternate cover between eyes rapidly — prevents fusion, reveals maximum deviation including latent squint (phoria). Prism cover test: neutralise deviation with prisms to measure angle in PD (prism dioptres). In children: Krimsky test (prisms over deviating eye until Hirschberg reflex centred)."
+          },
+          {
+            "q": "What is the difference between concomitant and paralytic strabismus?",
+            "a": "Concomitant: angle of deviation same in all positions of gaze; no diplopia (suppression in children); usually idiopathic or accommodative; primary/secondary angles equal. Paralytic: angle varies with direction of gaze; primary < secondary deviation; diplopia in adults; muscle underaction; causes: CN III (ptosis + mydriasis + down-and-out), CN IV (head tilt, hypertropia worse in adduction), CN VI (esotropia, diplopia on lateral gaze). Diplopia mapping distinguishes."
+          },
+          {
+            "q": "Define amblyopia and outline the treatment of a 6-year-old with 6/36 VA in the left eye and a right convergent squint.",
+            "a": "Amblyopia: functional suppression of one eye during the visual sensitive period (<8 years) resulting in best-corrected VA of <6/12 or ≥2 lines difference with no structural cause. Treatment: 1. Correct refractive error fully (spectacles) — allow 2–3 months for improvement. 2. Occlusion (patching) of the better eye: 2 h/day for mild, 6 h/day for severe amblyopia. 3. Penalisation: atropine 1% in better eye (blurs near vision) as alternative to patching. 4. Treat underlying squint: surgery once VA optimised. Follow-up: monthly during treatment."
+          },
+          {
+            "q": "A 60-year-old hypertensive suddenly develops a right esotropia with horizontal diplopia worse on right gaze. Examination: limited right eye abduction. What is the diagnosis and investigation?",
+            "a": "Right CN VI (abducens) nerve palsy — lateral rectus paralysis. Most common cause in adults: microvascular ischaemia (DM, HTN) — expected to recover in 3–4 months. False localising sign if raised ICP. Investigation: BP, fasting glucose, HbA1c. If no vascular risk factors or no improvement at 3 months: MRI brain (CPA tumour, demyelination, meningeal pathology, cavernous sinus). Temporary: Fresnel prism on spectacle, Botox injection to medial rectus while awaiting recovery. Surgery if no recovery at 6–12 months."
+          }
+        ]
+      },
+      {
+        "id": "neuro-ophthalmology",
+        "name": "Neuro-ophthalmology",
+        "syllabusRef": "Phase IV Ophthalmology",
+        "section": "Neuro-ophthalmology",
+        "description": "Pupil reflexes — RAPD, Horner syndrome, III/IV/VI nerve palsies, visual field defects",
+        "svgKey": "mbbs-opth-neuro-ophthalmology",
+        "landmarks": [
+          "Horner syndrome: ptosis (1–2 mm) + miosis + anhidrosis; sympathetic chain lesion (hypothalamus → ciliospinal centre C8-T1 → superior cervical ganglion → long ciliary nerve); cocaine confirms; hydroxyamphetamine localises",
+          "CN III palsy: complete ptosis + eye down-and-out + mydriasis (pupil involved = surgical, PCA aneurysm until excluded — MRI/MRA emergently); pupil spared = medical (DM/HTN — vasa nervorum ischaemia)",
+          "Bitemporal hemianopia: chiasmal compression (pituitary tumour crossing fibres); nasal fibres from each eye cross at chiasm; upper field defect first in pituitary tumour (suprasellar mass)",
+          "Homonymous hemianopia: optic tract/radiation/cortex lesion (stroke, tumour); macular sparing = occipital cortex (dual blood supply — PCA + MCA for macular representation)",
+          "Pupil light reflex: light → retina → optic nerve → pretectal nucleus (midbrain) → bilateral Edinger-Westphal → ciliary ganglion → sphincter pupillae; near triad (accommodation + convergence + miosis)"
+        ],
+        "examQA": [
+          {
+            "q": "A 55-year-old diabetic has a sudden right ptosis. Examination shows the eye is deviated down and out. The right pupil is 4 mm (same as left). What is the diagnosis and management?",
+            "a": "Right CN III palsy with pupil sparing — medical CN III palsy, most likely due to diabetic microvascular ischaemia (vasa nervorum infarct). The pupillomotor fibres run on the outside of CN III and are susceptible to external compression (e.g., posterior communicating artery aneurysm causes mydriasis), but spared in microvascular disease. Management: optimise glycaemia, BP, lipids; patch eye for diplopia; expect full recovery in 3–4 months. If pupil becomes dilated or no improvement at 6–8 weeks: MRI/MRA urgently."
+          },
+          {
+            "q": "A 35-year-old woman has a left Horner syndrome found incidentally. What are the causes and investigations?",
+            "a": "Horner syndrome (ptosis + miosis + anhidrosis) — sympathetic chain disruption. Causes by level: Central (1st order): Wallenberg syndrome, MS, syringomyelia, hypothalamic lesion. Preganglionic (2nd order): Pancoast tumour (apex lung), thyroid/neck surgery, cervical rib, aortic dissection. Postganglionic (3rd order): carotid artery dissection/aneurysm, cavernous sinus lesion, cluster headache. Investigations: hydroxyamphetamine 1% distinguishes (2nd vs 3rd order); CXR/CT chest (Pancoast), CT/MRI neck, carotid Doppler/MRA."
+          },
+          {
+            "q": "A 70-year-old presents with sudden onset bitemporal visual field loss. MRI shows a suprasellar mass. What is the anatomy underlying this field defect?",
+            "a": "Bitemporal hemianopia from chiasmal compression. Anatomy: at the optic chiasm, nasal retinal fibres from each eye (corresponding to temporal visual field) decussate. A midline compressive lesion (pituitary adenoma, craniopharyngioma) damages these crossing fibres first. Temporal fibres (nasal field) run laterally in chiasm and are spared last. Pituitary adenoma compresses chiasm from below → upper temporal quadrants affected first. Investigate: MRI pituitary with gadolinium, prolactin, GH, FSH/LH, cortisol, TSH."
+          },
+          {
+            "q": "Describe the light reflex pathway and how RAPD is demonstrated.",
+            "a": "Afferent: retina → optic nerve → optic tract (with partial decussation at chiasm) → pretectal nucleus (dorsal midbrain/superior colliculus). Efferent: pretectal nucleus → bilateral Edinger-Westphal (EW) nuclei → CN III → ciliary ganglion → short ciliary nerves → iris sphincter. RAPD (swinging flashlight test): dim room, bright light swung between eyes every 2 seconds. Normal: equal constriction. RAPD: when light goes to affected eye, both pupils dilate (paradoxical) due to reduced afferent input. Indicates optic nerve disease or extensive retinal disease. Absent with cortical disease or equal bilateral optic nerve disease."
+          }
+        ]
+      },
+      {
+        "id": "diabetic-hypertensive",
+        "name": "Diabetic and Hypertensive Eye Disease",
+        "syllabusRef": "Phase IV Ophthalmology",
+        "section": "Posterior Segment",
+        "description": "Diabetic retinopathy grading — mild/moderate/severe NPDR/PDR, laser photocoagulation, anti-VEGF; hypertensive retinopathy — Keith-Wagener",
+        "svgKey": "mbbs-opth-diabetic-hypertensive",
+        "landmarks": [
+          "DR staging: Mild NPDR (microaneurysms only) → Moderate NPDR (+ haemorrhages/hard exudates/CWS) → Severe NPDR (4-2-1 rule) → PDR (neovascularisation at disc NVD or elsewhere NVE)",
+          "4-2-1 rule for severe NPDR: >20 haemorrhages in all 4 quadrants; OR venous beading in 2+ quadrants; OR IRMA in 1+ quadrant — 50% become PDR in 1 year",
+          "Diabetic maculopathy: CSME (clinically significant macular oedema) — exudates/oedema within 500 µm of fovea centre; leading cause of visual loss in NPDR; treat with anti-VEGF (bevacizumab/ranibizumab/aflibercept) or macular laser",
+          "Treatment: PRP (pan-retinal photocoagulation) for PDR — 1200–1500 spots outside arcades; anti-VEGF injections; vitrectomy for non-clearing vitreous haemorrhage or tractional RD",
+          "Keith-Wagener HTN retinopathy: Grade I (arterial attenuation/silver wiring); Grade II (AV nipping, copper wiring); Grade III (+ flame haemorrhages, soft exudates/CWS, hard exudates); Grade IV (+ papilloedema)"
+        ],
+        "examQA": [
+          {
+            "q": "A 52-year-old with type 2 diabetes has fundus showing microaneurysms, dot-blot haemorrhages in all four quadrants (>20), and venous beading. What stage is this and what is the next step?",
+            "a": "Severe NPDR (pre-proliferative DR) — meets the 4-2-1 rule (>20 haemorrhages in all 4 quadrants AND venous beading in 2+ quadrants). 50% risk of PDR within 1 year. Management: optimise glycaemia (HbA1c <53 mmol/mol / 7%), blood pressure (<130/80), lipids. Urgent ophthalmology referral. FFA/OCT to assess maculopathy. Consider early PRP or close 3-monthly monitoring. Anti-VEGF if macular oedema coexists."
+          },
+          {
+            "q": "What is the difference between NVD and NVE in proliferative diabetic retinopathy?",
+            "a": "NVD (neovascularisation at the disc): new vessel formation at or within 1 disc diameter of the optic disc; high risk feature — ≥1/3 disc area NVD or NVD + vitreous haemorrhage = high-risk PDR (Diabetic Retinopathy Study). NVE (neovascularisation elsewhere): new vessels on retinal surface away from disc; also high-risk if NVE + vitreous haemorrhage. Both are driven by VEGF from ischaemic retina. Treatment: PRP (1200–1500 laser burns to peripheral avascular retina) → reduces VEGF, causes NV regression."
+          },
+          {
+            "q": "A patient with severe hypertension (BP 220/130) has bilateral disc oedema, flame haemorrhages, cotton-wool spots, and hard exudates in a macular star pattern. What grade of hypertensive retinopathy is this?",
+            "a": "Grade IV (Keith-Wagener classification) — malignant/accelerated hypertension. Features: papilloedema (grade IV) + grade III changes (flame haemorrhages, CWS, hard exudates). The macular star (hard exudates arranged in star pattern radiating from fovea) is classic. Management: admit, IV antihypertensive (labetalol infusion or oral nifedipine if conscious), avoid over-rapid reduction (cerebral autoregulation failure). Screen renal function and echo (LV hypertrophy)."
+          },
+          {
+            "q": "Compare laser photocoagulation and anti-VEGF injections in diabetic retinopathy.",
+            "a": "PRP (pan-retinal laser): 1200–1500 burns outside arcades → destroys ischaemic peripheral retina → reduces VEGF → NV regression. Use for PDR/high-risk PDR. Permanent, destroys peripheral vision/colour/night vision. Anti-VEGF (bevacizumab/ranibizumab/aflibercept intravitreal): directly blocks VEGF → rapid NV regression + treatment of DMO. Temporary — requires monthly injections for 1 year, then PRN. Preferred for DMO (centre-involving). Protocol 2 (DRCR.net): anti-VEGF superior to macular laser for centre-involving DMO."
+          }
+        ]
+      },
+      {
+        "id": "paediatric-ophthalmology",
+        "name": "Paediatric Ophthalmology",
+        "syllabusRef": "Phase IV Ophthalmology",
+        "section": "Paediatric & Systemic",
+        "description": "Retinoblastoma — leucocoria/Rb gene; congenital cataract; congenital glaucoma — buphthalmos; ROP staging",
+        "svgKey": "mbbs-opth-paediatric",
+        "landmarks": [
+          "Retinoblastoma: most common intraocular tumour in children; Rb gene (13q14, tumour suppressor); bilateral = hereditary (germline); leucocoria (white pupil) + strabismus; staging A–E (IIRC); Rx: chemoreduction + focal (laser/cryo/brachytherapy) or enucleation (advanced)",
+          "Congenital cataract: leucocoria; TORCH, galactosaemia, Down syndrome, Lowe syndrome; urgent surgery <6–8 weeks → deprivation amblyopia prevention; optical correction + patching post-op",
+          "Congenital glaucoma (buphthalmos): AR mutation (CYP1B1); enlarged cornea (>11 mm in newborn) + Haab striae (horizontal breaks in Descemet) + photophobia + lacrimation; surgical — goniotomy or trabeculotomy",
+          "ROP: premature infants <1500g/<32 weeks; avascular peripheral retina secretes VEGF → neovascularisation; stage 1 (demarcation line) → stage 5 (total RD); threshold disease (stage 3+ with plus disease) → diode laser ablation",
+          "Vitamin A deficiency: xerophthalmia; Bitot spots (foamy triangular plaques temporal conjunctiva); night blindness → corneal xerosis → keratomalacia; treat oral/IM vitamin A (WHO: 200,000 IU x2 doses)"
+        ],
+        "examQA": [
+          {
+            "q": "A 2-year-old is brought in because of a white pupil (leucocoria) in the right eye noticed in photographs. What are the differential diagnoses?",
+            "a": "Leucocoria differentials (CRAP mnemonic): Cataract (congenital), Retinoblastoma, Astrocytic hamartoma (tuberous sclerosis), Persistent hyperplastic primary vitreous (PHPV), Coats disease, Toxocara, ROP (stage 5), Coloboma. Most urgent: retinoblastoma — requires examination under anaesthesia, MRI orbit/brain (pineal gland — trilateral Rb), urgent referral to ocular oncology. Do NOT do FFA if retinoblastoma suspected (seeding risk). Genetic counselling: germline Rb (bilateral/family history) — screen siblings."
+          },
+          {
+            "q": "What is retinopathy of prematurity (ROP) and how is it screened?",
+            "a": "ROP: abnormal vascularisation of premature retina. Risk: <1500g birth weight or <32 weeks. Pathophysiology: avascular peripheral retina → ischaemia → VEGF → fibrovascular proliferation. Classification: 5 stages. Plus disease (dilated tortuous vessels at disc — warrants treatment regardless of stage). Screening: neonates <32 weeks or <1500g; first exam at 31 weeks postmenstrual age or 4 weeks postnatal (whichever later); RetCam imaging. Treatment: stage 3 + plus disease → diode laser; anti-VEGF (bevacizumab) for zone I disease. Vitreoretinal surgery for stage 4–5."
+          },
+          {
+            "q": "A 3-month-old infant has an enlarged left eye, photophobia, excessive tearing, and the cornea measures 13 mm diameter. What is the diagnosis and treatment?",
+            "a": "Congenital glaucoma (buphthalmos). Enlarged cornea >11 mm in newborn (12–13 mm at 1 year is normal, so 13 mm at 3 months is enlarged). Other signs: Haab striae (horizontal breaks in Descemet membrane from stretching), corneal oedema, elevated IOP. Cause: inadequate development of trabecular meshwork/angle (AR mutation in CYP1B1 gene). Treatment: SURGICAL — goniotomy (direct incision of trabecular meshwork under gonioscopic guidance) or trabeculotomy (external approach). Medical (acetazolamide) is temporising only."
+          },
+          {
+            "q": "How do you differentiate retinoblastoma from Coats disease in a child with leucocoria?",
+            "a": "Retinoblastoma vs Coats disease: Age: Rb usually <3 years; Coats 4–10 years. Sex: Coats predominantly male. Laterality: Rb bilateral in 30% (hereditary); Coats unilateral. Fundus: Rb — white calcified tumour masses (calcification on CT is pathognomonic); Coats — telangiectatic vessels + subretinal exudates (Coats exudates) simulating leucocoria, no mass. Ultrasound: Rb — hyper-reflective with posterior shadowing (calcification); Coats — subretinal fluid, no calcification. If any doubt — examination under anaesthesia by ocular oncologist."
+          }
+        ]
+      },
+      {
+        "id": "ocular-pharmacology",
+        "name": "Ocular Pharmacology and Investigations",
+        "syllabusRef": "Phase IV Ophthalmology",
+        "section": "Paediatric & Systemic",
+        "description": "Mydriatics/miotics, antiglaucoma drops — mechanism, fluorescein angiography, OCT, B-scan USS",
+        "svgKey": "mbbs-opth-pharmacology",
+        "landmarks": [
+          "Mydriatics: tropicamide 1% (4–6h, examination); cyclopentolate 1% (24h, cycloplegia for refraction in children); atropine 1% (2 weeks, uveitis, amblyopia penalisation); phenylephrine 2.5–10% (dilates only — no cycloplegia)",
+          "Anti-glaucoma drops: prostaglandin analogues (latanoprost 0.005% — uveoscleral outflow ↑, first-line); timolol 0.5% (β-blocker — aqueous production ↓, avoid in asthma); dorzolamide (CA inhibitor — aqueous ↓); brimonidine (α-2 agonist — aqueous ↓ + uveoscleral ↑); pilocarpine (miotic — trabecular ↑)",
+          "Fluorescein angiography (FFA): IV sodium fluorescein 5 mL 10%; arterial phase (8–12 s), early/late venous phase; leakage (CNV/DMO), blockage (haemorrhage), window defect (RPE atrophy), staining",
+          "OCT (optical coherence tomography): infrared light interferometry; 5 µm axial resolution; cross-sectional retinal imaging; detects SRF, IRF, CNV, ERM, VMT; RNFL maps for glaucoma (disc OCT); essential for monitoring DMO/AMD",
+          "B-scan ultrasonography: useful when fundus not visible (dense VH, mature cataract); detects retinal detachment, choroidal detachment, posterior staphyloma, intraocular foreign body, tumours"
+        ],
+        "examQA": [
+          {
+            "q": "A 70-year-old asthmatic with glaucoma is started on timolol 0.5% eye drops. Three days later he develops wheeze. What is the mechanism and alternative?",
+            "a": "Timolol is a non-selective β-blocker. Systemic absorption via nasolacrimal duct → bronchospasm by blocking β2-receptors in airways. Contraindicated in asthma, COPD, bradycardia, heart block. Advise nasolacrimal occlusion after instillation to reduce systemic absorption. Switch to: prostaglandin analogue (latanoprost 0.005% once nightly — no systemic respiratory effects, first-line for most); or dorzolamide (CA inhibitor — avoid in sulphonamide allergy or severe renal failure); or brimonidine (α2 — avoid in children <2 years, severe cardiovascular disease)."
+          },
+          {
+            "q": "Explain the mechanism of action of prostaglandin analogues in glaucoma.",
+            "a": "Prostaglandin analogues (latanoprost, bimatoprost, travoprost) are FP receptor agonists (prostaglandin F2α). They increase uveoscleral outflow (by remodelling ciliary muscle extracellular matrix via matrix metalloproteinases) and possibly trabecular outflow. Result: IOP reduction of 25–35%. Advantages: once-daily dosing (nightly — maximum effect), no systemic cardiovascular/respiratory effects. Side effects: prostaglandin-associated periorbitopathy (PAP — deepening of upper lid sulcus, enophthalmos, periorbital fat loss), iris heterochromia (increased melanin in blue/hazel eyes), increased eyelash growth (hypertrichosis), CME in aphakia."
+          },
+          {
+            "q": "A 65-year-old with AMD is referred for FFA. Describe the phases and what you look for.",
+            "a": "FFA (fluorescein angiography): IV fluorescein (10%, 5 mL). Choroidal flush (background) at ~8–10 s. Arterial phase: arterial filling, optic disc first. AV transit: arteries then capillaries then veins (laminar flow). Venous phase (15–30 s): complete venous filling. Late phase (>2 min): background fluorescence fades. In AMD: choroidal neovascularisation (CNV) — classic: early well-defined hyperfluorescent net with late leakage; occult: stippled early hyperfluorescence. Other: window defect (RPE atrophy — early, no late leakage); staining (fibrous tissue — late hyperfluorescence). Guides treatment: anti-VEGF for wet AMD with active CNV."
+          },
+          {
+            "q": "What is OCT and how is it used in diabetic maculopathy?",
+            "a": "OCT (optical coherence tomography): uses low-coherence infrared light interferometry to produce cross-sectional images of retina at 5 µm resolution. In diabetic maculopathy: detects and quantifies centre-involving diabetic macular oedema (CI-DMO) — intraretinal fluid (IRF), subretinal fluid (SRF), hyper-reflective foci (hard exudates). Central subfield thickness (CST) measured; CI-DMO = CST >250–300 µm. Guides treatment: anti-VEGF injections (Protocol T: aflibercept, bevacizumab, ranibizumab); monitor monthly, treat PRN. RNFL OCT (disc scans) is gold standard for glaucoma progression monitoring."
+          }
+        ]
+      }
+    ]
   },
   mbbs_obs_gynae: {
     subjectName: 'MBBS Obstetrics & Gynaecology',

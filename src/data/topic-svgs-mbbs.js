@@ -6795,5 +6795,1055 @@ export const TOPIC_SVGS_MBBS = {
 <text x="5" y="275" class="t" font-weight="bold">Epiglottitis key mantra:</text>
 <text x="5" y="287" class="s">Keep child CALM, UPRIGHT with parent → theatre → controlled intubation → THEN IV ceftriaxone</text>
 <text x="5" y="297" class="s">Extubate 24-48h when oedema resolves. Never use Heliox as definitive management.</text>
+</svg>`,
+
+  'mbbs-opth-eye-anatomy': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="110" y="13" class="h" text-anchor="middle">Globe — Cross Section</text>
+<circle cx="110" cy="155" r="88" fill="var(--border)" fill-opacity="0.25" stroke="var(--text)" stroke-width="2.5"/>
+<circle cx="110" cy="155" r="80" fill="#8b4513" fill-opacity="0.10" stroke="#8b4513" stroke-width="1.5"/>
+<circle cx="110" cy="155" r="72" fill="var(--accent)" fill-opacity="0.05" stroke="var(--accent)" stroke-width="1" stroke-dasharray="4,2"/>
+<circle cx="115" cy="158" r="48" fill="var(--accent)" fill-opacity="0.06"/>
+<path d="M 28 128 Q 5 155 28 182" fill="none" stroke="var(--text)" stroke-width="3.5"/>
+<path d="M 29 128 Q 55 155 29 182 Q 60 178 65 155 Q 60 132 29 128 Z" fill="var(--accent)" fill-opacity="0.07"/>
+<ellipse cx="72" cy="155" rx="9" ry="18" fill="#fffff0" fill-opacity="0.85" stroke="var(--text)" stroke-width="1.5"/>
+<ellipse cx="52" cy="140" rx="5" ry="3" fill="#5c3d2e" fill-opacity="0.85"/>
+<ellipse cx="52" cy="170" rx="5" ry="3" fill="#5c3d2e" fill-opacity="0.85"/>
+<circle cx="150" cy="155" r="8" fill="#e74c3c" fill-opacity="0.28" stroke="#e74c3c" stroke-width="1.5"/>
+<circle cx="150" cy="155" r="2.5" fill="#e74c3c" fill-opacity="0.9"/>
+<circle cx="183" cy="155" r="8" fill="#ffe4b5" fill-opacity="0.85" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 191 151 L 218 143 L 228 141" fill="none" stroke="var(--text)" stroke-width="2.5"/>
+<path d="M 120 68 Q 132 77 140 84" fill="none" stroke="var(--border)" stroke-width="3"/>
+<path d="M 120 242 Q 132 233 140 226" fill="none" stroke="var(--border)" stroke-width="3"/>
+<path d="M 197 150 L 210 154 L 210 158 L 197 162" fill="var(--border)" fill-opacity="0.4"/>
+<text x="28" y="100" class="s">Sclera</text>
+<text x="28" y="112" class="s">Choroid</text>
+<text x="28" y="124" class="s">Retina</text>
+<text x="30" y="148" class="s">Cornea</text>
+<text x="44" y="143" class="s">AC</text>
+<text x="69" y="108" class="s">Lens</text>
+<text x="92" y="153" class="s">Vitreous</text>
+<text x="140" y="141" class="s">Macula</text>
+<text x="148" y="180" class="s">Fovea</text>
+<text x="175" y="141" class="s">Disc</text>
+<text x="218" y="141" class="s">CN II</text>
+<text x="108" y="72" class="s">SR</text>
+<text x="108" y="242" class="s">IR</text>
+<text x="212" y="145" class="s">MR</text>
+<rect x="238" y="15" width="160" height="282" fill="var(--border)" fill-opacity="0.08" rx="3"/>
+<text x="318" y="28" class="h" text-anchor="middle">Globe Layers</text>
+<rect x="241" y="32" width="154" height="15" fill="var(--border)" fill-opacity="0.4" rx="2"/>
+<text x="318" y="43" class="t" text-anchor="middle" font-weight="bold">Fibrous Coat</text>
+<text x="243" y="57" class="s">Sclera: opaque, 5/6 posterior, protective</text>
+<text x="243" y="67" class="s">Cornea: transparent, 1/6 anterior</text>
+<text x="243" y="77" class="s">5 layers: Epi/Bowman/Stroma/Descemet/Endo</text>
+<rect x="241" y="84" width="154" height="15" fill="#8b4513" fill-opacity="0.18" rx="2"/>
+<text x="318" y="95" class="t" text-anchor="middle" font-weight="bold">Uveal Coat</text>
+<text x="243" y="109" class="s">Choroid: nutrition to outer retina</text>
+<text x="243" y="119" class="s">Ciliary body: aqueous production</text>
+<text x="243" y="129" class="s">Iris: sphincter (CN III)/dilator (symp)</text>
+<rect x="241" y="136" width="154" height="15" fill="var(--accent)" fill-opacity="0.12" rx="2"/>
+<text x="318" y="147" class="t" text-anchor="middle" font-weight="bold">Retinal Layer</text>
+<text x="243" y="161" class="s">10 layers: RPE → photoreceptors →</text>
+<text x="243" y="171" class="s">bipolar → ganglion → nerve fibre</text>
+<text x="243" y="181" class="s">Fovea: cones only, max acuity (6/6)</text>
+<rect x="241" y="188" width="154" height="15" fill="var(--accent)" fill-opacity="0.08" rx="2"/>
+<text x="318" y="199" class="t" text-anchor="middle" font-weight="bold">Segments</text>
+<text x="243" y="213" class="s">Anterior: cornea+AC+iris+lens+CB</text>
+<text x="243" y="223" class="s">Posterior: vitreous+retina+choroid</text>
+<text x="243" y="233" class="s">Axial length: 24 mm emmetropic</text>
+<rect x="241" y="240" width="154" height="15" fill="var(--border)" fill-opacity="0.3" rx="2"/>
+<text x="318" y="251" class="t" text-anchor="middle" font-weight="bold">Extraocular Muscles</text>
+<text x="243" y="265" class="s">SR/IR/MR/IO → CN III (oculomotor)</text>
+<text x="243" y="275" class="s">SO → CN IV (trochlear)</text>
+<text x="243" y="285" class="s">LR → CN VI (abducens)</text>
+<text x="243" y="295" class="s">LR6 SO4 AO3 (rest CN III)</text>
+</svg>`,
+
+  'mbbs-opth-refraction': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="50" y="13" class="h" text-anchor="middle">Snellen VA</text>
+<rect x="5" y="18" width="90" height="170" fill="var(--border)" fill-opacity="0.15" rx="2" stroke="var(--text)" stroke-width="1"/>
+<text x="50" y="38" class="t" text-anchor="middle" font-size="18" fill="var(--text)">E</text>
+<text x="50" y="56" class="t" text-anchor="middle" font-size="14" fill="var(--text)">FP</text>
+<text x="50" y="71" class="t" text-anchor="middle" font-size="11" fill="var(--text)">TOZ</text>
+<text x="50" y="84" class="t" text-anchor="middle" font-size="9" fill="var(--text)">LPED</text>
+<text x="50" y="95" class="t" text-anchor="middle" font-size="8" fill="var(--text)">PECFD</text>
+<text x="50" y="105" class="t" text-anchor="middle" font-size="7" fill="var(--text)">EDFCZP</text>
+<text x="50" y="114" class="t" text-anchor="middle" font-size="6" fill="var(--text)">FELOPZD</text>
+<text x="8" y="126" class="s">6/60 6/36 6/24</text>
+<text x="8" y="136" class="s">6/18 6/12 6/9</text>
+<text x="8" y="146" class="s">6/6 = normal VA</text>
+<text x="8" y="158" class="s">6/60 = legal blind</text>
+<text x="8" y="168" class="s">WHO: &lt;3/60</text>
+<text x="8" y="178" class="s">better eye = blind</text>
+<rect x="5" y="192" width="90" height="55" fill="var(--accent)" fill-opacity="0.07" rx="2"/>
+<text x="50" y="205" class="t" text-anchor="middle" font-weight="bold">Pinhole Test</text>
+<circle cx="50" cy="226" r="16" fill="var(--border)" fill-opacity="0.35" stroke="var(--text)" stroke-width="1"/>
+<circle cx="50" cy="226" r="2" fill="var(--text)" fill-opacity="0.8"/>
+<text x="50" y="254" class="s" text-anchor="middle">Improves → refractive</text>
+<text x="50" y="264" class="s" text-anchor="middle">No improve → organic</text>
+<text x="250" y="13" class="h" text-anchor="middle">Refractive Errors</text>
+<text x="108" y="27" class="t" font-weight="bold">Myopia (−ve lens)</text>
+<ellipse cx="145" cy="46" rx="22" ry="15" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 108 40 L 140 45 L 108 50" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<circle cx="158" cy="46" r="3" fill="#e74c3c" fill-opacity="0.7"/>
+<path d="M 130 46 L 156 46" fill="none" stroke="#e74c3c" stroke-width="1" stroke-dasharray="3,2"/>
+<text x="163" y="44" class="s">in front</text>
+<text x="163" y="52" class="s">of retina</text>
+<text x="108" y="66" class="s">Long axis. Concave (−) correction.</text>
+<text x="108" y="84" class="t" font-weight="bold">Hypermetropia (+ve lens)</text>
+<ellipse cx="145" cy="103" rx="22" ry="15" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 108 97 L 168 102 L 175 103 L 168 104 L 108 109" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<circle cx="180" cy="103" r="3" fill="#3498db" fill-opacity="0.7"/>
+<text x="163" y="101" class="s">behind</text>
+<text x="163" y="109" class="s">retina</text>
+<text x="108" y="123" class="s">Short axis. Convex (+) correction.</text>
+<text x="108" y="141" class="t" font-weight="bold">Astigmatism (cyl lens)</text>
+<ellipse cx="143" cy="158" rx="20" ry="14" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 108 153 L 153 157" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<path d="M 108 163 L 163 161" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<circle cx="155" cy="157" r="2" fill="#e74c3c" fill-opacity="0.7"/>
+<circle cx="165" cy="161" r="2" fill="#e74c3c" fill-opacity="0.7"/>
+<text x="170" y="155" class="s">Two focal</text>
+<text x="170" y="163" class="s">planes</text>
+<text x="108" y="178" class="s">Irregular cornea. Cylindrical lens.</text>
+<text x="108" y="196" class="t" font-weight="bold">Presbyopia (&gt;40yr)</text>
+<ellipse cx="143" cy="214" rx="20" ry="13" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<rect x="126" y="207" width="34" height="14" fill="none" stroke="#e74c3c" stroke-width="1" stroke-dasharray="2,2" rx="3"/>
+<text x="143" y="217" class="s" text-anchor="middle">Stiff</text>
+<text x="170" y="211" class="s">No accom-</text>
+<text x="170" y="219" class="s">modation</text>
+<text x="108" y="234" class="s">Lens stiffening. +ve near add (+1.0D at 40yr).</text>
+<rect x="5" y="276" width="390" height="22" fill="var(--border)" fill-opacity="0.15" rx="1"/>
+<text x="200" y="285" class="s" text-anchor="middle">Mnemonic: SAME = myopia correction converges; MADE = hypermetropia diverges</text>
+<text x="200" y="295" class="s" text-anchor="middle">LASIK: corrects myopia −10D / hypermetropia +4D by corneal photoablation</text>
+</svg>`,
+
+  'mbbs-opth-conjunctivitis': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="105" y="12" class="h" text-anchor="middle">Conjunctivitis Types</text>
+<text x="35" y="25" class="t" font-weight="bold">Bacterial</text>
+<ellipse cx="35" cy="50" rx="28" ry="16" fill="#ffe8e8" fill-opacity="0.45" stroke="#e74c3c" stroke-width="2"/>
+<circle cx="35" cy="50" r="7" fill="#4a3f35" fill-opacity="0.8"/>
+<circle cx="35" cy="50" r="3" fill="black"/>
+<circle cx="26" cy="60" r="3" fill="#f39c12" fill-opacity="0.8"/>
+<circle cx="35" cy="63" r="3" fill="#f39c12" fill-opacity="0.8"/>
+<circle cx="44" cy="60" r="3" fill="#f39c12" fill-opacity="0.8"/>
+<text x="35" y="79" class="s" text-anchor="middle">Purulent discharge</text>
+<text x="35" y="89" class="s" text-anchor="middle">S.pneumo/H.flu</text>
+<text x="35" y="99" class="s" text-anchor="middle">Topical chloramp</text>
+<text x="110" y="25" class="t" font-weight="bold">Viral (EKC)</text>
+<ellipse cx="110" cy="50" rx="28" ry="16" fill="#e8f0ff" fill-opacity="0.45" stroke="#3498db" stroke-width="2"/>
+<circle cx="110" cy="50" r="7" fill="#4a3f35" fill-opacity="0.8"/>
+<circle cx="110" cy="50" r="3" fill="black"/>
+<circle cx="93" cy="62" r="2" fill="#3498db" fill-opacity="0.5"/>
+<circle cx="101" cy="65" r="2" fill="#3498db" fill-opacity="0.5"/>
+<circle cx="110" cy="66" r="2" fill="#3498db" fill-opacity="0.5"/>
+<circle cx="119" cy="65" r="2" fill="#3498db" fill-opacity="0.5"/>
+<circle cx="128" cy="62" r="2" fill="#3498db" fill-opacity="0.5"/>
+<rect x="88" y="37" width="44" height="7" fill="none" stroke="#3498db" stroke-width="1" rx="2"/>
+<circle cx="94" cy="40" r="1.5" fill="#3498db" fill-opacity="0.7"/>
+<circle cx="100" cy="40" r="1.5" fill="#3498db" fill-opacity="0.7"/>
+<circle cx="106" cy="40" r="1.5" fill="#3498db" fill-opacity="0.7"/>
+<circle cx="112" cy="40" r="1.5" fill="#3498db" fill-opacity="0.7"/>
+<circle cx="118" cy="40" r="1.5" fill="#3498db" fill-opacity="0.7"/>
+<circle cx="124" cy="40" r="1.5" fill="#3498db" fill-opacity="0.7"/>
+<text x="110" y="79" class="s" text-anchor="middle">Watery + follicles</text>
+<text x="110" y="89" class="s" text-anchor="middle">Adenovirus 8/19</text>
+<text x="110" y="99" class="s" text-anchor="middle">Preauricular LN</text>
+<text x="185" y="25" class="t" font-weight="bold">Allergic VKC</text>
+<ellipse cx="185" cy="50" rx="28" ry="16" fill="#e8ffe8" fill-opacity="0.45" stroke="#2ecc71" stroke-width="2"/>
+<circle cx="185" cy="50" r="7" fill="#4a3f35" fill-opacity="0.8"/>
+<circle cx="185" cy="50" r="3" fill="black"/>
+<rect x="163" y="37" width="44" height="7" fill="none" stroke="#2ecc71" stroke-width="1" rx="1"/>
+<rect x="165" y="38" width="6" height="5" fill="#2ecc71" fill-opacity="0.4" rx="1"/>
+<rect x="173" y="38" width="6" height="5" fill="#2ecc71" fill-opacity="0.4" rx="1"/>
+<rect x="181" y="38" width="6" height="5" fill="#2ecc71" fill-opacity="0.4" rx="1"/>
+<rect x="189" y="38" width="6" height="5" fill="#2ecc71" fill-opacity="0.4" rx="1"/>
+<rect x="197" y="38" width="6" height="5" fill="#2ecc71" fill-opacity="0.4" rx="1"/>
+<text x="185" y="79" class="s" text-anchor="middle">Papillae cobblestone</text>
+<text x="185" y="89" class="s" text-anchor="middle">Ropy discharge</text>
+<text x="185" y="99" class="s" text-anchor="middle">Mast cell stabiliser</text>
+<rect x="5" y="108" width="215" height="42" fill="var(--border)" fill-opacity="0.12" rx="2"/>
+<text x="108" y="120" class="t" text-anchor="middle" font-weight="bold">Papillae vs Follicles</text>
+<text x="8" y="132" class="s">Papillae: central vascular core; bacterial/allergic (VKC cobblestone)</text>
+<text x="8" y="142" class="s">Follicles: avascular lymphoid; viral/chlamydial/toxic drops</text>
+<text x="310" y="12" class="h" text-anchor="middle">Trachoma (WHO)</text>
+<rect x="232" y="16" width="166" height="135" fill="var(--border)" fill-opacity="0.08" rx="3"/>
+<rect x="234" y="20" width="162" height="13" fill="var(--border)" fill-opacity="0.3" rx="2"/>
+<text x="258" y="30" class="s" font-weight="bold">Stage</text>
+<text x="310" y="30" class="s" font-weight="bold">Features</text>
+<text x="234" y="46" class="s" fill="#e74c3c" font-weight="bold">TF</text>
+<text x="252" y="46" class="s">≥5 follicles upper tarsal</text>
+<line x1="232" y1="50" x2="396" y2="50" stroke="var(--border)" stroke-width="0.5"/>
+<text x="234" y="63" class="s" fill="#e74c3c" font-weight="bold">TI</text>
+<text x="252" y="63" class="s">Intense: &gt;50% tarsal obscured</text>
+<line x1="232" y1="67" x2="396" y2="67" stroke="var(--border)" stroke-width="0.5"/>
+<text x="234" y="80" class="s" fill="#e74c3c" font-weight="bold">TS</text>
+<text x="252" y="80" class="s">Scarring: Arlt\'s line</text>
+<line x1="232" y1="84" x2="396" y2="84" stroke="var(--border)" stroke-width="0.5"/>
+<text x="234" y="97" class="s" fill="#e74c3c" font-weight="bold">TT</text>
+<text x="252" y="97" class="s">Trichiasis: inturned lash → cornea</text>
+<line x1="232" y1="101" x2="396" y2="101" stroke="var(--border)" stroke-width="0.5"/>
+<text x="234" y="114" class="s" fill="#e74c3c" font-weight="bold">CO</text>
+<text x="252" y="114" class="s">Corneal opacity → blindness</text>
+<line x1="232" y1="118" x2="396" y2="118" stroke="var(--border)" stroke-width="0.5"/>
+<text x="234" y="131" class="s">C. trachomatis (A/B/Ba/C)</text>
+<text x="234" y="141" class="s">Azithromycin 1g stat. SAFE strategy.</text>
+<rect x="5" y="158" width="390" height="140" fill="var(--border)" fill-opacity="0.06" rx="2"/>
+<text x="200" y="170" class="t" text-anchor="middle" font-weight="bold">Organisms Summary</text>
+<text x="8" y="184" class="s" fill="#e74c3c">Bacterial:</text>
+<text x="56" y="184" class="s">S.aureus, S.pneumo, H.flu, N.gonorrhoeae (hyperacute)</text>
+<text x="8" y="196" class="s" fill="#3498db">Viral:</text>
+<text x="38" y="196" class="s">Adenovirus (EKC), HSV, molluscum contagiosum</text>
+<text x="8" y="208" class="s" fill="#2ecc71">Allergic:</text>
+<text x="52" y="208" class="s">Seasonal (grass pollen), VKC (young males), GPC (CL)</text>
+<text x="8" y="220" class="s" fill="#f39c12">Chlamydial:</text>
+<text x="62" y="220" class="s">C.trachomatis serovars A-C (trachoma); D-K (inclusion conj)</text>
+<text x="8" y="234" class="t" font-weight="bold">Ophthalmia neonatorum:</text>
+<text x="8" y="246" class="s">Day 1-2: chemical; Day 2-4: N.gonorrhoeae (IV ceftriaxone); Day 5-14: C.trachomatis (erythromycin)</text>
+<text x="8" y="258" class="s">Prophylaxis at birth: tetracycline 1% ointment or povidone-iodine 2.5%</text>
+<text x="8" y="270" class="t" font-weight="bold">VKC shield ulcer:</text>
+<text x="8" y="282" class="s">Superior corneal ulcer from giant papillae mechanical abrasion → risk of scarring</text>
+<text x="8" y="294" class="s">Rx: mast cell stabilisers (sodium cromoglycate) + topical cyclosporine + shield contact lens</text>
+</svg>`,
+
+  'mbbs-opth-corneal-disorders': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="110" y="13" class="h" text-anchor="middle">Corneal Disorders</text>
+<text x="55" y="25" class="t" font-weight="bold">Corneal Layers</text>
+<rect x="10" y="30" width="100" height="12" fill="#3498db" fill-opacity="0.25" rx="2" stroke="#3498db" stroke-width="1"/>
+<text x="115" y="40" class="s">Epithelium (5 layers, regenerates)</text>
+<rect x="10" y="44" width="100" height="6" fill="#2ecc71" fill-opacity="0.3" stroke="#2ecc71" stroke-width="1"/>
+<text x="115" y="50" class="s">Bowman (no regen if damaged)</text>
+<rect x="10" y="52" width="100" height="35" fill="var(--accent)" fill-opacity="0.08" stroke="var(--text)" stroke-width="1"/>
+<text x="115" y="62" class="s">Stroma (90% thickness)</text>
+<text x="115" y="72" class="s">Collagen lamellar arrangement</text>
+<rect x="10" y="89" width="100" height="6" fill="#f39c12" fill-opacity="0.35" stroke="#f39c12" stroke-width="1"/>
+<text x="115" y="95" class="s">Descemet (elastic, very resilient)</text>
+<rect x="10" y="97" width="100" height="8" fill="#e74c3c" fill-opacity="0.25" stroke="#e74c3c" stroke-width="1"/>
+<text x="115" y="105" class="s">Endothelium (pumps, no regen)</text>
+<text x="10" y="122" class="t" font-weight="bold">HSV Dendritic Ulcer</text>
+<ellipse cx="55" cy="150" rx="40" ry="30" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 32 145 Q 42 148 55 144 Q 65 141 74 145 Q 65 149 55 153 Q 42 156 32 152 Q 42 149 32 145" fill="none" stroke="#3498db" stroke-width="1.5"/>
+<circle cx="32" cy="145" r="2" fill="#3498db" fill-opacity="0.8"/>
+<circle cx="55" cy="143" r="2" fill="#3498db" fill-opacity="0.8"/>
+<circle cx="74" cy="145" r="2" fill="#3498db" fill-opacity="0.8"/>
+<circle cx="32" cy="152" r="2" fill="#3498db" fill-opacity="0.8"/>
+<circle cx="55" cy="154" r="2" fill="#3498db" fill-opacity="0.8"/>
+<circle cx="74" cy="152" r="2" fill="#3498db" fill-opacity="0.8"/>
+<text x="55" y="188" class="s" text-anchor="middle">Branching (dendritic)</text>
+<text x="55" y="198" class="s" text-anchor="middle">stains Rose Bengal</text>
+<text x="10" y="215" class="t" font-weight="bold">Keratoconus</text>
+<ellipse cx="55" cy="255" rx="40" ry="22" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 35 246 Q 55 234 75 246" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<path d="M 55 234 L 55 265" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="3,2"/>
+<text x="55" y="280" class="s" text-anchor="middle">Conical protrusion</text>
+<text x="55" y="290" class="s" text-anchor="middle">Munson + Fleischer ring</text>
+<text x="290" y="13" class="h" text-anchor="middle">Ulcer Types</text>
+<rect x="220" y="18" width="178" height="280" fill="var(--border)" fill-opacity="0.07" rx="3"/>
+<rect x="222" y="22" width="174" height="13" fill="var(--border)" fill-opacity="0.35" rx="2"/>
+<text x="309" y="32" class="t" text-anchor="middle" font-weight="bold">Type → Clue → Rx</text>
+<text x="222" y="48" class="s" fill="#e74c3c" font-weight="bold">Bacterial:</text>
+<text x="222" y="58" class="s">Pseudomonas (CL wearer) — intense</text>
+<text x="222" y="68" class="s">S.pneumo (trauma) — hypopyon</text>
+<text x="222" y="78" class="s">Scrape for culture first!</text>
+<text x="222" y="88" class="s">Rx: topical ciprofloxacin q1h</text>
+<line x1="220" y1="94" x2="396" y2="94" stroke="var(--border)" stroke-width="0.5"/>
+<text x="222" y="107" class="s" fill="#3498db" font-weight="bold">HSV-1 (Herpetic):</text>
+<text x="222" y="117" class="s">Dendritic ulcer, ↓ corneal sensation</text>
+<text x="222" y="127" class="s">Stains Rose Bengal / fluorescein</text>
+<text x="222" y="137" class="s">NEVER steroid alone → geographic!</text>
+<text x="222" y="147" class="s">Rx: aciclovir 3% oint 5×/day ×14d</text>
+<line x1="220" y1="153" x2="396" y2="153" stroke="var(--border)" stroke-width="0.5"/>
+<text x="222" y="166" class="s" fill="#2ecc71" font-weight="bold">Fungal (Fusarium/Asperg):</text>
+<text x="222" y="176" class="s">Vegetable/soil trauma; feathery margins</text>
+<text x="222" y="186" class="s">Dry, raised surface; satellite lesions</text>
+<text x="222" y="196" class="s">Rx: natamycin 5% or voriconazole</text>
+<line x1="220" y1="202" x2="396" y2="202" stroke="var(--border)" stroke-width="0.5"/>
+<text x="222" y="215" class="s" fill="#f39c12" font-weight="bold">Acanthamoeba:</text>
+<text x="222" y="225" class="s">CL + swimming; ring infiltrate</text>
+<text x="222" y="235" class="s">Pain out of proportion to signs</text>
+<text x="222" y="245" class="s">Rx: PHMB + chlorhexidine 6-12m</text>
+<line x1="220" y1="251" x2="396" y2="251" stroke="var(--border)" stroke-width="0.5"/>
+<text x="222" y="264" class="s" fill="var(--accent)" font-weight="bold">Keratoconus Rx:</text>
+<text x="222" y="274" class="s">Spectacles → RGP lens → CXL</text>
+<text x="222" y="284" class="s">(collagen cross-linking halts progression)</text>
+<text x="222" y="294" class="s">→ keratoplasty (DALK or PKP)</text>
+</svg>`,
+
+  'mbbs-opth-glaucoma': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="100" y="13" class="h" text-anchor="middle">Glaucoma</text>
+<text x="35" y="25" class="t" font-weight="bold">Open Angle (POAG)</text>
+<ellipse cx="35" cy="68" rx="28" ry="20" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<circle cx="35" cy="68" r="8" fill="#4a3f35" fill-opacity="0.7"/>
+<circle cx="35" cy="68" r="4" fill="black"/>
+<path d="M 7 60 Q 3 68 7 76" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 8 63 L 18 63" stroke="#2ecc71" stroke-width="1.5"/>
+<path d="M 8 68 L 18 68" stroke="#2ecc71" stroke-width="1.5"/>
+<path d="M 8 73 L 18 73" stroke="#2ecc71" stroke-width="1.5"/>
+<text x="35" y="96" class="s" text-anchor="middle">Open angle</text>
+<text x="35" y="106" class="s" text-anchor="middle">slow drainage</text>
+<text x="115" y="25" class="t" font-weight="bold">Closed Angle (PACG)</text>
+<ellipse cx="115" cy="68" rx="28" ry="20" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<circle cx="115" cy="68" r="10" fill="#4a3f35" fill-opacity="0.7"/>
+<circle cx="115" cy="68" r="5" fill="black"/>
+<path d="M 87 60 Q 83 68 87 76" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 88 63 L 92 63 Q 96 65 99 64" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
+<path d="M 88 68 L 92 68 Q 97 68 99 68" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
+<path d="M 88 73 L 92 73 Q 96 72 99 73" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
+<text x="115" y="96" class="s" text-anchor="middle">Angle closed</text>
+<text x="115" y="106" class="s" text-anchor="middle">IOP &gt;40 → AACG</text>
+<text x="55" y="120" class="t" font-weight="bold" text-anchor="middle">Optic Disc Cupping</text>
+<circle cx="55" cy="165" r="40" fill="var(--border)" fill-opacity="0.2" stroke="var(--text)" stroke-width="2"/>
+<circle cx="55" cy="165" r="24" fill="#ffe4b5" fill-opacity="0.8" stroke="var(--accent)" stroke-width="1.5"/>
+<path d="M 25 160 L 55 158 L 85 162" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
+<path d="M 25 170 L 55 172 L 85 168" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
+<text x="55" y="214" class="s" text-anchor="middle">C:D &gt;0.6 suspicious</text>
+<text x="55" y="224" class="s" text-anchor="middle">ISNT rule violated</text>
+<text x="55" y="234" class="s" text-anchor="middle">Inferior notch first</text>
+<text x="55" y="248" class="t" font-weight="bold" text-anchor="middle">VF Progression</text>
+<rect x="8" y="253" width="28" height="35" fill="var(--border)" fill-opacity="0.2" rx="2" stroke="var(--text)" stroke-width="0.5"/>
+<text x="22" y="268" class="s" text-anchor="middle">1</text>
+<text x="22" y="282" class="s" text-anchor="middle">Normal</text>
+<rect x="40" y="253" width="28" height="35" fill="var(--border)" fill-opacity="0.2" rx="2" stroke="var(--text)" stroke-width="0.5"/>
+<rect x="42" y="258" width="8" height="25" fill="#e74c3c" fill-opacity="0.4" rx="1"/>
+<text x="54" y="295" class="s" text-anchor="middle">2</text>
+<rect x="72" y="253" width="28" height="35" fill="var(--border)" fill-opacity="0.2" rx="2" stroke="var(--text)" stroke-width="0.5"/>
+<path d="M 74 258 Q 86 266 100 258 L 100 278 Q 86 278 74 278 Z" fill="#e74c3c" fill-opacity="0.4"/>
+<text x="86" y="295" class="s" text-anchor="middle">3</text>
+<text x="290" y="13" class="h" text-anchor="middle">POAG vs AACG</text>
+<rect x="215" y="18" width="183" height="280" fill="var(--border)" fill-opacity="0.07" rx="3"/>
+<rect x="217" y="22" width="89" height="13" fill="var(--accent)" fill-opacity="0.15" rx="2"/>
+<text x="262" y="32" class="t" text-anchor="middle" font-weight="bold">POAG</text>
+<rect x="308" y="22" width="89" height="13" fill="#e74c3c" fill-opacity="0.15" rx="2"/>
+<text x="353" y="32" class="t" text-anchor="middle" font-weight="bold">AACG</text>
+<text x="217" y="48" class="s">Onset: insidious</text>
+<text x="310" y="48" class="s">Sudden, painful</text>
+<line x1="215" y1="52" x2="396" y2="52" stroke="var(--border)" stroke-width="0.5"/>
+<text x="217" y="64" class="s">Pain: none</text>
+<text x="310" y="64" class="s">Severe headache</text>
+<line x1="215" y1="68" x2="396" y2="68" stroke="var(--border)" stroke-width="0.5"/>
+<text x="217" y="80" class="s">IOP: 21-35</text>
+<text x="310" y="80" class="s">IOP &gt;40 mmHg</text>
+<line x1="215" y1="84" x2="396" y2="84" stroke="var(--border)" stroke-width="0.5"/>
+<text x="217" y="96" class="s">Pupil: normal</text>
+<text x="310" y="96" class="s">Mid-dilated, fixed</text>
+<line x1="215" y1="100" x2="396" y2="100" stroke="var(--border)" stroke-width="0.5"/>
+<text x="217" y="112" class="s">Cornea: clear</text>
+<text x="310" y="112" class="s">Hazy, oedematous</text>
+<line x1="215" y1="116" x2="396" y2="116" stroke="var(--border)" stroke-width="0.5"/>
+<text x="217" y="128" class="s">VF: arcuate</text>
+<text x="310" y="128" class="s">Blurred vision</text>
+<line x1="215" y1="132" x2="396" y2="132" stroke="var(--border)" stroke-width="0.5"/>
+<text x="217" y="148" class="s">Rx: PG analogue</text>
+<text x="217" y="158" class="s">(latanoprost first)</text>
+<text x="310" y="148" class="s">EMERGENCY:</text>
+<text x="310" y="158" class="s">IV acetazolamide</text>
+<text x="310" y="168" class="s">+ pilocarpine</text>
+<text x="310" y="178" class="s">+ laser LPI</text>
+<rect x="217" y="186" width="181" height="110" fill="var(--border)" fill-opacity="0.05" rx="2"/>
+<text x="308" y="198" class="t" text-anchor="middle" font-weight="bold">Anti-Glaucoma Drops</text>
+<text x="217" y="212" class="s" fill="var(--accent)">PG analogues (latanoprost):</text>
+<text x="217" y="222" class="s">↑ uveoscleral outflow. Once nightly.</text>
+<text x="217" y="232" class="s" fill="var(--accent)">β-blockers (timolol):</text>
+<text x="217" y="242" class="s">↓ aqueous. Avoid asthma/COPD.</text>
+<text x="217" y="252" class="s" fill="var(--accent)">CAIs (dorzolamide):</text>
+<text x="217" y="262" class="s">↓ aqueous production.</text>
+<text x="217" y="272" class="s" fill="var(--accent)">α2-agonists (brimonidine):</text>
+<text x="217" y="282" class="s">↓ prod + ↑ outflow.</text>
+<text x="217" y="292" class="s">Normal IOP: 10-21 mmHg (Goldmann tonometry)</text>
+</svg>`,
+
+  'mbbs-opth-cataract': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="100" y="13" class="h" text-anchor="middle">Cataract</text>
+<text x="35" y="25" class="t" font-weight="bold">Nuclear</text>
+<ellipse cx="35" cy="65" rx="25" ry="35" fill="var(--border)" fill-opacity="0.15" stroke="var(--text)" stroke-width="1.5"/>
+<ellipse cx="35" cy="65" rx="14" ry="20" fill="#c8a000" fill-opacity="0.5" stroke="#c8a000" stroke-width="1.5"/>
+<text x="35" y="108" class="s" text-anchor="middle">Brown nucleus</text>
+<text x="35" y="118" class="s" text-anchor="middle">Myopic shift</text>
+<text x="115" y="25" class="t" font-weight="bold">Cortical</text>
+<ellipse cx="115" cy="65" rx="25" ry="35" fill="var(--border)" fill-opacity="0.15" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 110 32 L 90 65 L 108 90" fill="none" stroke="var(--text)" stroke-width="1.5" stroke-dasharray="3,2"/>
+<path d="M 120 32 L 140 65 L 122 90" fill="none" stroke="var(--text)" stroke-width="1.5" stroke-dasharray="3,2"/>
+<path d="M 90 60 L 140 70" fill="none" stroke="var(--text)" stroke-width="1" stroke-dasharray="3,2"/>
+<text x="115" y="108" class="s" text-anchor="middle">Spoke-wheel</text>
+<text x="115" y="118" class="s" text-anchor="middle">vacuoles + glare</text>
+<text x="195" y="25" class="t" font-weight="bold">PSC</text>
+<ellipse cx="195" cy="65" rx="25" ry="35" fill="var(--border)" fill-opacity="0.15" stroke="var(--text)" stroke-width="1.5"/>
+<ellipse cx="195" cy="87" rx="15" ry="8" fill="#e74c3c" fill-opacity="0.35" stroke="#e74c3c" stroke-width="1.5"/>
+<text x="195" y="108" class="s" text-anchor="middle">Post subcapsular</text>
+<text x="195" y="118" class="s" text-anchor="middle">Steroid/DM</text>
+<text x="270" y="25" class="t" font-weight="bold">Congenital</text>
+<ellipse cx="270" cy="65" rx="25" ry="35" fill="var(--border)" fill-opacity="0.15" stroke="var(--text)" stroke-width="1.5"/>
+<circle cx="270" cy="65" r="15" fill="white" fill-opacity="0.6" stroke="var(--text)" stroke-width="1.5"/>
+<text x="270" y="108" class="s" text-anchor="middle">Leucocoria</text>
+<text x="270" y="118" class="s" text-anchor="middle">TORCH/galact</text>
+<text x="270" y="128" class="s" text-anchor="middle">&lt;6 wk surgery!</text>
+<text x="110" y="145" class="h" text-anchor="middle">Phacoemulsification Steps</text>
+<rect x="5" y="152" width="390" height="145" fill="var(--border)" fill-opacity="0.06" rx="3"/>
+<ellipse cx="40" cy="225" rx="30" ry="22" fill="var(--border)" fill-opacity="0.2" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 10 215 L 14 215" fill="none" stroke="#e74c3c" stroke-width="2"/>
+<circle cx="12" cy="215" r="2" fill="#e74c3c" fill-opacity="0.8"/>
+<ellipse cx="165" cy="225" rx="30" ry="22" fill="var(--border)" fill-opacity="0.2" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 145 225 Q 155 215 165 225 Q 175 235 185 225" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+<path d="M 148 218 L 182 218" fill="none" stroke="var(--accent)" stroke-width="1"/>
+<text x="8" y="165" class="t" font-weight="bold">Steps:</text>
+<text x="8" y="177" class="s">1. Clear corneal incision 2.8 mm</text>
+<text x="8" y="187" class="s">2. Trypan blue stain + capsulorhexis (5-5.5 mm)</text>
+<text x="8" y="197" class="s">3. Hydrodissection</text>
+<text x="8" y="207" class="s">4. Phaco US probe — fragments nucleus</text>
+<text x="200" y="177" class="s">5. I/A aspirates cortex</text>
+<text x="200" y="187" class="s">6. IOL inserted in-the-bag</text>
+<text x="200" y="197" class="s">7. Viscoelastic removal</text>
+<text x="200" y="207" class="s">8. Self-sealing incision</text>
+<text x="8" y="258" class="s">IOL power: SRK/T — P = A − 2.5L − 0.9K</text>
+<text x="8" y="268" class="s">L=axial length (IOLMaster); K=keratometry</text>
+<text x="8" y="280" class="s">Complications: PCO (Nd:YAG), CME, endophthalmitis</text>
+<text x="8" y="292" class="s">ECCE: 10-12 mm incision; phaco: 2.8 mm; FLACS: femtosecond-assisted</text>
+</svg>`,
+
+  'mbbs-opth-uveitis': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="95" y="13" class="h" text-anchor="middle">Uveitis</text>
+<text x="55" y="25" class="t" font-weight="bold">Anterior Uveitis Signs</text>
+<path d="M 10 60 Q 0 110 10 160" fill="none" stroke="var(--text)" stroke-width="3"/>
+<circle cx="15" cy="83" r="3" fill="#f39c12" fill-opacity="0.8"/>
+<circle cx="18" cy="94" r="2.5" fill="#f39c12" fill-opacity="0.8"/>
+<circle cx="14" cy="104" r="3" fill="#f39c12" fill-opacity="0.8"/>
+<circle cx="19" cy="114" r="2.5" fill="#f39c12" fill-opacity="0.8"/>
+<circle cx="16" cy="124" r="3" fill="#f39c12" fill-opacity="0.8"/>
+<circle cx="20" cy="135" r="2.5" fill="#f39c12" fill-opacity="0.8"/>
+<text x="25" y="70" class="s">KPs (Arlt\'s triangle)</text>
+<rect x="25" y="60" width="50" height="100" fill="var(--accent)" fill-opacity="0.05"/>
+<circle cx="40" cy="80" r="1.5" fill="var(--text)" fill-opacity="0.4"/>
+<circle cx="55" cy="90" r="1.5" fill="var(--text)" fill-opacity="0.4"/>
+<circle cx="45" cy="100" r="1.5" fill="var(--text)" fill-opacity="0.4"/>
+<circle cx="60" cy="115" r="1.5" fill="var(--text)" fill-opacity="0.4"/>
+<circle cx="38" cy="125" r="1.5" fill="var(--text)" fill-opacity="0.4"/>
+<text x="38" y="150" class="s">Flare + cells</text>
+<path d="M 75 75 L 85 85 Q 85 110 75 120 Q 85 120 90 110 L 90 90 Z" fill="var(--border)" fill-opacity="0.5" stroke="var(--text)" stroke-width="1"/>
+<ellipse cx="90" cy="100" rx="8" ry="10" fill="#4a3f35" fill-opacity="0.8"/>
+<path d="M 85 95 L 79 90" stroke="#e74c3c" stroke-width="1.5"/>
+<path d="M 85 107 L 79 113" stroke="#e74c3c" stroke-width="1.5"/>
+<text x="65" y="145" class="s">Post synechiae</text>
+<circle cx="90" cy="75" r="4" fill="#e74c3c" fill-opacity="0.4"/>
+<circle cx="90" cy="125" r="4" fill="#e74c3c" fill-opacity="0.4"/>
+<text x="96" y="79" class="s">Ciliary flush</text>
+<rect x="5" y="158" width="185" height="140" fill="var(--border)" fill-opacity="0.08" rx="2"/>
+<text x="95" y="170" class="t" text-anchor="middle" font-weight="bold">Anterior Uveitis Features</text>
+<text x="8" y="183" class="s">• Photophobia + ciliary flush (perilimbal)</text>
+<text x="8" y="193" class="s">• KPs on endothelium (Arlt\'s triangle)</text>
+<text x="8" y="203" class="s">• Flare (protein) + cells in AC</text>
+<text x="8" y="213" class="s">• Posterior synechiae (iris to lens)</text>
+<text x="8" y="223" class="s">• Seclusio pupillae → iris bombe → 2° glaucoma</text>
+<text x="8" y="235" class="s">HLA-B27: AS, Reiter, psoriatic arthritis, IBD</text>
+<text x="8" y="245" class="s">Rx: topical steroid (pred 1% q1h)</text>
+<text x="8" y="255" class="s">    + cyclopentolate 1% (prevents synechiae)</text>
+<text x="8" y="265" class="s">Mutton-fat KPs: granulomatous (sarcoid/TB)</text>
+<text x="8" y="275" class="s">Fine KPs: non-granulomatous (HLA-B27)</text>
+<text x="8" y="285" class="s">Stellar KPs: Fuchs heterochromic uveitis</text>
+<text x="8" y="295" class="s">Behcet: hypopyon + oral/genital ulcers</text>
+<text x="295" y="13" class="h" text-anchor="middle">Uveitis Types</text>
+<rect x="200" y="18" width="198" height="280" fill="var(--border)" fill-opacity="0.07" rx="3"/>
+<rect x="202" y="22" width="194" height="13" fill="var(--border)" fill-opacity="0.3" rx="2"/>
+<text x="299" y="32" class="t" text-anchor="middle" font-weight="bold">Type — Features</text>
+<text x="202" y="50" class="s" fill="var(--accent)" font-weight="bold">Anterior (iritis/iridocyclitis):</text>
+<text x="202" y="60" class="s">HLA-B27, AS, Reiter, IBD, psoriasis</text>
+<text x="202" y="70" class="s">Unilateral acute; recurrences common</text>
+<line x1="200" y1="75" x2="396" y2="75" stroke="var(--border)" stroke-width="0.5"/>
+<text x="202" y="90" class="s" fill="var(--accent)" font-weight="bold">Intermediate:</text>
+<text x="202" y="100" class="s">Pars planitis; snowball opacities</text>
+<text x="202" y="110" class="s">inferior vitritis; MS association</text>
+<line x1="200" y1="115" x2="396" y2="115" stroke="var(--border)" stroke-width="0.5"/>
+<text x="202" y="130" class="s" fill="var(--accent)" font-weight="bold">Posterior — Toxoplasma:</text>
+<text x="202" y="140" class="s">White lesion + old pig. scar</text>
+<text x="202" y="150" class="s">"Headlight in fog" appearance</text>
+<text x="202" y="160" class="s">Rx: sulfa + pyrimeth + folinic acid</text>
+<line x1="200" y1="165" x2="396" y2="165" stroke="var(--border)" stroke-width="0.5"/>
+<text x="202" y="180" class="s" fill="var(--accent)" font-weight="bold">Posterior — CMV retinitis:</text>
+<text x="202" y="190" class="s">AIDS (CD4 &lt;50); pizza-pie fundus</text>
+<text x="202" y="200" class="s">Rx: ganciclovir IV + HAART</text>
+<line x1="200" y1="205" x2="396" y2="205" stroke="var(--border)" stroke-width="0.5"/>
+<text x="202" y="220" class="s" fill="var(--accent)" font-weight="bold">Panuveitis:</text>
+<text x="202" y="230" class="s">Sarcoid: mutton-fat KPs, candle-wax</text>
+<text x="202" y="240" class="s">Behcet: hypopyon + oral/genital ulcers</text>
+<text x="202" y="250" class="s">VKH: poliosis, vitiligo, meningism</text>
+<line x1="200" y1="255" x2="396" y2="255" stroke="var(--border)" stroke-width="0.5"/>
+<text x="202" y="268" class="s">Sympathetic ophthalmia: penetrating</text>
+<text x="202" y="278" class="s">injury → bilateral granulomatous uveitis</text>
+<text x="202" y="288" class="s">weeks-years later; enucleate exciting</text>
+<text x="202" y="298" class="s">eye within 2 weeks to prevent</text>
+</svg>`,
+
+  'mbbs-opth-retinal-disorders': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="100" y="13" class="h" text-anchor="middle">Retinal Disorders</text>
+<text x="38" y="25" class="t" font-weight="bold">CRAO</text>
+<circle cx="38" cy="68" r="32" fill="var(--border)" fill-opacity="0.2" stroke="var(--text)" stroke-width="1.5"/>
+<circle cx="38" cy="68" r="28" fill="#f5f5dc" fill-opacity="0.5"/>
+<circle cx="35" cy="65" r="4" fill="#e74c3c" fill-opacity="0.8"/>
+<circle cx="50" cy="62" r="4" fill="#ffe4b5"/>
+<path d="M 46 62 L 22 48 M 46 64 L 22 72 M 46 63 L 62 48 M 46 64 L 60 78" fill="none" stroke="var(--border)" stroke-width="1"/>
+<text x="38" y="108" class="s" text-anchor="middle">Pale retina</text>
+<text x="38" y="118" class="s" text-anchor="middle">Cherry-red spot</text>
+<text x="38" y="128" class="s" text-anchor="middle">Treat &lt;90 min</text>
+<text x="112" y="25" class="t" font-weight="bold">CRVO</text>
+<circle cx="112" cy="68" r="32" fill="var(--border)" fill-opacity="0.2" stroke="var(--text)" stroke-width="1.5"/>
+<circle cx="112" cy="68" r="28" fill="var(--surface)"/>
+<circle cx="124" cy="62" r="6" fill="#ffe4b5" fill-opacity="0.8" stroke="#e74c3c" stroke-width="1.5"/>
+<path d="M 120 62 Q 108 50 88 50" fill="none" stroke="#800000" stroke-width="2.5"/>
+<path d="M 120 65 Q 108 72 86 78" fill="none" stroke="#800000" stroke-width="2.5"/>
+<path d="M 124 66 Q 136 58 142 48" fill="none" stroke="#800000" stroke-width="2.5"/>
+<path d="M 124 68 Q 138 76 142 86" fill="none" stroke="#800000" stroke-width="2.5"/>
+<ellipse cx="95" cy="55" rx="4" ry="2" fill="#e74c3c" fill-opacity="0.7" transform="rotate(-30 95 55)"/>
+<ellipse cx="100" cy="80" rx="4" ry="2" fill="#e74c3c" fill-opacity="0.7" transform="rotate(20 100 80)"/>
+<ellipse cx="138" cy="55" rx="3" ry="2" fill="#e74c3c" fill-opacity="0.7" transform="rotate(30 138 55)"/>
+<ellipse cx="140" cy="82" rx="3" ry="2" fill="#e74c3c" fill-opacity="0.7" transform="rotate(-20 140 82)"/>
+<text x="112" y="108" class="s" text-anchor="middle">Dilated veins</text>
+<text x="112" y="118" class="s" text-anchor="middle">Flame haemorrhages</text>
+<text x="112" y="128" class="s" text-anchor="middle">All 4 quadrants</text>
+<text x="38" y="145" class="t" font-weight="bold">RRD (Detachment)</text>
+<ellipse cx="38" cy="196" rx="32" ry="42" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 25 158 Q 38 168 55 165 Q 45 192 38 216 Q 28 202 25 180 Z" fill="var(--border)" fill-opacity="0.2" stroke="var(--text)" stroke-width="1"/>
+<path d="M 32 160 Q 42 175 55 168" fill="none" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="3,2"/>
+<text x="38" y="248" class="s" text-anchor="middle">Grey elevation</text>
+<text x="38" y="258" class="s" text-anchor="middle">Tobacco dust</text>
+<text x="38" y="268" class="s" text-anchor="middle">Horseshoe tear</text>
+<text x="38" y="278" class="s" text-anchor="middle">Vitrectomy/buckle</text>
+<text x="299" y="13" class="h" text-anchor="middle">DR Staging (ETDRS)</text>
+<rect x="200" y="18" width="198" height="280" fill="var(--border)" fill-opacity="0.07" rx="3"/>
+<rect x="202" y="22" width="194" height="13" fill="var(--border)" fill-opacity="0.3" rx="2"/>
+<text x="299" y="32" class="t" text-anchor="middle" font-weight="bold">Grade → Features → Action</text>
+<text x="202" y="50" class="s" fill="#2ecc71" font-weight="bold">Mild NPDR:</text>
+<text x="202" y="60" class="s">Microaneurysms only</text>
+<text x="202" y="70" class="s">Annual review; optimize HbA1c</text>
+<line x1="200" y1="74" x2="396" y2="74" stroke="var(--border)" stroke-width="0.5"/>
+<text x="202" y="88" class="s" fill="#f39c12" font-weight="bold">Moderate NPDR:</text>
+<text x="202" y="98" class="s">+ haemorrhages/hard EX/CWS</text>
+<text x="202" y="108" class="s">6-monthly review</text>
+<line x1="200" y1="113" x2="396" y2="113" stroke="var(--border)" stroke-width="0.5"/>
+<text x="202" y="127" class="s" fill="#e74c3c" font-weight="bold">Severe NPDR (4-2-1 rule):</text>
+<text x="202" y="137" class="s">&gt;20 haem in 4 quads, OR</text>
+<text x="202" y="147" class="s">VB in 2+ quads, OR IRMA 1+ quad</text>
+<text x="202" y="157" class="s">→ 50% PDR in 1 year!</text>
+<line x1="200" y1="162" x2="396" y2="162" stroke="var(--border)" stroke-width="0.5"/>
+<text x="202" y="176" class="s" fill="#c0392b" font-weight="bold">PDR:</text>
+<text x="202" y="186" class="s">NVD (at disc) or NVE (elsewhere)</text>
+<text x="202" y="196" class="s">VH, TRD, rubeosis iridis</text>
+<text x="202" y="206" class="s">Rx: PRP (1200-1500 spots)</text>
+<line x1="200" y1="211" x2="396" y2="211" stroke="var(--border)" stroke-width="0.5"/>
+<text x="202" y="225" class="s" fill="var(--accent)" font-weight="bold">Diabetic Maculopathy:</text>
+<text x="202" y="235" class="s">CSME: exud/oedema within 500µm</text>
+<text x="202" y="245" class="s">fovea centre — leading cause VA loss</text>
+<text x="202" y="255" class="s">Rx: anti-VEGF (aflibercept preferred)</text>
+<text x="202" y="265" class="s">Monitor: monthly OCT (CST)</text>
+<line x1="200" y1="270" x2="396" y2="270" stroke="var(--border)" stroke-width="0.5"/>
+<text x="202" y="283" class="s">CRAO: ocular massage + AC paracentesis</text>
+<text x="202" y="293" class="s">CRVO: investigate BP/lipids/glaucoma/thrombophilia</text>
+</svg>`,
+
+  'mbbs-opth-optic-nerve': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="100" y="13" class="h" text-anchor="middle">Optic Nerve Disorders</text>
+<text x="38" y="25" class="t" font-weight="bold">Papilloedema</text>
+<circle cx="38" cy="70" r="32" fill="var(--border)" fill-opacity="0.15" stroke="var(--text)" stroke-width="1.5"/>
+<circle cx="38" cy="70" r="28" fill="var(--surface)"/>
+<path d="M 38 70 L 18 50 M 38 70 L 20 78 M 38 70 L 58 50 M 38 70 L 56 82" fill="none" stroke="#e74c3c" stroke-width="1"/>
+<circle cx="38" cy="70" r="12" fill="#ffe4b5" fill-opacity="0.7" stroke="#e74c3c" stroke-width="2.5"/>
+<circle cx="38" cy="70" r="16" fill="none" stroke="#e74c3c" stroke-width="1" stroke-dasharray="2,2"/>
+<text x="38" y="108" class="s" text-anchor="middle">Bilateral</text>
+<text x="38" y="118" class="s" text-anchor="middle">VA normal early</text>
+<text x="38" y="128" class="s" text-anchor="middle">Raised ICP</text>
+<text x="113" y="25" class="t" font-weight="bold">Papillitis (ON)</text>
+<circle cx="113" cy="70" r="32" fill="var(--border)" fill-opacity="0.15" stroke="var(--text)" stroke-width="1.5"/>
+<circle cx="113" cy="70" r="28" fill="var(--surface)"/>
+<path d="M 113 70 L 93 50 M 113 70 L 95 80 M 113 70 L 133 50 M 113 70 L 131 82" fill="none" stroke="#e74c3c" stroke-width="1"/>
+<circle cx="113" cy="70" r="12" fill="#e74c3c" fill-opacity="0.4" stroke="#e74c3c" stroke-width="2"/>
+<text x="113" y="108" class="s" text-anchor="middle">Unilateral</text>
+<text x="113" y="118" class="s" text-anchor="middle">↓ VA + RAPD</text>
+<text x="113" y="128" class="s" text-anchor="middle">Pain on movement</text>
+<text x="183" y="25" class="t" font-weight="bold">Optic Atrophy</text>
+<circle cx="183" cy="70" r="32" fill="var(--border)" fill-opacity="0.15" stroke="var(--text)" stroke-width="1.5"/>
+<circle cx="183" cy="70" r="28" fill="var(--surface)"/>
+<path d="M 183 70 L 163 50 M 183 70 L 165 80 M 183 70 L 203 50 M 183 70 L 201 82" fill="none" stroke="var(--border)" stroke-width="0.8"/>
+<circle cx="183" cy="70" r="12" fill="white" fill-opacity="0.7" stroke="var(--border)" stroke-width="2.5"/>
+<text x="183" y="108" class="s" text-anchor="middle">Chalky white disc</text>
+<text x="183" y="118" class="s" text-anchor="middle">MS/glaucoma/CRAO</text>
+<text x="183" y="128" class="s" text-anchor="middle">B12 deficiency</text>
+<rect x="5" y="138" width="215" height="70" fill="var(--border)" fill-opacity="0.08" rx="2"/>
+<text x="110" y="150" class="t" text-anchor="middle" font-weight="bold">Papilloedema vs Papillitis</text>
+<text x="8" y="163" class="s" font-weight="bold">Papilloedema:</text>
+<text x="72" y="163" class="s">bilateral, raised ICP, VA normal early, no RAPD</text>
+<text x="8" y="173" class="s" font-weight="bold">Papillitis:</text>
+<text x="55" y="173" class="s">unilateral, painful, ↓VA, RAPD present</text>
+<text x="8" y="183" class="s">Foster Kennedy: frontal meningioma →</text>
+<text x="8" y="193" class="s">ipsilateral atrophy + contralateral papilloedema</text>
+<text x="8" y="205" class="s">ONTT: ON → MS risk 72% at 15yr if ≥1 MRI lesion</text>
+<text x="295" y="13" class="h" text-anchor="middle">Swinging Torch / RAPD</text>
+<rect x="222" y="18" width="176" height="280" fill="var(--border)" fill-opacity="0.07" rx="3"/>
+<ellipse cx="270" cy="60" rx="22" ry="14" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<circle cx="270" cy="60" r="7" fill="#4a3f35" fill-opacity="0.7"/>
+<circle cx="270" cy="60" r="3" fill="black"/>
+<text x="270" y="44" class="s" text-anchor="middle">Normal eye</text>
+<ellipse cx="350" cy="60" rx="22" ry="14" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<circle cx="350" cy="60" r="7" fill="#4a3f35" fill-opacity="0.7"/>
+<circle cx="350" cy="60" r="3" fill="black"/>
+<text x="350" y="44" class="s" text-anchor="middle">Affected eye</text>
+<path d="M 245 100 L 268 67" fill="none" stroke="#f39c12" stroke-width="2"/>
+<polygon points="245,100 240,107 252,105" fill="#f39c12"/>
+<circle cx="270" cy="115" r="6" fill="#4a3f35" fill-opacity="0.7"/>
+<circle cx="350" cy="115" r="6" fill="#4a3f35" fill-opacity="0.7"/>
+<text x="310" y="130" class="s" text-anchor="middle">Light on normal → both constrict</text>
+<path d="M 325 145 L 348 122" fill="none" stroke="#f39c12" stroke-width="2"/>
+<polygon points="325,145 320,152 332,150" fill="#f39c12"/>
+<circle cx="270" cy="160" r="8" fill="#4a3f35" fill-opacity="0.4"/>
+<circle cx="350" cy="160" r="8" fill="#4a3f35" fill-opacity="0.4"/>
+<text x="310" y="175" class="s" text-anchor="middle">Both DILATE = RAPD +ve</text>
+<rect x="224" y="182" width="172" height="115" fill="var(--border)" fill-opacity="0.05" rx="2"/>
+<text x="310" y="194" class="t" text-anchor="middle" font-weight="bold">RAPD Indicates</text>
+<text x="226" y="207" class="s">+ Optic nerve disease (unilateral ON)</text>
+<text x="226" y="217" class="s">+ Severe retinal disease (RD, CRAO)</text>
+<text x="226" y="227" class="s">+ Glaucoma (severe, asymmetric)</text>
+<text x="226" y="239" class="s">− Cataract alone</text>
+<text x="226" y="249" class="s">− Cortical visual loss</text>
+<text x="226" y="259" class="s">− Bilateral symmetric optic disease</text>
+<text x="226" y="273" class="s">Frisen grading papilloedema:</text>
+<text x="226" y="283" class="s">I (C-shape halo) → V (disc buried)</text>
+<text x="226" y="293" class="s">Causes: SOL, malignant HTN, IIH</text>
+</svg>`,
+
+  'mbbs-opth-ocular-trauma': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="100" y="13" class="h" text-anchor="middle">Ocular Trauma</text>
+<text x="55" y="25" class="t" font-weight="bold">Chemical Burns</text>
+<rect x="5" y="30" width="85" height="50" fill="#3498db" fill-opacity="0.12" rx="2" stroke="#3498db" stroke-width="1"/>
+<text x="47" y="44" class="t" text-anchor="middle" font-weight="bold">ACID</text>
+<text x="47" y="56" class="s" text-anchor="middle">Coagulates protein</text>
+<text x="47" y="66" class="s" text-anchor="middle">Self-limiting</text>
+<rect x="95" y="30" width="85" height="50" fill="#e74c3c" fill-opacity="0.12" rx="2" stroke="#e74c3c" stroke-width="1"/>
+<text x="137" y="44" class="t" text-anchor="middle" font-weight="bold">ALKALI ← WORSE</text>
+<text x="137" y="56" class="s" text-anchor="middle">Saponifies membranes</text>
+<text x="137" y="66" class="s" text-anchor="middle">Deep penetration</text>
+<rect x="5" y="86" width="175" height="30" fill="var(--accent)" fill-opacity="0.12" rx="2"/>
+<text x="92" y="98" class="t" text-anchor="middle" font-weight="bold">FIRST AID (before anything!)</text>
+<text x="92" y="110" class="s" text-anchor="middle">Copious irrigation ≥30 min. Check pH → 7.4</text>
+<rect x="5" y="123" width="175" height="68" fill="var(--border)" fill-opacity="0.08" rx="2"/>
+<text x="92" y="135" class="t" text-anchor="middle" font-weight="bold">Roper-Hall Classification</text>
+<text x="8" y="148" class="s" fill="#2ecc71">Gr I:</text>
+<text x="33" y="148" class="s">Epithelial only; no limbal ischaemia</text>
+<text x="8" y="158" class="s" fill="#f39c12">Gr II:</text>
+<text x="33" y="158" class="s">&lt;1/3 limbal ischaemia; hazy cornea</text>
+<text x="8" y="168" class="s" fill="#e74c3c">Gr III:</text>
+<text x="35" y="168" class="s">1/3-1/2 limbal isch; iris details lost</text>
+<text x="8" y="178" class="s" fill="#c0392b">Gr IV:</text>
+<text x="35" y="178" class="s">&gt;1/2 limbal isch; opaque cornea</text>
+<text x="8" y="188" class="s">Limbal ischaemia = worst prognostic sign</text>
+<text x="55" y="210" class="t" font-weight="bold">Hyphema</text>
+<ellipse cx="55" cy="250" rx="38" ry="30" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<circle cx="55" cy="242" r="10" fill="#4a3f35" fill-opacity="0.7"/>
+<circle cx="55" cy="242" r="4.5" fill="black"/>
+<rect x="28" y="254" width="54" height="16" fill="#8b0000" fill-opacity="0.6" rx="2"/>
+<text x="55" y="288" class="s" text-anchor="middle">Blood in AC</text>
+<text x="55" y="298" class="s" text-anchor="middle">Rebleed day 2-5</text>
+<text x="290" y="13" class="h" text-anchor="middle">Trauma Management</text>
+<rect x="198" y="18" width="200" height="280" fill="var(--border)" fill-opacity="0.07" rx="3"/>
+<text x="298" y="35" class="t" text-anchor="middle" font-weight="bold">Hyphema Management</text>
+<text x="200" y="49" class="s">Bed rest + head elevation 45°</text>
+<text x="200" y="59" class="s">Cycloplegia (atropine 1%)</text>
+<text x="200" y="69" class="s">Topical steroid; avoid NSAIDs/aspirin</text>
+<text x="200" y="79" class="s">IOP: timolol/acetazolamide</text>
+<text x="200" y="89" class="s">Rebleed risk: day 2-5 (fibrinolysis)</text>
+<text x="200" y="99" class="s">Surgical WO if total &gt;9d or IOP↑</text>
+<line x1="198" y1="106" x2="396" y2="106" stroke="var(--border)" stroke-width="0.5"/>
+<text x="298" y="120" class="t" text-anchor="middle" font-weight="bold">Blow-Out Fracture</text>
+<text x="200" y="134" class="s">Orbital floor fx; IR entrapment</text>
+<text x="200" y="144" class="s">↓ diplopia; enophthalmos</text>
+<text x="200" y="154" class="s">Infraorbital hypoaesthesia (V2)</text>
+<text x="200" y="164" class="s">CT orbit (coronal cuts)</text>
+<text x="200" y="174" class="s">Surgery if diplopia &gt;2 weeks</text>
+<line x1="198" y1="180" x2="396" y2="180" stroke="var(--border)" stroke-width="0.5"/>
+<text x="298" y="194" class="t" text-anchor="middle" font-weight="bold">Open Globe Management</text>
+<text x="200" y="208" class="s">1. Shield eye — NO PRESSURE</text>
+<text x="200" y="218" class="s">2. Seidel test (diluted F stain)</text>
+<text x="200" y="228" class="s">3. IV cefuroxime + metronidazole</text>
+<text x="200" y="238" class="s">4. NPO + anti-emetics</text>
+<text x="200" y="248" class="s">5. Tetanus prophylaxis</text>
+<text x="200" y="258" class="s">6. CT orbit (metal FB: NEVER MRI)</text>
+<text x="200" y="268" class="s">7. Urgent VR surgical repair</text>
+<text x="200" y="278" class="s">Prognosis: BETT score</text>
+<text x="200" y="290" class="s">Ectopia lentis: Marfan, homocystinuria</text>
+<text x="200" y="300" class="s">phacodonesis → pupillary block risk</text>
+</svg>`,
+
+  'mbbs-opth-strabismus': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="100" y="13" class="h" text-anchor="middle">Strabismus and Amblyopia</text>
+<text x="38" y="25" class="t" font-weight="bold">Esotropia (In-turned)</text>
+<ellipse cx="25" cy="50" rx="20" ry="13" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<circle cx="25" cy="50" r="6" fill="#4a3f35" fill-opacity="0.7"/>
+<circle cx="25" cy="50" r="2.5" fill="black"/>
+<ellipse cx="70" cy="50" rx="20" ry="13" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<circle cx="64" cy="50" r="6" fill="#4a3f35" fill-opacity="0.7"/>
+<circle cx="64" cy="50" r="2.5" fill="black"/>
+<text x="47" y="72" class="s" text-anchor="middle">Esotropia (medial)</text>
+<text x="38" y="90" class="t" font-weight="bold">Exotropia (Out-turned)</text>
+<ellipse cx="25" cy="115" rx="20" ry="13" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<circle cx="25" cy="115" r="6" fill="#4a3f35" fill-opacity="0.7"/>
+<circle cx="25" cy="115" r="2.5" fill="black"/>
+<ellipse cx="70" cy="115" rx="20" ry="13" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<circle cx="78" cy="115" r="6" fill="#4a3f35" fill-opacity="0.7"/>
+<circle cx="78" cy="115" r="2.5" fill="black"/>
+<text x="47" y="137" class="s" text-anchor="middle">Exotropia (lateral)</text>
+<text x="38" y="155" class="t" font-weight="bold">Hirschberg Test</text>
+<ellipse cx="25" cy="178" rx="20" ry="13" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<circle cx="25" cy="178" r="6" fill="#4a3f35" fill-opacity="0.7"/>
+<circle cx="25" cy="175" r="1.5" fill="white" fill-opacity="0.9"/>
+<ellipse cx="70" cy="178" rx="20" ry="13" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<circle cx="70" cy="178" r="6" fill="#4a3f35" fill-opacity="0.7"/>
+<circle cx="74" cy="175" r="1.5" fill="white" fill-opacity="0.9"/>
+<text x="47" y="200" class="s" text-anchor="middle">Asymmetric reflex</text>
+<text x="47" y="210" class="s" text-anchor="middle">1mm off = 7°</text>
+<rect x="5" y="220" width="185" height="78" fill="var(--border)" fill-opacity="0.08" rx="2"/>
+<text x="95" y="232" class="t" text-anchor="middle" font-weight="bold">Cover-Uncover Test</text>
+<text x="8" y="245" class="s">Cover fixing eye → deviated eye moves</text>
+<text x="8" y="255" class="s">= heterotropia (manifest squint)</text>
+<text x="8" y="265" class="s">Alt cover (no fusion) → max deviation</text>
+<text x="8" y="275" class="s">= heterophoria (latent squint)</text>
+<text x="8" y="285" class="s">Prism cover test: measures angle in PD</text>
+<text x="8" y="295" class="s">Krimsky test: prisms over deviating eye</text>
+<text x="295" y="13" class="h" text-anchor="middle">CN Palsies + Amblyopia</text>
+<rect x="200" y="18" width="198" height="165" fill="var(--border)" fill-opacity="0.07" rx="3"/>
+<text x="299" y="32" class="t" text-anchor="middle" font-weight="bold">Nerve Palsies</text>
+<text x="202" y="48" class="s" fill="#e74c3c">CN III (oculomotor):</text>
+<text x="202" y="58" class="s">Ptosis + down-and-out + mydriasis</text>
+<text x="202" y="68" class="s">Surgical = pupil involved (aneurysm!)</text>
+<text x="202" y="78" class="s">Medical = pupil spared (DM/HTN)</text>
+<line x1="200" y1="83" x2="396" y2="83" stroke="var(--border)" stroke-width="0.5"/>
+<text x="202" y="97" class="s" fill="#3498db">CN IV (trochlear):</text>
+<text x="202" y="107" class="s">Hypertropia worse in adduction</text>
+<text x="202" y="117" class="s">Head tilt to opposite side</text>
+<line x1="200" y1="122" x2="396" y2="122" stroke="var(--border)" stroke-width="0.5"/>
+<text x="202" y="136" class="s" fill="#2ecc71">CN VI (abducens):</text>
+<text x="202" y="146" class="s">Esotropia; diplopia on lateral gaze</text>
+<text x="202" y="156" class="s">False localising sign (↑ICP)</text>
+<text x="202" y="166" class="s">DM/HTN → recovery 3-4 months</text>
+<rect x="200" y="190" width="198" height="108" fill="var(--border)" fill-opacity="0.07" rx="3"/>
+<text x="299" y="204" class="t" text-anchor="middle" font-weight="bold">Amblyopia Treatment</text>
+<text x="202" y="218" class="s">≥2 Snellen lines diff; no structural cause</text>
+<text x="202" y="228" class="s">Sensitive period: &lt;8 years</text>
+<text x="202" y="238" class="s">Types: strabismic/anisometropic/deprivation</text>
+<line x1="200" y1="243" x2="396" y2="243" stroke="var(--border)" stroke-width="0.5"/>
+<text x="202" y="257" class="s">1. Full refractive correction (spectacles)</text>
+<text x="202" y="267" class="s">2. Patch better eye 2-6h/day</text>
+<text x="202" y="277" class="s">3. Atropine penalisation (alternative)</text>
+<text x="202" y="287" class="s">4. Surgery for squint (after VA optimised)</text>
+<text x="202" y="297" class="s">Monthly follow-up during Rx</text>
+</svg>`,
+
+  'mbbs-opth-neuro-ophthalmology': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="100" y="13" class="h" text-anchor="middle">Visual Pathway + Field Defects</text>
+<circle cx="30" cy="40" r="12" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<circle cx="30" cy="40" r="5" fill="#4a3f35"/>
+<circle cx="180" cy="40" r="12" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<circle cx="180" cy="40" r="5" fill="#4a3f35"/>
+<path d="M 30 52 L 65 80" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 180 52 L 145 80" fill="none" stroke="var(--text)" stroke-width="2"/>
+<path d="M 65 80 L 105 95 L 145 80" fill="none" stroke="var(--text)" stroke-width="2"/>
+<ellipse cx="105" cy="92" rx="20" ry="12" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<text x="105" y="95" class="s" text-anchor="middle" font-weight="bold">Chiasm</text>
+<path d="M 88 100 L 65 130" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 122 100 L 145 130" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+<rect x="55" y="128" width="20" height="12" fill="var(--border)" fill-opacity="0.5" rx="2"/>
+<text x="65" y="138" class="s" text-anchor="middle">LGN</text>
+<rect x="135" y="128" width="20" height="12" fill="var(--border)" fill-opacity="0.5" rx="2"/>
+<text x="145" y="138" class="s" text-anchor="middle">LGN</text>
+<path d="M 65 140 L 65 175" fill="none" stroke="var(--text)" stroke-width="1.5" stroke-dasharray="3,2"/>
+<path d="M 145 140 L 145 175" fill="none" stroke="var(--text)" stroke-width="1.5" stroke-dasharray="3,2"/>
+<rect x="55" y="175" width="100" height="20" fill="var(--accent)" fill-opacity="0.2" rx="2"/>
+<text x="105" y="189" class="s" text-anchor="middle">Occipital Cortex (V1)</text>
+<text x="250" y="13" class="h" text-anchor="middle">Field Defects</text>
+<text x="225" y="28" class="s">1. Normal</text>
+<rect x="220" y="30" width="25" height="25" fill="var(--border)" fill-opacity="0.2" rx="1"/>
+<circle cx="232" cy="42" r="8" fill="var(--accent)" fill-opacity="0.3"/>
+<text x="260" y="28" class="s">2. Optic nerve</text>
+<rect x="255" y="30" width="25" height="25" fill="var(--border)" fill-opacity="0.2" rx="1"/>
+<circle cx="267" cy="42" r="8" fill="#e74c3c" fill-opacity="0.6"/>
+<text x="262" y="60" class="s">Monocular</text>
+<text x="300" y="28" class="s">3. Chiasm</text>
+<rect x="295" y="30" width="25" height="25" fill="var(--border)" fill-opacity="0.2" rx="1"/>
+<rect x="297" y="32" width="11" height="21" fill="#e74c3c" fill-opacity="0.5" rx="1"/>
+<text x="307" y="60" class="s">Bitemporal</text>
+<text x="338" y="28" class="s">4. Tract/rad</text>
+<rect x="335" y="30" width="25" height="25" fill="var(--border)" fill-opacity="0.2" rx="1"/>
+<rect x="335" y="32" width="11" height="21" fill="#e74c3c" fill-opacity="0.5" rx="1"/>
+<rect x="347" y="32" width="11" height="21" fill="#e74c3c" fill-opacity="0.5" rx="1"/>
+<text x="347" y="60" class="s">Homonymous</text>
+<text x="250" y="75" class="h" text-anchor="middle">Horner Syndrome</text>
+<rect x="220" y="80" width="178" height="102" fill="var(--border)" fill-opacity="0.07" rx="3"/>
+<text x="222" y="96" class="s" font-weight="bold">Signs:</text>
+<text x="250" y="96" class="s">Ptosis (1-2mm), miosis, anhidrosis</text>
+<text x="222" y="108" class="s" font-weight="bold">Localise by level:</text>
+<text x="222" y="120" class="s" fill="#3498db">Central (1°):</text>
+<text x="262" y="120" class="s">Wallenberg, MS, syrinx</text>
+<text x="222" y="130" class="s" fill="#2ecc71">Pregang (2°):</text>
+<text x="266" y="130" class="s">Pancoast, aortic dissection</text>
+<text x="222" y="140" class="s" fill="#e74c3c">Postgang (3°):</text>
+<text x="266" y="140" class="s">Carotid dissect, cavernous</text>
+<text x="222" y="152" class="s">Cocaine drops confirm; HydAmp localises</text>
+<text x="222" y="162" class="s">Anhidrosis absent if postganglionic (sweat fibres leave at SCG)</text>
+<rect x="5" y="210" width="210" height="88" fill="var(--border)" fill-opacity="0.08" rx="2"/>
+<text x="105" y="222" class="t" text-anchor="middle" font-weight="bold">Lesion Site → Field Defect</text>
+<text x="8" y="235" class="s">A. Optic nerve → monocular blindness (ipsilateral)</text>
+<text x="8" y="245" class="s">B. Chiasm centre → bitemporal hemianopia</text>
+<text x="8" y="255" class="s">   (pituitary: upper temporal quadrant first)</text>
+<text x="8" y="265" class="s">C. Optic tract → contralateral homonymous HH</text>
+<text x="8" y="275" class="s">D. Temporal lobe (Meyer loop) → pie-in-sky</text>
+<text x="8" y="285" class="s">E. Parietal lobe → inferior quadrantanopia</text>
+<text x="8" y="295" class="s">F. Occipital cortex → HH + macular sparing</text>
+</svg>`,
+
+  'mbbs-opth-diabetic-hypertensive': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="100" y="13" class="h" text-anchor="middle">Diabetic and Hypertensive Eye Disease</text>
+<circle cx="95" cy="110" r="88" fill="var(--border)" fill-opacity="0.12" stroke="var(--text)" stroke-width="1.5"/>
+<circle cx="125" cy="95" r="12" fill="#ffe4b5" stroke="var(--text)" stroke-width="1.5"/>
+<path d="M 125 83 Q 132 80 138 85 Q 142 78 136 75" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
+<text x="142" y="80" class="s" fill="#e74c3c">NVD</text>
+<path d="M 125 95 L 50 60" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
+<path d="M 125 95 L 52 130" fill="none" stroke="#800000" stroke-width="2"/>
+<path d="M 125 95 L 168 60" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
+<path d="M 125 95 L 165 130" fill="none" stroke="#800000" stroke-width="2.5"/>
+<circle cx="148" cy="108" r="3" fill="#800000" fill-opacity="0.8"/>
+<circle cx="158" cy="115" r="3" fill="#800000" fill-opacity="0.8"/>
+<circle cx="162" cy="123" r="3" fill="#800000" fill-opacity="0.8"/>
+<text x="168" y="120" class="s" fill="#800000">VB</text>
+<circle cx="70" cy="105" r="2.5" fill="#e74c3c" fill-opacity="0.8"/>
+<circle cx="80" cy="120" r="2" fill="#e74c3c" fill-opacity="0.8"/>
+<circle cx="65" cy="130" r="2.5" fill="#e74c3c" fill-opacity="0.8"/>
+<circle cx="90" cy="140" r="2.5" fill="#8b0000" fill-opacity="0.8"/>
+<circle cx="100" cy="150" r="2" fill="#8b0000" fill-opacity="0.8"/>
+<circle cx="75" cy="145" r="3" fill="#8b0000" fill-opacity="0.8"/>
+<ellipse cx="85" cy="110" rx="4" ry="2" fill="#fff3cd" stroke="#f39c12" stroke-width="1"/>
+<ellipse cx="92" cy="118" rx="3" ry="2" fill="#fff3cd" stroke="#f39c12" stroke-width="1"/>
+<text x="60" y="163" class="s">Hard EX</text>
+<circle cx="93" cy="108" r="10" fill="none" stroke="var(--accent)" stroke-width="1" stroke-dasharray="3,2"/>
+<text x="93" y="178" class="s" text-anchor="middle">Macula</text>
+<path d="M 130 145 Q 138 140 145 145 Q 148 138 142 135" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
+<text x="148" y="145" class="s" fill="#e74c3c">NVE</text>
+<text x="45" y="74" class="s">CWS</text>
+<circle cx="54" cy="72" r="3" fill="white" fill-opacity="0.7" stroke="var(--text)" stroke-width="0.8"/>
+<text x="38" y="168" class="s">Dot haem</text>
+<text x="38" y="180" class="s">Microaneurysm</text>
+<text x="310" y="13" class="h" text-anchor="middle">Grading Tables</text>
+<rect x="200" y="18" width="198" height="140" fill="var(--border)" fill-opacity="0.07" rx="3"/>
+<rect x="202" y="22" width="194" height="13" fill="var(--border)" fill-opacity="0.3" rx="2"/>
+<text x="299" y="32" class="t" text-anchor="middle" font-weight="bold">DR — ETDRS Staging</text>
+<text x="202" y="50" class="s" fill="#2ecc71">Mild NPDR:</text>
+<text x="248" y="50" class="s">Microaneurysms only</text>
+<text x="202" y="60" class="s" fill="#f39c12">Mod NPDR:</text>
+<text x="248" y="60" class="s">+ haem/EX/CWS</text>
+<text x="202" y="70" class="s" fill="#e74c3c">Sev NPDR:</text>
+<text x="244" y="70" class="s">4-2-1 rule (see left)</text>
+<text x="202" y="80" class="s" fill="#c0392b">PDR:</text>
+<text x="226" y="80" class="s">NVD/NVE → VH, TRD</text>
+<text x="202" y="90" class="s" fill="var(--accent)">Maculopathy:</text>
+<text x="260" y="90" class="s">CSME (&lt;500µm fovea)</text>
+<text x="202" y="102" class="s">PRP: 1200-1500 spots post-arcades</text>
+<text x="202" y="112" class="s">Anti-VEGF: aflibercept (Protocol T)</text>
+<text x="202" y="122" class="s">Screen: annual fundus photo + VA</text>
+<text x="202" y="132" class="s">Optimize HbA1c &lt;7% + BP &lt;130/80</text>
+<text x="202" y="142" class="s">Duration of DM #1 risk factor</text>
+<text x="202" y="152" class="s">Vitrectomy: VH not clearing / TRD</text>
+<rect x="200" y="165" width="198" height="133" fill="var(--border)" fill-opacity="0.07" rx="3"/>
+<rect x="202" y="169" width="194" height="13" fill="var(--border)" fill-opacity="0.3" rx="2"/>
+<text x="299" y="179" class="t" text-anchor="middle" font-weight="bold">Keith-Wagener HTN Grades</text>
+<text x="202" y="196" class="s" fill="#2ecc71">Grade I:</text>
+<text x="238" y="196" class="s">Arteriolar attenuation/silver wire</text>
+<line x1="200" y1="200" x2="396" y2="200" stroke="var(--border)" stroke-width="0.5"/>
+<text x="202" y="213" class="s" fill="#f39c12">Grade II:</text>
+<text x="240" y="213" class="s">AV nipping (copper wire)</text>
+<line x1="200" y1="217" x2="396" y2="217" stroke="var(--border)" stroke-width="0.5"/>
+<text x="202" y="230" class="s" fill="#e74c3c">Grade III:</text>
+<text x="242" y="230" class="s">Flame haem + CWS + hard EX</text>
+<line x1="200" y1="234" x2="396" y2="234" stroke="var(--border)" stroke-width="0.5"/>
+<text x="202" y="247" class="s" fill="#c0392b">Grade IV:</text>
+<text x="242" y="247" class="s">+ Papilloedema (malignant HTN)</text>
+<text x="202" y="257" class="s">Macular star = hard EX radiating from fovea</text>
+<text x="202" y="270" class="s">HTN target: &lt;130/80 (DM); &lt;140/90 (non-DM)</text>
+<text x="202" y="282" class="s">Malignant HTN: IV labetalol infusion</text>
+<text x="202" y="292" class="s">Avoid rapid BP drop (autoregulation)</text>
+</svg>`,
+
+  'mbbs-opth-paediatric': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="100" y="13" class="h" text-anchor="middle">Paediatric Ophthalmology</text>
+<text x="40" y="25" class="t" font-weight="bold">Retinoblastoma</text>
+<ellipse cx="40" cy="58" rx="32" ry="24" fill="var(--border)" fill-opacity="0.2" stroke="var(--text)" stroke-width="1.5"/>
+<circle cx="40" cy="58" r="12" fill="white" fill-opacity="0.9" stroke="var(--text)" stroke-width="1.5"/>
+<circle cx="38" cy="56" r="7" fill="#f5f5f5" fill-opacity="0.8" stroke="#e74c3c" stroke-width="1.5"/>
+<circle cx="44" cy="62" r="4" fill="#e8e8e8" fill-opacity="0.8" stroke="#e74c3c" stroke-width="1"/>
+<text x="40" y="92" class="s" text-anchor="middle">Leucocoria</text>
+<text x="40" y="102" class="s" text-anchor="middle">(cat\'s eye reflex)</text>
+<text x="125" y="25" class="t" font-weight="bold">Buphthalmos</text>
+<ellipse cx="125" cy="58" rx="40" ry="28" fill="var(--border)" fill-opacity="0.15" stroke="#3498db" stroke-width="2.5"/>
+<circle cx="125" cy="58" r="14" fill="#4a3f35" fill-opacity="0.7"/>
+<circle cx="125" cy="58" r="6" fill="black"/>
+<path d="M 90 50 L 160 50" fill="none" stroke="var(--text)" stroke-width="1" stroke-dasharray="3,2"/>
+<path d="M 90 58 L 160 58" fill="none" stroke="var(--text)" stroke-width="1" stroke-dasharray="3,2"/>
+<path d="M 90 66 L 160 66" fill="none" stroke="var(--text)" stroke-width="1" stroke-dasharray="3,2"/>
+<text x="125" y="100" class="s" text-anchor="middle">Enlarged globe</text>
+<text x="125" y="110" class="s" text-anchor="middle">Haab striae (horiz)</text>
+<text x="125" y="120" class="s" text-anchor="middle">Cornea &gt;11 mm</text>
+<rect x="5" y="128" width="185" height="100" fill="var(--border)" fill-opacity="0.08" rx="2"/>
+<text x="95" y="140" class="t" text-anchor="middle" font-weight="bold">Leucocoria Differentials</text>
+<text x="8" y="153" class="s" fill="#e74c3c">1. Retinoblastoma</text>
+<text x="82" y="153" class="s">Ca²⁺ on CT; bilateral=hereditary</text>
+<text x="8" y="163" class="s">2. Cataract</text>
+<text x="55" y="163" class="s">Most common in West</text>
+<text x="8" y="173" class="s">3. ROP (stage 5)</text>
+<text x="72" y="173" class="s">Premature infant</text>
+<text x="8" y="183" class="s">4. PHPV</text>
+<text x="42" y="183" class="s">Persistent hyperplastic PV</text>
+<text x="8" y="193" class="s">5. Coats disease</text>
+<text x="72" y="193" class="s">Male, unilateral, telangiectasia</text>
+<text x="8" y="203" class="s">6. Toxocara</text>
+<text x="54" y="203" class="s">Granuloma, dog/cat exposure</text>
+<text x="8" y="215" class="s">Rb gene (13q14) — tumour suppressor</text>
+<text x="8" y="225" class="s">Knudson 2-hit hypothesis (germline + somatic)</text>
+<text x="305" y="13" class="h" text-anchor="middle">ROP Staging</text>
+<rect x="200" y="18" width="198" height="280" fill="var(--border)" fill-opacity="0.07" rx="3"/>
+<rect x="202" y="22" width="194" height="13" fill="var(--border)" fill-opacity="0.3" rx="2"/>
+<text x="299" y="32" class="t" text-anchor="middle" font-weight="bold">Stage → Appearance</text>
+<text x="202" y="50" class="s" fill="#2ecc71">Stage 1:</text>
+<text x="240" y="50" class="s">Flat demarcation line</text>
+<line x1="200" y1="55" x2="396" y2="55" stroke="var(--border)" stroke-width="0.5"/>
+<text x="202" y="69" class="s" fill="#f39c12">Stage 2:</text>
+<text x="240" y="69" class="s">Elevated ridge</text>
+<line x1="200" y1="74" x2="396" y2="74" stroke="var(--border)" stroke-width="0.5"/>
+<text x="202" y="88" class="s" fill="#e74c3c">Stage 3:</text>
+<text x="240" y="88" class="s">Ridge + extraretinal NV</text>
+<text x="202" y="98" class="s">THRESHOLD: stage 3 + plus disease</text>
+<text x="202" y="108" class="s">→ diode laser photocoagulation</text>
+<line x1="200" y1="113" x2="396" y2="113" stroke="var(--border)" stroke-width="0.5"/>
+<text x="202" y="127" class="s" fill="#c0392b">Stage 4:</text>
+<text x="240" y="127" class="s">Partial RD (4a macula on; 4b off)</text>
+<line x1="200" y1="132" x2="396" y2="132" stroke="var(--border)" stroke-width="0.5"/>
+<text x="202" y="146" class="s" fill="#800000">Stage 5:</text>
+<text x="240" y="146" class="s">Total RD (funnel); leucocoria</text>
+<line x1="200" y1="151" x2="396" y2="151" stroke="var(--border)" stroke-width="0.5"/>
+<text x="202" y="165" class="s" font-weight="bold">Plus disease:</text>
+<text x="202" y="175" class="s">Dilated tortuous vessels at disc</text>
+<text x="202" y="185" class="s">Warrants Rx regardless of stage</text>
+<line x1="200" y1="190" x2="396" y2="190" stroke="var(--border)" stroke-width="0.5"/>
+<text x="202" y="204" class="s" font-weight="bold">Congenital Glaucoma Rx:</text>
+<text x="202" y="214" class="s">SURGICAL first (goniotomy)</text>
+<text x="202" y="224" class="s">Medical = temporising only</text>
+<text x="202" y="234" class="s">CYP1B1 gene mutation (AR)</text>
+<line x1="200" y1="239" x2="396" y2="239" stroke="var(--border)" stroke-width="0.5"/>
+<text x="202" y="253" class="s" font-weight="bold">Vit A deficiency:</text>
+<text x="202" y="263" class="s">Bitot spots (foamy, temporal conj)</text>
+<text x="202" y="273" class="s">Night blindness → keratomalacia</text>
+<text x="202" y="283" class="s">Rx: 200,000 IU oral ×2 doses (WHO)</text>
+<text x="202" y="293" class="s">Leading prev. cause child blindness</text>
+</svg>`,
+
+  'mbbs-opth-pharmacology': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="100" y="13" class="h" text-anchor="middle">Ocular Pharmacology and Investigations</text>
+<rect x="5" y="18" width="195" height="280" fill="var(--border)" fill-opacity="0.07" rx="3"/>
+<text x="102" y="32" class="t" text-anchor="middle" font-weight="bold">Drug Summary</text>
+<rect x="7" y="36" width="191" height="12" fill="var(--border)" fill-opacity="0.3" rx="1"/>
+<text x="8" y="46" class="s" font-weight="bold">Drug/Class</text>
+<text x="100" y="46" class="s" font-weight="bold">Mechanism</text>
+<text x="8" y="60" class="s" fill="var(--accent)">Tropicamide 1%</text>
+<text x="100" y="60" class="s">M3 block → mydriasis (4-6h)</text>
+<line x1="5" y1="64" x2="198" y2="64" stroke="var(--border)" stroke-width="0.5"/>
+<text x="8" y="76" class="s" fill="var(--accent)">Cyclopentolate 1%</text>
+<text x="100" y="76" class="s">M3 block → cycloplegia (24h)</text>
+<line x1="5" y1="80" x2="198" y2="80" stroke="var(--border)" stroke-width="0.5"/>
+<text x="8" y="92" class="s" fill="var(--accent)">Atropine 1%</text>
+<text x="100" y="92" class="s">M3 block; longest (2 weeks)</text>
+<line x1="5" y1="96" x2="198" y2="96" stroke="var(--border)" stroke-width="0.5"/>
+<text x="8" y="108" class="s" fill="#e74c3c">Pilocarpine 2%</text>
+<text x="100" y="108" class="s">M3 agonist → miosis + TM ↑</text>
+<line x1="5" y1="112" x2="198" y2="112" stroke="var(--border)" stroke-width="0.5"/>
+<text x="8" y="124" class="s" fill="#2ecc71">Latanoprost 0.005%</text>
+<text x="100" y="124" class="s">PG-F2α: ↑ uveoscleral (first-line)</text>
+<line x1="5" y1="128" x2="198" y2="128" stroke="var(--border)" stroke-width="0.5"/>
+<text x="8" y="140" class="s" fill="#2ecc71">Timolol 0.5%</text>
+<text x="100" y="140" class="s">β-block → ↓ aqueous; avoid asthma</text>
+<line x1="5" y1="144" x2="198" y2="144" stroke="var(--border)" stroke-width="0.5"/>
+<text x="8" y="156" class="s" fill="#2ecc71">Dorzolamide 2%</text>
+<text x="100" y="156" class="s">CA inhib → ↓ aqueous production</text>
+<line x1="5" y1="160" x2="198" y2="160" stroke="var(--border)" stroke-width="0.5"/>
+<text x="8" y="172" class="s" fill="#2ecc71">Brimonidine 0.2%</text>
+<text x="100" y="172" class="s">α2 agonist → ↓ prod + ↑ outflow</text>
+<line x1="5" y1="176" x2="198" y2="176" stroke="var(--border)" stroke-width="0.5"/>
+<text x="8" y="188" class="s" fill="#f39c12">Bevacizumab/aflibercept</text>
+<text x="100" y="188" class="s">Anti-VEGF → blocks angiogenesis</text>
+<text x="8" y="198" class="s">Ranibizumab</text>
+<text x="100" y="198" class="s">DMO, wAMD, PDR, CRVO</text>
+<line x1="5" y1="202" x2="198" y2="202" stroke="var(--border)" stroke-width="0.5"/>
+<text x="8" y="214" class="s" fill="#3498db">Chloramphenicol</text>
+<text x="100" y="214" class="s">Bacteriostatic; conjunctivitis</text>
+<line x1="5" y1="218" x2="198" y2="218" stroke="var(--border)" stroke-width="0.5"/>
+<text x="8" y="230" class="s" fill="#3498db">Aciclovir 3%</text>
+<text x="100" y="230" class="s">Nucleoside analogue; HSV keratitis</text>
+<line x1="5" y1="234" x2="198" y2="234" stroke="var(--border)" stroke-width="0.5"/>
+<text x="8" y="246" class="s" fill="#3498db">Natamycin 5%</text>
+<text x="100" y="246" class="s">Polyene antifungal; fungal ulcer</text>
+<text x="8" y="264" class="s">PG SE: PAP (periorbital fat loss),</text>
+<text x="8" y="274" class="s">iris heterochromia, eyelash growth</text>
+<text x="8" y="284" class="s">β-blocker: nasolacrimal occlude</text>
+<text x="8" y="294" class="s">to reduce systemic absorption</text>
+<text x="305" y="13" class="h" text-anchor="middle">Investigations</text>
+<text x="240" y="30" class="t" font-weight="bold">OCT — Retinal Cross-Section</text>
+<rect x="210" y="35" width="185" height="78" fill="var(--border)" fill-opacity="0.1" rx="2" stroke="var(--text)" stroke-width="1"/>
+<rect x="212" y="38" width="181" height="8" fill="#3498db" fill-opacity="0.3" rx="1"/>
+<text x="214" y="44" class="s">ILM / RNFL</text>
+<rect x="212" y="48" width="181" height="10" fill="var(--accent)" fill-opacity="0.2" rx="1"/>
+<text x="214" y="56" class="s">GCL + IPL + INL</text>
+<rect x="212" y="60" width="181" height="12" fill="var(--border)" fill-opacity="0.3" rx="1"/>
+<text x="214" y="69" class="s">OPL + ONL (photoreceptors)</text>
+<rect x="212" y="74" width="181" height="8" fill="#e74c3c" fill-opacity="0.2" rx="1"/>
+<text x="214" y="81" class="s">IS/OS ellipsoid zone + RPE + Bruch</text>
+<text x="302" y="120" class="s" text-anchor="middle">5µm resolution. IRF/SRF/CNV/ERM. CST &gt;250µm = DMO</text>
+<text x="240" y="138" class="t" font-weight="bold">Fluorescein Angiography</text>
+<rect x="210" y="143" width="185" height="75" fill="var(--border)" fill-opacity="0.1" rx="2" stroke="var(--text)" stroke-width="1"/>
+<circle cx="280" cy="183" r="28" fill="var(--surface)" stroke="var(--text)" stroke-width="1"/>
+<circle cx="290" cy="178" r="5" fill="#ffe4b5" fill-opacity="0.8" stroke="var(--accent)" stroke-width="1"/>
+<path d="M 290 178 L 255 163 M 290 178 L 258 188" fill="none" stroke="#f39c12" stroke-width="1.5"/>
+<circle cx="258" cy="168" r="4" fill="#f39c12" fill-opacity="0.6"/>
+<text x="312" y="165" class="s">Arterial</text>
+<text x="312" y="175" class="s">8-12 s</text>
+<text x="312" y="185" class="s">Venous</text>
+<text x="312" y="195" class="s">15-30 s</text>
+<text x="210" y="226" class="s">Leakage=CNV/DMO; Block=haemorrhage; Window=RPE atrophy</text>
+<text x="240" y="246" class="t" font-weight="bold">B-scan USS</text>
+<rect x="210" y="251" width="185" height="46" fill="var(--border)" fill-opacity="0.08" rx="2"/>
+<path d="M 220 275 Q 250 260 270 272 Q 290 284 310 270 Q 330 258 370 272" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<text x="220" y="268" class="s">Useful: dense VH/cataract blocks fundus view</text>
+<text x="220" y="283" class="s">Detects: RD, choroidal detach, IOFB, tumours</text>
+<text x="220" y="293" class="s">RD echo: dome-shaped highly reflective membrane</text>
 </svg>`
 };
