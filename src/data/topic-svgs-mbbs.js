@@ -7845,5 +7845,2115 @@ export const TOPIC_SVGS_MBBS = {
 <text x="220" y="268" class="s">Useful: dense VH/cataract blocks fundus view</text>
 <text x="220" y="283" class="s">Detects: RD, choroidal detach, IOFB, tumours</text>
 <text x="220" y="293" class="s">RD echo: dome-shaped highly reflective membrane</text>
+</svg>`,
+
+  'mbbs-paed-normal-newborn': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="14" class="h" text-anchor="middle">Normal Newborn Assessment</text>
+<!-- Apgar table -->
+<rect x="5" y="18" width="230" height="14" fill="var(--accent)" rx="2"/>
+<text x="8" y="28" font-family="sans-serif" font-size="8px" font-weight="bold" fill="var(--surface)">APGAR SCORE (0-2 each criterion)</text>
+<rect x="5" y="32" width="230" height="10" fill="var(--border)"/>
+<text x="8" y="40" class="s">Criterion</text>
+<text x="95" y="40" class="s">0</text>
+<text x="130" y="40" class="s">1</text>
+<text x="170" y="40" class="s">2</text>
+<rect x="5" y="42" width="230" height="9" fill="var(--surface)"/>
+<text x="8" y="50" class="s">Appearance (colour)</text>
+<text x="95" y="50" class="s">Blue/pale</text>
+<text x="130" y="50" class="s">Acrocyanosis</text>
+<text x="170" y="50" class="s">Pink all over</text>
+<rect x="5" y="51" width="230" height="9" fill="var(--border)" opacity="0.3"/>
+<text x="8" y="59" class="s">Pulse (HR)</text>
+<text x="95" y="59" class="s">Absent</text>
+<text x="130" y="59" class="s">&lt;100</text>
+<text x="170" y="59" class="s">≥100</text>
+<rect x="5" y="60" width="230" height="9" fill="var(--surface)"/>
+<text x="8" y="68" class="s">Grimace (reflex)</text>
+<text x="95" y="68" class="s">None</text>
+<text x="130" y="68" class="s">Grimace</text>
+<text x="170" y="68" class="s">Cry/cough</text>
+<rect x="5" y="69" width="230" height="9" fill="var(--border)" opacity="0.3"/>
+<text x="8" y="77" class="s">Activity (tone)</text>
+<text x="95" y="77" class="s">Limp</text>
+<text x="130" y="77" class="s">Some flex</text>
+<text x="170" y="77" class="s">Active motion</text>
+<rect x="5" y="78" width="230" height="9" fill="var(--surface)"/>
+<text x="8" y="86" class="s">Respiration</text>
+<text x="95" y="86" class="s">Absent</text>
+<text x="130" y="86" class="s">Irregular</text>
+<text x="170" y="86" class="s">Good cry</text>
+<!-- Score interpretation bars -->
+<rect x="5" y="90" width="60" height="10" fill="#e74c3c" rx="2"/>
+<text x="35" y="98" class="s" text-anchor="middle" fill="white">&lt;4 Severe</text>
+<rect x="68" y="90" width="60" height="10" fill="#f39c12" rx="2"/>
+<text x="98" y="98" class="s" text-anchor="middle" fill="white">4-6 Mod</text>
+<rect x="131" y="90" width="60" height="10" fill="#27ae60" rx="2"/>
+<text x="161" y="98" class="s" text-anchor="middle" fill="white">7-10 Normal</text>
+<!-- Newborn measurements panel -->
+<rect x="240" y="18" width="155" height="80" fill="var(--border)" rx="3" opacity="0.4"/>
+<text x="317" y="28" class="h" text-anchor="middle" font-size="9px">Normal Measurements</text>
+<rect x="245" y="30" width="145" height="12" fill="var(--accent)" rx="1" opacity="0.7"/>
+<text x="248" y="39" font-family="sans-serif" font-size="8px" fill="var(--surface)">Weight: 2.5–4.0 kg</text>
+<rect x="245" y="43" width="145" height="12" fill="var(--border)" rx="1"/>
+<text x="248" y="52" class="s">Length: 48–52 cm</text>
+<rect x="245" y="56" width="145" height="12" fill="var(--border)" rx="1" opacity="0.5"/>
+<text x="248" y="65" class="s">Head circ: 33–37 cm</text>
+<rect x="245" y="69" width="145" height="12" fill="var(--border)" rx="1"/>
+<text x="248" y="78" class="s">Physiol wt loss ≤10% → Day 14</text>
+<!-- Gestational age assessment (Ballard) -->
+<rect x="5" y="106" width="390" height="12" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="200" y="115" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">NEW BALLARD SCORE — Neuromuscular + Physical Maturity = Gestational Age</text>
+<!-- GA scale circles -->
+<circle cx="30" cy="130" r="8" fill="var(--border)" stroke="var(--accent)" stroke-width="1"/>
+<text x="30" y="133" class="s" text-anchor="middle">20w</text>
+<circle cx="80" cy="130" r="8" fill="var(--border)" stroke="var(--accent)" stroke-width="1"/>
+<text x="80" y="133" class="s" text-anchor="middle">24w</text>
+<circle cx="130" cy="130" r="8" fill="var(--border)" stroke="var(--accent)" stroke-width="1"/>
+<text x="130" y="133" class="s" text-anchor="middle">28w</text>
+<circle cx="180" cy="130" r="8" fill="var(--border)" stroke="var(--accent)" stroke-width="1"/>
+<text x="180" y="133" class="s" text-anchor="middle">32w</text>
+<circle cx="230" cy="130" r="10" fill="var(--accent)" opacity="0.7"/>
+<text x="230" y="133" class="s" text-anchor="middle" fill="var(--surface)">36w</text>
+<circle cx="280" cy="130" r="10" fill="var(--accent)"/>
+<text x="280" y="133" class="s" text-anchor="middle" fill="var(--surface)">40w</text>
+<circle cx="330" cy="130" r="8" fill="var(--border)" stroke="var(--accent)" stroke-width="1"/>
+<text x="330" y="133" class="s" text-anchor="middle">44w</text>
+<path d="M 38 130 L 72 130 M 88 130 L 122 130 M 138 130 L 172 130 M 188 130 L 222 130 M 240 130 L 270 130 M 290 130 L 322 130" stroke="var(--accent)" stroke-width="1" stroke-dasharray="3,2"/>
+<text x="200" y="147" class="s" text-anchor="middle">Score −10 to +50 → each 2 pts ≈ 1 week gestation | accuracy ±2 weeks | valid 12–20 h</text>
+<!-- Primitive reflexes -->
+<rect x="5" y="154" width="390" height="11" fill="var(--border)" rx="2" opacity="0.5"/>
+<text x="200" y="162" class="s" text-anchor="middle" font-weight="bold">PRIMITIVE REFLEXES — disappear by age shown</text>
+<rect x="5" y="166" width="75" height="30" fill="var(--border)" rx="2" opacity="0.3"/>
+<path d="M 10 175 L 30 170 L 50 175 L 40 185 L 20 185 Z" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<text x="42" y="174" class="s">MORO</text>
+<text x="42" y="184" class="s">3–4 mo</text>
+<rect x="83" y="166" width="75" height="30" fill="var(--border)" rx="2" opacity="0.3"/>
+<path d="M 95 180 Q 110 170 125 180" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<circle cx="110" cy="180" r="3" fill="var(--accent)"/>
+<text x="130" y="174" class="s">ROOTING</text>
+<text x="130" y="184" class="s">3–4 mo</text>
+<rect x="161" y="166" width="75" height="30" fill="var(--border)" rx="2" opacity="0.3"/>
+<ellipse cx="198" cy="181" rx="8" ry="5" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<path d="M 190 181 Q 198 174 206 181" fill="none" stroke="var(--accent)" stroke-width="1"/>
+<text x="210" y="174" class="s">PALMAR</text>
+<text x="210" y="184" class="s">3–4 mo</text>
+<rect x="239" y="166" width="75" height="30" fill="var(--border)" rx="2" opacity="0.3"/>
+<path d="M 250 185 L 265 175 L 280 185" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<text x="285" y="174" class="s">STEPPING</text>
+<text x="285" y="184" class="s">2 mo</text>
+<rect x="317" y="166" width="78" height="30" fill="var(--border)" rx="2" opacity="0.3"/>
+<path d="M 325 180 L 345 175 M 345 175 L 355 185" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<text x="355" y="174" class="s">ATNR</text>
+<text x="355" y="184" class="s">4–6 mo</text>
+<!-- EPI screening panel -->
+<rect x="5" y="202" width="390" height="11" fill="var(--accent)" rx="2" opacity="0.7"/>
+<text x="200" y="210" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">BANGLADESH EPI NEWBORN SCREENING (Day 3–5 heel prick)</text>
+<rect x="5" y="215" width="125" height="40" fill="var(--border)" rx="3" opacity="0.4"/>
+<circle cx="67" cy="228" r="5" fill="#3498db"/>
+<text x="67" y="231" class="s" text-anchor="middle" fill="white" font-weight="bold">TSH</text>
+<text x="67" y="242" class="s" text-anchor="middle">Congenital</text>
+<text x="67" y="250" class="s" text-anchor="middle">Hypothyroid</text>
+<rect x="135" y="215" width="125" height="40" fill="var(--border)" rx="3" opacity="0.4"/>
+<circle cx="197" cy="228" r="5" fill="#e74c3c"/>
+<text x="197" y="231" class="s" text-anchor="middle" fill="white" font-weight="bold">G6PD</text>
+<text x="197" y="242" class="s" text-anchor="middle">Enzyme</text>
+<text x="197" y="250" class="s" text-anchor="middle">deficiency</text>
+<rect x="265" y="215" width="130" height="40" fill="var(--border)" rx="3" opacity="0.4"/>
+<circle cx="330" cy="228" r="5" fill="#9b59b6"/>
+<text x="330" y="231" class="s" text-anchor="middle" fill="white" font-weight="bold">PKU</text>
+<text x="330" y="242" class="s" text-anchor="middle">Selected tertiary</text>
+<text x="330" y="250" class="s" text-anchor="middle">centres MS/MS</text>
+<text x="200" y="264" class="s" text-anchor="middle">TSH &gt;20 mU/L on screen → confirm serum TSH + free T4 | Bangladesh prevalence CH ~1:4,000</text>
+<rect x="5" y="270" width="390" height="26" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="200" y="281" class="t" text-anchor="middle" font-weight="bold">APGAR scored at 1 min + 5 min | ≥7 = normal | &lt;4 = severe → immediate PPV (room air)</text>
+<text x="200" y="292" class="s" text-anchor="middle">Physiol wt loss ≤10% birth weight, regained by Day 10–14 | &gt;10% loss = investigate feeding</text>
+</svg>`,
+
+  'mbbs-paed-neonatal-jaundice': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="14" class="h" text-anchor="middle">Neonatal Jaundice</text>
+<!-- Bilirubin pathway -->
+<rect x="5" y="18" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="200" y="25" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">BILIRUBIN METABOLISM PATHWAY</text>
+<!-- RBC icon -->
+<ellipse cx="25" cy="45" rx="14" ry="9" fill="#e74c3c" opacity="0.8"/>
+<text x="25" y="48" class="s" text-anchor="middle" fill="white">RBC</text>
+<!-- Arrow -->
+<path d="M 42 45 L 58 45 L 55 42 M 58 45 L 55 48" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+<!-- Haem oxygenase box -->
+<rect x="60" y="37" width="52" height="17" fill="var(--border)" rx="2"/>
+<text x="86" y="46" class="s" text-anchor="middle">Haem oxygns</text>
+<text x="86" y="53" class="s" text-anchor="middle">→ Biliverdin</text>
+<!-- Arrow -->
+<path d="M 114 45 L 130 45 L 127 42 M 130 45 L 127 48" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+<!-- Unconj bili -->
+<rect x="132" y="37" width="52" height="17" fill="#f1c40f" rx="2" opacity="0.7"/>
+<text x="158" y="46" class="s" text-anchor="middle" fill="var(--text)">Unconj-bili</text>
+<text x="158" y="53" class="s" text-anchor="middle">+albumin</text>
+<!-- Arrow to liver -->
+<path d="M 186 45 L 202 45 L 199 42 M 202 45 L 199 48" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+<!-- Liver box -->
+<rect x="204" y="34" width="48" height="22" fill="#27ae60" rx="3" opacity="0.7"/>
+<text x="228" y="43" class="s" text-anchor="middle" fill="white">LIVER</text>
+<text x="228" y="52" class="s" text-anchor="middle" fill="white">UGT</text>
+<!-- Arrow to conj -->
+<path d="M 254 45 L 270 45 L 267 42 M 270 45 L 267 48" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+<!-- Conj bili -->
+<rect x="272" y="37" width="52" height="17" fill="#3498db" rx="2" opacity="0.7"/>
+<text x="298" y="46" class="s" text-anchor="middle" fill="white">Conj-bili</text>
+<text x="298" y="53" class="s" text-anchor="middle" fill="white">(water-sol)</text>
+<!-- Arrow to bile -->
+<path d="M 326 45 L 342 45 L 339 42 M 342 45 L 339 48" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+<rect x="344" y="37" width="50" height="17" fill="var(--border)" rx="2"/>
+<text x="369" y="46" class="s" text-anchor="middle">→ Bile</text>
+<text x="369" y="53" class="s" text-anchor="middle">→ Stool</text>
+<!-- Enterohepatic loop -->
+<path d="M 369 54 Q 369 65 298 65 Q 228 65 158 58" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="3,2" fill="none"/>
+<path d="M 158 58 L 158 54" stroke="#e74c3c" stroke-width="1.5" fill="none"/>
+<text x="263" y="74" class="s" text-anchor="middle" fill="#e74c3c">Enterohepatic recirculation (neonates ↑ β-glucuronidase)</text>
+<!-- Physio vs patho -->
+<rect x="5" y="78" width="185" height="70" fill="var(--border)" rx="3" opacity="0.35"/>
+<text x="97" y="88" class="t" text-anchor="middle" font-weight="bold">PHYSIOLOGICAL</text>
+<rect x="8" y="90" width="179" height="8" fill="#27ae60" rx="1" opacity="0.6"/>
+<text x="97" y="97" class="s" text-anchor="middle" fill="white">Appears Day 2–3 | Peaks Day 3–5</text>
+<text x="10" y="107" class="s">• Resolves Day 7 (term) / Day 14 (preterm)</text>
+<text x="10" y="117" class="s">• TSB &lt;12 mg/dL in term (usually safe)</text>
+<text x="10" y="127" class="s">• Unconjugated only</text>
+<text x="10" y="137" class="s">• Well baby, no cause found</text>
+<text x="10" y="145" class="s">• Normal stool/urine colour</text>
+<rect x="200" y="78" width="195" height="70" fill="var(--border)" rx="3" opacity="0.35"/>
+<text x="297" y="88" class="t" text-anchor="middle" font-weight="bold">PATHOLOGICAL</text>
+<rect x="203" y="90" width="189" height="8" fill="#e74c3c" rx="1" opacity="0.7"/>
+<text x="297" y="97" class="s" text-anchor="middle" fill="white">ANY of the following criteria</text>
+<text x="203" y="107" class="s">• Day 1 jaundice (ALWAYS pathological)</text>
+<text x="203" y="117" class="s">• TSB &gt;17 mg/dL term / &gt;15 mg/dL preterm</text>
+<text x="203" y="127" class="s">• Direct (conjugated) bilirubin &gt;2 mg/dL</text>
+<text x="203" y="137" class="s">• Rising &gt;5 mg/dL per day</text>
+<text x="203" y="145" class="s">• Persists &gt;2 weeks term / &gt;3 weeks preterm</text>
+<!-- Kramer zones on baby silhouette -->
+<ellipse cx="55" cy="185" rx="14" ry="16" fill="#f1c40f" opacity="0.9" stroke="var(--border)" stroke-width="1"/>
+<text x="55" y="188" class="s" text-anchor="middle">Face</text>
+<text x="55" y="196" class="s" text-anchor="middle">Zone 1</text>
+<rect x="36" y="201" width="38" height="20" fill="#e67e22" rx="2" opacity="0.8"/>
+<text x="55" y="211" class="s" text-anchor="middle">Trunk</text>
+<text x="55" y="219" class="s" text-anchor="middle">Zone 2</text>
+<rect x="36" y="221" width="38" height="15" fill="#e74c3c" rx="2" opacity="0.8"/>
+<text x="55" y="231" class="s" text-anchor="middle">Thighs Z3</text>
+<rect x="36" y="236" width="38" height="14" fill="#c0392b" rx="2" opacity="0.9"/>
+<text x="55" y="247" class="s" text-anchor="middle">Arms Z4</text>
+<rect x="36" y="250" width="38" height="12" fill="#922b21" rx="2" opacity="0.9"/>
+<text x="55" y="259" class="s" text-anchor="middle" fill="white">Hands Z5</text>
+<!-- Kramer bilirubin values -->
+<text x="82" y="192" class="s">Z1: ~5 mg/dL</text>
+<text x="82" y="212" class="s">Z2: ~9 mg/dL</text>
+<text x="82" y="232" class="s">Z3: ~11 mg/dL</text>
+<text x="82" y="248" class="s">Z4: ~14 mg/dL</text>
+<text x="82" y="262" class="s">Z5: &gt;15 mg/dL</text>
+<text x="55" y="275" class="s" text-anchor="middle">Kramer</text>
+<text x="55" y="283" class="s" text-anchor="middle">Zones</text>
+<!-- Phototherapy thresholds -->
+<rect x="160" y="155" width="235" height="12" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="277" y="163" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">PHOTOTHERAPY THRESHOLDS (term infant)</text>
+<rect x="160" y="168" width="235" height="9" fill="var(--border)" rx="1"/>
+<text x="163" y="175" class="s">Postnatal age</text>
+<text x="260" y="175" class="s">Phototherapy</text>
+<text x="340" y="175" class="s">Exchange Tx</text>
+<rect x="160" y="177" width="235" height="8" fill="var(--surface)"/>
+<text x="163" y="184" class="s">≤24 h</text>
+<text x="260" y="184" class="s">≥12 mg/dL</text>
+<text x="340" y="184" class="s">≥20 mg/dL</text>
+<rect x="160" y="185" width="235" height="8" fill="var(--border)" opacity="0.3"/>
+<text x="163" y="192" class="s">24–48 h</text>
+<text x="260" y="192" class="s">≥15 mg/dL</text>
+<text x="340" y="192" class="s">≥23 mg/dL</text>
+<rect x="160" y="193" width="235" height="8" fill="var(--surface)"/>
+<text x="163" y="200" class="s">48–72 h</text>
+<text x="260" y="200" class="s">≥17 mg/dL</text>
+<text x="340" y="200" class="s">≥25 mg/dL</text>
+<rect x="160" y="201" width="235" height="8" fill="var(--border)" opacity="0.3"/>
+<text x="163" y="208" class="s">&gt;72 h</text>
+<text x="260" y="208" class="s">≥17 mg/dL</text>
+<text x="340" y="208" class="s">≥25 mg/dL</text>
+<!-- Kernicterus panel -->
+<rect x="160" y="213" width="235" height="12" fill="#e74c3c" rx="2" opacity="0.8"/>
+<text x="277" y="221" class="s" text-anchor="middle" fill="white" font-weight="bold">KERNICTERUS (Bilirubin Encephalopathy)</text>
+<text x="162" y="231" class="s">Phase 1: lethargy, hypotonia, poor feed</text>
+<text x="162" y="240" class="s">Phase 2: opisthotonus, high-pitched cry, sunset sign</text>
+<text x="162" y="249" class="s">Phase 3: apparent improvement (irreversible damage)</text>
+<text x="162" y="258" class="s">Chronic: athetoid CP + SNHL + upward gaze palsy</text>
+<!-- Day cause -->
+<rect x="5" y="155" width="150" height="10" fill="var(--border)" rx="1" opacity="0.5"/>
+<text x="80" y="162" class="s" text-anchor="middle" font-weight="bold">CAUSES BY DAY</text>
+<text x="8" y="173" class="s">Day 1 → ABO/Rh incompatibility, G6PD</text>
+<text x="8" y="183" class="s">Day 2–3 → Physiological</text>
+<text x="8" y="193" class="s">&gt;2 wks → Breastmilk jaundice</text>
+<text x="8" y="203" class="s">Any conj.bili → biliary atresia</text>
+<rect x="5" y="268" width="390" height="28" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="200" y="279" class="t" text-anchor="middle">ABO incompatibility: maternal anti-A/B IgG → DAT+ve → immediate intensive phototherapy</text>
+<text x="200" y="290" class="s" text-anchor="middle">IVIg 0.5–1 g/kg reduces exchange Tx need | Conjugated jaundice ANY age → urgent evaluation</text>
+</svg>`,
+
+  'mbbs-paed-prematurity-lbw': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="14" class="h" text-anchor="middle">Prematurity and Low Birth Weight</text>
+<!-- Classification grid -->
+<rect x="5" y="18" width="200" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="105" y="25" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">CLASSIFICATION BY GESTATION</text>
+<rect x="5" y="29" width="95" height="8" fill="#e74c3c" rx="1" opacity="0.8"/>
+<text x="52" y="35" class="s" text-anchor="middle" fill="white">Extremely Preterm &lt;28w</text>
+<rect x="5" y="38" width="95" height="8" fill="#e67e22" rx="1" opacity="0.8"/>
+<text x="52" y="44" class="s" text-anchor="middle" fill="white">Very Preterm &lt;32w</text>
+<rect x="5" y="47" width="95" height="8" fill="#f39c12" rx="1" opacity="0.8"/>
+<text x="52" y="53" class="s" text-anchor="middle" fill="white">Preterm &lt;37w</text>
+<rect x="5" y="56" width="95" height="8" fill="#27ae60" rx="1" opacity="0.7"/>
+<text x="52" y="62" class="s" text-anchor="middle" fill="white">Term 37–41+6w</text>
+<rect x="5" y="65" width="95" height="8" fill="#16a085" rx="1" opacity="0.7"/>
+<text x="52" y="71" class="s" text-anchor="middle" fill="white">Post-term ≥42w</text>
+<!-- Classification by weight -->
+<rect x="105" y="29" width="100" height="8" fill="#8e44ad" rx="1" opacity="0.8"/>
+<text x="155" y="35" class="s" text-anchor="middle" fill="white">ELBW &lt;1000 g</text>
+<rect x="105" y="38" width="100" height="8" fill="#9b59b6" rx="1" opacity="0.7"/>
+<text x="155" y="44" class="s" text-anchor="middle" fill="white">VLBW &lt;1500 g</text>
+<rect x="105" y="47" width="100" height="8" fill="#a569bd" rx="1" opacity="0.6"/>
+<text x="155" y="53" class="s" text-anchor="middle" fill="white">LBW &lt;2500 g</text>
+<rect x="105" y="56" width="100" height="8" fill="#3498db" rx="1" opacity="0.7"/>
+<text x="155" y="62" class="s" text-anchor="middle" fill="white">SGA &lt;10th centile</text>
+<rect x="105" y="65" width="100" height="8" fill="#27ae60" rx="1" opacity="0.7"/>
+<text x="155" y="71" class="s" text-anchor="middle" fill="white">AGA 10th–90th</text>
+<!-- RDS CXR diagram -->
+<rect x="210" y="18" width="185" height="90" fill="var(--border)" rx="3" opacity="0.3"/>
+<text x="302" y="28" class="t" text-anchor="middle" font-weight="bold">RDS CXR Pattern</text>
+<rect x="220" y="32" width="165" height="68" fill="#1a1a2e" rx="3"/>
+<!-- Lung outlines -->
+<ellipse cx="275" cy="62" rx="38" ry="28" fill="#2c3e50" opacity="0.9"/>
+<ellipse cx="335" cy="62" rx="38" ry="28" fill="#2c3e50" opacity="0.9"/>
+<!-- Ground glass haze -->
+<ellipse cx="275" cy="62" rx="34" ry="24" fill="#7f8c8d" opacity="0.5"/>
+<ellipse cx="335" cy="62" rx="34" ry="24" fill="#7f8c8d" opacity="0.5"/>
+<!-- Air bronchograms (paths through haze) -->
+<path d="M 275 45 L 275 70 M 265 50 L 265 68 M 285 50 L 285 68 M 270 55 L 255 60 M 280 55 L 295 60" stroke="white" stroke-width="1" opacity="0.8"/>
+<path d="M 335 45 L 335 70 M 325 50 L 325 68 M 345 50 L 345 68 M 330 55 L 315 60 M 340 55 L 355 60" stroke="white" stroke-width="1" opacity="0.8"/>
+<!-- Heart -->
+<ellipse cx="305" cy="63" rx="8" ry="12" fill="#e74c3c" opacity="0.8"/>
+<text x="220" y="103" class="s" fill="white">Bilateral ground glass + air bronchograms</text>
+<!-- Complications boxes -->
+<rect x="5" y="80" width="200" height="10" fill="var(--accent)" rx="2" opacity="0.7"/>
+<text x="105" y="87" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">COMPLICATIONS OF PREMATURITY</text>
+<!-- RDS -->
+<rect x="5" y="92" width="95" height="30" fill="var(--border)" rx="2" opacity="0.4"/>
+<rect x="5" y="92" width="95" height="8" fill="#3498db" rx="2" opacity="0.7"/>
+<text x="52" y="98" class="s" text-anchor="middle" fill="white">RDS</text>
+<text x="8" y="108" class="s">Surfactant DPPC deficit</text>
+<text x="8" y="116" class="s">&lt;32w → CPAP+surfactant</text>
+<!-- IVH -->
+<rect x="105" y="92" width="95" height="30" fill="var(--border)" rx="2" opacity="0.4"/>
+<rect x="105" y="92" width="95" height="8" fill="#e74c3c" rx="2" opacity="0.7"/>
+<text x="152" y="98" class="s" text-anchor="middle" fill="white">IVH (Papile I–IV)</text>
+<text x="108" y="108" class="s">Germinal matrix bleed</text>
+<text x="108" y="116" class="s">USS Day 3, 7 → weekly</text>
+<!-- NEC -->
+<rect x="5" y="124" width="95" height="30" fill="var(--border)" rx="2" opacity="0.4"/>
+<rect x="5" y="124" width="95" height="8" fill="#e67e22" rx="2" opacity="0.7"/>
+<text x="52" y="130" class="s" text-anchor="middle" fill="white">NEC (Bell I–III)</text>
+<text x="8" y="140" class="s">Pneumatosis intestinalis</text>
+<text x="8" y="148" class="s">NPO+abx+TPN→surgery</text>
+<!-- ROP -->
+<rect x="105" y="124" width="95" height="30" fill="var(--border)" rx="2" opacity="0.4"/>
+<rect x="105" y="124" width="95" height="8" fill="#9b59b6" rx="2" opacity="0.7"/>
+<text x="152" y="130" class="s" text-anchor="middle" fill="white">ROP (Zone/Stage)</text>
+<text x="108" y="140" class="s">Screen &lt;32w or &lt;1500g</text>
+<text x="108" y="148" class="s">4–6w postnatal → laser</text>
+<!-- Papile grading visual -->
+<rect x="210" y="112" width="185" height="48" fill="var(--border)" rx="3" opacity="0.3"/>
+<text x="302" y="122" class="t" text-anchor="middle" font-weight="bold">Papile IVH Grade</text>
+<circle cx="228" cy="138" r="8" fill="var(--border)" stroke="var(--accent)" stroke-width="1"/>
+<text x="228" y="141" class="s" text-anchor="middle">I</text>
+<text x="228" y="153" class="s" text-anchor="middle">GM only</text>
+<circle cx="258" cy="138" r="8" fill="#f39c12" opacity="0.8"/>
+<text x="258" y="141" class="s" text-anchor="middle" fill="white">II</text>
+<text x="258" y="153" class="s" text-anchor="middle">IVH no dil</text>
+<circle cx="288" cy="138" r="8" fill="#e67e22" opacity="0.9"/>
+<text x="288" y="141" class="s" text-anchor="middle" fill="white">III</text>
+<text x="288" y="153" class="s" text-anchor="middle">IVH+dil</text>
+<circle cx="318" cy="138" r="8" fill="#e74c3c"/>
+<text x="318" y="141" class="s" text-anchor="middle" fill="white">IV</text>
+<text x="318" y="153" class="s" text-anchor="middle">PHI</text>
+<path d="M 236 138 L 250 138 M 266 138 L 280 138 M 296 138 L 310 138" stroke="var(--accent)" stroke-width="1.5"/>
+<!-- Prevention panel -->
+<rect x="5" y="158" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="200" y="165" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">PREVENTION AND MANAGEMENT STRATEGIES</text>
+<rect x="5" y="170" width="120" height="35" fill="var(--border)" rx="2" opacity="0.3"/>
+<path d="M 15 178 L 30 182 L 45 178 L 45 195 L 15 195 Z" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<text x="70" y="180" class="s" font-weight="bold">Antenatal</text>
+<text x="70" y="190" class="s">Betamethasone</text>
+<text x="70" y="199" class="s">12mg×2 &lt;34w</text>
+<rect x="130" y="170" width="120" height="35" fill="var(--border)" rx="2" opacity="0.3"/>
+<path d="M 140 177 L 140 197 M 155 177 L 155 197 M 145 183 L 150 183 M 145 190 L 150 190" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<text x="165" y="180" class="s" font-weight="bold">Surfactant</text>
+<text x="165" y="190" class="s">Poractant alfa</text>
+<text x="165" y="199" class="s">200 mg/kg ETT</text>
+<rect x="255" y="170" width="140" height="35" fill="var(--border)" rx="2" opacity="0.3"/>
+<ellipse cx="270" cy="185" rx="10" ry="12" fill="var(--accent)" opacity="0.5"/>
+<text x="310" y="180" class="s" font-weight="bold">KMC (Kangaroo)</text>
+<text x="310" y="190" class="s">Stable &gt;1000g</text>
+<text x="310" y="199" class="s">Reduces mortality RR 0.60</text>
+<!-- NEC AXR diagram -->
+<rect x="5" y="208" width="185" height="68" fill="var(--border)" rx="3" opacity="0.3"/>
+<text x="97" y="218" class="t" text-anchor="middle" font-weight="bold">NEC Bell Staging</text>
+<rect x="8" y="220" width="55" height="50" fill="var(--border)" rx="2" opacity="0.4"/>
+<text x="35" y="230" class="s" text-anchor="middle" font-weight="bold">Stage I</text>
+<text x="35" y="240" class="s" text-anchor="middle">Suspect</text>
+<text x="35" y="249" class="s" text-anchor="middle">Temp unstab</text>
+<text x="35" y="258" class="s" text-anchor="middle">Abdo dist</text>
+<rect x="68" y="220" width="55" height="50" fill="#e67e22" rx="2" opacity="0.5"/>
+<text x="95" y="230" class="s" text-anchor="middle" fill="white" font-weight="bold">Stage II</text>
+<text x="95" y="240" class="s" text-anchor="middle" fill="white">Confirmed</text>
+<text x="95" y="249" class="s" text-anchor="middle" fill="white">Pneumatosis</text>
+<text x="95" y="258" class="s" text-anchor="middle" fill="white">Portal gas</text>
+<rect x="128" y="220" width="57" height="50" fill="#e74c3c" rx="2" opacity="0.7"/>
+<text x="156" y="230" class="s" text-anchor="middle" fill="white" font-weight="bold">Stage III</text>
+<text x="156" y="240" class="s" text-anchor="middle" fill="white">Advanced</text>
+<text x="156" y="249" class="s" text-anchor="middle" fill="white">Perforation</text>
+<text x="156" y="258" class="s" text-anchor="middle" fill="white">Shock 30–50%</text>
+<rect x="195" y="208" width="200" height="68" fill="var(--border)" rx="3" opacity="0.3"/>
+<text x="295" y="218" class="t" text-anchor="middle" font-weight="bold">ROP Screening Protocol</text>
+<text x="198" y="229" class="s">Criteria: GA &lt;32w OR BW &lt;1500g</text>
+<text x="198" y="239" class="s">Timing: 4–6 weeks after birth</text>
+<path d="M 200 247 L 380 247" stroke="var(--border)" stroke-width="1"/>
+<text x="198" y="256" class="s">Zone I/II posterior Stage 3+plus:</text>
+<text x="198" y="265" class="s">→ Diode laser photocoagulation</text>
+<text x="198" y="274" class="s">→ Anti-VEGF (bevacizumab) if Zone I</text>
+<text x="200" y="290" class="s" text-anchor="middle">Survival gains: each week extra gestation = ↑ survival 3–4% | ELBW &lt;1000g: 50–70% survival tertiary</text>
+</svg>`,
+
+  'mbbs-paed-neonatal-infections': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="14" class="h" text-anchor="middle">Neonatal Infections</text>
+<!-- EOS vs LOS header -->
+<rect x="5" y="18" width="190" height="10" fill="#3498db" rx="2" opacity="0.9"/>
+<text x="100" y="25" class="s" text-anchor="middle" fill="white" font-weight="bold">EARLY ONSET SEPSIS (&lt;72 h)</text>
+<rect x="200" y="18" width="195" height="10" fill="#e74c3c" rx="2" opacity="0.9"/>
+<text x="297" y="25" class="s" text-anchor="middle" fill="white" font-weight="bold">LATE ONSET SEPSIS (&gt;72 h)</text>
+<!-- EOS box -->
+<rect x="5" y="29" width="190" height="75" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="8" y="38" class="s" font-weight="bold">Organisms:</text>
+<circle cx="15" cy="45" r="3" fill="#3498db"/>
+<text x="21" y="48" class="s">GBS (Group B Strep) — most common</text>
+<circle cx="15" cy="55" r="3" fill="#3498db"/>
+<text x="21" y="58" class="s">E. coli (Gram-negative sepsis)</text>
+<circle cx="15" cy="65" r="3" fill="#3498db"/>
+<text x="21" y="68" class="s">Listeria monocytogenes</text>
+<text x="8" y="78" class="s" font-weight="bold">Risk factors:</text>
+<text x="8" y="87" class="s">PPROM, GBS colonised mother, preterm</text>
+<text x="8" y="96" class="s">Maternal fever intrapartum, chorioamnionitis</text>
+<!-- LOS box -->
+<rect x="200" y="29" width="195" height="75" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="203" y="38" class="s" font-weight="bold">Organisms:</text>
+<circle cx="210" cy="45" r="3" fill="#e74c3c"/>
+<text x="216" y="48" class="s">CoNS (S. epidermidis) — NICU #1</text>
+<circle cx="210" cy="55" r="3" fill="#e74c3c"/>
+<text x="216" y="58" class="s">S. aureus / MRSA</text>
+<circle cx="210" cy="65" r="3" fill="#e74c3c"/>
+<text x="216" y="68" class="s">Klebsiella, Pseudomonas, E. coli</text>
+<circle cx="210" cy="75" r="3" fill="#9b59b6"/>
+<text x="216" y="78" class="s">Candida (ELBW + prolonged antibiotics)</text>
+<text x="203" y="88" class="s" font-weight="bold">Risk: CVC, TPN, prolonged intubation</text>
+<text x="203" y="97" class="s">Nosocomial transmission NICU</text>
+<!-- Treatment row -->
+<rect x="5" y="105" width="190" height="20" fill="#3498db" rx="2" opacity="0.4"/>
+<text x="8" y="113" class="s" font-weight="bold">Tx EOS:</text>
+<text x="8" y="121" class="s">Ampicillin 200mg/kg/d + Gentamicin 5mg/kg q24h × 7–10d</text>
+<rect x="200" y="105" width="195" height="20" fill="#e74c3c" rx="2" opacity="0.4"/>
+<text x="203" y="113" class="s" font-weight="bold">Tx LOS-NICU:</text>
+<text x="203" y="121" class="s">Vancomycin 15mg/kg q8–12h + pip-taz ± antifungal</text>
+<!-- TORCH table -->
+<rect x="5" y="128" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="200" y="135" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">TORCH CONGENITAL INFECTIONS</text>
+<!-- TORCH header row -->
+<rect x="5" y="139" width="390" height="9" fill="var(--border)" rx="1" opacity="0.5"/>
+<text x="30" y="146" class="s" font-weight="bold">Organism</text>
+<text x="120" y="146" class="s" font-weight="bold">Key Features</text>
+<text x="270" y="146" class="s" font-weight="bold">Calcifications</text>
+<text x="355" y="146" class="s" font-weight="bold">Tx</text>
+<!-- T row -->
+<rect x="5" y="148" width="390" height="10" fill="var(--surface)"/>
+<rect x="5" y="148" width="30" height="10" fill="#e74c3c" rx="1" opacity="0.7"/>
+<text x="20" y="156" class="s" text-anchor="middle" fill="white">T</text>
+<text x="38" y="156" class="s">Toxoplasma</text>
+<text x="120" y="156" class="s">Hydrocephalus, chorioretinitis, seizures</text>
+<text x="270" y="156" class="s">Diffuse (throughout brain)</text>
+<text x="355" y="156" class="s">Pyrimeth+sulfa</text>
+<!-- O row -->
+<rect x="5" y="158" width="390" height="10" fill="var(--border)" opacity="0.2"/>
+<rect x="5" y="158" width="30" height="10" fill="#e67e22" rx="1" opacity="0.7"/>
+<text x="20" y="166" class="s" text-anchor="middle" fill="white">O</text>
+<text x="38" y="166" class="s">Syphilis/VZV</text>
+<text x="120" y="166" class="s">Snuffles, periostitis, limb hypoplasia</text>
+<text x="270" y="166" class="s">—</text>
+<text x="355" y="166" class="s">Benzyl-pen/ACV</text>
+<!-- R row -->
+<rect x="5" y="168" width="390" height="10" fill="var(--surface)"/>
+<rect x="5" y="168" width="30" height="10" fill="#3498db" rx="1" opacity="0.7"/>
+<text x="20" y="176" class="s" text-anchor="middle" fill="white">R</text>
+<text x="38" y="176" class="s">Rubella</text>
+<text x="120" y="176" class="s">Cataract + PDA + SNHL + microcephaly</text>
+<text x="270" y="176" class="s">None specific</text>
+<text x="355" y="176" class="s">Supportive</text>
+<!-- C row -->
+<rect x="5" y="178" width="390" height="10" fill="var(--border)" opacity="0.2"/>
+<rect x="5" y="178" width="30" height="10" fill="#9b59b6" rx="1" opacity="0.7"/>
+<text x="20" y="186" class="s" text-anchor="middle" fill="white">C</text>
+<text x="38" y="186" class="s">CMV (most common)</text>
+<text x="120" y="186" class="s">Microcephaly, SNHL, HSM, blueberry muffin</text>
+<text x="270" y="186" class="s">PERIVENTRICULAR</text>
+<text x="355" y="186" class="s">Valganciclovir</text>
+<!-- H row -->
+<rect x="5" y="188" width="390" height="10" fill="var(--surface)"/>
+<rect x="5" y="188" width="30" height="10" fill="#27ae60" rx="1" opacity="0.7"/>
+<text x="20" y="196" class="s" text-anchor="middle" fill="white">H</text>
+<text x="38" y="196" class="s">HSV-2</text>
+<text x="120" y="196" class="s">Vesicular rash, encephalitis, hepatitis, ALF</text>
+<text x="270" y="196" class="s">None</text>
+<text x="355" y="196" class="s">Aciclovir IV</text>
+<!-- Investigations panel -->
+<rect x="5" y="202" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.7"/>
+<text x="200" y="209" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">INVESTIGATION LADDER — Neonatal Sepsis</text>
+<rect x="5" y="213" width="75" height="50" fill="var(--border)" rx="2" opacity="0.4"/>
+<circle cx="42" cy="228" r="8" fill="#3498db" opacity="0.8"/>
+<text x="42" y="231" class="s" text-anchor="middle" fill="white">FBC</text>
+<text x="42" y="243" class="s" text-anchor="middle">WBC diff</text>
+<text x="42" y="251" class="s" text-anchor="middle">toxic gran</text>
+<rect x="85" y="213" width="75" height="50" fill="var(--border)" rx="2" opacity="0.4"/>
+<circle cx="122" cy="228" r="8" fill="#e74c3c" opacity="0.8"/>
+<text x="122" y="231" class="s" text-anchor="middle" fill="white">CRP</text>
+<text x="122" y="243" class="s" text-anchor="middle">&gt;10 mg/L</text>
+<text x="122" y="251" class="s" text-anchor="middle">serial rise</text>
+<rect x="165" y="213" width="75" height="50" fill="var(--border)" rx="2" opacity="0.4"/>
+<rect x="170" y="220" width="65" height="15" fill="#27ae60" rx="2" opacity="0.7"/>
+<text x="202" y="231" class="s" text-anchor="middle" fill="white">Blood Cx</text>
+<text x="202" y="243" class="s" text-anchor="middle">GOLD STD</text>
+<text x="202" y="251" class="s" text-anchor="middle">min 1 mL</text>
+<rect x="245" y="213" width="75" height="50" fill="var(--border)" rx="2" opacity="0.4"/>
+<path d="M 260 220 L 260 255 M 257 255 L 263 255 M 255 235 L 265 235" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+<text x="302" y="231" class="s">LP (if stable)</text>
+<text x="302" y="243" class="s">Cell count</text>
+<text x="302" y="251" class="s">Culture/PCR</text>
+<rect x="325" y="213" width="70" height="50" fill="var(--border)" rx="2" opacity="0.4"/>
+<circle cx="360" cy="228" r="8" fill="#f39c12" opacity="0.8"/>
+<text x="360" y="231" class="s" text-anchor="middle" fill="white">BGL</text>
+<text x="360" y="243" class="s" text-anchor="middle">CXR</text>
+<text x="360" y="251" class="s" text-anchor="middle">Urinalysis</text>
+<text x="200" y="274" class="t" text-anchor="middle">CMV urine PCR gold standard (within 3 weeks birth) | GBS IAP: penicillin G to colonised mother ≥4 h pre-delivery</text>
+<text x="200" y="285" class="s" text-anchor="middle">Congenital rubella syndrome: cataract + PDA + SNHL triad | CMV: valganciclovir 16mg/kg BD × 6 months if CNS involvement</text>
+<rect x="5" y="288" width="390" height="8" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="200" y="294" class="s" text-anchor="middle">Neonatal herpes: aciclovir IV 20mg/kg TDS × 21 days (encephalitis) | Chorioretinitis → dilated fundoscopy all TORCH suspected</text>
+</svg>`,
+
+  'mbbs-paed-neonatal-respiratory': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="14" class="h" text-anchor="middle">Neonatal Respiratory Distress</text>
+<!-- Silverman-Anderson score -->
+<rect x="5" y="18" width="195" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="102" y="25" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">SILVERMAN-ANDERSON SCORE (0–10)</text>
+<rect x="5" y="29" width="195" height="9" fill="var(--border)" opacity="0.5"/>
+<text x="8" y="36" class="s" font-weight="bold">Sign</text>
+<text x="90" y="36" class="s" font-weight="bold">0</text>
+<text x="120" y="36" class="s" font-weight="bold">1</text>
+<text x="155" y="36" class="s" font-weight="bold">2</text>
+<rect x="5" y="38" width="195" height="8" fill="var(--surface)"/>
+<text x="8" y="44" class="s">Upper chest lag</text>
+<text x="90" y="44" class="s">Sync</text>
+<text x="120" y="44" class="s">Lag</text>
+<text x="155" y="44" class="s">Paradox</text>
+<rect x="5" y="46" width="195" height="8" fill="var(--border)" opacity="0.25"/>
+<text x="8" y="52" class="s">Lower chest retraction</text>
+<text x="90" y="52" class="s">None</text>
+<text x="120" y="52" class="s">Just vis</text>
+<text x="155" y="52" class="s">Marked</text>
+<rect x="5" y="54" width="195" height="8" fill="var(--surface)"/>
+<text x="8" y="60" class="s">Xiphoid retraction</text>
+<text x="90" y="60" class="s">None</text>
+<text x="120" y="60" class="s">Just vis</text>
+<text x="155" y="60" class="s">Marked</text>
+<rect x="5" y="62" width="195" height="8" fill="var(--border)" opacity="0.25"/>
+<text x="8" y="68" class="s">Nasal flaring</text>
+<text x="90" y="68" class="s">None</text>
+<text x="120" y="68" class="s">Min</text>
+<text x="155" y="68" class="s">Marked</text>
+<rect x="5" y="70" width="195" height="8" fill="var(--surface)"/>
+<text x="8" y="76" class="s">Expiratory grunt</text>
+<text x="90" y="76" class="s">None</text>
+<text x="120" y="76" class="s">Stethosc.</text>
+<text x="155" y="76" class="s">Audible</text>
+<!-- Score colour scale -->
+<rect x="5" y="80" width="40" height="8" fill="#27ae60" rx="1" opacity="0.8"/>
+<text x="25" y="87" class="s" text-anchor="middle" fill="white">0 None</text>
+<rect x="47" y="80" width="50" height="8" fill="#f39c12" rx="1" opacity="0.8"/>
+<text x="72" y="87" class="s" text-anchor="middle" fill="white">1–3 Mild</text>
+<rect x="99" y="80" width="52" height="8" fill="#e67e22" rx="1" opacity="0.8"/>
+<text x="125" y="87" class="s" text-anchor="middle" fill="white">4–6 Mod</text>
+<rect x="153" y="80" width="47" height="8" fill="#e74c3c" rx="1" opacity="0.8"/>
+<text x="176" y="87" class="s" text-anchor="middle" fill="white">≥7 Severe</text>
+<!-- 4 conditions comparison -->
+<rect x="205" y="18" width="190" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="300" y="25" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">FOUR CONDITIONS COMPARED</text>
+<rect x="205" y="29" width="190" height="9" fill="var(--border)" opacity="0.5"/>
+<text x="207" y="36" class="s">Feature</text>
+<text x="248" y="36" class="s">RDS</text>
+<text x="280" y="36" class="s">TTN</text>
+<text x="313" y="36" class="s">MAS</text>
+<text x="348" y="36" class="s">CDH</text>
+<rect x="205" y="38" width="190" height="8" fill="var(--surface)"/>
+<text x="207" y="44" class="s">GA</text>
+<text x="248" y="44" class="s">&lt;32w</text>
+<text x="280" y="44" class="s">Term</text>
+<text x="313" y="44" class="s">Post-tm</text>
+<text x="348" y="44" class="s">Any</text>
+<rect x="205" y="46" width="190" height="8" fill="var(--border)" opacity="0.25"/>
+<text x="207" y="52" class="s">Onset</text>
+<text x="248" y="52" class="s">&lt;4 h</text>
+<text x="280" y="52" class="s">&lt;3 h</text>
+<text x="313" y="52" class="s">Birth</text>
+<text x="348" y="52" class="s">Birth</text>
+<rect x="205" y="54" width="190" height="8" fill="var(--surface)"/>
+<text x="207" y="60" class="s">CXR</text>
+<text x="248" y="60" class="s">GGO+AB</text>
+<text x="280" y="60" class="s">Perihilar</text>
+<text x="313" y="60" class="s">Coarse</text>
+<text x="348" y="60" class="s">Bowel</text>
+<rect x="205" y="62" width="190" height="8" fill="var(--border)" opacity="0.25"/>
+<text x="207" y="68" class="s">Abdomen</text>
+<text x="248" y="68" class="s">Normal</text>
+<text x="280" y="68" class="s">Normal</text>
+<text x="313" y="68" class="s">Normal</text>
+<text x="348" y="68" class="s">Scaphoid</text>
+<rect x="205" y="70" width="190" height="8" fill="var(--surface)"/>
+<text x="207" y="76" class="s">Tx</text>
+<text x="248" y="76" class="s">Surf+CPAP</text>
+<text x="280" y="76" class="s">O2 only</text>
+<text x="313" y="76" class="s">iNO±ECMO</text>
+<text x="348" y="76" class="s">Intub+OGT</text>
+<!-- RDS alveolar diagram -->
+<rect x="5" y="97" width="190" height="60" fill="var(--border)" rx="3" opacity="0.3"/>
+<text x="100" y="107" class="t" text-anchor="middle" font-weight="bold">RDS — Alveolar Collapse</text>
+<!-- Normal alveolus (left) -->
+<circle cx="40" cy="132" r="18" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<circle cx="40" cy="132" r="14" fill="#ecf0f1" opacity="0.5"/>
+<text x="40" y="112" class="s" text-anchor="middle">Normal</text>
+<!-- Collapsed alveolus (right, RDS) -->
+<ellipse cx="100" cy="137" rx="8" ry="5" fill="none" stroke="#e74c3c" stroke-width="2"/>
+<ellipse cx="120" cy="132" rx="6" ry="4" fill="none" stroke="#e74c3c" stroke-width="2"/>
+<ellipse cx="90" cy="125" rx="5" ry="3" fill="none" stroke="#e74c3c" stroke-width="2"/>
+<text x="105" y="112" class="s" text-anchor="middle" fill="#e74c3c">RDS collapse</text>
+<!-- Surfactant arrow -->
+<path d="M 145 120 L 145 150" stroke="var(--accent)" stroke-width="2"/>
+<path d="M 141 148 L 145 155 L 149 148" fill="var(--accent)"/>
+<text x="162" y="135" class="s" fill="var(--accent)">Surfactant</text>
+<text x="162" y="143" class="s" fill="var(--accent)">(DPPC)</text>
+<text x="162" y="151" class="s" fill="var(--accent)">restores</text>
+<!-- CDH diagram -->
+<rect x="205" y="95" width="190" height="65" fill="var(--border)" rx="3" opacity="0.3"/>
+<text x="300" y="106" class="t" text-anchor="middle" font-weight="bold">Left CDH — Bochdalek</text>
+<!-- Chest outline -->
+<rect x="215" y="110" width="80" height="45" fill="none" stroke="var(--accent)" stroke-width="1.5" rx="5"/>
+<!-- Left (bowel filled) -->
+<rect x="215" y="110" width="40" height="45" fill="#f39c12" rx="4" opacity="0.3"/>
+<!-- Bowel loops in left chest -->
+<path d="M 220 120 Q 230 115 240 120 Q 248 125 240 130 Q 230 135 220 130 Q 218 125 220 120 Z" fill="none" stroke="#e67e22" stroke-width="1.5"/>
+<path d="M 220 133 Q 232 128 242 133 Q 246 138 240 143 Q 230 148 220 142 Z" fill="none" stroke="#e67e22" stroke-width="1.5"/>
+<!-- Right (hypoplastic lung) -->
+<ellipse cx="275" cy="132" rx="14" ry="18" fill="#7f8c8d" rx="2" opacity="0.5"/>
+<!-- Mediastinal shift arrow -->
+<path d="M 255 132 L 270 132" stroke="#e74c3c" stroke-width="2"/>
+<path d="M 268 129 L 272 132 L 268 135" fill="#e74c3c"/>
+<text x="215" y="162" class="s">Bowel→L chest | Mediastinal shift R</text>
+<text x="300" y="115" class="s">Hypoplastic</text>
+<text x="300" y="124" class="s">right lung</text>
+<text x="300" y="133" class="s">→ PPHN</text>
+<text x="300" y="142" class="s">Scaphoid</text>
+<text x="300" y="151" class="s">abdomen</text>
+<!-- Management priority -->
+<rect x="5" y="162" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="200" y="169" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">CDH MANAGEMENT PRIORITIES (stabilise before surgery)</text>
+<rect x="5" y="174" width="55" height="38" fill="var(--border)" rx="2" opacity="0.4"/>
+<rect x="5" y="174" width="55" height="8" fill="#e74c3c" rx="2" opacity="0.8"/>
+<text x="32" y="180" class="s" text-anchor="middle" fill="white">NEVER</text>
+<text x="32" y="191" class="s" text-anchor="middle">Mask</text>
+<text x="32" y="200" class="s" text-anchor="middle">ventilate</text>
+<rect x="63" y="174" width="60" height="38" fill="var(--border)" rx="2" opacity="0.4"/>
+<text x="93" y="183" class="s" text-anchor="middle">Intubate</text>
+<text x="93" y="192" class="s" text-anchor="middle">+OGT</text>
+<text x="93" y="201" class="s" text-anchor="middle">decompres</text>
+<rect x="127" y="174" width="75" height="38" fill="var(--border)" rx="2" opacity="0.4"/>
+<text x="164" y="183" class="s" text-anchor="middle">Permissive</text>
+<text x="164" y="192" class="s" text-anchor="middle">hypercapnia</text>
+<text x="164" y="201" class="s" text-anchor="middle">pH &gt;7.20</text>
+<rect x="206" y="174" width="60" height="38" fill="var(--border)" rx="2" opacity="0.4"/>
+<text x="236" y="183" class="s" text-anchor="middle">iNO 20ppm</text>
+<text x="236" y="192" class="s" text-anchor="middle">for PPHN</text>
+<text x="236" y="201" class="s" text-anchor="middle">SpO2&gt;90%</text>
+<rect x="270" y="174" width="125" height="38" fill="var(--border)" rx="2" opacity="0.4"/>
+<text x="332" y="183" class="s" text-anchor="middle">Surgery DEFERRED</text>
+<text x="332" y="192" class="s" text-anchor="middle">48–72 h stabilisation</text>
+<text x="332" y="201" class="s" text-anchor="middle">Patch/Ladd repair</text>
+<!-- MAS management -->
+<rect x="5" y="215" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.7"/>
+<text x="200" y="222" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">MAS MANAGEMENT — ILCOR 2015 UPDATE</text>
+<polygon points="20,248 8,260 32,260" fill="var(--accent)" opacity="0.7"/>
+<text x="55" y="233" class="s">1. No routine ETT suction even non-vigorous</text>
+<text x="55" y="243" class="s">2. Dry and stimulate → ventilate if HR &lt;100</text>
+<text x="55" y="253" class="s">3. O2 titrate SpO2 91–95%</text>
+<text x="55" y="263" class="s">4. Surfactant lavage if severe MAS</text>
+<text x="200" y="243" class="s">5. iNO 20 ppm for PPHN</text>
+<text x="200" y="253" class="s">6. ECMO refractory PPHN tertiary</text>
+<text x="200" y="263" class="s">7. Empirical antibiotics (pneumonia risk)</text>
+<text x="200" y="280" class="t" text-anchor="middle">RDS prevention: antenatal betamethasone 12mg IM ×2 doses (24h apart, &lt;34w) | CPAP via INSURE method</text>
+<text x="200" y="291" class="s" text-anchor="middle">Surfactant (poractant alfa) 200mg/kg via ETT ≤2h of birth | TTN: resolves 24–48h O2 only, self-limiting</text>
+</svg>`,
+
+  'mbbs-paed-growth-development': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="14" class="h" text-anchor="middle">Normal Growth and Developmental Milestones</text>
+<!-- Time axis -->
+<rect x="5" y="18" width="390" height="8" fill="var(--border)" rx="2" opacity="0.5"/>
+<text x="35" y="24" class="s" text-anchor="middle" font-weight="bold">Newborn</text>
+<text x="90" y="24" class="s" text-anchor="middle">3 mo</text>
+<text x="140" y="24" class="s" text-anchor="middle">6 mo</text>
+<text x="195" y="24" class="s" text-anchor="middle">9 mo</text>
+<text x="248" y="24" class="s" text-anchor="middle">12 mo</text>
+<text x="298" y="24" class="s" text-anchor="middle">18 mo</text>
+<text x="348" y="24" class="s" text-anchor="middle">2 yr</text>
+<!-- Gross motor row -->
+<rect x="5" y="28" width="390" height="40" fill="var(--border)" rx="2" opacity="0.2"/>
+<rect x="5" y="28" width="50" height="40" fill="#3498db" rx="2" opacity="0.7"/>
+<text x="30" y="42" class="s" text-anchor="middle" fill="white" font-weight="bold">GROSS</text>
+<text x="30" y="52" class="s" text-anchor="middle" fill="white">MOTOR</text>
+<!-- GM milestones as circles on timeline -->
+<circle cx="90" cy="48" r="7" fill="#3498db" opacity="0.8"/>
+<text x="90" y="51" class="s" text-anchor="middle" fill="white">HC</text>
+<text x="90" y="62" class="s" text-anchor="middle">Head</text>
+<text x="90" y="70" class="s" text-anchor="middle">ctrl 3m</text>
+<circle cx="140" cy="48" r="7" fill="#3498db" opacity="0.8"/>
+<text x="140" y="51" class="s" text-anchor="middle" fill="white">RL</text>
+<text x="140" y="62" class="s" text-anchor="middle">Rolls</text>
+<text x="140" y="70" class="s" text-anchor="middle">5 mo</text>
+<circle cx="195" cy="48" r="7" fill="#3498db" opacity="0.9"/>
+<text x="195" y="51" class="s" text-anchor="middle" fill="white">SIT</text>
+<text x="195" y="62" class="s" text-anchor="middle">Sits</text>
+<text x="195" y="70" class="s" text-anchor="middle">unsupp 6m</text>
+<circle cx="248" cy="48" r="7" fill="#2980b9"/>
+<text x="248" y="51" class="s" text-anchor="middle" fill="white">ST</text>
+<text x="248" y="62" class="s" text-anchor="middle">Stands</text>
+<text x="248" y="70" class="s" text-anchor="middle">9 mo</text>
+<circle cx="295" cy="48" r="8" fill="#1a5276"/>
+<text x="295" y="51" class="s" text-anchor="middle" fill="white">WLK</text>
+<text x="295" y="62" class="s" text-anchor="middle">Walks</text>
+<text x="295" y="70" class="s" text-anchor="middle">12 mo</text>
+<circle cx="348" cy="48" r="7" fill="#1a5276" opacity="0.8"/>
+<text x="348" y="51" class="s" text-anchor="middle" fill="white">RUN</text>
+<text x="348" y="62" class="s" text-anchor="middle">Runs</text>
+<text x="348" y="70" class="s" text-anchor="middle">18 mo</text>
+<path d="M 90 48 L 140 48 L 195 48 L 248 48 L 295 48 L 348 48" stroke="#3498db" stroke-width="1.5" fill="none" stroke-dasharray="4,2"/>
+<!-- Fine motor row -->
+<rect x="5" y="75" width="390" height="38" fill="var(--border)" rx="2" opacity="0.2"/>
+<rect x="5" y="75" width="50" height="38" fill="#27ae60" rx="2" opacity="0.7"/>
+<text x="30" y="88" class="s" text-anchor="middle" fill="white" font-weight="bold">FINE</text>
+<text x="30" y="98" class="s" text-anchor="middle" fill="white">MOTOR</text>
+<circle cx="90" cy="91" r="6" fill="#27ae60" opacity="0.8"/>
+<text x="90" y="94" class="s" text-anchor="middle" fill="white">UF</text>
+<text x="90" y="105" class="s" text-anchor="middle">Hands</text>
+<text x="90" y="112" class="s" text-anchor="middle">unfisted 3m</text>
+<circle cx="140" cy="91" r="6" fill="#27ae60" opacity="0.8"/>
+<text x="140" y="94" class="s" text-anchor="middle" fill="white">PG</text>
+<text x="140" y="105" class="s" text-anchor="middle">Palmar</text>
+<text x="140" y="112" class="s" text-anchor="middle">grasp 6m</text>
+<circle cx="195" cy="91" r="6" fill="#27ae60" opacity="0.9"/>
+<text x="195" y="94" class="s" text-anchor="middle" fill="white">IP</text>
+<text x="195" y="105" class="s" text-anchor="middle">Inf</text>
+<text x="195" y="112" class="s" text-anchor="middle">pincer 9m</text>
+<circle cx="248" cy="91" r="6" fill="#1e8449"/>
+<text x="248" y="94" class="s" text-anchor="middle" fill="white">SP</text>
+<text x="248" y="105" class="s" text-anchor="middle">Sup</text>
+<text x="248" y="112" class="s" text-anchor="middle">pincer 12m</text>
+<circle cx="295" cy="91" r="6" fill="#1e8449"/>
+<text x="295" y="94" class="s" text-anchor="middle" fill="white">SC</text>
+<text x="295" y="105" class="s" text-anchor="middle">Scribble</text>
+<text x="295" y="112" class="s" text-anchor="middle">18 mo</text>
+<circle cx="348" cy="91" r="6" fill="#196f3d"/>
+<text x="348" y="94" class="s" text-anchor="middle" fill="white">T6</text>
+<text x="348" y="105" class="s" text-anchor="middle">Tower 6</text>
+<text x="348" y="112" class="s" text-anchor="middle">bricks 2yr</text>
+<path d="M 90 91 L 140 91 L 195 91 L 248 91 L 295 91 L 348 91" stroke="#27ae60" stroke-width="1.5" fill="none" stroke-dasharray="4,2"/>
+<!-- Language row -->
+<rect x="5" y="120" width="390" height="38" fill="var(--border)" rx="2" opacity="0.2"/>
+<rect x="5" y="120" width="50" height="38" fill="#e74c3c" rx="2" opacity="0.7"/>
+<text x="30" y="133" class="s" text-anchor="middle" fill="white" font-weight="bold">LANG-</text>
+<text x="30" y="143" class="s" text-anchor="middle" fill="white">UAGE</text>
+<circle cx="55" cy="138" r="5" fill="#e74c3c" opacity="0.8"/>
+<text x="55" y="141" class="s" text-anchor="middle" fill="white">SS</text>
+<text x="55" y="151" class="s" text-anchor="middle">Soc smile</text>
+<text x="55" y="158" class="s" text-anchor="middle">6w</text>
+<circle cx="90" cy="138" r="5" fill="#e74c3c" opacity="0.8"/>
+<text x="90" y="141" class="s" text-anchor="middle" fill="white">CO</text>
+<text x="90" y="151" class="s" text-anchor="middle">Coos</text>
+<text x="90" y="158" class="s" text-anchor="middle">3 mo</text>
+<circle cx="140" cy="138" r="5" fill="#e74c3c" opacity="0.8"/>
+<text x="140" y="141" class="s" text-anchor="middle" fill="white">BB</text>
+<text x="140" y="151" class="s" text-anchor="middle">Babbles</text>
+<text x="140" y="158" class="s" text-anchor="middle">6 mo</text>
+<circle cx="248" cy="138" r="6" fill="#c0392b"/>
+<text x="248" y="141" class="s" text-anchor="middle" fill="white">1W</text>
+<text x="248" y="151" class="s" text-anchor="middle">1–2 words</text>
+<text x="248" y="158" class="s" text-anchor="middle">12 mo</text>
+<circle cx="295" cy="138" r="6" fill="#c0392b"/>
+<text x="295" y="141" class="s" text-anchor="middle" fill="white">6W</text>
+<text x="295" y="151" class="s" text-anchor="middle">6–20 wds</text>
+<text x="295" y="158" class="s" text-anchor="middle">18 mo</text>
+<circle cx="348" cy="138" r="6" fill="#922b21"/>
+<text x="348" y="141" class="s" text-anchor="middle" fill="white">2W</text>
+<text x="348" y="151" class="s" text-anchor="middle">2-word</text>
+<text x="348" y="158" class="s" text-anchor="middle">sentences</text>
+<path d="M 55 138 L 90 138 L 140 138 L 248 138 L 295 138 L 348 138" stroke="#e74c3c" stroke-width="1.5" fill="none" stroke-dasharray="4,2"/>
+<!-- Red flags panel -->
+<rect x="5" y="165" width="390" height="10" fill="#e74c3c" rx="2" opacity="0.8"/>
+<text x="200" y="172" class="s" text-anchor="middle" fill="white" font-weight="bold">RED FLAGS (immediate referral at any age if present)</text>
+<rect x="5" y="177" width="185" height="45" fill="var(--border)" rx="2" opacity="0.3"/>
+<path d="M 15 183 L 25 183 M 15 188 L 25 188 M 15 193 L 25 193" stroke="#e74c3c" stroke-width="1.5"/>
+<text x="30" y="186" class="s">Not fixing/following by 8 weeks</text>
+<text x="30" y="195" class="s">Not smiling socially by 8 weeks</text>
+<text x="30" y="204" class="s">Not reaching by 5 months</text>
+<text x="30" y="213" class="s">Not sitting independently by 9 months</text>
+<text x="30" y="220" class="s">Not walking by 18 months</text>
+<rect x="200" y="177" width="195" height="45" fill="var(--border)" rx="2" opacity="0.3"/>
+<path d="M 210 183 L 220 183 M 210 188 L 220 188 M 210 193 L 220 193" stroke="#e74c3c" stroke-width="1.5"/>
+<text x="225" y="186" class="s">No words by 12 months</text>
+<text x="225" y="195" class="s">No 2-word phrases by 24 months</text>
+<text x="225" y="204" class="s">ANY regression of skills at any age</text>
+<text x="225" y="213" class="s">No response to name by 12 months</text>
+<text x="225" y="220" class="s">No pointing by 14 months (ASD screen)</text>
+<!-- Growth velocity chart -->
+<rect x="5" y="227" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.7"/>
+<text x="200" y="234" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">GROWTH VELOCITY AND MID-PARENTAL HEIGHT</text>
+<rect x="5" y="238" width="390" height="55" fill="var(--border)" rx="2" opacity="0.2"/>
+<!-- Bar chart growth velocity -->
+<rect x="15" y="283" width="30" height="0" fill="var(--accent)"/>
+<rect x="15" y="268" width="30" height="15" fill="var(--accent)" opacity="0.9"/>
+<rect x="50" y="268" width="30" height="0" fill="var(--accent)"/>
+<rect x="50" y="258" width="30" height="10" fill="var(--accent)" opacity="0.7"/>
+<rect x="85" y="258" width="30" height="0" fill="var(--accent)"/>
+<rect x="85" y="253" width="30" height="5" fill="var(--accent)" opacity="0.5"/>
+<!-- Y-axis labels -->
+<text x="12" y="268" class="s">25cm</text>
+<text x="47" y="258" class="s">12cm</text>
+<text x="82" y="253" class="s">8cm</text>
+<text x="15" y="293" class="s" text-anchor="start">Yr 1</text>
+<text x="50" y="293" class="s" text-anchor="start">Yr 2</text>
+<text x="85" y="293" class="s" text-anchor="start">2–5yr</text>
+<path d="M 10 293 L 120 293" stroke="var(--border)" stroke-width="1"/>
+<!-- MPH formula -->
+<rect x="130" y="240" width="265" height="50" fill="var(--border)" rx="3" opacity="0.3"/>
+<text x="262" y="252" class="t" text-anchor="middle" font-weight="bold">Mid-Parental Height (MPH)</text>
+<text x="262" y="263" class="s" text-anchor="middle">Boys: (Father + Mother + 13) ÷ 2</text>
+<text x="262" y="272" class="s" text-anchor="middle">Girls: (Father + Mother − 13) ÷ 2</text>
+<text x="262" y="281" class="s" text-anchor="middle">±8.5 cm (±2 SD) = target centile range</text>
+<text x="262" y="290" class="s" text-anchor="middle">Bangladesh stunting (height&lt;−2SD) 36% BDHS 2019</text>
+</svg>`,
+
+  'mbbs-paed-malnutrition': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="14" class="h" text-anchor="middle">Malnutrition — Marasmus vs Kwashiorkor</text>
+<!-- Marasmus column -->
+<rect x="5" y="18" width="190" height="10" fill="#e67e22" rx="2" opacity="0.9"/>
+<text x="100" y="25" class="s" text-anchor="middle" fill="white" font-weight="bold">MARASMUS (Energy + Protein deficit)</text>
+<!-- Marasmus body diagram -->
+<ellipse cx="60" cy="60" rx="18" ry="20" fill="none" stroke="#e67e22" stroke-width="2"/>
+<rect x="42" y="80" width="36" height="45" fill="none" stroke="#e67e22" stroke-width="2" rx="3"/>
+<!-- Ribs visible -->
+<path d="M 44 88 L 78 88 M 44 93 L 78 93 M 44 98 L 78 98 M 44 103 L 78 103" stroke="#e67e22" stroke-width="1" opacity="0.7"/>
+<!-- Limbs thin -->
+<path d="M 42 85 L 30 115 M 78 85 L 90 115" stroke="#e67e22" stroke-width="3"/>
+<path d="M 55 125 L 50 155 M 65 125 L 70 155" stroke="#e67e22" stroke-width="3"/>
+<text x="60" y="175" class="s" text-anchor="middle" fill="#e67e22">Marasmus</text>
+<text x="60" y="183" class="s" text-anchor="middle" fill="#e67e22">Old man facies</text>
+<!-- Marasmus features list -->
+<rect x="105" y="28" width="90" height="135" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="108" y="37" class="s" font-weight="bold">Features:</text>
+<text x="108" y="46" class="s">• Wt &lt;60% median</text>
+<text x="108" y="55" class="s">• Severe wasting</text>
+<text x="108" y="64" class="s">• NO oedema</text>
+<text x="108" y="73" class="s">• Alert, hungry</text>
+<text x="108" y="82" class="s">• Skin loose/wrinkled</text>
+<text x="108" y="91" class="s">• Old man facies</text>
+<text x="108" y="100" class="s">• Sunken eyes</text>
+<text x="108" y="109" class="s">• Hair: thin/sparse</text>
+<text x="108" y="118" class="s" font-weight="bold">Biochem:</text>
+<text x="108" y="127" class="s">• Albumin: NORMAL</text>
+<text x="108" y="136" class="s">  (adaptive response)</text>
+<text x="108" y="148" class="s" fill="#e67e22" font-weight="bold">Energy+protein</text>
+<text x="108" y="157" class="s" fill="#e67e22">deficiency</text>
+<!-- Kwashiorkor column -->
+<rect x="200" y="18" width="195" height="10" fill="#3498db" rx="2" opacity="0.9"/>
+<text x="297" y="25" class="s" text-anchor="middle" fill="white" font-weight="bold">KWASHIORKOR (Protein deficit)</text>
+<!-- Kwashiorkor body diagram -->
+<ellipse cx="255" cy="60" rx="18" ry="18" fill="none" stroke="#3498db" stroke-width="2"/>
+<rect x="237" y="78" width="36" height="42" fill="none" stroke="#3498db" stroke-width="2" rx="3"/>
+<!-- Pot belly -->
+<ellipse cx="255" cy="105" rx="22" ry="18" fill="none" stroke="#3498db" stroke-width="2.5"/>
+<!-- Oedema feet -->
+<ellipse cx="248" cy="150" rx="10" ry="6" fill="#3498db" opacity="0.5"/>
+<ellipse cx="262" cy="150" rx="10" ry="6" fill="#3498db" opacity="0.5"/>
+<path d="M 237 84 L 225 110 M 273 84 L 285 110" stroke="#3498db" stroke-width="3"/>
+<path d="M 250 120 L 248 148 M 260 120 L 262 148" stroke="#3498db" stroke-width="3.5"/>
+<!-- Flag sign in hair -->
+<path d="M 247 42 L 255 35 L 263 42" stroke="#f39c12" stroke-width="2" fill="#f39c12" opacity="0.8"/>
+<text x="255" y="175" class="s" text-anchor="middle" fill="#3498db">Kwashiorkor</text>
+<text x="255" y="183" class="s" text-anchor="middle" fill="#3498db">Oedema + pot belly</text>
+<!-- Kwashiorkor features -->
+<rect x="295" y="28" width="100" height="135" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="298" y="37" class="s" font-weight="bold">Features:</text>
+<text x="298" y="46" class="s">• Bilateral pitting</text>
+<text x="298" y="55" class="s">  oedema (hallmark)</text>
+<text x="298" y="64" class="s">• Pot belly (ascites)</text>
+<text x="298" y="73" class="s">• Miserable/anorexic</text>
+<text x="298" y="82" class="s">• Flaky-paint dermatosis</text>
+<text x="298" y="91" class="s">• Flag sign hair</text>
+<text x="298" y="100" class="s">• HSM (hepatomegaly)</text>
+<text x="298" y="109" class="s">• Wt near-normal</text>
+<text x="298" y="118" class="s" font-weight="bold">Biochem:</text>
+<text x="298" y="127" class="s">• Albumin &lt;3 g/dL</text>
+<text x="298" y="136" class="s">• Low prealbumin</text>
+<text x="298" y="148" class="s" fill="#3498db" font-weight="bold">Relative protein</text>
+<text x="298" y="157" class="s" fill="#3498db">deficiency</text>
+<!-- MUAC colour scale -->
+<rect x="5" y="192" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="200" y="199" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">MUAC SCREENING (Mid-Upper Arm Circumference — 6–59 months)</text>
+<rect x="5" y="204" width="120" height="22" fill="#e74c3c" rx="2" opacity="0.8"/>
+<text x="65" y="214" class="t" text-anchor="middle" fill="white" font-weight="bold">RED &lt;115 mm = SAM</text>
+<text x="65" y="223" class="s" text-anchor="middle" fill="white">Admit stabilisation centre</text>
+<rect x="130" y="204" width="120" height="22" fill="#f39c12" rx="2" opacity="0.8"/>
+<text x="190" y="214" class="t" text-anchor="middle" fill="white" font-weight="bold">YELLOW 115–124 mm</text>
+<text x="190" y="223" class="s" text-anchor="middle" fill="white">MAM → OTP/CMAM</text>
+<rect x="255" y="204" width="140" height="22" fill="#27ae60" rx="2" opacity="0.8"/>
+<text x="325" y="214" class="t" text-anchor="middle" fill="white" font-weight="bold">GREEN ≥125 mm</text>
+<text x="325" y="223" class="s" text-anchor="middle" fill="white">Normal → community monitor</text>
+<!-- WHO 10-step boxes -->
+<rect x="5" y="230" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.7"/>
+<text x="200" y="237" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">WHO 10-STEP SAM MANAGEMENT — F75 Stabilisation → F100 Rehabilitation</text>
+<rect x="5" y="242" width="55" height="32" fill="var(--border)" rx="2" opacity="0.4"/>
+<circle cx="32" cy="252" r="7" fill="#e74c3c" opacity="0.8"/>
+<text x="32" y="255" class="s" text-anchor="middle" fill="white">1–2</text>
+<text x="32" y="265" class="s" text-anchor="middle">Hypogly</text>
+<text x="32" y="272" class="s" text-anchor="middle">Hypotherm</text>
+<rect x="65" y="242" width="55" height="32" fill="var(--border)" rx="2" opacity="0.4"/>
+<circle cx="92" cy="252" r="7" fill="#e67e22" opacity="0.8"/>
+<text x="92" y="255" class="s" text-anchor="middle" fill="white">3–4</text>
+<text x="92" y="265" class="s" text-anchor="middle">ReSoMal</text>
+<text x="92" y="272" class="s" text-anchor="middle">K/Mg/P</text>
+<rect x="125" y="242" width="55" height="32" fill="var(--border)" rx="2" opacity="0.4"/>
+<circle cx="152" cy="252" r="7" fill="#f39c12" opacity="0.8"/>
+<text x="152" y="255" class="s" text-anchor="middle" fill="white">5–6</text>
+<text x="152" y="265" class="s" text-anchor="middle">Abx+</text>
+<text x="152" y="272" class="s" text-anchor="middle">Micronuts</text>
+<rect x="185" y="242" width="55" height="32" fill="var(--border)" rx="2" opacity="0.4"/>
+<circle cx="212" cy="252" r="7" fill="#3498db" opacity="0.9"/>
+<text x="212" y="255" class="s" text-anchor="middle" fill="white">7</text>
+<text x="212" y="265" class="s" text-anchor="middle">F75 start</text>
+<text x="212" y="272" class="s" text-anchor="middle">Day 1–7</text>
+<rect x="245" y="242" width="55" height="32" fill="var(--border)" rx="2" opacity="0.4"/>
+<circle cx="272" cy="252" r="7" fill="#2980b9"/>
+<text x="272" y="255" class="s" text-anchor="middle" fill="white">8</text>
+<text x="272" y="265" class="s" text-anchor="middle">F100</text>
+<text x="272" y="272" class="s" text-anchor="middle">+Fe Day8+</text>
+<rect x="305" y="242" width="90" height="32" fill="var(--border)" rx="2" opacity="0.4"/>
+<circle cx="335" cy="252" r="7" fill="#27ae60"/>
+<text x="335" y="255" class="s" text-anchor="middle" fill="white">9–10</text>
+<text x="350" y="262" class="s">Sensory stim</text>
+<text x="350" y="272" class="s">Follow-up</text>
+<text x="200" y="288" class="t" text-anchor="middle">ReSoMal NOT standard ORS (lower Na+, K+/Mg added) | Iron WITHHELD until Day 8 (refeeding syndrome)</text>
+<text x="200" y="297" class="s" text-anchor="middle">RUTF Plumpy Nut 500 kcal/sachet CMAM outpatient | Gomez III: wt &lt;60% median = SAM</text>
+</svg>`,
+
+  'mbbs-paed-immunisation': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="14" class="h" text-anchor="middle">Immunisation — Bangladesh EPI Schedule 2023</text>
+<!-- EPI schedule table header -->
+<rect x="5" y="18" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.9"/>
+<text x="200" y="25" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">BANGLADESH EXPANDED PROGRAMME ON IMMUNISATION (EPI)</text>
+<rect x="5" y="29" width="390" height="8" fill="var(--border)" opacity="0.5"/>
+<text x="35" y="35" class="s" text-anchor="middle" font-weight="bold">Age</text>
+<text x="200" y="35" class="s" text-anchor="middle" font-weight="bold">Vaccines</text>
+<text x="360" y="35" class="s" text-anchor="middle" font-weight="bold">Route</text>
+<!-- Birth row -->
+<rect x="5" y="37" width="390" height="10" fill="var(--surface)"/>
+<rect x="5" y="37" width="60" height="10" fill="#27ae60" rx="1" opacity="0.7"/>
+<text x="35" y="44" class="s" text-anchor="middle" fill="white">BIRTH</text>
+<text x="130" y="44" class="s">BCG + OPV-0 + HepB (birth dose)</text>
+<text x="360" y="44" class="s">ID / PO / IM</text>
+<!-- 6 wk -->
+<rect x="5" y="47" width="390" height="10" fill="var(--border)" opacity="0.2"/>
+<rect x="5" y="47" width="60" height="10" fill="#3498db" rx="1" opacity="0.7"/>
+<text x="35" y="54" class="s" text-anchor="middle" fill="white">6 WEEKS</text>
+<text x="130" y="54" class="s">Penta-1 (DPT+HiB+HepB) + OPV-1 + PCV-1 + IPV-1</text>
+<text x="360" y="54" class="s">IM/PO/SC</text>
+<!-- 10 wk -->
+<rect x="5" y="57" width="390" height="10" fill="var(--surface)"/>
+<rect x="5" y="57" width="60" height="10" fill="#3498db" rx="1" opacity="0.6"/>
+<text x="35" y="64" class="s" text-anchor="middle" fill="white">10 WEEKS</text>
+<text x="130" y="64" class="s">Penta-2 + OPV-2 + PCV-2</text>
+<text x="360" y="64" class="s">IM/PO/SC</text>
+<!-- 14 wk -->
+<rect x="5" y="67" width="390" height="10" fill="var(--border)" opacity="0.2"/>
+<rect x="5" y="67" width="60" height="10" fill="#3498db" rx="1" opacity="0.5"/>
+<text x="35" y="74" class="s" text-anchor="middle" fill="white">14 WEEKS</text>
+<text x="130" y="74" class="s">Penta-3 + OPV-3 + IPV-2</text>
+<text x="360" y="74" class="s">IM/PO/SC</text>
+<!-- 9-11 mo -->
+<rect x="5" y="77" width="390" height="10" fill="var(--surface)"/>
+<rect x="5" y="77" width="60" height="10" fill="#e74c3c" rx="1" opacity="0.8"/>
+<text x="35" y="84" class="s" text-anchor="middle" fill="white">9–11 MO</text>
+<text x="130" y="84" class="s">MR-1 (Measles-Rubella)</text>
+<text x="360" y="84" class="s">SC</text>
+<!-- 15-18 mo -->
+<rect x="5" y="87" width="390" height="10" fill="var(--border)" opacity="0.2"/>
+<rect x="5" y="87" width="60" height="10" fill="#9b59b6" rx="1" opacity="0.8"/>
+<text x="35" y="94" class="s" text-anchor="middle" fill="white">15–18 MO</text>
+<text x="130" y="94" class="s">MR-2 Booster</text>
+<text x="360" y="94" class="s">SC</text>
+<!-- Vaccine type classification -->
+<rect x="5" y="102" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.7"/>
+<text x="200" y="109" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">VACCINE CLASSIFICATION AND CONTRAINDICATIONS</text>
+<rect x="5" y="113" width="185" height="40" fill="var(--border)" rx="2" opacity="0.3"/>
+<rect x="5" y="113" width="185" height="8" fill="#e74c3c" rx="2" opacity="0.7"/>
+<text x="97" y="119" class="s" text-anchor="middle" fill="white">LIVE ATTENUATED — Contraind. immunocompromised</text>
+<text x="8" y="128" class="s">OPV, BCG, MR/MMR, varicella, rotavirus, yellow fever</text>
+<text x="8" y="137" class="s">Contraind: immunocompromised, pregnancy</text>
+<text x="8" y="146" class="s">Mild febrile illness: NOT a contraindication</text>
+<rect x="200" y="113" width="195" height="40" fill="var(--border)" rx="2" opacity="0.3"/>
+<rect x="200" y="113" width="195" height="8" fill="#3498db" rx="2" opacity="0.7"/>
+<text x="297" y="119" class="s" text-anchor="middle" fill="white">INACTIVATED/SUBUNIT — safe in immunocompromised</text>
+<text x="203" y="128" class="s">IPV, HepA, typhoid Vi, HepB, HiB, PCV</text>
+<text x="203" y="137" class="s">Toxoid: DT. Recombinant: HPV. Conjugate: Pnc</text>
+<text x="203" y="146" class="s">Freeze-sensitive: DTP, HepB, IPV, Penta</text>
+<!-- Cold chain diagram -->
+<rect x="5" y="157" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="200" y="164" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">COLD CHAIN — Vaccine Vial Monitor (VVM) and Shake Test</text>
+<rect x="5" y="168" width="100" height="45" fill="var(--border)" rx="3" opacity="0.3"/>
+<text x="55" y="178" class="s" text-anchor="middle" font-weight="bold">Central Store</text>
+<rect x="15" y="181" width="80" height="12" fill="#3498db" rx="2" opacity="0.5"/>
+<text x="55" y="191" class="s" text-anchor="middle">OPV: −15 to −25°C</text>
+<text x="55" y="203" class="s" text-anchor="middle">Others: 2–8°C</text>
+<rect x="110" y="168" width="90" height="45" fill="var(--border)" rx="3" opacity="0.3"/>
+<text x="155" y="178" class="s" text-anchor="middle" font-weight="bold">District/Field</text>
+<rect x="115" y="181" width="80" height="12" fill="#27ae60" rx="2" opacity="0.5"/>
+<text x="155" y="191" class="s" text-anchor="middle">2–8°C refrigerator</text>
+<text x="155" y="203" class="s" text-anchor="middle">Cold box + ice packs</text>
+<!-- VVM diagram -->
+<rect x="205" y="168" width="90" height="45" fill="var(--border)" rx="3" opacity="0.3"/>
+<text x="250" y="178" class="s" text-anchor="middle" font-weight="bold">VVM (Heat)</text>
+<circle cx="230" cy="195" r="12" fill="white" stroke="var(--border)" stroke-width="1.5"/>
+<circle cx="230" cy="195" r="6" fill="#27ae60"/>
+<text x="230" y="198" class="s" text-anchor="middle" fill="white" font-size="6px">OK</text>
+<text x="245" y="192" class="s">Inner &lt; outer</text>
+<text x="245" y="200" class="s">= USE</text>
+<circle cx="265" cy="195" r="12" fill="white" stroke="var(--border)" stroke-width="1.5"/>
+<circle cx="265" cy="195" r="6" fill="#e74c3c"/>
+<text x="265" y="198" class="s" text-anchor="middle" fill="white" font-size="6px">NO</text>
+<text x="282" y="192" class="s">Inner ≥ outer</text>
+<text x="282" y="200" class="s">= DISCARD</text>
+<!-- Shake test box -->
+<rect x="300" y="168" width="95" height="45" fill="var(--border)" rx="3" opacity="0.3"/>
+<text x="347" y="178" class="s" text-anchor="middle" font-weight="bold">Shake Test (Freeze)</text>
+<path d="M 315 190 Q 320 182 325 190 Q 330 198 335 190" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+<text x="347" y="192" class="s">Aggregate</text>
+<text x="347" y="201" class="s">settles = frozen</text>
+<text x="347" y="210" class="s">→ DISCARD</text>
+<!-- AEFI anaphylaxis panel -->
+<rect x="5" y="217" width="390" height="10" fill="#e74c3c" rx="2" opacity="0.9"/>
+<text x="200" y="224" class="s" text-anchor="middle" fill="white" font-weight="bold">AEFI ANAPHYLAXIS (&lt;30 min post-vaccination)</text>
+<rect x="5" y="228" width="390" height="45" fill="var(--border)" rx="2" opacity="0.3"/>
+<polygon points="20,258 10,270 30,270" fill="var(--accent)" opacity="0.8"/>
+<text x="40" y="238" class="s" font-weight="bold">Step 1 (immediate):</text>
+<text x="40" y="247" class="s">Adrenaline 1:1000 → 0.01 mg/kg IM anterolateral mid-thigh</text>
+<text x="40" y="256" class="s">Repeat every 5–15 min × 3 doses if needed</text>
+<text x="40" y="265" class="s">Max dose 0.5 mL (adults)</text>
+<text x="210" y="238" class="s" font-weight="bold">Step 2 (secondary):</text>
+<text x="210" y="247" class="s">O2 high-flow 10–15 L/min</text>
+<text x="210" y="256" class="s">IV NS 20 mL/kg for hypotension</text>
+<text x="210" y="265" class="s">Chlorphenamine + hydrocortisone (not first-line)</text>
+<text x="200" y="282" class="t" text-anchor="middle">BCG normal: papule → pustule 4–8mm → scar 3mo | axillary node &lt;10mm = normal | lymphadenitis: INH 3mo</text>
+<text x="200" y="291" class="s" text-anchor="middle">Keep 30 min post-vaccination observation | Report all AEFI to national committee | MMR: egg allergy safe</text>
+</svg>`,
+
+  'mbbs-paed-respiratory-infections': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="14" class="h" text-anchor="middle">Acute Respiratory Infections — IMCI Classification</text>
+<!-- IMCI flowchart -->
+<rect x="5" y="18" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.9"/>
+<text x="200" y="25" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">IMCI PNEUMONIA CLASSIFICATION FLOWCHART</text>
+<!-- Fast breathing thresholds -->
+<rect x="5" y="30" width="380" height="18" fill="var(--border)" rx="3" opacity="0.5"/>
+<text x="10" y="38" class="s" font-weight="bold">FAST BREATHING definition:</text>
+<text x="10" y="47" class="s">&lt;2 months: RR ≥60/min | 2–12 months: RR ≥50/min | 1–5 years: RR ≥40/min</text>
+<!-- Danger signs box -->
+<rect x="5" y="50" width="190" height="50" fill="var(--border)" rx="3" opacity="0.3"/>
+<rect x="5" y="50" width="190" height="10" fill="#e74c3c" rx="3" opacity="0.8"/>
+<text x="100" y="57" class="s" text-anchor="middle" fill="white" font-weight="bold">⚠ DANGER SIGNS (VERY SEVERE)</text>
+<text x="8" y="67" class="s">Unable to drink/breastfeed | Persistent vomiting</text>
+<text x="8" y="76" class="s">Convulsions | Lethargy/unconscious</text>
+<text x="8" y="85" class="s">Stridor at rest | Severe malnutrition</text>
+<text x="8" y="93" class="s">→ URGENT referral + pre-referral benzylpen IM</text>
+<!-- Severe pneumonia -->
+<rect x="200" y="50" width="195" height="50" fill="var(--border)" rx="3" opacity="0.3"/>
+<rect x="200" y="50" width="195" height="10" fill="#e67e22" rx="3" opacity="0.8"/>
+<text x="297" y="57" class="s" text-anchor="middle" fill="white" font-weight="bold">SEVERE PNEUMONIA</text>
+<text x="203" y="67" class="s">Lower chest wall indrawing</text>
+<text x="203" y="76" class="s">± fast breathing</text>
+<text x="203" y="85" class="s">→ Refer + IV ampicillin+gentamicin</text>
+<text x="203" y="93" class="s">Hospital: O2 + NG feeds + CXR</text>
+<!-- Non-severe -->
+<rect x="5" y="103" width="190" height="30" fill="var(--border)" rx="3" opacity="0.3"/>
+<rect x="5" y="103" width="190" height="10" fill="#f39c12" rx="3" opacity="0.8"/>
+<text x="100" y="110" class="s" text-anchor="middle" fill="white" font-weight="bold">PNEUMONIA (non-severe)</text>
+<text x="8" y="120" class="s">Fast breathing ONLY (no indrawing)</text>
+<text x="8" y="129" class="s">→ Outpatient amoxicillin 40–45mg/kg/day × 5d</text>
+<!-- No pneumonia -->
+<rect x="200" y="103" width="195" height="30" fill="var(--border)" rx="3" opacity="0.3"/>
+<rect x="200" y="103" width="195" height="10" fill="#27ae60" rx="3" opacity="0.8"/>
+<text x="297" y="110" class="s" text-anchor="middle" fill="white" font-weight="bold">NO PNEUMONIA</text>
+<text x="203" y="120" class="s">Cough/cold only — no fast breathing</text>
+<text x="203" y="129" class="s">→ Home care, safety netting, zinc+ORS</text>
+<!-- Croup vs Epiglottitis -->
+<rect x="5" y="136" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="200" y="143" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">CROUP vs EPIGLOTTITIS — Critical Distinction</text>
+<rect x="5" y="147" width="190" height="10" fill="#3498db" rx="2" opacity="0.7"/>
+<text x="100" y="154" class="s" text-anchor="middle" fill="white" font-weight="bold">CROUP (Laryngo-tracheo-bronchitis)</text>
+<rect x="5" y="157" width="190" height="72" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="8" y="166" class="s" font-weight="bold">Cause:</text>
+<text x="40" y="166" class="s">Parainfluenza 1/2/3 (viral)</text>
+<text x="8" y="175" class="s" font-weight="bold">Age:</text>
+<text x="40" y="175" class="s">6 months–3 years</text>
+<text x="8" y="184" class="s" font-weight="bold">Onset:</text>
+<text x="40" y="184" class="s">Gradual (hours–days)</text>
+<text x="8" y="193" class="s" font-weight="bold">Features:</text>
+<text x="50" y="193" class="s">Barking cough, hoarse</text>
+<text x="8" y="202" class="s">Inspiratory stridor, mild fever</text>
+<text x="8" y="211" class="s" font-weight="bold">XR:</text>
+<text x="30" y="211" class="s">Steeple sign AP neck</text>
+<text x="8" y="220" class="s" font-weight="bold">Tx:</text>
+<text x="30" y="220" class="s">Dexamethasone 0.6mg/kg</text>
+<text x="8" y="228" class="s">+ Neb adrenaline 1:1000 5mL if severe</text>
+<rect x="200" y="147" width="195" height="10" fill="#e74c3c" rx="2" opacity="0.7"/>
+<text x="297" y="154" class="s" text-anchor="middle" fill="white" font-weight="bold">EPIGLOTTITIS (bacterial)</text>
+<rect x="200" y="157" width="195" height="72" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="203" y="166" class="s" font-weight="bold">Cause:</text>
+<text x="235" y="166" class="s">H. influenzae b / S. pyogenes</text>
+<text x="203" y="175" class="s" font-weight="bold">Age:</text>
+<text x="235" y="175" class="s">2–7 years (any age)</text>
+<text x="203" y="184" class="s" font-weight="bold">Onset:</text>
+<text x="235" y="184" class="s">Sudden (hours)</text>
+<text x="203" y="193" class="s" font-weight="bold">Features:</text>
+<text x="245" y="193" class="s">NO barking cough</text>
+<text x="203" y="202" class="s">Drooling, muffled voice, tripod, fever &gt;39°C</text>
+<text x="203" y="211" class="s" font-weight="bold">XR:</text>
+<text x="225" y="211" class="s">Thumbprint sign lateral neck</text>
+<text x="203" y="220" class="s" font-weight="bold">Tx:</text>
+<text x="225" y="220" class="s" fill="#e74c3c" font-weight="bold">DO NOT examine throat!</text>
+<text x="203" y="228" class="s">Intubate in theatre + IV ceftriaxone</text>
+<!-- Bronchiolitis panel -->
+<rect x="5" y="233" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.7"/>
+<text x="200" y="240" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">BRONCHIOLITIS (RSV) — Cochrane 2014 Management</text>
+<rect x="5" y="244" width="185" height="50" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="97" y="254" class="t" text-anchor="middle" font-weight="bold">DO GIVE:</text>
+<path d="M 15 258 L 22 262 L 15 266" fill="none" stroke="#27ae60" stroke-width="1.5"/>
+<text x="30" y="262" class="s">O2 via nasal prongs (SpO2 ≥92%)</text>
+<path d="M 15 267 L 22 271 L 15 275" fill="none" stroke="#27ae60" stroke-width="1.5"/>
+<text x="30" y="271" class="s">NG/OG feeds if oral intake poor</text>
+<text x="30" y="280" class="s">Monitor apnoea (young infants)</text>
+<text x="30" y="289" class="s">3% hypertonic NaCl (modest benefit)</text>
+<rect x="200" y="244" width="195" height="50" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="297" y="254" class="t" text-anchor="middle" fill="#e74c3c" font-weight="bold">DO NOT GIVE:</text>
+<path d="M 210 260 L 216 264 L 210 268" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
+<text x="225" y="264" class="s">Bronchodilators (salbutamol/adrenaline)</text>
+<path d="M 210 269 L 216 273 L 210 277" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
+<text x="225" y="273" class="s">Corticosteroids — no benefit (Cochrane)</text>
+<text x="225" y="282" class="s">Routine antibiotics — viral</text>
+<text x="225" y="291" class="s">Chest physiotherapy — no benefit</text>
+</svg>`,
+
+  'mbbs-paed-asthma': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="14" class="h" text-anchor="middle">Asthma in Children — GINA Step Ladder</text>
+<!-- GINA step ladder -->
+<rect x="5" y="18" width="240" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="122" y="25" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">GINA PAEDIATRIC STEP THERAPY</text>
+<!-- Step rectangles (staircase effect) -->
+<rect x="5" y="29" width="230" height="16" fill="#27ae60" rx="2" opacity="0.9"/>
+<text x="8" y="38" class="s" fill="white" font-weight="bold">Step 1:</text>
+<text x="50" y="38" class="s" fill="white">SABA (salbutamol) PRN only — mild intermittent</text>
+<rect x="5" y="46" width="230" height="16" fill="#3498db" rx="2" opacity="0.9"/>
+<text x="8" y="55" class="s" fill="white" font-weight="bold">Step 2:</text>
+<text x="50" y="55" class="s" fill="white">Low-dose ICS + SABA PRN (first controller step)</text>
+<rect x="5" y="63" width="230" height="16" fill="#f39c12" rx="2" opacity="0.9"/>
+<text x="8" y="72" class="s" fill="white" font-weight="bold">Step 3:</text>
+<text x="50" y="72" class="s" fill="white">Medium ICS or low ICS + LABA (≥5yr) / LTRA</text>
+<rect x="5" y="80" width="230" height="16" fill="#e67e22" rx="2" opacity="0.9"/>
+<text x="8" y="89" class="s" fill="white" font-weight="bold">Step 4:</text>
+<text x="50" y="89" class="s" fill="white">High-dose ICS + LABA ± tiotropium</text>
+<rect x="5" y="97" width="230" height="16" fill="#e74c3c" rx="2" opacity="0.9"/>
+<text x="8" y="106" class="s" fill="white" font-weight="bold">Step 5:</text>
+<text x="50" y="106" class="s" fill="white">Add-on: omalizumab (anti-IgE) / biologic</text>
+<!-- Staircase lines -->
+<path d="M 5 113 L 235 113" stroke="var(--accent)" stroke-width="1" opacity="0.5"/>
+<text x="8" y="122" class="s">Before stepping up: check inhaler technique + adherence + trigger avoidance</text>
+<!-- Bronchial diagram -->
+<rect x="250" y="18" width="145" height="120" fill="var(--border)" rx="3" opacity="0.3"/>
+<text x="322" y="28" class="t" text-anchor="middle" font-weight="bold">Airway in Asthma</text>
+<!-- Normal bronchus (left) -->
+<ellipse cx="280" cy="75" rx="22" ry="30" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<ellipse cx="280" cy="75" rx="15" ry="22" fill="#ecf0f1" opacity="0.6"/>
+<text x="280" y="112" class="s" text-anchor="middle">Normal</text>
+<!-- Asthma bronchus (right) -->
+<ellipse cx="350" cy="75" rx="22" ry="30" fill="none" stroke="#e74c3c" stroke-width="2"/>
+<!-- Thickened wall -->
+<ellipse cx="350" cy="75" rx="18" ry="26" fill="#e74c3c" opacity="0.3"/>
+<!-- Mucus plug -->
+<ellipse cx="350" cy="75" rx="6" ry="4" fill="#f39c12" opacity="0.8"/>
+<text x="350" y="112" class="s" text-anchor="middle" fill="#e74c3c">Asthma</text>
+<text x="265" y="118" class="s">open</text>
+<text x="338" y="118" class="s">narrowed</text>
+<!-- Arrow pointing from normal to asthma -->
+<path d="M 255 35 L 260 30 M 264 35 L 256 35 L 260 40" stroke="var(--accent)" stroke-width="1" fill="none"/>
+<text x="268" y="37" class="s">↑ smooth muscle</text>
+<text x="268" y="45" class="s">↑ mucus glands</text>
+<text x="268" y="53" class="s">↑ wall thickness</text>
+<text x="268" y="61" class="s">→ Oedema</text>
+<!-- Salbutamol mechanism -->
+<rect x="5" y="130" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="200" y="137" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">SALBUTAMOL MECHANISM AND SIDE EFFECTS</text>
+<rect x="5" y="141" width="190" height="50" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="97" y="151" class="t" text-anchor="middle" font-weight="bold">Mechanism</text>
+<path d="M 20 155 L 30 155 L 30 165 L 40 165" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+<path d="M 38 162 L 42 165 L 38 168" fill="var(--accent)"/>
+<text x="50" y="158" class="s">β2 receptor agonist</text>
+<text x="50" y="167" class="s">→ adenylyl cyclase</text>
+<text x="50" y="176" class="s">→ ↑cAMP → PKA</text>
+<text x="50" y="185" class="s">→ smooth muscle relax</text>
+<rect x="200" y="141" width="195" height="50" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="297" y="151" class="t" text-anchor="middle" font-weight="bold">Side Effects (high dose)</text>
+<circle cx="215" cy="158" r="3" fill="#e74c3c"/>
+<text x="223" y="161" class="s">Tremor (β2 skeletal muscle)</text>
+<circle cx="215" cy="167" r="3" fill="#e74c3c"/>
+<text x="223" y="170" class="s">Tachycardia (β1 cross-react)</text>
+<circle cx="215" cy="176" r="3" fill="#e74c3c"/>
+<text x="223" y="179" class="s">Hypokalaemia (K+ → cells)</text>
+<circle cx="215" cy="185" r="3" fill="#e74c3c"/>
+<text x="223" y="188" class="s">Hyperglycaemia</text>
+<!-- Acute severe criteria -->
+<rect x="5" y="194" width="390" height="10" fill="#e74c3c" rx="2" opacity="0.9"/>
+<text x="200" y="201" class="s" text-anchor="middle" fill="white" font-weight="bold">ACUTE SEVERE ASTHMA — Criteria and Management</text>
+<rect x="5" y="205" width="185" height="48" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="97" y="215" class="t" text-anchor="middle" font-weight="bold">Severe Criteria (≥1)</text>
+<text x="8" y="224" class="s">SpO2 &lt;92%</text>
+<text x="8" y="233" class="s">Too breathless to complete sentences</text>
+<text x="8" y="242" class="s">RR &gt;30/min | HR &gt;125 bpm</text>
+<text x="8" y="251" class="s">PEFR &lt;33% predicted</text>
+<rect x="5" y="253" width="185" height="12" fill="#e74c3c" rx="2" opacity="0.7"/>
+<text x="97" y="261" class="s" text-anchor="middle" fill="white" font-weight="bold">SILENT CHEST = NEAR FATAL</text>
+<rect x="200" y="205" width="195" height="60" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="297" y="215" class="t" text-anchor="middle" font-weight="bold">Management Protocol</text>
+<text x="203" y="224" class="s">1. O2 → maintain SpO2 ≥94%</text>
+<text x="203" y="233" class="s">2. Salbutamol 5mg neb q20min ×3 (O2-driven)</text>
+<text x="203" y="242" class="s">3. Ipratropium 0.25mg add to 1st 3 nebs</text>
+<text x="203" y="251" class="s">4. Prednisolone 1–2mg/kg PO (max 40mg)</text>
+<text x="203" y="260" class="s">5. IV MgSO4 40mg/kg over 20 min if &lt;1h</text>
+<!-- Inhaler technique -->
+<rect x="5" y="268" width="390" height="28" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="200" y="278" class="t" text-anchor="middle">pMDI + spacer + face mask (&lt;5yr): shake ×10 → press once → tidal breathing ×5–10 breaths → 30s before next puff</text>
+<text x="200" y="288" class="s" text-anchor="middle">Wash spacer monthly soapy water + air dry (removes static) | LABA: never monotherapy without ICS in children</text>
+</svg>`,
+
+  'mbbs-paed-diarrhoea': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="14" class="h" text-anchor="middle">Diarrhoeal Disease — ORS, IMCI Plans A/B/C</text>
+<!-- ORS composition -->
+<rect x="5" y="18" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="200" y="25" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">WHO/DHAKA (icddr,b) REDUCED OSMOLARITY ORS — 245 mOsm/L</text>
+<rect x="5" y="29" width="100" height="60" fill="var(--border)" rx="3" opacity="0.4"/>
+<text x="55" y="39" class="s" text-anchor="middle" font-weight="bold">Na⁺ 75 mmol/L</text>
+<rect x="10" y="42" width="90" height="8" fill="#3498db" rx="1" opacity="0.7"/>
+<text x="55" y="49" class="s" text-anchor="middle" fill="white">Sodium chloride</text>
+<text x="55" y="59" class="s" text-anchor="middle">NaCl 3.5 g/L</text>
+<text x="55" y="70" class="s" text-anchor="middle">K⁺ 20 mmol/L</text>
+<text x="55" y="79" class="s" text-anchor="middle">KCl 1.5 g/L</text>
+<rect x="110" y="29" width="100" height="60" fill="var(--border)" rx="3" opacity="0.4"/>
+<text x="160" y="39" class="s" text-anchor="middle" font-weight="bold">Glucose 75 mmol/L</text>
+<rect x="115" y="42" width="90" height="8" fill="#27ae60" rx="1" opacity="0.7"/>
+<text x="160" y="49" class="s" text-anchor="middle" fill="white">20 g/L glucose</text>
+<text x="160" y="59" class="s" text-anchor="middle">1:1 Na:glucose ratio</text>
+<text x="160" y="69" class="s" text-anchor="middle">optimal SGLT1</text>
+<text x="160" y="79" class="s" text-anchor="middle">cotransport</text>
+<rect x="215" y="29" width="180" height="60" fill="var(--border)" rx="3" opacity="0.4"/>
+<text x="305" y="39" class="s" text-anchor="middle" font-weight="bold">Vs original 1975 ORS (311 mOsm/L)</text>
+<rect x="220" y="42" width="170" height="8" fill="#27ae60" rx="1" opacity="0.7"/>
+<text x="305" y="49" class="s" text-anchor="middle" fill="white">↓20% stool output | ↓30% vomiting</text>
+<text x="220" y="59" class="s">↓33% IV fluid need (Lancet 2001)</text>
+<text x="220" y="68" class="s">Na⁺ 90→75 | osmolarity 311→245</text>
+<text x="220" y="78" class="s">No ↑hyponatraemia risk</text>
+<!-- IMCI Plans -->
+<rect x="5" y="93" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="200" y="100" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">IMCI DEHYDRATION ASSESSMENT AND TREATMENT PLANS</text>
+<!-- Plan A -->
+<rect x="5" y="104" width="120" height="80" fill="var(--border)" rx="3" opacity="0.35"/>
+<rect x="5" y="104" width="120" height="12" fill="#27ae60" rx="3" opacity="0.9"/>
+<text x="65" y="113" class="s" text-anchor="middle" fill="white" font-weight="bold">PLAN A — No Dehydration</text>
+<text x="8" y="124" class="s">Signs: None of below</text>
+<text x="8" y="132" class="s" font-weight="bold">Treatment (HOME):</text>
+<text x="8" y="141" class="s">ORS 10 mL/kg per watery stool</text>
+<text x="8" y="150" class="s">Continue feeding</text>
+<text x="8" y="159" class="s">Zinc 20 mg/day × 14 days</text>
+<text x="8" y="168" class="s">Return if worsening</text>
+<text x="8" y="177" class="s">Signs to watch for</text>
+<!-- Plan B -->
+<rect x="133" y="104" width="130" height="80" fill="var(--border)" rx="3" opacity="0.35"/>
+<rect x="133" y="104" width="130" height="12" fill="#f39c12" rx="3" opacity="0.9"/>
+<text x="198" y="113" class="s" text-anchor="middle" fill="white" font-weight="bold">PLAN B — Some Dehydration</text>
+<text x="136" y="124" class="s">≥2 signs: sunken eyes,</text>
+<text x="136" y="132" class="s">restless, thirsty, skin</text>
+<text x="136" y="140" class="s">pinch slow (1–2 sec)</text>
+<text x="136" y="150" class="s" font-weight="bold">Treatment (FACILITY):</text>
+<text x="136" y="159" class="s">ORS 75 mL/kg over 4 h</text>
+<text x="136" y="168" class="s">Reassess hourly</text>
+<text x="136" y="177" class="s">Continue breastfeeding</text>
+<!-- Plan C -->
+<rect x="270" y="104" width="125" height="80" fill="var(--border)" rx="3" opacity="0.35"/>
+<rect x="270" y="104" width="125" height="12" fill="#e74c3c" rx="3" opacity="0.9"/>
+<text x="332" y="113" class="s" text-anchor="middle" fill="white" font-weight="bold">PLAN C — Severe</text>
+<text x="273" y="124" class="s">Skin pinch &gt;2 sec</text>
+<text x="273" y="132" class="s">Lethargic/unconscious</text>
+<text x="273" y="140" class="s">Unable to drink</text>
+<text x="273" y="150" class="s" font-weight="bold">IV Ringer\'s Lactate:</text>
+<text x="273" y="159" class="s">&lt;12 mo: 30+70 mL/kg</text>
+<text x="273" y="168" class="s">(1h + 5h)</text>
+<text x="273" y="177" class="s">Child: 30+70 mL/kg</text>
+<text x="273" y="185" class="s">(30min + 2.5h)</text>
+<!-- Cholera panel -->
+<rect x="5" y="190" width="190" height="55" fill="var(--border)" rx="3" opacity="0.3"/>
+<rect x="5" y="190" width="190" height="10" fill="#9b59b6" rx="3" opacity="0.9"/>
+<text x="100" y="197" class="s" text-anchor="middle" fill="white" font-weight="bold">CHOLERA (V. cholerae O1/O139)</text>
+<text x="8" y="207" class="s">Rice-water stools, profuse, odourless</text>
+<text x="8" y="216" class="s">Rapid severe dehydration → Plan C</text>
+<text x="8" y="225" class="s">Antibiotic: Azithromycin 20mg/kg</text>
+<text x="8" y="234" class="s">single dose PO — reduces duration</text>
+<text x="8" y="243" class="s">Tetracycline &gt;8yr (MDR area)</text>
+<!-- Zinc supplementation -->
+<rect x="200" y="190" width="195" height="55" fill="var(--border)" rx="3" opacity="0.3"/>
+<rect x="200" y="190" width="195" height="10" fill="#3498db" rx="3" opacity="0.9"/>
+<text x="297" y="197" class="s" text-anchor="middle" fill="white" font-weight="bold">ZINC SUPPLEMENTATION</text>
+<text x="203" y="207" class="s">&gt;6 months: 20 mg/day × 14 days</text>
+<text x="203" y="216" class="s">2–6 months: 10 mg/day × 14 days</text>
+<text x="203" y="225" class="s">↓ duration 25% | ↓ severity</text>
+<text x="203" y="234" class="s">↓ recurrence for 2–3 months post-tx</text>
+<text x="203" y="243" class="s">Bangladesh IMCI national policy (2004)</text>
+<!-- SGLT1 mechanism -->
+<rect x="5" y="249" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.7"/>
+<text x="200" y="256" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">MECHANISM OF ORS — SGLT1 Na-Glucose COTRANSPORT</text>
+<rect x="5" y="259" width="390" height="37" fill="var(--border)" rx="2" opacity="0.2"/>
+<path d="M 20 275 L 60 275" stroke="var(--border)" stroke-width="3"/>
+<rect x="60" y="265" width="30" height="20" fill="var(--accent)" rx="2" opacity="0.7"/>
+<text x="75" y="278" class="s" text-anchor="middle" fill="white">SGLT1</text>
+<text x="95" y="270" class="s">Na⁺ + glucose</text>
+<text x="95" y="279" class="s">co-transport</text>
+<path d="M 95 275 L 110 275 M 108 272 L 112 275 L 108 278" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+<text x="115" y="268" class="s">→ enterocyte</text>
+<text x="115" y="276" class="s">→ Na pump out</text>
+<text x="115" y="284" class="s">→ H2O follows</text>
+<text x="200" y="270" class="t" text-anchor="middle">Persistent diarrhoea ≥14d → stool microscopy</text>
+<text x="200" y="279" class="s" text-anchor="middle">Giardia/Amoeba/Crypto | post-infectious lactose intolerance</text>
+<text x="200" y="287" class="s" text-anchor="middle">Nutritional rehab + lactose-free formula | avoid unnecessary antibiotics</text>
+</svg>`,
+
+  'mbbs-paed-liver-disease': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="14" class="h" text-anchor="middle">Childhood Liver Disease</text>
+<!-- BA vs Neonatal hepatitis -->
+<rect x="5" y="18" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="200" y="25" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">BILIARY ATRESIA vs NEONATAL HEPATITIS — Investigation Ladder</text>
+<rect x="5" y="29" width="190" height="10" fill="#e74c3c" rx="2" opacity="0.8"/>
+<text x="100" y="36" class="s" text-anchor="middle" fill="white" font-weight="bold">BILIARY ATRESIA (surgical emergency)</text>
+<rect x="5" y="40" width="190" height="75" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="8" y="49" class="s" font-weight="bold">Features:</text>
+<text x="8" y="57" class="s">• Conjugated jaundice</text>
+<text x="8" y="65" class="s">• ACHOLIC pale/chalky stools (consistent)</text>
+<text x="8" y="73" class="s">• Dark urine (urobilinogen)</text>
+<text x="8" y="81" class="s">• Firm hepatomegaly (progressive)</text>
+<text x="8" y="89" class="s">• USS: absent/small GB + triangular cord sign</text>
+<text x="8" y="97" class="s">• HIDA: no biliary excretion at 24 h</text>
+<text x="8" y="105" class="s">• Biopsy: bile ductular proliferation + fibrosis</text>
+<text x="8" y="113" class="s">• Operative cholangiogram: gold standard</text>
+<rect x="200" y="29" width="195" height="10" fill="#3498db" rx="2" opacity="0.8"/>
+<text x="297" y="36" class="s" text-anchor="middle" fill="white" font-weight="bold">NEONATAL HEPATITIS (medical)</text>
+<rect x="200" y="40" width="195" height="75" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="203" y="49" class="s" font-weight="bold">Features:</text>
+<text x="203" y="57" class="s">• Conjugated jaundice</text>
+<text x="203" y="65" class="s">• Stools pale INTERMITTENTLY</text>
+<text x="203" y="73" class="s">• Variable clinical course</text>
+<text x="203" y="81" class="s">• USS: patent bile ducts (normal GB)</text>
+<text x="203" y="89" class="s">• HIDA: uptake + some excretion into bowel</text>
+<text x="203" y="97" class="s">• Biopsy: multinucleated giant hepatocytes</text>
+<text x="203" y="105" class="s">• May resolve spontaneously</text>
+<text x="203" y="113" class="s">• Causes: CMV, HBV, rubella, syphilis, idiopathic</text>
+<!-- Kasai portoenterostomy diagram -->
+<rect x="5" y="118" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="200" y="125" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">KASAI PORTOENTEROSTOMY — Timing Critical</text>
+<rect x="5" y="129" width="220" height="55" fill="var(--border)" rx="3" opacity="0.3"/>
+<!-- Liver block -->
+<rect x="15" y="135" width="50" height="35" fill="#8b4513" rx="5" opacity="0.7"/>
+<text x="40" y="152" class="s" text-anchor="middle" fill="white">Liver</text>
+<!-- Fibrous remnant -->
+<rect x="65" y="145" width="25" height="10" fill="#e74c3c" rx="2" opacity="0.8"/>
+<text x="77" y="151" class="s" text-anchor="middle" fill="white" font-size="7px">fibrous</text>
+<!-- Arrow excision -->
+<path d="M 90 150 L 103 150 M 100 147 L 104 150 L 100 153" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+<text x="97" y="145" class="s" font-size="7px">excise</text>
+<!-- Jejunal Roux loop -->
+<path d="M 105 150 Q 120 140 135 150 Q 145 158 135 165 L 105 165 L 105 150 Z" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<text x="120" y="145" class="s" text-anchor="middle">Roux-en-Y</text>
+<text x="120" y="170" class="s" text-anchor="middle">jejunum</text>
+<text x="155" y="140" class="s">Bile flows from</text>
+<text x="155" y="148" class="s">ductules at porta</text>
+<text x="155" y="156" class="s">→ bowel</text>
+<!-- Timing box -->
+<rect x="230" y="129" width="165" height="55" fill="var(--border)" rx="3" opacity="0.3"/>
+<text x="312" y="139" class="t" text-anchor="middle" font-weight="bold">Timing Outcomes</text>
+<rect x="235" y="142" width="155" height="9" fill="#27ae60" rx="1" opacity="0.8"/>
+<text x="312" y="149" class="s" text-anchor="middle" fill="white">&lt;60 days: bile flow 70–80%</text>
+<rect x="235" y="152" width="155" height="9" fill="#f39c12" rx="1" opacity="0.8"/>
+<text x="312" y="159" class="s" text-anchor="middle" fill="white">60–90 days: 40–50%</text>
+<rect x="235" y="162" width="155" height="9" fill="#e74c3c" rx="1" opacity="0.8"/>
+<text x="312" y="169" class="s" text-anchor="middle" fill="white">&gt;90 days: &lt;20% — too late</text>
+<text x="312" y="181" class="s" text-anchor="middle">70–80% need liver Tx by adulthood</text>
+<!-- Wilson disease panel -->
+<rect x="5" y="188" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="200" y="195" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">WILSON DISEASE (Hepatolenticular Degeneration)</text>
+<rect x="5" y="199" width="185" height="65" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="97" y="209" class="t" text-anchor="middle" font-weight="bold">Features (age 5–35 years)</text>
+<circle cx="20" cy="218" r="5" fill="#c0392b" opacity="0.8"/>
+<text x="30" y="221" class="s">Hepatic: hepatitis/cirrhosis/ALF</text>
+<circle cx="20" cy="228" r="5" fill="#8e44ad" opacity="0.8"/>
+<text x="30" y="231" class="s">Neuropsychiatric: tremor/dysarthria</text>
+<circle cx="20" cy="238" r="5" fill="#1e8449" opacity="0.8"/>
+<text x="30" y="241" class="s">KF rings (cornea — pathognomonic)</text>
+<circle cx="20" cy="248" r="5" fill="#f39c12" opacity="0.8"/>
+<text x="30" y="251" class="s">Personality change, anxiety</text>
+<!-- KF ring diagram -->
+<circle cx="140" cy="238" r="16" fill="none" stroke="var(--border)" stroke-width="1"/>
+<circle cx="140" cy="238" r="12" fill="#1a1a1a" opacity="0.8"/>
+<circle cx="140" cy="238" r="12" fill="none" stroke="#c0392b" stroke-width="3" opacity="0.8"/>
+<circle cx="140" cy="238" r="6" fill="#1e3a5f" opacity="0.7"/>
+<text x="140" y="261" class="s" text-anchor="middle">KF ring</text>
+<rect x="200" y="199" width="195" height="65" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="297" y="209" class="t" text-anchor="middle" font-weight="bold">Investigations + Treatment</text>
+<rect x="205" y="211" width="185" height="8" fill="var(--border)" rx="1" opacity="0.5"/>
+<text x="208" y="218" class="s">Serum ceruloplasmin &lt;20 mg/dL (95% sensitivity)</text>
+<rect x="205" y="220" width="185" height="8" fill="var(--border)" rx="1" opacity="0.3"/>
+<text x="208" y="227" class="s">24h urine copper &gt;100 mcg (diagnosis &gt;250 in ALF)</text>
+<rect x="205" y="229" width="185" height="8" fill="var(--border)" rx="1" opacity="0.5"/>
+<text x="208" y="236" class="s">Liver copper &gt;250 mcg/g dry wt (biopsy)</text>
+<rect x="205" y="238" width="185" height="8" fill="var(--border)" rx="1" opacity="0.3"/>
+<text x="208" y="245" class="s">ATP7B gene (chr 13q14.3) — AR</text>
+<rect x="205" y="247" width="185" height="8" fill="#27ae60" rx="1" opacity="0.6"/>
+<text x="208" y="254" class="s" fill="white">Trientine 20mg/kg/d OR D-penicillamine</text>
+<text x="208" y="262" class="s">Zinc acetate 150mg/day maintenance</text>
+<!-- HBV MTCT -->
+<rect x="5" y="268" width="390" height="28" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="200" y="278" class="t" text-anchor="middle">HBV MTCT: HBeAg+ mother → 85–90% transmission | Prevent: HepB vaccine &lt;12h + HBIg = 90–95% efficacy</text>
+<text x="200" y="288" class="s" text-anchor="middle">Perinatally infected: 90% chronic HBV | Bangladesh EPI birth dose since 2003 | Conjugated jaundice &gt;2 wks → BA screen</text>
+</svg>`,
+
+  'mbbs-paed-febrile-convulsions': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="14" class="h" text-anchor="middle">Febrile Convulsions and Epilepsy</text>
+<!-- Simple vs complex FC -->
+<rect x="5" y="18" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="200" y="25" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">FEBRILE CONVULSION — Simple vs Complex</text>
+<rect x="5" y="29" width="190" height="10" fill="#27ae60" rx="2" opacity="0.8"/>
+<text x="100" y="36" class="s" text-anchor="middle" fill="white" font-weight="bold">SIMPLE (ALL criteria must be met)</text>
+<rect x="5" y="40" width="190" height="60" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="8" y="49" class="s">Age: 6 months – 5 years</text>
+<text x="8" y="58" class="s">Temperature &gt;38°C (febrile illness)</text>
+<text x="8" y="67" class="s">Seizure type: GENERALISED (not focal)</text>
+<text x="8" y="76" class="s">Duration: &lt;15 minutes</text>
+<text x="8" y="85" class="s">Single episode in 24 hours</text>
+<text x="8" y="94" class="s">No postictal neurological deficit</text>
+<rect x="200" y="29" width="195" height="10" fill="#e74c3c" rx="2" opacity="0.8"/>
+<text x="297" y="36" class="s" text-anchor="middle" fill="white" font-weight="bold">COMPLEX (ANY 1 criterion)</text>
+<rect x="200" y="40" width="195" height="60" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="203" y="49" class="s">Focal onset (head/eye deviation, unilateral)</text>
+<text x="203" y="58" class="s">Duration &gt;15 minutes</text>
+<text x="203" y="67" class="s">More than 1 seizure in 24 hours</text>
+<text x="203" y="76" class="s">Postictal Todd\'s paresis or neuro deficit</text>
+<text x="203" y="86" class="s" font-weight="bold">Risk of epilepsy: 4–6%</text>
+<text x="203" y="95" class="s">Investigations: LP, EEG, MRI brain</text>
+<!-- Risk/Prognosis circles -->
+<rect x="5" y="103" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.7"/>
+<text x="200" y="110" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">RISK OF EPILEPSY AND RECURRENCE</text>
+<circle cx="55" cy="130" r="20" fill="var(--border)" stroke="#27ae60" stroke-width="2"/>
+<text x="55" y="127" class="s" text-anchor="middle">Simple</text>
+<text x="55" y="137" class="s" text-anchor="middle">FC 1–2%</text>
+<circle cx="115" cy="130" r="20" fill="var(--border)" stroke="#f39c12" stroke-width="2"/>
+<text x="115" y="127" class="s" text-anchor="middle">Complex</text>
+<text x="115" y="137" class="s" text-anchor="middle">FC 4–6%</text>
+<circle cx="175" cy="130" r="20" fill="var(--border)" stroke="var(--accent)" stroke-width="2"/>
+<text x="175" y="127" class="s" text-anchor="middle">General</text>
+<text x="175" y="137" class="s" text-anchor="middle">pop 0.5%</text>
+<path d="M 75 130 L 95 130 M 135 130 L 155 130" stroke="var(--accent)" stroke-width="2"/>
+<text x="215" y="120" class="s">FC recurrence: 30%</text>
+<text x="215" y="130" class="s">Age &lt;18mo first FC: 50% recurrence</text>
+<text x="215" y="140" class="s">FH of FC: 30–40% recurrence</text>
+<text x="215" y="150" class="s">Prophylactic AED: NOT recommended</text>
+<!-- Epilepsy syndromes -->
+<rect x="5" y="155" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="200" y="162" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">CHILDHOOD EPILEPSY SYNDROMES</text>
+<rect x="5" y="167" width="90" height="50" fill="var(--border)" rx="2" opacity="0.3"/>
+<rect x="5" y="167" width="90" height="9" fill="#3498db" rx="2" opacity="0.7"/>
+<text x="50" y="174" class="s" text-anchor="middle" fill="white">BECTS (benign)</text>
+<text x="8" y="183" class="s">Age: 5–12yr</text>
+<text x="8" y="191" class="s">Nocturnal hemifacial</text>
+<text x="8" y="199" class="s">twitching</text>
+<text x="8" y="207" class="s">Self-limiting</text>
+<text x="8" y="215" class="s">Watch/CBZ</text>
+<rect x="100" y="167" width="90" height="50" fill="var(--border)" rx="2" opacity="0.3"/>
+<rect x="100" y="167" width="90" height="9" fill="#27ae60" rx="2" opacity="0.7"/>
+<text x="145" y="174" class="s" text-anchor="middle" fill="white">ABSENCE CAE</text>
+<text x="103" y="183" class="s">Age: 4–12yr</text>
+<text x="103" y="191" class="s">5–30s staring</text>
+<text x="103" y="199" class="s">3Hz spike-wave</text>
+<text x="103" y="207" class="s">EEG (HV trigger)</text>
+<text x="103" y="215" class="s">Ethosuximide 1st</text>
+<rect x="195" y="167" width="90" height="50" fill="var(--border)" rx="2" opacity="0.3"/>
+<rect x="195" y="167" width="90" height="9" fill="#e74c3c" rx="2" opacity="0.7"/>
+<text x="240" y="174" class="s" text-anchor="middle" fill="white">DRAVET (SCN1A)</text>
+<text x="198" y="183" class="s">Fever-triggered</text>
+<text x="198" y="191" class="s">Drug-resistant</text>
+<text x="198" y="199" class="s">Cognitive decline</text>
+<text x="198" y="207" class="s">Avoid Na-channel</text>
+<text x="198" y="215" class="s">blockers (worsen)</text>
+<rect x="290" y="167" width="105" height="50" fill="var(--border)" rx="2" opacity="0.3"/>
+<rect x="290" y="167" width="105" height="9" fill="#9b59b6" rx="2" opacity="0.7"/>
+<text x="342" y="174" class="s" text-anchor="middle" fill="white">WEST SYNDROME</text>
+<text x="293" y="183" class="s">Age: 4–12 months</text>
+<text x="293" y="191" class="s">Infantile spasms</text>
+<text x="293" y="199" class="s">Hypsarrhythmia EEG</text>
+<text x="293" y="207" class="s">ACTH / vigabatrin</text>
+<text x="293" y="215" class="s">Tuberous sclerosis?</text>
+<!-- Status epilepticus ladder -->
+<rect x="5" y="220" width="390" height="10" fill="#e74c3c" rx="2" opacity="0.9"/>
+<text x="200" y="227" class="s" text-anchor="middle" fill="white" font-weight="bold">STATUS EPILEPTICUS (&gt;30 min) — TREATMENT LADDER</text>
+<rect x="5" y="231" width="75" height="38" fill="var(--border)" rx="2" opacity="0.4"/>
+<rect x="5" y="231" width="75" height="8" fill="#27ae60" rx="2" opacity="0.7"/>
+<text x="42" y="237" class="s" text-anchor="middle" fill="white">0–5 min</text>
+<text x="42" y="247" class="s" text-anchor="middle">ABC + O2</text>
+<text x="42" y="255" class="s" text-anchor="middle">BM glucose</text>
+<text x="42" y="263" class="s" text-anchor="middle">IV/IO access</text>
+<rect x="85" y="231" width="82" height="38" fill="var(--border)" rx="2" opacity="0.4"/>
+<rect x="85" y="231" width="82" height="8" fill="#3498db" rx="2" opacity="0.7"/>
+<text x="126" y="237" class="s" text-anchor="middle" fill="white">5 min (no IV)</text>
+<text x="126" y="247" class="s" text-anchor="middle">Buccal midazolam</text>
+<text x="126" y="255" class="s" text-anchor="middle">0.2 mg/kg</text>
+<text x="126" y="263" class="s" text-anchor="middle">OR rectal diazepam</text>
+<rect x="172" y="231" width="82" height="38" fill="var(--border)" rx="2" opacity="0.4"/>
+<rect x="172" y="231" width="82" height="8" fill="#f39c12" rx="2" opacity="0.7"/>
+<text x="213" y="237" class="s" text-anchor="middle" fill="white">10–15 min</text>
+<text x="213" y="247" class="s" text-anchor="middle">IV lorazepam</text>
+<text x="213" y="255" class="s" text-anchor="middle">0.1 mg/kg</text>
+<text x="213" y="263" class="s" text-anchor="middle">OR IV diazepam</text>
+<rect x="259" y="231" width="82" height="38" fill="var(--border)" rx="2" opacity="0.4"/>
+<rect x="259" y="231" width="82" height="8" fill="#e67e22" rx="2" opacity="0.7"/>
+<text x="300" y="237" class="s" text-anchor="middle" fill="white">20–30 min</text>
+<text x="300" y="247" class="s" text-anchor="middle">IV phenytoin</text>
+<text x="300" y="255" class="s" text-anchor="middle">20 mg/kg (ECG)</text>
+<text x="300" y="263" class="s" text-anchor="middle">OR IV LEV 60mg/kg</text>
+<rect x="346" y="231" width="49" height="38" fill="var(--border)" rx="2" opacity="0.4"/>
+<rect x="346" y="231" width="49" height="8" fill="#e74c3c" rx="2" opacity="0.9"/>
+<text x="370" y="237" class="s" text-anchor="middle" fill="white">&gt;30 min</text>
+<text x="370" y="247" class="s" text-anchor="middle">RSI</text>
+<text x="370" y="255" class="s" text-anchor="middle">Thiopent/</text>
+<text x="370" y="263" class="s" text-anchor="middle">propofol ITU</text>
+<text x="200" y="278" class="t" text-anchor="middle">Ethosuximide for PURE absence (T-type Ca channel) | Valproate for generalised+absence combined</text>
+<text x="200" y="288" class="s" text-anchor="middle">Carbamazepine: AVOID in absence (worsens) | Phenobarbitone: neonates + resource-limited Bangladesh</text>
+</svg>`,
+
+  'mbbs-paed-meningitis': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="14" class="h" text-anchor="middle">Meningitis in Children — CSF Analysis</text>
+<!-- Organisms by age -->
+<rect x="5" y="18" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="200" y="25" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">ORGANISMS BY AGE GROUP</text>
+<rect x="5" y="29" width="80" height="45" fill="var(--border)" rx="2" opacity="0.35"/>
+<rect x="5" y="29" width="80" height="9" fill="#e74c3c" rx="2" opacity="0.8"/>
+<text x="45" y="36" class="s" text-anchor="middle" fill="white">Neonates</text>
+<text x="8" y="46" class="s">GBS</text>
+<text x="8" y="54" class="s">E. coli</text>
+<text x="8" y="62" class="s">Listeria</text>
+<text x="8" y="70" class="s">Tx: cefotax+amp</text>
+<rect x="90" y="29" width="90" height="45" fill="var(--border)" rx="2" opacity="0.35"/>
+<rect x="90" y="29" width="90" height="9" fill="#e67e22" rx="2" opacity="0.8"/>
+<text x="135" y="36" class="s" text-anchor="middle" fill="white">1–3 months</text>
+<text x="93" y="46" class="s">GBS, E. coli</text>
+<text x="93" y="54" class="s">Listeria</text>
+<text x="93" y="62" class="s">S. pneumoniae</text>
+<text x="93" y="70" class="s">N. meningitidis</text>
+<rect x="185" y="29" width="105" height="45" fill="var(--border)" rx="2" opacity="0.35"/>
+<rect x="185" y="29" width="105" height="9" fill="#f39c12" rx="2" opacity="0.8"/>
+<text x="237" y="36" class="s" text-anchor="middle" fill="white">3 mo – 12 yrs</text>
+<text x="188" y="46" class="s">S. pneumoniae (most common)</text>
+<text x="188" y="54" class="s">N. meningitidis (serogroup B)</text>
+<text x="188" y="62" class="s">H. influenzae b (rare — vaccinated)</text>
+<text x="188" y="70" class="s">Tx: ceftriaxone 100mg/kg/d</text>
+<rect x="295" y="29" width="100" height="45" fill="var(--border)" rx="2" opacity="0.35"/>
+<rect x="295" y="29" width="100" height="9" fill="#9b59b6" rx="2" opacity="0.8"/>
+<text x="345" y="36" class="s" text-anchor="middle" fill="white">Adolescents</text>
+<text x="298" y="46" class="s">N. meningitidis</text>
+<text x="298" y="54" class="s">(predominates)</text>
+<text x="298" y="62" class="s">Serogroup B/C/W</text>
+<text x="298" y="70" class="s">Meningococcal vax</text>
+<!-- CSF analysis table -->
+<rect x="5" y="78" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="200" y="85" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">CSF ANALYSIS — Bacterial vs Viral vs TB Meningitis</text>
+<rect x="5" y="89" width="390" height="9" fill="var(--border)" rx="1" opacity="0.5"/>
+<text x="60" y="96" class="s" font-weight="bold">Parameter</text>
+<text x="160" y="96" class="s" font-weight="bold">Bacterial</text>
+<text x="248" y="96" class="s" font-weight="bold">Viral (aseptic)</text>
+<text x="335" y="96" class="s" font-weight="bold">TB</text>
+<rect x="5" y="98" width="390" height="8" fill="var(--surface)"/>
+<text x="60" y="104" class="s">Appearance</text>
+<text x="160" y="104" class="s" fill="#e74c3c">Turbid/cloudy</text>
+<text x="248" y="104" class="s" fill="#27ae60">Clear</text>
+<text x="335" y="104" class="s" fill="#f39c12">Clear/xantho</text>
+<rect x="5" y="106" width="390" height="8" fill="var(--border)" opacity="0.2"/>
+<text x="60" y="112" class="s">WBC</text>
+<text x="160" y="112" class="s" fill="#e74c3c">1,000–10,000</text>
+<text x="248" y="112" class="s" fill="#27ae60">10–1,000</text>
+<text x="335" y="112" class="s" fill="#f39c12">100–500</text>
+<rect x="5" y="114" width="390" height="8" fill="var(--surface)"/>
+<text x="60" y="120" class="s">Differential</text>
+<text x="160" y="120" class="s" fill="#e74c3c">&gt;80% neutrophils</text>
+<text x="248" y="120" class="s" fill="#27ae60">Lymphocytes</text>
+<text x="335" y="120" class="s" fill="#f39c12">Lymphocytes</text>
+<rect x="5" y="122" width="390" height="8" fill="var(--border)" opacity="0.2"/>
+<text x="60" y="128" class="s">Protein</text>
+<text x="160" y="128" class="s" fill="#e74c3c">&gt;1 g/L (high)</text>
+<text x="248" y="128" class="s" fill="#27ae60">Mildly ↑</text>
+<text x="335" y="128" class="s" fill="#f39c12">&gt;1 g/L (v.high)</text>
+<rect x="5" y="130" width="390" height="8" fill="var(--surface)"/>
+<text x="60" y="136" class="s">Glucose ratio</text>
+<text x="160" y="136" class="s" fill="#e74c3c">&lt;50% serum (low)</text>
+<text x="248" y="136" class="s" fill="#27ae60">Normal (&gt;60%)</text>
+<text x="335" y="136" class="s" fill="#f39c12">&lt;45% serum</text>
+<rect x="5" y="138" width="390" height="8" fill="var(--border)" opacity="0.2"/>
+<text x="60" y="144" class="s">Gram stain/culture</text>
+<text x="160" y="144" class="s" fill="#e74c3c">+ve 60–80%</text>
+<text x="248" y="144" class="s" fill="#27ae60">Negative</text>
+<text x="335" y="144" class="s" fill="#f39c12">AFB 10–40% / GeneXpert</text>
+<rect x="5" y="146" width="390" height="8" fill="var(--surface)"/>
+<text x="60" y="152" class="s">Special</text>
+<text x="160" y="152" class="s">Blood culture +ve 30–50%</text>
+<text x="248" y="152" class="s">CSF PCR for virus</text>
+<text x="335" y="152" class="s">ADA &gt;10 U/L, cobweb clot</text>
+<!-- TB treatment -->
+<rect x="5" y="157" width="390" height="8" fill="var(--border)" rx="1" opacity="0.4"/>
+<text x="200" y="163" class="s" text-anchor="middle">TB meningitis Tx: RHEZ × 2 months → RH × 10 months + Dexamethasone 0.4mg/kg/day × 4 weeks (tapered)</text>
+<!-- Meningococcal rash panel -->
+<rect x="5" y="168" width="390" height="10" fill="#e74c3c" rx="2" opacity="0.9"/>
+<text x="200" y="175" class="s" text-anchor="middle" fill="white" font-weight="bold">MENINGOCOCCAL DISEASE — Emergency Protocol</text>
+<rect x="5" y="179" width="185" height="58" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="97" y="189" class="t" text-anchor="middle" font-weight="bold">Non-Blanching Purpuric Rash</text>
+<!-- Petechiae illustration -->
+<circle cx="25" cy="205" r="4" fill="#c0392b"/>
+<circle cx="40" cy="212" r="3" fill="#c0392b"/>
+<circle cx="55" cy="204" r="5" fill="#c0392b"/>
+<circle cx="70" cy="215" r="3" fill="#c0392b"/>
+<circle cx="35" cy="220" r="4" fill="#922b21"/>
+<circle cx="60" cy="222" r="6" fill="#922b21"/>
+<ellipse cx="80" cy="208" rx="8" ry="5" fill="#c0392b"/>
+<text x="97" y="200" class="s">+ Fever + Confusion</text>
+<text x="97" y="209" class="s">= Meningococcal disease</text>
+<text x="97" y="218" class="s">UNTIL PROVEN OTHERWISE</text>
+<text x="8" y="230" class="s" font-weight="bold">Immediate:</text>
+<text x="8" y="237" class="s">Benzylpen 1.2g IV/IM community</text>
+<rect x="200" y="179" width="195" height="58" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="297" y="189" class="t" text-anchor="middle" font-weight="bold">Dexamethasone Evidence</text>
+<text x="203" y="199" class="s">Give with/before 1st antibiotic dose</text>
+<text x="203" y="208" class="s">0.15 mg/kg q6h × 4 days</text>
+<text x="203" y="217" class="s">↓ SNHL in H. influenzae + S. pneumo</text>
+<text x="203" y="226" class="s">↓ case fatality in bacterial meningitis</text>
+<text x="203" y="235" class="s">Contact prophylaxis: rifampicin</text>
+<text x="203" y="244" class="s">10 mg/kg BD × 2 days (household)</text>
+<!-- LP safety -->
+<rect x="5" y="240" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.7"/>
+<text x="200" y="247" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">LP SAFETY — NEVER DELAY ANTIBIOTICS</text>
+<rect x="5" y="251" width="185" height="45" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="8" y="260" class="s" fill="#e74c3c" font-weight="bold">LP CONTRAINDICATIONS:</text>
+<text x="8" y="269" class="s">Papilloedema / focal neuro signs</text>
+<text x="8" y="278" class="s">GCS &lt;13 | Coagulopathy</text>
+<text x="8" y="287" class="s">Haemodynamic instability</text>
+<text x="8" y="294" class="s">Skin infection at LP site</text>
+<rect x="200" y="251" width="195" height="45" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="203" y="260" class="s" font-weight="bold">Protocol:</text>
+<text x="203" y="269" class="s">1. Draw blood culture</text>
+<text x="203" y="278" class="s">2. IV ceftriaxone IMMEDIATELY</text>
+<text x="203" y="287" class="s">3. CT if indicated THEN LP</text>
+<text x="203" y="294" class="s">Post-abx LP valid 4–6h (cell count/biochem)</text>
+</svg>`,
+
+  'mbbs-paed-anaemia': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="14" class="h" text-anchor="middle">Childhood Anaemia</text>
+<!-- IDA panel -->
+<rect x="5" y="18" width="195" height="10" fill="#e74c3c" rx="2" opacity="0.8"/>
+<text x="102" y="25" class="s" text-anchor="middle" fill="white" font-weight="bold">IRON DEFICIENCY ANAEMIA (most common)</text>
+<rect x="5" y="29" width="195" height="85" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="8" y="38" class="s" font-weight="bold">Blood film:</text>
+<!-- Microcytic hypochromic RBC visual -->
+<ellipse cx="35" cy="50" rx="12" ry="8" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
+<ellipse cx="35" cy="50" rx="5" ry="3" fill="none" stroke="#e74c3c" stroke-width="0.5" opacity="0.5"/>
+<ellipse cx="55" cy="50" rx="10" ry="7" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
+<ellipse cx="75" cy="50" rx="8" ry="5" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
+<text x="35" y="65" class="s" text-anchor="middle" fill="#e74c3c">Microcytic</text>
+<text x="35" y="73" class="s" text-anchor="middle" fill="#e74c3c">Hypochromic</text>
+<text x="95" y="40" class="s">MCV &lt;80 fL</text>
+<text x="95" y="49" class="s">MCH &lt;27 pg</text>
+<text x="95" y="58" class="s">Ferritin &lt;12 mcg/L</text>
+<text x="95" y="67" class="s">TIBC ↑</text>
+<text x="95" y="76" class="s">Transferrin sat &lt;16%</text>
+<text x="8" y="86" class="s" font-weight="bold">Treatment:</text>
+<text x="8" y="95" class="s">Ferrous sulphate 3–6 mg/kg/d elemental iron × 3 months</text>
+<text x="8" y="104" class="s">30 min before meals + vit C | Reticulocyte ↑ at day 7–10</text>
+<!-- Haemolytic anaemia panel -->
+<rect x="205" y="18" width="190" height="10" fill="#e67e22" rx="2" opacity="0.8"/>
+<text x="300" y="25" class="s" text-anchor="middle" fill="white" font-weight="bold">HAEMOLYTIC ANAEMIAS</text>
+<rect x="205" y="29" width="190" height="85" fill="var(--border)" rx="2" opacity="0.3"/>
+<!-- G6PD -->
+<rect x="208" y="32" width="180" height="8" fill="#e67e22" rx="1" opacity="0.6"/>
+<text x="298" y="38" class="s" text-anchor="middle" fill="white">G6PD Deficiency (X-linked recessive)</text>
+<text x="208" y="47" class="s">Triggers: dapsone, primaquine, fava beans, sulfonamides</text>
+<text x="208" y="55" class="s">Film: Heinz bodies + bite cells</text>
+<text x="208" y="63" class="s">Assay: AFTER recovery (young RBCs false-normal)</text>
+<!-- Sickle cell -->
+<rect x="208" y="66" width="180" height="8" fill="#c0392b" rx="1" opacity="0.6"/>
+<text x="298" y="72" class="s" text-anchor="middle" fill="white">Sickle Cell Disease (HbSS)</text>
+<text x="208" y="80" class="s">Beta-globin Glu6Val | Dactylitis (first crisis)</text>
+<text x="208" y="88" class="s">Hydroxyurea (↑HbF) | Penicillin V lifelong (asplenia)</text>
+<text x="208" y="96" class="s">ACS, stroke, splenic sequestration → emergencies</text>
+<!-- Thalassaemia -->
+<rect x="5" y="118" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="200" y="125" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">BETA-THALASSAEMIA MAJOR — Features and Management</text>
+<!-- Skull X-ray diagram (hair on end) -->
+<rect x="5" y="128" width="110" height="60" fill="var(--border)" rx="3" opacity="0.3"/>
+<text x="60" y="138" class="t" text-anchor="middle" font-weight="bold">CXR / Skull Changes</text>
+<!-- Skull outline -->
+<ellipse cx="50" cy="170" rx="30" ry="25" fill="var(--border)" stroke="var(--accent)" stroke-width="1.5"/>
+<!-- Hair on end -->
+<path d="M 30 148 L 27 138 M 38 146 L 37 136 M 46 145 L 46 135 M 54 145 L 55 135 M 62 146 L 64 136 M 70 148 L 73 138" stroke="#e74c3c" stroke-width="1.5"/>
+<text x="85" y="152" class="s">Hair-on-end</text>
+<text x="85" y="162" class="s">skull (XR)</text>
+<text x="10" y="180" class="s">Frontal bossing</text>
+<text x="10" y="188" class="s">Maxillary hyperplasia</text>
+<rect x="120" y="128" width="275" height="60" fill="var(--border)" rx="3" opacity="0.3"/>
+<text x="257" y="138" class="t" text-anchor="middle" font-weight="bold">Management Protocol</text>
+<rect x="125" y="141" width="265" height="8" fill="#3498db" rx="1" opacity="0.6"/>
+<text x="257" y="147" class="s" text-anchor="middle" fill="white">Regular RBC transfusion q2–4 weeks (pre-Hb &gt;9–10 g/dL)</text>
+<rect x="125" y="150" width="265" height="8" fill="#e74c3c" rx="1" opacity="0.6"/>
+<text x="257" y="156" class="s" text-anchor="middle" fill="white">Iron chelation: deferasirox 20–40mg/kg/day PO (first-line)</text>
+<rect x="125" y="159" width="265" height="8" fill="#f39c12" rx="1" opacity="0.6"/>
+<text x="257" y="165" class="s" text-anchor="middle" fill="white">OR desferrioxamine 40–60mg/kg/d SC × 5 nights/week</text>
+<rect x="125" y="168" width="265" height="8" fill="#27ae60" rx="1" opacity="0.6"/>
+<text x="257" y="174" class="s" text-anchor="middle" fill="white">BMT/SCT: curative if HLA-matched sibling | Gene therapy: emerging</text>
+<text x="120" y="185" class="s">Hb electrophoresis: HbF ↑↑, absent/reduced HbA | Folic acid 5mg/day supplement</text>
+<!-- ALL panel -->
+<rect x="5" y="192" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="200" y="199" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">ALL — Most Common Childhood Cancer (25% paediatric)</text>
+<rect x="5" y="202" width="190" height="55" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="97" y="212" class="t" text-anchor="middle" font-weight="bold">Features (peak age 2–5 years)</text>
+<circle cx="18" cy="220" r="5" fill="#e74c3c" opacity="0.8"/>
+<text x="28" y="223" class="s">BM failure: pallor/bruising/infections</text>
+<circle cx="18" cy="230" r="5" fill="#3498db" opacity="0.8"/>
+<text x="28" y="233" class="s">Lymphadenopathy (generalised)</text>
+<circle cx="18" cy="240" r="5" fill="#9b59b6" opacity="0.8"/>
+<text x="28" y="243" class="s">Hepatosplenomegaly</text>
+<circle cx="18" cy="250" r="5" fill="#f39c12" opacity="0.8"/>
+<text x="28" y="253" class="s">FBC: WBC high, Hb low, plt low</text>
+<text x="8" y="252" class="s" font-weight="bold"/>
+<text x="97" y="210" class="s" text-anchor="middle"/>
+<rect x="200" y="202" width="195" height="55" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="297" y="212" class="t" text-anchor="middle" font-weight="bold">Treatment (UKALL/COG protocol)</text>
+<text x="203" y="221" class="s">Induction: VCR+pred+L-asp+IT-MTX (4–6wk)</text>
+<text x="203" y="230" class="s">Consolidation: IT-MTX ×6, HD IV-MTX</text>
+<text x="203" y="239" class="s">Maintenance: 6-MP+MTX (2–2.5 yr)</text>
+<text x="203" y="248" class="s">5-yr survival &gt;85% (standard risk)</text>
+<text x="203" y="257" class="s">Poor: Ph+chr t(9;22) → BMT + TKI</text>
+<!-- Sickle cell blood film -->
+<rect x="5" y="261" width="390" height="35" fill="var(--border)" rx="2" opacity="0.25"/>
+<text x="200" y="271" class="t" text-anchor="middle">SICKLE CELL CRISIS: IV fluids 1.5× maintenance + O2 + analgesia (morphine PCA) + folate</text>
+<text x="200" y="280" class="s" text-anchor="middle">G6PD crisis: stop offending drug + IV fluids (haemoglobinuria → AKI prevention) + pack red cells if Hb &lt;7</text>
+<text x="200" y="289" class="s" text-anchor="middle">Bangladesh IDA: ~50% under-5s | Thalassaemia screening: haematological indices + Hb electrophoresis + DNA</text>
+</svg>`,
+
+  'mbbs-paed-childhood-infections': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="14" class="h" text-anchor="middle">Common Childhood Infections</text>
+<!-- Measles panel -->
+<rect x="5" y="18" width="190" height="10" fill="#e74c3c" rx="2" opacity="0.8"/>
+<text x="100" y="25" class="s" text-anchor="middle" fill="white" font-weight="bold">MEASLES (Paramyxovirus)</text>
+<rect x="5" y="29" width="190" height="65" fill="var(--border)" rx="2" opacity="0.3"/>
+<!-- Koplik spots illustration -->
+<ellipse cx="35" cy="60" rx="20" ry="12" fill="#c0392b" opacity="0.7"/>
+<ellipse cx="35" cy="60" rx="15" ry="8" fill="#e8c1b9" opacity="0.8"/>
+<circle cx="28" cy="58" r="2" fill="white" stroke="white" stroke-width="0.5"/>
+<circle cx="35" cy="60" r="2" fill="white"/>
+<circle cx="42" cy="62" r="1.5" fill="white"/>
+<text x="35" y="77" class="s" text-anchor="middle">Koplik spots</text>
+<text x="35" y="85" class="s" text-anchor="middle">(pathognomonic)</text>
+<text x="63" y="38" class="s" font-weight="bold">Prodrome 3Cs:</text>
+<text x="63" y="47" class="s">Cough + Coryza + Conjunctivitis</text>
+<text x="63" y="56" class="s">Koplik: before rash by 24–48h</text>
+<text x="63" y="65" class="s">Rash: behind ears → cephalo-caudal</text>
+<text x="63" y="74" class="s">Maculopapular → coalesces</text>
+<text x="8" y="84" class="s">Complications: pneumonia (most common</text>
+<text x="8" y="92" class="s">death in Bangladesh), croup, encephalitis</text>
+<text x="8" y="100" class="s" font-weight="bold">Tx: Vit A 200,000 IU × 2 → ↓mortality 50%</text>
+<!-- Dengue grading panel -->
+<rect x="200" y="18" width="195" height="10" fill="#f39c12" rx="2" opacity="0.8"/>
+<text x="297" y="25" class="s" text-anchor="middle" fill="white" font-weight="bold">DENGUE HAEMORRHAGIC FEVER (DHF)</text>
+<rect x="200" y="29" width="195" height="65" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="203" y="38" class="s" font-weight="bold">Grade I:</text>
+<text x="240" y="38" class="s">Fever + positive tourniquet test (≥10 petechia/in²)</text>
+<rect x="200" y="40" width="195" height="1" fill="var(--border)"/>
+<text x="203" y="48" class="s" font-weight="bold">Grade II:</text>
+<text x="240" y="48" class="s">Grade I + spontaneous bleeding</text>
+<rect x="200" y="50" width="195" height="1" fill="var(--border)"/>
+<text x="203" y="57" class="s" font-weight="bold">Grade III:</text>
+<text x="240" y="57" class="s">Circulatory failure (PP &lt;20mmHg/cold shock)</text>
+<text x="203" y="65" class="s" font-weight="bold">Grade IV:</text>
+<text x="240" y="65" class="s">Profound shock — undetectable BP/pulse (DSS)</text>
+<text x="203" y="74" class="s">NS1: days 1–5 | IgM ELISA: day 5+</text>
+<text x="203" y="83" class="s" font-weight="bold">Tx Grade III/IV:</text>
+<text x="203" y="91" class="s">IV isotonic crystalloid 10–20 mL/kg bolus</text>
+<!-- Typhoid panel -->
+<rect x="5" y="98" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="200" y="105" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">TYPHOID (Salmonella typhi) — Bangladesh MDR Rising</text>
+<!-- Stepladder fever chart -->
+<rect x="5" y="108" width="190" height="60" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="97" y="118" class="t" text-anchor="middle" font-weight="bold">Stepladder Fever Pattern</text>
+<path d="M 15 160 L 15 130" stroke="var(--border)" stroke-width="1"/>
+<path d="M 15 160 L 185 160" stroke="var(--border)" stroke-width="1"/>
+<path d="M 20 155 L 40 150 L 60 142 L 80 137 L 100 132 L 120 130" stroke="var(--accent)" stroke-width="2.5" fill="none"/>
+<path d="M 40 150 L 40 158 M 60 142 L 60 158 M 80 137 L 80 158 M 100 132 L 100 158 M 120 130 L 120 158" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="2,2"/>
+<text x="30" y="163" class="s" text-anchor="middle">Day 1</text>
+<text x="70" y="163" class="s" text-anchor="middle">Day 3</text>
+<text x="110" y="163" class="s" text-anchor="middle">Day 5</text>
+<text x="150" y="163" class="s">Stepladder rise</text>
+<rect x="200" y="108" width="195" height="60" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="297" y="118" class="t" text-anchor="middle" font-weight="bold">Typhoid Features</text>
+<text x="203" y="127" class="s">Relative bradycardia (Faget sign)</text>
+<text x="203" y="136" class="s">Rose spots (salmon macules trunk, Wk 2)</text>
+<text x="203" y="145" class="s">Splenomegaly + coated tongue</text>
+<text x="203" y="154" class="s">Blood culture: gold standard (Wk 1–2)</text>
+<text x="203" y="163" class="s" font-weight="bold">Tx: ceftriaxone 75mg/kg × 10d</text>
+<!-- Chickenpox vs mumps -->
+<rect x="5" y="172" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.7"/>
+<text x="200" y="179" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">CHICKENPOX (VZV) AND MUMPS</text>
+<!-- VZV lesion progression -->
+<rect x="5" y="182" width="190" height="55" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="97" y="192" class="t" text-anchor="middle" font-weight="bold">VZV — All Stages Simultaneously</text>
+<circle cx="25" cy="215" r="5" fill="#f5cba7"/>
+<text x="25" y="226" class="s" text-anchor="middle">Macule</text>
+<ellipse cx="60" cy="215" rx="5" ry="4" fill="#e59866"/>
+<text x="60" y="226" class="s" text-anchor="middle">Papule</text>
+<ellipse cx="95" cy="215" rx="6" ry="5" fill="none" stroke="#e74c3c" stroke-width="2"/>
+<circle cx="95" cy="215" r="3" fill="#aed6f1"/>
+<text x="95" y="226" class="s" text-anchor="middle">Vesicle</text>
+<rect x="120" y="210" width="12" height="10" fill="#7f8c8d" rx="2"/>
+<text x="126" y="226" class="s" text-anchor="middle">Crust</text>
+<path d="M 32 215 L 53 215 M 67 215 L 88 215 M 103 215 L 118 215" stroke="var(--accent)" stroke-width="1.5"/>
+<text x="8" y="235" class="s">Complication: bacterial superinfection (most common)</text>
+<text x="8" y="244" class="s">Cerebellar ataxia | Reye syndrome (AVOID aspirin!)</text>
+<rect x="200" y="182" width="195" height="55" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="297" y="192" class="t" text-anchor="middle" font-weight="bold">MUMPS</text>
+<!-- Parotid swelling illustration -->
+<ellipse cx="235" cy="218" rx="18" ry="12" fill="#f0b27a" opacity="0.7" stroke="#e67e22" stroke-width="1.5"/>
+<ellipse cx="260" cy="215" rx="20" ry="14" fill="#f0b27a" opacity="0.7" stroke="#e67e22" stroke-width="1.5"/>
+<circle cx="248" cy="207" r="6" fill="#fadbd8" opacity="0.7"/>
+<text x="248" y="211" class="s" text-anchor="middle" font-size="7px">Bil</text>
+<text x="248" y="238" class="s" text-anchor="middle">Bilateral parotitis</text>
+<text x="285" y="207" class="s">Orchitis 15–30%</text>
+<text x="285" y="216" class="s">postpubertal ♂</text>
+<text x="285" y="225" class="s">→ subfertility</text>
+<text x="285" y="234" class="s">Viral meningitis 3–10%</text>
+<!-- Disease comparison table -->
+<rect x="5" y="240" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.7"/>
+<text x="200" y="247" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">KEY DISTINGUISHING FEATURES</text>
+<rect x="5" y="251" width="390" height="45" fill="var(--border)" rx="2" opacity="0.2"/>
+<rect x="5" y="251" width="390" height="8" fill="var(--border)" opacity="0.4"/>
+<text x="55" y="257" class="s" font-weight="bold">Disease</text>
+<text x="130" y="257" class="s" font-weight="bold">Pathognomonic sign</text>
+<text x="255" y="257" class="s" font-weight="bold">Rash pattern</text>
+<text x="345" y="257" class="s" font-weight="bold">Tx</text>
+<text x="55" y="267" class="s">Measles</text>
+<text x="130" y="267" class="s">Koplik spots (buccal)</text>
+<text x="255" y="267" class="s">Cephalocaudal maculo-papular</text>
+<text x="345" y="267" class="s">Vit A ×2</text>
+<text x="55" y="276" class="s">Dengue</text>
+<text x="130" y="276" class="s">Tourniquet test</text>
+<text x="255" y="276" class="s">Petechiae/purpura</text>
+<text x="345" y="276" class="s">IV fluids</text>
+<text x="55" y="285" class="s">Typhoid</text>
+<text x="130" y="285" class="s">Rose spots (trunk)</text>
+<text x="255" y="285" class="s">Faint salmon macules Wk2</text>
+<text x="345" y="285" class="s">Ceftriaxone</text>
+<text x="55" y="294" class="s">Chickenpox</text>
+<text x="130" y="294" class="s">All stages simultaneously</text>
+<text x="255" y="294" class="s">Crops: different stages at once</text>
+<text x="345" y="294" class="s">ACV (severe)</text>
+</svg>`,
+
+  'mbbs-paed-congenital-heart': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="14" class="h" text-anchor="middle">Congenital Heart Disease</text>
+<!-- Normal heart anatomy (left panel) -->
+<rect x="5" y="18" width="120" height="115" fill="var(--border)" rx="3" opacity="0.3"/>
+<text x="65" y="28" class="t" text-anchor="middle" font-weight="bold">Normal Heart</text>
+<!-- Heart chambers -->
+<rect x="10" y="30" width="50" height="40" fill="#3498db" rx="5" opacity="0.7"/>
+<text x="35" y="52" class="s" text-anchor="middle" fill="white">RA</text>
+<rect x="65" y="30" width="55" height="40" fill="#3498db" rx="5" opacity="0.7"/>
+<text x="92" y="52" class="s" text-anchor="middle" fill="white">LA</text>
+<!-- Ventricles -->
+<rect x="10" y="73" width="50" height="50" fill="#e74c3c" rx="5" opacity="0.7"/>
+<text x="35" y="100" class="s" text-anchor="middle" fill="white">RV</text>
+<rect x="65" y="73" width="55" height="50" fill="#e74c3c" rx="5" opacity="0.8"/>
+<text x="92" y="100" class="s" text-anchor="middle" fill="white">LV</text>
+<!-- Septum line -->
+<path d="M 63 30 L 63 122" stroke="white" stroke-width="2" opacity="0.8"/>
+<!-- Great vessels -->
+<path d="M 35 73 L 35 60 Q 35 35 20 25" stroke="#3498db" stroke-width="4" fill="none"/>
+<text x="10" y="22" class="s" fill="#3498db">PA</text>
+<path d="M 92 73 L 92 60 Q 92 35 105 25" stroke="#e74c3c" stroke-width="4" fill="none"/>
+<text x="103" y="22" class="s" fill="#e74c3c">Ao</text>
+<!-- Flow arrows -->
+<path d="M 35 60 L 92 60" stroke="var(--accent)" stroke-width="1" stroke-dasharray="3,2"/>
+<!-- TOF anatomy diagram -->
+<rect x="130" y="18" width="135" height="115" fill="var(--border)" rx="3" opacity="0.3"/>
+<text x="197" y="28" class="t" text-anchor="middle" font-weight="bold">TOF — 4 Anatomic Defects</text>
+<!-- TOF heart -->
+<rect x="135" y="32" width="50" height="35" fill="#3498db" rx="5" opacity="0.7"/>
+<text x="160" y="52" class="s" text-anchor="middle" fill="white">RA</text>
+<rect x="190" y="32" width="70" height="35" fill="#3498db" rx="5" opacity="0.7"/>
+<text x="225" y="52" class="s" text-anchor="middle" fill="white">LA</text>
+<!-- VSD marker -->
+<rect x="135" y="70" width="50" height="55" fill="#e74c3c" rx="5" opacity="0.7"/>
+<text x="160" y="98" class="s" text-anchor="middle" fill="white">RV</text>
+<rect x="190" y="70" width="70" height="55" fill="#e74c3c" rx="5" opacity="0.8"/>
+<text x="225" y="98" class="s" text-anchor="middle" fill="white">LV</text>
+<!-- VSD arrow -->
+<path d="M 185 90 L 195 90" stroke="white" stroke-width="2.5"/>
+<path d="M 193 87 L 197 90 L 193 93" fill="white"/>
+<text x="162" y="67" class="s" fill="white">VSD</text>
+<!-- RVOT obstruction -->
+<rect x="140" y="55" width="12" height="12" fill="#e67e22" rx="2" opacity="0.9"/>
+<text x="135" y="53" class="s" fill="#e67e22" font-size="7px">RVOT</text>
+<!-- Overriding aorta -->
+<path d="M 210 70 L 205 50 Q 200 32 188 24" stroke="#e74c3c" stroke-width="4" fill="none"/>
+<text x="186" y="22" class="s" fill="#e74c3c">Ao over</text>
+<!-- RVH -->
+<rect x="185" y="70" width="5" height="55" fill="#c0392b" opacity="0.8"/>
+<text x="133" y="127" class="s" fill="#e67e22">① RVOT obstruct</text>
+<text x="133" y="135" class="s" fill="#e74c3c">② Large VSD</text>
+<text x="133" y="143" class="s" fill="#c0392b">③ Overriding Ao</text>
+<text x="133" y="151" class="s" fill="#9b59b6">④ RVH</text>
+<!-- Acyanotic vs Cyanotic -->
+<rect x="5" y="137" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="200" y="144" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">ACYANOTIC vs CYANOTIC CHD COMPARISON</text>
+<rect x="5" y="148" width="390" height="9" fill="var(--border)" opacity="0.5"/>
+<text x="40" y="155" class="s" font-weight="bold">Defect</text>
+<text x="130" y="155" class="s" font-weight="bold">Murmur</text>
+<text x="225" y="155" class="s" font-weight="bold">CXR</text>
+<text x="320" y="155" class="s" font-weight="bold">Management</text>
+<rect x="5" y="157" width="390" height="8" fill="var(--surface)"/>
+<text x="40" y="163" class="s">VSD (30%)</text>
+<text x="130" y="163" class="s">Pansystolic LLSB</text>
+<text x="225" y="163" class="s">↑pulm markings</text>
+<text x="320" y="163" class="s">Patch closure Yr 1</text>
+<rect x="5" y="165" width="390" height="8" fill="var(--border)" opacity="0.2"/>
+<text x="40" y="171" class="s">ASD</text>
+<text x="130" y="171" class="s">Fixed split S2+ESM</text>
+<text x="225" y="171" class="s">↑pulm; RBBB ECG</text>
+<text x="320" y="171" class="s">Device/surgical</text>
+<rect x="5" y="173" width="390" height="8" fill="var(--surface)"/>
+<text x="40" y="179" class="s">PDA</text>
+<text x="130" y="179" class="s">Continuous machinery</text>
+<text x="225" y="179" class="s">Bounding pulses</text>
+<text x="320" y="179" class="s">Indo/ibu (preterm)</text>
+<rect x="5" y="181" width="390" height="8" fill="var(--border)" opacity="0.2"/>
+<text x="40" y="187" class="s">TOF (10%)</text>
+<text x="130" y="187" class="s">ESM (RVOT)</text>
+<text x="225" y="187" class="s">Boot-shaped heart</text>
+<text x="320" y="187" class="s">Surgical repair</text>
+<rect x="5" y="189" width="390" height="8" fill="var(--surface)"/>
+<text x="40" y="195" class="s">TGA</text>
+<text x="130" y="195" class="s">Variable</text>
+<text x="225" y="195" class="s">Egg-on-side</text>
+<text x="320" y="195" class="s">PGE1+Rashkind+Jatene</text>
+<!-- Eisenmenger -->
+<rect x="5" y="200" width="390" height="10" fill="#9b59b6" rx="2" opacity="0.8"/>
+<text x="200" y="207" class="s" text-anchor="middle" fill="white" font-weight="bold">EISENMENGER SYNDROME — Repair Contraindicated</text>
+<rect x="5" y="211" width="190" height="50" fill="var(--border)" rx="2" opacity="0.3"/>
+<!-- Shunt reversal diagram -->
+<rect x="15" y="215" width="35" height="25" fill="#e74c3c" rx="3" opacity="0.8"/>
+<text x="32" y="230" class="s" text-anchor="middle" fill="white">RV</text>
+<rect x="60" y="215" width="35" height="25" fill="#3498db" rx="3" opacity="0.8"/>
+<text x="77" y="230" class="s" text-anchor="middle" fill="white">LV</text>
+<!-- Reversed arrow (R→L) -->
+<path d="M 58 227 L 52 227 M 54 224 L 50 227 L 54 230" stroke="white" stroke-width="2" fill="none"/>
+<text x="97" y="222" class="s">R→L shunt reversal</text>
+<text x="97" y="231" class="s">Cyanosis + clubbing</text>
+<text x="97" y="240" class="s">Irreversible PVD</text>
+<text x="97" y="249" class="s">Surgery = death</text>
+<text x="8" y="258" class="s">Rx: sildenafil+bosentan | Heart-lung Tx definitive</text>
+<rect x="200" y="211" width="195" height="50" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="297" y="221" class="t" text-anchor="middle" font-weight="bold">Tet Spell — Immediate Management</text>
+<polygon points="215,233 210,243 220,243" fill="var(--accent)" opacity="0.8"/>
+<text x="228" y="237" class="s">Knee-to-chest position (↑SVR)</text>
+<polygon points="215,244 210,254 220,254" fill="var(--accent)" opacity="0.8"/>
+<text x="228" y="248" class="s">O2 + morphine 0.1–0.2mg/kg</text>
+<polygon points="215,255 210,265 220,265" fill="var(--accent)" opacity="0.8"/>
+<text x="228" y="259" class="s">IV propranolol (infundibular relax)</text>
+<text x="228" y="268" class="s">Phenylephrine IV (↑SVR)</text>
+<text x="200" y="273" class="t" text-anchor="middle">TGA emergency: PGE1 0.05–0.1 mcg/kg/min + Rashkind BAS + Jatene switch &lt;2 weeks</text>
+<text x="200" y="282" class="s" text-anchor="middle">VSD CHF management: furosemide 1–2mg/kg/d + captopril + high-cal feeds 120–150 kcal/kg/d</text>
+<text x="200" y="291" class="s" text-anchor="middle">PDA preterm: indomethacin/ibuprofen IV (COX inhibition) | PDA duct-dependent TGA: keep open with PGE1</text>
+</svg>`,
+
+  'mbbs-paed-genetic-metabolic': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<style>.t{font-family:sans-serif;font-size:9px;fill:var(--text)}.s{font-family:sans-serif;font-size:8px;fill:var(--text-dim)}.h{font-family:sans-serif;font-size:11px;font-weight:bold;fill:var(--accent)}</style>
+<rect width="400" height="300" fill="var(--surface)"/>
+<text x="200" y="14" class="h" text-anchor="middle">Genetic and Metabolic Disorders</text>
+<!-- Down syndrome panel -->
+<rect x="5" y="18" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="200" y="25" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">DOWN SYNDROME — Trisomy 21 (47, +21)</text>
+<rect x="5" y="29" width="180" height="75" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="97" y="39" class="t" text-anchor="middle" font-weight="bold">Clinical Features</text>
+<!-- Face diagram -->
+<ellipse cx="35" cy="68" rx="22" ry="25" fill="var(--border)" stroke="var(--accent)" stroke-width="1.5" opacity="0.7"/>
+<!-- Epicanthal folds -->
+<path d="M 20 60 Q 28 56 35 60 Q 42 56 50 60" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<!-- Upslanting eyes -->
+<ellipse cx="26" cy="63" rx="5" ry="3" fill="#3498db" opacity="0.8"/>
+<ellipse cx="44" cy="63" rx="5" ry="3" fill="#3498db" opacity="0.8"/>
+<!-- Simian crease -->
+<path d="M 10 80 L 60 80" stroke="var(--accent)" stroke-width="1.5" opacity="0.5"/>
+<text x="35" y="97" class="s" text-anchor="middle">Flat facies</text>
+<text x="65" y="39" class="s">• Hypotonia (neonatal)</text>
+<text x="65" y="48" class="s">• Flat facies + epicanthal folds</text>
+<text x="65" y="57" class="s">• Upslanting palpebral fissures</text>
+<text x="65" y="66" class="s">• Brushfield spots (iris)</text>
+<text x="65" y="75" class="s">• Single palmar crease</text>
+<text x="65" y="84" class="s">• Sandal gap, short neck</text>
+<text x="65" y="93" class="s">• Protruding tongue, small mouth</text>
+<!-- Karyotype representation -->
+<rect x="190" y="29" width="205" height="75" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="292" y="39" class="t" text-anchor="middle" font-weight="bold">Karyotype and Complications</text>
+<!-- Chromosome 21 triad -->
+<rect x="210" y="44" width="6" height="20" fill="var(--accent)" rx="1" opacity="0.8"/>
+<rect x="220" y="44" width="6" height="20" fill="var(--accent)" rx="1" opacity="0.8"/>
+<rect x="230" y="44" width="6" fill="var(--accent)" rx="1" opacity="0.9"/>
+<rect x="230" y="44" width="6" height="20" fill="var(--accent)" rx="1" opacity="0.9"/>
+<text x="225" y="70" class="s" text-anchor="middle">Trisomy 21</text>
+<text x="225" y="78" class="s" text-anchor="middle">(95% nondisjx)</text>
+<text x="250" y="44" class="s">CHD 40–50% (AVSD most common)</text>
+<text x="250" y="53" class="s">Duodenal atresia (double bubble)</text>
+<text x="250" y="62" class="s">Hypothyroidism 10–15%</text>
+<text x="250" y="71" class="s">ALL/AML risk 20× normal</text>
+<text x="250" y="80" class="s">Alzheimer &gt;40 years</text>
+<text x="250" y="89" class="s">Atlanto-axial instability XR</text>
+<!-- Congenital Hypothyroidism -->
+<rect x="5" y="108" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="200" y="115" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">CONGENITAL HYPOTHYROIDISM — Newborn Screening and Treatment</text>
+<rect x="5" y="119" width="190" height="55" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="97" y="129" class="t" text-anchor="middle" font-weight="bold">Untreated Features</text>
+<circle cx="20" cy="140" r="5" fill="#e74c3c" opacity="0.8"/>
+<text x="30" y="143" class="s">Prolonged jaundice (conjugated)</text>
+<circle cx="20" cy="150" r="5" fill="#e74c3c" opacity="0.8"/>
+<text x="30" y="153" class="s">Macroglossia + coarse facies</text>
+<circle cx="20" cy="160" r="5" fill="#e74c3c" opacity="0.8"/>
+<text x="30" y="163" class="s">Hypotonia + constipation</text>
+<text x="8" y="172" class="s">Umbilical hernia | large anterior fontanelle</text>
+<rect x="200" y="119" width="195" height="55" fill="var(--border)" rx="2" opacity="0.3"/>
+<text x="297" y="129" class="t" text-anchor="middle" font-weight="bold">Treatment Timing — Critical Window</text>
+<rect x="205" y="132" width="185" height="9" fill="#27ae60" rx="1" opacity="0.8"/>
+<text x="297" y="139" class="s" text-anchor="middle" fill="white">&lt;3 weeks: L-thyroxine → IQ NORMAL</text>
+<rect x="205" y="142" width="185" height="9" fill="#f39c12" rx="1" opacity="0.8"/>
+<text x="297" y="149" class="s" text-anchor="middle" fill="white">3–6 months: mild intellectual impairment</text>
+<rect x="205" y="152" width="185" height="9" fill="#e74c3c" rx="1" opacity="0.8"/>
+<text x="297" y="159" class="s" text-anchor="middle" fill="white">&gt;6 months: irreversible disability (cretinism)</text>
+<text x="203" y="170" class="s">Dose: L-thyroxine 10–15 mcg/kg/day PO | Monitor TFTs 3-monthly infancy</text>
+<!-- PKU panel -->
+<rect x="5" y="178" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.8"/>
+<text x="200" y="185" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">PKU (Phenylketonuria) AND INBORN ERRORS OF METABOLISM</text>
+<!-- PKU pathway -->
+<rect x="5" y="189" width="390" height="50" fill="var(--border)" rx="2" opacity="0.25"/>
+<rect x="10" y="193" width="60" height="14" fill="var(--border)" rx="2" opacity="0.5"/>
+<text x="40" y="203" class="s" text-anchor="middle">Phe (food)</text>
+<path d="M 72 200 L 85 200 M 83 197 L 87 200 L 83 203" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+<rect x="88" y="193" width="40" height="14" fill="#e74c3c" rx="2" opacity="0.7"/>
+<text x="108" y="203" class="s" text-anchor="middle" fill="white">PAH ✗</text>
+<text x="95" y="192" class="s" fill="#e74c3c" font-size="7px">PKU</text>
+<path d="M 130 200 L 143 200 M 141 197 L 145 200 L 141 203" stroke="#e74c3c" stroke-width="1.5" fill="none"/>
+<rect x="148" y="193" width="60" height="14" fill="#c0392b" rx="2" opacity="0.7"/>
+<text x="178" y="203" class="s" text-anchor="middle" fill="white">Phe ↑↑ toxic</text>
+<path d="M 210 200 L 223 200 M 221 197 L 225 200 L 221 203" stroke="#e74c3c" stroke-width="1.5" fill="none"/>
+<rect x="228" y="188" width="60" height="25" fill="#e74c3c" rx="2" opacity="0.5"/>
+<text x="258" y="198" class="s" text-anchor="middle" fill="white">ID + seizures</text>
+<text x="258" y="207" class="s" text-anchor="middle" fill="white">+ musty urine</text>
+<text x="300" y="198" class="s" font-weight="bold">PKU Tx:</text>
+<text x="300" y="207" class="s">Phe-restricted diet</text>
+<text x="300" y="216" class="s">Tyrosine supplement</text>
+<text x="300" y="225" class="s">BH4 sapropterin (25–50%)</text>
+<!-- IEM table -->
+<rect x="5" y="244" width="390" height="10" fill="var(--accent)" rx="2" opacity="0.7"/>
+<text x="200" y="251" class="s" text-anchor="middle" fill="var(--surface)" font-weight="bold">HYPERAMMONAEMIA EMERGENCY + KEY IEM</text>
+<rect x="5" y="255" width="390" height="40" fill="var(--border)" rx="2" opacity="0.25"/>
+<rect x="5" y="255" width="390" height="8" fill="var(--border)" opacity="0.4"/>
+<text x="60" y="261" class="s" font-weight="bold">Disorder</text>
+<text x="160" y="261" class="s" font-weight="bold">Key finding</text>
+<text x="270" y="261" class="s" font-weight="bold">Emergency Tx</text>
+<text x="60" y="271" class="s">Urea cycle defect (OTC)</text>
+<text x="160" y="271" class="s">NH3 &gt;500 + resp alkalosis</text>
+<text x="270" y="271" class="s">Stop protein, dextrose+insulin</text>
+<text x="60" y="280" class="s">Organic acidaemia (PA/MMA)</text>
+<text x="160" y="280" class="s">NH3 + high anion gap acidosis</text>
+<text x="270" y="280" class="s">Na-benzoate + phenylacetate</text>
+<text x="60" y="289" class="s">Galactosaemia (GALT)</text>
+<text x="160" y="289" class="s">Jaundice + E. coli sepsis</text>
+<text x="270" y="289" class="s">Remove galactose immediately</text>
+<text x="200" y="298" class="s" text-anchor="middle">MSUD: maple syrup odour + encephalopathy | Prenatal: NIPT (sensitivity &gt;99% T21) | CVS 10–12w or amnio 15–18w</text>
 </svg>`
 };

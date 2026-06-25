@@ -4641,6 +4641,612 @@ export const TOPIC_VISUALS = {
         ]
       }
     ]
+  },
+
+  mbbs_paediatrics: {
+    subjectName: 'MBBS Paediatrics',
+    examCode: 'BMDC',
+    sections: ['Neonatology', 'Growth & Development', 'Respiratory', 'Gastroenterology', 'Neurology', 'Haematology & Oncology', 'Congenital & Genetic'],
+    topics: [
+      {
+        "id": "normal-newborn",
+        "name": "Normal Newborn and Neonatal Assessment",
+        "syllabusRef": "Phase IV Paediatrics",
+        "section": "Neonatology",
+        "description": "Apgar score, newborn examination, gestational age assessment — Ballard score, newborn screening",
+        "svgKey": "mbbs-paed-normal-newborn",
+        "landmarks": [
+          "Apgar score: 0–2 each for Appearance, Pulse, Grimace, Activity, Respiration — scored at 1 min and 5 min; ≥7 normal, 4–6 moderate depression, <4 severe",
+          "New Ballard Score (gestational age 20–44 wks): neuromuscular maturity (posture/square window/arm recoil/popliteal angle/scarf sign/heel-to-ear) + physical maturity (skin/lanugo/plantar crease/breast/eye-ear/genitalia) — score −10 to +50",
+          "Normal newborn: weight 2.5–4.0 kg, length 48–52 cm, HC 33–37 cm; physiological weight loss ≤10% in first week, regained by day 10–14",
+          "Bangladesh EPI newborn screening: congenital hypothyroidism (TSH heel prick day 3–5, TSH >20 mU/L = recall), G6PD deficiency, PKU at selected centres",
+          "Primitive reflexes: Moro (disappears 3–4 months), rooting/sucking (3–4 months), palmar grasp (3–4 months), stepping (2 months), tonic neck ATNR (4–6 months)"
+        ],
+        "examQA": [
+          {
+            "q": "A newborn at 1 minute has blue extremities, HR 90 bpm, grimaces to stimulation, some flexion, and irregular respirations. Calculate the Apgar score and describe management.",
+            "a": "Appearance: acrocyanosis = 1. Pulse: HR <100 = 1. Grimace: grimace only = 1. Activity: some flexion = 1. Respiration: irregular = 1. Total = 5/10 — moderate neonatal depression. Management: dry and stimulate, clear airway, supplemental O2; if HR <100 or not improving after stimulation, initiate positive pressure ventilation (PPV) with room air at 40–60 breaths/min. Reassess at 5 min."
+          },
+          {
+            "q": "Describe the New Ballard Score and its clinical utility.",
+            "a": "New Ballard Score assesses gestational age when dates are uncertain. Neuromuscular maturity (6 criteria): posture, square window wrist angle, arm recoil, popliteal angle, scarf sign, heel-to-ear. Physical maturity (6 criteria): skin texture, lanugo, plantar crease, breast tissue, eye/ear, genitalia. Score −10 to +50; each 2 points ≈ 1 week gestation. Valid 12–20 h after birth. Accuracy ±2 weeks. Useful when gestational age uncertain (no antenatal care, unreliable dates)."
+          },
+          {
+            "q": "What are the indications for newborn screening and which conditions are screened for in Bangladesh?",
+            "a": "Criteria for screening: treatable condition, detectable before symptoms, early treatment prevents harm. Bangladesh EPI newborn screening: (1) Congenital hypothyroidism — TSH heel prick day 3–5; TSH >20 mU/L = confirmatory serum TSH + free T4; prevalence ~1 in 4,000 in Bangladesh. (2) G6PD deficiency — important in malaria-endemic areas; prevents haemolytic crisis from antimalarials. (3) PKU at selected tertiary centres (MS/MS). Developed-country expanded panels: >50 conditions via tandem MS/MS."
+          },
+          {
+            "q": "A 10-day-old baby has not regained birth weight (birth weight 3.2 kg, current 2.85 kg = 11% loss). What is the concern and management?",
+            "a": "Physiological weight loss is ≤10% of birth weight, regained by day 10–14. This baby has >10% loss at day 10 — abnormal. Assess: feeding frequency (minimum 8× per 24 h), latch quality, breast milk supply, signs of dehydration (sunken fontanelle, dry mucosa, decreased urine output <3–4 wet nappies per day). Check for pathology (infection, metabolic, cardiac). Weigh before and after a breastfeed to quantify milk transfer. Consider formula supplementation (20–30 mL/feed) and lactation support. Review in 2–3 days."
+          }
+        ]
+      },
+      {
+        "id": "neonatal-jaundice",
+        "name": "Neonatal Jaundice",
+        "syllabusRef": "Phase IV Paediatrics",
+        "section": "Neonatology",
+        "description": "Physiological vs pathological, bilirubin metabolism, phototherapy thresholds, exchange transfusion, kernicterus",
+        "svgKey": "mbbs-paed-neonatal-jaundice",
+        "landmarks": [
+          "Physiological jaundice: appears day 2–3, peaks day 3–5, resolves day 7 (term) / day 14 (preterm); TSB <12 mg/dL in term — usually safe. Pathological: day 1 jaundice, TSB >17 mg/dL, direct >2 mg/dL, rising >5 mg/dL/day",
+          "Bilirubin metabolism: haem → biliverdin (haem oxygenase) → unconjugated bilirubin → albumin-bound → liver UDP-glucuronyl transferase → conjugated bilirubin → bile → urobilinogen; neonates: immature conjugation + increased haemolysis + enterohepatic recirculation",
+          "Phototherapy threshold (AAP): based on gestation + postnatal age — term 40+ weeks: start phototherapy at TSB ≥17 mg/dL at 48–72 h; exchange transfusion threshold: term ≥25 mg/dL or ≥20 mg/dL preterm",
+          "Kernicterus: unconjugated bilirubin crosses BBB, deposits in basal ganglia (globus pallidus); BIND — Phase 1 lethargy/hypotonia, Phase 2 opisthotonus/high-pitched cry/sunset sign; chronic: athetoid CP + SNHL + upward gaze palsy",
+          "Causes by day: Day 1 — haemolytic (Rh/ABO incompatibility, G6PD, spherocytosis); Day 2–3 — physiological; >2 weeks — breastmilk jaundice, hypothyroidism, biliary atresia (conjugated — pale stools, dark urine)"
+        ],
+        "examQA": [
+          {
+            "q": "A 36-hour-old term neonate has jaundice with TSB 16 mg/dL. Mother is O+, baby is A−, DAT positive. What is the diagnosis and management?",
+            "a": "ABO incompatibility — maternal anti-A IgG crosses placenta, haemolyses A-group fetal red cells. DAT positive confirms immune haemolysis. TSB 16 mg/dL at 36 h in term infant (≥38 weeks) is at/above phototherapy threshold — start intensive phototherapy immediately (double surface). Recheck TSB in 4–6 h. If rising toward exchange threshold (20–25 mg/dL at 36–48 h), prepare cross-matched blood (O negative or ABO/Rh compatible). IV immunoglobulin 0.5–1 g/kg can reduce exchange transfusion need in isoimmune haemolysis."
+          },
+          {
+            "q": "Explain why neonates are predisposed to hyperbilirubinaemia.",
+            "a": "Multiple converging factors: (1) High Hb at birth (16–18 g/dL) → rapid RBC turnover → increased bilirubin load. (2) Fetal RBC lifespan shorter (70 days vs 120 days in adults). (3) Immature hepatic UDP-glucuronyl transferase — reduced conjugation capacity. (4) Increased enterohepatic circulation — β-glucuronidase in gut deconjugates bilirubin back to unconjugated form. (5) Reduced gut motility slows excretion. (6) Lower albumin binding capacity. Preterm infants have all these deficiencies more severely — lower phototherapy and exchange thresholds."
+          },
+          {
+            "q": "What is kernicterus and what are its clinical phases?",
+            "a": "Kernicterus: unconjugated bilirubin (lipid-soluble) crosses the blood-brain barrier and deposits in basal ganglia, hippocampus, and cranial nerve nuclei. Acute bilirubin encephalopathy (BIND): Phase 1 — lethargy, poor feeding, hypotonia. Phase 2 — hypertonia, retrocollis-opisthotonus, high-pitched cry, sunset sign, fever. Phase 3 — hypertonia subsides (misleadingly). Chronic kernicterus: athetoid cerebral palsy, SNHL (auditory neuropathy), upward gaze palsy (Parinaud syndrome), dental enamel dysplasia. Prevention: timely phototherapy and exchange transfusion."
+          },
+          {
+            "q": "A 3-week-old breastfed infant remains jaundiced with TSB 8 mg/dL (unconjugated). Direct bilirubin is 0.4 mg/dL. Baby is thriving with normal stool and urine colour. What is the diagnosis?",
+            "a": "Breastmilk jaundice — unconjugated hyperbilirubinaemia persisting beyond 2 weeks in breastfed infants. Mechanism: β-glucuronidase in breast milk increases enterohepatic circulation; pregnanediol may inhibit glucuronyl transferase. Management: continue breastfeeding (do NOT stop). Resolves by 6–12 weeks. Must exclude pathological causes: TFTs (hypothyroidism), urinalysis (UTI), fractionated bilirubin — any conjugated jaundice (direct >2 mg/dL or >20% of TSB) at any age requires urgent investigation for biliary atresia."
+          }
+        ]
+      },
+      {
+        "id": "prematurity-lbw",
+        "name": "Prematurity and Low Birth Weight",
+        "syllabusRef": "Phase IV Paediatrics",
+        "section": "Neonatology",
+        "description": "Definitions, complications (RDS/IVH/NEC/ROP), surfactant therapy, kangaroo care",
+        "svgKey": "mbbs-paed-prematurity-lbw",
+        "landmarks": [
+          "Preterm <37 weeks; very preterm <32 weeks; extremely preterm <28 weeks. LBW <2500 g; VLBW <1500 g; ELBW <1000 g. SGA: birth weight <10th centile for gestational age",
+          "RDS (hyaline membrane disease): DPPC surfactant deficiency in <32 weeks → alveolar collapse → CXR: bilateral ground glass + air bronchograms + low lung volumes; prevent with antenatal betamethasone 12 mg IM × 2 doses (24 h apart); treat with exogenous surfactant (poractant alfa) via ETT + CPAP or ventilation",
+          "IVH (intraventricular haemorrhage): germinal matrix bleed in preterm; Papile Grade I (GM only) → II (IVH no dilatation) → III (IVH + ventricular dilatation) → IV (parenchymal haemorrhagic infarction); Grade III–IV risk: hydrocephalus, neurodevelopmental disability",
+          "NEC (necrotising enterocolitis): preterm gut ischaemia + bacteria; Bell staging: I (suspect) → II (confirmed — pneumatosis intestinalis on AXR, portal venous gas) → III (perforation + septic shock); NPO + antibiotics + TPN; surgery if perforation; mortality Stage III 30–50%",
+          "ROP: fibrovascular proliferation in immature retina; screen <32 weeks or <1500 g at 4–6 weeks postnatal; threshold stage 3 + plus disease → laser photocoagulation or anti-VEGF (bevacizumab) for Zone I/II posterior ROP"
+        ],
+        "examQA": [
+          {
+            "q": "A 28-week preterm neonate develops grunting, retractions, and cyanosis within 4 hours of birth. CXR shows bilateral ground glass opacity with air bronchograms. What is the diagnosis and management?",
+            "a": "Respiratory distress syndrome (RDS / hyaline membrane disease) — surfactant deficiency. Management: (1) Respiratory support: CPAP 5–8 cmH2O (INSURE method preferred); (2) Exogenous surfactant: poractant alfa 200 mg/kg endotracheally within 2 hours of birth; (3) FiO2 titrated to maintain SpO2 91–95%; (4) Temperature regulation, IV glucose-containing fluids; (5) Monitor blood gases. Prevention: antenatal betamethasone 12 mg IM × 2 doses (24 h apart, <34 weeks)."
+          },
+          {
+            "q": "Explain Papile grading of IVH and neurodevelopmental consequences.",
+            "a": "Papile grading on cranial USS: Grade I — germinal matrix haemorrhage only; Grade II — IVH without ventricular dilatation; Grade III — IVH with ventricular dilatation; Grade IV — periventricular haemorrhagic infarction. Grade I–II: generally good prognosis (95% normal). Grade III: 30–40% neurodevelopmental disability; post-haemorrhagic hydrocephalus in 50%. Grade IV: 80–90% severe disability (spastic hemiplegia, cognitive impairment). Screen with cranial USS at 3 days, 7 days, then weekly until resolved."
+          },
+          {
+            "q": "What is NEC and how is it diagnosed?",
+            "a": "Necrotising enterocolitis: ischaemic-inflammatory necrosis of bowel in preterm infants. Bell staging: Stage I — suspect (temperature instability, apnoea, abdominal distension). Stage IIa — confirmed: pneumatosis intestinalis (intramural gas on AXR — pathognomonic); Stage IIb — portal venous gas, metabolic acidosis. Stage IIIa — intestinal necrosis; Stage IIIb — bowel perforation. Management Stage I–II: NPO, nasogastric decompression, IV ampicillin + gentamicin + metronidazole × 7–10 days, TPN. Stage III: peritoneal drain or exploratory laparotomy."
+          },
+          {
+            "q": "What is kangaroo mother care (KMC) and what is the evidence for its use?",
+            "a": "KMC: continuous skin-to-skin contact between LBW/preterm infant and caregiver positioned upright on chest between breasts. WHO recommends for all stable infants <2000 g. Evidence: Cochrane review — reduces all-cause mortality (RR 0.60), hypothermia, hypoglycaemia, nosocomial infections, NEC, and BPD; improves breastfeeding rates and maternal bonding. Dhaka studies: KMC reduces NICU stay by 3–5 days and healthcare costs significantly in LMIC settings. Safe to start at 1000 g if haemodynamically stable."
+          }
+        ]
+      },
+      {
+        "id": "neonatal-infections",
+        "name": "Neonatal Infections",
+        "syllabusRef": "Phase IV Paediatrics",
+        "section": "Neonatology",
+        "description": "Neonatal sepsis (early/late onset), organisms, GBS, TORCH infections (clinical features)",
+        "svgKey": "mbbs-paed-neonatal-infections",
+        "landmarks": [
+          "Early-onset sepsis (EOS <72 h): GBS (Streptococcus agalactiae) most common developed countries; E. coli, Listeria; vertical transmission; risk factors: PPROM, maternal GBS colonisation, prematurity, maternal fever intrapartum, chorioamnionitis",
+          "Late-onset sepsis (LOS >72 h): CoNS (Staphylococcus epidermidis) most common in NICU; S. aureus, Gram-negatives (Klebsiella, E. coli, Pseudomonas); nosocomial/catheter-related; Candida in ELBW on prolonged antibiotics",
+          "TORCH: Toxoplasma (hydrocephalus/diffuse intracranial calcifications/chorioretinitis); Others (syphilis/VZV); Rubella (cataracts/PDA/SNHL/microcephaly); CMV (most common congenital infection — periventricular calcification/SNHL); HSV (vesicular rash/meningitis — aciclovir IV 14–21 days)",
+          "Investigations: FBC (neutropenia/neutrophilia, left shift, toxic granules), CRP >10 mg/L, blood culture (gold standard — minimum 1 mL), LP if clinically indicated and stable, CXR, blood glucose",
+          "Treatment EOS: ampicillin 200 mg/kg/day + gentamicin 5 mg/kg/24 h IV × 7–10 days. LOS NICU: vancomycin + piperacillin-tazobactam ± antifungal if Candida risk"
+        ],
+        "examQA": [
+          {
+            "q": "A 12-hour-old neonate born to a GBS-positive mother with PPROM >18 hours develops temperature instability, poor feeding, and grunting. Describe immediate management.",
+            "a": "Early-onset GBS sepsis. Immediate: (1) Bloods: FBC, CRP, blood culture (before antibiotics), glucose. (2) Antibiotics immediately: ampicillin 200 mg/kg/day IV (covers GBS + Listeria) + gentamicin 5 mg/kg/24 h (covers Gram-negatives, synergistic vs GBS). (3) LP if stable (CSF culture/microscopy for meningitis). (4) Supportive: IV fluids, glucose monitoring, respiratory support. Duration: uncomplicated sepsis 7–10 days; meningitis 14–21 days. Prevention: IAP (intrapartum antibiotic prophylaxis) — penicillin G to GBS-positive mother ≥4 h before delivery."
+          },
+          {
+            "q": "Describe the features of congenital CMV infection.",
+            "a": "CMV is the most common congenital infection (0.5–1% of live births). Asymptomatic at birth: 90% — but 10–15% develop SNHL later. Symptomatic (10%): hepatosplenomegaly, jaundice, petechiae/thrombocytopaenia (blueberry muffin rash), microcephaly, periventricular calcifications (pathognomonic — unlike diffuse toxoplasma), chorioretinitis. Diagnosis: CMV DNA PCR in urine within 3 weeks of birth. Treatment: valganciclovir 16 mg/kg PO twice daily × 6 months in symptomatic infants with CNS involvement — reduces SNHL progression."
+          },
+          {
+            "q": "Describe the TORCH infections and their characteristic distinguishing features.",
+            "a": "T — Toxoplasma gondii: diffuse intracranial calcifications, hydrocephalus, chorioretinitis; treat pyrimethamine + sulphadiazine + folinic acid 1 year. O — Others: Syphilis (periostitis, snuffles, maculopapular rash, pseudoparalysis, VDRL positive); VZV (skin scars, limb hypoplasia). R — Rubella: cataract + cardiac (PDA, PA stenosis) + SNHL + microcephaly; blueberry muffin rash. C — CMV: periventricular calcifications, microcephaly, SNHL; most common congenital infection. H — HSV-2: vesicular skin/eye/mouth rash, encephalitis; treat aciclovir IV 20 mg/kg TDS 21 days."
+          },
+          {
+            "q": "A 3-day-old VLBW neonate on TPN via central line develops temperature spikes; blood cultures grow coagulase-negative Staphylococcus. What is the significance and management?",
+            "a": "Late-onset sepsis with CoNS (S. epidermidis) — most common NICU LOS cause with CVCs and TPN. Low virulence but significant morbidity in VLBW. Treatment: vancomycin 15 mg/kg q8–12 h IV (covers MRSE); monitor trough levels 10–15 mg/L. Remove or exchange CVC if persistent bacteraemia after 48–72 h. Duration: 7–10 days blood culture clearance-guided. Fluconazole prophylaxis (3 mg/kg alternate days) reduces Candida LOS in ELBW infants."
+          }
+        ]
+      },
+      {
+        "id": "neonatal-respiratory",
+        "name": "Neonatal Respiratory Distress",
+        "syllabusRef": "Phase IV Paediatrics",
+        "section": "Neonatology",
+        "description": "RDS (surfactant deficiency/CXR/management); TTN; meconium aspiration; congenital diaphragmatic hernia",
+        "svgKey": "mbbs-paed-neonatal-respiratory",
+        "threejs3dFn": "createDiffusionAnimation",
+        "landmarks": [
+          "Silverman-Anderson score (0–10): upper chest lag, lower chest retraction, xiphoid retraction, nasal flaring, expiratory grunting — 0 = no distress; ≥5 = severe. Grunting = active glottal braking to maintain FRC (auto-PEEP)",
+          "RDS: DPPC surfactant deficiency <32 weeks; CXR: bilateral granular ground glass + air bronchograms + low lung volumes; treatment: CPAP + exogenous surfactant + antenatal steroids prevention",
+          "TTN (Transient Tachypnoea of Newborn): delayed fetal lung fluid resorption; term/late-preterm, elective CS, male; CXR: perihilar streaking + fluid in horizontal fissure + mild hyperinflation; resolves 24–48 h — O2 only, self-limiting",
+          "MAS (Meconium Aspiration Syndrome): term/post-term, meconium-stained liquor; ball-valve obstruction → air trapping + chemical pneumonitis; CXR: coarse irregular bilateral opacities + hyperinflation; PPHN complication → iNO ± ECMO",
+          "CDH (Bochdalek — left 80%): bowel in left chest → pulmonary hypoplasia + PPHN; CXR: bowel loops in left chest + mediastinal shift + scaphoid abdomen; management: intubate (no mask ventilation), OGT, permissive hypercapnia, iNO, delayed surgery"
+        ],
+        "examQA": [
+          {
+            "q": "Differentiate RDS from TTN in a newborn with respiratory distress.",
+            "a": "RDS: Gestational age <34 weeks. Onset within 4 h of birth. Worsens over 48–72 h then improves with surfactant. CXR: bilateral ground glass opacity + air bronchograms + small low-volume lungs. Treatment: surfactant + CPAP/ventilation. TTN: Term or late-preterm (especially elective CS). Onset within 2–3 h. Improves within 24–48 h without surfactant. CXR: perihilar streaking, fluid in horizontal fissure, mild hyperinflation. Treatment: supplemental O2 only. Key differentiator: prematurity → RDS; term + CS + hyperinflated CXR → TTN."
+          },
+          {
+            "q": "A term baby born through thick meconium has severe respiratory distress. CXR shows coarse bilateral opacities with hyperinflation. Describe MAS management.",
+            "a": "Meconium aspiration syndrome (MAS). ILCOR 2015: routine intubation and tracheal suction no longer recommended even for non-vigorous infants — provide warmth, dry, stimulate; ventilate if HR <100. Management: (1) O2 to maintain SpO2 91–95%. (2) CPAP or ventilation if needed; avoid high peak pressures (air trapping risk). (3) Surfactant (dilute lavage) if severe MAS — reduces ventilation requirements. (4) Inhaled nitric oxide (iNO) 20 ppm for PPHN. (5) ECMO for refractory PPHN in tertiary centre. Antibiotics empirically (aspiration pneumonia risk)."
+          },
+          {
+            "q": "A newborn has respiratory distress, absent breath sounds left side, and a scaphoid abdomen. CXR shows bowel in left chest. Diagnose and describe priority management.",
+            "a": "Left Bochdalek congenital diaphragmatic hernia (CDH). Bowel herniated into left chest — pulmonary hypoplasia + PPHN. Management (stabilisation first, surgery deferred): (1) Immediate intubation — NEVER mask ventilate (distends gut, worsens compression). (2) Insert 10F OGT to decompress stomach. (3) Permissive hypercapnia (target pH >7.20, PaCO2 50–65 mmHg — high pressures cause pneumothorax in hypoplastic lungs). (4) iNO 20 ppm for PPHN. (5) Target preductal SpO2 >90%. (6) Stabilise 48–72 h before surgery. Mortality depends on degree of pulmonary hypoplasia."
+          },
+          {
+            "q": "What is the Silverman-Anderson score and what score indicates severe respiratory distress?",
+            "a": "Silverman-Anderson score quantifies neonatal respiratory distress. Five components (each 0–2): (1) Upper chest movement lag; (2) Lower chest retraction (intercostal recession); (3) Xiphoid retraction; (4) Nasal flaring; (5) Expiratory grunting (0=none; 1=stethoscope only; 2=audible without stethoscope). Score: 0 = no distress; 1–3 = mild; 4–6 = moderate; 7–10 = severe. Score ≥5 = urgent intervention needed (CPAP/intubation). Grunting is sign of active glottal braking (auto-PEEP to maintain FRC) — indicates significant distress."
+          }
+        ]
+      },
+      {
+        "id": "growth-development",
+        "name": "Normal Growth and Developmental Milestones",
+        "syllabusRef": "Phase IV Paediatrics",
+        "section": "Growth & Development",
+        "description": "Gross motor/fine motor/language/social milestones, growth charts, failure to thrive",
+        "svgKey": "mbbs-paed-growth-development",
+        "landmarks": [
+          "Key gross motor milestones: head control 3 months; rolls 5 months; sits unsupported 6 months; pulls to stand 9 months; walks unsupported 12 months (±3 months); runs 18 months. Red flags: not sitting by 9 months, not walking by 18 months",
+          "Fine motor: 3 months — hands unfisted; 6 months — palmar grasp; 9 months — inferior pincer; 12 months — superior pincer; 18 months — scribbles; 2 years — tower of 6 bricks + circular scribble; 3 years — copies circle; 4 years — copies cross",
+          "Language: 6 weeks — social smile; 3 months — coos; 6 months — babbles; 12 months — 1–2 meaningful words; 18 months — 6–20 words; 2 years — 2-word sentences; 3 years — 3-word sentences. Red flag: no words by 12 months, no 2-word phrases by 24 months",
+          "Growth velocity: 25 cm/year (Year 1), 12 cm/year (Year 2), 8 cm/year (age 2–5). MPH boys = (father + mother + 13)/2; girls = (father + mother − 13)/2. Bangladesh under-5 stunting 36% (BDHS 2019)",
+          "Failure to thrive (FTT): weight <3rd centile or fall across ≥2 major centile lines. Organic: malabsorption/cardiac/renal/endocrine. Non-organic (most common Bangladesh): poverty, inadequate feeding, psychosocial deprivation"
+        ],
+        "examQA": [
+          {
+            "q": "A 15-month-old child cannot walk independently and has only 2 words. Are these within normal limits?",
+            "a": "Walking: normal range 9–18 months. At 15 months, not yet walking is within normal limits BUT needs active follow-up and must walk by 18 months — if not, refer for physiotherapy and neurological assessment. Language: by 12 months = 1–2 words; by 18 months = 6–20 words. Having 2 words at 15 months is below the 18-month target — borderline, needs monitoring. Red flags: no single words by 12 months, no pointing by 12 months, any regression of skills at any age. Refer to speech therapist if no 6 words by 18 months."
+          },
+          {
+            "q": "What are the developmental red flag signs requiring immediate referral?",
+            "a": "Absolute red flags (immediate referral): (1) Not fixing and following by 8 weeks. (2) Not smiling socially by 8 weeks. (3) No reaching by 5 months. (4) Not sitting independently by 9 months. (5) Not walking by 18 months. (6) No words by 12 months. (7) No 2-word phrases by 24 months. (8) Any regression/loss of previously acquired skills — possible neurodegenerative disorder. (9) No response to name by 12 months + no pointing by 14 months — autism spectrum screening. Global developmental delay: delay in ≥2 domains — investigate for cerebral palsy, intellectual disability, metabolic disorder, genetic syndrome."
+          },
+          {
+            "q": "Describe growth chart assessment for a 2-year-old child.",
+            "a": "Plot weight, length, and head circumference on WHO or Bangladesh national growth charts. Assess: (1) Current centile — normal 3rd–97th centile. (2) Centile trajectory — crossing centiles by ≥2 major lines = significant concern. (3) Proportionality: weight vs height centile — weight below height centile = wasting (acute malnutrition); height below expected = stunting (chronic malnutrition). (4) Compare to mid-parental height: boys (father + mother + 13)/2 ± 10 cm. Head circumference for brain growth. BMI from age 2 onwards for obesity screening."
+          },
+          {
+            "q": "A 3-year-old has weight on 2nd centile, height 10th centile, normal head circumference. Family in poverty. What is the diagnosis and management?",
+            "a": "Non-organic failure to thrive (FTT) — nutritional/psychosocial. Low weight disproportionate to height suggests nutritional rather than constitutional cause. Normal HC argues against chronic CNS pathology. Investigations: FBC, TFTs, urinalysis, coeliac antibodies (IgA anti-TTG), stool microscopy. Management: high-calorie diet plan (dietitian — 120–150 kcal/kg/day), address poverty and food insecurity (social services), community health worker support. Monthly weight review. Refer if no improvement after 3 months."
+          }
+        ]
+      },
+      {
+        "id": "malnutrition",
+        "name": "Malnutrition",
+        "syllabusRef": "Phase IV Paediatrics",
+        "section": "Growth & Development",
+        "description": "PEM — marasmus vs kwashiorkor, MUAC, Gomez/Waterlow classification, therapeutic feeding (F75/F100)",
+        "svgKey": "mbbs-paed-malnutrition",
+        "landmarks": [
+          "Marasmus: energy + protein deficiency; severe wasting, weight <60% median, no oedema, old man facies, skin loose/wrinkled, increased appetite, alert; serum albumin near-normal. Kwashiorkor: protein deficiency (relative); bilateral pitting oedema (hallmark), pot belly, flaky-paint dermatosis, depigmented hair (flag sign), miserable/anorexic; albumin <3 g/dL",
+          "MUAC: <115 mm = SAM (red); 115–124 mm = MAM (yellow); ≥125 mm = normal (green). Independent of age 6–59 months. Used in CMAM. Bangladesh CMAM: icddr,b/DGHS protocol",
+          "Gomez (weight-for-age % of median): Grade I 75–90% mild; Grade II 60–74% moderate; Grade III <60% severe. Waterlow: height-for-age (stunting) + weight-for-height (wasting). WHO: SAM = weight-for-height < −3 SD",
+          "WHO 10-step SAM: hypoglycaemia, hypothermia, dehydration (ReSoMal not standard ORS), electrolytes, infections (amoxicillin + cotrimoxazole), micronutrients, F75 starter, F100 rebuilding, sensory stimulation, follow-up. No iron until Day 8 (refeeding syndrome risk)",
+          "F75: 75 kcal/100 mL, protein 0.9 g/100 mL — stabilisation Days 1–7. F100: 100 kcal/100 mL, protein 2.9 g/100 mL — rehabilitation. RUTF (Plumpy Nut): 500 kcal/sachet — CMAM outpatient"
+        ],
+        "examQA": [
+          {
+            "q": "Differentiate marasmus from kwashiorkor clinically and biochemically.",
+            "a": "Marasmus: severe energy + protein deficit. Wasting of muscle and fat, weight <60% median, no oedema, prominent bones, wrinkled skin, old man facies, sunken eyes, alert, hungry, irritable. Serum albumin: near normal (prolonged adaptation). Kwashiorkor: relative protein deficit. Bilateral pitting oedema (hallmark), weight near-normal (masked by oedema), pot belly, flag sign hair, flaky paint dermatosis, apathetic/miserable, anorexic. Serum albumin <3 g/dL. Marasmic-kwashiorkor: wasted + oedematous (mixed)."
+          },
+          {
+            "q": "A 2-year-old weighs 6 kg (median 12 kg), has bilateral ankle oedema, flaky skin, and depigmented hair. What is the priority management?",
+            "a": "Kwashiorkor with SAM (Gomez Grade III — weight 50% of median). WHO 10-step priorities: (1) Hypoglycaemia: give F75 immediately every 2 h; IV glucose only if unconscious. (2) Hypothermia: warm room, KMC. (3) Dehydration: ReSoMal at 5 mL/kg every 30 min × 2 h — NOT standard ORS (hypernatraemia risk). (4) Empirical antibiotics: amoxicillin + cotrimoxazole. (5) F75 feed 100 mL/kg/day ÷ 12 feeds. Oedema resolves 1–2 weeks. Transition to F100 when oedema resolved and appetite returns."
+          },
+          {
+            "q": "Explain why iron supplementation is withheld in early SAM management.",
+            "a": "Iron withheld during stabilisation phase (Days 1–7) for two reasons: (1) Refeeding syndrome risk: malnourished cells depleted of intracellular phosphate, potassium, and magnesium. Rapid refeeding shifts these electrolytes intracellularly → hypophosphataemia, hypokalaemia, hypomagnesaemia → cardiac arrhythmias and death. (2) Infection risk: iron fuels bacterial and fungal growth in malnourished children with impaired immunity. Iron starts from Day 8 (F100 rehabilitation phase) when metabolically stabilised."
+          },
+          {
+            "q": "What is MUAC and how is it used in community-based malnutrition screening?",
+            "a": "Mid-upper arm circumference: measured at midpoint of left upper arm (acromion to olecranon) with non-stretchable tape in children 6–59 months. Cut-offs: <115 mm = SAM (red — admit to stabilisation centre); 115–124 mm = MAM (yellow — CMAM outpatient supplementary feeding); ≥125 mm = normal (green). Advantages: quick — no weighing scale; predicts mortality better than W/H in community settings; can be used by community health workers. Bangladesh CMAM: CHW screens monthly; SAM treated with RUTF (Plumpy Nut 92 g sachet daily) in outpatient therapeutic programme."
+          }
+        ]
+      },
+      {
+        "id": "immunisation",
+        "name": "Immunisation",
+        "syllabusRef": "Phase IV Paediatrics",
+        "section": "Growth & Development",
+        "description": "EPI schedule Bangladesh, vaccine types, cold chain, AEFI (anaphylaxis management), catch-up schedules",
+        "svgKey": "mbbs-paed-immunisation",
+        "landmarks": [
+          "Bangladesh EPI schedule 2023: Birth — BCG + OPV0 + HepB birth dose; 6 weeks — Pentavalent-1 (DPT+HiB+HepB) + OPV1 + PCV-1 + IPV-1; 10 weeks — Penta-2 + OPV2 + PCV-2; 14 weeks — Penta-3 + OPV3 + IPV-2; 9–11 months — MR-1; 15–18 months — MR-2 booster",
+          "Live attenuated vaccines: OPV, BCG, MR/MMR, varicella, rotavirus, yellow fever — contraindicated immunocompromised. Inactivated: IPV, HepA, typhoid Vi. Toxoid: DT. Subunit/conjugate: HepB, HiB, PCV. Recombinant: HPV",
+          "Cold chain: vaccines maintained 2–8°C (BCG/OPV −15 to −25°C central stores). VVM: discard if inner square ≥ outer ring colour. Freeze-sensitive adsorbed vaccines (DTP, HepB, IPV, Penta): detect freeze damage with shake test — aggregate settling = freeze-damaged, discard",
+          "AEFI anaphylaxis (onset <30 min): urticaria + hypotension/bronchospasm. Treatment: adrenaline 1:1000, 0.01 mg/kg IM anterolateral mid-thigh; repeat every 5–15 min; O2; IV NS 20 mL/kg; chlorphenamine + hydrocortisone (secondary). Keep 30 min observation post-vaccination",
+          "Contraindications: anaphylaxis to prior dose = absolute. Immunocompromised: live vaccines contraindicated. Moderate/severe acute illness: defer. Mild illness/low-grade fever: NOT a contraindication. Egg allergy: MMR safe; influenza/yellow fever — specialist assessment"
+        ],
+        "examQA": [
+          {
+            "q": "A child received BCG 2 weeks ago and now has a painless ulcer 8 mm at the injection site with a small palpable axillary node. What is the assessment?",
+            "a": "Normal BCG reaction. Expected course: (1) Red papule 2–4 weeks; (2) Pustule/ulceration 4–8 weeks (4–8 mm); (3) Heals with small scar 2–3 months. Regional lymphadenopathy: axillary node <10 mm = normal. No treatment needed — reassure parents. BCG lymphadenitis (abnormal): node >10 mm, fluctuant. If suppurative: do NOT incise. Treat with isoniazid 10 mg/kg/day × 3 months or aspirate if pointing. BCG osteitis/disseminated BCG: very rare, suggests immunodeficiency (HIV, SCID) — investigate."
+          },
+          {
+            "q": "A never-vaccinated 4-year-old attends clinic. What catch-up schedule do you recommend?",
+            "a": "WHO catch-up for never-vaccinated >12 months: Visit 1: BCG + DTP-1 + OPV-1 + HepB-1 + MMR-1 + PCV-1 (if <5 years). Visit 2 (4–8 weeks): DTP-2 + OPV-2 + HepB-2 + PCV-2. Visit 3 (4–8 weeks): DTP-3 + OPV-3 + HepB-3. Booster DTP at 4–6 years. Minimum intervals: DTP ≥4 weeks between doses; HepB ≥4 weeks between doses 1–2, ≥8 weeks between 2–3. In Bangladesh: follow DGHS catch-up schedule. Give immediately regardless of prior illness history."
+          },
+          {
+            "q": "A 9-month-old receives MR vaccine and 20 minutes later develops urticaria, stridor, and BP 60 mmHg systolic. Describe management.",
+            "a": "Post-vaccination anaphylaxis (~1–2 per million doses). Immediate: (1) Call for help; lay flat + legs elevated (or sit up if respiratory distress). (2) Adrenaline 1:1000, 0.01 mL/kg IM anterolateral mid-thigh; repeat every 5–15 min if no improvement (up to 3 doses). (3) O2 high-flow 10–15 L/min. (4) IV access — 20 mL/kg 0.9% NaCl for hypotension. (5) Chlorphenamine IM + hydrocortisone IV (secondary — not first-line). (6) Transfer to hospital. This vaccine is contraindicated for all future doses. Document and report as AEFI to national committee."
+          },
+          {
+            "q": "Explain the principles of the cold chain in EPI and the consequences of cold chain failure.",
+            "a": "Cold chain: uninterrupted refrigerated storage from manufacturer to point of administration. Requirements: central stores −20°C (OPV) or 2–8°C; district level 2–8°C; sub-district/field cold boxes with ice packs. VVM: when inner square ≥ outer ring, vaccine heat-damaged — discard. Freeze damage detection (DTP/HepB/IPV/Penta): shake test — freeze-damaged vials aggregate and do not disperse. Consequences of failure: (1) Vaccine-preventable outbreaks (measles, polio); (2) Vaccine wastage; (3) AEFI from damaged vaccines; (4) Loss of public confidence. Report failures, document wastage."
+          }
+        ]
+      },
+      {
+        "id": "respiratory-infections",
+        "name": "Acute Respiratory Infections",
+        "syllabusRef": "Phase IV Paediatrics",
+        "section": "Respiratory",
+        "description": "IMCI classification, pneumonia (WHO severity criteria/antibiotics), bronchiolitis (RSV/management), croup vs epiglottitis",
+        "svgKey": "mbbs-paed-respiratory-infections",
+        "landmarks": [
+          "IMCI classification: fast breathing only (RR ≥60 <2 months; ≥50 in 2–12 months; ≥40 in 1–5 years) = pneumonia — outpatient amoxicillin. Lower chest wall indrawing = severe pneumonia — refer + parenteral. Danger signs = very severe — urgent referral",
+          "Pneumonia management: non-severe — amoxicillin 40–45 mg/kg/day PO × 3–5 days. Severe hospital — IV ampicillin 50 mg/kg q6h + gentamicin 7.5 mg/kg/day (icddr,b Bangladesh protocol)",
+          "Bronchiolitis: RSV, age <2 years, peak 3–6 months, winter; wheeze + hyperinflation; CXR: hyperinflation + patchy atelectasis; treatment: O2 (SpO2 ≥92%) + NG feeds; bronchodilators and steroids NOT recommended (Cochrane 2014)",
+          "Croup (LTB): parainfluenza 1/2/3; 6 months–3 years; barking cough + inspiratory stridor; steeple sign on AP neck X-ray; treatment: dexamethasone 0.6 mg/kg PO/IM + nebulised adrenaline 1:1000 5 mL if moderate-severe",
+          "Epiglottitis: H. influenzae b / S. pyogenes post-Hib era; sudden fever >39°C, drooling, tripod, muffled voice; thumbprint sign lateral neck X-ray; DO NOT examine throat; secure airway in theatre + IV ceftriaxone 100 mg/kg/day"
+        ],
+        "examQA": [
+          {
+            "q": "Using IMCI criteria, classify a 14-month-old with cough, RR 44/min, lower chest indrawing, temperature 38.5°C, and describe management.",
+            "a": "Severe pneumonia (lower chest wall indrawing in 1–5 year age group = severe, regardless of fast breathing). IMCI management: (1) Refer to hospital. (2) Give first dose parenteral antibiotic before referral: IM benzylpenicillin 50 mg/kg or IM ampicillin 50 mg/kg. (3) Treat fever with paracetamol 15 mg/kg. (4) Hospital: IV ampicillin 50 mg/kg q6h + gentamicin 7.5 mg/kg/day; CXR; blood culture; supplemental O2 (SpO2 <90%); NG feeds. Bangladesh: icddr,b RCT evidence supports ampicillin + gentamicin for hospitalised severe pneumonia."
+          },
+          {
+            "q": "A 5-month-old in January with wheeze, subcostal recession, RR 58/min, temperature 37.5°C, and poor feeding. Diagnose and manage.",
+            "a": "Bronchiolitis — RSV most likely (winter, age <6 months, first episode wheeze). Admission indications: SpO2 <92%, poor feeding <75% normal, RR >60, apnoea. Management: (1) O2 via nasal cannula to maintain SpO2 ≥92%. (2) Nasogastric feeds if inadequate oral intake. (3) Monitor: RR, SpO2, apnoea. Do NOT give: bronchodilators (salbutamol/epinephrine — Cochrane: no benefit), corticosteroids, antibiotics routinely. Hypertonic saline (3%): modest benefit (−0.5 day LOS). Self-limiting 7–14 days."
+          },
+          {
+            "q": "Distinguish croup from epiglottitis.",
+            "a": "Croup: Age 6 months–3 years. Parainfluenza virus. Gradual onset. Barking cough, hoarse voice, inspiratory stridor, low-grade fever. Not toxic. Normal posture. Steeple sign AP X-ray. Safe to examine throat. Treat: dexamethasone 0.6 mg/kg + nebulised adrenaline if severe. Epiglottitis: Age 2–7 years (any age). Bacterial (Hib/S. pyogenes). Sudden onset. No barking cough. Drooling, muffled voice, soft stridor, high fever >39°C. Toxic, terrified. Tripod posture. Thumbprint sign lateral X-ray. DO NOT examine throat. Secure airway in theatre + IV ceftriaxone."
+          },
+          {
+            "q": "What antibiotic is first-line for community-acquired pneumonia in children in Bangladesh and why?",
+            "a": "Non-severe (outpatient): oral amoxicillin 40–45 mg/kg/day divided TDS × 3–5 days. Rationale: covers Streptococcus pneumoniae (most common bacterial cause) and H. influenzae; good lung penetration; cheap; WHO/IMCI endorsed. Severe (hospital): IV ampicillin 50 mg/kg q6h + gentamicin 7.5 mg/kg/day — icddr,b Bangladesh RCT evidence; effective vs common pathogens; low cost. Atypical (Mycoplasma — school-age): add azithromycin 10 mg/kg/day if not responding after 48 h or age >5. Rising cotrimoxazole resistance in Bangladesh limits its first-line use."
+          }
+        ]
+      },
+      {
+        "id": "asthma-children",
+        "name": "Asthma in Children",
+        "syllabusRef": "Phase IV Paediatrics",
+        "section": "Respiratory",
+        "description": "GINA paediatric staging, beta-2 agonists, inhaler technique, acute severe asthma management",
+        "svgKey": "mbbs-paed-asthma",
+        "landmarks": [
+          "Diagnosis <5 years: clinical (≥3 episodes wheeze + cough + atopy); reversibility with SABA (>12% or >200 mL FEV1 improvement). Spirometry unreliable <5 years",
+          "GINA paediatric step therapy: Step 1 — SABA PRN. Step 2 — low-dose ICS + SABA PRN. Step 3 — medium ICS or low ICS + LABA (≥5 years)/LTRA. Step 4 — high ICS + LABA. Step 5 — add-on (tiotropium, omalizumab for allergic asthma)",
+          "Salbutamol: selective β2 agonist → cAMP↑ → smooth muscle relaxation → bronchodilation; onset 5 min, peak 30 min, duration 4–6 h. SE: tremor, tachycardia, hypokalaemia (especially IV/continuous nebulised). Salmeterol/formoterol (LABA): 12 h; never as monotherapy without ICS in children",
+          "Acute severe asthma (children >5 years): SpO2 <92%; too breathless to complete sentences/feed; RR >30/min; HR >125 bpm; PEFR <33% predicted; silent chest = near-fatal",
+          "Acute severe protocol: O2 (SpO2 ≥94%); salbutamol 2.5–5 mg nebulised q20 min ×3; ipratropium 0.25 mg (add to 1st 3 nebs); prednisolone 1–2 mg/kg PO (max 40 mg); IV magnesium sulphate 40 mg/kg over 20 min if not responding"
+        ],
+        "examQA": [
+          {
+            "q": "A 7-year-old known asthmatic cannot complete sentences, RR 40/min, SpO2 89%, HR 130 bpm. What is the severity and immediate management?",
+            "a": "Acute severe asthma (SpO2 <92%, cannot speak in sentences, HR >125, RR >30). Immediate: (1) O2 high-flow to maintain SpO2 ≥94%. (2) Salbutamol 5 mg nebulised every 20 minutes × 3 (O2-driven). (3) Ipratropium 0.25 mg nebulised — add to each of first 3 salbutamol nebulisations. (4) Prednisolone 1–2 mg/kg PO max 40 mg OR hydrocortisone IV 4 mg/kg. (5) IV magnesium sulphate 40 mg/kg over 20 min if not responding after 1 hour. (6) Inform PICU if silent chest, rising PaCO2, or exhaustion."
+          },
+          {
+            "q": "Describe correct pMDI inhaler technique with spacer for a 4-year-old.",
+            "a": "pMDI with spacer + face mask (standard for <5 years): (1) Shake canister 10 times, remove cap. (2) Attach canister to spacer, attach facemask. (3) Sit child upright. (4) Place mask over nose and mouth with firm seal. (5) Press canister ONCE. (6) Child breathes normally (tidal breathing) through spacer for 5–10 breaths. (7) Wait 30 seconds before next puff. Common errors: multiple actuations per breath (wastes drug); not using spacer; insufficient breaths after actuation. Wash spacer monthly in soapy water, air dry (removes static charge)."
+          },
+          {
+            "q": "A 6-year-old has exercise-induced wheeze and nocturnal cough 2 nights per week. Between episodes he is well. What treatment is indicated?",
+            "a": "Partially controlled asthma (symptoms >2 days/week, nocturnal >2 nights/month). GINA Step 2: low-dose ICS daily controller — fluticasone 100 mcg/day or beclomethasone 100–200 mcg/day via pMDI + spacer. Plus salbutamol PRN as reliever. Before stepping up: check inhaler technique (most common reason for poor control), adherence, trigger avoidance (exercise: salbutamol 2 puffs 15 min before). Review in 3 months. Do NOT use LABA without ICS in children. Montelukast (LTRA): alternative Step 2 for allergic rhinitis comorbidity."
+          },
+          {
+            "q": "What is the mechanism of action of salbutamol and what are the side effects at high doses?",
+            "a": "Salbutamol: selective β2 agonist. Mechanism: binds β2 receptors on airway smooth muscle → adenylyl cyclase → ↑ cAMP → PKA activation → smooth muscle relaxation → bronchodilation. Side effects (dose-related, particularly IV or continuous nebulised): (1) Tremor — β2 on skeletal muscle. (2) Tachycardia — β1 cross-reactivity at high doses. (3) Hypokalaemia — β2 drives K+ into cells (monitor K+ in continuous nebulised/IV use; supplement if <3.5 mmol/L). (4) Hyperglycaemia. (5) Arrhythmias (IV — must have cardiac monitoring)."
+          }
+        ]
+      },
+      {
+        "id": "diarrhoeal-disease",
+        "name": "Diarrhoeal Disease",
+        "syllabusRef": "Phase IV Paediatrics",
+        "section": "Gastroenterology",
+        "description": "ORT (Dhaka solution/WHO ORS), IMCI plan A/B/C, cholera, persistent diarrhoea, zinc supplementation",
+        "svgKey": "mbbs-paed-diarrhoea",
+        "landmarks": [
+          "WHO ORS (2002 low osmolarity): Na+ 75, Cl− 65, K+ 20, citrate 10, glucose 75 mmol/L; osmolarity 245 mOsm/L. Dhaka solution (icddr,b): same WHO ORS composition. Compared to 1975 ORS (311 mOsm/L): reduces stool output 20%, less vomiting, fewer IV fluid needs",
+          "IMCI dehydration plans: Plan A (no dehydration) — ORS 10 mL/kg per watery stool + zinc 14 days. Plan B (some dehydration — 2 signs: sunken eyes/restless/skin pinch slow/thirsty) — ORS 75 mL/kg over 4 h facility. Plan C (severe) — IV Ringer\'s Lactate: infants 30 mL/kg/1 h then 70 mL/kg/5 h; children 30 mL/kg/30 min then 70 mL/kg/2.5 h",
+          "Cholera (V. cholerae O1/O139): profuse rice-water stools, rapid severe dehydration; Plan C + azithromycin 20 mg/kg single dose PO; tetracycline 12.5 mg/kg q6h × 3 days (>8 years)",
+          "Persistent diarrhoea (≥14 days): post-infectious lactose intolerance, Giardia, E. histolytica, Cryptosporidium; stool microscopy + culture; nutritional rehabilitation; avoid lactose-based formula",
+          "Zinc supplementation: 20 mg/day × 14 days (>6 months); 10 mg/day (2–6 months); reduces diarrhoea duration 25%, severity; Bangladesh IMCI: zinc + ORS for all diarrhoea ≥6 months — national policy"
+        ],
+        "examQA": [
+          {
+            "q": "A 10-month-old has watery diarrhoea 2 days with sunken eyes, irritability, drinks eagerly, skin pinch retracts in 1 second. Classify and describe management.",
+            "a": "Some dehydration (2 signs: sunken eyes, irritable/restless, thirsty/drinks eagerly, skin pinch slow 1–2 seconds). IMCI Plan B: ORS 75 mL/kg over 4 hours in facility. Give ORS by cup and spoon frequently. Reassess every hour. After 4 h: if no dehydration → Plan A at home + zinc 20 mg/day × 14 days; if still some dehydration → repeat Plan B; if severe → Plan C. Continue breastfeeding throughout. Do NOT withhold food."
+          },
+          {
+            "q": "A 6-month-old has profuse rice-water stools, severe dehydration — cholera suspected. Describe management.",
+            "a": "Severe dehydration (Plan C): (1) IV Ringer\'s Lactate: infants (<12 months): 30 mL/kg over 1 hour then 70 mL/kg over 5 hours. (2) Reassess after initial 30 mL/kg. (3) Start ORS 5 mL/kg/h as soon as oral intake tolerated. (4) Antibiotic: azithromycin 20 mg/kg single dose PO (reduces cholera duration significantly). (5) Zinc 10 mg/day × 14 days. (6) Continue breastfeeding. (7) Monitor weight, urine output (>1 mL/kg/h = adequate rehydration). Stool culture/dark-field microscopy confirms."
+          },
+          {
+            "q": "What is the rationale for reduced-osmolarity ORS and how does it compare to the original formula?",
+            "a": "Original ORS (1975): 311 mOsm/L, Na+ 90 mmol/L — did not reduce stool output; hypernatraemia risk. Reduced-osmolarity ORS (2002): 245 mOsm/L, Na+ 75 mmol/L, glucose 75 mmol/L (1:1 molar ratio optimal for SGLT1 cotransporter). Evidence (Lancet 2001 meta-analysis): 20% reduction in stool output, 30% less vomiting, 33% fewer patients requiring IV therapy. WHO/UNICEF recommend universally. Note: in cholera (massive Na+ losses), high-Na ORS (Na+ 90) may be preferred in some settings."
+          },
+          {
+            "q": "Explain the role of zinc supplementation in diarrhoeal disease management.",
+            "a": "Zinc deficiency prevalent in Bangladesh (>40% under-5 children). In diarrhoea: brush border enzyme activity depleted, mucosal integrity impaired. Zinc 20 mg/day × 14 days (>6 months): (1) Reduces acute diarrhoea duration by 25%. (2) Reduces stool output and frequency. (3) Prevents diarrhoea recurrence for 2–3 months post-treatment. Mechanism: restores brush border digestive enzymes, reduces intestinal water/electrolyte secretion, enhances mucosal immune response, upregulates tight junction proteins. Bangladesh national IMCI policy (2004 onwards): zinc + ORS for all children ≥6 months with acute diarrhoea."
+          }
+        ]
+      },
+      {
+        "id": "childhood-liver",
+        "name": "Childhood Liver Disease",
+        "syllabusRef": "Phase IV Paediatrics",
+        "section": "Gastroenterology",
+        "description": "Neonatal hepatitis vs biliary atresia (Kasai procedure), Wilson disease, hepatitis A/B in children",
+        "svgKey": "mbbs-paed-liver-disease",
+        "landmarks": [
+          "Biliary atresia (BA): progressive fibro-obliteration of extrahepatic bile ducts; conjugated jaundice + acholic pale stools + dark urine + hepatomegaly in first 6 weeks; USS: absent/small gallbladder + triangular cord sign; Kasai portoenterostomy before 60 days — bile flow 70–80%; eventually 70–80% need liver transplantation",
+          "Neonatal hepatitis: infectious (CMV, HBV, rubella, syphilis) or idiopathic; conjugated jaundice + hepatosplenomegaly; USS patent bile ducts; liver biopsy: multinucleated giant hepatocytes; may resolve spontaneously",
+          "Wilson disease (hepatolenticular degeneration): AR; ATP7B gene mutation (chromosome 13q14.3); copper accumulation liver/brain/eye; age 5–35 years; Kayser-Fleischer rings (pathognomonic); serum ceruloplasmin <20 mg/dL; 24 h urine copper >100 mcg; treat D-penicillamine or trientine",
+          "Hepatitis A: feco-oral, self-limiting; anicteric common in <5 years; fulminant failure <1%; no chronic phase; two-dose vaccine. Bangladesh: endemic but improving with sanitation",
+          "Hepatitis B vertical transmission: 90% risk if HBeAg-positive mother; prevent with HepB vaccine within 12 h + HBIg (combined efficacy 90–95%); chronic HBV 90% risk perinatally infected; treat tenofovir/entecavir if active disease"
+        ],
+        "examQA": [
+          {
+            "q": "A 6-week-old has jaundice, pale stools, dark urine, and a firm enlarged liver. How do you differentiate biliary atresia from neonatal hepatitis?",
+            "a": "Biliary atresia: consistently acholic stools, dark urine, progressive deterioration, hard hepatomegaly. Neonatal hepatitis: stools pale intermittently, variable course. Investigations: (1) Fractionated bilirubin: both have conjugated hyperbilirubinaemia. (2) USS: BA — absent/tiny gallbladder + triangular cord sign at porta hepatis. (3) HIDA scan: no biliary excretion into bowel at 24 h = BA. (4) Liver biopsy: BA — bile ductular proliferation + portal fibrosis; neonatal hepatitis — multinucleated giant hepatocytes. (5) Operative cholangiogram: gold standard. Urgent referral if conjugated jaundice at >2 weeks — BA is surgical emergency."
+          },
+          {
+            "q": "What is the Kasai portoenterostomy and when must it be performed?",
+            "a": "Kasai portoenterostomy: (1) Excise fibrous ductal remnant at porta hepatis; (2) Roux-en-Y jejunal loop anastomosed to portal plate — bile drains from minute ductules directly into bowel. Timing critical: <60 days — bile flow in 70–80%; 60–90 days — 40–50%; >90 days — <20%. Complications: cholangitis (most common — treat IV ceftriaxone + urso 20 mg/kg/day); biliary cirrhosis; portal hypertension. Despite success, 70–80% eventually need liver transplantation (gold standard definitive treatment for BA)."
+          },
+          {
+            "q": "A 12-year-old has abnormal LFTs, tremor, personality change, and golden-brown corneal rings on slit-lamp. What is the diagnosis and management?",
+            "a": "Wilson disease. Kayser-Fleischer rings = pathognomonic. Investigations: (1) Serum ceruloplasmin <20 mg/dL (95%); (2) 24 h urine copper >100 mcg; (3) Liver copper >250 mcg/g dry weight on biopsy; (4) Leipzig score ≥4 = diagnosis. Treatment: trientine 20 mg/kg/day (preferred — fewer SE) or D-penicillamine 20 mg/kg/day (SE: lupus-like, nephrotic syndrome). Zinc acetate 150 mg/day (maintenance — reduces intestinal copper absorption). Liver transplant for ALF or failed medical treatment. Lifelong treatment. Screen siblings."
+          },
+          {
+            "q": "How is hepatitis B transmitted from mother to child and how is this prevented?",
+            "a": "Vertical transmission primarily at delivery (90% of perinatal infections). Risk: HBeAg-positive mother = 85–90% transmission; HBsAg+/HBeAg-negative = 10–20%. Consequence: 90% perinatally infected infants develop chronic HBV (vs 5–10% adults). Prevention: (1) HepB vaccine birth dose within 12 hours (75% efficacy alone). (2) + HBIg 0.5 mL IM within 12 hours for HBeAg-positive mothers (combined 90–95%). (3) Complete 3-dose EPI HepB series. (4) Antiviral 3rd trimester: tenofovir for HBV DNA >200,000 IU/mL. Bangladesh EPI: HepB birth dose national policy since 2003."
+          }
+        ]
+      },
+      {
+        "id": "febrile-convulsions",
+        "name": "Febrile Convulsions and Epilepsy",
+        "syllabusRef": "Phase IV Paediatrics",
+        "section": "Neurology",
+        "description": "Simple vs complex febrile convulsions, epilepsy syndromes, antiepileptics in children",
+        "svgKey": "mbbs-paed-febrile-convulsions",
+        "threejs3dFn": "createNerveImpulse",
+        "landmarks": [
+          "Simple febrile convulsion (FC): age 6 months–5 years, temperature >38°C, generalised tonic-clonic, <15 min, single episode in 24 h, no CNS pathology, no postictal neurological deficit. Complex FC: focal, >15 min, >1 episode in 24 h, or postictal neurological deficit. Risk of epilepsy: simple FC 1–2%; complex FC 4–6%",
+          "FC recurrence: 30% overall; age <18 months at first FC = 50% recurrence; family history FC = 30–40%. Prophylactic AED not routinely recommended — benefit does not outweigh side effects",
+          "Epilepsy syndromes: BECTS (age 5–12, nocturnal hemifacial twitching, self-limiting); absence epilepsy (4–12 years, 5–30 s staring, 3 Hz spike-wave EEG, ethosuximide first-line); Dravet syndrome (SCN1A, fever-triggered, drug-resistant); West syndrome (infantile spasms + hypsarrhythmia)",
+          "Antiepileptics in children: sodium valproate — broad spectrum, teratogenic; carbamazepine — focal, avoid in absence (worsens); levetiracetam — add-on, minimal interactions; ethosuximide — pure absence; phenobarbitone — neonates, status, resource-limited (Bangladesh)",
+          "Status epilepticus: >30 min or repeated without recovery. Ladder: 5 min — buccal midazolam 0.2 mg/kg or rectal diazepam 0.5 mg/kg; 10 min — IV lorazepam 0.1 mg/kg; 20–30 min — IV phenytoin 20 mg/kg or IV levetiracetam 60 mg/kg; >30 min — RSI + thiopentone ITU"
+        ],
+        "examQA": [
+          {
+            "q": "A 2-year-old has a 3-minute generalised tonic-clonic seizure with temperature 39°C — first episode. How do you classify and manage?",
+            "a": "Simple febrile convulsion: generalised, <15 min, single episode in 24 h, age 6 months–5 years, no CNS pathology, no postictal deficit. Management: (1) Recovery position, O2 during seizure. (2) Paracetamol/ibuprofen for fever (does NOT prevent FC recurrence). (3) Investigate cause of fever; LP if <12 months, meningism, or prolonged/complex features. (4) Reassure parents: does not cause brain damage; 1–2% risk of epilepsy. (5) Parent education: seizure first aid. (6) No maintenance antiepileptic drugs needed. Discharge with safety netting."
+          },
+          {
+            "q": "What differentiates complex from simple febrile convulsion and what investigations are needed?",
+            "a": "Complex FC — ONE or more of: (1) Focal onset (head/eye deviation, unilateral jerking). (2) Duration >15 min. (3) More than 1 seizure in 24 h. (4) Postictal Todd\'s paresis/neurological deficit. Risk of epilepsy: 4–6% vs 1–2% simple. Investigations for complex FC: (1) LP — lower threshold (exclude bacterial meningitis, especially <12 months). (2) EEG — within 24–48 h (not simple FC unless epilepsy suspected). (3) MRI brain — if focal or postictal neurological signs. Blood glucose (always), electrolytes."
+          },
+          {
+            "q": "A 6-year-old has 3-second staring spells 20 times per day. EEG shows 3 Hz spike-and-wave during hyperventilation. What is the diagnosis and first-line treatment?",
+            "a": "Childhood absence epilepsy (CAE). Classic: age 4–12 years, brief absences (5–30 s), abrupt onset/offset, no postictal phase, normal IQ, automatisms (lip smacking, eyelid fluttering), triggered by hyperventilation. EEG: 3 Hz generalised spike-and-wave (diagnostic). Treatment: ethosuximide 20–40 mg/kg/day (first-line for pure absence — most effective; avoids valproate SE). If absence + generalised tonic-clonic: sodium valproate first-line. Do NOT use carbamazepine/vigabatrin/phenytoin (worsen absence). Remission 60–70% by adolescence."
+          },
+          {
+            "q": "A child arrives having seized for 25 minutes with no IV access. Describe stepwise management.",
+            "a": "Status epilepticus protocol: (1) 0–5 min: ABC, O2, recovery position, BM check (treat hypoglycaemia: 5 mL/kg 10% dextrose IV), attempt IV/IO access. (2) 5 min (no IV): buccal midazolam 0.2 mg/kg OR rectal diazepam 0.5 mg/kg. (3) 10–15 min: IV lorazepam 0.1 mg/kg (or IV diazepam 0.3 mg/kg if no lorazepam). (4) 20–30 min (2nd line): IV phenytoin 20 mg/kg over 20 min (cardiac monitoring — arrhythmia risk) OR IV levetiracetam 60 mg/kg over 15 min (preferred — fewer adverse effects). (5) >30 min (refractory): IV phenobarbitone 20 mg/kg, then RSI + thiopentone/propofol infusion in ITU. Correct electrolytes throughout."
+          }
+        ]
+      },
+      {
+        "id": "meningitis-children",
+        "name": "Meningitis in Children",
+        "syllabusRef": "Phase IV Paediatrics",
+        "section": "Neurology",
+        "description": "Bacterial — organisms by age/CSF findings/treatment; viral; TB meningitis (CSF profile)",
+        "svgKey": "mbbs-paed-meningitis",
+        "landmarks": [
+          "Organisms by age: Neonates — GBS, E. coli, Listeria. 1–3 months — GBS, E. coli, Listeria, S. pneumoniae, N. meningitidis. 3 months–12 years — S. pneumoniae (most common), N. meningitidis (serogroup B). Adolescents — N. meningitidis predominates. Bangladesh: S. pneumoniae + N. meningitidis post-neonatal",
+          "CSF analysis: Bacterial — turbid; WBC 1,000–10,000 (>80% neutrophils); protein >1 g/L; glucose <50% serum; culture positive 60–80%. Viral — clear; WBC 10–1,000 (lymphocytes); protein mildly elevated; glucose normal. TB — clear/xanthochromic; WBC 100–500 (lymphocytes); protein >1 g/L; glucose <45% serum; ADA elevated; cobweb clot",
+          "Clinical: fever + headache + photophobia + neck stiffness (Kernig/Brudzinski). Infants: bulging fontanelle, high-pitched cry, irritability. Non-blanching purpuric rash = meningococcal septicaemia — worst prognosis; Waterhouse-Friderichsen syndrome",
+          "Treatment: neonates — cefotaxime 100 mg/kg/day + ampicillin 200 mg/kg/day (covers Listeria). Children >1 month — ceftriaxone 100 mg/kg/day IV × 10–14 days. Dexamethasone 0.15 mg/kg q6h × 4 days (with or before first antibiotic — reduces deafness in S. pneumoniae/H. influenzae)",
+          "LP safety: contraindicated if papilloedema/focal neuro signs, GCS <13, coagulopathy, cardiovascular instability. NEVER delay antibiotics for LP — give IV ceftriaxone immediately. LP valid up to 4–6 h post-antibiotics"
+        ],
+        "examQA": [
+          {
+            "q": "A 3-year-old has fever 40°C, headache, vomiting, neck stiffness. CSF: protein 1.8 g/L, glucose 1.1 mmol/L (serum 5.5), WBC 3,000/mm³ (90% neutrophils), turbid. Diagnose and treat.",
+            "a": "Bacterial meningitis. CSF glucose ratio 0.20 (<0.6 normal); protein 1.8 g/L (normal <0.45 g/L); neutrophilic pleocytosis 3,000; turbid. Most likely: Streptococcus pneumoniae. Treatment: (1) IV ceftriaxone 100 mg/kg/day divided q12h × 10–14 days. (2) Dexamethasone 0.15 mg/kg q6h × 4 days simultaneously with or before first antibiotic dose (reduces hearing loss and case fatality). (3) Maintain euvolaemia (restrict if SIADH — Na monitoring). (4) Monitor: SNHL (most common sequela), hydrocephalus, seizures."
+          },
+          {
+            "q": "A 14-year-old develops non-blanching petechiae with fever, confusion, and hypotension. What emergency treatment before transfer?",
+            "a": "Meningococcal septicaemia. Non-blanching petechiae/purpura + fever + confusion = meningococcal disease — life-threatening emergency. Do NOT wait for LP. Immediate: (1) Benzylpenicillin 1.2 g IV/IM immediately — give in GP surgery/community BEFORE transfer. (2) Ceftriaxone 2 g IV if penicillin allergy. (3) IV access: 20 mL/kg 0.9% NaCl for hypotension. (4) O2 high-flow. (5) Call ambulance — urgent PICU transfer. Contacts: rifampicin 10 mg/kg BD × 2 days. Mortality with purpuric rash: 10–25%."
+          },
+          {
+            "q": "Describe CSF findings in TB meningitis and how it differs from bacterial meningitis.",
+            "a": "TB meningitis CSF: (1) Clear/xanthochromic, forms cobweb clot. (2) WBC 100–500/mm³ predominantly lymphocytes. (3) Protein markedly elevated 1–5 g/L. (4) Glucose low <45% serum (less dramatically low than bacterial). (5) ADA >10 U/L. (6) AFB smear positive 10–40%. (7) Culture gold standard (6 weeks). (8) GeneXpert sensitivity 60–70%. Compared to bacterial: bacterial has >80% neutrophils (vs lymphocytes TB), glucose lower, culture positive 24–72 h, neutrophilic pleocytosis higher. TB onset subacute (days–weeks) vs bacterial (hours). Treatment: RHEZ × 2 months then RH × 10 months + dexamethasone."
+          },
+          {
+            "q": "Why must antibiotics not be delayed for LP in suspected bacterial meningitis?",
+            "a": "Bacterial meningitis — mortality 5–30%; neurodisability (SNHL, intellectual impairment, seizures) in 20–30% survivors. Each hour delay increases mortality significantly. LP contraindications (delay necessary): papilloedema/focal signs, GCS <13, coagulopathy, haemodynamic instability. Protocol: (1) Draw blood cultures. (2) Give IV ceftriaxone immediately. (3) CT if indicated. (4) LP when safe. Blood cultures positive 30–50% of bacterial meningitis. Post-antibiotic LP: still diagnostically useful up to 4–6 h (cell count and biochemistry valid; cultures less positive after >4 h)."
+          }
+        ]
+      },
+      {
+        "id": "childhood-anaemia",
+        "name": "Childhood Anaemia",
+        "syllabusRef": "Phase IV Paediatrics",
+        "section": "Haematology & Oncology",
+        "description": "Iron deficiency (most common/treatment), haemolytic (G6PD/sickle cell/thalassaemia), ALL (most common childhood cancer)",
+        "svgKey": "mbbs-paed-anaemia",
+        "landmarks": [
+          "IDA: most common nutritional deficiency; microcytic hypochromic (MCV <80 fL, MCH low); serum ferritin <12 mcg/L (most sensitive early marker), high TIBC, low transferrin saturation <16%; treat ferrous sulphate 3–6 mg/kg/day elemental iron × 3 months. Bangladesh: ~50% under-5 children affected",
+          "G6PD deficiency: X-linked recessive; haemolytic crisis triggered by: fava beans, dapsone, primaquine, nitrofurantoin, sulfonamides, infections; blood film: Heinz bodies + bite cells; G6PD enzyme assay (after recovery — young RBCs false-normal during crisis)",
+          "Sickle cell disease (HbSS): beta-globin Glu6Val; sickling in hypoxia/dehydration; dactylitis (first crisis in infants), painful vaso-occlusive crisis, acute chest syndrome, splenic sequestration, stroke; hydroxyurea (↑ HbF); penicillin V prophylaxis lifelong (functional asplenia)",
+          "Thalassaemia major (beta): absent HbA from 6 months; severe haemolytic anaemia; extramedullary haemopoiesis → frontal bossing, chipmunk facies; transfusion every 2–4 weeks; iron chelation (deferasirox/desferrioxamine); BMT curative",
+          "ALL: most common childhood cancer (25% paediatric cancers); peak 2–5 years; >20% blasts BM; 5-year survival >85% UKALL protocol; induction: vincristine + prednisolone + L-asparaginase + IT methotrexate"
+        ],
+        "examQA": [
+          {
+            "q": "A 18-month-old is pale, lethargic, and eats clay (pica). Hb 7.2 g/dL, MCV 65 fL, MCH 19 pg, ferritin 6 mcg/L. Diagnose and treat.",
+            "a": "Iron deficiency anaemia (IDA). Microcytic hypochromic + low ferritin (most sensitive early marker) + pica = classic IDA at 18 months. Causes: rapid growth + inadequate dietary iron (prolonged cow milk >500 mL/day). Treatment: (1) Ferrous sulphate 3–6 mg/kg/day elemental iron in 2 doses, 30 min before meals. (2) Duration: until Hb normalises (4–6 weeks) + 3 further months to replete stores. (3) Dietary counselling: iron-rich foods + vitamin C (enhances absorption); reduce cow milk. Reticulocyte rise at 7–10 days confirms response. No response at 4 weeks: check compliance, exclude coeliac disease, thalassaemia trait."
+          },
+          {
+            "q": "A 6-year-old develops sudden pallor, jaundice, dark urine 2 days after starting dapsone. Hb 6.5 g/dL (was 12), reticulocytes 15%, bite cells and Heinz bodies on film. Diagnose.",
+            "a": "G6PD deficiency with acute haemolytic crisis triggered by dapsone (oxidant drug). Impaired GSH regeneration → oxidative Hb damage → Heinz bodies → bite cells (macrophage removal). Management: (1) Stop dapsone immediately. (2) Supportive: IV fluids (prevent AKI from haemoglobinuria), O2, monitor renal function. (3) Transfuse packed RBCs if Hb <7 g/dL or symptomatic. (4) Confirm G6PD enzyme assay AFTER recovery. (5) Issue drug avoidance card (primaquine, dapsone, nitrofurantoin, sulfonamides, fava beans)."
+          },
+          {
+            "q": "A 4-year-old has pallor, generalised lymphadenopathy, hepatosplenomegaly, bruising. FBC: WBC 45×10⁹/L, Hb 6.8 g/dL, platelets 28×10⁹/L, 80% blasts. Diagnose and treat.",
+            "a": "Acute lymphoblastic leukaemia (ALL) — most common childhood cancer. Bone marrow biopsy: >20% blasts (B-cell ALL: CD10+, CD19+, TdT+). Cytogenetics: ETV6-RUNX1 t(12;21) (25% — good prognosis); hyperdiploidy (good); Philadelphia chromosome (poor). Treatment (UKALL/COG protocol): (1) Induction: vincristine + prednisolone + L-asparaginase + IT methotrexate × 4–6 weeks. (2) Consolidation: IT methotrexate × 6, high-dose IV methotrexate. (3) Maintenance (2–2.5 years): daily 6-mercaptopurine + weekly methotrexate. 5-year survival >85%."
+          },
+          {
+            "q": "Describe beta-thalassaemia major features and management.",
+            "a": "Beta-thalassaemia major: AR; absent beta-globin → excess alpha chains → intramedullary haemolysis; presents 6 months. Features: severe pallor, hepatosplenomegaly (extramedullary haemopoiesis), frontal bossing, maxillary prominence (chipmunk facies), growth failure. Hb electrophoresis: HbF elevated, absent HbA. Management: (1) RBC transfusion every 2–4 weeks (maintain pre-transfusion Hb >9–10 g/dL). (2) Iron chelation: deferasirox 20–40 mg/kg/day PO or desferrioxamine 40–60 mg/kg SC × 5 nights/week (prevents cardiac/hepatic iron overload). (3) Folic acid 5 mg/day. (4) BMT/SCT — curative if HLA-matched sibling. (5) Gene therapy: emerging."
+          }
+        ]
+      },
+      {
+        "id": "childhood-infections",
+        "name": "Common Childhood Infections",
+        "syllabusRef": "Phase IV Paediatrics",
+        "section": "Haematology & Oncology",
+        "description": "Measles (Koplik spots/complications), dengue (DHF grading), typhoid, chickenpox, mumps",
+        "svgKey": "mbbs-paed-childhood-infections",
+        "landmarks": [
+          "Measles: paramyxovirus, airborne; prodrome 3Cs (cough + coryza + conjunctivitis) + fever; Koplik spots (white/bluish specks on erythematous buccal mucosa opposite lower molars — pathognomonic, 24–48 h before rash); maculopapular rash — behind ears → cephalocaudal; complications: pneumonia (most common death cause), croup, encephalitis, SSPE. Vitamin A 200,000 IU × 2 doses reduces mortality 50%",
+          "Dengue DHF grading: Grade I — fever + positive tourniquet test (≥10 petechiae/inch²); Grade II — spontaneous bleeding; Grade III — circulatory failure (narrow pulse pressure <20 mmHg, hypotension, cold clammy); Grade IV — profound shock, undetectable BP (DSS). NS1 antigen days 1–5; IgM ELISA day 5+",
+          "Typhoid (Salmonella typhi): feco-oral; stepladder fever + relative bradycardia + rose spots (trunk, Week 2) + splenomegaly; blood culture gold standard (Week 1–2); Widal >1:160 O, >1:80 H (cross-reactive endemic area); treat ceftriaxone 75 mg/kg/day × 10 days. Bangladesh: rising MDR typhoid",
+          "Chickenpox (VZV): airborne + contact; pruritic vesicles on erythematous base — all stages simultaneously; complications: bacterial superinfection (most common), cerebellar ataxia, pneumonia, Reye syndrome (aspirin — AVOID)",
+          "Mumps: paramyxovirus, droplet; parotitis (unilateral → bilateral); complications: orchitis (15–30% postpubertal males → subfertility), oophoritis, viral meningitis (3–10%), pancreatitis, SNHL. Two-dose MMR prevents"
+        ],
+        "examQA": [
+          {
+            "q": "A 5-year-old has 3 days of fever, cough, red eyes, and white specks on the buccal mucosa. Rash starts behind the ears. Diagnose and give the most common fatal complication in Bangladesh.",
+            "a": "Measles. Koplik spots (white/bluish specks on erythematous buccal mucosa opposite lower molars) = pathognomonic. Prodromal 3Cs: cough, coryza, conjunctivitis. Most common fatal complication in Bangladesh: measles pneumonia (measles virus pneumonitis + secondary bacterial — S. pneumoniae, S. aureus; amplified by vitamin A deficiency and malnutrition). Mortality in malnourished children 25–30%. Management: Vitamin A 200,000 IU (dose 1 at diagnosis, dose 2 next day); supportive care; antibiotics for bacterial complication; airborne isolation. Notifiable disease."
+          },
+          {
+            "q": "A 10-year-old with dengue on day 4 has HR 120, BP 80/70, cold peripheries, Hct 50% (baseline 38%). What dengue grade and management?",
+            "a": "Dengue Grade III (DHF with circulatory failure / impending DSS): narrow pulse pressure 10 mmHg (<20 mmHg), tachycardia, cold extremities, Hct rise >20% (32% rise). Management: (1) IV isotonic crystalloid (0.9% NaCl or Ringer\'s Lactate): 10–20 mL/kg over 15–30 min. (2) Reassess at 1 h: if improving → reduce rate; if not → 2nd bolus. (3) Monitor Hct hourly. Hct rising despite fluids + Grade IV: colloid 10 mL/kg. Avoid aspirin, NSAIDs, IM injections. Platelet transfusion: only if <10,000/mm³ or active significant bleeding."
+          },
+          {
+            "q": "A 7-year-old has fever for 6 days, stepladder pattern, relative bradycardia, rose spots on abdomen, and splenomegaly. Diagnose and treat.",
+            "a": "Enteric fever (typhoid) — Salmonella typhi. Stepladder fever, relative bradycardia (Faget sign), rose spots (faint salmon-pink macules on trunk, Week 2), splenomegaly. Diagnosis: blood culture (gold standard — positive 60–80% Week 1–2); stool culture Week 3. Widal: >1:160 O, >1:80 H (low specificity in Bangladesh endemic area). Treatment: ceftriaxone 75 mg/kg/day IV × 10 days (covers MDR Salmonella). Azithromycin 20 mg/kg/day × 7 days (oral, uncomplicated). Avoid fluoroquinolones — high resistance in Bangladesh."
+          },
+          {
+            "q": "A 12-year-old boy with mumps parotitis 1 week later develops unilateral testicular pain and swelling. What is the complication and consequence?",
+            "a": "Mumps orchitis — occurs 15–30% of postpubertal males with mumps (rare <10 years). Unilateral > bilateral; painful swollen warm scrotum; T-cell-mediated testicular inflammation. Management: bed rest, analgesia (NSAIDs), scrotal support, consider corticosteroids. Long-term: testicular atrophy in 30–50% of affected testes; bilateral orchitis (10–30% of cases) → subfertility/azoospermia (<3% overall with unilateral). Prevention: MMR two-dose schedule (efficacy ~85%)."
+          }
+        ]
+      },
+      {
+        "id": "congenital-heart",
+        "name": "Congenital Heart Disease",
+        "syllabusRef": "Phase IV Paediatrics",
+        "section": "Congenital & Genetic",
+        "description": "Acyanotic (VSD/ASD/PDA); cyanotic (TOF/TGA); Eisenmenger syndrome; management principles",
+        "svgKey": "mbbs-paed-congenital-heart",
+        "threejs3dFn": "createEMInduction",
+        "landmarks": [
+          "Acyanotic CHD (left-to-right shunt): VSD (most common CHD, 30%) — pansystolic murmur left lower sternal border; ASD — fixed split S2 + ejection systolic murmur pulmonary area, ECG RBBB/RAD; PDA — continuous machinery murmur left infraclavicular, bounding pulses; all cause pulmonary overcirculation → HF in infancy",
+          "Cyanotic CHD: TOF (most common cyanotic CHD, 10%) — VSD + RVOT obstruction + overriding aorta + RVH; boot-shaped heart CXR; hypercyanotic spell → knee-chest + O2 + morphine + propranolol + phenylephrine. TGA — aorta from RV, PA from LV; duct-dependent; immediate PGE1 + Rashkind BAS; Jatene arterial switch within 2 weeks",
+          "Eisenmenger syndrome: large L→R shunt → pulmonary hypertension → irreversible PVD → shunt reversal (R→L) → cyanosis + polycythaemia + clubbing; surgical repair contraindicated (removes RV pop-off valve → RV failure); treat sildenafil/bosentan/prostacyclin; heart-lung transplant definitive",
+          "Investigations: CXR (cardiomegaly/pulmonary plethora L→R; oligaemic lungs cyanotic); ECG (RAD+RVH TOF; left axis AV canal; RBBB ASD); echocardiography (gold standard); cardiac catheterisation (Qp:Qs, intervention)",
+          "PDA in preterm: indomethacin or ibuprofen IV (COX inhibitor → ductal closure). Ductal-dependent circulation (TGA, pulmonary atresia): PGE1 (alprostadil) IV to maintain patency until surgery"
+        ],
+        "examQA": [
+          {
+            "q": "A 6-week-old has poor feeding, sweating during feeds, FTT, and a loud pansystolic murmur at the left lower sternal border. CXR shows cardiomegaly and increased pulmonary markings. Diagnose and manage.",
+            "a": "VSD with congestive heart failure. Most common CHD. L→R shunt → pulmonary overcirculation → LV volume overload → CHF. CHF in infants: poor feeding, sweating with feeds, tachypnoea, FTT (not peripheral oedema). Management: (1) Medical: furosemide 1–2 mg/kg/day + captopril 0.1–0.5 mg/kg TDS + high-calorie feeds (120–150 kcal/kg/day). (2) Surgical repair (patch) if symptoms uncontrolled, Qp:Qs >2:1, or PA hypertension developing — ideally year 1 to prevent Eisenmenger. (3) Spontaneous closure: 30–40% small VSDs by age 3."
+          },
+          {
+            "q": "A 4-month-old with known TOF becomes suddenly deeply cyanotic, agitated, then limp. What is happening and how is it managed?",
+            "a": "Hypercyanotic (tet) spell — sudden ↑ RVOT obstruction → ↑ right-to-left shunt → acute severe hypoxaemia. Immediate management: (1) Knee-to-chest / squatting position — ↑ SVR, reduces R→L shunt. (2) 100% O2. (3) Morphine 0.1–0.2 mg/kg IM/SC — reduces hyperpnoea, relieves infundibular spasm. (4) IV propranolol 0.01–0.1 mg/kg slow — negative chronotropy, relaxes infundibulum. (5) IV fluid bolus 10 mL/kg. (6) Phenylephrine 0.02 mg/kg IV bolus (↑ SVR). If refractory: emergency BT shunt or complete intracardiac repair."
+          },
+          {
+            "q": "What is Eisenmenger syndrome and why is surgical repair contraindicated?",
+            "a": "Eisenmenger: progressive PAH from chronic large unrepaired L→R shunt (VSD/ASD/PDA). Mechanism: increased pulmonary blood flow → arteriolar hypertrophy/vasoconstriction → fixed elevated PVR → when PVR > SVR → shunt reversal R→L → cyanosis, polycythaemia, haemoptysis. Repair contraindicated: pulmonary vascular disease irreversible (Heath-Edwards Grade 3–6). Closing defect removes RV pop-off valve → acute RV failure and death. Management: sildenafil 1 mg/kg TDS, bosentan, IV prostacyclin, anticoagulation. Definitive: combined heart-lung transplantation."
+          },
+          {
+            "q": "A 2-day-old becomes acutely cyanotic unresponsive to O2. CXR shows egg-on-side cardiac silhouette with narrow superior mediastinum. Diagnose and give emergency treatment.",
+            "a": "Transposition of the great arteries (D-TGA). Aorta from RV (anteriorly) + PA from LV — parallel circuits incompatible with life without mixing. Egg-on-side silhouette: narrow mediastinum (parallel great vessels) + globular heart. O2 does not help (lungs already perfused with oxygenated blood). Emergency: (1) PGE1 (alprostadil) IV 0.05–0.1 mcg/kg/min — maintains ductal patency for mixing. (2) Rashkind balloon atrial septostomy — creates ASD for mixing. (3) Definitive: Jatene arterial switch operation within first 2 weeks of life."
+          }
+        ]
+      },
+      {
+        "id": "genetic-metabolic",
+        "name": "Genetic and Metabolic Disorders",
+        "syllabusRef": "Phase IV Paediatrics",
+        "section": "Congenital & Genetic",
+        "description": "Down syndrome (features/karyotype), hypothyroidism (neonatal screening), PKU, inborn errors of metabolism",
+        "svgKey": "mbbs-paed-genetic-metabolic",
+        "threejs3dFn": "createCellDivision",
+        "landmarks": [
+          "Down syndrome (trisomy 21): 47,XY/XX+21; nondisjunction meiosis I 95% (maternal age-related), translocation 14;21 4% (parental karyotype needed), mosaic 1%. Features: hypotonia, flat facies, epicanthal folds, upslanting palpebral fissures, Brushfield spots, single palmar crease, sandal gap. Complications: CHD 40–50% (AVSD most common), duodenal atresia, hypothyroidism, leukaemia 20× risk, Alzheimer >40 years",
+          "Congenital hypothyroidism (CH): TSH heel prick day 3–5; TSH >20 mU/L → confirm serum TSH + free T4; most common preventable intellectual disability; cause: thyroid dysgenesis 75%; start levothyroxine 10–15 mcg/kg/day within 2 weeks; with early treatment IQ normal. Bangladesh prevalence ~1:4,000",
+          "PKU (phenylketonuria): AR; PAH deficiency → phenylalanine accumulates → phenylpyruvate (musty urine odour) → intellectual disability + seizures + eczema if untreated; Guthrie test/MS-MS heel prick day 3–5; treat phenylalanine-restricted diet for life + tyrosine supplementation",
+          "Inborn errors of metabolism: galactosaemia (GALT deficiency — jaundice/cataracts/E. coli neonatal sepsis — remove galactose); MSUD (maple syrup odour, encephalopathy); urea cycle defects (hyperammonaemia — stop protein, nitrogen scavengers); organic acidaemias",
+          "Prenatal diagnosis: combined screening (NT 11–13 weeks + βhCG + PAPP-A); NIPT (cell-free fetal DNA, sensitivity >99% for T21); diagnostic: CVS (10–12 weeks) or amniocentesis (15–18 weeks) — karyotype + array CGH"
+        ],
+        "examQA": [
+          {
+            "q": "A newborn has hypotonia, flat facies, upslanting eyes, and a loud cardiac murmur. Karyotype: 47,XX+21. What is the most common cardiac defect and what surveillance is required?",
+            "a": "Down syndrome (trisomy 21). Most common cardiac defect: AVSD (atrioventricular septal defect) in 40–45% of DS with CHD (also VSD 35%, ASD, TOF). Echo at birth for all DS. Surveillance: (1) TFTs annually (hypothyroidism 10–15%). (2) Hearing 6-monthly to age 5 (SNHL + glue ear). (3) Vision annually (strabismus, cataracts, refractive error). (4) FBC (transient myeloproliferative disorder neonate; ALL/AML 20× risk). (5) Cervical spine X-ray at age 3–5 (atlantoaxial instability). (6) Duodenal atresia if bilious vomiting. Developmental support: physiotherapy, speech therapy, early education."
+          },
+          {
+            "q": "A 3-week-old from a remote area has feeding difficulty, constipation, prolonged jaundice, and a large tongue. Diagnose and explain why early treatment is critical.",
+            "a": "Congenital hypothyroidism (CH) — missed newborn screening. Features: prolonged jaundice (conjugated), constipation, hypotonia, macroglossia, large anterior fontanelle, dry skin, hypothermia, umbilical hernia. TSH markedly elevated, free T4 very low. Treatment: levothyroxine 10–15 mcg/kg/day PO immediately. Early treatment critical: thyroid hormone essential for neuronal proliferation and myelination in first 2 years. Treatment before 3 weeks: IQ preserved. Treatment 3–6 months: mild impairment. Delayed >6 months: irreversible severe intellectual disability (cretinism). Review TFTs at 2 weeks, 1 month, then 3-monthly."
+          },
+          {
+            "q": "What is PKU and how is it screened for and managed?",
+            "a": "Phenylketonuria: AR; PAH deficiency → phenylalanine accumulates → toxic metabolites (phenylpyruvate, phenylacetate) → inhibit neurotransmitter synthesis → severe intellectual disability, seizures, eczema, hypopigmentation, musty urine odour. Screening: Guthrie test or MS/MS heel prick day 3–5. Confirmation: plasma Phe >1,000 mcmol/L diagnostic. Management: phenylalanine-restricted diet for life (avoid high-protein foods; Phe-free amino acid formula). Target plasma Phe <360 mcmol/L. Sapropterin (BH4): responsive in ~25–50% — allows liberalised diet. Maternal PKU: strict diet before/during pregnancy (prevents cardiac defects and microcephaly in fetus)."
+          },
+          {
+            "q": "A 2-day-old develops progressive lethargy, poor feeding, and vomiting. Infection screen normal. Plasma ammonia 450 mcmol/L (normal <80). Diagnose and manage.",
+            "a": "Hyperammonaemia in neonate — urea cycle defect (OTC deficiency X-linked most common; CPS deficiency) or organic acidaemia (propionic/methylmalonic acidaemia — also high anion gap metabolic acidosis). Differentiating: UCD — very high NH3, respiratory alkalosis, normal anion gap; organic acidaemias — high anion gap acidosis, moderate NH3. Emergency management: (1) Stop ALL protein immediately. (2) High-rate IV 10% dextrose + insulin (prevents catabolism). (3) Sodium benzoate 250 mg/kg/24 h IV + sodium phenylacetate (Ammonul) — alternative nitrogen excretion. (4) IV arginine 250 mg/kg/day. (5) Haemodialysis if NH3 >500 mcmol/L. Urgent metabolic specialist referral."
+          }
+        ]
+      }
+    ]
   }
 };
 
@@ -4709,6 +5315,7 @@ export function getTopicVisualsKey(subj) {
   if (name.includes('ophthalmology') || name.includes('opth'))  return 'mbbs_ophthalmology';
   if (name.includes('obstetrics') || name.includes('gynaecology') || name.includes('gynae') || name.includes('obs & gyn') || name.includes('obgyn')) return 'mbbs_obs_gynae';
   if (name.includes('ear, nose') || name.includes('ent') || name.includes('otolaryngology') || name.includes('otorhinolaryngology')) return 'mbbs_ent';
+  if (name.includes('paediatrics') || name.includes('pediatrics') || name.includes('paed')) return 'mbbs_paediatrics';
   if (name.includes('medicine') && !name.includes('forensic') && !name.includes('community')) return 'mbbs_medicine';
   return null;
 }
