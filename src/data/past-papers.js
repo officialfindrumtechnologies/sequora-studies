@@ -7,7 +7,7 @@ const _y = (s, e) => Array.from({ length: e - s + 1 }, (_, i) => s + i);
 // IB URL builder — URLs are UNCERTAIN and may 404; "Open in new tab" fallback handles misses
 function _ibUrl(folder, code, level, sess, year, paper, type) {
   const t = type === 'QP' ? 'qp' : 'ms';
-  return `https://papers.gceguide.com/IB/${folder}/${year}/${code}_${level}_${sess}_${year}_${paper}_${t}.pdf`;
+  return `https://papers.gceguide.cc/IB/${folder}/${year}/${code}_${level}_${sess}_${year}_${paper}_${t}.pdf`;
 }
 
 // Generate IB entries for one subject. papersByLevel: { HL: ['P1','P2','P3'], SL: ['P1','P2'] }
@@ -33,7 +33,7 @@ const IB_YEARS_S = _y(2019, 2023); // Sciences/Humanities (2024 not yet widely a
 // Cambridge URL builders
 function _camUrl(base, folder, year, code, sess, type, pv) {
   const y2 = String(year).slice(2);
-  return `https://papers.gceguide.com/${base}/${folder}/${year}/${code}_${sess}${y2}_${type}_${pv}.pdf`;
+  return `https://papers.gceguide.cc/${base}/${folder}/${year}/${code}_${sess}${y2}_${type}_${pv}.pdf`;
 }
 
 // Generate Cambridge entries: papers = [[papNum, label], ...]
@@ -53,7 +53,7 @@ function _genCam(base, code, folder, years, sessions, papers) {
 
 // Edexcel URL builder — approximate dates; may 404 → fallback button shown
 function _edxUrl(base, folder, year, code, paper, type, date) {
-  return `https://papers.gceguide.com/${base}/${folder}/${year}/${code}_${paper}_${type}_${date}.pdf`;
+  return `https://papers.gceguide.cc/${base}/${folder}/${year}/${code}_${paper}_${type}_${date}.pdf`;
 }
 
 // Approximate Edexcel IGCSE exam dates by year+session
@@ -275,7 +275,7 @@ export const PAST_PAPERS_DB = {
 
   // ── IB Diploma ─────────────────────────────────────────────────────────────
   // URL format UNCERTAIN — mirrors vary. Open-in-new-tab fallback handles 404s.
-  // Format: gceguide.com/IB/[Folder]/[year]/[Code]_[Level]_[Session]_[Year]_[Paper]_[type].pdf
+  // Format: gceguide.cc/IB/[Folder]/[year]/[Code]_[Level]_[Session]_[Year]_[Paper]_[type].pdf
 
   'IB-MATH-AA': {
     subjectName: 'Mathematics: Analysis & Approaches',
