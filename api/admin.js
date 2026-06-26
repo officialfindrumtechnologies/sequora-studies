@@ -55,19 +55,18 @@ export default async function handler(req, res) {
 
   // ── GET: list_users ────────────────────────────────────────────────────────
   if (req.method === 'GET' && action === 'list_users') {
-    const { data: subs, error: subsErr } = await adminSb
-      .from('subscriptions')
+    // Query profiles as primary so ALL registered users appear (including those without a subscription row)
+    const { data: profilesData, error: profilesErr } = await adminSb
+      .from('profiles')
       .select(`
-        id, user_id, tier, status,
-        bkash_trx_id, bkash_amount, bkash_submitted_at,
-        activated_at, expires_at, notes, updated_at,
-        profiles!inner ( email, display_name, exam_board, qualification, created_at )
+        id, email, display_name, exam_board, qualification, created_at,
+        subscriptions ( id, tier, status, bkash_trx_id, bkash_amount, bkash_submitted_at, activated_at, expires_at, notes, updated_at )
       `)
-      .order('bkash_submitted_at', { ascending: false, nullsLast: true });
+      .order('created_at', { ascending: false });
 
-    if (subsErr) {
-      console.error('[Admin] list_users error:', subsErr);
-      return res.status(500).json({ error: 'Failed to fetch users' });
+    if (profilesErr) {
+      console.error('[Admin] list_users error:', profilesErr);
+      return res.status(500).json({ error: 'Failed to fetch users: ' + profilesErr.message });
     }
 
     // Aggregate sessions, subjects, topics per user in parallel
@@ -92,13 +91,32 @@ export default async function handler(req, res) {
     const topMap = {};
     (topicRes.data || []).forEach(t => { topMap[t.user_id] = (topMap[t.user_id] || 0) + 1; });
 
-    const users = (subs || []).map(u => ({
-      ...u,
-      studyHours: Math.round((sessMap[u.user_id]?.totalSec || 0) / 360) / 10,
-      lastActive: sessMap[u.user_id]?.lastActive || null,
-      subjectsCount: subjMap[u.user_id] || 0,
-      topicsCount: topMap[u.user_id] || 0,
-    }));
+    // Flatten to same shape the frontend expects
+    const users = (profilesData || []).map(p => {
+      const sub = (p.subscriptions || [])[0] || {};
+      return {
+        user_id: p.id,
+        tier: sub.tier || 'free',
+        status: sub.status || 'active',
+        bkash_trx_id: sub.bkash_trx_id || null,
+        bkash_amount: sub.bkash_amount || null,
+        bkash_submitted_at: sub.bkash_submitted_at || null,
+        activated_at: sub.activated_at || null,
+        expires_at: sub.expires_at || null,
+        notes: sub.notes || null,
+        profiles: {
+          email: p.email,
+          display_name: p.display_name,
+          exam_board: p.exam_board,
+          qualification: p.qualification,
+          created_at: p.created_at,
+        },
+        studyHours: Math.round((sessMap[p.id]?.totalSec || 0) / 360) / 10,
+        lastActive: sessMap[p.id]?.lastActive || null,
+        subjectsCount: subjMap[p.id] || 0,
+        topicsCount: topMap[p.id] || 0,
+      };
+    });
 
     return res.status(200).json({ users });
   }
@@ -108,24 +126,28 @@ export default async function handler(req, res) {
     const today = todayStr();
     const monthStart = monthStartISO(0);
 
-    const [usersRes, paidRes, pendingRes, suspendedRes, sessRes, geminiRes, revRes] = await Promise.all([
-      adminSb.from('subscriptions').select('*', { count: 'exact', head: true }),
-      adminSb.from('subscriptions').select('*', { count: 'exact', head: true }).eq('status', 'active').neq('tier', 'free'),
+    const [usersRes, paidRes, pendingRes, activeTodayRes, sessRes, geminiRes, revRes] = await Promise.all([
+      // Total users = all profiles (not subscriptions — users without subscription rows are still users)
+      adminSb.from('profiles').select('*', { count: 'exact', head: true }),
+      adminSb.from('subscriptions').select('*', { count: 'exact', head: true }).neq('tier', 'free').eq('status', 'active'),
       adminSb.from('subscriptions').select('*', { count: 'exact', head: true }).not('bkash_trx_id', 'is', null).neq('status', 'active'),
-      adminSb.from('subscriptions').select('*', { count: 'exact', head: true }).eq('status', 'suspended'),
+      // Active today = distinct users with a session today (study_date is a date string 'YYYY-MM-DD')
+      adminSb.from('sessions').select('user_id').eq('study_date', today),
       adminSb.from('sessions').select('duration_sec'),
       adminSb.from('api_usage_counters').select('count').eq('counter_key', 'gemini_grounded_search').eq('reset_date', today).maybeSingle(),
       adminSb.from('subscriptions').select('bkash_amount').gte('activated_at', monthStart).not('bkash_amount', 'is', null),
     ]);
 
-    // errors today — graceful if table missing
+    const activeToday = new Set((activeTodayRes.data || []).map(s => s.user_id)).size;
+
+    // errors today — graceful if table missing or logged_at column absent
     let errorsToday = 0;
     try {
       const errRes = await adminSb
         .from('errors')
         .select('*', { count: 'exact', head: true })
-        .gte('logged_at', today);
-      errorsToday = errRes.count || 0;
+        .eq('logged_at', today);
+      if (!errRes.error) errorsToday = errRes.count || 0;
     } catch (_) { /* table may not exist */ }
 
     const totalStudyHours = Math.round((sessRes.data || []).reduce((a, s) => a + (s.duration_sec || 0), 0) / 360) / 10;
@@ -135,7 +157,7 @@ export default async function handler(req, res) {
       totalUsers: usersRes.count || 0,
       paidActive: paidRes.count || 0,
       pendingTrx: pendingRes.count || 0,
-      suspended: suspendedRes.count || 0,
+      activeToday,
       totalStudyHours,
       geminiToday: geminiRes.data?.count || 0,
       errorsToday,

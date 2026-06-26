@@ -199,6 +199,28 @@ td{padding:9px 12px;vertical-align:middle}
 #admin-toast{position:fixed;bottom:24px;right:24px;background:var(--ink3);border:1px solid var(--line);border-radius:8px;padding:10px 16px;font-family:var(--mono);font-size:12px;z-index:9999;pointer-events:none;opacity:0;transition:opacity .2s;max-width:340px}
 #admin-toast.show{opacity:1}
 
+/* ── theme switcher ─────────────────────────────────────────────────────── */
+.theme-switcher{padding:10px 20px 0;border-top:1px solid var(--line)}
+.theme-label{font-family:var(--mono);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.theme-options{display:flex;gap:4px}
+.theme-btn{flex:1;background:var(--ink3);border:1px solid var(--line);border-radius:4px;padding:4px 0;font-family:var(--mono);font-size:10px;color:var(--muted);cursor:pointer;transition:all .15s}
+.theme-btn:hover{border-color:var(--amber);color:var(--amber-soft)}
+.theme-btn.active{background:rgba(232,163,61,.15);border-color:var(--amber);color:var(--amber-soft)}
+
+/* ── light theme ─────────────────────────────────────────────────────────── */
+body.theme-light{
+  --ink:#f0e8d8;--ink2:#e8dcc8;--ink3:#ddd0b8;--line:#ccc0a0;
+  --paper:#1a1410;--paper-dim:#2a221c;--muted:#6a5e50;
+}
+
+/* ── midnight theme ──────────────────────────────────────────────────────── */
+body.theme-midnight{
+  --ink:#020205;--ink2:#06060f;--ink3:#0c0c1a;--line:#161628;
+  --paper:#d8d8f0;--paper-dim:#a0a0c8;--muted:#5050a0;
+  --amber:#5599ff;--amber-soft:#88bbff;--amber-deep:#3377dd;
+  --green:#44cc88;--green-deep:#22884a;
+}
+
 /* ── responsive ─────────────────────────────────────────────────────────── */
 @media(max-width:768px){
   #sidebar{width:180px;--sidebar-w:180px}
@@ -235,6 +257,14 @@ td{padding:9px 12px;vertical-align:middle}
       <div class="nav-item" data-sec="system">System</div>
       <div class="nav-item" data-sec="audit">Audit Log</div>
     </nav>
+    <div class="theme-switcher">
+      <div class="theme-label">Theme</div>
+      <div class="theme-options">
+        <button class="theme-btn" data-theme="">Dark</button>
+        <button class="theme-btn" data-theme="theme-light">Light</button>
+        <button class="theme-btn" data-theme="theme-midnight">Midnight</button>
+      </div>
+    </div>
     <div class="sidebar-footer">
       <div id="admin-user"></div>
       <button id="admin-logout" onclick="doLogout()">Sign out</button>
@@ -251,7 +281,7 @@ td{padding:9px 12px;vertical-align:middle}
         <div class="stat-card"><div class="sv" id="ds-total">–</div><div class="sk">Total users</div></div>
         <div class="stat-card"><div class="sv" id="ds-paid">–</div><div class="sk">Paid active</div></div>
         <div class="stat-card"><div class="sv" id="ds-pending">–</div><div class="sk">Pending TrxID</div></div>
-        <div class="stat-card"><div class="sv" id="ds-suspended">–</div><div class="sk">Suspended</div></div>
+        <div class="stat-card"><div class="sv" id="ds-active">–</div><div class="sk">Active today</div></div>
         <div class="stat-card"><div class="sv" id="ds-hours">–</div><div class="sk">Total study hrs</div></div>
         <div class="stat-card"><div class="sv" id="ds-gemini">–</div><div class="sk">Gemini calls today</div></div>
         <div class="stat-card"><div class="sv" id="ds-errors">–</div><div class="sk">Errors today</div></div>
@@ -653,11 +683,11 @@ async function loadDashboard() {
     document.getElementById('ds-total').textContent     = d.totalUsers;
     document.getElementById('ds-paid').textContent      = d.paidActive;
     document.getElementById('ds-pending').textContent   = d.pendingTrx;
-    document.getElementById('ds-suspended').textContent = d.suspended;
+    document.getElementById('ds-active').textContent    = d.activeToday;
     document.getElementById('ds-hours').textContent     = d.totalStudyHours;
     document.getElementById('ds-gemini').textContent    = d.geminiToday;
     document.getElementById('ds-errors').textContent    = d.errorsToday;
-    document.getElementById('ds-revenue').textContent   = '৳' + d.revenueThisMonth.toLocaleString();
+    document.getElementById('ds-revenue').textContent   = 'BDT' + d.revenueThisMonth.toLocaleString();
   } catch (e) {
     toast('Dashboard load failed: ' + e.message, true);
   }
@@ -713,7 +743,7 @@ function renderUsers(users) {
 
     const trxHtml = u.bkash_trx_id
       ? `<div class="trx-id">${esc(u.bkash_trx_id)}</div>
-         <div class="trx-meta">৳${u.bkash_amount || '?'} · ${fmtDate(u.bkash_submitted_at)}</div>`
+         <div class="trx-meta">BDT${u.bkash_amount || '?'} · ${fmtDate(u.bkash_submitted_at)}</div>`
       : `<span class="no-trx">none</span>`;
 
     let acts = `<div class="action-row">`;
@@ -877,9 +907,9 @@ async function loadRevenue() {
   try {
     const d = await apiGet({ action: 'revenue_stats' });
 
-    document.getElementById('rv-alltime').textContent   = '৳' + d.allTime.toLocaleString();
-    document.getElementById('rv-thismonth').textContent = '৳' + d.thisMonth.toLocaleString();
-    document.getElementById('rv-lastmonth').textContent = '৳' + d.lastMonth.toLocaleString();
+    document.getElementById('rv-alltime').textContent   = 'BDT' + d.allTime.toLocaleString();
+    document.getElementById('rv-thismonth').textContent = 'BDT' + d.thisMonth.toLocaleString();
+    document.getElementById('rv-lastmonth').textContent = 'BDT' + d.lastMonth.toLocaleString();
 
     renderBarChart(document.getElementById('rev-chart'), d.monthlyData, { color: 'var(--amber)' });
 
@@ -891,7 +921,7 @@ async function loadRevenue() {
       pendingTbody.innerHTML = d.pending.map((p, i) => `<tr>
         <td style="font-family:var(--mono);font-size:12px">${esc(p.email)}</td>
         <td><div class="trx-id">${esc(p.bkash_trx_id)}</div></td>
-        <td style="font-family:var(--mono)">৳${p.bkash_amount || '?'}</td>
+        <td style="font-family:var(--mono)">BDT${p.bkash_amount || '?'}</td>
         <td style="color:var(--muted);font-size:12px">${fmtDate(p.bkash_submitted_at)}</td>
         <td style="font-size:12px;color:var(--muted)">${esc(p.notes) || '–'}</td>
         <td>
@@ -916,7 +946,7 @@ async function loadRevenue() {
     } else {
       txnTbody.innerHTML = d.transactions.map(t => `<tr>
         <td style="font-family:var(--mono);font-size:12px">${esc(t.email)}</td>
-        <td style="font-family:var(--mono)">৳${parseFloat(t.bkash_amount || 0).toLocaleString()}</td>
+        <td style="font-family:var(--mono)">BDT${parseFloat(t.bkash_amount || 0).toLocaleString()}</td>
         <td><span class="badge ${t.tier}">${tierLabel(t.tier)}</span></td>
         <td><div class="trx-id" style="font-size:10px">${esc(t.bkash_trx_id) || '–'}</div></td>
         <td style="color:var(--muted);font-size:12px">${fmtDate(t.activated_at)}</td>
@@ -1161,6 +1191,26 @@ window.auditPage = function(delta) {
   if (newPage < 0 || newPage >= totalPages) return;
   loadAuditLog(newPage);
 };
+
+// ── theme switcher ────────────────────────────────────────────────────────
+
+(function initTheme() {
+  const saved = localStorage.getItem('admin-theme') || '';
+  applyTheme(saved);
+})();
+
+function applyTheme(cls) {
+  document.body.classList.remove('theme-light', 'theme-midnight');
+  if (cls) document.body.classList.add(cls);
+  document.querySelectorAll('.theme-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.theme === cls);
+  });
+  localStorage.setItem('admin-theme', cls);
+}
+
+document.querySelectorAll('.theme-btn').forEach(btn => {
+  btn.addEventListener('click', () => applyTheme(btn.dataset.theme));
+});
 
 // ── boot ──────────────────────────────────────────────────────────────────
 
