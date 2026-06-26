@@ -817,6 +817,27 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text
 .pp-link-btn.fallback{border:1px solid var(--border);background:var(--bg);color:var(--text-dim)}
 .pp-link-btn.fallback:hover{border-color:var(--text-dim);color:var(--text)}
 .pp-link-note{font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-top:10px;letter-spacing:.03em}
+.pp-link-btn.sequora{display:block;width:100%;text-align:center;border:none;background:var(--accent);color:#0a0a0a;font-weight:700;margin-bottom:10px;padding:12px 22px;border-radius:var(--rs)}
+.pp-link-btn.sequora:hover{opacity:.88}
+/* PDF viewer overlay */
+.pp-viewer-overlay{position:fixed;inset:0;background:var(--bg);z-index:2000;display:flex;flex-direction:column}
+.pp-viewer-overlay.hidden{display:none}
+.pp-viewer-bar{display:flex;align-items:center;gap:12px;padding:10px 16px;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0}
+.pp-viewer-label{font-family:var(--mono);font-size:12px;color:var(--text);font-weight:600;flex:1;letter-spacing:.03em}
+.pp-viewer-close{background:transparent;border:none;color:var(--text-dim);font-size:20px;cursor:pointer;padding:2px 8px;line-height:1}
+.pp-viewer-close:hover{color:var(--red)}
+.pp-viewer-frame-wrap{position:relative;flex:1;overflow:hidden}
+.pp-viewer-frame{width:100%;height:100%;border:none;display:block}
+.pp-viewer-spinner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg);gap:16px}
+.pp-viewer-spinner.hidden{display:none}
+.pp-viewer-spin-ring{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:pvspin .8s linear infinite}
+@keyframes pvspin{to{transform:rotate(360deg)}}
+.pp-viewer-spin-text{font-family:var(--mono);font-size:11px;color:var(--text-dim)}
+.pp-viewer-error{display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;position:absolute;inset:0;background:var(--bg);text-align:center;padding:32px}
+.pp-viewer-error.visible{display:flex}
+.pp-viewer-error-msg{font-family:var(--mono);font-size:13px;color:var(--text-dim);line-height:1.6}
+.pp-viewer-error-link{font-size:13px;color:var(--accent);text-decoration:none;font-weight:600}
+.pp-viewer-error-link:hover{text-decoration:underline}
 
 /* ── IB level badges ─────────────────────────────────────────── */
 .ib-lv-badge{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:1px 6px;border-radius:3px;vertical-align:middle;margin-left:4px;flex-shrink:0}
@@ -1336,17 +1357,37 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
     </div>
   </section>
 
-  <!-- PDF viewer modal (full-screen, outside section) -->
+  <!-- past paper bottom sheet -->
   <div id="pp-link-panel" class="pp-link-panel hidden">
     <div class="pp-link-panel-head">
       <span class="pp-link-label" id="pp-link-label"></span>
       <button class="pp-link-close" onclick="ppClosePaperPanel()">✕</button>
     </div>
+    <button class="pp-link-btn sequora" onclick="ppViewInSequora()">View in Sequora →</button>
     <div class="pp-link-body">
       <a id="pp-link-primary" class="pp-link-btn primary" href="#" target="_blank" rel="noopener">Open PDF →</a>
       <a id="pp-link-fallback" class="pp-link-btn fallback" href="#" target="_blank" rel="noopener">Try PapaCambridge →</a>
     </div>
     <div class="pp-link-note">Opens in a new tab — if the link is broken, try PapaCambridge</div>
+  </div>
+
+  <!-- PDF viewer overlay (full-screen) -->
+  <div id="pp-viewer-overlay" class="pp-viewer-overlay hidden">
+    <div class="pp-viewer-bar">
+      <span class="pp-viewer-label" id="pp-viewer-label"></span>
+      <button class="pp-viewer-close" onclick="ppCloseViewer()">✕</button>
+    </div>
+    <div class="pp-viewer-frame-wrap">
+      <iframe id="pp-viewer-frame" class="pp-viewer-frame" src="about:blank" title="PDF Viewer"></iframe>
+      <div id="pp-viewer-spinner" class="pp-viewer-spinner">
+        <div class="pp-viewer-spin-ring"></div>
+        <span class="pp-viewer-spin-text">Loading paper…</span>
+      </div>
+      <div id="pp-viewer-error" class="pp-viewer-error">
+        <span class="pp-viewer-error-msg">Could not load this paper — try opening directly</span>
+        <a id="pp-viewer-error-link" class="pp-viewer-error-link" href="#" target="_blank" rel="noopener">Open PDF directly →</a>
+      </div>
+    </div>
   </div>
 
   <!-- ================= COVERAGE MAP ================= -->
