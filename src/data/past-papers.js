@@ -50,7 +50,11 @@ function _papaCamUrl(qualification, examBoard, subjectName, code, year, session)
 // Cambridge URL builders
 function _camUrl(base, folder, year, code, sess, type, pv) {
   const y2 = String(year).slice(2);
-  return `https://papers.gceguide.cc/${base}/${folder}/${year}/${code}_${sess}${y2}_${type}_${pv}.pdf`;
+  const levelMap = { 'cambridge-IGCSE': 'igcse', 'a-levels': 'a-level' };
+  const sessMap  = { s: 'may-june', w: 'oct-nov', m: 'feb-march' };
+  const level    = levelMap[base] ?? base;
+  const sessFull = sessMap[sess] ?? sess;
+  return `https://www.papersdaddy.com/cambridge/${level}/${folder}/${year}-${sessFull}/${code}_${sess}${y2}_${type}_${pv}.pdf`;
 }
 
 // Generate Cambridge entries: papers = [[papNum, label], ...]
@@ -135,7 +139,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Mathematics',
     qualification: 'IGCSE / O Level',
     examBoard: 'Cambridge IGCSE',
-    papers: _genCam('cambridge-IGCSE', '0580', 'mathematics-(0580)', CAM_YEARS, CAM_SESS, [
+    papers: _genCam('cambridge-IGCSE', '0580', 'mathematics-0580', CAM_YEARS, CAM_SESS, [
       [1, 'P1 (Core)'], [2, 'P2 (Extended)'], [3, 'P3 (Core)'], [4, 'P4 (Extended)'],
     ]),
   },
@@ -144,7 +148,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Physics',
     qualification: 'IGCSE / O Level',
     examBoard: 'Cambridge IGCSE',
-    papers: _genCam('cambridge-IGCSE', '0625', 'physics-(0625)', CAM_YEARS, CAM_SESS, [
+    papers: _genCam('cambridge-IGCSE', '0625', 'physics-0625', CAM_YEARS, CAM_SESS, [
       [1, 'P1'], [2, 'P2'], [3, 'P3'],
     ]),
   },
@@ -153,7 +157,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Chemistry',
     qualification: 'IGCSE / O Level',
     examBoard: 'Cambridge IGCSE',
-    papers: _genCam('cambridge-IGCSE', '0620', 'chemistry-(0620)', CAM_YEARS, CAM_SESS, [
+    papers: _genCam('cambridge-IGCSE', '0620', 'chemistry-0620', CAM_YEARS, CAM_SESS, [
       [1, 'P1'], [2, 'P2'], [3, 'P3'],
     ]),
   },
@@ -162,7 +166,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Biology',
     qualification: 'IGCSE / O Level',
     examBoard: 'Cambridge IGCSE',
-    papers: _genCam('cambridge-IGCSE', '0610', 'biology-(0610)', CAM_YEARS, CAM_SESS, [
+    papers: _genCam('cambridge-IGCSE', '0610', 'biology-0610', CAM_YEARS, CAM_SESS, [
       [1, 'P1'], [2, 'P2'], [3, 'P3'],
     ]),
   },
@@ -171,7 +175,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Economics',
     qualification: 'IGCSE / O Level',
     examBoard: 'Cambridge IGCSE',
-    papers: _genCam('cambridge-IGCSE', '0455', 'economics-(0455)', CAM_YEARS, CAM_SESS, [
+    papers: _genCam('cambridge-IGCSE', '0455', 'economics-0455', CAM_YEARS, CAM_SESS, [
       [1, 'P1'], [2, 'P2'],
     ]),
   },
@@ -180,7 +184,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Business Studies',
     qualification: 'IGCSE / O Level',
     examBoard: 'Cambridge IGCSE',
-    papers: _genCam('cambridge-IGCSE', '0450', 'business-studies-(0450)', CAM_YEARS, CAM_SESS, [
+    papers: _genCam('cambridge-IGCSE', '0450', 'business-studies-0450', CAM_YEARS, CAM_SESS, [
       [1, 'P1'], [2, 'P2'],
     ]),
   },
@@ -242,7 +246,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Mathematics',
     qualification: 'A Level',
     examBoard: 'Cambridge',
-    papers: _genCam('a-levels', '9709', 'mathematics-(9709)', CAM_YEARS, CAM_SESS, [
+    papers: _genCam('a-levels', '9709', 'mathematics-9709', CAM_YEARS, CAM_SESS, [
       [1, 'P1 (Pure 1)'], [2, 'P2 (Pure 2)'], [3, 'P3 (Pure 3)'],
       [4, 'P4 (Mechanics)'], [5, 'P5 (Stats 1)'], [6, 'P6 (Stats 2)'],
     ]),
@@ -252,7 +256,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Physics',
     qualification: 'A Level',
     examBoard: 'Cambridge',
-    papers: _genCam('a-levels', '9702', 'physics-(9702)', CAM_YEARS, CAM_SESS, [
+    papers: _genCam('a-levels', '9702', 'physics-9702', CAM_YEARS, CAM_SESS, [
       [1, 'P1 (MCQ)'], [2, 'P2 (AS Structured)'], [3, 'P3 (Practical)'],
       [4, 'P4 (A2 Structured)'], [5, 'P5 (Planning)'],
     ]),
@@ -262,7 +266,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Chemistry',
     qualification: 'A Level',
     examBoard: 'Cambridge',
-    papers: _genCam('a-levels', '9701', 'chemistry-(9701)', CAM_YEARS, CAM_SESS, [
+    papers: _genCam('a-levels', '9701', 'chemistry-9701', CAM_YEARS, CAM_SESS, [
       [1, 'P1 (MCQ)'], [2, 'P2 (AS Structured)'], [3, 'P3 (Practical)'],
       [4, 'P4 (A2 Structured)'], [5, 'P5 (Planning)'],
     ]),
@@ -272,7 +276,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Biology',
     qualification: 'A Level',
     examBoard: 'Cambridge',
-    papers: _genCam('a-levels', '9700', 'biology-(9700)', CAM_YEARS, CAM_SESS, [
+    papers: _genCam('a-levels', '9700', 'biology-9700', CAM_YEARS, CAM_SESS, [
       [1, 'P1 (MCQ)'], [2, 'P2 (AS Structured)'], [3, 'P3 (Practical)'],
       [4, 'P4 (A2 Structured)'], [5, 'P5 (Planning)'],
     ]),
@@ -282,7 +286,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Economics',
     qualification: 'A Level',
     examBoard: 'Cambridge',
-    papers: _genCam('a-levels', '9708', 'economics-(9708)', CAM_YEARS, CAM_SESS, [
+    papers: _genCam('a-levels', '9708', 'economics-9708', CAM_YEARS, CAM_SESS, [
       [1, 'P1 (MCQ)'], [2, 'P2 (Data Response)'],
       [3, 'P3 (MCQ)'],  [4, 'P4 (Essay)'],
     ]),
