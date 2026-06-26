@@ -2464,44 +2464,6 @@ function ppClosePaperPanel() {
 }
 window.ppClosePaperPanel = ppClosePaperPanel;
 
-function ppViewInSequora() {
-  const url = _ppCurrentUrl;
-  const label = _ppCurrentLabel;
-  if (!url) return;
-  ppClosePaperPanel();
-  const overlay = document.getElementById('pp-viewer-overlay');
-  const labelEl = document.getElementById('pp-viewer-label');
-  const frame = document.getElementById('pp-viewer-frame');
-  const spinner = document.getElementById('pp-viewer-spinner');
-  const errorEl = document.getElementById('pp-viewer-error');
-  const errorLink = document.getElementById('pp-viewer-error-link');
-  if (!overlay || !frame) return;
-  if (labelEl) labelEl.textContent = label;
-  if (errorLink) errorLink.href = url;
-  spinner.classList.remove('hidden');
-  errorEl.classList.remove('visible');
-  overlay.classList.remove('hidden');
-  const proxyUrl = window.location.origin + '/api/pdf-proxy?url=' + encodeURIComponent(url);
-  const viewerUrl = 'https://mozilla.github.io/pdf.js/web/viewer.html?file=' + encodeURIComponent(proxyUrl);
-  frame.src = viewerUrl;
-  const timeout = setTimeout(() => {
-    spinner.classList.add('hidden');
-    errorEl.classList.add('visible');
-  }, 10000);
-  frame.onload = () => {
-    clearTimeout(timeout);
-    spinner.classList.add('hidden');
-  };
-}
-window.ppViewInSequora = ppViewInSequora;
-
-function ppCloseViewer() {
-  const overlay = document.getElementById('pp-viewer-overlay');
-  const frame = document.getElementById('pp-viewer-frame');
-  if (overlay) overlay.classList.add('hidden');
-  if (frame) frame.src = 'about:blank';
-}
-window.ppCloseViewer = ppCloseViewer;
 
 /* ============ nav ============ */
 function go(v){

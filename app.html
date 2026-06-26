@@ -1363,31 +1363,12 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
       <span class="pp-link-label" id="pp-link-label"></span>
       <button class="pp-link-close" onclick="ppClosePaperPanel()">✕</button>
     </div>
-    <button class="pp-link-btn sequora" onclick="ppViewInSequora()">View in Sequora →</button>
+    <button class="pp-link-btn sequora" style="opacity:0.4;cursor:not-allowed;pointer-events:none">Coming Soon 🔒</button>
     <div class="pp-link-body">
       <a id="pp-link-primary" class="pp-link-btn primary" href="#" target="_blank" rel="noopener">Open PDF →</a>
       <a id="pp-link-fallback" class="pp-link-btn fallback" href="#" target="_blank" rel="noopener">Try PapaCambridge →</a>
     </div>
-    <div class="pp-link-note">Opens in a new tab — if the link is broken, try PapaCambridge</div>
-  </div>
-
-  <!-- PDF viewer overlay (full-screen) -->
-  <div id="pp-viewer-overlay" class="pp-viewer-overlay hidden">
-    <div class="pp-viewer-bar">
-      <span class="pp-viewer-label" id="pp-viewer-label"></span>
-      <button class="pp-viewer-close" onclick="ppCloseViewer()">✕</button>
-    </div>
-    <div class="pp-viewer-frame-wrap">
-      <iframe id="pp-viewer-frame" class="pp-viewer-frame" src="about:blank" title="PDF Viewer"></iframe>
-      <div id="pp-viewer-spinner" class="pp-viewer-spinner">
-        <div class="pp-viewer-spin-ring"></div>
-        <span class="pp-viewer-spin-text">Loading paper…</span>
-      </div>
-      <div id="pp-viewer-error" class="pp-viewer-error">
-        <span class="pp-viewer-error-msg">Could not load this paper — try opening directly</span>
-        <a id="pp-viewer-error-link" class="pp-viewer-error-link" href="#" target="_blank" rel="noopener">Open PDF directly →</a>
-      </div>
-    </div>
+    <div class="pp-link-note">Opens PapaCambridge for this exact session — find your paper there</div>
   </div>
 
   <!-- ================= COVERAGE MAP ================= -->
