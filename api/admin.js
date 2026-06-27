@@ -121,6 +121,30 @@ export default async function handler(req, res) {
     return res.status(200).json({ users });
   }
 
+  // ── GET: debug_stats ──────────────────────────────────────────────────────
+  if (req.method === 'GET' && action === 'debug_stats') {
+    const results = {};
+
+    const t1 = await adminSb.from('profiles').select('*', { count: 'exact', head: true });
+    results.profiles = { count: t1.count, error: t1.error?.message };
+
+    const t2 = await adminSb.from('profiles').select('id, email').limit(3);
+    results.profilesSample = { data: t2.data, error: t2.error?.message };
+
+    const t3 = await adminSb.from('subscriptions').select('*', { count: 'exact', head: true });
+    results.subscriptions = { count: t3.count, error: t3.error?.message };
+
+    const t4 = await adminSb.from('sessions').select('*', { count: 'exact', head: true });
+    results.sessions = { count: t4.count, error: t4.error?.message };
+
+    results.supabaseUrl = process.env.SUPABASE_URL ? 'SET' : 'MISSING';
+    results.serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+      ? 'SET (length: ' + process.env.SUPABASE_SERVICE_ROLE_KEY.length + ')'
+      : 'MISSING';
+
+    return res.status(200).json(results);
+  }
+
   // ── GET: dashboard_stats ───────────────────────────────────────────────────
   if (req.method === 'GET' && action === 'dashboard_stats') {
     const today = todayStr();
