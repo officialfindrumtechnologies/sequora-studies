@@ -637,12 +637,17 @@ window.doLogout = async function() {
 };
 
 async function checkSession() {
-  const session = await getSession();
+  const { data: { session } } = await sb.auth.getSession();
   if (!session) return;
+  const token = session.access_token;
 
   const resp = await fetch('/api/admin?action=list_users', {
-    headers: { 'Authorization': `Bearer ${session.access_token}` },
+    headers: { 'Authorization': `Bearer ${token}` },
   });
+  if (resp.status === 401) {
+    await sb.auth.signOut();
+    return;
+  }
   if (resp.status === 403) {
     toast('This account does not have admin access.', true);
     await sb.auth.signOut();
@@ -1218,10 +1223,11 @@ sb.auth.onAuthStateChange((event) => {
   if (event === 'SIGNED_OUT') {
     document.getElementById('admin-ui').style.display = 'none';
     document.getElementById('login-panel').style.display = 'flex';
+    loadedSections.clear();
+  } else if (event === 'INITIAL_SESSION') {
+    checkSession();
   }
 });
-
-checkSession();
 </script>
 </body>
 </html>
