@@ -151,6 +151,11 @@ function renderSubjectControls() {
 
 // ── add subject panel ──────────────────────────────────────────────────────
 function sbShowAddSubjectPanel() {
+  if (sv.tier === 'free' && sv.subjects.length >= 5) {
+    sbToast('Free plan limited to 5 subjects — upgrade to Pro for unlimited');
+    if (window.showPaywall) window.showPaywall('Unlimited Subjects');
+    return;
+  }
   const panel = document.getElementById('sb-add-panel');
   if (!panel) return;
   const hidden = panel.classList.toggle('hidden');
@@ -259,6 +264,11 @@ function sbIBRadioChange(radioName) {
 window.sbIBRadioChange = sbIBRadioChange;
 
 async function sbAddFromIBTemplate(radioName, btn) {
+  if (sv.tier === 'free' && sv.subjects.length >= 5) {
+    sbToast('Free plan limited to 5 subjects — upgrade to Pro');
+    if (window.showPaywall) window.showPaywall('Unlimited Subjects');
+    return;
+  }
   const sel = document.querySelector(`input[name="${radioName}"]:checked`);
   if (!sel) { sbToast('Select HL or SL'); return; }
   const templateId = sel.value;
@@ -280,6 +290,11 @@ async function sbAddFromIBTemplate(radioName, btn) {
 window.sbAddFromIBTemplate = sbAddFromIBTemplate;
 
 async function sbAddFromTemplate(templateId, btn) {
+  if (sv.tier === 'free' && sv.subjects.length >= 5) {
+    sbToast('Free plan limited to 5 subjects — upgrade to Pro');
+    if (window.showPaywall) window.showPaywall('Unlimited Subjects');
+    return;
+  }
   if (btn) { btn.disabled = true; btn.textContent = 'Adding…'; }
   try {
     const { data: { user } } = await supabase.auth.getUser();
@@ -298,6 +313,11 @@ async function sbAddFromTemplate(templateId, btn) {
 window.sbAddFromTemplate = sbAddFromTemplate;
 
 async function sbAddManualSubject() {
+  if (sv.tier === 'free' && sv.subjects.length >= 5) {
+    sbToast('Free plan limited to 5 subjects — upgrade to Pro');
+    if (window.showPaywall) window.showPaywall('Unlimited Subjects');
+    return;
+  }
   const nameEl  = document.getElementById('sb-new-subj-name');
   const shortEl = document.getElementById('sb-new-subj-short');
   const codeEl  = document.getElementById('sb-new-subj-code');

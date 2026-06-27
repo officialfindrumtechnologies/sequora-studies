@@ -53,7 +53,36 @@ let LS_OK=true;
 try{const k="__t";localStorage.setItem(k,"1");localStorage.removeItem(k);}catch(e){LS_OK=false;}
 
 let currentUser = null;
-let userTier = 'free';   // updated after login from subscriptions table
+let userTier = 'free';   // updated after login from subscriptions table — values: 'free' | 'paid_1' | 'paid_2'
+
+function isPro() { return userTier === 'paid_1' || userTier === 'paid_2'; }
+
+function requiresPro(featureName) {
+  if (!isPro()) { showPaywall(featureName); return true; }
+  return false;
+}
+
+window.showPaywall = function(featureName) {
+  const existing = document.getElementById('sq-paywall-modal');
+  if (existing) existing.remove();
+  const overlay = document.createElement('div');
+  overlay.id = 'sq-paywall-modal';
+  overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;padding:20px';
+  const feat = featureName ? `<b style="color:var(--text,#f4ece0)">${featureName}</b> requires Sequora Pro. ` : '';
+  overlay.innerHTML = `<div style="background:var(--ink2,#1a1815);border:1px solid var(--border,#332d26);border-radius:12px;padding:28px 32px;max-width:360px;width:100%;text-align:center">
+    <div style="font-size:26px;margin-bottom:10px">⭐</div>
+    <div style="font-family:var(--display,'Fraunces',serif);font-size:20px;color:var(--accent,#e8a33d);margin-bottom:8px">Sequora Pro</div>
+    <div style="font-size:14px;color:var(--text-dim,#9b9184);margin-bottom:20px">${feat}Upgrade for <b style="color:var(--text,#f4ece0)">BDT 299/month</b>.</div>
+    <div style="display:flex;gap:10px;justify-content:center">
+      <button id="sq-paywall-upgrade" style="background:var(--accent,#e8a33d);color:#12100e;border:none;border-radius:8px;padding:10px 22px;font-family:var(--mono,'JetBrains Mono',monospace);font-size:13px;font-weight:700;cursor:pointer">Upgrade</button>
+      <button id="sq-paywall-close" style="background:transparent;border:1px solid var(--border,#332d26);border-radius:8px;padding:10px 22px;font-family:var(--mono,'JetBrains Mono',monospace);font-size:13px;color:var(--text-dim,#9b9184);cursor:pointer">Maybe later</button>
+    </div>
+  </div>`;
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+  overlay.querySelector('#sq-paywall-upgrade').addEventListener('click', () => { overlay.remove(); showUpgradePrompt(); });
+  overlay.querySelector('#sq-paywall-close').addEventListener('click', () => overlay.remove());
+  document.body.appendChild(overlay);
+};
 let isPulling = false;
 let isPushing = false;
 let pushPending = false;
@@ -3986,6 +4015,7 @@ function _captureLayoutFromDOM() {
 }
 
 function enterLayoutEdit() {
+  if (requiresPro('Homepage Layout Customization')) return;
   _homeEditMode = true;
   document.getElementById('nav').style.display = 'none';
   const layoutBtn = document.getElementById('layout-customize-btn');
@@ -4256,7 +4286,7 @@ function _bmSwatchesHtml() {
     const bg = th.vars['--ink2'];
     const active = current.preset === key;
     const isPremium = key !== 'ascent';
-    const locked = isPremium && userTier !== 'pro';
+    const locked = isPremium && !isPro();
     
     return `<div class="bm-swatch${active ? ' active' : ''}${locked ? ' locked' : ''}"
       style="background:${bg};border-color:${active ? accent : 'transparent'};box-shadow:inset 0 0 0 4px ${accent}"
@@ -4373,9 +4403,9 @@ function _refreshBurgerSwatches(activeKey) {
 }
 
 window.bmSelectTheme = function(key) {
-  if (key !== 'ascent' && userTier !== 'pro') {
+  if (key !== 'ascent' && !isPro()) {
     setToast('Upgrade to Pro to use ' + (THEMES[key]?.label || key));
-    showPaywall();
+    showPaywall(THEMES[key]?.label || key);
     return;
   }
   const themeData = { preset: key };
@@ -4445,6 +4475,7 @@ async function checkFriendsBadge() {
 
 /* ============ leaderboard modal ============ */
 window.openLeaderboard = async function() {
+  if (requiresPro('Friends & Leaderboard')) return;
   const modal = document.getElementById('lb-modal');
   if (!modal) return;
   modal.classList.remove('hidden');
@@ -4813,6 +4844,7 @@ window.closeBonesModal = function() {
 
 // ── Topic Visual Modal ────────────────────────────────────────────────────
 window.openTopicVisualModal = function(tvKey, topicId) {
+  if (requiresPro('Topic Visualizer')) return;
   const data = TOPIC_VISUALS[tvKey];
   if (!data) return;
   const topic = data.topics.find(t => t.id === topicId);
@@ -5251,6 +5283,9 @@ async function handleSession(session) {
       setSubjectsViewTier(userTier);
     }).catch(() => { userTier = 'free'; });
 
+    // Fetch active announcements (non-blocking)
+    _fetchAnnouncements();
+
     // Sync theme from DB (non-blocking) — localStorage already applied above
     loadThemeFromDB().then(dbTheme => {
       if (dbTheme) {
@@ -5577,9 +5612,9 @@ async function bibFindCitations() {
   }
 
   // Mode B: API fallback
-  if (userTier !== 'pro') {
+  if (!isPro()) {
     const errEl = document.getElementById('cit-error');
-    errEl.innerHTML = 'Upgrade to Pro to use AI Web Grounding <a href="#" onclick="showPaywall(); return false;" style="color:var(--accent);text-decoration:underline;">Upgrade</a>';
+    errEl.innerHTML = 'Upgrade to Pro to use AI Web Grounding <a href="#" onclick="showPaywall(\'Sequora Citation AI\'); return false;" style="color:var(--accent);text-decoration:underline;">Upgrade</a>';
     errEl.style.display = 'block';
     return;
   }
@@ -5655,6 +5690,47 @@ function bibCopySelected() {
   navigator.clipboard.writeText(selected.join('\n\n')).then(() =>
     setToast(`${selected.length} citation${selected.length !== 1 ? 's' : ''} copied!`)
   );
+}
+
+// ── announcements ──────────────────────────────────────────────────────────
+
+async function _fetchAnnouncements() {
+  try {
+    const { data } = await supabase
+      .from('announcements')
+      .select('id, message')
+      .eq('active', true)
+      .order('created_at', { ascending: false })
+      .limit(1);
+    if (!data?.length) return;
+    const ann = data[0];
+    const dismissed = JSON.parse(localStorage.getItem('sq_dismissed_ann') || '[]');
+    if (dismissed.includes(ann.id)) return;
+    _showAnnouncementBanner(ann);
+  } catch (_) { /* announcements table may not exist yet */ }
+}
+
+function _showAnnouncementBanner(ann) {
+  const existing = document.getElementById('sq-ann-banner');
+  if (existing) existing.remove();
+  const banner = document.createElement('div');
+  banner.id = 'sq-ann-banner';
+  banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:8000;background:#e8a33d;color:#12100e;padding:9px 16px;display:flex;align-items:center;gap:12px;font-family:var(--mono,"JetBrains Mono",monospace);font-size:12px;box-shadow:0 2px 8px rgba(0,0,0,.3)';
+  const msg = document.createElement('span');
+  msg.style.flex = '1';
+  msg.textContent = ann.message;
+  const closeBtn = document.createElement('button');
+  closeBtn.textContent = '×';
+  closeBtn.style.cssText = 'background:rgba(0,0,0,.15);border:none;border-radius:4px;padding:3px 9px;cursor:pointer;font-size:14px;font-weight:700;color:#12100e;line-height:1';
+  closeBtn.addEventListener('click', () => {
+    const d = JSON.parse(localStorage.getItem('sq_dismissed_ann') || '[]');
+    d.push(ann.id);
+    localStorage.setItem('sq_dismissed_ann', JSON.stringify(d));
+    banner.remove();
+  });
+  banner.appendChild(msg);
+  banner.appendChild(closeBtn);
+  document.body.prepend(banner);
 }
 
 document.querySelectorAll("#nav button").forEach(b=>{

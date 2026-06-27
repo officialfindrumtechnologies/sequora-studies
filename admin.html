@@ -253,7 +253,9 @@ body.theme-midnight{
       <div class="nav-item" data-sec="users">Users</div>
       <div class="nav-item" data-sec="revenue">Revenue</div>
       <div class="nav-item" data-sec="activity">Activity</div>
+      <div class="nav-item" data-sec="content">Content Stats</div>
       <div class="nav-item" data-sec="errors">Error Reports <span class="nav-badge" id="err-badge" style="display:none"></span></div>
+      <div class="nav-item" data-sec="notifications">Notifications</div>
       <div class="nav-item" data-sec="system">System</div>
       <div class="nav-item" data-sec="audit">Audit Log</div>
     </nav>
@@ -293,7 +295,7 @@ body.theme-midnight{
     <section id="sec-users" class="section">
       <div class="section-title">Users</div>
       <div class="toolbar">
-        <input type="text" id="admin-search" placeholder="Search email or TrxID…" oninput="filterUsers()">
+        <input type="text" id="admin-search" placeholder="Search email, name or TrxID…" oninput="filterUsers()">
         <select id="filter-status" onchange="filterUsers()">
           <option value="">All statuses</option>
           <option value="active">Active</option>
@@ -308,13 +310,14 @@ body.theme-midnight{
           <option value="paid_2">Pro</option>
         </select>
         <button class="btn-ref" onclick="loadUsers()">↺ Refresh</button>
+        <button class="btn-ref" onclick="exportUsersCSV()">⬇ CSV</button>
         <span class="count-label" id="admin-count"></span>
       </div>
       <div class="table-wrap">
         <table id="user-table">
           <thead>
             <tr>
-              <th>Email</th>
+              <th>Email / Name</th>
               <th>Status</th>
               <th>Tier</th>
               <th>Qual</th>
@@ -416,12 +419,74 @@ body.theme-midnight{
       </div>
     </section>
 
+    <!-- CONTENT STATS -->
+    <section id="sec-content" class="section">
+      <div class="section-title">Content Stats</div>
+      <div class="stat-grid" style="margin-bottom:20px">
+        <div class="stat-card"><div class="sv" id="cs-total-topics">–</div><div class="sk">Total topics</div></div>
+        <div class="stat-card"><div class="sv" id="cs-ready-topics">–</div><div class="sk">Topics ready</div></div>
+        <div class="stat-card"><div class="sv" id="cs-coverage">–</div><div class="sk">Avg coverage %</div></div>
+      </div>
+      <div class="sub-title">Popular Subjects (by user count)</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Subject</th><th>Users</th><th></th></tr></thead>
+          <tbody id="cs-subj-tbody"><tr class="loading-row"><td colspan="3">Loading…</td></tr></tbody>
+        </table>
+      </div>
+      <div class="sub-title">Popular Topics (by occurrence)</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Topic Name</th><th>Count</th><th></th></tr></thead>
+          <tbody id="cs-topic-tbody"><tr class="loading-row"><td colspan="3">Loading…</td></tr></tbody>
+        </table>
+      </div>
+      <div class="sub-title">Qualification Distribution</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Qualification</th><th>Users</th></tr></thead>
+          <tbody id="cs-qual-tbody"><tr class="loading-row"><td colspan="2">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- NOTIFICATIONS -->
+    <section id="sec-notifications" class="section">
+      <div class="section-title">Notifications</div>
+      <div id="notif-no-table" class="migration-note" style="display:none">
+        The <code>announcements</code> table does not exist yet. Run the SQL migration first:
+        <br><code>CREATE TABLE IF NOT EXISTS announcements (id uuid DEFAULT gen_random_uuid() PRIMARY KEY, message text NOT NULL, created_at timestamptz DEFAULT now(), created_by uuid, active boolean DEFAULT true);</code>
+        <br><code>ALTER TABLE announcements ENABLE ROW LEVEL SECURITY;</code>
+        <br><code>CREATE POLICY "Anyone can read announcements" ON announcements FOR SELECT USING (active = true);</code>
+      </div>
+      <div class="sub-title">Create Announcement</div>
+      <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:28px;flex-wrap:wrap">
+        <textarea id="notif-msg" rows="3" placeholder="Announcement message for all users…" style="flex:1;min-width:260px;resize:vertical;background:var(--ink2);color:var(--paper);border:1px solid var(--line);border-radius:6px;padding:8px 12px;font-family:var(--mono);font-size:13px;"></textarea>
+        <button class="btn-act activate" style="align-self:flex-end;padding:8px 18px" onclick="createAnnouncement()">Post</button>
+      </div>
+      <div class="sub-title">Active &amp; Past Announcements</div>
+      <button class="btn-ref" onclick="loadNotifications()" style="margin-bottom:12px">↺ Refresh</button>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Message</th><th>Created</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="notif-tbody"><tr class="loading-row"><td colspan="4">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
     <!-- SYSTEM -->
     <section id="sec-system" class="section">
       <div class="section-title">System</div>
       <div class="sub-title">Database Row Counts</div>
       <div class="db-grid" id="sys-db-grid">
         <div class="stat-card"><div class="sv">–</div><div class="sk">Loading…</div></div>
+      </div>
+      <div class="sub-title">Environment Variables</div>
+      <div class="table-wrap" style="margin-bottom:28px">
+        <table>
+          <thead><tr><th>Variable</th><th>Status / Value</th></tr></thead>
+          <tbody id="sys-env-tbody"><tr class="loading-row"><td colspan="2">Loading…</td></tr></tbody>
+        </table>
       </div>
       <div class="sub-title">Recent Admin Actions</div>
       <div class="table-wrap">
@@ -603,13 +668,15 @@ function showSection(sec) {
   if (!loadedSections.has(sec)) {
     loadedSections.add(sec);
     switch(sec) {
-      case 'dashboard': loadDashboard(); break;
-      case 'users':    loadUsers(); break;
-      case 'revenue':  loadRevenue(); break;
-      case 'activity': loadActivity(); break;
-      case 'errors':   loadErrors(); break;
-      case 'system':   loadSystem(); break;
-      case 'audit':    loadAuditLog(0); break;
+      case 'dashboard':     loadDashboard(); break;
+      case 'users':         loadUsers(); break;
+      case 'revenue':       loadRevenue(); break;
+      case 'activity':      loadActivity(); break;
+      case 'content':       loadContent(); break;
+      case 'errors':        loadErrors(); break;
+      case 'notifications': loadNotifications(); break;
+      case 'system':        loadSystem(); break;
+      case 'audit':         loadAuditLog(0); break;
     }
   }
 }
@@ -719,8 +786,9 @@ window.filterUsers = function() {
 
   const filtered = allUsers.filter(u => {
     const email = (u.profiles?.email || '').toLowerCase();
+    const name  = (u.profiles?.display_name || '').toLowerCase();
     const trx   = (u.bkash_trx_id || '').toLowerCase();
-    if (q && !email.includes(q) && !trx.includes(q)) return false;
+    if (q && !email.includes(q) && !name.includes(q) && !trx.includes(q)) return false;
     if (status === 'pending') { if (!isPending(u)) return false; }
     else if (status && u.status !== status) return false;
     if (tier && u.tier !== tier) return false;
@@ -741,6 +809,7 @@ function renderUsers(users) {
 
   tbody.innerHTML = users.map((u, idx) => {
     const email  = esc(u.profiles?.email || '(no email)');
+    const dname  = esc(u.profiles?.display_name || '');
     const joined = fmtDate(u.profiles?.created_at);
     const qual   = esc(u.profiles?.qualification || '–');
     const pend   = isPending(u);
@@ -782,7 +851,7 @@ function renderUsers(users) {
     acts += `</div>`;
 
     return `<tr class="${pend ? 'has-pending' : ''}">
-      <td style="font-family:var(--mono);font-size:12px;max-width:180px;overflow:hidden;text-overflow:ellipsis">${email}</td>
+      <td style="font-size:12px;max-width:200px;overflow:hidden;text-overflow:ellipsis"><span style="font-family:var(--mono)">${email}</span>${dname ? `<br><span style="color:var(--muted);font-size:11px">${dname}</span>` : ''}</td>
       <td><span class="badge ${statusDisplay}">${statusDisplay}</span></td>
       <td><span class="badge ${u.tier}">${tierLabel(u.tier)}</span></td>
       <td style="font-size:12px;color:var(--muted)">${qual}</td>
@@ -1129,6 +1198,19 @@ async function loadSystem() {
       </div>
     `).join('');
 
+    // Env vars table
+    if (d.envVars) {
+      const envTbody = document.getElementById('sys-env-tbody');
+      envTbody.innerHTML = Object.entries(d.envVars).map(([k, v]) => {
+        const isMissing = v === 'MISSING' || v === 'NOT SET';
+        const color = isMissing ? 'var(--red)' : (v === 'SET' ? 'var(--green)' : 'var(--amber-soft)');
+        return `<tr>
+          <td style="font-family:var(--mono);font-size:12px">${esc(k)}</td>
+          <td style="font-family:var(--mono);font-size:12px;color:${color}">${esc(v)}</td>
+        </tr>`;
+      }).join('');
+    }
+
     const logTbody = document.getElementById('sys-log-tbody');
     if (!d.recentLog.length) {
       logTbody.innerHTML = '<tr class="empty-row"><td colspan="4">No admin actions yet</td></tr>';
@@ -1144,6 +1226,140 @@ async function loadSystem() {
     toast('System stats load failed: ' + e.message, true);
   }
 }
+
+// ── CONTENT STATS ─────────────────────────────────────────────────────────
+
+async function loadContent() {
+  try {
+    const d = await apiGet({ action: 'content_stats' });
+
+    document.getElementById('cs-total-topics').textContent = d.totalCount;
+    document.getElementById('cs-ready-topics').textContent = d.readyCount;
+    document.getElementById('cs-coverage').textContent = d.coveragePct + '%';
+
+    const maxSubj = d.popularSubjects[0]?.userCount || 1;
+    document.getElementById('cs-subj-tbody').innerHTML = d.popularSubjects.length
+      ? d.popularSubjects.map(s => {
+          const pct = Math.round((s.userCount / maxSubj) * 100);
+          return `<tr>
+            <td>${esc(s.name)}</td>
+            <td style="font-family:var(--mono)">${s.userCount}</td>
+            <td style="width:160px"><div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div></td>
+          </tr>`;
+        }).join('')
+      : '<tr class="empty-row"><td colspan="3">No data</td></tr>';
+
+    const maxTopic = d.popularTopics[0]?.count || 1;
+    document.getElementById('cs-topic-tbody').innerHTML = d.popularTopics.length
+      ? d.popularTopics.map(t => {
+          const pct = Math.round((t.count / maxTopic) * 100);
+          return `<tr>
+            <td>${esc(t.name)}</td>
+            <td style="font-family:var(--mono)">${t.count}</td>
+            <td style="width:160px"><div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div></td>
+          </tr>`;
+        }).join('')
+      : '<tr class="empty-row"><td colspan="3">No data</td></tr>';
+
+    document.getElementById('cs-qual-tbody').innerHTML = d.qualDistribution.length
+      ? d.qualDistribution.map(q => `<tr>
+          <td>${esc(q.qual)}</td>
+          <td style="font-family:var(--mono)">${q.count}</td>
+        </tr>`).join('')
+      : '<tr class="empty-row"><td colspan="2">No data</td></tr>';
+  } catch (e) {
+    toast('Content stats load failed: ' + e.message, true);
+  }
+}
+
+// ── NOTIFICATIONS ─────────────────────────────────────────────────────────
+
+window.loadNotifications = async function() {
+  document.getElementById('notif-tbody').innerHTML = '<tr class="loading-row"><td colspan="4">Loading…</td></tr>';
+  try {
+    const d = await apiGet({ action: 'announcements' });
+
+    if (!d.tableExists) {
+      document.getElementById('notif-no-table').style.display = 'block';
+      document.getElementById('notif-tbody').innerHTML = '<tr class="empty-row"><td colspan="4">Create the table first (see migration note above)</td></tr>';
+      return;
+    }
+
+    if (!d.announcements.length) {
+      document.getElementById('notif-tbody').innerHTML = '<tr class="empty-row"><td colspan="4">No announcements yet</td></tr>';
+      return;
+    }
+
+    document.getElementById('notif-tbody').innerHTML = d.announcements.map(a => `<tr>
+      <td style="max-width:400px;font-size:13px">${esc(a.message)}</td>
+      <td style="color:var(--muted);font-size:12px;white-space:nowrap">${fmtDateTime(a.created_at)}</td>
+      <td><span class="badge ${a.active ? 'active' : 'expired'}">${a.active ? 'Active' : 'Inactive'}</span></td>
+      <td>
+        <div class="action-row">
+          <button class="btn-act ${a.active ? 'suspend' : 'unsuspend'}" onclick="toggleAnnouncement('${esc(a.id)}',${!a.active})">${a.active ? 'Deactivate' : 'Activate'}</button>
+          <button class="btn-act danger" onclick="deleteAnnouncement('${esc(a.id)}')">Delete</button>
+        </div>
+      </td>
+    </tr>`).join('');
+  } catch (e) {
+    document.getElementById('notif-tbody').innerHTML = `<tr class="error-row"><td colspan="4">Error: ${esc(e.message)}</td></tr>`;
+  }
+};
+
+window.createAnnouncement = async function() {
+  const msg = document.getElementById('notif-msg').value.trim();
+  if (!msg) { toast('Message required', true); return; }
+  try {
+    await apiPost('create_announcement', { message: msg });
+    document.getElementById('notif-msg').value = '';
+    toast('Announcement posted');
+    loadedSections.delete('notifications');
+    await loadNotifications();
+    loadedSections.add('notifications');
+  } catch (e) { toast(e.message, true); }
+};
+
+window.toggleAnnouncement = async function(announcementId, active) {
+  try {
+    await apiPost('toggle_announcement', { announcementId, active });
+    toast(active ? 'Announcement activated' : 'Announcement deactivated');
+    loadedSections.delete('notifications');
+    await loadNotifications();
+    loadedSections.add('notifications');
+  } catch (e) { toast(e.message, true); }
+};
+
+window.deleteAnnouncement = async function(announcementId) {
+  if (!confirm('Delete this announcement?')) return;
+  try {
+    await apiPost('delete_announcement', { announcementId });
+    toast('Announcement deleted');
+    loadedSections.delete('notifications');
+    await loadNotifications();
+    loadedSections.add('notifications');
+  } catch (e) { toast(e.message, true); }
+};
+
+// ── CSV export ────────────────────────────────────────────────────────────
+
+window.exportUsersCSV = async function() {
+  try {
+    const session = await getSession();
+    if (!session) throw new Error('Not logged in');
+    const resp = await fetch('/api/admin?action=export_users', {
+      headers: { 'Authorization': `Bearer ${session.access_token}` },
+    });
+    if (!resp.ok) { const j = await resp.json(); throw new Error(j.error || 'Export failed'); }
+    const blob = await resp.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'sequora-users.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+    toast('CSV downloaded');
+  } catch (e) { toast(e.message, true); }
+};
 
 // ── AUDIT LOG ─────────────────────────────────────────────────────────────
 

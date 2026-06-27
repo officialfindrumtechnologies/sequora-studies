@@ -395,7 +395,7 @@ export default async function handler(req, res) {
 
   // ── GET: system_stats ──────────────────────────────────────────────────────
   if (req.method === 'GET' && action === 'system_stats') {
-    const tables = ['profiles', 'subscriptions', 'subjects', 'topics', 'sessions', 'errors', 'admin_log'];
+    const tables = ['profiles', 'subscriptions', 'subjects', 'topics', 'sessions', 'errors', 'admin_log', 'announcements'];
     const countResults = await Promise.all(
       tables.map(t =>
         adminSb.from(t).select('*', { count: 'exact', head: true })
@@ -425,7 +425,114 @@ export default async function handler(req, res) {
       adminEmail: em[l.admin_id] || l.admin_id || '–',
     }));
 
-    return res.status(200).json({ counts, recentLog });
+    const envVars = {
+      SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY ? 'SET' : 'MISSING',
+      RESEND_API_KEY:            process.env.RESEND_API_KEY            ? 'SET' : 'MISSING',
+      GEMINI_API_KEY:            process.env.GEMINI_API_KEY            ? 'SET' : 'MISSING',
+      ADMIN_EMAIL:               process.env.ADMIN_EMAIL               || 'NOT SET',
+    };
+
+    return res.status(200).json({ counts, recentLog, envVars });
+  }
+
+  // ── GET: content_stats ─────────────────────────────────────────────────────
+  if (req.method === 'GET' && action === 'content_stats') {
+    const [subjRes, topicRes, profileRes] = await Promise.all([
+      adminSb.from('subjects').select('user_id, name'),
+      adminSb.from('topics').select('user_id, name, status'),
+      adminSb.from('profiles').select('qualification'),
+    ]);
+
+    // Most popular subjects by unique user count
+    const subjUserMap = {};
+    (subjRes.data || []).forEach(s => {
+      if (!subjUserMap[s.name]) subjUserMap[s.name] = new Set();
+      subjUserMap[s.name].add(s.user_id);
+    });
+    const popularSubjects = Object.entries(subjUserMap)
+      .map(([name, users]) => ({ name, userCount: users.size }))
+      .sort((a, b) => b.userCount - a.userCount)
+      .slice(0, 10);
+
+    // Most common topic names
+    const topicNameMap = {};
+    (topicRes.data || []).forEach(t => {
+      const key = t.name?.trim();
+      if (key) topicNameMap[key] = (topicNameMap[key] || 0) + 1;
+    });
+    const popularTopics = Object.entries(topicNameMap)
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10);
+
+    // Coverage stats
+    const allTopics = topicRes.data || [];
+    const readyCount = allTopics.filter(t => t.status === 'ready').length;
+    const totalCount = allTopics.length;
+    const coveragePct = totalCount > 0 ? Math.round((readyCount / totalCount) * 100) : 0;
+
+    // Qualification distribution
+    const qualMap = {};
+    (profileRes.data || []).forEach(p => {
+      const q = p.qualification || 'unknown';
+      qualMap[q] = (qualMap[q] || 0) + 1;
+    });
+    const qualDistribution = Object.entries(qualMap)
+      .map(([qual, count]) => ({ qual, count }))
+      .sort((a, b) => b.count - a.count);
+
+    return res.status(200).json({ popularSubjects, popularTopics, coveragePct, readyCount, totalCount, qualDistribution });
+  }
+
+  // ── GET: announcements ─────────────────────────────────────────────────────
+  if (req.method === 'GET' && action === 'announcements') {
+    let data, error;
+    try {
+      ({ data, error } = await adminSb
+        .from('announcements')
+        .select('id, message, created_at, active')
+        .order('created_at', { ascending: false }));
+    } catch (_) {
+      return res.status(200).json({ announcements: [], tableExists: false });
+    }
+    if (error) {
+      if (error.code === 'PGRST106' || error.message?.includes('does not exist')) {
+        return res.status(200).json({ announcements: [], tableExists: false });
+      }
+      return res.status(500).json({ error: error.message });
+    }
+    return res.status(200).json({ announcements: data || [], tableExists: true });
+  }
+
+  // ── GET: export_users ──────────────────────────────────────────────────────
+  if (req.method === 'GET' && action === 'export_users') {
+    const { data: profilesData } = await adminSb
+      .from('profiles')
+      .select('id, email, display_name, qualification, created_at, subscriptions(tier, status, activated_at, expires_at)')
+      .order('created_at', { ascending: false });
+
+    const header = ['email', 'display_name', 'tier', 'status', 'qualification', 'joined', 'expires'];
+    const rows = (profilesData || []).map(p => {
+      const sub = (p.subscriptions || [])[0] || {};
+      return [
+        p.email || '',
+        p.display_name || '',
+        sub.tier || 'free',
+        sub.status || 'active',
+        p.qualification || '',
+        p.created_at ? p.created_at.slice(0, 10) : '',
+        sub.expires_at ? sub.expires_at.slice(0, 10) : '',
+      ];
+    });
+
+    const csvRows = [header, ...rows].map(r =>
+      r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')
+    );
+    const csv = csvRows.join('\n');
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename="sequora-users.csv"');
+    return res.status(200).send(csv);
   }
 
   // ── GET: audit_log ─────────────────────────────────────────────────────────
@@ -618,6 +725,53 @@ export default async function handler(req, res) {
     if (!errorId) return res.status(400).json({ error: 'errorId required' });
 
     const { error } = await adminSb.from('errors').delete().eq('id', errorId);
+    if (error) return res.status(500).json({ error: 'Delete failed: ' + error.message });
+
+    return res.status(200).json({ ok: true });
+  }
+
+  // ── create_announcement ────────────────────────────────────────────────────
+  if (action === 'create_announcement') {
+    const { message } = req.body;
+    if (!message?.trim()) return res.status(400).json({ error: 'message required' });
+
+    const { data: ann, error } = await adminSb
+      .from('announcements')
+      .insert({ message: message.trim(), created_by: user.id, active: true })
+      .select()
+      .single();
+
+    if (error) return res.status(500).json({ error: 'Create failed: ' + error.message });
+
+    await adminSb.from('admin_log').insert({
+      admin_id: user.id, action: 'create_announcement', target_user: null,
+      details: { message: message.trim().slice(0, 120) },
+    });
+
+    return res.status(200).json({ ok: true, announcement: ann });
+  }
+
+  // ── toggle_announcement ────────────────────────────────────────────────────
+  if (action === 'toggle_announcement') {
+    const { announcementId, active } = req.body;
+    if (!announcementId) return res.status(400).json({ error: 'announcementId required' });
+
+    const { error } = await adminSb
+      .from('announcements')
+      .update({ active: !!active })
+      .eq('id', announcementId);
+
+    if (error) return res.status(500).json({ error: 'Toggle failed: ' + error.message });
+
+    return res.status(200).json({ ok: true });
+  }
+
+  // ── delete_announcement ────────────────────────────────────────────────────
+  if (action === 'delete_announcement') {
+    const { announcementId } = req.body;
+    if (!announcementId) return res.status(400).json({ error: 'announcementId required' });
+
+    const { error } = await adminSb.from('announcements').delete().eq('id', announcementId);
     if (error) return res.status(500).json({ error: 'Delete failed: ' + error.message });
 
     return res.status(200).json({ ok: true });
