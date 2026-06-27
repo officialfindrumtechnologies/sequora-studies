@@ -187,6 +187,17 @@ td{padding:9px 12px;vertical-align:middle}
 /* ── pagination ─────────────────────────────────────────────────────────── */
 .pagination{display:flex;gap:8px;align-items:center;margin-top:12px;font-family:var(--mono);font-size:12px}
 .pagination button{background:var(--ink2);border:1px solid var(--line);border-radius:5px;padding:4px 12px;color:var(--paper-dim);cursor:pointer;font-family:var(--mono);font-size:12px}
+
+/* ── custom confirm dialog ───────────────────────────────────────────────── */
+#admin-confirm{display:none;position:fixed;inset:0;background:rgba(18,16,14,.75);z-index:9999;align-items:center;justify-content:center}
+#admin-confirm.open{display:flex}
+#admin-confirm .cfm-box{background:var(--ink2);border:1px solid var(--line);border-radius:var(--r);padding:28px 32px;max-width:380px;width:90%;text-align:center}
+#admin-confirm .cfm-msg{font-family:var(--body);font-size:16px;margin-bottom:24px;line-height:1.5}
+#admin-confirm .cfm-btns{display:flex;gap:10px;justify-content:center}
+#admin-confirm .cfm-ok{background:var(--red);color:#fff;border:none;border-radius:6px;padding:8px 22px;font-family:var(--mono);font-size:13px;cursor:pointer}
+#admin-confirm .cfm-ok:hover{opacity:.85}
+#admin-confirm .cfm-cancel{background:var(--ink3);color:var(--paper-dim);border:1px solid var(--line);border-radius:6px;padding:8px 22px;font-family:var(--mono);font-size:13px;cursor:pointer}
+#admin-confirm .cfm-cancel:hover{color:var(--paper)}
 .pagination button:hover{border-color:var(--amber);color:var(--amber)}
 .pagination button:disabled{opacity:.4;cursor:not-allowed}
 .pagination .pg-info{color:var(--muted)}
@@ -541,6 +552,17 @@ body.theme-midnight{
 
 <div id="admin-toast"></div>
 
+<!-- Custom confirm dialog (replaces native confirm() which freezes the tab) -->
+<div id="admin-confirm">
+  <div class="cfm-box">
+    <div class="cfm-msg" id="cfm-msg"></div>
+    <div class="cfm-btns">
+      <button class="cfm-cancel" id="cfm-cancel">Cancel</button>
+      <button class="cfm-ok" id="cfm-ok">Confirm</button>
+    </div>
+  </div>
+</div>
+
 <script type="module">
 import { createClient } from '@supabase/supabase-js';
 
@@ -555,6 +577,27 @@ let auditCurrentPage = 0;
 let auditTotal = 0;
 const AUDIT_PAGE_SIZE = 20;
 const loadedSections = new Set();
+
+// ── custom confirm (avoids native confirm() which blocks the extension) ────
+function adminConfirm(message) {
+  return new Promise(resolve => {
+    const overlay = document.getElementById('admin-confirm');
+    document.getElementById('cfm-msg').textContent = message;
+    overlay.classList.add('open');
+    const ok = document.getElementById('cfm-ok');
+    const cancel = document.getElementById('cfm-cancel');
+    function cleanup(val) {
+      overlay.classList.remove('open');
+      ok.removeEventListener('click', onOk);
+      cancel.removeEventListener('click', onCancel);
+      resolve(val);
+    }
+    function onOk() { cleanup(true); }
+    function onCancel() { cleanup(false); }
+    ok.addEventListener('click', onOk);
+    cancel.addEventListener('click', onCancel);
+  });
+}
 
 // ── helpers ────────────────────────────────────────────────────────────────
 
@@ -950,7 +993,7 @@ window.changeTier = async function(userId, selId) {
 };
 
 window.suspendUser = async function(userId) {
-  if (!confirm('Suspend this user?')) return;
+  if (!await adminConfirm('Suspend this user?')) return;
   try {
     await apiPost('suspend', { userId });
     toast('User suspended');
@@ -967,7 +1010,7 @@ window.unsuspendUser = async function(userId) {
 };
 
 window.dismissTrx = async function(userId) {
-  if (!confirm('Dismiss TrxID without activating?')) return;
+  if (!await adminConfirm('Dismiss TrxID without activating?')) return;
   try {
     await apiPost('dismiss_trx', { userId });
     toast('TrxID dismissed');
@@ -1045,7 +1088,7 @@ window.activatePending = async function(userId, selId) {
 };
 
 window.dismissPending = async function(userId) {
-  if (!confirm('Dismiss this TrxID without activating?')) return;
+  if (!await adminConfirm('Dismiss this TrxID without activating?')) return;
   try {
     await apiPost('dismiss_trx', { userId });
     toast('TrxID dismissed');
@@ -1176,7 +1219,7 @@ window.resolveError = async function(errorId) {
 };
 
 window.deleteError = async function(errorId) {
-  if (!confirm('Delete this error report permanently?')) return;
+  if (!await adminConfirm('Delete this error report permanently?')) return;
   try {
     await apiPost('delete_error', { errorId });
     toast('Error deleted');
@@ -1330,7 +1373,7 @@ window.toggleAnnouncement = async function(announcementId, active) {
 };
 
 window.deleteAnnouncement = async function(announcementId) {
-  if (!confirm('Delete this announcement?')) return;
+  if (!await adminConfirm('Delete this announcement?')) return;
   try {
     await apiPost('delete_announcement', { announcementId });
     toast('Announcement deleted');

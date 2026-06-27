@@ -55,19 +55,21 @@ export default async function handler(req, res) {
 
   // ── GET: list_users ────────────────────────────────────────────────────────
   if (req.method === 'GET' && action === 'list_users') {
-    // Query profiles as primary so ALL registered users appear (including those without a subscription row)
-    const { data: profilesData, error: profilesErr } = await adminSb
-      .from('profiles')
-      .select(`
-        id, email, display_name, exam_board, qualification, created_at,
-        subscriptions ( id, tier, status, bkash_trx_id, bkash_amount, bkash_submitted_at, activated_at, expires_at, notes, updated_at )
-      `)
-      .order('created_at', { ascending: false });
+    // Query profiles and subscriptions separately (FK is subscriptions.user_id → auth.users.id,
+    // not profiles.id, so embedded PostgREST select doesn't resolve the relationship)
+    const [profilesRes, subsRes] = await Promise.all([
+      adminSb.from('profiles').select('id, email, display_name, exam_board, qualification, created_at').order('created_at', { ascending: false }),
+      adminSb.from('subscriptions').select('user_id, id, tier, status, bkash_trx_id, bkash_amount, bkash_submitted_at, activated_at, expires_at, notes, updated_at'),
+    ]);
 
-    if (profilesErr) {
-      console.error('[Admin] list_users error:', profilesErr);
-      return res.status(500).json({ error: 'Failed to fetch users: ' + profilesErr.message });
+    if (profilesRes.error) {
+      console.error('[Admin] list_users error:', profilesRes.error);
+      return res.status(500).json({ error: 'Failed to fetch users: ' + profilesRes.error.message });
     }
+
+    const profilesData = profilesRes.data || [];
+    const subMap = {};
+    (subsRes.data || []).forEach(s => { subMap[s.user_id] = s; });
 
     // Aggregate sessions, subjects, topics per user in parallel
     const [sessRes, subjectRes, topicRes] = await Promise.all([
@@ -92,8 +94,8 @@ export default async function handler(req, res) {
     (topicRes.data || []).forEach(t => { topMap[t.user_id] = (topMap[t.user_id] || 0) + 1; });
 
     // Flatten to same shape the frontend expects
-    const users = (profilesData || []).map(p => {
-      const sub = (p.subscriptions || [])[0] || {};
+    const users = profilesData.map(p => {
+      const sub = subMap[p.id] || {};
       return {
         user_id: p.id,
         tier: sub.tier || 'free',
@@ -341,11 +343,12 @@ export default async function handler(req, res) {
 
   // ── GET: list_errors ───────────────────────────────────────────────────────
   if (req.method === 'GET' && action === 'list_errors') {
+    // Select without `resolved` first — column may not exist yet
     let data, fetchError;
     try {
       const res2 = await adminSb
         .from('errors')
-        .select('id, user_id, subject_id, mistake, fix, logged_at, resolved')
+        .select('id, user_id, subject_id, mistake, fix, logged_at')
         .order('logged_at', { ascending: false })
         .limit(200);
       data = res2.data;
@@ -381,14 +384,17 @@ export default async function handler(req, res) {
       subjectName: subNameMap[e.subject_id] || '–',
     }));
 
-    // Unresolved count — try resolved column; if missing, count all
+    // Check if `resolved` column exists, count unresolved if so
     let unresolvedCount = errors.length;
+    let hasResolvedCol = false;
     try {
-      const uc = await adminSb.from('errors').select('*', { count: 'exact', head: true }).is('resolved', false);
-      if (!uc.error) unresolvedCount = uc.count || 0;
-    } catch (_) { /* */ }
-
-    const hasResolvedCol = errors.some(e => 'resolved' in e);
+      const uc = await adminSb.from('errors').select('resolved', { count: 'exact', head: false }).limit(1);
+      if (!uc.error) {
+        hasResolvedCol = true;
+        const ucAll = await adminSb.from('errors').select('*', { count: 'exact', head: true }).is('resolved', false);
+        if (!ucAll.error) unresolvedCount = ucAll.count || 0;
+      }
+    } catch (_) { /* resolved column absent */ }
 
     return res.status(200).json({ errors, tableExists: true, unresolvedCount, hasResolvedCol });
   }
@@ -506,14 +512,17 @@ export default async function handler(req, res) {
 
   // ── GET: export_users ──────────────────────────────────────────────────────
   if (req.method === 'GET' && action === 'export_users') {
-    const { data: profilesData } = await adminSb
-      .from('profiles')
-      .select('id, email, display_name, qualification, created_at, subscriptions(tier, status, activated_at, expires_at)')
-      .order('created_at', { ascending: false });
+    const [profilesRes, subsRes] = await Promise.all([
+      adminSb.from('profiles').select('id, email, display_name, qualification, created_at').order('created_at', { ascending: false }),
+      adminSb.from('subscriptions').select('user_id, tier, status, activated_at, expires_at'),
+    ]);
+    const profilesData = profilesRes.data || [];
+    const exportSubMap = {};
+    (subsRes.data || []).forEach(s => { exportSubMap[s.user_id] = s; });
 
     const header = ['email', 'display_name', 'tier', 'status', 'qualification', 'joined', 'expires'];
-    const rows = (profilesData || []).map(p => {
-      const sub = (p.subscriptions || [])[0] || {};
+    const rows = profilesData.map(p => {
+      const sub = exportSubMap[p.id] || {};
       return [
         p.email || '',
         p.display_name || '',
