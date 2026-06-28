@@ -822,7 +822,7 @@ export default async function handler(req, res) {
 
     try {
       await emailWeeklyReport({
-        email: profile.email,
+        email: process.env.RESEND_TEST_TO || profile.email,
         displayName: profile.display_name || profile.email.split('@')[0],
         stats: {
           studyHours,
