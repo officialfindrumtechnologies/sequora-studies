@@ -3,601 +3,461 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sequora Studies — Study smarter. Score higher.</title>
-<meta name="description" content="The study tracker built for IGCSE, A-Level, IB and MBBS students in Bangladesh. Topic visualizer, spaced recall, past papers, and AI-powered study tools.">
-<meta property="og:title" content="Sequora Studies — Study smarter. Score higher.">
-<meta property="og:description" content="The study tracker built for IGCSE, A-Level, IB and MBBS students in Bangladesh.">
+<title>Sequora Studies — The study tracker that thinks ahead.</title>
+<meta name="description" content="Built for IGCSE, A-Level, IB and MBBS students. Track coverage. Schedule recall. Study with clarity.">
+<meta property="og:title" content="Sequora Studies — The study tracker that thinks ahead.">
+<meta property="og:description" content="Built for IGCSE, A-Level, IB and MBBS students in Bangladesh.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,700&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ── TOKENS ─────────────────────────────────────────────────────────── */
-:root{
-  --ink:    #0a0a0a;
-  --ink2:   #111111;
-  --ink3:   #191919;
-  --border: #242424;
-  --border2:#2e2e2e;
-
-  --text:     #f0ece4;
-  --text-dim: #7a7468;
-  --muted:    #47413a;
-
-  --amber:       #e8a33d;
-  --amber-soft:  #f0b95a;
-  --amber-deep:  #c4862a;
-  --amber-glow:  rgba(232,163,61,.12);
-  --amber-border:rgba(232,163,61,.22);
-
-  --paper:    #f4ece0;
-  --green:    #5aa87c;
+:root {
+  --bg:     #f4ece0;
+  --ink:    #12100e;
+  --muted:  #9b9184;
+  --faint:  #b8ada0;
+  --line:   #cdc4b5;
+  --amber:  #e8a33d;
 
   --display: "Fraunces", serif;
   --body:    "Newsreader", serif;
   --mono:    "JetBrains Mono", monospace;
 
-  --r:   10px;
-  --rs:   6px;
   --max: 1120px;
 }
 
 /* ── RESET ──────────────────────────────────────────────────────────── */
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth;background:var(--ink)}
-body{
-  font-family:var(--body);
-  background:var(--ink);
-  color:var(--text);
-  font-size:17px;
-  line-height:1.65;
-  -webkit-font-smoothing:antialiased;
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; background: var(--bg); }
+body {
+  font-family: var(--body);
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* ── LAYOUT ─────────────────────────────────────────────────────────── */
-.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 40px; }
 
 /* ── NAV ────────────────────────────────────────────────────────────── */
-.site-nav{
-  position:fixed;top:0;left:0;right:0;
-  z-index:100;
-  padding:0 24px;
-  background:rgba(10,10,10,.82);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-  height:60px;
+.site-nav {
+  position: sticky; top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 0 40px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: space-between;
+  height: 58px;
 }
-.nav-brand{
-  font-family:var(--display);
-  font-size:20px;
-  font-weight:700;
-  color:var(--text);
-  letter-spacing:-.02em;
-  text-decoration:none;
+.nav-brand {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 21px;
+  font-weight: 400;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: -.02em;
 }
-.nav-brand em{font-style:italic;color:var(--amber);font-weight:400}
-.nav-links{display:flex;align-items:center;gap:8px}
-.nav-links a{
-  font-family:var(--mono);
-  font-size:12px;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-  color:var(--text-dim);
-  text-decoration:none;
-  padding:7px 12px;
-  border-radius:var(--rs);
-  transition:color .15s,background .15s;
+.nav-right {
+  display: flex; align-items: center; gap: 28px;
 }
-.nav-links a:hover{color:var(--text);background:var(--ink3)}
-.nav-cta{
-  background:var(--amber);
-  color:var(--ink) !important;
-  font-weight:600 !important;
-  padding:7px 16px !important;
+.nav-signin {
+  font-family: var(--body);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color .15s;
 }
-.nav-cta:hover{background:var(--amber-soft) !important}
+.nav-signin:hover { color: var(--ink); }
+.nav-start {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--line);
+  transition: text-decoration-color .15s;
+}
+.nav-start:hover { text-decoration-color: var(--amber); }
 
 /* ── HERO ───────────────────────────────────────────────────────────── */
-.hero{
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  padding:120px 24px 80px;
-  position:relative;
-  overflow:hidden;
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 40px 60px;
+  max-width: var(--max);
+  margin: 0 auto;
 }
-.hero-grid{
-  position:absolute;inset:0;
-  background-image:
-    linear-gradient(var(--border) 1px,transparent 1px),
-    linear-gradient(90deg,var(--border) 1px,transparent 1px);
-  background-size:48px 48px;
-  opacity:.35;
-  pointer-events:none;
+.hero-inner {
+  display: grid;
+  grid-template-columns: 60fr 40fr;
+  gap: 80px;
+  align-items: start;
 }
-.hero-vignette{
-  position:absolute;inset:0;
-  background:radial-gradient(ellipse 80% 60% at 50% 50%,transparent 30%,var(--ink) 80%);
-  pointer-events:none;
+.hero-left { padding-top: 0; }
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 28px;
 }
-.hero-content{position:relative;z-index:1;max-width:780px}
-.hero-eyebrow{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  font-family:var(--mono);
-  font-size:11px;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  color:var(--amber);
-  background:var(--amber-glow);
-  border:1px solid var(--amber-border);
-  border-radius:100px;
-  padding:5px 14px;
-  margin-bottom:32px;
+.hero-title {
+  font-family: var(--display);
+  font-size: clamp(52px, 8vw, 108px);
+  font-weight: 700;
+  line-height: .96;
+  letter-spacing: -.03em;
+  color: var(--ink);
+  margin-bottom: 24px;
 }
-.hero-eyebrow::before{
-  content:'';
-  width:6px;height:6px;
-  border-radius:50%;
-  background:var(--amber);
-  animation:pulse 2.4s ease-in-out infinite;
+.hero-rule {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin-bottom: 24px;
 }
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+.hero-body {
+  font-family: var(--body);
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--ink);
+  line-height: 1.6;
+  margin-bottom: 32px;
+  max-width: 480px;
+}
+.hero-links {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+.hero-link-primary {
+  font-family: var(--body);
+  font-size: 17px;
+  color: var(--amber);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--amber);
+}
+.hero-link-secondary {
+  font-family: var(--body);
+  font-size: 17px;
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1px;
+  transition: color .15s, border-color .15s;
+}
+.hero-link-secondary:hover { color: var(--ink); border-color: var(--muted); }
 
-h1.hero-title{
-  font-family:var(--display);
-  font-size:clamp(44px,7vw,88px);
-  font-weight:700;
-  line-height:.95;
-  letter-spacing:-.03em;
-  color:var(--text);
-  margin-bottom:8px;
+.hero-right {
+  padding-top: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
-h1.hero-title em{
-  font-style:italic;
-  font-weight:400;
-  color:var(--amber);
+.stat-item {
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
 }
-.hero-sub{
-  font-family:var(--body);
-  font-size:clamp(17px,2.2vw,21px);
-  font-weight:300;
-  font-style:italic;
-  color:var(--text-dim);
-  line-height:1.5;
-  margin:20px auto 40px;
-  max-width:580px;
+.stat-item:first-child { border-top: 1px solid var(--line); }
+.stat-num {
+  font-family: var(--display);
+  font-size: 64px;
+  font-weight: 400;
+  color: var(--muted);
+  line-height: 1;
+  letter-spacing: -.03em;
+  margin-bottom: 4px;
 }
-.hero-sub strong{color:var(--text);font-style:normal;font-weight:400}
-
-.hero-actions{
-  display:flex;
-  gap:12px;
-  justify-content:center;
-  flex-wrap:wrap;
-  margin-bottom:40px;
-}
-.btn-primary{
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--amber);
-  color:var(--ink);
-  font-family:var(--mono);font-size:14px;font-weight:600;
-  letter-spacing:.04em;
-  padding:14px 28px;
-  border-radius:var(--r);
-  text-decoration:none;
-  border:none;cursor:pointer;
-  transition:background .15s,transform .1s,box-shadow .15s;
-  box-shadow:0 4px 24px var(--amber-glow);
-}
-.btn-primary:hover{background:var(--amber-soft);transform:translateY(-1px);box-shadow:0 8px 32px rgba(232,163,61,.25)}
-.btn-primary:active{transform:translateY(0)}
-.btn-outline{
-  display:inline-flex;align-items:center;gap:8px;
-  background:transparent;
-  color:var(--text);
-  font-family:var(--mono);font-size:14px;font-weight:500;
-  letter-spacing:.04em;
-  padding:13px 28px;
-  border-radius:var(--r);
-  text-decoration:none;
-  border:1px solid var(--border2);
-  cursor:pointer;
-  transition:border-color .15s,background .15s;
-}
-.btn-outline:hover{border-color:var(--text-dim);background:var(--ink3)}
-
-.hero-social-proof{
-  font-family:var(--mono);
-  font-size:12px;
-  letter-spacing:.05em;
-  color:var(--muted);
-}
-.hero-social-proof span{
-  color:var(--green);
-  font-weight:600;
+.stat-label {
+  font-family: var(--body);
+  font-size: 14px;
+  color: var(--faint);
+  line-height: 1.4;
 }
 
-/* ── FADE-IN ANIM ───────────────────────────────────────────────────── */
-.fade-up{
-  opacity:0;
-  transform:translateY(20px);
-  animation:fadeUp .6s ease forwards;
+.hero-full-rule {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin-top: 80px;
 }
-.fade-up:nth-child(1){animation-delay:.1s}
-.fade-up:nth-child(2){animation-delay:.22s}
-.fade-up:nth-child(3){animation-delay:.34s}
-.fade-up:nth-child(4){animation-delay:.46s}
-.fade-up:nth-child(5){animation-delay:.56s}
-@keyframes fadeUp{to{opacity:1;transform:none}}
 
 /* ── SECTION SHARED ─────────────────────────────────────────────────── */
-section{padding:96px 0}
-.section-eyebrow{
-  font-family:var(--mono);
-  font-size:11px;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  color:var(--amber);
-  margin-bottom:16px;
-}
-.section-title{
-  font-family:var(--display);
-  font-size:clamp(28px,4vw,44px);
-  font-weight:700;
-  letter-spacing:-.025em;
-  line-height:1.1;
-  color:var(--text);
-  margin-bottom:16px;
-}
-.section-title em{font-style:italic;font-weight:400;color:var(--text-dim)}
-.section-sub{
-  font-family:var(--body);
-  font-size:18px;
-  font-weight:300;
-  font-style:italic;
-  color:var(--text-dim);
-  line-height:1.5;
-  max-width:520px;
-}
+section { padding: 96px 0; }
 
 /* ── FEATURES ───────────────────────────────────────────────────────── */
-#features{background:var(--ink2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.features-header{margin-bottom:56px}
-.features-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:1px;
-  background:var(--border);
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  overflow:hidden;
+#features { }
+.features-heading {
+  font-family: var(--display);
+  font-size: clamp(36px, 5vw, 52px);
+  font-weight: 700;
+  letter-spacing: -.025em;
+  line-height: 1.08;
+  color: var(--ink);
+  margin-bottom: 20px;
 }
-.feature-card{
-  background:var(--ink2);
-  padding:32px 28px;
-  transition:background .2s;
+.features-rule {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin-bottom: 56px;
 }
-.feature-card:hover{background:var(--ink3)}
-.feature-icon{
-  width:40px;height:40px;
-  background:var(--amber-glow);
-  border:1px solid var(--amber-border);
-  border-radius:var(--rs);
-  display:flex;align-items:center;justify-content:center;
-  margin-bottom:18px;
-  font-size:18px;
+.features-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
 }
-.feature-name{
-  font-family:var(--display);
-  font-size:19px;
-  font-weight:600;
-  letter-spacing:-.02em;
-  color:var(--text);
-  margin-bottom:8px;
+.feature-item {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 0;
+  padding: 36px 0;
+  border-bottom: 1px solid var(--line);
+  column-gap: 24px;
 }
-.feature-desc{
-  font-family:var(--body);
-  font-size:15px;
-  font-weight:300;
-  font-style:italic;
-  color:var(--text-dim);
-  line-height:1.55;
+.feature-item:nth-child(odd) { padding-right: 56px; border-right: 1px solid var(--line); }
+.feature-item:nth-child(even) { padding-left: 56px; }
+.feature-num {
+  font-family: var(--display);
+  font-size: 36px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--line);
+  line-height: 1;
+  padding-top: 4px;
+}
+.feature-name {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -.02em;
+  color: var(--ink);
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+.feature-desc {
+  font-family: var(--body);
+  font-size: 14px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--muted);
+  line-height: 1.55;
 }
 
 /* ── CURRICULA ──────────────────────────────────────────────────────── */
-#curricula{text-align:center}
-.curricula-header{text-align:center;margin-bottom:52px}
-.curricula-header .section-sub{margin:0 auto}
-.curric-grid{
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px;
-  justify-content:center;
-  margin-bottom:40px;
+#curricula {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 32px 0;
+  text-align: center;
 }
-.curric-badge{
-  display:inline-flex;align-items:center;gap:10px;
-  background:var(--ink2);
-  border:1px solid var(--border2);
-  border-radius:var(--r);
-  padding:14px 20px;
-  transition:border-color .15s,background .15s;
+.curricula-line {
+  font-family: var(--body);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--muted);
+  line-height: 1.5;
 }
-.curric-badge:hover{border-color:var(--amber-border);background:var(--amber-glow)}
-.curric-icon{font-size:20px}
-.curric-info{}
-.curric-board{
-  font-family:var(--mono);
-  font-size:10px;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  color:var(--text-dim);
-  display:block;
-}
-.curric-level{
-  font-family:var(--display);
-  font-size:15px;
-  font-weight:600;
-  color:var(--text);
-  letter-spacing:-.01em;
-}
-.curric-stat{
-  font-family:var(--mono);
-  font-size:13px;
-  color:var(--text-dim);
-  text-align:center;
-  padding:16px;
-  background:var(--ink2);
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  max-width:480px;
-  margin:0 auto;
-}
-.curric-stat strong{color:var(--amber);font-size:20px;font-family:var(--display);font-weight:700;display:block;margin-bottom:4px}
 
 /* ── PRICING ────────────────────────────────────────────────────────── */
-#pricing{background:var(--ink2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.pricing-header{margin-bottom:52px}
-.pricing-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:20px;
-  max-width:760px;
+#pricing { }
+.pricing-heading {
+  font-family: var(--display);
+  font-size: clamp(36px, 5vw, 52px);
+  font-weight: 700;
+  letter-spacing: -.025em;
+  line-height: 1.08;
+  color: var(--ink);
+  margin-bottom: 20px;
 }
-.pricing-card{
-  background:var(--ink);
-  border:1px solid var(--border2);
-  border-radius:var(--r);
-  padding:36px;
-  position:relative;
+.pricing-rule {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin-bottom: 52px;
 }
-.pricing-card.popular{
-  border-color:var(--amber-border);
-  background:linear-gradient(135deg,rgba(232,163,61,.06) 0%,transparent 60%),var(--ink);
+.pricing-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--line);
 }
-.popular-badge{
-  position:absolute;top:-1px;right:24px;
-  background:var(--amber);
-  color:var(--ink);
-  font-family:var(--mono);
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:.1em;
-  text-transform:uppercase;
-  padding:4px 12px;
-  border-radius:0 0 var(--rs) var(--rs);
+.pricing-table th,
+.pricing-table td {
+  padding: 16px 24px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
 }
-.plan-name{
-  font-family:var(--mono);
-  font-size:11px;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  color:var(--text-dim);
-  margin-bottom:12px;
+.pricing-table th {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--bg);
+  font-weight: 500;
 }
-.plan-price{
-  font-family:var(--display);
-  font-size:42px;
-  font-weight:700;
-  color:var(--text);
-  letter-spacing:-.02em;
-  line-height:1;
-  margin-bottom:4px;
+.pricing-table th:first-child { width: 55%; }
+.pricing-table th.col-pro {
+  border-left: 3px solid var(--amber);
+  color: var(--ink);
 }
-.plan-price sub{
-  font-size:16px;
-  font-weight:400;
-  color:var(--text-dim);
-  font-family:var(--body);
-  vertical-align:baseline;
+.pricing-table td {
+  font-family: var(--body);
+  font-size: 15px;
+  color: var(--ink);
 }
-.plan-alt{
-  font-family:var(--mono);
-  font-size:11px;
-  color:var(--text-dim);
-  margin-bottom:24px;
+.pricing-table td.col-pro {
+  border-left: 3px solid var(--amber);
 }
-.plan-divider{
-  border:none;
-  border-top:1px solid var(--border);
-  margin:20px 0;
+.pricing-table td.check-yes {
+  color: var(--amber);
+  font-size: 14px;
 }
-.plan-features{
-  list-style:none;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  margin-bottom:28px;
+.pricing-table td.check-no {
+  color: var(--line);
+  font-size: 14px;
 }
-.plan-features li{
-  display:flex;align-items:flex-start;gap:10px;
-  font-family:var(--body);
-  font-size:14px;
-  color:var(--text-dim);
-  line-height:1.4;
+.pricing-table td.col-limit {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
 }
-.plan-features li::before{
-  content:'✓';
-  color:var(--green);
-  font-family:var(--mono);
-  font-size:13px;
-  font-weight:600;
-  flex-shrink:0;
-  margin-top:1px;
+.pricing-table tr.price-row td {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  color: var(--ink);
+  border-bottom: none;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
-.plan-features li.ai-feature{color:var(--text)}
-.plan-features li.ai-feature::before{content:'✦';color:var(--amber)}
-.plan-cta{
-  display:block;
-  text-align:center;
-  text-decoration:none;
-  padding:12px;
-  border-radius:var(--rs);
-  font-family:var(--mono);
-  font-size:13px;
-  font-weight:600;
-  letter-spacing:.04em;
-  transition:background .15s,color .15s,transform .1s;
+.pricing-table tr.price-row td.col-pro {
+  color: var(--amber);
 }
-.plan-cta.outline{
-  border:1px solid var(--border2);
-  color:var(--text);
+.pricing-sub {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 16px;
 }
-.plan-cta.outline:hover{border-color:var(--text-dim);background:var(--ink3)}
-.plan-cta.fill{
-  background:var(--amber);
-  color:var(--ink);
-  border:none;
-}
-.plan-cta.fill:hover{background:var(--amber-soft);transform:translateY(-1px)}
 
 /* ── FINAL CTA ──────────────────────────────────────────────────────── */
-#cta{
-  text-align:center;
-  padding:120px 24px;
-  position:relative;
-  overflow:hidden;
+#cta {
+  padding: 120px 40px;
+  text-align: center;
+  border-top: 1px solid var(--line);
 }
-.cta-glow{
-  position:absolute;
-  top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  width:600px;height:300px;
-  background:radial-gradient(ellipse,rgba(232,163,61,.08) 0%,transparent 70%);
-  pointer-events:none;
+.cta-title {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: clamp(44px, 7vw, 80px);
+  font-weight: 400;
+  letter-spacing: -.03em;
+  line-height: 1.08;
+  color: var(--ink);
+  margin-bottom: 28px;
 }
-.cta-inner{position:relative;z-index:1;max-width:600px;margin:0 auto}
-.cta-title{
-  font-family:var(--display);
-  font-size:clamp(32px,5vw,56px);
-  font-weight:700;
-  letter-spacing:-.03em;
-  line-height:1.05;
-  color:var(--text);
-  margin-bottom:16px;
+.cta-sub {
+  font-family: var(--body);
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--muted);
+  margin-bottom: 32px;
+  line-height: 1.5;
 }
-.cta-title em{font-style:italic;font-weight:400;color:var(--amber)}
-.cta-sub{
-  font-family:var(--body);
-  font-size:17px;
-  font-weight:300;
-  font-style:italic;
-  color:var(--text-dim);
-  margin-bottom:40px;
-}
-.cta-fine{
-  margin-top:16px;
-  font-family:var(--mono);
-  font-size:11px;
-  letter-spacing:.06em;
-  color:var(--muted);
+.cta-link {
+  font-family: var(--body);
+  font-size: 18px;
+  color: var(--amber);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--amber);
 }
 
 /* ── FOOTER ─────────────────────────────────────────────────────────── */
-footer{
-  border-top:1px solid var(--border);
-  padding:40px 0;
+footer {
+  border-top: 1px solid var(--line);
+  padding: 36px 40px;
 }
-.footer-inner{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:24px;
-  flex-wrap:wrap;
+.footer-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
+  align-items: start;
 }
-.footer-brand-name{
-  font-family:var(--display);
-  font-size:18px;
-  font-weight:700;
-  color:var(--text);
-  letter-spacing:-.02em;
+.footer-brand {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: -.01em;
+  margin-bottom: 4px;
 }
-.footer-brand-name em{font-style:italic;font-weight:400;color:var(--amber)}
-.footer-tagline{
-  font-family:var(--mono);
-  font-size:11px;
-  letter-spacing:.1em;
-  text-transform:uppercase;
-  color:var(--muted);
-  margin-top:4px;
+.footer-copy {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .06em;
+  color: var(--muted);
+  margin-top: 4px;
 }
-.footer-links{
-  display:flex;
-  align-items:center;
-  gap:24px;
+.footer-links {
+  display: flex;
+  gap: 24px;
+  justify-content: flex-end;
+  align-items: flex-start;
 }
-.footer-links a{
-  font-family:var(--mono);
-  font-size:12px;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-  color:var(--text-dim);
-  text-decoration:none;
-  transition:color .15s;
+.footer-links a {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color .15s;
 }
-.footer-links a:hover{color:var(--text)}
-.footer-links a.admin-link{
-  font-size:10px;
-  color:var(--muted);
-  opacity:.5;
+.footer-links a:hover { color: var(--ink); }
+.footer-links a.admin-link {
+  font-size: 9px;
+  color: var(--line);
 }
-.footer-links a.admin-link:hover{opacity:1;color:var(--text-dim)}
-.footer-copy{
-  font-family:var(--mono);
-  font-size:11px;
-  color:var(--muted);
-  margin-top:6px;
-}
-
-/* ── SCROLL REVEAL ──────────────────────────────────────────────────── */
-.reveal{
-  opacity:0;
-  transform:translateY(24px);
-  transition:opacity .55s ease,transform .55s ease;
-}
-.reveal.visible{opacity:1;transform:none}
+.footer-links a.admin-link:hover { color: var(--muted); }
 
 /* ── MOBILE ─────────────────────────────────────────────────────────── */
-@media(max-width:768px){
-  .features-grid{grid-template-columns:1fr}
-  .pricing-grid{grid-template-columns:1fr;max-width:100%}
-  .nav-links a:not(.nav-cta){display:none}
-  .footer-inner{flex-direction:column;gap:20px}
-  section{padding:72px 0}
-  #cta{padding:80px 24px}
+@media (max-width: 900px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .hero-right { padding-top: 0; }
+  .stat-num { font-size: 48px; }
+  .features-list { grid-template-columns: 1fr; }
+  .feature-item:nth-child(odd) { padding-right: 0; border-right: none; }
+  .feature-item:nth-child(even) { padding-left: 0; }
+  .footer-inner { grid-template-columns: 1fr; gap: 20px; }
+  .footer-links { justify-content: flex-start; }
 }
-@media(max-width:480px){
-  h1.hero-title{font-size:38px}
-  .hero{padding:100px 20px 64px}
-  .hero-actions{flex-direction:column;align-items:center}
-  .btn-primary,.btn-outline{width:100%;justify-content:center}
+@media (max-width: 640px) {
+  .site-nav { padding: 0 20px; }
+  .wrap { padding: 0 20px; }
+  .hero { padding: 60px 20px 40px; }
+  .hero-title { font-size: clamp(44px, 12vw, 72px); }
+  section { padding: 72px 0; }
+  #cta { padding: 80px 20px; }
+  footer { padding: 28px 20px; }
+  .pricing-table th,
+  .pricing-table td { padding: 12px 16px; }
 }
 </style>
 </head>
@@ -605,77 +465,97 @@ footer{
 
 <!-- NAV -->
 <nav class="site-nav">
-  <a href="/" class="nav-brand">Sequora <em>Studies</em></a>
-  <div class="nav-links">
-    <a href="#features">Features</a>
-    <a href="#pricing">Pricing</a>
-    <a href="/app" class="nav-cta">Open app →</a>
+  <a href="/" class="nav-brand">Sequora</a>
+  <div class="nav-right">
+    <a href="/app" class="nav-signin">Sign in</a>
+    <a href="/app" class="nav-start">Start free</a>
   </div>
 </nav>
 
 <!-- HERO -->
-<section class="hero">
-  <div class="hero-grid"></div>
-  <div class="hero-vignette"></div>
-  <div class="hero-content">
-    <div class="hero-eyebrow fade-up">Now open for students</div>
-    <h1 class="hero-title fade-up">Study <em>smarter.</em><br>Score higher.</h1>
-    <p class="hero-sub fade-up">
-      Sequora is the study tracker built for
-      <strong>IGCSE, A-Level, IB and MBBS</strong> students in Bangladesh.
-    </p>
-    <div class="hero-actions fade-up">
-      <a href="/app" class="btn-primary">Start for free →</a>
-      <a href="#features" class="btn-outline">See how it works ↓</a>
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <p class="hero-eyebrow">Study Tracker &middot; Bangladesh</p>
+      <h1 class="hero-title">The study<br>tracker that<br>thinks ahead.</h1>
+      <hr class="hero-rule">
+      <p class="hero-body">Built for IGCSE, A-Level, IB and MBBS students.<br>Track coverage. Schedule recall. Study with clarity.</p>
+      <div class="hero-links">
+        <a href="/app" class="hero-link-primary">Open the app &rarr;</a>
+        <a href="#pricing" class="hero-link-secondary">See pricing &darr;</a>
+      </div>
     </div>
-    <p class="hero-social-proof fade-up"><span>500+</span> students already tracking their studies</p>
+    <div class="hero-right">
+      <div class="stat-item">
+        <div class="stat-num">333+</div>
+        <div class="stat-label">topics with visual diagrams</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">6</div>
+        <div class="stat-label">curricula supported</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">15</div>
+        <div class="stat-label">MBBS sections, BMDC syllabus</div>
+      </div>
+    </div>
   </div>
-</section>
+  <hr class="hero-full-rule">
+</div>
 
 <!-- FEATURES -->
 <section id="features">
   <div class="wrap">
-    <div class="features-header reveal">
-      <p class="section-eyebrow">What's inside</p>
-      <h2 class="section-title">Everything you need.<br><em>Nothing you don't.</em></h2>
-      <p class="section-sub">Six tools. One dashboard. Built specifically for how students in Bangladesh study.</p>
-    </div>
-    <div class="features-grid">
+    <h2 class="features-heading">Six tools. One tracker.</h2>
+    <hr class="features-rule">
+    <div class="features-list">
 
-      <div class="feature-card reveal">
-        <div class="feature-icon">🗺️</div>
-        <div class="feature-name">Topic Visualizer</div>
-        <p class="feature-desc">See every topic as a visual diagram. Understand the structure of your syllabus — don't just memorize it.</p>
+      <div class="feature-item">
+        <div class="feature-num">01</div>
+        <div>
+          <div class="feature-name">Topic Visualizer</div>
+          <p class="feature-desc">Every topic rendered as a diagram. See the shape of knowledge, not just its name.</p>
+        </div>
       </div>
 
-      <div class="feature-card reveal">
-        <div class="feature-icon">🔁</div>
-        <div class="feature-name">Spaced Recall System</div>
-        <p class="feature-desc">Never forget what you've learned. Smart scheduling surfaces topics at the exact right time for maximum retention.</p>
+      <div class="feature-item">
+        <div class="feature-num">02</div>
+        <div>
+          <div class="feature-name">Spaced Recall</div>
+          <p class="feature-desc">An algorithm surfaces what you&rsquo;re about to forget. Study less. Retain more.</p>
+        </div>
       </div>
 
-      <div class="feature-card reveal">
-        <div class="feature-icon">📄</div>
-        <div class="feature-name">Past Papers</div>
-        <p class="feature-desc">Access Cambridge and Edexcel past papers instantly. Track every paper you've attempted and spot your weak areas.</p>
+      <div class="feature-item">
+        <div class="feature-num">03</div>
+        <div>
+          <div class="feature-name">Coverage Map</div>
+          <p class="feature-desc">A live map of your syllabus. Know exactly what&rsquo;s done, what&rsquo;s due, what&rsquo;s missing.</p>
+        </div>
       </div>
 
-      <div class="feature-card reveal">
-        <div class="feature-icon">📊</div>
-        <div class="feature-name">Coverage Map</div>
-        <p class="feature-desc">See exactly which topics are covered and which are missing across your entire syllabus at a glance.</p>
+      <div class="feature-item">
+        <div class="feature-num">04</div>
+        <div>
+          <div class="feature-name">Past Papers</div>
+          <p class="feature-desc">Cambridge and Edexcel papers, organised by year and session. Track what you&rsquo;ve attempted.</p>
+        </div>
       </div>
 
-      <div class="feature-card reveal">
-        <div class="feature-icon">⏱️</div>
-        <div class="feature-name">Focus Timer</div>
-        <p class="feature-desc">Built-in Pomodoro timer with session tracking. Know exactly how many hours you've put in — no guessing.</p>
+      <div class="feature-item">
+        <div class="feature-num">05</div>
+        <div>
+          <div class="feature-name">Focus Timer</div>
+          <p class="feature-desc">Session-tracked Pomodoro. Every minute of study is logged.</p>
+        </div>
       </div>
 
-      <div class="feature-card reveal">
-        <div class="feature-icon">✦</div>
-        <div class="feature-name">Sequora Citation</div>
-        <p class="feature-desc">AI-powered citation finder for IB Extended Essays and research papers. Find sources in seconds, not hours.</p>
+      <div class="feature-item">
+        <div class="feature-num">06</div>
+        <div>
+          <div class="feature-name">Sequora Citation</div>
+          <p class="feature-desc">AI finds citations for IB Extended Essays and research papers instantly.</p>
+        </div>
       </div>
 
     </div>
@@ -684,155 +564,107 @@ footer{
 
 <!-- CURRICULA -->
 <section id="curricula">
-  <div class="wrap">
-    <div class="curricula-header reveal">
-      <p class="section-eyebrow">Curriculum support</p>
-      <h2 class="section-title">Your syllabus.<br><em>Fully mapped.</em></h2>
-      <p class="section-sub">Every topic, chapter and paper — structured for your specific board and level.</p>
-    </div>
-    <div class="curric-grid reveal">
-
-      <div class="curric-badge">
-        <span class="curric-icon">🎓</span>
-        <div class="curric-info">
-          <span class="curric-board">Cambridge</span>
-          <span class="curric-level">IGCSE</span>
-        </div>
-      </div>
-
-      <div class="curric-badge">
-        <span class="curric-icon">🎓</span>
-        <div class="curric-info">
-          <span class="curric-board">Cambridge</span>
-          <span class="curric-level">A-Level</span>
-        </div>
-      </div>
-
-      <div class="curric-badge">
-        <span class="curric-icon">📚</span>
-        <div class="curric-info">
-          <span class="curric-board">Edexcel</span>
-          <span class="curric-level">IGCSE</span>
-        </div>
-      </div>
-
-      <div class="curric-badge">
-        <span class="curric-icon">📚</span>
-        <div class="curric-info">
-          <span class="curric-board">Edexcel</span>
-          <span class="curric-level">A-Level</span>
-        </div>
-      </div>
-
-      <div class="curric-badge">
-        <span class="curric-icon">🌐</span>
-        <div class="curric-info">
-          <span class="curric-board">IB</span>
-          <span class="curric-level">Diploma</span>
-        </div>
-      </div>
-
-      <div class="curric-badge">
-        <span class="curric-icon">🏥</span>
-        <div class="curric-info">
-          <span class="curric-board">Bangladesh</span>
-          <span class="curric-level">MBBS</span>
-        </div>
-      </div>
-
-    </div>
-    <div class="curric-stat reveal">
-      <strong>256 topics</strong>
-      across 15 MBBS sections · full topic maps for IGCSE and A-Level
-    </div>
-  </div>
+  <p class="curricula-line">
+    Cambridge IGCSE &nbsp;&middot;&nbsp; Cambridge A-Level &nbsp;&middot;&nbsp; Edexcel IGCSE &nbsp;&middot;&nbsp; Edexcel A-Level &nbsp;&middot;&nbsp; IB Diploma &nbsp;&middot;&nbsp; MBBS Bangladesh
+  </p>
 </section>
 
 <!-- PRICING -->
 <section id="pricing">
   <div class="wrap">
-    <div class="pricing-header reveal">
-      <p class="section-eyebrow">Pricing</p>
-      <h2 class="section-title">Simple pricing.<br><em>No surprises.</em></h2>
-      <p class="section-sub">Start free. Upgrade when you need more.</p>
-    </div>
-    <div class="pricing-grid">
-
-      <!-- FREE -->
-      <div class="pricing-card reveal">
-        <div class="plan-name">Free plan</div>
-        <div class="plan-price">Free<sub> forever</sub></div>
-        <div class="plan-alt">&nbsp;</div>
-        <hr class="plan-divider">
-        <ul class="plan-features">
-          <li>Basic study tracking</li>
-          <li>Up to 5 subjects</li>
-          <li>Focus timer</li>
-          <li>Past papers access</li>
-        </ul>
-        <a href="/app" class="plan-cta outline">Get started free →</a>
-      </div>
-
-      <!-- PRO -->
-      <div class="pricing-card popular reveal">
-        <div class="popular-badge">Most popular</div>
-        <div class="plan-name">Pro plan</div>
-        <div class="plan-price">৳599<sub>/month</sub></div>
-        <div class="plan-alt">or ৳2,999 / 6 months — save 17%</div>
-        <hr class="plan-divider">
-        <ul class="plan-features">
-          <li>Everything in Free</li>
-          <li>Unlimited subjects</li>
-          <li>Topic Visualizer</li>
-          <li class="ai-feature">Sequora Citation (AI)</li>
-          <li>Homepage layout customization</li>
-          <li>Friends &amp; Leaderboard</li>
-          <li>Premium themes</li>
-        </ul>
-        <a href="/app" class="plan-cta fill">Start Pro free →</a>
-      </div>
-
-    </div>
+    <h2 class="pricing-heading">Straightforward pricing.</h2>
+    <hr class="pricing-rule">
+    <table class="pricing-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Free</th>
+          <th class="col-pro">Pro</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Study tracking</td>
+          <td class="check-yes">&#10003;</td>
+          <td class="check-yes col-pro">&#10003;</td>
+        </tr>
+        <tr>
+          <td>Past papers access</td>
+          <td class="check-yes">&#10003;</td>
+          <td class="check-yes col-pro">&#10003;</td>
+        </tr>
+        <tr>
+          <td>Focus timer</td>
+          <td class="check-yes">&#10003;</td>
+          <td class="check-yes col-pro">&#10003;</td>
+        </tr>
+        <tr>
+          <td>Subjects</td>
+          <td class="col-limit">Up to 5</td>
+          <td class="col-limit col-pro">Unlimited</td>
+        </tr>
+        <tr>
+          <td>Topic Visualizer</td>
+          <td class="check-no">&mdash;</td>
+          <td class="check-yes col-pro">&#10003;</td>
+        </tr>
+        <tr>
+          <td>Sequora Citation (AI)</td>
+          <td class="check-no">&mdash;</td>
+          <td class="check-yes col-pro">&#10003;</td>
+        </tr>
+        <tr>
+          <td>Spaced recall scheduling</td>
+          <td class="check-no">&mdash;</td>
+          <td class="check-yes col-pro">&#10003;</td>
+        </tr>
+        <tr>
+          <td>Homepage customization</td>
+          <td class="check-no">&mdash;</td>
+          <td class="check-yes col-pro">&#10003;</td>
+        </tr>
+        <tr>
+          <td>Friends &amp; leaderboard</td>
+          <td class="check-no">&mdash;</td>
+          <td class="check-yes col-pro">&#10003;</td>
+        </tr>
+        <tr>
+          <td>Premium themes</td>
+          <td class="check-no">&mdash;</td>
+          <td class="check-yes col-pro">&#10003;</td>
+        </tr>
+        <tr class="price-row">
+          <td></td>
+          <td>Free</td>
+          <td class="col-pro">BDT 599 <span style="font-size:14px;font-family:var(--body);font-weight:400;color:var(--muted)">/month</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="pricing-sub">or BDT 2,999 for 6 months &mdash; save 17%</p>
   </div>
 </section>
 
 <!-- FINAL CTA -->
 <section id="cta">
-  <div class="cta-glow"></div>
-  <div class="cta-inner reveal">
-    <h2 class="cta-title">Ready to take control<br>of your <em>studies?</em></h2>
-    <p class="cta-sub">Join students across Bangladesh who track every topic, every paper, every session.</p>
-    <a href="/app" class="btn-primary" style="font-size:15px;padding:16px 36px">Create your free account →</a>
-    <p class="cta-fine">No credit card required · Start in 30 seconds</p>
-  </div>
+  <h2 class="cta-title">Your exams<br>are closer than<br>you think.</h2>
+  <p class="cta-sub">Start tracking today. It takes 30 seconds.</p>
+  <a href="/app" class="cta-link">Create your free account &rarr;</a>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="wrap">
-    <div class="footer-inner">
-      <div>
-        <div class="footer-brand-name">Sequora <em>Studies</em></div>
-        <div class="footer-tagline">Built for students in Bangladesh</div>
-        <div class="footer-copy">© 2026 Findrum Technologies</div>
-      </div>
-      <div class="footer-links">
-        <a href="/app">App</a>
-        <a href="/admin" class="admin-link">Admin</a>
-      </div>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Sequora Studies</div>
+      <div class="footer-copy">&copy; 2026 Findrum Technologies</div>
+    </div>
+    <div></div>
+    <div class="footer-links">
+      <a href="/app">App &nearr;</a>
+      <a href="/admin" class="admin-link">Admin</a>
     </div>
   </div>
 </footer>
-
-<script>
-(function(){
-  const obs = new IntersectionObserver(
-    entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') }),
-    {threshold:.12}
-  );
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-})();
-</script>
 
 </body>
 </html>
