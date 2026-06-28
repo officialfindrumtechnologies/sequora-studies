@@ -322,6 +322,19 @@ export function wizSkipMigration() {
   _finishWizard();
 }
 
+// Skip entire wizard — mark onboarded so it never shows again
+export async function wizSkip() {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      await supabase.from('profiles')
+        .update({ onboarded_at: new Date().toISOString() })
+        .eq('id', user.id);
+    }
+  } catch (_) { /* best-effort */ }
+  _finishWizard();
+}
+
 function _finishWizard() {
   localStorage.setItem('sq_onboarded', '1');
   hideOnboarding();

@@ -9,7 +9,7 @@ import {
   hideOnboarding,
   wizNext, wizBack, wizQualChange, wizBoardChange, wizNoDateToggle,
   wizAddFromTemplate, wizAddManual, wizRemoveSubject, wizComplete,
-  wizMigrate, wizSkipMigration,
+  wizMigrate, wizSkipMigration, wizSkip,
 } from './src/auth/onboarding.js';
 import { QUAL_BOARDS, resolveQualBoard, formatQualBoard, isMbbs, NO_DATE_QUALS } from './src/lib/qualboards.js';
 import { getSubscription, submitBkashPayment } from './src/data/subscriptions.js';
@@ -5312,14 +5312,25 @@ async function handleSession(session) {
       return;
     }
 
-    // Not cached — check DB
+    // Not cached — check DB: fetch profile + subject count together
     try {
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('onboarded_at')
-        .single();
+      const [profileRes, subjectsRes] = await Promise.all([
+        supabase.from('profiles').select('onboarded_at').single(),
+        supabase.from('subjects').select('id', { count: 'exact', head: true }).eq('user_id', session.user.id),
+      ]);
 
-      if (profile?.onboarded_at) {
+      const profile = profileRes.data;
+      const subjectCount = subjectsRes.count ?? 0;
+
+      // Already onboarded, or existing user who already has subjects → skip wizard
+      if (profile?.onboarded_at || subjectCount > 0) {
+        if (subjectCount > 0 && !profile?.onboarded_at) {
+          // Backfill: existing user slipped through — mark them as onboarded silently
+          supabase.from('profiles')
+            .update({ onboarded_at: new Date().toISOString() })
+            .eq('id', session.user.id)
+            .then(() => {}).catch(() => {});
+        }
         localStorage.setItem('sq_onboarded', '1');
         showApp();
       } else {
@@ -5327,7 +5338,7 @@ async function handleSession(session) {
       }
     } catch (err) {
       console.error("[Auth] Profile check failed:", err);
-      // Fallback: show onboarding to be safe
+      // Fallback: show onboarding to be safe for truly new users
       showOnboarding();
     }
 

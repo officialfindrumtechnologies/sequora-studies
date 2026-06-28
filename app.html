@@ -321,7 +321,7 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text
 
 /* ---------- onboarding wizard ---------- */
 .wiz-overlay{position:fixed;inset:0;background:var(--bg);z-index:9998;display:flex;align-items:center;justify-content:center;padding:22px;overflow-y:auto}
-.wiz-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:32px 28px;max-width:540px;width:100%;box-shadow:0 40px 100px rgba(0,0,0,.9)}
+.wiz-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:32px 28px;max-width:540px;width:100%;box-shadow:0 40px 100px rgba(0,0,0,.9);position:relative}
 .wiz-progress{display:flex;gap:8px;align-items:center;margin-bottom:28px}
 .wiz-dot{width:6px;height:6px;border-radius:50%;background:var(--border-2);transition:.2s}
 .wiz-dot-active{background:var(--accent)}
@@ -1678,6 +1678,9 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
 <!-- ================= ONBOARDING WIZARD ================= -->
 <div id="onboardingScreen" class="wiz-overlay hidden">
   <div class="wiz-box">
+
+    <!-- skip button -->
+    <button onclick="wizSkip()" style="position:absolute;top:18px;right:22px;background:none;border:none;cursor:pointer;font-family:var(--mono);font-size:11px;color:var(--muted);padding:4px 8px;border-radius:4px;transition:color .15s" onmouseover="this.style.color='var(--text-dim)'" onmouseout="this.style.color='var(--muted)'">Skip setup</button>
 
     <!-- progress dots -->
     <div class="wiz-progress">
