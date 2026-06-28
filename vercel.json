@@ -13,6 +13,7 @@
     }
   ],
   "crons": [
-    { "path": "/api/cron/expiry-check", "schedule": "0 9 * * *" }
+    { "path": "/api/cron/expiry-check", "schedule": "0 9 * * *" },
+    { "path": "/api/cron/weekly-report", "schedule": "0 2 * * 1" }
   ]
 }

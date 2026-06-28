@@ -192,3 +192,92 @@ export function emailExpired({ email, planLabel }) {
     `),
   });
 }
+
+export function emailWeeklyReport({ email, displayName, stats }) {
+  const {
+    studyHours = 0,
+    sessionsCount = 0,
+    topicsStudied = 0,
+    recallsDue = 0,
+    streakDays = 0,
+    topSubject = null,
+    examDaysLeft = null,
+    weeklyGoalMet = false,
+  } = stats;
+
+  const now = new Date();
+  const weekStart = new Date(now.getTime() - 7 * 86_400_000);
+  const fmt = (d) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+  const dateRange = `${fmt(weekStart)} – ${fmt(now)}`;
+  const hoursDisplay = studyHours.toFixed(1);
+
+  const motivation =
+    studyHours >= 10 ? 'Exceptional week. You\'re ahead of the curve.'
+    : studyHours >= 5 ? 'Solid week. Keep the momentum going.'
+    : studyHours >= 2 ? 'Good start. Try to push for more consistency.'
+    : 'Quiet week. Even 30 minutes a day adds up.';
+
+  const examBlock = examDaysLeft !== null && examDaysLeft > 0
+    ? `<div style="margin:20px 0;padding:14px 18px;background:rgba(232,163,61,0.08);border:1px solid rgba(232,163,61,0.25);border-radius:8px">
+        <div style="font-family:monospace;font-size:11px;color:#9b9184;letter-spacing:.08em;margin-bottom:4px">EXAM COUNTDOWN</div>
+        <div style="font-size:22px;font-weight:700;color:#f0c277">${examDaysLeft} days</div>
+        <div style="font-size:12px;color:#9b9184;margin-top:2px">until your exam</div>
+      </div>`
+    : '';
+
+  const topSubjectBlock = topSubject
+    ? `<div style="margin:16px 0;padding:12px 16px;background:#222018;border-radius:8px;border:1px solid #332d26">
+        <div style="font-family:monospace;font-size:10px;color:#9b9184;letter-spacing:.1em;margin-bottom:4px">TOP SUBJECT THIS WEEK</div>
+        <div style="font-size:16px;font-weight:700;color:#f0c277">${topSubject}</div>
+      </div>`
+    : '';
+
+  return send({
+    to: email,
+    subject: `Your Sequora week — ${dateRange}`,
+    html: layout(`
+      ${h1(`Hi ${displayName || 'there'},`)}
+
+      <div style="text-align:center;margin:24px 0 20px">
+        <div style="font-family:monospace;font-size:11px;color:#9b9184;letter-spacing:.1em;margin-bottom:6px">HOURS STUDIED THIS WEEK</div>
+        <div style="font-size:52px;font-weight:700;color:${weeklyGoalMet ? '#e8a33d' : '#f4ece0'};line-height:1">${hoursDisplay}</div>
+        <div style="font-size:14px;color:#9b9184;margin-top:4px">hours</div>
+      </div>
+
+      <table width="100%" cellpadding="0" cellspacing="0" style="margin:20px 0">
+        <tr>
+          <td width="25%" style="text-align:center;padding:12px 8px;background:#222018;border-radius:8px 0 0 8px;border:1px solid #332d26;border-right:none">
+            <div style="font-size:22px;font-weight:700;color:#f4ece0;font-family:monospace">${sessionsCount}</div>
+            <div style="font-size:10px;color:#9b9184;margin-top:3px;letter-spacing:.05em">SESSIONS</div>
+          </td>
+          <td width="25%" style="text-align:center;padding:12px 8px;background:#222018;border:1px solid #332d26;border-right:none">
+            <div style="font-size:22px;font-weight:700;color:#f4ece0;font-family:monospace">${topicsStudied}</div>
+            <div style="font-size:10px;color:#9b9184;margin-top:3px;letter-spacing:.05em">SUBJECTS</div>
+          </td>
+          <td width="25%" style="text-align:center;padding:12px 8px;background:#222018;border:1px solid #332d26;border-right:none">
+            <div style="font-size:22px;font-weight:700;color:#f4ece0;font-family:monospace">${streakDays}</div>
+            <div style="font-size:10px;color:#9b9184;margin-top:3px;letter-spacing:.05em">DAY STREAK</div>
+          </td>
+          <td width="25%" style="text-align:center;padding:12px 8px;background:#222018;border-radius:0 8px 8px 0;border:1px solid #332d26">
+            <div style="font-size:22px;font-weight:700;color:${recallsDue > 0 ? '#f87171' : '#f4ece0'};font-family:monospace">${recallsDue}</div>
+            <div style="font-size:10px;color:#9b9184;margin-top:3px;letter-spacing:.05em">RECALLS DUE</div>
+          </td>
+        </tr>
+      </table>
+
+      ${topSubjectBlock}
+      ${examBlock}
+
+      ${p(`<em style="color:#cdc4b5">${motivation}</em>`)}
+
+      <p style="margin:20px 0 8px 0;text-align:center">
+        ${cta('Open Sequora →', 'https://sequora-studies.vercel.app/app')}
+      </p>
+
+      <p style="margin-top:24px;font-size:11px;color:#6b6359;text-align:center">
+        You're receiving this because weekly reports are enabled for your account.<br>
+        To unsubscribe, open Sequora → menu → Settings → Weekly email report.
+      </p>
+    `),
+  });
+}

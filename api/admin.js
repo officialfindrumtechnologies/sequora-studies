@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { emailActivated, emailSuspended } from './email.js';
+import { emailActivated, emailSuspended, emailWeeklyReport } from './email.js';
 
 const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || 'http://localhost:3000';
 
@@ -784,6 +784,61 @@ export default async function handler(req, res) {
     if (error) return res.status(500).json({ error: 'Delete failed: ' + error.message });
 
     return res.status(200).json({ ok: true });
+  }
+
+  // ── send_test_report ───────────────────────────────────────────────────────
+  if (action === 'send_test_report') {
+    const targetUserId = req.body?.userId || user.id;
+
+    const [profileRes, sessionsRes, topicsRes, subjectsRes] = await Promise.all([
+      adminSb.from('profiles').select('id, email, display_name, exam_date').eq('id', targetUserId).single(),
+      adminSb.from('sessions').select('user_id, subject_id, duration_sec, study_date').eq('user_id', targetUserId)
+        .gte('study_date', new Date(Date.now() - 7 * 86_400_000).toISOString().slice(0, 10)),
+      adminSb.from('topics').select('ready_at').eq('user_id', targetUserId)
+        .not('ready_at', 'is', null).lte('ready_at', new Date().toISOString()),
+      adminSb.from('subjects').select('id, name').eq('user_id', targetUserId),
+    ]);
+
+    const profile = profileRes.data;
+    if (!profile?.email) return res.status(404).json({ error: 'User profile or email not found' });
+
+    const sessions = sessionsRes.data || [];
+    const studyHours = sessions.reduce((s, r) => s + (r.duration_sec || 0), 0) / 3600;
+    const sessionsCount = sessions.length;
+    const recallsDue = (topicsRes.data || []).length;
+
+    const subjectMap = Object.fromEntries((subjectsRes.data || []).map(s => [s.id, s.name]));
+    const durBySubject = {};
+    for (const s of sessions) {
+      if (s.subject_id) durBySubject[s.subject_id] = (durBySubject[s.subject_id] || 0) + (s.duration_sec || 0);
+    }
+    const topSubjectId = Object.entries(durBySubject).sort((a, b) => b[1] - a[1])[0]?.[0];
+    const topSubject = topSubjectId ? (subjectMap[topSubjectId] || null) : null;
+    const topicsStudied = Object.keys(durBySubject).length;
+
+    const examDaysLeft = profile.exam_date
+      ? Math.ceil((new Date(profile.exam_date) - Date.now()) / 86_400_000)
+      : null;
+
+    try {
+      await emailWeeklyReport({
+        email: profile.email,
+        displayName: profile.display_name || profile.email.split('@')[0],
+        stats: {
+          studyHours,
+          sessionsCount,
+          topicsStudied,
+          recallsDue,
+          streakDays: 0,
+          topSubject,
+          examDaysLeft,
+          weeklyGoalMet: studyHours >= 5,
+        },
+      });
+      return res.status(200).json({ ok: true, sentTo: profile.email });
+    } catch (e) {
+      return res.status(500).json({ error: 'Email failed: ' + e.message });
+    }
   }
 
   return res.status(400).json({ error: `Unknown action: ${action}` });

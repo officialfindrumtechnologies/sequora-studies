@@ -4315,6 +4315,25 @@ function _bmProfileHtml(prof) {
     <div style="margin-top:10px"><button class="bm-open-ts" style="font-size:10px;padding:7px 12px" onclick="openEditProfileModal()">Edit profile</button></div>`;
 }
 
+function _bmSettingsHtml(profile) {
+  const emailReports = profile?.email_reports !== false;
+  return `
+    <div class="bm-toggle-row">
+      <span class="bm-toggle-label">Weekly email report</span>
+      <label class="bm-toggle"><input type="checkbox" ${emailReports ? 'checked' : ''} onchange="bmEmailReportToggle(this.checked)"><span class="bm-toggle-slider"></span></label>
+    </div>`;
+}
+
+window.bmEmailReportToggle = async function(enabled) {
+  if (_burgerProfileCache) _burgerProfileCache.email_reports = enabled;
+  try {
+    await updateProfile({ email_reports: enabled });
+    setToast(enabled ? 'Weekly reports on' : 'Weekly reports off');
+  } catch (e) {
+    setToast('Save failed — check connection');
+  }
+};
+
 function renderBurgerMenu() {
   const menu = document.getElementById('burger-menu');
   if (!menu) return;
@@ -4360,7 +4379,7 @@ function renderBurgerMenu() {
     <div class="bm-divider"></div>
     <div class="bm-section">
       <div class="bm-section-label">Settings</div>
-      <div class="bm-settings-placeholder">Notification preferences — coming soon</div>
+      <div id="bm-settings-body">${_bmSettingsHtml(_burgerProfileCache)}</div>
     </div>
     <div class="bm-divider"></div>
     <div class="bm-section" id="bm-privacy-body">
@@ -4378,7 +4397,7 @@ function renderBurgerMenu() {
   if ((!_burgerProfileCache || !_privacyCache) && currentUser) {
     supabase
       .from('profiles')
-      .select('display_name,qualification,exam_board,exam_date,privacy_settings')
+      .select('display_name,qualification,exam_board,exam_date,privacy_settings,email_reports')
       .eq('id', currentUser.id)
       .single()
       .then(({ data }) => {
@@ -4390,6 +4409,8 @@ function renderBurgerMenu() {
         if (pbody) pbody.innerHTML = _bmPrivacyHtml(_privacyCache);
         const abody = document.getElementById('bm-anatomy-body');
         if (abody) abody.innerHTML = _bmAnatomyHtml(_burgerProfileCache);
+        const sbody = document.getElementById('bm-settings-body');
+        if (sbody) sbody.innerHTML = _bmSettingsHtml(_burgerProfileCache);
       })
       .catch(() => { _burgerProfileCache = {}; _privacyCache = { ..._privacyDefaults }; });
   }
