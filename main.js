@@ -3080,6 +3080,7 @@ window.wizRemoveSubject = wizRemoveSubject;
 window.wizComplete = wizComplete;
 window.wizMigrate = wizMigrate;
 window.wizSkipMigration = wizSkipMigration;
+window.wizSkip = wizSkip;
 
 
 /* ============ share card ============ */
