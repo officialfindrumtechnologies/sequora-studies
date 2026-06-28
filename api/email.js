@@ -207,77 +207,214 @@ export function emailWeeklyReport({ email, displayName, stats }) {
 
   const now = new Date();
   const weekStart = new Date(now.getTime() - 7 * 86_400_000);
-  const fmt = (d) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-  const dateRange = `${fmt(weekStart)} – ${fmt(now)}`;
+  const fmt = (d) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  const fmtShort = (d) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+  const dateRange = `${fmtShort(weekStart)} – ${fmt(now)}`;
   const hoursDisplay = studyHours.toFixed(1);
+  const name = displayName || 'there';
 
   const motivation =
-    studyHours >= 10 ? 'Exceptional week. You\'re ahead of the curve.'
-    : studyHours >= 5 ? 'Solid week. Keep the momentum going.'
-    : studyHours >= 2 ? 'Good start. Try to push for more consistency.'
-    : 'Quiet week. Even 30 minutes a day adds up.';
+    studyHours >= 10 ? 'Exceptional week. You\'re tracking above 95% of students.'
+    : studyHours >= 5  ? 'Solid week. Consistency is building your edge.'
+    : studyHours >= 2  ? 'Good progress. Push for one more session each day.'
+    :                    'Every session counts. Open Sequora and study for 25 minutes today.';
 
-  const examBlock = examDaysLeft !== null && examDaysLeft > 0
-    ? `<div style="margin:20px 0;padding:14px 18px;background:rgba(232,163,61,0.08);border:1px solid rgba(232,163,61,0.25);border-radius:8px">
-        <div style="font-family:monospace;font-size:11px;color:#9b9184;letter-spacing:.08em;margin-bottom:4px">EXAM COUNTDOWN</div>
-        <div style="font-size:22px;font-weight:700;color:#f0c277">${examDaysLeft} days</div>
-        <div style="font-size:12px;color:#9b9184;margin-top:2px">until your exam</div>
-      </div>`
-    : '';
+  const topSubjectBlock = topSubject ? `
+    <tr>
+      <td style="padding:0 0 20px 0">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="background:#111009;border:1px solid #2a2520;border-radius:8px">
+          <tr>
+            <td style="padding:18px 20px">
+              <div style="font-family:'Courier New',Courier,monospace;font-size:10px;color:#4a4540;letter-spacing:.15em;margin-bottom:8px">TOP SUBJECT THIS WEEK</div>
+              <div style="font-family:Georgia,'Times New Roman',serif;font-size:18px;font-weight:700;color:#f0c277">${topSubject}</div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>` : '';
 
-  const topSubjectBlock = topSubject
-    ? `<div style="margin:16px 0;padding:12px 16px;background:#222018;border-radius:8px;border:1px solid #332d26">
-        <div style="font-family:monospace;font-size:10px;color:#9b9184;letter-spacing:.1em;margin-bottom:4px">TOP SUBJECT THIS WEEK</div>
-        <div style="font-size:16px;font-weight:700;color:#f0c277">${topSubject}</div>
-      </div>`
-    : '';
+  const examBlock = examDaysLeft !== null && examDaysLeft > 0 ? `
+    <tr>
+      <td style="padding:0 0 20px 0">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="background:#1c1608;border:1px solid #3d2f0f;border-radius:8px">
+          <tr>
+            <td style="padding:18px 20px">
+              <div style="font-family:'Courier New',Courier,monospace;font-size:10px;color:#7a5a1a;letter-spacing:.15em;margin-bottom:8px">EXAM COUNTDOWN</div>
+              <div style="font-family:'Courier New',Courier,monospace;font-size:28px;font-weight:700;color:#e8a33d;line-height:1;margin-bottom:4px">${examDaysLeft}</div>
+              <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;color:#9b7a30">days until your exam</div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>` : '';
+
+  const goalBadge = weeklyGoalMet ? `
+    <tr>
+      <td align="center" style="padding:12px 0 0 0">
+        <table cellpadding="0" cellspacing="0" border="0" role="presentation" align="center">
+          <tr>
+            <td style="background:#0d2010;border:1px solid #1a4a24;border-radius:20px;padding:5px 16px">
+              <span style="font-family:'Courier New',Courier,monospace;font-size:11px;color:#4ade80;letter-spacing:.05em">&#10003; Weekly goal met</span>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>` : '';
+
+  const html = `<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="x-apple-disable-message-reformatting">
+<title>Your Sequora Week</title>
+</head>
+<body style="margin:0;padding:0;background:#0a0a0a;-webkit-text-size-adjust:100%;mso-line-height-rule:exactly">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="background:#0a0a0a">
+  <tr>
+    <td align="center" style="padding:32px 16px">
+
+      <table width="600" cellpadding="0" cellspacing="0" border="0" role="presentation" style="max-width:600px;width:100%">
+
+        <!-- HEADER -->
+        <tr>
+          <td style="background:#1a1815;border-top:1px solid #332d26;border-left:1px solid #332d26;border-right:1px solid #332d26;border-bottom:2px solid #e8a33d;border-radius:12px 12px 0 0;padding:24px 32px 22px">
+            <div style="font-family:'Courier New',Courier,monospace;font-size:20px;font-weight:700;color:#e8a33d;letter-spacing:5px;mso-line-height-rule:exactly">SEQUORA</div>
+            <div style="font-family:'Courier New',Courier,monospace;font-size:10px;color:#4a4540;letter-spacing:3px;margin-top:5px;mso-line-height-rule:exactly">WEEKLY REPORT</div>
+          </td>
+        </tr>
+
+        <!-- BODY -->
+        <tr>
+          <td style="background:#1a1815;border-left:1px solid #332d26;border-right:1px solid #332d26;padding:32px 32px 28px">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation">
+
+              <!-- Greeting -->
+              <tr>
+                <td style="padding:0 0 28px 0">
+                  <div style="font-family:Georgia,'Times New Roman',serif;font-size:22px;color:#f4ece0;font-weight:700;margin:0 0 5px 0">Hi ${name},</div>
+                  <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;color:#4a4540;letter-spacing:.02em">${dateRange}</div>
+                </td>
+              </tr>
+
+              <!-- HERO -->
+              <tr>
+                <td style="padding:0 0 16px 0">
+                  <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="background:#111009;border:1px solid #2a2520;border-radius:10px">
+                    <tr>
+                      <td style="padding:32px 24px 28px;text-align:center">
+                        <div style="font-family:'Courier New',Courier,monospace;font-size:10px;color:#4a4540;letter-spacing:.18em;margin-bottom:14px">HOURS STUDIED THIS WEEK</div>
+                        <div style="font-family:'Courier New',Courier,monospace;font-size:72px;font-weight:700;color:${weeklyGoalMet ? '#e8a33d' : '#c8bfb0'};line-height:1;margin-bottom:10px">${hoursDisplay}</div>
+                        <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;color:#6b6359">hours</div>
+                        ${goalBadge}
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- STATS GRID 2x2 -->
+              <tr>
+                <td style="padding:0 0 20px 0">
+                  <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation">
+                    <tr>
+                      <td width="50%" style="padding:0 5px 5px 0;vertical-align:top">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="background:#111009;border:1px solid #2a2520;border-radius:8px">
+                          <tr><td style="padding:20px 16px;text-align:center">
+                            <div style="font-family:'Courier New',Courier,monospace;font-size:32px;font-weight:700;color:#f0c277;line-height:1;margin-bottom:7px">${sessionsCount}</div>
+                            <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:11px;color:#4a4540;letter-spacing:.04em">Study Sessions</div>
+                          </td></tr>
+                        </table>
+                      </td>
+                      <td width="50%" style="padding:0 0 5px 5px;vertical-align:top">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="background:#111009;border:1px solid #2a2520;border-radius:8px">
+                          <tr><td style="padding:20px 16px;text-align:center">
+                            <div style="font-family:'Courier New',Courier,monospace;font-size:32px;font-weight:700;color:#f0c277;line-height:1;margin-bottom:7px">${topicsStudied}</div>
+                            <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:11px;color:#4a4540;letter-spacing:.04em">Subjects Covered</div>
+                          </td></tr>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td width="50%" style="padding:0 5px 0 0;vertical-align:top">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="background:#111009;border:1px solid #2a2520;border-radius:8px">
+                          <tr><td style="padding:20px 16px;text-align:center">
+                            <div style="font-family:'Courier New',Courier,monospace;font-size:32px;font-weight:700;color:#f0c277;line-height:1;margin-bottom:7px">${streakDays}</div>
+                            <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:11px;color:#4a4540;letter-spacing:.04em">Day Streak</div>
+                          </td></tr>
+                        </table>
+                      </td>
+                      <td width="50%" style="padding:0 0 0 5px;vertical-align:top">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="background:#111009;border:1px solid ${recallsDue > 0 ? '#4a1a1a' : '#2a2520'};border-radius:8px">
+                          <tr><td style="padding:20px 16px;text-align:center">
+                            <div style="font-family:'Courier New',Courier,monospace;font-size:32px;font-weight:700;color:${recallsDue > 0 ? '#f87171' : '#f0c277'};line-height:1;margin-bottom:7px">${recallsDue}</div>
+                            <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:11px;color:#4a4540;letter-spacing:.04em">Recalls Due</div>
+                          </td></tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+              ${topSubjectBlock}
+              ${examBlock}
+
+              <!-- Divider -->
+              <tr>
+                <td style="padding:8px 0 24px 0">
+                  <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation">
+                    <tr><td style="height:1px;background:#2a2520;font-size:0;line-height:0">&nbsp;</td></tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- Motivation -->
+              <tr>
+                <td style="padding:0 0 28px 0">
+                  <div style="font-family:Georgia,'Times New Roman',serif;font-size:16px;color:#cdc4b5;line-height:1.65;font-style:italic">${motivation}</div>
+                </td>
+              </tr>
+
+              <!-- CTA -->
+              <tr>
+                <td align="center" style="padding:0 0 4px 0">
+                  <table cellpadding="0" cellspacing="0" border="0" role="presentation" align="center">
+                    <tr>
+                      <td align="center" bgcolor="#e8a33d" style="border-radius:8px">
+                        <a href="https://sequora-studies.vercel.app/app" style="display:block;padding:14px 36px;color:#0a0a0a;font-family:'Courier New',Courier,monospace;font-size:14px;font-weight:700;text-decoration:none;letter-spacing:.06em;border-radius:8px;mso-padding-alt:14px 36px">Open Sequora &#8594;</a>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+            </table>
+          </td>
+        </tr>
+
+        <!-- FOOTER -->
+        <tr>
+          <td style="background:#111009;border:1px solid #1e1c18;border-top:none;border-radius:0 0 12px 12px;padding:20px 32px">
+            <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:11px;color:#3a3530;line-height:1.7;text-align:center">
+              You&#39;re receiving this because weekly reports are enabled for your account.<br>
+              To unsubscribe: open Sequora &rarr; menu &rarr; Settings &rarr; Weekly email report.<br><br>
+              Sequora Studies &middot; Bangladesh
+            </div>
+          </td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>`;
 
   return send({
     to: email,
     subject: `Your Sequora week — ${dateRange}`,
-    html: layout(`
-      ${h1(`Hi ${displayName || 'there'},`)}
-
-      <div style="text-align:center;margin:24px 0 20px">
-        <div style="font-family:monospace;font-size:11px;color:#9b9184;letter-spacing:.1em;margin-bottom:6px">HOURS STUDIED THIS WEEK</div>
-        <div style="font-size:52px;font-weight:700;color:${weeklyGoalMet ? '#e8a33d' : '#f4ece0'};line-height:1">${hoursDisplay}</div>
-        <div style="font-size:14px;color:#9b9184;margin-top:4px">hours</div>
-      </div>
-
-      <table width="100%" cellpadding="0" cellspacing="0" style="margin:20px 0">
-        <tr>
-          <td width="25%" style="text-align:center;padding:12px 8px;background:#222018;border-radius:8px 0 0 8px;border:1px solid #332d26;border-right:none">
-            <div style="font-size:22px;font-weight:700;color:#f4ece0;font-family:monospace">${sessionsCount}</div>
-            <div style="font-size:10px;color:#9b9184;margin-top:3px;letter-spacing:.05em">SESSIONS</div>
-          </td>
-          <td width="25%" style="text-align:center;padding:12px 8px;background:#222018;border:1px solid #332d26;border-right:none">
-            <div style="font-size:22px;font-weight:700;color:#f4ece0;font-family:monospace">${topicsStudied}</div>
-            <div style="font-size:10px;color:#9b9184;margin-top:3px;letter-spacing:.05em">SUBJECTS</div>
-          </td>
-          <td width="25%" style="text-align:center;padding:12px 8px;background:#222018;border:1px solid #332d26;border-right:none">
-            <div style="font-size:22px;font-weight:700;color:#f4ece0;font-family:monospace">${streakDays}</div>
-            <div style="font-size:10px;color:#9b9184;margin-top:3px;letter-spacing:.05em">DAY STREAK</div>
-          </td>
-          <td width="25%" style="text-align:center;padding:12px 8px;background:#222018;border-radius:0 8px 8px 0;border:1px solid #332d26">
-            <div style="font-size:22px;font-weight:700;color:${recallsDue > 0 ? '#f87171' : '#f4ece0'};font-family:monospace">${recallsDue}</div>
-            <div style="font-size:10px;color:#9b9184;margin-top:3px;letter-spacing:.05em">RECALLS DUE</div>
-          </td>
-        </tr>
-      </table>
-
-      ${topSubjectBlock}
-      ${examBlock}
-
-      ${p(`<em style="color:#cdc4b5">${motivation}</em>`)}
-
-      <p style="margin:20px 0 8px 0;text-align:center">
-        ${cta('Open Sequora →', 'https://sequora-studies.vercel.app/app')}
-      </p>
-
-      <p style="margin-top:24px;font-size:11px;color:#6b6359;text-align:center">
-        You're receiving this because weekly reports are enabled for your account.<br>
-        To unsubscribe, open Sequora → menu → Settings → Weekly email report.
-      </p>
-    `),
+    html,
   });
 }
