@@ -4366,6 +4366,9 @@ function renderBurgerMenu() {
       ${_bmPrivacyHtml(_privacyCache)}
     </div>
     <div class="bm-divider"></div>
+    <div id="pwa-install-btn" class="bm-section hidden" style="padding-top:10px;padding-bottom:10px">
+      <button class="bm-open-ts" onclick="closeBurgerMenu();installPWA()" style="width:100%;background:var(--surface-2);color:var(--accent)">⬇ Install App</button>
+    </div>
     <div class="bm-section" style="padding-top:10px;padding-bottom:10px">
       <button class="bm-signout" onclick="handleLogout()">Sign out</button>
     </div>`;
@@ -5744,4 +5747,27 @@ document.addEventListener("keydown",e=>{
     closeAIModal();
   }
 });
+
+/* ============ PWA install prompt ============ */
+let _pwaInstallPrompt = null;
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  _pwaInstallPrompt = e;
+  document.getElementById('pwa-install-btn')?.classList.remove('hidden');
+});
+
+window.addEventListener('appinstalled', () => {
+  _pwaInstallPrompt = null;
+  document.getElementById('pwa-install-btn')?.classList.add('hidden');
+});
+
+window.installPWA = async function() {
+  if (!_pwaInstallPrompt) return;
+  _pwaInstallPrompt.prompt();
+  const { outcome } = await _pwaInstallPrompt.userChoice;
+  console.log('[PWA] Install outcome:', outcome);
+  _pwaInstallPrompt = null;
+  document.getElementById('pwa-install-btn')?.classList.add('hidden');
+};
 window.addEventListener("beforeunload",e=>{if(timerRunning){e.preventDefault();e.returnValue="";}});

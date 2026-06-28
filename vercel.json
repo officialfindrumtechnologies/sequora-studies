@@ -3,6 +3,15 @@
     { "source": "/admin", "destination": "/admin.html" },
     { "source": "/app(.*)", "destination": "/app.html" }
   ],
+  "headers": [
+    {
+      "source": "/sw.js",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache" },
+        { "key": "Content-Type", "value": "application/javascript" }
+      ]
+    }
+  ],
   "crons": [
     { "path": "/api/cron/expiry-check", "schedule": "0 9 * * *" }
   ]

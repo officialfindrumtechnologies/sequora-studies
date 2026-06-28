@@ -1,33 +1,35 @@
 const CACHE = 'sequora-v1';
+const STATIC = ['/app', '/app.html', '/manifest.json'];
 
-self.addEventListener('install', () => self.skipWaiting());
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE).then(cache => cache.addAll(STATIC))
+  );
+  self.skipWaiting();
+});
 
-self.addEventListener('activate', e => {
-  e.waitUntil(
+self.addEventListener('activate', event => {
+  event.waitUntil(
     caches.keys().then(keys =>
       Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
     ).then(() => self.clients.claim())
   );
 });
 
-self.addEventListener('fetch', e => {
-  const { request } = e;
+self.addEventListener('fetch', event => {
+  const { request } = event;
   const url = new URL(request.url);
 
-  // Never cache: Supabase, API routes, chrome-extension etc.
   if (
+    request.method !== 'GET' ||
     url.hostname.includes('supabase') ||
     url.hostname.includes('resend') ||
     url.pathname.startsWith('/api/') ||
     url.protocol === 'chrome-extension:'
-  ) {
-    e.respondWith(fetch(request));
-    return;
-  }
+  ) return;
 
-  // Navigation (HTML pages): network-first, fall back to cached /index.html
   if (request.mode === 'navigate') {
-    e.respondWith(
+    event.respondWith(
       fetch(request)
         .then(res => {
           const clone = res.clone();
@@ -35,15 +37,13 @@ self.addEventListener('fetch', e => {
           return res;
         })
         .catch(() =>
-          caches.match(request)
-            .then(cached => cached || caches.match('/app.html'))
+          caches.match(request).then(cached => cached || caches.match('/app.html'))
         )
     );
     return;
   }
 
-  // Static assets: stale-while-revalidate
-  e.respondWith(
+  event.respondWith(
     caches.open(CACHE).then(async cache => {
       const cached = await cache.match(request);
       const networkFetch = fetch(request)
