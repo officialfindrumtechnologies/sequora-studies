@@ -804,12 +804,6 @@ function renderTopicPanel() {
       tp.name.toLowerCase().includes(tv.name.toLowerCase().replace(/^\d+(\.\d+)*\s+/, '').split(' ')[0])
     ) : null;
     const hasVisual = !!(tvTopic && tvTopic.svgKey && TOPIC_SVGS[tvTopic.svgKey]);
-    const visualBtn = hasVisual
-      ? `<button class="btn sm ghost" onclick="openTopicVisualModal('${tvKey}','${tvTopic.id}')" title="View diagram">◈</button>`
-      : '';
-    const practiceBtn = tvTopic
-      ? `<button class="btn sm ghost" onclick="openPracticeModal('${tvKey}','${tvTopic.id}')" title="Practice questions">▸</button>`
-      : '';
 
     row.innerHTML = `
       <div class="cyc ${cyc}" onclick="sbCycleStatus('${tp.id}')">${mark}</div>
@@ -817,11 +811,36 @@ function renderTopicPanel() {
       ${isNext ? '<span class="nextpill">next</span>' : ''}
       <span class="tag sec-tag" onclick="sbStartEditSection('${tp.id}')" title="Click to change section">${tp.section ? esc(tp.section) : '<em style="opacity:.4">section</em>'}</span>
       <div class="sb-row-actions">
-        ${visualBtn}${practiceBtn}
         <button class="btn sm ghost" onclick="sbMoveTopicUp('${tp.id}')" ${idx === 0 ? 'disabled' : ''} title="Move up">↑</button>
         <button class="btn sm ghost" onclick="sbMoveTopicDown('${tp.id}')" ${idx === t.length - 1 ? 'disabled' : ''} title="Move down">↓</button>
         <button class="btn sm ghost danger" onclick="sbDeleteTopic('${tp.id}')" title="Remove">×</button>
       </div>`;
+
+    const actions = row.querySelector('.sb-row-actions');
+
+    if (tvTopic) {
+      const pqBtn = document.createElement('button');
+      pqBtn.className = 'btn sm ghost';
+      pqBtn.title = 'Practice questions';
+      pqBtn.textContent = '▸';
+      pqBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        window.openPracticeModal(tvKey, tvTopic.id);
+      });
+      actions.prepend(pqBtn);
+    }
+
+    if (hasVisual) {
+      const vizBtn = document.createElement('button');
+      vizBtn.className = 'btn sm ghost';
+      vizBtn.title = 'View diagram';
+      vizBtn.textContent = '◈';
+      vizBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        window.openTopicVisualModal(tvKey, tvTopic.id);
+      });
+      actions.prepend(vizBtn);
+    }
     list.appendChild(row);
     visibleCount++;
   });
