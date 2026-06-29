@@ -4989,6 +4989,251 @@ window.tvBack2D = function() {
   document.getElementById('tv-2d-view')?.classList.remove('hidden');
 };
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   PRACTICE QUESTIONS — Step 1a
+   Free users: up to FREE_QUESTION_LIMIT questions per topic per session.
+   Pro users: all shared questions.
+   Structured questions: reveal mark scheme only (AI grading is Step 1b).
+   TODO Step 1b: plug in on-demand AI question generation here.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+const FREE_QUESTION_LIMIT = 3;
+
+const _pq = {
+  tvKey: null, topicId: null, topicKey: null,
+  questions: [], gatedTotal: 0,
+  currentIdx: 0, score: 0, totalPossible: 0,
+  answered: false,
+};
+
+window.openPracticeModal = async function(tvKey, topicId) {
+  const data = TOPIC_VISUALS[tvKey];
+  if (!data) return;
+  const topic = data.topics.find(t => t.id === topicId);
+  if (!topic) return;
+
+  Object.assign(_pq, {
+    tvKey, topicId,
+    topicKey: `${tvKey}:${topicId}`,
+    questions: [], gatedTotal: 0,
+    currentIdx: 0, score: 0, totalPossible: 0,
+    answered: false,
+  });
+
+  const modal = document.getElementById('pq-modal');
+  if (!modal) return;
+  document.getElementById('pq-subj-tag').textContent =
+    data.subjectName + (data.examCode ? ' · ' + data.examCode : '');
+  document.getElementById('pq-topic-name').textContent = topic.name;
+  document.getElementById('pq-progress').textContent = '';
+  document.getElementById('pq-body').innerHTML = '<div class="pq-loading">Loading questions…</div>';
+  modal.classList.remove('hidden');
+
+  if (!supabase) {
+    document.getElementById('pq-body').innerHTML = '<div class="pq-empty">Database not available.</div>';
+    return;
+  }
+
+  const { data: rows, error } = await supabase
+    .from('questions')
+    .select('*')
+    .eq('topic_key', _pq.topicKey)
+    .eq('is_shared', true)
+    .order('created_at', { ascending: true });
+
+  if (error || !rows) {
+    document.getElementById('pq-body').innerHTML = '<div class="pq-empty">Could not load questions.</div>';
+    return;
+  }
+  if (rows.length === 0) {
+    document.getElementById('pq-body').innerHTML = '<div class="pq-empty">No questions available for this topic yet.</div>';
+    return;
+  }
+
+  _pq.gatedTotal = rows.length;
+  const limit = isPro() ? rows.length : Math.min(rows.length, FREE_QUESTION_LIMIT);
+  _pq.questions = rows.slice(0, limit);
+  _pqRenderQuestion();
+};
+
+window.closePracticeModal = function() {
+  document.getElementById('pq-modal')?.classList.add('hidden');
+  const body = document.getElementById('pq-body');
+  if (body) body.innerHTML = '';
+  _pq.questions = [];
+};
+
+function _pqUpdateProgress() {
+  const el = document.getElementById('pq-progress');
+  if (el) el.textContent = `Question ${_pq.currentIdx + 1} of ${_pq.questions.length}`;
+}
+
+function _pqRenderQuestion() {
+  const q = _pq.questions[_pq.currentIdx];
+  if (!q) { _pqRenderSummary(); return; }
+  _pq.answered = false;
+  _pqUpdateProgress();
+
+  const isMcq = q.qtype === 'mcq_single' || q.qtype === 'mcq_multi';
+  const marksLabel = `${q.marks} mark${q.marks !== 1 ? 's' : ''}`;
+  const negLabel = q.negative_marking > 0
+    ? `<span class="pq-neg-badge">−${q.negative_marking} for wrong</span>` : '';
+  const cwLabel = q.command_word
+    ? `<span class="pq-command-word">${escapeHtml(q.command_word)}</span>` : '';
+
+  let bodyHtml;
+  if (isMcq) {
+    const opts = (q.options || []).map(o => `
+      <button class="pq-option" data-oid="${escapeHtml(String(o.id))}" onclick="pqSelectOption(this)">
+        <span class="pq-opt-label">${escapeHtml(String(o.id))}</span>
+        <span class="pq-opt-text">${escapeHtml(o.text)}</span>
+      </button>`).join('');
+    bodyHtml = `<div class="pq-options">${opts}</div>
+      <button class="pq-submit-btn" id="pq-submit" onclick="pqSubmitAnswer()" disabled>Submit</button>`;
+  } else {
+    bodyHtml = `<div class="pq-structured-hint">Write your answer below, then reveal the mark scheme to self-mark.</div>
+      <textarea class="pq-textarea" id="pq-textarea" placeholder="Write your answer here…" rows="7"></textarea>
+      <button class="pq-submit-btn" id="pq-submit" onclick="pqSubmitAnswer()">Reveal Mark Scheme</button>`;
+  }
+
+  document.getElementById('pq-body').innerHTML = `
+    <div class="pq-question">
+      <div class="pq-meta-row">
+        <span class="pq-marks-badge">${marksLabel}</span>
+        ${cwLabel}${negLabel}
+        <span class="pq-diff-badge pq-diff-${escapeHtml(q.difficulty)}">${escapeHtml(q.difficulty)}</span>
+      </div>
+      <div class="pq-stem">${escapeHtml(q.stem)}</div>
+      ${bodyHtml}
+    </div>`;
+}
+
+window.pqSelectOption = function(btn) {
+  if (_pq.answered) return;
+  document.querySelectorAll('#pq-body .pq-option').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const sub = document.getElementById('pq-submit');
+  if (sub) sub.removeAttribute('disabled');
+};
+
+window.pqSubmitAnswer = async function() {
+  const q = _pq.questions[_pq.currentIdx];
+  if (!q || _pq.answered) return;
+  _pq.answered = true;
+
+  const isMcq = q.qtype === 'mcq_single' || q.qtype === 'mcq_multi';
+  const isLast = _pq.currentIdx === _pq.questions.length - 1;
+  const nextLabel = isLast ? 'See Results' : 'Next Question →';
+  let givenAnswer, isCorrect = null, marksAwarded = null, feedbackHtml = '';
+
+  if (isMcq) {
+    const selectedBtn = document.querySelector('#pq-body .pq-option.selected');
+    const selectedId = selectedBtn?.dataset.oid;
+    givenAnswer = { option: selectedId };
+    const correctIds = Array.isArray(q.correct) ? q.correct : [q.correct];
+    isCorrect = !!selectedId && correctIds.includes(selectedId);
+    marksAwarded = isCorrect ? q.marks : -Number(q.negative_marking || 0);
+
+    _pq.score += marksAwarded;
+    _pq.totalPossible += q.marks;
+
+    document.querySelectorAll('#pq-body .pq-option').forEach(btn => {
+      const oid = btn.dataset.oid;
+      btn.classList.add('disabled');
+      if (correctIds.includes(oid)) btn.classList.add('correct');
+      else if (oid === selectedId && !isCorrect) btn.classList.add('wrong');
+    });
+    const sub = document.getElementById('pq-submit');
+    if (sub) sub.disabled = true;
+
+    const resultHtml = isCorrect
+      ? `<div class="pq-fb pq-fb-correct">✓ Correct · +${q.marks} mark${q.marks !== 1 ? 's' : ''}</div>`
+      : `<div class="pq-fb pq-fb-wrong">✗ Incorrect${q.negative_marking > 0 ? ` · −${q.negative_marking} applied` : ''}</div>`;
+    const explHtml = q.explanation
+      ? `<div class="pq-explanation">${escapeHtml(q.explanation)}</div>` : '';
+    feedbackHtml = `${resultHtml}${explHtml}
+      <div class="pq-next-row"><button class="pq-next-btn" onclick="pqNextQuestion()">${nextLabel}</button></div>`;
+
+  } else {
+    givenAnswer = { text: document.getElementById('pq-textarea')?.value || '' };
+    _pq.totalPossible += q.marks;
+
+    const ta = document.getElementById('pq-textarea');
+    const sub = document.getElementById('pq-submit');
+    if (ta) ta.disabled = true;
+    if (sub) sub.disabled = true;
+
+    const msHtml = (q.mark_scheme || []).map((pt, i) =>
+      `<div class="pq-ms-point">
+        <span class="pq-ms-num">${i + 1}</span>
+        <span class="pq-ms-text">${escapeHtml(pt.point || '')}</span>
+        <span class="pq-ms-m">(${pt.marks || 1}m)</span>
+      </div>`).join('');
+    const maHtml = q.model_answer
+      ? `<div class="pq-model-answer"><div class="pq-ms-label">Model Answer</div><div class="pq-ma-text">${escapeHtml(q.model_answer)}</div></div>` : '';
+    feedbackHtml = `
+      <div class="pq-ms-label">Mark Scheme</div>
+      ${msHtml}${maHtml}
+      <div class="pq-self-mark-note">Self-mark your answer against the points above.</div>
+      <div class="pq-next-row"><button class="pq-next-btn" onclick="pqNextQuestion()">${nextLabel}</button></div>`;
+  }
+
+  document.getElementById('pq-body').insertAdjacentHTML('beforeend',
+    `<div class="pq-feedback-block${isMcq ? '' : ' pq-ms-block'}">${feedbackHtml}</div>`);
+
+  // record attempt (fire and forget)
+  if (supabase && currentUser) {
+    supabase.from('question_attempts').insert({
+      user_id: currentUser.id,
+      question_id: q.id,
+      topic_key: _pq.topicKey,
+      exam_code: q.exam_code,
+      given_answer: givenAnswer,
+      is_correct: isCorrect,
+      marks_awarded: marksAwarded,
+      marks_possible: q.marks,
+      graded: isMcq,
+    }).then(({ error: e }) => { if (e) console.warn('[PQ] attempt insert:', e); });
+  }
+};
+
+window.pqNextQuestion = function() {
+  _pq.currentIdx++;
+  if (_pq.currentIdx >= _pq.questions.length) _pqRenderSummary();
+  else _pqRenderQuestion();
+};
+
+function _pqRenderSummary() {
+  document.getElementById('pq-progress').textContent = 'Complete';
+  const hasStructured = _pq.questions.some(q => q.qtype === 'structured' || q.qtype === 'written');
+  const rawScore = Math.max(0, _pq.score);
+  const scoreDisplay = Number.isInteger(rawScore) ? String(rawScore) : rawScore.toFixed(2).replace(/\.?0+$/, '');
+
+  let paywallHtml = '';
+  if (!isPro() && _pq.gatedTotal > _pq.questions.length) {
+    const more = _pq.gatedTotal - _pq.questions.length;
+    paywallHtml = `<div class="pq-paywall-hint">
+      ${more} more question${more !== 1 ? 's' : ''} available for this topic.
+      Upgrade to Pro for unlimited practice + AI-generated questions.
+      <button class="pq-upgrade-btn" onclick="closePracticeModal();showPaywall('Practice Questions')">Upgrade to Pro</button>
+    </div>`;
+  }
+  const noteHtml = hasStructured
+    ? `<div class="pq-sum-note">Structured questions require self-marking — AI grading coming in Step 1b.</div>` : '';
+
+  document.getElementById('pq-body').innerHTML = `
+    <div class="pq-summary">
+      <div class="pq-sum-title">Session Complete</div>
+      <div class="pq-sum-score">${scoreDisplay} / ${_pq.totalPossible}</div>
+      <div class="pq-sum-sub">marks after negative marking</div>
+      ${paywallHtml}${noteHtml}
+      <div class="pq-sum-actions">
+        <button class="pq-retry-btn" onclick="openPracticeModal('${escapeHtml(_pq.tvKey)}','${escapeHtml(_pq.topicId)}')">Try Again</button>
+        <button class="pq-close-btn" onclick="closePracticeModal()">Close</button>
+      </div>
+    </div>`;
+}
+
 window.bonesSearchInput = function(q) {
   _bonesQuery = q.toLowerCase().trim();
   _renderBones();

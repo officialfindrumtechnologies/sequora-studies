@@ -807,6 +807,9 @@ function renderTopicPanel() {
     const visualBtn = hasVisual
       ? `<button class="btn sm ghost" onclick="openTopicVisualModal('${tvKey}','${tvTopic.id}')" title="View diagram">◈</button>`
       : '';
+    const practiceBtn = tvTopic
+      ? `<button class="btn sm ghost" onclick="openPracticeModal('${tvKey}','${tvTopic.id}')" title="Practice questions">▸</button>`
+      : '';
 
     row.innerHTML = `
       <div class="cyc ${cyc}" onclick="sbCycleStatus('${tp.id}')">${mark}</div>
@@ -814,7 +817,7 @@ function renderTopicPanel() {
       ${isNext ? '<span class="nextpill">next</span>' : ''}
       <span class="tag sec-tag" onclick="sbStartEditSection('${tp.id}')" title="Click to change section">${tp.section ? esc(tp.section) : '<em style="opacity:.4">section</em>'}</span>
       <div class="sb-row-actions">
-        ${visualBtn}
+        ${visualBtn}${practiceBtn}
         <button class="btn sm ghost" onclick="sbMoveTopicUp('${tp.id}')" ${idx === 0 ? 'disabled' : ''} title="Move up">↑</button>
         <button class="btn sm ghost" onclick="sbMoveTopicDown('${tp.id}')" ${idx === t.length - 1 ? 'disabled' : ''} title="Move down">↓</button>
         <button class="btn sm ghost danger" onclick="sbDeleteTopic('${tp.id}')" title="Remove">×</button>
