@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { emailActivated, emailSuspended, emailWeeklyReport } from './email.js';
+import { generateAndInsert, detectExamFormat } from './generate-questions.js';
 
 const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || 'http://localhost:3000';
 
@@ -441,6 +442,43 @@ export default async function handler(req, res) {
     return res.status(200).json({ counts, recentLog, envVars });
   }
 
+  // ── GET: question_bank_stats ───────────────────────────────────────────────
+  if (req.method === 'GET' && action === 'question_bank_stats') {
+    let data, qError;
+    try {
+      ({ data, error: qError } = await adminSb
+        .from('questions')
+        .select('exam_code, topic_key')
+        .eq('is_shared', true));
+    } catch (_) {
+      return res.status(200).json({ stats: [], total: 0, tableExists: false });
+    }
+    if (qError) {
+      if (qError.code === 'PGRST106' || qError.message?.includes('does not exist')) {
+        return res.status(200).json({ stats: [], total: 0, tableExists: false });
+      }
+      return res.status(500).json({ error: qError.message });
+    }
+
+    const rows = data || [];
+    const codeMap = {};
+    const topicMap = {};
+    rows.forEach(q => {
+      const code = q.exam_code || 'other';
+      codeMap[code] = (codeMap[code] || 0) + 1;
+      if (!topicMap[code]) topicMap[code] = new Set();
+      topicMap[code].add(q.topic_key);
+    });
+
+    const stats = Object.entries(codeMap).map(([exam_code, question_count]) => ({
+      exam_code,
+      question_count,
+      topic_count: topicMap[exam_code].size,
+    })).sort((a, b) => b.question_count - a.question_count);
+
+    return res.status(200).json({ stats, total: rows.length, tableExists: true });
+  }
+
   // ── GET: content_stats ─────────────────────────────────────────────────────
   if (req.method === 'GET' && action === 'content_stats') {
     const [subjRes, topicRes, profileRes] = await Promise.all([
@@ -839,6 +877,75 @@ export default async function handler(req, res) {
     } catch (e) {
       return res.status(500).json({ error: 'Email failed: ' + e.message });
     }
+  }
+
+  // ── batch_generate_questions ───────────────────────────────────────────────
+  if (action === 'batch_generate_questions') {
+    const { topic_keys, exam_code: filterExamCode } = req.body || {};
+
+    // Dynamically import TOPIC_VISUALS (large file — load only when needed)
+    const { TOPIC_VISUALS } = await import('../src/data/topic-visuals.js');
+
+    // Collect matching topics
+    const topicsToProcess = [];
+    for (const [tvKey, tvData] of Object.entries(TOPIC_VISUALS)) {
+      const tvExamCode = tvData.examCode || '';
+      for (const topic of (tvData.topics || [])) {
+        const topicKey = `${tvKey}:${topic.id}`;
+
+        if (topic_keys && !topic_keys.includes(topicKey)) continue;
+        if (filterExamCode) {
+          const filter = filterExamCode.toUpperCase();
+          const code = tvExamCode.toUpperCase();
+          // IB prefix match; others exact
+          if (filter.startsWith('IB') ? !code.startsWith('IB') : code !== filter) continue;
+        }
+
+        topicsToProcess.push({ topicKey, examCode: tvExamCode, topicName: topic.name });
+      }
+    }
+
+    // Cap batch size to avoid timeout
+    const batch = topicsToProcess.slice(0, 50);
+
+    // Check existing question counts per topic_key
+    const allKeys = batch.map(t => t.topicKey);
+    const { data: existingRows } = await adminSb
+      .from('questions')
+      .select('topic_key')
+      .in('topic_key', allKeys)
+      .eq('is_shared', true);
+
+    const countMap = {};
+    (existingRows || []).forEach(q => {
+      countMap[q.topic_key] = (countMap[q.topic_key] || 0) + 1;
+    });
+
+    let processed = 0, skipped = 0, generated = 0;
+    const errors = [];
+
+    for (let i = 0; i < batch.length; i++) {
+      const { topicKey, examCode, topicName } = batch[i];
+
+      if ((countMap[topicKey] || 0) >= 3) {
+        skipped++;
+        continue;
+      }
+
+      // 500ms delay between calls to avoid Gemini rate limiting
+      if (i > 0) await new Promise(r => setTimeout(r, 500));
+
+      // Cambridge/IB: 3 MCQ + 2 structured = 5 total; MBBS: 5 MCQ
+      const format = detectExamFormat(examCode);
+      const count = 5;
+
+      const result = await generateAndInsert({ topicKey, examCode, topicName, count, difficulty: 'medium', adminSb });
+      processed++;
+      generated += result.generated;
+      if (result.error) errors.push({ topicKey, error: result.error });
+    }
+
+    return res.status(200).json({ processed, skipped, generated, errors, total: batch.length });
   }
 
   return res.status(400).json({ error: `Unknown action: ${action}` });

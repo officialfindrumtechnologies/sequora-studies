@@ -266,6 +266,7 @@ body.theme-midnight{
       <div class="nav-item" data-sec="activity">Activity</div>
       <div class="nav-item" data-sec="content">Content Stats</div>
       <div class="nav-item" data-sec="errors">Error Reports <span class="nav-badge" id="err-badge" style="display:none"></span></div>
+      <div class="nav-item" data-sec="questions">Question Bank</div>
       <div class="nav-item" data-sec="notifications">Notifications</div>
       <div class="nav-item" data-sec="system">System</div>
       <div class="nav-item" data-sec="audit">Audit Log</div>
@@ -508,6 +509,39 @@ body.theme-midnight{
       </div>
     </section>
 
+    <!-- QUESTION BANK -->
+    <section id="sec-questions" class="section">
+      <div class="section-title">Question Bank</div>
+      <div class="stat-grid" id="qb-stat-grid">
+        <div class="stat-card"><div class="sv" id="qb-total">–</div><div class="sk">Total questions</div></div>
+        <div class="stat-card"><div class="sv" id="qb-topics">–</div><div class="sk">Topics with questions</div></div>
+      </div>
+      <div class="sub-title">Generate by Curriculum</div>
+      <div class="toolbar">
+        <select id="qb-curriculum">
+          <option value="">All curricula</option>
+          <option value="0610">IGCSE Biology (0610)</option>
+          <option value="0620">IGCSE Chemistry (0620)</option>
+          <option value="0625">IGCSE Physics (0625)</option>
+          <option value="9700">A Level Biology (9700)</option>
+          <option value="9701">A Level Chemistry (9701)</option>
+          <option value="9702">A Level Physics (9702)</option>
+          <option value="IB">IB Diploma (all)</option>
+          <option value="MBBS">MBBS / BMDC</option>
+        </select>
+        <button class="btn-action" id="qb-gen-btn" onclick="batchGenerate()">Generate Questions</button>
+        <button class="btn-ref" onclick="reloadQuestionBank()">↺ Refresh</button>
+      </div>
+      <div id="qb-progress" style="display:none;margin:12px 0;padding:10px 14px;background:rgba(255,255,255,.04);border-radius:6px;font-size:13px;color:var(--paper-dim);font-family:var(--mono)"></div>
+      <div class="sub-title">Questions per Curriculum</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Exam Code</th><th>Questions</th><th>Topics covered</th></tr></thead>
+          <tbody id="qb-tbody"><tr class="loading-row"><td colspan="3">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
     <!-- AUDIT LOG -->
     <section id="sec-audit" class="section">
       <div class="section-title">Audit Log</div>
@@ -717,6 +751,7 @@ function showSection(sec) {
       case 'activity':      loadActivity(); break;
       case 'content':       loadContent(); break;
       case 'errors':        loadErrors(); break;
+      case 'questions':     loadQuestionBank(); break;
       case 'notifications': loadNotifications(); break;
       case 'system':        loadSystem(); break;
       case 'audit':         loadAuditLog(0); break;
@@ -1454,6 +1489,68 @@ window.auditPage = function(delta) {
   const totalPages = Math.ceil(auditTotal / AUDIT_PAGE_SIZE);
   if (newPage < 0 || newPage >= totalPages) return;
   loadAuditLog(newPage);
+};
+
+// ── question bank ─────────────────────────────────────────────────────────
+
+async function loadQuestionBank() {
+  document.getElementById('qb-tbody').innerHTML = '<tr class="loading-row"><td colspan="3">Loading…</td></tr>';
+  try {
+    const d = await apiGet({ action: 'question_bank_stats' });
+    document.getElementById('qb-total').textContent = d.total.toLocaleString();
+    document.getElementById('qb-topics').textContent = d.stats.reduce((s, r) => s + r.topic_count, 0).toLocaleString();
+
+    if (!d.tableExists) {
+      document.getElementById('qb-tbody').innerHTML = '<tr class="empty-row"><td colspan="3">questions table not found — run migration first</td></tr>';
+      return;
+    }
+    if (!d.stats.length) {
+      document.getElementById('qb-tbody').innerHTML = '<tr class="empty-row"><td colspan="3">No shared questions yet — use Generate to seed the bank</td></tr>';
+      return;
+    }
+    document.getElementById('qb-tbody').innerHTML = d.stats.map(s => `<tr>
+      <td style="font-family:var(--mono)">${esc(s.exam_code)}</td>
+      <td>${s.question_count}</td>
+      <td>${s.topic_count}</td>
+    </tr>`).join('');
+  } catch (e) {
+    document.getElementById('qb-tbody').innerHTML = `<tr class="error-row"><td colspan="3">Error: ${esc(e.message)}</td></tr>`;
+  }
+}
+
+window.reloadQuestionBank = function() {
+  loadedSections.delete('questions');
+  loadQuestionBank();
+};
+
+window.batchGenerate = async function() {
+  const curriculum = document.getElementById('qb-curriculum').value;
+  const btn = document.getElementById('qb-gen-btn');
+  const progress = document.getElementById('qb-progress');
+
+  btn.disabled = true;
+  btn.textContent = 'Generating…';
+  progress.style.display = 'block';
+  progress.textContent = `Starting generation${curriculum ? ' for ' + curriculum : ' (all curricula)'}…`;
+
+  try {
+    const body = curriculum ? { exam_code: curriculum } : {};
+    const result = await apiPost('batch_generate_questions', body);
+    progress.textContent = [
+      `Done: ${result.generated} questions generated across ${result.processed} topics.`,
+      `Skipped ${result.skipped} topics (already had ≥3 questions).`,
+      result.errors.length ? `${result.errors.length} error(s): ${result.errors.map(e => e.topicKey).join(', ')}` : '',
+    ].filter(Boolean).join(' ');
+    toast(`Generated ${result.generated} questions`);
+    loadedSections.delete('questions');
+    loadQuestionBank();
+  } catch (e) {
+    progress.textContent = 'Error: ' + e.message;
+    toast('Generation failed: ' + e.message, true);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Generate Questions';
+  }
 };
 
 // ── theme switcher ────────────────────────────────────────────────────────

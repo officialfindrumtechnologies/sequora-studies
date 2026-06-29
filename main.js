@@ -5001,6 +5001,7 @@ const FREE_QUESTION_LIMIT = 3;
 
 const _pq = {
   tvKey: null, topicId: null, topicKey: null,
+  topicName: null, examCode: null,
   questions: [], gatedTotal: 0,
   currentIdx: 0, score: 0, totalPossible: 0,
   answered: false,
@@ -5015,6 +5016,8 @@ window.openPracticeModal = async function(tvKey, topicId) {
   Object.assign(_pq, {
     tvKey, topicId,
     topicKey: `${tvKey}:${topicId}`,
+    topicName: topic.name,
+    examCode: data.examCode || '',
     questions: [], gatedTotal: 0,
     currentIdx: 0, score: 0, totalPossible: 0,
     answered: false,
@@ -5045,6 +5048,48 @@ window.openPracticeModal = async function(tvKey, topicId) {
     document.getElementById('pq-body').innerHTML = '<div class="pq-empty">Could not load questions.</div>';
     return;
   }
+
+  // TODO: Free users with no questions see this message — upgrade paywall already built in Step 1a
+  if (rows.length === 0 && !isPro()) {
+    document.getElementById('pq-body').innerHTML = '<div class="pq-empty">No questions available for this topic yet.</div>';
+    return;
+  }
+
+  // Pro: auto-generate if bank is thin (< 3 questions)
+  if (rows.length === 0 && isPro()) {
+    document.getElementById('pq-body').innerHTML = '<div class="pq-loading">Generating questions with AI…</div>';
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const token = session?.access_token;
+      if (token) {
+        await fetch('/api/generate-questions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({
+            topic_key: _pq.topicKey,
+            exam_code: _pq.examCode,
+            topic_name: _pq.topicName,
+            count: 5,
+            difficulty: 'medium',
+          }),
+        });
+        // Reload freshly generated questions
+        const { data: freshRows } = await supabase
+          .from('questions').select('*')
+          .eq('topic_key', _pq.topicKey).eq('is_shared', true)
+          .order('created_at', { ascending: true });
+        if (freshRows?.length) {
+          _pq.gatedTotal = freshRows.length;
+          _pq.questions = freshRows;
+          _pqRenderQuestion();
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn('[PQ] AI generation failed:', e.message);
+    }
+  }
+
   if (rows.length === 0) {
     document.getElementById('pq-body').innerHTML = '<div class="pq-empty">No questions available for this topic yet.</div>';
     return;
@@ -5221,6 +5266,9 @@ function _pqRenderSummary() {
   const noteHtml = hasStructured
     ? `<div class="pq-sum-note">Structured questions require self-marking — AI grading coming in Step 1b.</div>` : '';
 
+  const getMoreHtml = isPro()
+    ? `<button class="pq-upgrade-btn" onclick="pqGetMoreQuestions()">Get 5 more questions</button>` : '';
+
   document.getElementById('pq-body').innerHTML = `
     <div class="pq-summary">
       <div class="pq-sum-title">Session Complete</div>
@@ -5229,10 +5277,43 @@ function _pqRenderSummary() {
       ${paywallHtml}${noteHtml}
       <div class="pq-sum-actions">
         <button class="pq-retry-btn" onclick="openPracticeModal('${escapeHtml(_pq.tvKey)}','${escapeHtml(_pq.topicId)}')">Try Again</button>
+        ${getMoreHtml}
         <button class="pq-close-btn" onclick="closePracticeModal()">Close</button>
       </div>
     </div>`;
 }
+
+window.pqGetMoreQuestions = async function() {
+  document.getElementById('pq-progress').textContent = '';
+  document.getElementById('pq-body').innerHTML = '<div class="pq-loading">Generating 5 more questions with AI…</div>';
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    const token = session?.access_token;
+    if (!token) throw new Error('Not signed in');
+    const resp = await fetch('/api/generate-questions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify({
+        topic_key: _pq.topicKey,
+        exam_code: _pq.examCode,
+        topic_name: _pq.topicName,
+        count: 5,
+        difficulty: 'medium',
+      }),
+    });
+    const result = await resp.json();
+    if (result.generated > 0) {
+      // Restart session with all available questions
+      await openPracticeModal(_pq.tvKey, _pq.topicId);
+    } else {
+      document.getElementById('pq-body').innerHTML =
+        `<div class="pq-empty">Could not generate questions${result.error ? ': ' + result.error : ''}. Please try again.</div>`;
+    }
+  } catch (e) {
+    console.warn('[PQ] Get more failed:', e.message);
+    document.getElementById('pq-body').innerHTML = '<div class="pq-empty">Generation failed. Please try again.</div>';
+  }
+};
 
 window.bonesSearchInput = function(q) {
   _bonesQuery = q.toLowerCase().trim();
