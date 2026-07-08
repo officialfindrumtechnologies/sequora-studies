@@ -5886,12 +5886,9 @@ if (supabase) {
     sessionStorage.setItem('sq_just_verified', '1');
   }
 
-  // Check active session immediately on startup
-  supabase.auth.getSession().then(({ data: { session } }) => {
-    handleSession(session);
-  });
-
-  // Listen for changes
+  // onAuthStateChange fires INITIAL_SESSION immediately on subscribe with the
+  // current session — no need for a separate getSession() call, which was
+  // firing handleSession() (2 DB queries) twice on every page load.
   supabase.auth.onAuthStateChange((event, session) => {
     console.log("[Auth] onAuthStateChange:", event);
     if (event === 'PASSWORD_RECOVERY') {
