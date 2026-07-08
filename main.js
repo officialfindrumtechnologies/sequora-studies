@@ -18,6 +18,8 @@ import { getSubjects } from './src/data/subjects.js';
 import { getAllTopics } from './src/data/topics.js';
 import { hasLegacyData, migrateFromStudyState } from './src/data/migration.js';
 import { createSession } from './src/data/sessions.js';
+import { createPaper, getPapers, deletePaper } from './src/data/papers.js';
+import { createError, getErrors, deleteError } from './src/data/errors.js';
 import {
   searchUsers, sendFriendRequest, getPendingRequests,
   acceptFriendRequest, declineFriendRequest, removeFriend,
@@ -1756,56 +1758,86 @@ function fillSubjSelects(){
     const sel=document.getElementById(id);
     if (!sel) continue;
     sel.innerHTML="";
-    for(const s of SUBJECTS){const o=document.createElement("option");o.value=s.key;o.textContent=s.name;sel.appendChild(o);}
+    for(const s of _sbCache.subjects){const o=document.createElement("option");o.value=s.id;o.textContent=s.name;sel.appendChild(o);}
+    if(!_sbCache.subjects.length){sel.innerHTML='<option value="">Add a subject first</option>';}
   }
 }
-function addPaper(){
+async function addPaper(){
   const subj=document.getElementById("pSubj").value;
   const idv=document.getElementById("pId").value.trim();
   const sc=parseFloat(document.getElementById("pScore").value);
   const mx=parseFloat(document.getElementById("pMax").value);
+  if(!subj){setToast("Add a subject first");return;}
   if(!idv||isNaN(sc)||isNaN(mx)||mx<=0){setToast("Fill paper, score & max");return;}
-  papers.push({id:Date.now(),subject:subj,paper:idv,score:sc,max:mx,date:todayStr()});
-  saveJSON("ascent_papers",papers);
+  if(!currentUser) return;
+  try{
+    await createPaper({ userId: currentUser.id, subjectId: subj, paperRef: idv, score: sc, maxScore: mx });
+  }catch(e){
+    setToast("Failed to save paper — check connection");
+    console.error('[Papers] createPaper failed:', e.message);
+    return;
+  }
   document.getElementById("pId").value="";document.getElementById("pScore").value="";document.getElementById("pMax").value="";
-  renderLogs();setToast("Paper logged");
+  await renderLogs();setToast("Paper logged");
 }
-function addError(){
+async function addError(){
   const subj=document.getElementById("eSubj").value;
   const mis=document.getElementById("eMistake").value.trim();
   const fix=document.getElementById("eFix").value.trim();
+  if(!subj){setToast("Add a subject first");return;}
   if(!mis){setToast("Describe the mistake");return;}
-  errors.push({id:Date.now(),subject:subj,mistake:mis,fix:fix,date:todayStr()});
-  saveJSON("ascent_errors",errors);
+  if(!currentUser) return;
+  try{
+    await createError({ userId: currentUser.id, subjectId: subj, mistake: mis, fix: fix || null });
+  }catch(e){
+    setToast("Failed to save — check connection");
+    console.error('[Errors] createError failed:', e.message);
+    return;
+  }
   document.getElementById("eMistake").value="";document.getElementById("eFix").value="";
-  renderLogs();setToast("Added to error log");
+  await renderLogs();setToast("Added to error log");
 }
-function renderLogs(){
+async function renderLogs(){
+  if(!currentUser) return;
   const pl=document.getElementById("paperLog");
+  const elx=document.getElementById("errorLog");
+  if(!pl && !elx) return;
+
+  const [paperRows, errorRows] = await Promise.all([
+    pl ? getPapers().catch(()=>[]) : Promise.resolve([]),
+    elx ? getErrors().catch(()=>[]) : Promise.resolve([]),
+  ]);
+
   if (pl) {
     pl.innerHTML="";
-    if(!papers.length){pl.innerHTML='<div class="empty">No papers logged yet.</div>';}
-    papers.slice().reverse().forEach(p=>{
-      const pct=Math.round(p.score/p.max*100);
+    if(!paperRows.length){pl.innerHTML='<div class="empty">No papers logged yet.</div>';}
+    paperRows.forEach(p=>{
+      const pct=Math.round(p.score/p.max_score*100);
       const cls=pct>=80?"astar":pct>=70?"near":"low";
+      const name=p.subjects?.name || 'Unknown subject';
       const d=document.createElement("div");d.className="score-line";
-      d.innerHTML=`<span class="id">${subjName(p.subject)} · ${p.paper}</span><span class="sc ${cls}">${p.score}/${p.max} · ${pct}%</span>`;
+      d.innerHTML=`<span class="id">${escapeHtml(name)} · ${escapeHtml(p.paper_ref)}</span><span class="sc ${cls}">${p.score}/${p.max_score} · ${pct}%</span>`;
       pl.appendChild(d);
     });
   }
-  
-  const elx=document.getElementById("errorLog");
+
   if (elx) {
     elx.innerHTML="";
-    if(!errors.length){elx.innerHTML='<div class="empty">No mistakes logged — log them as they happen.</div>';}
-    errors.slice().reverse().forEach(e=>{
+    if(!errorRows.length){elx.innerHTML='<div class="empty">No mistakes logged — log them as they happen.</div>';}
+    errorRows.forEach(e=>{
+      const name=e.subjects?.name || 'Unknown subject';
+      const dateStr=(e.logged_at||e.created_at||'').slice(0,10);
       const d=document.createElement("div");d.className="logitem";
-      d.innerHTML=`<div class="meta"><span class="s">${subjName(e.subject)}</span><span class="d">${e.date} <span class="mini-link" onclick="delError(${e.id})">remove</span></span></div><div class="mistake">${escapeHtml(e.mistake)}</div>${e.fix?`<div class="fix">${escapeHtml(e.fix)}</div>`:""}`;
+      d.innerHTML=`<div class="meta"><span class="s">${escapeHtml(name)}</span><span class="d">${dateStr} <span class="mini-link" onclick="delError('${e.id}')">remove</span></span></div><div class="mistake">${escapeHtml(e.mistake)}</div>${e.fix?`<div class="fix">${escapeHtml(e.fix)}</div>`:""}`;
       elx.appendChild(d);
     });
   }
 }
-function delError(id){errors=errors.filter(e=>e.id!==id);saveJSON("ascent_errors",errors);renderLogs();}
+async function delError(id){
+  try{ await deleteError(id); }
+  catch(e){ setToast("Failed to remove — check connection"); console.error('[Errors] deleteError failed:', e.message); return; }
+  await renderLogs();
+}
 function escapeHtml(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
 
 /* ============ payment card ============ */
@@ -5710,6 +5742,10 @@ async function refreshSbCache() {
     // Re-render coverage map if currently visible
     const covEl = document.getElementById("view-coverage");
     if(covEl && !covEl.classList.contains("hidden")) renderCoverage();
+
+    // Re-fill Papers & Errors subject dropdowns if currently visible
+    const logsEl = document.getElementById("view-logs");
+    if(logsEl && !logsEl.classList.contains("hidden")) fillSubjSelects();
   } catch(e) {
     console.warn('[sbCache] refresh failed:', e);
   }
