@@ -93,12 +93,15 @@ export async function getRecallDue() {
   return data;
 }
 
+// 2-4-7 method: 3 successful recalls (2d, 4d, 7d after ready) → mastered
+const RECALL_STEPS_COUNT = 3;
+
 export async function markRecallPass(id) {
   const { data: topic } = await supabase.from('topics').select('recall_reps').eq('id', id).single();
-  return updateTopic(id, {
-    last_recall: todayStr(),
-    recall_reps: (topic?.recall_reps ?? 0) + 1,
-  });
+  const newReps = (topic?.recall_reps ?? 0) + 1;
+  const updates = { last_recall: todayStr(), recall_reps: newReps };
+  if (newReps >= RECALL_STEPS_COUNT) updates.status = 'mastered';
+  return updateTopic(id, updates);
 }
 
 export async function markRecallFail(id) {

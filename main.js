@@ -15,7 +15,7 @@ import { QUAL_BOARDS, resolveQualBoard, formatQualBoard, isMbbs, NO_DATE_QUALS }
 import { getSubscription, submitBkashPayment } from './src/data/subscriptions.js';
 import { initSubjectsView, setSubjectsViewTier } from './src/views/subjects-view.js';
 import { getSubjects } from './src/data/subjects.js';
-import { getAllTopics } from './src/data/topics.js';
+import { getAllTopics, markRecallPass, markRecallFail } from './src/data/topics.js';
 import { hasLegacyData, migrateFromStudyState } from './src/data/migration.js';
 import { createSession } from './src/data/sessions.js';
 import { createPaper, getPapers, deletePaper } from './src/data/papers.js';
@@ -1122,18 +1122,23 @@ function renderAnalytics() {
 /* ============ spaced-recall engine — 2-4-7 method ============ */
 const RECALL_STEPS=[2,4,7]; // days after each recall: 2d → 4d → 7d → mastered
 const RECALL_STAGE_LABELS=["1st recall","2nd recall","final recall"];
-function recallDue(){
-  const today=parseD(todayStr());
+// Real-table equivalent of recallDue() — same 2-4-7 staging logic used by
+// getStudyNowCandidates(), against _sbCache instead of the legacy topics blob.
+function recallDueSb(){
+  const today=new Date(); today.setHours(0,0,0,0);
   const due=[];
-  for(const s of SUBJECTS){
-    for(const tp of (topics[s.key]||[])){
-      if(tp.status!=="ready"||!tp.readyAt)continue;
-      const reps=tp.recallReps||0;
-      if(reps>=RECALL_STEPS.length)continue; // all 3 recalls done — should be mastered
-      const base=parseD(tp.lastRecall||tp.readyAt);
-      const elapsed=daysBetween(base,today);
-      const step=RECALL_STEPS[reps];
-      if(elapsed>=step){due.push({s,tp,over:elapsed-step,reps});}
+  for(const tp of _sbCache.allTopics){
+    if(tp.status!=="ready")continue;
+    const reps=tp.recall_reps||0;
+    if(reps>=RECALL_STEPS.length)continue; // all 3 recalls done — should be mastered
+    const base=new Date(tp.last_recall||tp.ready_at);
+    if(isNaN(base.getTime()))continue;
+    base.setHours(0,0,0,0);
+    const elapsed=Math.floor((today-base)/86400000);
+    const step=RECALL_STEPS[reps];
+    if(elapsed>=step){
+      const s=_sbCache.subjects.find(x=>x.id===tp.subject_id)||{id:tp.subject_id,name:tp.subjects?.name||'Unknown'};
+      due.push({s,tp,over:elapsed-step,reps});
     }
   }
   due.sort((a,b)=>b.over-a.over);
@@ -1144,7 +1149,7 @@ function renderRecall(){
   const title=document.getElementById("recallTitle");
   const card=document.getElementById("recallCard");
   if(!list)return;
-  const due=recallDue();
+  const due=recallDueSb();
   list.innerHTML="";
   if(!due.length){
     title.textContent="Nothing due yet";
@@ -1158,37 +1163,32 @@ function renderRecall(){
     const stageLabel=RECALL_STAGE_LABELS[d.reps]||"recall";
     const overTxt=d.over>0?`<span class="overdue">${d.over}d overdue</span>`:"due today";
     const div=document.createElement("div");div.className="recall-item";
-    div.innerHTML=`<div class="rg"><div class="rn">${d.tp.name}</div><div class="rs"><b>${d.s.name}</b> · ${overTxt} · <span class="recall-stage">${stageLabel}</span> <span class="recall-method">2-4-7</span></div></div>
+    div.innerHTML=`<div class="rg"><div class="rn">${escapeHtml(d.tp.name)}</div><div class="rs"><b>${escapeHtml(d.s.name)}</b> · ${overTxt} · <span class="recall-stage">${stageLabel}</span> <span class="recall-method">2-4-7</span></div></div>
       <div class="recall-btns">
-        <button class="btn sm" onclick="recallPass('${d.s.key}','${d.tp.id}')">Recalled ✓</button>
-        <button class="btn sm ghost danger" onclick="recallFail('${d.s.key}','${d.tp.id}')">Forgot</button>
+        <button class="btn sm" onclick="recallPass('${d.tp.id}')">Recalled ✓</button>
+        <button class="btn sm ghost danger" onclick="recallFail('${d.tp.id}')">Forgot</button>
       </div>`;
     list.appendChild(div);
   });
   if(due.length>8){const m=document.createElement("div");m.className="empty";m.textContent="+"+(due.length-8)+" more — clear these first";list.appendChild(m);}
 }
-function recallPass(k,id){
-  const tp=(topics[k]||[]).find(x=>x.id===id);if(!tp)return;
-  const newReps=(tp.recallReps||0)+1;
-  tp.lastRecall=todayStr();tp.recallReps=newReps;
+async function recallPass(id){
+  const tp=_sbCache.allTopics.find(x=>x.id===id);if(!tp)return;
+  const newReps=(tp.recall_reps||0)+1;
+  try{ await markRecallPass(id); }
+  catch(e){ setToast("Failed to save — check connection"); console.error('[Recall] markRecallPass failed:', e.message); return; }
+  await refreshSbCache();
   if(newReps>=RECALL_STEPS.length){
-    tp.status="mastered";
-    saveJSON("ascent_topics",topics);renderRecall();renderDashProgress();
-    const readyPctEl=document.getElementById("readyPct");
-    if(readyPctEl)readyPctEl.textContent=overallReady()+"%";
     setToast("Mastered! 2-4-7 complete ✓ — this topic owns you now");
   } else {
     const nextDays=RECALL_STEPS[newReps];
-    saveJSON("ascent_topics",topics);renderRecall();
     setToast("Recall locked — "+RECALL_STAGE_LABELS[newReps]+" in "+nextDays+" days");
   }
 }
-function recallFail(k,id){
-  const tp=(topics[k]||[]).find(x=>x.id===id);if(!tp)return;
-  tp.status="learning";delete tp.readyAt;delete tp.lastRecall;tp.recallReps=0;
-  saveJSON("ascent_topics",topics);renderRecall();renderDashProgress();
-  const readyPctEl = document.getElementById("readyPct");
-  if (readyPctEl) readyPctEl.textContent=overallReady()+"%";
+async function recallFail(id){
+  try{ await markRecallFail(id); }
+  catch(e){ setToast("Failed to save — check connection"); console.error('[Recall] markRecallFail failed:', e.message); return; }
+  await refreshSbCache();
   setToast("Moved back to Learning — re-drill it");
 }
 
@@ -5759,6 +5759,7 @@ async function refreshSbCache() {
     renderDashProgress();
     renderStudyNow();
     renderFlags();
+    renderRecall();
     const rp = overallReady();
     const rpEl = document.getElementById("readyPct");
     if(rpEl){
