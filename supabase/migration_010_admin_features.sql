@@ -40,13 +40,5 @@ CREATE POLICY "Admins can view ledger logs" ON bkash_trx_logs
   FOR SELECT TO authenticated
   USING (EXISTS (SELECT 1 FROM admin_users WHERE id = auth.uid()));
 
--- Insert some default mock bKash transaction logs for testing
-INSERT INTO bkash_trx_logs (trx_id, amount, sender_number, received_at)
-VALUES 
-  ('BKASH991A3', 299, '01712345678', now() - interval '2 hours'),
-  ('BKASH882B4', 1399, '01887654321', now() - interval '1 hour'),
-  ('BKASH773C5', 149, '01911223344', now() - interval '30 minutes')
-ON CONFLICT (trx_id) DO NOTHING;
-
 -- 3. Add activity tracking column to profiles table
 ALTER TABLE profiles ADD COLUMN IF NOT EXISTS last_active_at timestamptz DEFAULT now();
