@@ -53,19 +53,46 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Subscription record not found. Contact support.' });
   }
 
-  // Guard: don't allow resubmission of same TrxID
+  // Guard: don't allow duplicate bKash transaction IDs globally across all users
+  const { data: duplicateTrx } = await adminSb
+    .from('subscriptions')
+    .select('user_id')
+    .eq('bkash_trx_id', trxId.trim())
+    .maybeSingle();
+
+  if (duplicateTrx) {
+    return res.status(409).json({ error: 'This Transaction ID has already been submitted by another user.' });
+  }
+
+  // Guard: don't allow resubmission of same TrxID by this user
   if (existing.bkash_trx_id === trxId.trim()) {
     return res.status(409).json({ error: 'This Transaction ID was already submitted.' });
+  }
+
+  // Cross-reference transaction ID with simulated bKash wallet logs
+  let matchedNote = plan;
+  const { data: trxLog } = await adminSb
+    .from('bkash_trx_logs')
+    .select('amount, sender_number')
+    .eq('trx_id', trxId.trim().toUpperCase())
+    .maybeSingle();
+
+  if (trxLog) {
+    if (parseFloat(trxLog.amount) !== parseFloat(planMeta.amount)) {
+      matchedNote = `${plan} (warning: amount mismatch BDT ${trxLog.amount} vs ${planMeta.amount})`;
+    } else {
+      matchedNote = `${plan} (auto-matched: verified BDT ${trxLog.amount})`;
+    }
   }
 
   // Update subscription with payment details (tier stays unchanged until admin activates)
   const { error: updateErr } = await adminSb
     .from('subscriptions')
     .update({
-      bkash_trx_id:       trxId.trim(),
+      bkash_trx_id:       trxId.trim().toUpperCase(),
       bkash_amount:       planMeta.amount,
       bkash_submitted_at: new Date().toISOString(),
-      notes:              plan,   // plan key — admin uses this to know what to activate
+      notes:              matchedNote,
       updated_at:         new Date().toISOString(),
     })
     .eq('user_id', user.id);
