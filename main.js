@@ -707,7 +707,7 @@ const DAY1="2026-05-31";
 let curSubjectTab="maths";
 let curTimerSubject="maths";
 let _timerSubjects=[]; // dynamic subjects from Supabase [{key:id,name}]; empty = use hardcoded SUBJECTS fallback
-let _sbCache = { subjects: [], allTopics: [] }; // Supabase-backed cache for coverage map + progress tracker
+let _sbCache = { subjects: [], allTopics: [], papers: [] }; // Supabase-backed cache for coverage map + progress tracker
 
 // IB Core subjects are excluded from % readiness calculations (TOK, EE, CAS)
 // Mirrors _isIBCore() in subjects-view.js — uses level=Core or known exam codes
@@ -1477,27 +1477,35 @@ function toggleCompletedSection(){
 }
 
 /* ============ over-confidence flags ============ */
+// Real-table equivalent of subjReady(key) — pct/tot ready topics for a subject row.
+function subjReadySb(subj){
+  const t=_sbCache.allTopics.filter(x=>x.subject_id===subj.id);
+  const tot=t.length;
+  const r=t.filter(x=>x.status==="ready"||x.status==="mastered").length;
+  return{tot,r,pct:tot?Math.round(r/tot*100):0};
+}
 function renderFlags(){
   const strip=document.getElementById("flagsStrip");if(!strip)return;
   strip.innerHTML="";
   const flags=[];
-  for(const s of SUBJECTS){
-    const x=subjReady(s.key);
-    const ps=papers.filter(p=>p.subject===s.key);
+  const subs=_sbCache.subjects.filter(s=>!isIbCore(s));
+  for(const s of subs){
+    const x=subjReadySb(s);
+    const ps=_sbCache.papers.filter(p=>p.subject_id===s.id);
     if(x.pct>=40&&ps.length>=2){
-      const recent=ps.slice(-3);
-      const avg=recent.reduce((a,b)=>a+b.score/b.max,0)/recent.length*100;
+      const recent=ps.slice(0,3);
+      const avg=recent.reduce((a,b)=>a+b.score/b.max_score,0)/recent.length*100;
       if(avg<75){
-        flags.push({type:"red",icon:"!",html:`<b>${s.name}:</b> you've marked ${x.pct}% exam-ready, but your recent papers average ${Math.round(avg)}% — below the A* line. Understanding ≠ scoring. Re-test your "ready" topics under timed conditions.`});
+        flags.push({type:"red",icon:"!",html:`<b>${escapeHtml(s.name)}:</b> you've marked ${x.pct}% exam-ready, but your recent papers average ${Math.round(avg)}% — below the A* line. Understanding ≠ scoring. Re-test your "ready" topics under timed conditions.`});
       }
     }
   }
   const wi=Math.min(Math.max(weekIndexFor(parseD(todayStr())),1),17);
   if(wi>=6){
-    for(const s of SUBJECTS){
-      const x=subjReady(s.key);
+    for(const s of subs){
+      const x=subjReadySb(s);
       if(x.pct<20&&x.tot>3){
-        flags.push({type:"amber",icon:"–",html:`<b>${s.name}</b> is still ${x.pct}% ready in week ${wi}. Don't let a whole subject drift late — even your easier A*s need timed practice.`});
+        flags.push({type:"amber",icon:"–",html:`<b>${escapeHtml(s.name)}</b> is still ${x.pct}% ready in week ${wi}. Don't let a whole subject drift late — even your easier A*s need timed practice.`});
       }
     }
   }
@@ -5715,9 +5723,10 @@ function _renderBones() {
 async function refreshSbCache() {
   if(!currentUser) return;
   try {
-    const [subs, tps] = await Promise.all([getSubjects(), getAllTopics()]);
+    const [subs, tps, pprs] = await Promise.all([getSubjects(), getAllTopics(), getPapers().catch(()=>[])]);
     _sbCache.subjects = subs || [];
     _sbCache.allTopics = tps || [];
+    _sbCache.papers = pprs || [];
 
     // Keep focus-timer subject list in sync
     if(subs && subs.length){
@@ -5731,6 +5740,7 @@ async function refreshSbCache() {
     // Re-render dashboard progress + overall % stat
     renderDashProgress();
     renderStudyNow();
+    renderFlags();
     const rp = overallReady();
     const rpEl = document.getElementById("readyPct");
     if(rpEl){
