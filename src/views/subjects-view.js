@@ -37,6 +37,10 @@ export function setSubjectsViewTier(tier) {
   sv.tier = tier;
 }
 
+export function getActiveSubjectId() {
+  return sv.activeId;
+}
+
 async function loadAll() {
   try {
     sv.subjects = await getSubjects();

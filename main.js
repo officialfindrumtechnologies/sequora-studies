@@ -13,7 +13,7 @@ import {
 } from './src/auth/onboarding.js';
 import { QUAL_BOARDS, resolveQualBoard, formatQualBoard, isMbbs, NO_DATE_QUALS } from './src/lib/qualboards.js';
 import { getSubscription, submitBkashPayment } from './src/data/subscriptions.js';
-import { initSubjectsView, setSubjectsViewTier } from './src/views/subjects-view.js';
+import { initSubjectsView, setSubjectsViewTier, getActiveSubjectId } from './src/views/subjects-view.js';
 import { getSubjects } from './src/data/subjects.js';
 import { getAllTopics, markRecallPass, markRecallFail } from './src/data/topics.js';
 import { hasLegacyData, migrateFromStudyState } from './src/data/migration.js';
@@ -707,7 +707,7 @@ const DAY1="2026-05-31";
 let curSubjectTab="maths";
 let curTimerSubject="maths";
 let _timerSubjects=[]; // dynamic subjects from Supabase [{key:id,name}]; empty = use hardcoded SUBJECTS fallback
-let _sbCache = { subjects: [], allTopics: [], papers: [] }; // Supabase-backed cache for coverage map + progress tracker
+let _sbCache = { subjects: [], allTopics: [], papers: [], errors: [] }; // Supabase-backed cache for coverage map + progress tracker
 
 // IB Core subjects are excluded from % readiness calculations (TOK, EE, CAS)
 // Mirrors _isIBCore() in subjects-view.js — uses level=Core or known exam codes
@@ -1659,29 +1659,29 @@ function cycleStatus(k,id){
 }
 
 /* ============ study summary generator (AI-ready) ============ */
-function summariseSubject(s){
-  const t=topics[s.key]||[];
+function summariseSubjectSb(s){
+  const t=_sbCache.allTopics.filter(x=>x.subject_id===s.id);
   const mastered=t.filter(x=>x.status==="mastered");
   const ready=t.filter(x=>x.status==="ready");
   const learning=t.filter(x=>x.status==="learning");
   const notstarted=t.filter(x=>x.status==="notstarted");
-  const x=subjReady(s.key);
-  const nt=nextTopic(s.key);
-  let out=`### ${s.name} (${s.code}) — ${x.pct}% exam-ready (${x.r}/${x.tot} topics)\n`;
+  const x=subjReadySb(s);
+  const nt=nextTopicSb(s);
+  let out=`### ${s.name}${s.exam_code?` (${s.exam_code})`:''} — ${x.pct}% exam-ready (${x.r}/${x.tot} topics)\n`;
   if(mastered.length)out+=`MASTERED 2-4-7 (${mastered.length}): ${mastered.map(r=>r.name).join("; ")}\n`;
   out+=`EXAM-READY (${ready.length}): ${ready.length?ready.map(r=>r.name).join("; "):"none yet"}\n`;
   out+=`IN PROGRESS (${learning.length}): ${learning.length?learning.map(r=>r.name).join("; "):"none"}\n`;
   out+=`NOT STARTED (${notstarted.length}): ${notstarted.length?notstarted.map(r=>r.name).join("; "):"none — all topics touched"}\n`;
   out+=`NEXT UP: ${nt?((nt.section?nt.section+" · ":"")+nt.name):"all topics ready — move to timed past papers"}\n`;
-  const ps=papers.filter(p=>p.subject===s.key);
+  const ps=_sbCache.papers.filter(p=>p.subject_id===s.id);
   if(ps.length){
-    const best=ps.reduce((a,b)=>(b.score/b.max>a.score/a.max?b:a));
-    const avg=Math.round(ps.reduce((a,b)=>a+b.score/b.max,0)/ps.length*100);
-    out+=`PAST PAPERS: ${ps.length} logged, avg ${avg}%, best ${Math.round(best.score/best.max*100)}% (${best.paper})\n`;
+    const best=ps.reduce((a,b)=>(b.score/b.max_score>a.score/a.max_score?b:a));
+    const avg=Math.round(ps.reduce((a,b)=>a+b.score/b.max_score,0)/ps.length*100);
+    out+=`PAST PAPERS: ${ps.length} logged, avg ${avg}%, best ${Math.round(best.score/best.max_score*100)}% (${best.paper_ref})\n`;
   }
-  const es=errors.filter(e=>e.subject===s.key);
+  const es=_sbCache.errors.filter(e=>e.subject_id===s.id);
   if(es.length){
-    out+=`LOGGED MISTAKES (${es.length}): ${es.slice(-4).map(e=>e.mistake).join(" | ")}\n`;
+    out+=`LOGGED MISTAKES (${es.length}): ${es.slice(0,4).map(e=>e.mistake).join(" | ")}\n`;
   }
   return out;
 }
@@ -1694,22 +1694,31 @@ function genSummary(scope){
   const totalH=hoursFor(()=>true);
   const streak=computeStreak();
 
-  let body="";
-  const list = scope==="subject" ? [SUBJECTS.find(s=>s.key===curSubjectTab)] : SUBJECTS;
+  const allSubs=_sbCache.subjects.filter(s=>!isIbCore(s));
+  const activeSubj = scope==="subject" ? allSubs.find(s=>s.id===getActiveSubjectId()) : null;
+  if(scope==="subject" && !activeSubj){
+    setToast("Open a subject in the Subjects tab first");
+    return;
+  }
+  const list = scope==="subject" ? [activeSubj] : allSubs;
 
-  let out=`STUDY PROGRESS SUMMARY — Edexcel IGCSE candidate (private, Nov 2026 sitting)\n`;
+  let out=`STUDY PROGRESS SUMMARY\n`;
   out+=`Generated: ${today.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"})}\n`;
   out+=`Days until first exam: ${dleft}  |  Plan week: ${wi}/17 (${wk.phase} phase)\n`;
   out+=`Total focused study logged: ${totalH.toFixed(1)} h  |  Current day-streak: ${streak}\n`;
-  out+=`Overall exam-ready across ${scope==="subject"?"this subject":"all subjects"}: ${scope==="subject"?subjReady(curSubjectTab).pct:overallReady()}%\n`;
-  const due=recallDue();
+  out+=`Overall exam-ready across ${scope==="subject"?"this subject":"all subjects"}: ${scope==="subject"?subjReadySb(activeSubj).pct:overallReady()}%\n`;
+  const due=recallDueSb();
   if(due.length){out+=`Topics due for recall (knowledge may be fading): ${due.slice(0,8).map(d=>d.tp.name+" ["+d.s.name+"]").join("; ")}${due.length>8?" …+"+(due.length-8):""}\n`;}
   out+=`\n============================================================\n\n`;
 
-  for(const s of list){ out+=summariseSubject(s)+"\n"; }
+  if(!list.length){
+    out+=`No subjects added yet — add subjects in the Subjects tab first.\n`;
+  } else {
+    for(const s of list){ out+=summariseSubjectSb(s)+"\n"; }
+  }
 
-  if(scope!=="subject"){
-    const ranked=SUBJECTS.map(s=>({n:s.name,pct:subjReady(s.key).pct})).sort((a,b)=>a.pct-b.pct);
+  if(scope!=="subject" && allSubs.length){
+    const ranked=allSubs.map(s=>({n:s.name,pct:subjReadySb(s).pct})).sort((a,b)=>a.pct-b.pct);
     out+=`============================================================\n`;
     out+=`SNAPSHOT: weakest → ${ranked.slice(0,2).map(r=>r.n+" ("+r.pct+"%)").join(", ")}  |  strongest → ${ranked.slice(-2).map(r=>r.n+" ("+r.pct+"%)").join(", ")}\n\n`;
   }
@@ -1723,7 +1732,7 @@ function genSummary(scope){
   out+=`(Note: a topic is only 'exam-ready' here if I scored well on past-paper questions unaided against the mark scheme.)\n`;
 
   document.getElementById("summaryText").value=out;
-  document.getElementById("summaryTitle").textContent = scope==="subject" ? (SUBJECTS.find(s=>s.key===curSubjectTab).name+" — progress") : "Full progress — all 6 subjects";
+  document.getElementById("summaryTitle").textContent = scope==="subject" ? (activeSubj.name+" — progress") : "Full progress — all subjects";
   document.getElementById("summaryStamp").textContent = scope==="subject"?"single subject":"all subjects · "+totalH.toFixed(1)+"h logged";
   document.getElementById("summaryModal").classList.remove("hidden");
 }
@@ -2048,25 +2057,26 @@ function copyPrompt(i){
 
 /* ============ dynamic "Should I study this next?" prompt ============ */
 function buildPrereqCheckPrompt(){
-  const subjectList=SUBJECTS.map(s=>s.name+" ("+s.code+")").join(", ");
-  let out=`I am a private Edexcel IGCSE candidate sitting exams in Nov 2026. My subjects: ${subjectList}.\n\n`;
+  const allSubs=_sbCache.subjects.filter(s=>!isIbCore(s));
+  const subjectList=allSubs.map(s=>s.name+(s.exam_code?" ("+s.exam_code+")":"")).join(", ");
+  let out=`My subjects: ${subjectList||"(none added yet)"}.\n\n`;
   out+=`Here is my current study progress by subject and section:\n\n`;
 
-  for(const s of SUBJECTS){
-    const t=topics[s.key]||[];
+  for(const s of allSubs){
+    const t=_sbCache.allTopics.filter(x=>x.subject_id===s.id);
     if(!t.length)continue;
     // Group by section
     const sections={};
     t.forEach(tp=>{
       const sec=tp.section||"(unsectioned)";
       if(!sections[sec])sections[sec]={ready:[],learning:[]};
-      if(tp.status==="ready")sections[sec].ready.push(tp.name);
+      if(tp.status==="ready"||tp.status==="mastered")sections[sec].ready.push(tp.name);
       if(tp.status==="learning")sections[sec].learning.push(tp.name);
     });
     // Only include sections with progress
     const activeSections=Object.entries(sections).filter(([,v])=>v.ready.length||v.learning.length);
     if(!activeSections.length)continue;
-    out+=`### ${s.name} (${s.code})\n`;
+    out+=`### ${s.name}${s.exam_code?" ("+s.exam_code+")":""}\n`;
     activeSections.forEach(([sec,v])=>{
       out+=`${sec}:\n`;
       if(v.ready.length)out+=`  Exam-ready: ${v.ready.join("; ")}\n`;
@@ -5755,10 +5765,11 @@ function _renderBones() {
 async function refreshSbCache() {
   if(!currentUser) return;
   try {
-    const [subs, tps, pprs] = await Promise.all([getSubjects(), getAllTopics(), getPapers().catch(()=>[])]);
+    const [subs, tps, pprs, errs] = await Promise.all([getSubjects(), getAllTopics(), getPapers().catch(()=>[]), getErrors().catch(()=>[])]);
     _sbCache.subjects = subs || [];
     _sbCache.allTopics = tps || [];
     _sbCache.papers = pprs || [];
+    _sbCache.errors = errs || [];
 
     // Keep focus-timer subject list in sync
     if(subs && subs.length){
