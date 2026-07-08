@@ -978,6 +978,7 @@ function renderDash(){
   renderTodos();
   renderFlags();
   renderStudyNow();
+  if (typeof renderAnalytics === 'function') renderAnalytics();
 }
 function renderDashProgress(){
   const el=document.getElementById("dashProgress");
@@ -1006,6 +1007,112 @@ function renderDashProgress(){
     div.innerHTML=`<div class="top"><span class="nm">${s.name} <span class="cnt">· next: ${nt?nt.name:"✓ all ready"}</span></span><span class="pc">${x.pct}%</span></div><div class="bar"><i style="width:${x.pct}%"></i></div>`;
     el.appendChild(div);
   }
+}
+
+/* ============ analytics ============ */
+let _momentumChart = null;
+let _masteryChart = null;
+
+function renderAnalytics() {
+  const momentumCanvas = document.getElementById('momentumChart');
+  const masteryCanvas = document.getElementById('masteryChart');
+  if (!momentumCanvas || !masteryCanvas || typeof Chart === 'undefined') return;
+
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const labels = [];
+  const hoursData = [];
+  
+  const localDateStr = (d) => {
+    return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
+  };
+
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    const dateStr = localDateStr(d);
+    labels.push(d.toLocaleDateString('en-GB', { weekday: 'short' }));
+    
+    let seconds = 0;
+    if (typeof sessions !== 'undefined') {
+       for(const s of sessions) {
+         if (s.date === dateStr) seconds += s.dur;
+       }
+    }
+    hoursData.push((seconds / 3600).toFixed(2));
+  }
+
+  let notStarted = 0, learning = 0, ready = 0, mastered = 0;
+  if (typeof _sbCache !== 'undefined' && _sbCache.allTopics && _sbCache.allTopics.length) {
+    for (const t of _sbCache.allTopics) {
+      if (t.status === 'mastered') mastered++;
+      else if (t.status === 'ready') ready++;
+      else if (t.status === 'learning') learning++;
+      else notStarted++;
+    }
+  } else if (typeof topics !== 'undefined') {
+    for (const subj in topics) {
+      for (const t of topics[subj]) {
+        if (t.status === 'mastered') mastered++;
+        else if (t.status === 'ready') ready++;
+        else if (t.status === 'learning') learning++;
+        else notStarted++;
+      }
+    }
+  }
+
+  const textCol = getComputedStyle(document.documentElement).getPropertyValue('--text').trim() || '#f0ede8';
+  const mutedCol = getComputedStyle(document.documentElement).getPropertyValue('--muted').trim() || '#585450';
+  const borderCol = getComputedStyle(document.documentElement).getPropertyValue('--border').trim() || '#2a2820';
+  const accentCol = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#F2DFA8';
+
+  Chart.defaults.color = mutedCol;
+  Chart.defaults.font.family = '"Inter", sans-serif';
+
+  if (_momentumChart) _momentumChart.destroy();
+  _momentumChart = new Chart(momentumCanvas, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Hours',
+        data: hoursData,
+        backgroundColor: accentCol,
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { beginAtZero: true, grid: { color: borderCol } },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+
+  if (_masteryChart) _masteryChart.destroy();
+  _masteryChart = new Chart(masteryCanvas, {
+    type: 'doughnut',
+    data: {
+      labels: ['Not Started', 'Learning', 'Ready', 'Mastered'],
+      datasets: [{
+        data: [notStarted, learning, ready, mastered],
+        backgroundColor: ['#1a1814', '#D4B878', 'rgba(74,222,128,0.4)', 'rgba(250,204,21,0.55)'],
+        borderColor: borderCol,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'right', labels: { color: textCol, boxWidth: 12 } }
+      },
+      cutout: '70%'
+    }
+  });
 }
 
 /* ============ spaced-recall engine — 2-4-7 method ============ */
@@ -3918,6 +4025,7 @@ const HOME_DEFAULT_LAYOUT = [
   { id: 'recall-todos',visible: true },
   { id: 'today-week',  visible: true },
   { id: 'progress',    visible: true },
+  { id: 'analytics',   visible: true },
 ];
 
 const HOME_ROW_LABELS = {
@@ -3926,6 +4034,7 @@ const HOME_ROW_LABELS = {
   'recall-todos':  'Recall Check & Tasks',
   'today-week':    "Today's Blocks & This Week",
   'progress':      'Subject Progress',
+  'analytics':     'Advanced Analytics',
 };
 
 let _homeLayout = null;
@@ -5615,6 +5724,26 @@ function showApp() {
   initTodos().catch(() => {});
   // Load per-user homepage layout from Supabase (localStorage already applied at boot)
   loadHomeLayout().catch(() => {});
+
+  // Update last active status on load
+  updateLastActive();
+  // Update last active every 3 minutes if page is focused
+  if (!window._lastActiveInterval) {
+    window._lastActiveInterval = setInterval(() => {
+      if (document.visibilityState === 'visible') {
+        updateLastActive();
+      }
+    }, 3 * 60 * 1000);
+  }
+}
+
+function updateLastActive() {
+  if (!currentUser) return;
+  supabase.from('profiles')
+    .update({ last_active_at: new Date().toISOString() })
+    .eq('id', currentUser.id)
+    .then(() => {})
+    .catch(() => {});
 }
 
 // Exposed so onboarding.js can call it after wizard completes

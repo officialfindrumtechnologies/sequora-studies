@@ -14,6 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 :root{
   /* Core palette */
@@ -1212,6 +1213,27 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
         <div class="card" id="progress-card">
           <div class="lead">Subject progress</div>
           <div id="dashProgress"></div>
+        </div>
+      </div>
+
+      <div class="home-row" data-card-id="analytics">
+        <div class="home-row-bar">
+          <span class="home-row-handle">⠿</span>
+          <span class="home-row-label">Advanced Analytics</span>
+          <button class="home-row-remove" onclick="removeHomeRow('analytics')" title="Remove from homepage">✕</button>
+        </div>
+        <div class="card accent" id="analytics-card">
+          <div class="lead">Analytics & Momentum</div>
+          <div class="grid g2" style="margin-top:16px;">
+            <div>
+              <h2 style="font-size:15px;margin-bottom:8px;">7-Day Momentum (Hours)</h2>
+              <canvas id="momentumChart" width="100%" height="200"></canvas>
+            </div>
+            <div>
+              <h2 style="font-size:15px;margin-bottom:8px;">Curriculum Mastery</h2>
+              <canvas id="masteryChart" width="100%" height="200"></canvas>
+            </div>
+          </div>
         </div>
       </div>
 
