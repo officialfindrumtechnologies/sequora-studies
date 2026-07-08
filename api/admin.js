@@ -751,6 +751,123 @@ export default async function handler(req, res) {
     return res.status(200).json({ log, total: count || 0, page, pageSize });
   }
 
+  // ── check_role ─────────────────────────────────────────────────────────────
+  if (req.method === 'GET' && action === 'check_role') {
+    return res.status(200).json({ role, email: user.email });
+  }
+
+  // ── all_questions ──────────────────────────────────────────────────────────
+  if (req.method === 'GET' && action === 'all_questions') {
+    const search = req.query?.search || '';
+    const limit = parseInt(req.query?.limit || '50');
+    const offset = parseInt(req.query?.offset || '0');
+
+    let query = adminSb.from('questions').select('*', { count: 'exact' });
+    if (search) {
+      query = query.ilike('stem', `%${search}%`);
+    }
+    const { data, count, error } = await query
+      .order('created_at', { ascending: false })
+      .range(offset, offset + limit - 1);
+
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+    return res.status(200).json({ questions: data, count });
+  }
+
+  // ── bkash_logs ─────────────────────────────────────────────────────────────
+  if (req.method === 'GET' && action === 'bkash_logs') {
+    const { data, error } = await adminSb
+      .from('bkash_trx_logs')
+      .select('*')
+      .order('received_at', { ascending: false });
+
+    if (error) {
+      console.warn('[Admin API] Fallback empty logs for bkash_logs:', error.message);
+      return res.status(200).json({ logs: [] });
+    }
+    return res.status(200).json({ logs: data });
+  }
+
+  // ── activity_feed ──────────────────────────────────────────────────────────
+  if (req.method === 'GET' && action === 'activity_feed') {
+    const [sessionsRes, errorsRes, profilesRes] = await Promise.all([
+      adminSb.from('sessions').select('id, user_id, subject, duration_sec, study_date, created_at').order('created_at', { ascending: false }).limit(20),
+      adminSb.from('errors').select('id, user_id, subject, mistake, fix, date, created_at').order('created_at', { ascending: false }).limit(20),
+      adminSb.from('profiles').select('id, email, display_name')
+    ]);
+
+    const emailMap = {};
+    (profilesRes.data || []).forEach(p => { emailMap[p.id] = p.display_name || p.email; });
+
+    const feed = [];
+    (sessionsRes.data || []).forEach(s => {
+      feed.push({
+        type: 'session',
+        id: s.id,
+        user: emailMap[s.user_id] || 'Unknown User',
+        subject: s.subject,
+        duration: s.duration_sec,
+        timestamp: s.created_at || s.study_date,
+      });
+    });
+
+    (errorsRes.data || []).forEach(e => {
+      feed.push({
+        type: 'error',
+        id: e.id,
+        user: emailMap[e.user_id] || 'Unknown User',
+        subject: e.subject,
+        detail: e.mistake,
+        timestamp: e.created_at || e.date,
+      });
+    });
+
+    feed.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+    return res.status(200).json({ feed: feed.slice(0, 30) });
+  }
+
+  // ── online_users ───────────────────────────────────────────────────────────
+  if (req.method === 'GET' && action === 'online_users') {
+    const checkTime = new Date(Date.now() - 15 * 60 * 1000).toISOString();
+    const { data, error } = await adminSb
+      .from('profiles')
+      .select('id, email, display_name, last_active_at')
+      .gt('last_active_at', checkTime)
+      .order('last_active_at', { ascending: false });
+
+    if (error) {
+      // Fallback: list users sorted by creation
+      const { data: fallbackProfiles } = await adminSb.from('profiles').select('id, email, display_name').limit(5);
+      return res.status(200).json({ online: (fallbackProfiles || []).map(x => ({ ...x, last_active_at: new Date().toISOString() })) });
+    }
+    return res.status(200).json({ online: data });
+  }
+
+  // ── analytics ──────────────────────────────────────────────────────────────
+  if (req.method === 'GET' && action === 'analytics') {
+    const [qualRes, popularRes, historyRes] = await Promise.all([
+      adminSb.from('qualification_distribution').select('*'),
+      adminSb.from('subject_popularity_by_users').select('*'),
+      adminSb.from('sessions').select('duration_sec, study_date').order('study_date', { ascending: false }).limit(200),
+    ]);
+
+    const historyData = historyRes.data || [];
+    const dailyMap = {};
+    historyData.forEach(s => {
+      const d = s.study_date;
+      dailyMap[d] = (dailyMap[d] || 0) + (s.duration_sec / 3600);
+    });
+    const timeline = Object.entries(dailyMap).map(([date, hours]) => ({ date, hours })).sort((a,b) => a.date.localeCompare(b.date)).slice(-7);
+
+    return res.status(200).json({
+      qualification: qualRes.data || [],
+      subjects: popularRes.data || [],
+      timeline
+    });
+  }
+
   // ── POST actions ───────────────────────────────────────────────────────────
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
@@ -1090,31 +1207,6 @@ export default async function handler(req, res) {
     return res.status(200).json({ processed, skipped, generated, errors, total: batch.length });
   }
 
-  // ── check_role ─────────────────────────────────────────────────────────────
-  if (req.method === 'GET' && action === 'check_role') {
-    return res.status(200).json({ role, email: user.email });
-  }
-
-  // ── all_questions ──────────────────────────────────────────────────────────
-  if (req.method === 'GET' && action === 'all_questions') {
-    const search = req.query?.search || '';
-    const limit = parseInt(req.query?.limit || '50');
-    const offset = parseInt(req.query?.offset || '0');
-
-    let query = adminSb.from('questions').select('*', { count: 'exact' });
-    if (search) {
-      query = query.ilike('stem', `%${search}%`);
-    }
-    const { data, count, error } = await query
-      .order('created_at', { ascending: false })
-      .range(offset, offset + limit - 1);
-
-    if (error) {
-      return res.status(500).json({ error: error.message });
-    }
-    return res.status(200).json({ questions: data, count });
-  }
-
   // ── update_question ────────────────────────────────────────────────────────
   if (action === 'update_question') {
     const { id, stem, options, correct, explanation, model_answer } = req.body || {};
@@ -1151,20 +1243,6 @@ export default async function handler(req, res) {
     return res.status(200).json({ ok: true });
   }
 
-  // ── bkash_logs ─────────────────────────────────────────────────────────────
-  if (req.method === 'GET' && action === 'bkash_logs') {
-    const { data, error } = await adminSb
-      .from('bkash_trx_logs')
-      .select('*')
-      .order('received_at', { ascending: false });
-
-    if (error) {
-      console.warn('[Admin API] Fallback empty logs for bkash_logs:', error.message);
-      return res.status(200).json({ logs: [] });
-    }
-    return res.status(200).json({ logs: data });
-  }
-
   // ── simulate_bkash_payment ─────────────────────────────────────────────────
   if (action === 'simulate_bkash_payment') {
     const { trx_id, amount, sender_number } = req.body || {};
@@ -1183,84 +1261,6 @@ export default async function handler(req, res) {
 
     if (error) return res.status(500).json({ error: error.message });
     return res.status(200).json({ ok: true, log: data?.[0] });
-  }
-
-  // ── activity_feed ──────────────────────────────────────────────────────────
-  if (req.method === 'GET' && action === 'activity_feed') {
-    const [sessionsRes, errorsRes, profilesRes] = await Promise.all([
-      adminSb.from('sessions').select('id, user_id, subject, duration_sec, study_date, created_at').order('created_at', { ascending: false }).limit(20),
-      adminSb.from('errors').select('id, user_id, subject, mistake, fix, date, created_at').order('created_at', { ascending: false }).limit(20),
-      adminSb.from('profiles').select('id, email, display_name')
-    ]);
-
-    const emailMap = {};
-    (profilesRes.data || []).forEach(p => { emailMap[p.id] = p.display_name || p.email; });
-
-    const feed = [];
-    (sessionsRes.data || []).forEach(s => {
-      feed.push({
-        type: 'session',
-        id: s.id,
-        user: emailMap[s.user_id] || 'Unknown User',
-        subject: s.subject,
-        duration: s.duration_sec,
-        timestamp: s.created_at || s.study_date,
-      });
-    });
-
-    (errorsRes.data || []).forEach(e => {
-      feed.push({
-        type: 'error',
-        id: e.id,
-        user: emailMap[e.user_id] || 'Unknown User',
-        subject: e.subject,
-        detail: e.mistake,
-        timestamp: e.created_at || e.date,
-      });
-    });
-
-    feed.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-    return res.status(200).json({ feed: feed.slice(0, 30) });
-  }
-
-  // ── online_users ───────────────────────────────────────────────────────────
-  if (req.method === 'GET' && action === 'online_users') {
-    const checkTime = new Date(Date.now() - 15 * 60 * 1000).toISOString();
-    const { data, error } = await adminSb
-      .from('profiles')
-      .select('id, email, display_name, last_active_at')
-      .gt('last_active_at', checkTime)
-      .order('last_active_at', { ascending: false });
-
-    if (error) {
-      // Fallback: list users sorted by creation
-      const { data: fallbackProfiles } = await adminSb.from('profiles').select('id, email, display_name').limit(5);
-      return res.status(200).json({ online: (fallbackProfiles || []).map(x => ({ ...x, last_active_at: new Date().toISOString() })) });
-    }
-    return res.status(200).json({ online: data });
-  }
-
-  // ── analytics ──────────────────────────────────────────────────────────────
-  if (req.method === 'GET' && action === 'analytics') {
-    const [qualRes, popularRes, historyRes] = await Promise.all([
-      adminSb.from('qualification_distribution').select('*'),
-      adminSb.from('subject_popularity_by_users').select('*'),
-      adminSb.from('sessions').select('duration_sec, study_date').order('study_date', { ascending: false }).limit(200),
-    ]);
-
-    const historyData = historyRes.data || [];
-    const dailyMap = {};
-    historyData.forEach(s => {
-      const d = s.study_date;
-      dailyMap[d] = (dailyMap[d] || 0) + (s.duration_sec / 3600);
-    });
-    const timeline = Object.entries(dailyMap).map(([date, hours]) => ({ date, hours })).sort((a,b) => a.date.localeCompare(b.date)).slice(-7);
-
-    return res.status(200).json({
-      qualification: qualRes.data || [],
-      subjects: popularRes.data || [],
-      timeline
-    });
   }
 
   return res.status(400).json({ error: `Unknown action: ${action}` });
