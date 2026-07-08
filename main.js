@@ -17,6 +17,7 @@ import { initSubjectsView, setSubjectsViewTier } from './src/views/subjects-view
 import { getSubjects } from './src/data/subjects.js';
 import { getAllTopics } from './src/data/topics.js';
 import { hasLegacyData, migrateFromStudyState } from './src/data/migration.js';
+import { createSession } from './src/data/sessions.js';
 import {
   searchUsers, sendFriendRequest, getPendingRequests,
   acceptFriendRequest, declineFriendRequest, removeFriend,
@@ -1551,13 +1552,27 @@ function ensureSaveBtn(){
     }
   }else if(sb){sb.remove();}
 }
-function saveTimerSession(){
+async function saveTimerSession(){
   const sec=Math.round(timerAccum+(timerRunning?(Date.now()-timerStart)/1000:0));
   if(sec<30){setToast("Too short to log");return;}
   sessions.push({id:Date.now(),subject:curTimerSubject,dur:sec,date:todayStr(),ts:Date.now()});
   saveJSON("ascent_sessions",sessions);
+  await persistSessionToRealTable(sec);
   discardTimer();setToast("Logged "+(sec/60).toFixed(0)+" min on "+subjName(curTimerSubject));
   refreshAll();
+}
+
+// Real subject ids are UUIDs from the subjects table (via refreshSbCache →
+// _timerSubjects); legacy fallback keys ("maths","acc",...) are not real
+// subjects and have nothing to write to.
+async function persistSessionToRealTable(durationSec){
+  if(!currentUser) return;
+  if(!_sbCache.subjects.some(s=>s.id===curTimerSubject)) return;
+  try{
+    await createSession({ userId: currentUser.id, subjectId: curTimerSubject, durationSec });
+  }catch(e){
+    console.error('[Sessions] Failed to save to sessions table:', e.message);
+  }
 }
 function discardTimer(){
   timerRunning=false;timerAccum=0;clearInterval(timerInterval);
@@ -1572,11 +1587,13 @@ function discardTimer(){
   if (st) st.textContent="pick a subject & press start";
   ensureSaveBtn();
 }
-function logManual(){
+async function logManual(){
   const mins=prompt("How many minutes did you study "+subjName(curTimerSubject)+"?");
   const m=parseInt(mins);if(!m||m<=0)return;
   sessions.push({id:Date.now(),subject:curTimerSubject,dur:m*60,date:todayStr(),ts:Date.now()});
-  saveJSON("ascent_sessions",sessions);setToast("Logged "+m+" min");refreshAll();
+  saveJSON("ascent_sessions",sessions);
+  await persistSessionToRealTable(m*60);
+  setToast("Logged "+m+" min");refreshAll();
 }
 function renderFocus(){
   renderTimerSubjects();
