@@ -3,7 +3,7 @@ import {
   THEMES, applyTheme, loadSavedTheme, resetTheme,
   getCurrentThemeData, buildCustomVars, readCurrentCustomFields, hexToRgb,
 } from './src/lib/theme.js';
-import { saveTheme, loadThemeFromDB, updateProfile } from './src/data/profiles.js';
+import { saveTheme, loadThemeFromDB, updateProfile, getProfile } from './src/data/profiles.js';
 import {
   showOnboarding,
   hideOnboarding,
@@ -2167,8 +2167,24 @@ async function _doDeleteAccount() {
 }
 
 /* ============ exam date ============ */
-function setExamDate(){const v=document.getElementById("examDateInput").value;if(!v)return;examDate=v;Store.set("ascent_exam",examDate);renderDash();setToast("Exam date set");}
-function resetExam(){examDate="2026-09-28";Store.set("ascent_exam",examDate);renderDash();setToast("Reset to 28 Sep 2026");}
+// profiles.exam_date is the source of truth for the countdown card; this
+// pulls it in on login so a date set via Edit Profile actually sticks.
+async function syncExamDateFromProfile(){
+  if(!currentUser) return;
+  try{
+    const prof = await getProfile();
+    if(prof?.exam_date){ examDate = prof.exam_date; Store.set("ascent_exam", examDate); renderDash(); }
+  }catch(e){ console.warn('[ExamDate] sync from profile failed:', e.message); }
+}
+async function setExamDate(){
+  const v=document.getElementById("examDateInput").value;if(!v)return;
+  examDate=v;Store.set("ascent_exam",examDate);renderDash();setToast("Exam date set");
+  if(currentUser){ try{ await updateProfile({exam_date:v}); }catch(e){ console.warn('[ExamDate] save failed:', e.message); } }
+}
+async function resetExam(){
+  examDate="2026-09-28";Store.set("ascent_exam",examDate);renderDash();setToast("Reset to 28 Sep 2026");
+  if(currentUser){ try{ await updateProfile({exam_date:examDate}); }catch(e){ console.warn('[ExamDate] save failed:', e.message); } }
+}
 
 /* Reset topic lists to current SEED (preserves sessions, papers, errors, closeout) */
 function resetTopics(){
@@ -2754,7 +2770,9 @@ async function loadStateFromSupabase() {
       sessions = loadJSON("ascent_sessions", []);
       errors = loadJSON("ascent_errors", []);
       papers = loadJSON("ascent_papers", []);
-      examDate = Store.get("ascent_exam") || "2026-09-28";
+      // examDate is NOT read from the legacy blob — profiles.exam_date is the
+      // source of truth (see syncExamDateFromProfile()). Reading it here would
+      // silently overwrite a date the user set via Edit Profile on every reload.
 
       refreshAll();
       console.log("[Sync] Cloud state applied successfully");
@@ -5042,7 +5060,7 @@ window.saveEditProfile = async function() {
     _burgerProfileCache.qualification = qual;
     _burgerProfileCache.exam_board = board;
     _burgerProfileCache.exam_date = date;
-    if (date) { examDate = date; renderDash(); }
+    if (date) { examDate = date; Store.set("ascent_exam", date); renderDash(); }
     window.closeEditProfileModal();
     setToast('Profile updated');
   } catch {
@@ -5829,6 +5847,7 @@ function showApp() {
   loadStateFromSupabase().catch(err => {
     console.error("[Auth] Background data load failed (app still usable):", err);
   });
+  syncExamDateFromProfile().catch(() => {});
   // Load subjects + topics into _sbCache (also updates timer subjects, dash progress, overall %)
   refreshSbCache().catch(() => {});
   // Check friend requests for notification badge
