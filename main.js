@@ -1827,7 +1827,7 @@ async function renderPaymentCard() {
   if (sub.status === 'suspended') {
     html += `<div class="pay-status suspended"><span class="ps-icon">🚫</span><div><div class="ps-label">Account suspended</div><div class="ps-detail">Contact support at officialfindrumtechnologies@gmail.com</div></div></div>`;
   } else if (isPaid && !isExpired) {
-    html += `<div class="pay-status"><span class="ps-icon">✓</span><div><div class="ps-label">${tierLabel} — active</div><div class="ps-detail">Active until ${expiryFmt}</div></div></div>`;
+    html += `<div class="pay-status"><span class="ps-icon">✓</span><div><div class="ps-label">${tierLabel} — active</div><div class="ps-detail">${expiryFmt ? `Active until ${expiryFmt}` : 'Active'}</div></div></div>`;
   } else if (isExpired) {
     html += `<div class="pay-status pending"><span class="ps-icon">⚠</span><div><div class="ps-label">Plan expired</div><div class="ps-detail">Expired on ${expiryFmt}. Renew below to restore full access.</div></div></div>`;
   }
