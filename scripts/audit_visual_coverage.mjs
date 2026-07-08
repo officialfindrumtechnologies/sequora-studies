@@ -47,7 +47,7 @@ const partialCoverageSubjects = [];
 
 for (const tpl of templates) {
   totalSubjects++;
-  const fakeSubj = { exam_code: tpl.subject_code, name: tpl.subject_name };
+  const fakeSubj = { exam_code: tpl.subject_code, name: tpl.subject_name, level: tpl.level };
   const tvKey = getTopicVisualsKey(fakeSubj);
   const tvData = tvKey ? TOPIC_VISUALS[tvKey] : null;
 

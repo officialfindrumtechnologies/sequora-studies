@@ -5267,7 +5267,20 @@ export function getTopicVisualsKey(subj) {
   if (code === '9701') return 'cambridge_alevel_chemistry';
   if (code === '9702') return 'cambridge_alevel_physics';
 
-  // 2. IB exam_code pattern: IB-PHYS-HL, IB-CHEM-SL, IB-BIO-HL, etc.
+  // 2a. IB fallback via level column — real IB subjects have exam_code = null
+  // (syllabus_templates.subject_code is NULL for all IB rows), so the IB-prefixed
+  // exam_code path below never fires for actual user subjects. `level` (HL/SL) is
+  // only ever set for IB subjects, so it's a reliable signal on its own.
+  const levelUC = (subj.level || '').toUpperCase();
+  if (levelUC === 'HL' || levelUC === 'SL') {
+    const ibLevel = levelUC === 'HL' ? 'hl' : 'sl';
+    const bareName = (subj.name || '').toLowerCase().trim();
+    if (bareName === 'biology') return `ib_${ibLevel}_biology`;
+    if (bareName === 'chemistry') return `ib_${ibLevel}_chemistry`;
+    if (bareName === 'physics') return `ib_${ibLevel}_physics`;
+  }
+
+  // 2b. IB exam_code pattern: IB-PHYS-HL, IB-CHEM-SL, IB-BIO-HL, etc.
   if (code.startsWith('IB-')) {
     const parts = code.split('-');
     const subCode = parts[1] || '';
@@ -5314,7 +5327,7 @@ export function getTopicVisualsKey(subj) {
   if (name.includes('community'))                               return 'mbbs_community_medicine';
   if (name.includes('ophthalmology') || name.includes('opth'))  return 'mbbs_ophthalmology';
   if (name.includes('obstetrics') || name.includes('gynaecology') || name.includes('gynae') || name.includes('obs & gyn') || name.includes('obgyn')) return 'mbbs_obs_gynae';
-  if (name.includes('ear, nose') || name.includes('ent') || name.includes('otolaryngology') || name.includes('otorhinolaryngology')) return 'mbbs_ent';
+  if (name.includes('ear, nose') || name.includes('otolaryngology') || name.includes('otorhinolaryngology')) return 'mbbs_ent';
   if (name.includes('paediatrics') || name.includes('pediatrics') || name.includes('paed')) return 'mbbs_paediatrics';
   if (name.includes('medicine') && !name.includes('forensic') && !name.includes('community')) return 'mbbs_medicine';
   return null;
