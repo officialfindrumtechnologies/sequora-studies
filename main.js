@@ -144,10 +144,14 @@ async function pushStateToSupabase() {
   }
 }
 
-function triggerSync() {
-  if (syncTimeout) clearTimeout(syncTimeout);
-  syncTimeout = setTimeout(pushStateToSupabase, 1500); // 1.5s debounce
-}
+// Retired: every real feature now reads/writes the normalized tables
+// directly (subjects/topics/sessions/papers/errors) instead of round-
+// tripping through the study_state JSONB blob. This used to debounce a
+// push of the entire local state to that blob on every localStorage
+// write; kept as a no-op (rather than deleted outright) since Store.set/
+// Store.del/loadStateFromSupabase still call it and a handful of legacy-
+// only code paths (cycleStatus, resetTopics) still exist as dead code.
+function triggerSync() {}
 
 function updateSyncStatus(state) {
   const el = document.getElementById('syncStatus');
@@ -5881,14 +5885,10 @@ function showApp() {
     setTimeout(() => setToast('Email verified — welcome to Sequora!'), 600);
   }
   document.getElementById("userEmail").textContent = currentUser?.email || "";
-  // Resume any pending sync from previous offline session
-  if (localStorage.getItem('sq_sync_pending')) {
-    if (navigator.onLine) triggerSync();
-    else updateSyncStatus('offline');
-  }
-  loadStateFromSupabase().catch(err => {
-    console.error("[Auth] Background data load failed (app still usable):", err);
-  });
+  // Legacy study_state blob sync retired — real tables are the source of
+  // truth for every feature now. localStorage keys some old code paths
+  // still touch (topics/sessions/papers/errors) are no longer read by
+  // anything real, so there's nothing left to pull from or push to.
   syncExamDateFromProfile().catch(() => {});
   // Load subjects + topics into _sbCache (also updates timer subjects, dash progress, overall %)
   refreshSbCache().catch(() => {});
