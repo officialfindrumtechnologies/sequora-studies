@@ -16,14 +16,28 @@ const LEGACY_NAMES = {
   ban:   'Bangla (4BN1)',
 };
 
-// Returns true if the user has a study_state row with non-empty data
+// Returns true if the user has a study_state row with non-empty data.
+// Note: loadStateFromSupabase() in main.js auto-creates an empty
+// { user_id, data: {} } row for every first-time login — a mere row
+// existence check would false-positive for virtually every user, so this
+// checks that at least one legacy key actually has content.
+const LEGACY_KEYS = ['ascent_topics', 'ascent_sessions', 'ascent_errors', 'ascent_papers', 'ascent_closeout', 'ascent_exam'];
+
 export async function hasLegacyData() {
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from('study_state')
-    .select('id')
+    .select('data')
     .limit(1)
     .maybeSingle();
-  return !!data;
+  if (error) { console.error('[migration] hasLegacyData check failed:', error.message); return false; }
+  const blob = data?.data;
+  if (!blob || typeof blob !== 'object') return false;
+  return LEGACY_KEYS.some(k => {
+    const v = blob[k];
+    if (Array.isArray(v)) return v.length > 0;
+    if (v && typeof v === 'object') return Object.keys(v).length > 0;
+    return !!v;
+  });
 }
 
 // Runs full migration. onProgress(msg) called after each subject.
@@ -160,6 +174,9 @@ export async function migrateFromStudyState(onProgress) {
     if (error) throw new Error('Closeout insert failed: ' + error.message);
   }
   stats.closeout = closeoutRows.length;
+
+  // Mark as consumed so hasLegacyData() doesn't keep offering a re-import
+  await supabase.from('study_state').delete().eq('user_id', user.id);
 
   return stats;
 }

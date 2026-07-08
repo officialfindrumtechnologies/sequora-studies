@@ -16,6 +16,7 @@ import { getSubscription, submitBkashPayment } from './src/data/subscriptions.js
 import { initSubjectsView, setSubjectsViewTier } from './src/views/subjects-view.js';
 import { getSubjects } from './src/data/subjects.js';
 import { getAllTopics } from './src/data/topics.js';
+import { hasLegacyData, migrateFromStudyState } from './src/data/migration.js';
 import {
   searchUsers, sendFriendRequest, getPendingRequests,
   acceptFriendRequest, declineFriendRequest, removeFriend,
@@ -4433,6 +4434,33 @@ function _bmSettingsHtml(profile) {
     </div>`;
 }
 
+window.bmImportLegacyData = async function() {
+  const btn    = document.getElementById('bm-legacy-btn');
+  const status = document.getElementById('bm-legacy-status');
+  if (btn)  { btn.disabled = true; btn.textContent = 'Importing…'; }
+
+  try {
+    const stats = await migrateFromStudyState((msg) => {
+      if (status) status.textContent = msg;
+    });
+    const summary = [
+      stats.subjects  ? `${stats.subjects} new subjects`     : '',
+      stats.topics    ? `${stats.topics} topics`             : '',
+      stats.sessions  ? `${stats.sessions} study sessions`   : '',
+      stats.errors    ? `${stats.errors} error log entries`  : '',
+      stats.papers    ? `${stats.papers} past papers`        : '',
+      stats.closeout  ? `${stats.closeout} daily close-outs` : '',
+    ].filter(Boolean).join(', ');
+    if (status) status.textContent = `✓ Done — ${summary || 'history imported'}`;
+    if (btn) { btn.textContent = 'Imported'; }
+    setToast('Study history imported — reloading…');
+    setTimeout(() => window.location.reload(), 1200);
+  } catch (err) {
+    if (status) status.textContent = 'Import failed: ' + err.message;
+    if (btn) { btn.disabled = false; btn.textContent = 'Try again'; }
+  }
+};
+
 window.bmEmailReportToggle = async function(enabled) {
   if (_burgerProfileCache) _burgerProfileCache.email_reports = enabled;
   try {
@@ -4490,6 +4518,11 @@ function renderBurgerMenu() {
       <div class="bm-section-label">Settings</div>
       <div id="bm-settings-body">${_bmSettingsHtml(_burgerProfileCache)}</div>
     </div>
+    <div class="bm-section hidden" id="bm-legacy-section">
+      <div class="bm-divider"></div>
+      <div class="bm-section-label">Old Study Data Found</div>
+      <div id="bm-legacy-body"></div>
+    </div>
     <div class="bm-divider"></div>
     <div class="bm-section" id="bm-privacy-body">
       ${_bmPrivacyHtml(_privacyCache)}
@@ -4526,6 +4559,23 @@ function renderBurgerMenu() {
 
   // Async-fill stats from Supabase (overrides local cached values with accurate DB counts)
   if (currentUser) fetchBurgerStats().catch(() => {});
+
+  // Check for unmigrated legacy study_state data (independent of onboarding —
+  // an already-onboarded account can still have this sitting unused)
+  if (currentUser) {
+    hasLegacyData().then(found => {
+      const section = document.getElementById('bm-legacy-section');
+      const body = document.getElementById('bm-legacy-body');
+      if (!found || !section || !body) return;
+      section.classList.remove('hidden');
+      body.innerHTML = `
+        <div style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:10px;line-height:1.6">
+          We found data from your previous tracker that was never imported.
+        </div>
+        <div id="bm-legacy-status" style="font-family:var(--mono);font-size:12px;color:var(--muted);min-height:16px;margin-bottom:8px"></div>
+        <button class="bm-open-ts" id="bm-legacy-btn" onclick="bmImportLegacyData()">Import my study history →</button>`;
+    }).catch(() => {});
+  }
 }
 
 function _refreshBurgerSwatches(activeKey) {
