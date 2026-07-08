@@ -1,32 +1,49 @@
 // Supabase Auth Hook — Send Email
 // Configured in: Supabase dashboard > Authentication > Hooks > Send Email
 // Set hook URL to: https://sequora-studies.vercel.app/api/send-verification
-// Set hook secret in SUPABASE_HOOK_SECRET env var
+// Set hook secret in SUPABASE_HOOK_SECRET env var (format: v1,whsec_...)
+//
+// Supabase's HTTPS Auth Hooks use the Standard Webhooks signing spec —
+// the payload is HMAC-signed, not sent as a simple Bearer token. Verification
+// needs the exact raw request body bytes, so body parsing is disabled here.
 
+import { Webhook } from 'standardwebhooks';
 import { emailVerification } from './email.js';
 
+export const config = { api: { bodyParser: false } };
+
 const SUPPORTED_ACTIONS = new Set(['signup', 'recovery', 'magiclink', 'email_change']);
+
+async function readRawBody(req) {
+  if (typeof req.rawBody === 'string') return req.rawBody;
+  let body = '';
+  for await (const chunk of req) body += chunk;
+  return body;
+}
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // Verify webhook secret (Supabase sends it as Bearer token)
+  const rawBody = await readRawBody(req);
+
   const hookSecret = process.env.SUPABASE_HOOK_SECRET;
-  if (hookSecret) {
-    const authHeader = req.headers['authorization'] || '';
-    const token = authHeader.replace(/^Bearer\s+/i, '');
-    if (token !== hookSecret) {
-      console.warn('[send-verification] Unauthorized hook call — secret mismatch');
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
-  } else if (process.env.NODE_ENV === 'production') {
-    console.error('[send-verification] SUPABASE_HOOK_SECRET is not configured in production');
+  if (!hookSecret) {
+    console.error('[send-verification] SUPABASE_HOOK_SECRET is not configured');
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 
-  const { user, email_data } = req.body || {};
+  let payload;
+  try {
+    const wh = new Webhook(hookSecret.replace(/^v1,/, ''));
+    payload = wh.verify(rawBody, req.headers);
+  } catch (err) {
+    console.warn('[send-verification] Signature verification failed:', err.message);
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  const { user, email_data } = payload || {};
   if (!user?.email || !email_data) {
     return res.status(400).json({ error: 'Missing user or email_data in payload' });
   }

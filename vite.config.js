@@ -45,6 +45,7 @@ function apiDevMiddleware() {
         for await (const chunk of req) {
           body += chunk;
         }
+        req.rawBody = body;
 
         try {
           req.body = JSON.parse(body);
