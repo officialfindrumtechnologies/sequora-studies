@@ -21,6 +21,9 @@ export default async function handler(req, res) {
       console.warn('[send-verification] Unauthorized hook call — secret mismatch');
       return res.status(401).json({ error: 'Unauthorized' });
     }
+  } else if (process.env.NODE_ENV === 'production') {
+    console.error('[send-verification] SUPABASE_HOOK_SECRET is not configured in production');
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
 
   const { user, email_data } = req.body || {};

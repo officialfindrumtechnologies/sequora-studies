@@ -32,6 +32,7 @@ export default async function handler(req, res) {
   const results = { warnings: 0, expired: 0, errors: [] };
 
   // ── 1. Expiry warnings (expires within 7 days, still active) ─────────────
+  // Fetch active subscriptions expiring within 7 days from now
   const { data: expiringSoon, error: warnErr } = await adminSb
     .from('subscriptions')
     .select('user_id, tier, expires_at, profiles!inner(email)')
@@ -47,12 +48,35 @@ export default async function handler(req, res) {
     for (const row of expiringSoon || []) {
       const email = row.profiles?.email;
       if (!email) continue;
+
       try {
+        // Query if warning was already logged in the last 10 days to prevent duplicates
+        const { data: alreadyWarned } = await adminSb
+          .from('admin_log')
+          .select('id')
+          .eq('action', 'expiry_warning')
+          .eq('target_user', row.user_id)
+          .gte('created_at', new Date(now.getTime() - 10 * 86_400_000).toISOString())
+          .limit(1);
+
+        if (alreadyWarned && alreadyWarned.length > 0) {
+          continue; // Warning already sent for this period
+        }
+
         await emailExpiryWarning({
           email,
           planLabel: TIER_LABEL[row.tier] || row.tier,
           expiresAt: row.expires_at,
         });
+
+        // Insert warning log to prevent duplicate notifications
+        await adminSb.from('admin_log').insert({
+          admin_id:    null,
+          action:      'expiry_warning',
+          target_user: row.user_id,
+          details:     { tier: row.tier, expires_at: row.expires_at },
+        });
+
         results.warnings++;
       } catch (e) {
         console.error('[Cron] Warning email failed for', email, e.message);

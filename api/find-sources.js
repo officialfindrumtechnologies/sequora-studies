@@ -38,7 +38,7 @@ export default async function handler(req, res) {
     return res.status(403).json({ error: 'Active subscription required.', code: 'INACTIVE' });
   }
 
-  if (sub.tier !== 'pro') {
+  if (sub.tier !== 'paid_2') {
     return res.status(403).json({ error: 'Upgrade to Pro to use AI Web Grounding', code: 'UPGRADE_REQUIRED' });
   }
 
