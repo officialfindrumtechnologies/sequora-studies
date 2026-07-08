@@ -17,7 +17,7 @@ import { initSubjectsView, setSubjectsViewTier, getActiveSubjectId } from './src
 import { getSubjects } from './src/data/subjects.js';
 import { getAllTopics, markRecallPass, markRecallFail } from './src/data/topics.js';
 import { hasLegacyData, migrateFromStudyState } from './src/data/migration.js';
-import { createSession } from './src/data/sessions.js';
+import { createSession, getSessions } from './src/data/sessions.js';
 import { createPaper, getPapers, deletePaper } from './src/data/papers.js';
 import { createError, getErrors, deleteError } from './src/data/errors.js';
 import {
@@ -707,7 +707,7 @@ const DAY1="2026-05-31";
 let curSubjectTab="maths";
 let curTimerSubject="maths";
 let _timerSubjects=[]; // dynamic subjects from Supabase [{key:id,name}]; empty = use hardcoded SUBJECTS fallback
-let _sbCache = { subjects: [], allTopics: [], papers: [], errors: [] }; // Supabase-backed cache for coverage map + progress tracker
+let _sbCache = { subjects: [], allTopics: [], papers: [], errors: [], sessions: [] }; // Supabase-backed cache for coverage map + progress tracker
 
 // IB Core subjects are excluded from % readiness calculations (TOK, EE, CAS)
 // Mirrors _isIBCore() in subjects-view.js — uses level=Core or known exam codes
@@ -779,6 +779,23 @@ function weekIndexFor(date){const diff=daysBetween(parseD(DAY1),date);return Mat
 
 /* ============ stats ============ */
 function hoursFor(filterFn){let s=0;for(const x of sessions)if(filterFn(x))s+=x.dur;return s/3600;}
+// Real-table equivalents — filterFn receives a real sessions row (study_date/duration_sec)
+function hoursForSb(filterFn){let s=0;for(const x of _sbCache.sessions)if(filterFn(x))s+=x.duration_sec;return s/3600;}
+function computeStreakSb(){
+  const days=new Set(_sbCache.sessions.map(s=>s.study_date));
+  const today=todayStr();
+  const yesterday=dateOff(-1);
+  if(!days.has(today)&&!days.has(yesterday)) return 0;
+  let streak=0;
+  const d=new Date();d.setHours(0,0,0,0);
+  if(!days.has(today)) d.setDate(d.getDate()-1);
+  while(true){
+    const ds=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+    if(days.has(ds)){streak++;d.setDate(d.getDate()-1);}else break;
+  }
+  return streak;
+}
+function isGraceDaySb(){const days=new Set(_sbCache.sessions.map(s=>s.study_date));return !days.has(todayStr())&&days.has(dateOff(-1))&&!days.has(dateOff(-2));}
 function startOfWeek(){const d=new Date();const day=(d.getDay()+6)%7;d.setHours(0,0,0,0);d.setDate(d.getDate()-day);return d;}
 function computeStreak(){
   const days=new Set(sessions.map(s=>s.date));
@@ -956,14 +973,14 @@ function renderDash(){
   if (examDateInputEl) examDateInputEl.value=examDate;
 
   const sw=startOfWeek().getTime();
-  const todayH=hoursFor(s=>s.date===todayStr());
+  const todayH=hoursForSb(s=>s.study_date===todayStr());
   const todayHrsEl = document.getElementById("todayHrs");
   if (todayHrsEl){todayHrsEl.textContent=todayH.toFixed(1);const ts=todayHrsEl.closest('.stat');if(ts)ts.style.setProperty('--prog',Math.min(100,todayH/5.5*100).toFixed(0)+'%');}
-  const weekH=hoursFor(s=>parseD(s.date).getTime()>=sw);
+  const weekH=hoursForSb(s=>parseD(s.study_date).getTime()>=sw);
   const weekHrsEl = document.getElementById("weekHrs");
   if (weekHrsEl){weekHrsEl.textContent=weekH.toFixed(1);const ws=weekHrsEl.closest('.stat');if(ws)ws.style.setProperty('--prog',Math.min(100,weekH/28*100).toFixed(0)+'%');}
-  const streak=computeStreak();
-  const grace=isGraceDay();
+  const streak=computeStreakSb();
+  const grace=isGraceDaySb();
   const best=updateBestStreak(streak);
   renderFlame(streak,grace);
   const streakValEl = document.getElementById("streakVal");
@@ -1524,7 +1541,7 @@ function renderFlags(){
     }
   }
   const hr=new Date().getHours();
-  const studiedToday=sessions.some(s=>s.date===todayStr());
+  const studiedToday=_sbCache.sessions.some(s=>s.study_date===todayStr());
   if(!studiedToday && hr>=14 && new Date().getDay()!==0 && new Date().getDay()!==6){
     flags.push({type:"amber",icon:"–",html:`It's past 2pm and no study logged today. Your deep-work hours are slipping — even 30 focused minutes keeps the streak and the momentum alive.`});
   }
@@ -1594,6 +1611,7 @@ async function persistSessionToRealTable(durationSec){
   if(!_sbCache.subjects.some(s=>s.id===curTimerSubject)) return;
   try{
     await createSession({ userId: currentUser.id, subjectId: curTimerSubject, durationSec });
+    await refreshSbCache();
   }catch(e){
     console.error('[Sessions] Failed to save to sessions table:', e.message);
   }
@@ -1623,22 +1641,23 @@ function renderFocus(){
   renderTimerSubjects();
   const sw=startOfWeek().getTime();
   const fmTodayEl = document.getElementById("fmToday");
-  if (fmTodayEl) fmTodayEl.textContent=hoursFor(s=>s.date===todayStr()).toFixed(1)+"h";
+  if (fmTodayEl) fmTodayEl.textContent=hoursForSb(s=>s.study_date===todayStr()).toFixed(1)+"h";
   const fmWeekEl = document.getElementById("fmWeek");
-  if (fmWeekEl) fmWeekEl.textContent=hoursFor(s=>parseD(s.date).getTime()>=sw).toFixed(1)+"h";
+  if (fmWeekEl) fmWeekEl.textContent=hoursForSb(s=>parseD(s.study_date).getTime()>=sw).toFixed(1)+"h";
   const fmTotalEl = document.getElementById("fmTotal");
-  if (fmTotalEl) fmTotalEl.textContent=hoursFor(()=>true).toFixed(1)+"h";
+  if (fmTotalEl) fmTotalEl.textContent=hoursForSb(()=>true).toFixed(1)+"h";
   const fmSessionsEl = document.getElementById("fmSessions");
-  if (fmSessionsEl) fmSessionsEl.textContent=sessions.length;
-  
+  if (fmSessionsEl) fmSessionsEl.textContent=_sbCache.sessions.length;
+
   const log=document.getElementById("sessionLog");
   if (!log) return;
   log.innerHTML="";
-  const todays=sessions.filter(s=>s.date===todayStr()).slice().reverse();
+  const todays=_sbCache.sessions.filter(s=>s.study_date===todayStr());
   if(!todays.length){log.innerHTML='<div class="empty">No sessions yet today.<br>Press start above and begin block one.</div>';return;}
   for(const s of todays){
+    const name=s.subjects?.name || 'Unknown subject';
     const d=document.createElement("div");d.className="score-line";
-    d.innerHTML=`<span class="id">${subjName(s.subject)}</span><span class="sc">${(s.dur/60).toFixed(0)} min</span>`;
+    d.innerHTML=`<span class="id">${escapeHtml(name)}</span><span class="sc">${(s.duration_sec/60).toFixed(0)} min</span>`;
     log.appendChild(d);
   }
 }
@@ -1691,8 +1710,8 @@ function genSummary(scope){
   const dleft=Math.max(0,daysBetween(today,ex));
   let wi=Math.min(Math.max(weekIndexFor(today),1),17);
   const wk=WEEKS[wi-1];
-  const totalH=hoursFor(()=>true);
-  const streak=computeStreak();
+  const totalH=hoursForSb(()=>true);
+  const streak=computeStreakSb();
 
   const allSubs=_sbCache.subjects.filter(s=>!isIbCore(s));
   const activeSubj = scope==="subject" ? allSubs.find(s=>s.id===getActiveSubjectId()) : null;
@@ -3295,29 +3314,30 @@ import html2canvas from 'html2canvas';
 
 function buildShareCardHTML() {
   const today     = todayStr();
-  const totalSec  = sessions.filter(s => s.date === today).reduce((a, s) => a + s.dur, 0);
+  const todaySessions = _sbCache.sessions.filter(s => s.study_date === today);
+  const totalSec  = todaySessions.reduce((a, s) => a + s.duration_sec, 0);
   const totalHrs  = (totalSec / 3600).toFixed(1);
-  const streak    = computeStreak();
+  const streak    = computeStreakSb();
   const readyPct  = overallReady();
   const dateLabel = new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
 
   // Subjects studied today with sec
   const subjMap = {};
-  for (const s of sessions.filter(s => s.date === today)) {
-    subjMap[s.subject] = (subjMap[s.subject] || 0) + s.dur;
+  for (const s of todaySessions) {
+    subjMap[s.subject_id] = (subjMap[s.subject_id] || 0) + s.duration_sec;
   }
   const maxSec = Math.max(...Object.values(subjMap), 1);
   const subjRows = Object.entries(subjMap)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5)
-    .map(([key, sec]) => {
-      const subj = SUBJECTS.find(s => s.key === key);
-      const name  = subj ? subj.name.replace(/\s*\(.*\)/, '').trim() : key;
+    .map(([subjId, sec]) => {
+      const subj = _sbCache.subjects.find(s => s.id === subjId);
+      const name  = subj ? subj.name.replace(/\s*\(.*\)/, '').trim() : 'Unknown subject';
       const pct   = Math.round((sec / maxSec) * 100);
       const mins  = Math.round(sec / 60);
       const label = mins >= 60 ? `${Math.floor(mins/60)}h${mins%60?` ${mins%60}m`:''}` : `${mins}m`;
       return `<div class="sc-subj-row">
-        <div class="sc-subj-name">${name}</div>
+        <div class="sc-subj-name">${escapeHtml(name)}</div>
         <div class="sc-bar-wrap"><div class="sc-bar-fill" style="width:${pct}%"></div></div>
         <div class="sc-subj-time">${label}</div>
       </div>`;
@@ -5765,11 +5785,12 @@ function _renderBones() {
 async function refreshSbCache() {
   if(!currentUser) return;
   try {
-    const [subs, tps, pprs, errs] = await Promise.all([getSubjects(), getAllTopics(), getPapers().catch(()=>[]), getErrors().catch(()=>[])]);
+    const [subs, tps, pprs, errs, sess] = await Promise.all([getSubjects(), getAllTopics(), getPapers().catch(()=>[]), getErrors().catch(()=>[]), getSessions().catch(()=>[])]);
     _sbCache.subjects = subs || [];
     _sbCache.allTopics = tps || [];
     _sbCache.papers = pprs || [];
     _sbCache.errors = errs || [];
+    _sbCache.sessions = sess || [];
 
     // Keep focus-timer subject list in sync
     if(subs && subs.length){
@@ -5780,19 +5801,9 @@ async function refreshSbCache() {
       renderTimerSubjects();
     }
 
-    // Re-render dashboard progress + overall % stat
-    renderDashProgress();
-    renderStudyNow();
-    renderFlags();
-    renderRecall();
-    buildTodayBlocks();
-    const rp = overallReady();
-    const rpEl = document.getElementById("readyPct");
-    if(rpEl){
-      rpEl.textContent = rp + "%";
-      const rs = rpEl.closest('.stat');
-      if(rs) rs.style.setProperty('--prog', rp + '%');
-    }
+    // renderDash() covers dashProgress, studyNow, flags, recall, todayBlocks,
+    // analytics, and readyPct — all in one call, all now backed by _sbCache.
+    renderDash();
 
     // Re-render coverage map if currently visible
     const covEl = document.getElementById("view-coverage");
@@ -5801,6 +5812,10 @@ async function refreshSbCache() {
     // Re-fill Papers & Errors subject dropdowns if currently visible
     const logsEl = document.getElementById("view-logs");
     if(logsEl && !logsEl.classList.contains("hidden")) fillSubjSelects();
+
+    // Re-render Focus Timer stats if currently visible
+    const focusEl = document.getElementById("view-focus");
+    if(focusEl && !focusEl.classList.contains("hidden")) renderFocus();
   } catch(e) {
     console.warn('[sbCache] refresh failed:', e);
   }
