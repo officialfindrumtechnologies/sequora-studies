@@ -846,47 +846,71 @@ function overallReady(){
 function nextTopic(k){const t=topics[k]||[];return t.find(x=>x.status!=="ready"&&x.status!=="mastered")||null;}
 function weakestSubjects(n){return SUBJECTS.map(s=>({s,pct:subjReady(s.key).pct})).sort((a,b)=>a.pct-b.pct).slice(0,n);}
 
+// Real-table equivalents — subj is a row from _sbCache.subjects, not a legacy key
+function nextTopicSb(subj){
+  const t=_sbCache.allTopics.filter(x=>x.subject_id===subj.id).sort((a,b)=>(a.position??0)-(b.position??0));
+  return t.find(x=>x.status!=="ready"&&x.status!=="mastered")||null;
+}
+function weakestSubjectsSb(n){
+  return _sbCache.subjects.filter(s=>!isIbCore(s)).map(s=>({s,pct:subjReadySb(s).pct})).sort((a,b)=>a.pct-b.pct).slice(0,n);
+}
+
 /* ============ today's cross-subject plan ============ */
+const TIME_SLOTS=["7:30","10:00","12:15","3:00"];
 function buildTodayBlocks(){
-  const dow=new Date().getDay(); 
+  const dow=new Date().getDay();
   const weekend=(dow===0||dow===6);
   const el=document.getElementById("todayBlocks");
   const mode=document.getElementById("dayMode");
   if (!el || !mode) return;
   el.innerHTML="";
+  const subs=_sbCache.subjects.filter(s=>!isIbCore(s));
+  if(!subs.length){
+    mode.textContent="Add subjects to get a personalized daily plan.";
+    addBlockEl(el,{time:"—",s:"No subjects yet",t:"Add a subject in the Subjects tab and this plan builds itself around your real syllabus.",hint:""},false);
+    return;
+  }
   if(weekend){
     mode.textContent="Weekend — past papers + repairing weak topics. New content waits for weekdays.";
-    const weak=weakestSubjects(3);
+    const weak=weakestSubjectsSb(3);
     const b1={time:"Morning",s:"Full past paper (timed)",t:"Sit one timed paper, no notes, phone away. Then mark it against the scheme and log mistakes.",hint:"Pick the subject you've done least practice in"};
     addBlockEl(el,b1,false);
     weak.forEach((w,i)=>{
-      const nt=nextTopic(w.s.key);
-      addBlockEl(el,{time:i===0?"Repair":"·",s:w.s.name+"  ("+w.pct+"% ready)",t:nt?("Re-drill weak area — next: <b>"+nt.name+"</b>"):"All topics ready — do a paper instead",hint:"Weekend = fix what the week exposed"},false);
+      const nt=nextTopicSb(w.s);
+      addBlockEl(el,{time:i===0?"Repair":"·",s:w.s.name+"  ("+w.pct+"% ready)",t:nt?("Re-drill weak area — next: <b>"+escapeHtml(nt.name)+"</b>"):"All topics ready — do a paper instead",hint:"Weekend = fix what the week exposed",key:w.s.id},false);
     });
     addBlockEl(el,{time:"Eve",s:"Anki review + update trackers",t:"Clear your Anki queue, mark this week's topics honestly, glance at next week.",hint:"Light — rest is part of the plan"},false);
     return;
   }
-  mode.textContent="Weekday — three deep blocks for new content, assigned by what you can't cram later.";
+  mode.textContent="Weekday — deep blocks for new content, assigned by what's weakest first.";
+  // Weakest subjects get the sharpest hours. With more subjects than slots,
+  // the 4th+ rotate through the last slot by day so everyone gets covered.
+  const ranked=weakestSubjectsSb(subs.length);
   const dayNum=daysBetween(parseD(DAY1),new Date());
-  const b3key=(dayNum%2===0)?"eco":"bus";
-  const b4opts=["eng","ban","papers"];
-  const b4=b4opts[dayNum%3];
-  const blocks=[
-    {time:"7:30",key:"maths",label:"Deep 1 · sharpest hours",hint:"Least crammable — gets your best hours every day"},
-    {time:"10:00",key:"acc",label:"Deep 2",hint:"Near-pure dependency chain — front-loaded"},
-    {time:"12:15",key:b3key,label:"Deep 3 · concept work",hint:"Eco/Business alternate — evaluation marks decide A*"},
-  ];
-  blocks.forEach(b=>{
-    const nt=nextTopic(b.key);
+  const deepCount=Math.min(3,ranked.length);
+  const labels=["Deep 1 · sharpest hours","Deep 2","Deep 3 · concept work"];
+  const hints=["Weakest subject — gets your best hours every day","Second-weakest — front-loaded while focus is high","Third-weakest — evaluation marks decide A*"];
+  for(let i=0;i<deepCount;i++){
+    const w=ranked[i];
+    const nt=nextTopicSb(w.s);
     addBlockEl(el,{
-      time:b.time, s:subjName(b.key)+" — "+b.label,
-      t:nt?("Study next: <b>"+(nt.section?nt.section+" · ":"")+nt.name+"</b>"):"All topics Exam-ready — switch to timed past papers",
-      hint:b.hint, key:b.key, topicId:nt?nt.id:null
+      time:TIME_SLOTS[i], s:escapeHtml(w.s.name)+" — "+labels[i],
+      t:nt?("Study next: <b>"+(nt.section?escapeHtml(nt.section)+" · ":"")+escapeHtml(nt.name)+"</b>"):"All topics Exam-ready — switch to timed past papers",
+      hint:hints[i], key:w.s.id
     },false);
-  });
+  }
+  // Lighter last block: 4th-weakest subject if one exists, else past-paper
+  // practice, alternating with the remaining subjects (5th+) by day so a
+  // user with many subjects still gets rotation instead of the same 4 forever.
+  const rest=ranked.slice(3);
   let b4block;
-  if(b4==="papers"){b4block={time:"3:00",s:"Past-paper practice (lighter)",t:"Work a few past-paper questions on a topic you just learned — retrieval under mild pressure.",hint:"Block 4 rotates: English / Bangla / papers"};}
-  else{const nt=nextTopic(b4);b4block={time:"3:00",s:subjName(b4)+" — Block 4 (lighter)",t:nt?("Study next: <b>"+nt.name+"</b>"):"All topics ready — do a paper",hint:"Skill/exposure subjects live here & on weekends",key:b4,topicId:nt?nt.id:null};}
+  if(rest.length && dayNum%2===0){
+    const w=rest[dayNum%rest.length];
+    const nt=nextTopicSb(w.s);
+    b4block={time:"3:00",s:escapeHtml(w.s.name)+" — Block 4 (lighter)",t:nt?("Study next: <b>"+escapeHtml(nt.name)+"</b>"):"All topics ready — do a paper",hint:"Rotates through your other subjects",key:w.s.id};
+  } else {
+    b4block={time:"3:00",s:"Past-paper practice (lighter)",t:"Work a few past-paper questions on a topic you just learned — retrieval under mild pressure.",hint:"Block 4 alternates with your other subjects"};
+  }
   addBlockEl(el,b4block,false);
   addBlockEl(el,{time:"4–10pm",s:"OFF — earned reward",t:"Locked leisure. Guilt-free, because you did the mornings. Put real movement here.",hint:"Work-then-reward is the engine",locked:true},false);
   addBlockEl(el,{time:"10:00",s:"Anki + skim today's notes (~45m)",t:"15 min of spaced repetition before sleep locks the day in. Then sleep ~11.",hint:"Memory consolidates in sleep",locked:true},false);
@@ -900,17 +924,7 @@ function addBlockEl(parent,b,done){
   parent.appendChild(div);
 }
 function startFromBlock(key){
-  // key is a static SUBJECTS.key — try to map to the user's Supabase subject by name
-  if(_timerSubjects.length){
-    const staticS=SUBJECTS.find(s=>s.key===key);
-    if(staticS){
-      const match=_timerSubjects.find(s=>
-        s.name.toLowerCase().includes(staticS.short.toLowerCase())||
-        staticS.name.toLowerCase().includes(s.name.toLowerCase().split(/\s/)[0])
-      );
-      if(match){curTimerSubject=match.key;go('focus');renderTimerSubjects();setToast("Subject set: "+match.name);return;}
-    }
-  }
+  // key is a real subject UUID (blocks now come from _sbCache.subjects directly)
   curTimerSubject=key;go('focus');renderTimerSubjects();setToast("Subject set: "+subjName(key));
 }
 
@@ -5760,6 +5774,7 @@ async function refreshSbCache() {
     renderStudyNow();
     renderFlags();
     renderRecall();
+    buildTodayBlocks();
     const rp = overallReady();
     const rpEl = document.getElementById("readyPct");
     if(rpEl){
