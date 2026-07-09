@@ -2,7 +2,7 @@
 // Sends each active user a personal study stats email for the past 7 days.
 
 import { createClient } from '@supabase/supabase-js';
-import { emailWeeklyReport } from '../email.js';
+import { emailWeeklyReport } from '../_email.js';
 
 function computeStreak(sessionDates) {
   if (!sessionDates.length) return 0;

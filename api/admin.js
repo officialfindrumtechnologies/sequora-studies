@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { emailActivated, emailSuspended, emailWeeklyReport } from './email.js';
+import { emailActivated, emailSuspended, emailWeeklyReport } from './_email.js';
 import { generateAndInsert, detectExamFormat } from './generate-questions.js';
 import { applyCors } from './_cors.js';
 import { randomInt } from 'crypto';

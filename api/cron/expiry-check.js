@@ -4,7 +4,7 @@
 // Secured by CRON_SECRET env var (set in Vercel, sent as Authorization header by Vercel Cron).
 
 import { createClient } from '@supabase/supabase-js';
-import { emailExpiryWarning, emailExpired } from '../email.js';
+import { emailExpiryWarning, emailExpired } from '../_email.js';
 
 const TIER_LABEL = { paid_1: 'Basic', paid_2: 'Pro', free: 'Free' };
 

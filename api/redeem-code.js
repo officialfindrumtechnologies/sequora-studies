@@ -4,7 +4,7 @@
 
 import { createClient } from '@supabase/supabase-js';
 import { applyCors } from './_cors.js';
-import { emailActivated } from './email.js';
+import { emailActivated } from './_email.js';
 
 export default async function handler(req, res) {
   applyCors(req, res);

@@ -8,7 +8,7 @@
 // needs the exact raw request body bytes, so body parsing is disabled here.
 
 import { Webhook } from 'standardwebhooks';
-import { emailVerification } from './email.js';
+import { emailVerification } from './_email.js';
 
 export const config = { api: { bodyParser: false } };
 
