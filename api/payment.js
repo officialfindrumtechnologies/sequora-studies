@@ -99,6 +99,11 @@ export default async function handler(req, res) {
     .eq('user_id', user.id);
 
   if (updateErr) {
+    if (updateErr.code === '23505') {
+      // Unique constraint on bkash_trx_id caught a race with the earlier
+      // duplicate check — same friendly message as the pre-check path.
+      return res.status(409).json({ error: 'This Transaction ID has already been submitted by another user.' });
+    }
     console.error('[Payment] Update failed:', updateErr);
     return res.status(500).json({ error: 'Failed to record payment submission.' });
   }

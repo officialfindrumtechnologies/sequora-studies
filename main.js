@@ -3158,6 +3158,26 @@ function handleAiError(err) {
   console.error(err);
 }
 
+// Builds a one-line student context string from the real profile instead of
+// hardcoding "Edexcel IGCSE candidate sitting exams in Nov 2026" — that was
+// sent to Gemini for every AI Advisor call regardless of the user's actual
+// qualification, exam board, or exam date.
+async function buildStudentContextLine() {
+  try {
+    const prof = await getProfile();
+    const qual = prof?.qualification || 'their qualification';
+    const board = prof?.exam_board ? ` (${prof.exam_board})` : '';
+    const dateStr = prof?.exam_date
+      ? new Date(prof.exam_date).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })
+      : null;
+    const when = dateStr ? ` sitting exams around ${dateStr}` : '';
+    return `The student is studying ${qual}${board}${when}. Here is their cockpit progress data:`;
+  } catch (e) {
+    console.warn('[AI Advisor] Failed to load profile for context:', e.message);
+    return `Here is the student's cockpit progress data:`;
+  }
+}
+
 async function getAIRecommendation() {
   const btn = document.getElementById("aiRecommendBtn");
   btn.disabled = true;
@@ -3170,9 +3190,10 @@ async function getAIRecommendation() {
     
     btn.textContent = "Advisor Thinking...";
     
-    const prompt = `You are a senior Edexcel IGCSE tutor with years of experience getting students to A*. Be direct, professional, and precise. Never sugarcoat — if the student is behind, say so plainly with specifics. No vague motivational filler, no hedging, no padding. Base everything strictly on the actual progress data provided. If you don't have enough data to judge something, say so rather than inventing it.
+    const contextLine = await buildStudentContextLine();
+    const prompt = `You are a senior tutor with years of experience getting students top grades. Be direct, professional, and precise. Never sugarcoat — if the student is behind, say so plainly with specifics. No vague motivational filler, no hedging, no padding. Base everything strictly on the actual progress data provided. If you don't have enough data to judge something, say so rather than inventing it.
 
-The student is a private Edexcel IGCSE candidate sitting exams in Nov 2026. Here is their cockpit progress data:
+${contextLine}
 
 ${summary}
 
@@ -3180,7 +3201,7 @@ Respond ONLY in this exact structure. No preamble, no extra commentary.
 
 STATUS — [one line: where the student stands right now, with the real numbers]
 
-A* OUTLOOK — [one line: on current pace, how likely all-A* is, and what would have to change]
+GRADE OUTLOOK — [one line: on current pace, how likely top grades are, and what would have to change — use the actual grading scale for their qualification]
 
 FOCUS NOW — [the 1-2 subjects most at risk, and why]
 
@@ -3221,12 +3242,13 @@ async function runWeeklyCheckIn() {
     
     btn.textContent = "Evaluator Thinking...";
     
-    const prompt = `You are an elite Edexcel IGCSE academic strategist. Review the candidate's complete cockpit dashboard:
+    const weeklyContextLine = await buildStudentContextLine();
+    const prompt = `You are an elite academic strategist. ${weeklyContextLine} Review their complete cockpit dashboard:
 
 ${summary}
 
 Provide a brutally honest weekly check-in:
-1. VERDICT: One sentence — on track for A* or not? Why?
+1. VERDICT: One sentence — on track for top grades or not, using the actual grading scale for their qualification? Why?
 2. TOP 3 ACTIONS: The 3 highest-impact things to do this week, each one line.
 
 STRICT FORMAT RULES:
