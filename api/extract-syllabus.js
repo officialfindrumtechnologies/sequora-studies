@@ -1,11 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
+import { applyCors } from './_cors.js';
 
-const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || 'http://localhost:3000';
 // free = 1 extraction/month, paid = effectively unlimited
 const PDF_LIMITS = { free: 1, paid_1: 999, paid_2: 999, paid_3: 999 };
 
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', ALLOWED_ORIGIN);
+  applyCors(req, res);
   res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   if (req.method === 'OPTIONS') return res.status(200).end();

@@ -1,8 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
+import { applyCors } from './_cors.js';
 
 const rateLimitMap = new Map();
-
-const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || 'http://localhost:3000';
 
 const AI_LIMITS = { free: 0, paid_1: 0, paid_2: 20, paid_3: 80 };
 const VALID_CALL_TYPES = new Set(['advisor', 'weekly_checkin']);
@@ -10,7 +9,7 @@ const VALID_CALL_TYPES = new Set(['advisor', 'weekly_checkin']);
 export default async function handler(req, res) {
   // CORS — locked to production domain
   res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', ALLOWED_ORIGIN);
+  applyCors(req, res);
   res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 

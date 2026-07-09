@@ -1,6 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-
-const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || 'http://localhost:3000';
+import { applyCors } from './_cors.js';
 
 const PLAN_META = {
   basic_monthly: { tier: 'paid_1', amount: 149,  label: 'Basic — Monthly'  },
@@ -12,7 +11,7 @@ const PLAN_META = {
 };
 
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', ALLOWED_ORIGIN);
+  applyCors(req, res);
   res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   if (req.method === 'OPTIONS') return res.status(200).end();

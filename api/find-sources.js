@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
+import { applyCors } from './_cors.js';
 
-const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || 'http://localhost:3000';
 const DAILY_LIMIT = 1400;
 const COUNTER_KEY = 'gemini_grounded_search';
 
@@ -10,7 +10,7 @@ The formatted_citation field must be formatted in the citation style requested b
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', ALLOWED_ORIGIN);
+  applyCors(req, res);
   res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 

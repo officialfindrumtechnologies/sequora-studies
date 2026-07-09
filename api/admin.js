@@ -1,8 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 import { emailActivated, emailSuspended, emailWeeklyReport } from './email.js';
 import { generateAndInsert, detectExamFormat } from './generate-questions.js';
-
-const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || 'http://localhost:3000';
+import { applyCors } from './_cors.js';
 
 const PLAN_DURATIONS = {
   basic_monthly: { tier: 'paid_1', days: 30,  label: 'Basic — Monthly'  },
@@ -35,7 +34,7 @@ async function emailMap(adminSb, userIds) {
 }
 
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', ALLOWED_ORIGIN);
+  applyCors(req, res);
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   if (req.method === 'OPTIONS') return res.status(200).end();

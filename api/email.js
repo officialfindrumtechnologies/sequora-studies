@@ -383,7 +383,7 @@ export function emailWeeklyReport({ email, displayName, stats }) {
                   <table cellpadding="0" cellspacing="0" border="0" role="presentation" align="center">
                     <tr>
                       <td align="center" bgcolor="#e8a33d" style="border-radius:8px">
-                        <a href="https://sequora-studies.vercel.app/app" style="display:block;padding:14px 36px;color:#0a0a0a;font-family:'Courier New',Courier,monospace;font-size:14px;font-weight:700;text-decoration:none;letter-spacing:.06em;border-radius:8px;mso-padding-alt:14px 36px">Open Sequora &#8594;</a>
+                        <a href="https://www.sequorastudies.com/app" style="display:block;padding:14px 36px;color:#0a0a0a;font-family:'Courier New',Courier,monospace;font-size:14px;font-weight:700;text-decoration:none;letter-spacing:.06em;border-radius:8px;mso-padding-alt:14px 36px">Open Sequora &#8594;</a>
                       </td>
                     </tr>
                   </table>

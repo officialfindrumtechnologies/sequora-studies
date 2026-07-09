@@ -1,6 +1,6 @@
 // Supabase Auth Hook — Send Email
 // Configured in: Supabase dashboard > Authentication > Hooks > Send Email
-// Set hook URL to: https://sequora-studies.vercel.app/api/send-verification
+// Set hook URL to: https://www.sequorastudies.com/api/send-verification
 // Set hook secret in SUPABASE_HOOK_SECRET env var (format: v1,whsec_...)
 //
 // Supabase's HTTPS Auth Hooks use the Standard Webhooks signing spec —
@@ -55,7 +55,7 @@ export default async function handler(req, res) {
   }
 
   const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || '';
-  const redirectTo  = email_data.redirect_to || `https://sequora-studies.vercel.app/app`;
+  const redirectTo  = email_data.redirect_to || `https://www.sequorastudies.com/app`;
   const tokenHash   = email_data.token_hash  || email_data.token || '';
 
   const confirmUrl = tokenHash
