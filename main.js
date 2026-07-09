@@ -1996,8 +1996,46 @@ function renderPaymentForm() {
     <div style="display:flex;gap:10px;align-items:center">
       <button class="btn primary" id="pay-submit-btn" onclick="submitPayment()">Submit Payment →</button>
       <span id="pay-status-msg" style="font-family:var(--mono);font-size:11px;color:var(--muted)"></span>
+    </div>
+    <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line)">
+      <span class="fieldlabel">Already have an activation code?</span>
+      <div class="split" style="gap:10px;margin-top:6px;flex-wrap:wrap">
+        <input type="text" id="redeem-code-input" placeholder="e.g. AB3D-9KLM" style="flex:1;min-width:160px;font-family:var(--mono);letter-spacing:.05em;text-transform:uppercase" maxlength="12">
+        <button class="btn sm" id="redeem-code-btn" onclick="redeemCode()">Activate</button>
+      </div>
+      <span id="redeem-code-msg" style="font-family:var(--mono);font-size:11px;color:var(--muted)"></span>
     </div>`;
 }
+
+async function redeemCode() {
+  const input = document.getElementById('redeem-code-input');
+  const btn   = document.getElementById('redeem-code-btn');
+  const msg   = document.getElementById('redeem-code-msg');
+  const code  = input?.value?.trim();
+
+  if (!code) { if (msg) { msg.textContent = 'Enter a code'; msg.style.color = 'var(--red)'; } return; }
+
+  if (btn) { btn.disabled = true; btn.textContent = 'Activating…'; }
+  if (msg) msg.textContent = '';
+
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    const resp = await fetch('/api/redeem-code', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+      body: JSON.stringify({ code }),
+    });
+    const json = await resp.json();
+    if (!resp.ok) throw new Error(json.error || 'Redemption failed');
+
+    if (msg) { msg.textContent = '✓ Activated!'; msg.style.color = 'var(--green)'; }
+    setTimeout(() => renderPaymentCard(), 1000);
+  } catch (e) {
+    if (msg) { msg.textContent = e.message; msg.style.color = 'var(--red)'; }
+    if (btn) { btn.disabled = false; btn.textContent = 'Activate'; }
+  }
+}
+window.redeemCode = redeemCode;
 
 function showPaymentForm() {
   const area = document.getElementById('payment-form-area');

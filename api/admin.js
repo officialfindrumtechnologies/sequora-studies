@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 import { emailActivated, emailSuspended, emailWeeklyReport } from './email.js';
 import { generateAndInsert, detectExamFormat } from './generate-questions.js';
 import { applyCors } from './_cors.js';
+import { randomInt } from 'crypto';
 
 const PLAN_DURATIONS = {
   basic_monthly: { tier: 'paid_1', days: 30,  label: 'Basic — Monthly'  },
@@ -11,6 +12,13 @@ const PLAN_DURATIONS = {
   pro_monthly:   { tier: 'paid_3', days: 30,  label: 'Pro — Monthly'    },
   pro_6mo:       { tier: 'paid_3', days: 182, label: 'Pro — 6 Months'   },
 };
+
+// Unambiguous charset (no 0/O/1/I) — codes are read aloud/typed by students.
+const CODE_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+function generateCode() {
+  const group = () => Array.from({ length: 4 }, () => CODE_CHARS[randomInt(CODE_CHARS.length)]).join('');
+  return `${group()}-${group()}`;
+}
 
 function todayStr() {
   return new Date().toISOString().slice(0, 10);
@@ -68,12 +76,16 @@ export default async function handler(req, res) {
     return res.status(403).json({ error: 'Forbidden' });
   }
 
+  const action = req.method === 'GET'
+    ? req.query?.action
+    : (req.body?.action || null);
+
   // Restrict write actions based on admin role (RBAC)
   // Fail closed: any role other than these three known values gets no
   // write access at all, rather than silently falling through unrestricted.
   if (req.method === 'POST') {
     if (role === 'editor') {
-      const billingActions = new Set(['activate', 'change_tier', 'dismiss_trx', 'simulate_bkash_payment']);
+      const billingActions = new Set(['activate', 'change_tier', 'dismiss_trx', 'simulate_bkash_payment', 'generate_code']);
       if (billingActions.has(action)) {
         return res.status(403).json({ error: 'Unauthorized: Editors cannot modify billing state' });
       }
@@ -89,10 +101,6 @@ export default async function handler(req, res) {
       return res.status(403).json({ error: 'Unauthorized: unrecognized admin role' });
     }
   }
-
-  const action = req.method === 'GET'
-    ? req.query?.action
-    : (req.body?.action || null);
 
   // ── GET: list_users ────────────────────────────────────────────────────────
   // ── GET: list_users ────────────────────────────────────────────────────────
@@ -762,6 +770,22 @@ export default async function handler(req, res) {
     return res.status(200).json({ log, total: count || 0, page, pageSize });
   }
 
+  // ── GET: list_codes ────────────────────────────────────────────────────────
+  if (req.method === 'GET' && action === 'list_codes') {
+    const { data: codes, error: codesErr } = await adminSb
+      .from('activation_codes')
+      .select('id, code, tier, duration_days, note, created_at, redeemed_by, redeemed_at')
+      .order('created_at', { ascending: false })
+      .limit(200);
+    if (codesErr) return res.status(500).json({ error: 'Failed to fetch codes: ' + codesErr.message });
+
+    const redeemerIds = [...new Set((codes || []).map(c => c.redeemed_by).filter(Boolean))];
+    const em = await emailMap(adminSb, redeemerIds);
+    const list = (codes || []).map(c => ({ ...c, redeemedByEmail: em[c.redeemed_by] || null }));
+
+    return res.status(200).json({ codes: list });
+  }
+
   // ── check_role ─────────────────────────────────────────────────────────────
   if (req.method === 'GET' && action === 'check_role') {
     return res.status(200).json({ role, email: user.email });
@@ -1006,6 +1030,30 @@ export default async function handler(req, res) {
     });
 
     return res.status(200).json({ ok: true });
+  }
+
+  // ── generate_code ──────────────────────────────────────────────────────────
+  if (action === 'generate_code') {
+    const { tier, days, note } = req.body;
+    if (!['paid_1', 'paid_2', 'paid_3'].includes(tier)) {
+      return res.status(400).json({ error: 'Invalid tier' });
+    }
+    const durationDays = parseInt(days, 10);
+    if (!Number.isInteger(durationDays) || durationDays < 1 || durationDays > 3650) {
+      return res.status(400).json({ error: 'Invalid duration (days must be 1-3650)' });
+    }
+
+    const code = generateCode();
+    const { error } = await adminSb.from('activation_codes').insert({
+      code, tier, duration_days: durationDays, note: note || null, created_by: user.id,
+    });
+    if (error) return res.status(500).json({ error: 'Code generation failed: ' + error.message });
+
+    await adminSb.from('admin_log').insert({
+      admin_id: user.id, action: 'generate_code', target_user: null, details: { code, tier, days: durationDays },
+    });
+
+    return res.status(200).json({ ok: true, code, tier, days: durationDays });
   }
 
   // ── resolve_error ──────────────────────────────────────────────────────────
