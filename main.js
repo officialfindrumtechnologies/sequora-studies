@@ -5225,7 +5225,11 @@ window.openMusclesModal = function() {
   modal.classList.remove('hidden');
   _renderMusclesRegions();
   _renderMuscles();
-  _init3dViewer();   // warm up the interactive model so it's ready on first click
+  // Don't pre-warm the 3D viewer here — initializing it several async ticks
+  // away from an actual click loses the browser's "user gesture" window, so
+  // WebGL autoplay gets blocked and Sketchfab shows its own play-button
+  // screen instead of just rendering. Init happens on the first real click
+  // (the collapse toggle or a muscle's "Show on 3D model" button) instead.
   const search = document.getElementById('muscles-search');
   if (search) { search.value = ''; search.focus(); }
 };
@@ -5928,6 +5932,11 @@ function _init3dViewer() {
     const client = new window.Sketchfab(iframe);
     const failTimer = setTimeout(() => fail('viewer timeout'), 30000);
     client.init(MUSCLE_MODEL_ID, {
+      autostart: 1,
+      ui_controls: 0,
+      ui_infos: 0,
+      ui_watermark: 0,
+      ui_watermark_link: 0,
       success: (api) => {
         api.start();
         api.addEventListener('viewerready', () => {
@@ -5954,8 +5963,9 @@ function _init3dViewer() {
   }).catch(fail);
 }
 
-// Show only the muscle mesh(es) whose name matches `match`, keep the skeleton
-// visible for context, hide every other muscle. `match` is a substring.
+// Show only the muscle mesh(es) whose name matches `match`, hide every other
+// muscle. `match` is a substring. (This model has no separate skeleton — every
+// mesh in it is a muscle — so isolating just means hiding the rest.)
 function _isolate3d(match, label) {
   if (_muscle3dState === 'idle') { _muscle3dPending = { match, label }; _init3dViewer(); return; }
   if (_muscle3dState === 'loading') { _muscle3dPending = { match, label }; return; }
@@ -5982,7 +5992,30 @@ function _reset3d() {
   if (cap) cap.textContent = '';
 }
 
+function _expand3dBody() {
+  const body = document.getElementById('muscle-3d-body');
+  const chev = document.getElementById('muscle-3d-chevron');
+  if (body && body.classList.contains('hidden')) {
+    body.classList.remove('hidden');
+    if (chev) chev.textContent = '▴';
+  }
+}
+
+// Collapsed by default so the (large) 3D block doesn't permanently eat modal
+// space above the scrollable muscle list. Opens on: the toggle bar itself, or
+// tapping any muscle's "Show on 3D model" button.
+window.muscleToggle3DSection = function() {
+  const body = document.getElementById('muscle-3d-body');
+  const chev = document.getElementById('muscle-3d-chevron');
+  if (!body) return;
+  const willOpen = body.classList.contains('hidden');
+  body.classList.toggle('hidden');
+  if (chev) chev.textContent = willOpen ? '▴' : '▾';
+  if (willOpen) _init3dViewer();
+};
+
 window.muscleShow3D = function(match, label) {
+  _expand3dBody();
   const sec = document.getElementById('muscle-3d-section');
   if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
   _isolate3d(match, label);
@@ -5997,6 +6030,9 @@ function _teardown3d() {
   _muscleApi = null; _muscleNodes = []; _muscle3dState = 'idle'; _muscle3dPending = null;
   const statusEl = document.getElementById('muscle-3d-status');
   if (statusEl) statusEl.textContent = '';
+  document.getElementById('muscle-3d-body')?.classList.add('hidden');
+  const chev = document.getElementById('muscle-3d-chevron');
+  if (chev) chev.textContent = '▾';
 }
 
 function _renderMusclesRegions() {
