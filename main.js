@@ -5961,18 +5961,23 @@ function _isolate3d(match, label) {
   if (_muscle3dState === 'loading') { _muscle3dPending = { match, label }; return; }
   if (_muscle3dState !== 'ready' || !_muscleApi) return;
   const m = match.toLowerCase();
+  let shown = 0;
   _muscleNodes.forEach(node => {
-    if (!node.underMuscles) return;               // never touch bones
     const isTarget = node.name.toLowerCase().includes(m);
-    try { isTarget ? _muscleApi.show(node.id) : _muscleApi.hide(node.id); } catch (e) {}
+    try { isTarget ? (_muscleApi.show(node.id), shown++) : _muscleApi.hide(node.id); } catch (e) {}
   });
+  // Frame the camera on what's now visible (the isolated muscle) so it fills the
+  // viewer instead of sitting tiny in the full-body frame. Small delay lets the
+  // hide/show calls apply before the bounding box is recomputed.
+  setTimeout(() => { try { _muscleApi.focusOnVisibleGeometries(); } catch (e) {} }, 350);
   const cap = document.getElementById('muscle-3d-caption');
-  if (cap) cap.textContent = label || '';
+  if (cap) cap.textContent = shown ? (label || '') : 'Not separated in this model — see the diagram below.';
 }
 
 function _reset3d() {
   if (_muscle3dState !== 'ready' || !_muscleApi) return;
   _muscleNodes.forEach(node => { try { _muscleApi.show(node.id); } catch (e) {} });
+  setTimeout(() => { try { _muscleApi.focusOnVisibleGeometries(); } catch (e) {} }, 350);
   const cap = document.getElementById('muscle-3d-caption');
   if (cap) cap.textContent = '';
 }
