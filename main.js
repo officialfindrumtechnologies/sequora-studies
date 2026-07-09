@@ -57,9 +57,9 @@ let LS_OK=true;
 try{const k="__t";localStorage.setItem(k,"1");localStorage.removeItem(k);}catch(e){LS_OK=false;}
 
 let currentUser = null;
-let userTier = 'free';   // updated after login from subscriptions table — values: 'free' | 'paid_1' | 'paid_2'
+let userTier = 'free';   // updated after login from subscriptions table — values: 'free' | 'paid_1' | 'paid_2' | 'paid_3'
 
-function isPro() { return userTier === 'paid_1' || userTier === 'paid_2'; }
+function isPro() { return userTier === 'paid_1' || userTier === 'paid_2' || userTier === 'paid_3'; }
 
 function requiresPro(featureName) {
   if (!isPro()) { showPaywall(featureName); return true; }
@@ -1900,8 +1900,10 @@ const BKASH_NUMBER = import.meta.env.VITE_BKASH_NUMBER || '01XXXXXXXXXX';
 const PLANS = [
   { key: 'basic_monthly', tier: 'Basic', period: 'Monthly',   amount: 149,  save: ''        },
   { key: 'basic_6mo',     tier: 'Basic', period: '6 Months',  amount: 699,  save: 'save 22%' },
-  { key: 'pro_monthly',   tier: 'Pro',   period: 'Monthly',   amount: 299,  save: ''        },
-  { key: 'pro_6mo',       tier: 'Pro',   period: '6 Months',  amount: 1399, save: 'save 22%' },
+  { key: 'plus_monthly',  tier: 'Plus',  period: 'Monthly',   amount: 299,  save: ''        },
+  { key: 'plus_6mo',      tier: 'Plus',  period: '6 Months',  amount: 1399, save: 'save 22%' },
+  { key: 'pro_monthly',   tier: 'Pro',   period: 'Monthly',   amount: 499,  save: ''        },
+  { key: 'pro_6mo',       tier: 'Pro',   period: '6 Months',  amount: 2339, save: 'save 22%' },
 ];
 
 let _payCard = null;   // cached sub data for submit handler
@@ -1921,7 +1923,7 @@ async function renderPaymentCard() {
   const isPaid    = sub.status === 'active' && sub.tier !== 'free';
   const isPending = sub.bkash_trx_id && (!sub.activated_at || sub.bkash_submitted_at > sub.activated_at);
   const isExpired = sub.expires_at && new Date(sub.expires_at) < new Date();
-  const tierLabel = sub.tier === 'paid_1' ? 'Basic' : sub.tier === 'paid_2' ? 'Pro' : 'Free';
+  const tierLabel = sub.tier === 'paid_1' ? 'Basic' : sub.tier === 'paid_2' ? 'Plus' : sub.tier === 'paid_3' ? 'Pro' : 'Free';
   const expiryFmt = sub.expires_at ? new Date(sub.expires_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : null;
 
   let html = '<div class="lead">Your plan</div>';

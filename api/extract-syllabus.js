@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 
 const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || 'http://localhost:3000';
 // free = 1 extraction/month, paid = effectively unlimited
-const PDF_LIMITS = { free: 1, paid_1: 999, paid_2: 999 };
+const PDF_LIMITS = { free: 1, paid_1: 999, paid_2: 999, paid_3: 999 };
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', ALLOWED_ORIGIN);

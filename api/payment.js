@@ -3,10 +3,12 @@ import { createClient } from '@supabase/supabase-js';
 const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || 'http://localhost:3000';
 
 const PLAN_META = {
-  basic_monthly: { tier: 'paid_1', amount: 149,  label: 'Basic — Monthly'      },
-  basic_6mo:     { tier: 'paid_1', amount: 699,  label: 'Basic — 6 Months'     },
-  pro_monthly:   { tier: 'paid_2', amount: 299,  label: 'Pro — Monthly'         },
-  pro_6mo:       { tier: 'paid_2', amount: 1399, label: 'Pro — 6 Months'        },
+  basic_monthly: { tier: 'paid_1', amount: 149,  label: 'Basic — Monthly'  },
+  basic_6mo:     { tier: 'paid_1', amount: 699,  label: 'Basic — 6 Months' },
+  plus_monthly:  { tier: 'paid_2', amount: 299,  label: 'Plus — Monthly'   },
+  plus_6mo:      { tier: 'paid_2', amount: 1399, label: 'Plus — 6 Months'  },
+  pro_monthly:   { tier: 'paid_3', amount: 499,  label: 'Pro — Monthly'    },
+  pro_6mo:       { tier: 'paid_3', amount: 2339, label: 'Pro — 6 Months'   },
 };
 
 export default async function handler(req, res) {

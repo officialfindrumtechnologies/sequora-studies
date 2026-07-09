@@ -5,10 +5,12 @@ import { generateAndInsert, detectExamFormat } from './generate-questions.js';
 const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || 'http://localhost:3000';
 
 const PLAN_DURATIONS = {
-  basic_monthly: { tier: 'paid_1', days: 30,  label: 'Basic — Monthly'   },
-  basic_6mo:     { tier: 'paid_1', days: 182, label: 'Basic — 6 Months'  },
-  pro_monthly:   { tier: 'paid_2', days: 30,  label: 'Pro — Monthly'     },
-  pro_6mo:       { tier: 'paid_2', days: 182, label: 'Pro — 6 Months'    },
+  basic_monthly: { tier: 'paid_1', days: 30,  label: 'Basic — Monthly'  },
+  basic_6mo:     { tier: 'paid_1', days: 182, label: 'Basic — 6 Months' },
+  plus_monthly:  { tier: 'paid_2', days: 30,  label: 'Plus — Monthly'   },
+  plus_6mo:      { tier: 'paid_2', days: 182, label: 'Plus — 6 Months'  },
+  pro_monthly:   { tier: 'paid_3', days: 30,  label: 'Pro — Monthly'    },
+  pro_6mo:       { tier: 'paid_3', days: 182, label: 'Pro — 6 Months'   },
 };
 
 function todayStr() {
@@ -924,7 +926,7 @@ export default async function handler(req, res) {
   if (action === 'change_tier') {
     if (!userId) return res.status(400).json({ error: 'userId required' });
     const { tier } = req.body;
-    if (!['free', 'paid_1', 'paid_2'].includes(tier)) {
+    if (!['free', 'paid_1', 'paid_2', 'paid_3'].includes(tier)) {
       return res.status(400).json({ error: 'Invalid tier' });
     }
 

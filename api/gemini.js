@@ -4,7 +4,7 @@ const rateLimitMap = new Map();
 
 const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || 'http://localhost:3000';
 
-const AI_LIMITS = { free: 0, paid_1: 20, paid_2: 80 };
+const AI_LIMITS = { free: 0, paid_1: 0, paid_2: 20, paid_3: 80 };
 const VALID_CALL_TYPES = new Set(['advisor', 'weekly_checkin']);
 
 export default async function handler(req, res) {

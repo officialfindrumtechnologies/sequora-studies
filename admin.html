@@ -123,6 +123,7 @@ td{padding:9px 12px;vertical-align:middle}
 .badge.free{background:rgba(155,145,132,.1);color:var(--muted)}
 .badge.paid_1{background:rgba(111,157,196,.18);color:var(--blue)}
 .badge.paid_2{background:rgba(232,163,61,.2);color:var(--amber-soft)}
+.badge.paid_3{background:rgba(126,196,159,.2);color:var(--green)}
 .badge.notstarted{background:rgba(155,145,132,.1);color:var(--muted)}
 .badge.learning{background:rgba(111,157,196,.18);color:var(--blue)}
 .badge.ready{background:rgba(127,174,111,.18);color:var(--green)}
@@ -361,7 +362,8 @@ body.theme-midnight{
           <option value="">All tiers</option>
           <option value="free">Free</option>
           <option value="paid_1">Basic</option>
-          <option value="paid_2">Pro</option>
+          <option value="paid_2">Plus</option>
+          <option value="paid_3">Pro</option>
         </select>
         <button class="btn-ref" onclick="loadUsers()">↺ Refresh</button>
         <button class="btn-ref" onclick="exportUsersCSV()">⬇ CSV</button>
@@ -833,7 +835,7 @@ function fmtDateTime(iso) {
 }
 
 function tierLabel(t) {
-  return t === 'paid_1' ? 'Basic' : t === 'paid_2' ? 'Pro' : 'Free';
+  return t === 'paid_1' ? 'Basic' : t === 'paid_2' ? 'Plus' : t === 'paid_3' ? 'Pro' : 'Free';
 }
 
 function isPending(u) {
@@ -1069,6 +1071,8 @@ function renderUsers(users) {
         <select class="plan-sel" id="plan-sel-${idx}">
           <option value="basic_monthly">Basic 1mo</option>
           <option value="basic_6mo">Basic 6mo</option>
+          <option value="plus_monthly">Plus 1mo</option>
+          <option value="plus_6mo">Plus 6mo</option>
           <option value="pro_monthly">Pro 1mo</option>
           <option value="pro_6mo">Pro 6mo</option>
         </select>
@@ -1080,7 +1084,8 @@ function renderUsers(users) {
       <select class="plan-sel" id="tier-sel-${idx}">
         <option value="free" ${u.tier==='free'?'selected':''}>Free</option>
         <option value="paid_1" ${u.tier==='paid_1'?'selected':''}>Basic</option>
-        <option value="paid_2" ${u.tier==='paid_2'?'selected':''}>Pro</option>
+        <option value="paid_2" ${u.tier==='paid_2'?'selected':''}>Plus</option>
+        <option value="paid_3" ${u.tier==='paid_3'?'selected':''}>Pro</option>
       </select>
       <button class="btn-act tier" onclick="changeTier('${esc(u.user_id)}','tier-sel-${idx}')">Set tier</button>`;
 
@@ -1242,6 +1247,8 @@ async function loadRevenue() {
         const rowStyle = isMatched ? 'background:rgba(127,174,111,0.06);' : warning ? 'background:rgba(207,106,85,0.06);' : '';
         const defaultPlan = p.notes && p.notes.includes('pro_6mo') ? 'pro_6mo'
           : p.notes && p.notes.includes('pro_monthly') ? 'pro_monthly'
+          : p.notes && p.notes.includes('plus_6mo') ? 'plus_6mo'
+          : p.notes && p.notes.includes('plus_monthly') ? 'plus_monthly'
           : p.notes && p.notes.includes('basic_6mo') ? 'basic_6mo'
           : 'basic_monthly';
 
@@ -1258,6 +1265,8 @@ async function loadRevenue() {
               <select class="plan-sel" id="rev-plan-${i}">
                 <option value="basic_monthly" ${defaultPlan === 'basic_monthly' ? 'selected' : ''}>Basic 1mo</option>
                 <option value="basic_6mo" ${defaultPlan === 'basic_6mo' ? 'selected' : ''}>Basic 6mo</option>
+                <option value="plus_monthly" ${defaultPlan === 'plus_monthly' ? 'selected' : ''}>Plus 1mo</option>
+                <option value="plus_6mo" ${defaultPlan === 'plus_6mo' ? 'selected' : ''}>Plus 6mo</option>
                 <option value="pro_monthly" ${defaultPlan === 'pro_monthly' ? 'selected' : ''}>Pro 1mo</option>
                 <option value="pro_6mo" ${defaultPlan === 'pro_6mo' ? 'selected' : ''}>Pro 6mo</option>
               </select>
