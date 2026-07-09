@@ -2349,24 +2349,24 @@ function renderStudyNow() {
   const candidates = getStudyNowCandidates();
   if (!candidates.length) {
     const s = _sbCache.subjects[0];
-    el.innerHTML = `<div class="sn-result"><div class="sn-verb">RECALL</div><div class="sn-body"><div class="sn-subj">${s.name}</div><div class="sn-reason">All topics exam-ready · maintain with recall</div><div class="sn-actions"><button class="btn sm" onclick="document.getElementById('recallCard').scrollIntoView({behavior:'smooth'})">Go to recall ↓</button></div></div></div>`;
+    el.innerHTML = `<div class="sn-result"><div class="sn-verb">RECALL</div><div class="sn-body"><div class="sn-subj">${escapeHtml(s.name)}</div><div class="sn-reason">All topics exam-ready · maintain with recall</div><div class="sn-actions"><button class="btn sm" onclick="document.getElementById('recallCard').scrollIntoView({behavior:'smooth'})">Go to recall ↓</button></div></div></div>`;
     return;
   }
 
   const rec = candidates[_studyNowIdx % candidates.length];
   const topicHTML = rec.topic
-    ? `<div class="sn-topic">${rec.topic.name}${rec.topic.section ? `<span class="sn-section"> · ${rec.topic.section}</span>` : ''}</div>`
+    ? `<div class="sn-topic">${escapeHtml(rec.topic.name)}${rec.topic.section ? `<span class="sn-section"> · ${escapeHtml(rec.topic.section)}</span>` : ''}</div>`
     : '';
   const goBtn = rec.action === 'recall'
     ? `<button class="btn sm" onclick="document.getElementById('recallCard').scrollIntoView({behavior:'smooth'})">Go to recall ↓</button>`
     : `<button class="btn sm" onclick="go('subjects')">Open subjects →</button>`;
 
   el.innerHTML = `<div class="sn-result">
-    <div class="sn-verb">${rec.verb}</div>
+    <div class="sn-verb">${escapeHtml(rec.verb)}</div>
     <div class="sn-body">
-      <div class="sn-subj">${rec.subject.name}</div>
+      <div class="sn-subj">${escapeHtml(rec.subject.name)}</div>
       ${topicHTML}
-      <div class="sn-reason">${rec.reason}</div>
+      <div class="sn-reason">${escapeHtml(rec.reason)}</div>
       <div class="sn-actions">${goBtn}</div>
     </div>
   </div>`;
@@ -4849,7 +4849,7 @@ function _renderLbPanel() {
     const click = isOwn ? '' : `onclick="openFriendProfile('${r.uid}')" style="cursor:pointer"`;
     html += `<tr class="lb-tr${isOwn ? ' own' : ''}" ${click}>
       <td class="lb-td lb-rank">${i + 1}</td>
-      <td class="lb-td">${r.display_name}${isOwn ? ' <span class="lb-you">you</span>' : ''}</td>
+      <td class="lb-td">${escapeHtml(r.display_name || '')}${isOwn ? ' <span class="lb-you">you</span>' : ''}</td>
       <td class="lb-td lb-td-r">${hrs}</td>
       <td class="lb-td lb-td-r">${streak}</td>
       <td class="lb-td lb-td-r">${r.subjects_count}</td>
@@ -4878,7 +4878,7 @@ function _renderRequestsPanel() {
   }
   panel.innerHTML = _pendingReqs.map(req => `
     <div class="lb-req-row">
-      <div class="lb-req-name">${req.display_name || 'Someone'}</div>
+      <div class="lb-req-name">${escapeHtml(req.display_name || 'Someone')}</div>
       <div class="lb-req-btns">
         <button class="btn sm" onclick="lbAcceptRequest('${req.id}')">Accept</button>
         <button class="btn sm ghost danger" onclick="lbDeclineRequest('${req.id}')">Decline</button>
@@ -4912,15 +4912,15 @@ async function _renderFriendsPanel() {
   } catch(e) {}
 
   panel.innerHTML = friends.map(r => {
-    const initials = (r.display_name || '?').charAt(0).toUpperCase();
+    const initials = escapeHtml((r.display_name || '?').charAt(0).toUpperCase());
     const isOnline = activeSet.has(r.uid);
     const qual = (r.qualification || r.exam_board) ? formatQualBoard(r.qualification, r.exam_board) : '';
     const safeName = (r.display_name || '').replace(/'/g, "\\'");
     return `<div class="lb-friend-card">
       <div class="lb-friend-avatar">${initials}${isOnline ? '<span class="lb-friend-online"></span>' : ''}</div>
       <div class="lb-friend-info">
-        <div class="lb-friend-name">${r.display_name}</div>
-        ${qual ? `<div class="lb-friend-meta">${qual}</div>` : ''}
+        <div class="lb-friend-name">${escapeHtml(r.display_name || '')}</div>
+        ${qual ? `<div class="lb-friend-meta">${escapeHtml(qual)}</div>` : ''}
       </div>
       <div class="lb-friend-actions">
         <button class="btn sm ghost" onclick="openFriendProfile('${r.uid}')">View Profile →</button>
@@ -4955,8 +4955,8 @@ async function _lbDoSearch() {
     if (!users.length) { results.innerHTML = '<div class="lb-empty-small">No users found</div>'; return; }
     results.innerHTML = users.map(u => `
       <div class="lb-result-row">
-        <div><div class="lb-result-name">${u.display_name}</div>${(u.qualification || u.exam_board) ? `<div class="lb-result-sub">${formatQualBoard(u.qualification, u.exam_board)}</div>` : ''}</div>
-        <button class="btn sm" id="lb-add-${u.id}" onclick="lbSendRequest('${u.id}','${(u.display_name||'').replace(/'/g,"\\'")}')">Add friend</button>
+        <div><div class="lb-result-name">${escapeHtml(u.display_name || '')}</div>${(u.qualification || u.exam_board) ? `<div class="lb-result-sub">${escapeHtml(formatQualBoard(u.qualification, u.exam_board))}</div>` : ''}</div>
+        <button class="btn sm" id="lb-add-${u.id}" onclick="lbSendRequest('${u.id}','${(u.display_name||'').replace(/'/g,"\\'").replace(/"/g,'&quot;')}')">Add friend</button>
       </div>`).join('');
   } catch(e) { results.innerHTML = '<div class="lb-empty-small">Search failed</div>'; }
 }
