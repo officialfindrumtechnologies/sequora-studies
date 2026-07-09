@@ -1919,8 +1919,9 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
         <button class="btn ghost sm" id="loginBtn" onclick="handleLogin()" style="flex: 1; padding: 11px 0;">Magic Link</button>
         <button class="btn primary sm" id="pwdBtn" onclick="handlePasswordLogin()" style="flex: 1; padding: 11px 0;">Sign In</button>
       </div>
-      <div id="signupButtons" style="display: none;">
+      <div id="signupButtons" style="display: none; flex-direction: column; gap: 8px;">
         <button class="btn primary sm" id="signupBtn" onclick="handleSignup()" style="width: 100%; padding: 11px 0;">Create account</button>
+        <div style="font-family: var(--mono); font-size: 10px; color: var(--muted); text-align: center; line-height: 1.5;">By creating an account you agree to our <a href="/terms" target="_blank" style="color: var(--amber);">Terms</a> and <a href="/privacy" target="_blank" style="color: var(--amber);">Privacy Policy</a>.</div>
       </div>
       <div id="resetPanel" style="display: none; flex-direction: column; gap: 10px;">
         <input type="password" id="resetNewPassword" placeholder="new password (6+ chars)" autocomplete="new-password" style="text-align: center; width: 100%;">
