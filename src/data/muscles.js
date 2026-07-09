@@ -2,13 +2,59 @@
 // Q&A are original practice questions, not claimed to be real past papers —
 // swap in actual archived prof questions once sourced from a real paper.
 //
-// sketchfabId points to a real, verified, CC-BY-SA licensed, embeddable model:
-// "Myology" by Z-Anatomy (open-source Human Anatomy Atlas, TA2-2019 standard).
-// https://sketchfab.com/3d-models/myology-31b40fd809b14665b93773936d67c52c
+// INTERACTIVE 3D: driven live via the Sketchfab Viewer API against the model
+// "Muscular and Skeletal System" by ufulio, whose muscles are SEPARATE named
+// meshes (verified by dumping its scene graph). Clicking a muscle isolates it
+// on the skeleton in real 3D. The model is embeddable (Sketchfab-sanctioned
+// embed, like a video embed) — attribution to ufulio + Sketchfab is shown, and
+// the whole 3D block degrades gracefully to the 2D diagrams if it fails to load.
+//
+// The `mesh3d` field says how each muscle resolves in that model:
+//   { kind:'muscle', match:'Deltoideus' } → isolate exactly this muscle
+//   { kind:'group',  match:'Flexor_Muscle', label:'…' } → isolate the whole
+//        compartment (the model names these generically, so we're honest that
+//        it's the group, not the single muscle)
+//   absent → no 3D for this one; its accurate 2D plate is the visual instead
+//        (coracobrachialis, brachialis, anconeus, supinator aren't in the model)
 
 export const MUSCLE_REGIONS = ['All', 'Shoulder', 'Arm', 'Forearm — Flexors', 'Forearm — Extensors'];
 
-const MYOLOGY_ID = '31b40fd809b14665b93773936d67c52c';
+// Interactive, per-mesh-separated model (ufulio) used for isolation.
+export const MUSCLE_MODEL_ID = 'a15b72e769934d6fb1ebb258b9306df4';
+export const MUSCLE_MODEL_CREDIT = { author: 'ufulio', url: 'https://sketchfab.com/3d-models/muscular-and-skeletal-system-anatomy-a15b72e769934d6fb1ebb258b9306df4' };
+
+// id → how it maps into the 3D model's mesh names.
+const MESH_3D = {
+  deltoid:              { kind: 'muscle', match: 'Deltoideus' },
+  supraspinatus:        { kind: 'muscle', match: 'Supraspinatus' },
+  infraspinatus:        { kind: 'muscle', match: 'Infraspinatus' },
+  teres_minor:          { kind: 'muscle', match: 'Teres_Minor' },
+  teres_major:          { kind: 'muscle', match: 'Teres_Major' },
+  subscapularis:        { kind: 'muscle', match: 'Subscapularis' },
+  biceps_brachii:       { kind: 'muscle', match: 'Biceps_Muscle' },
+  triceps_brachii:      { kind: 'muscle', match: 'ricep' }, // matches Tricep_Muscle + misspelled Tricep_Mucsle
+  brachioradialis:      { kind: 'muscle', match: 'Brachioradialis' },
+  pronator_teres:       { kind: 'muscle', match: 'Pronator_Teres' },
+  pronator_quadratus:   { kind: 'muscle', match: 'Pronator_Quadratus' },
+  // Forearm flexors — model names these generically → isolate the compartment.
+  flexor_carpi_radialis:          { kind: 'group', match: 'Flexor_Muscle',  label: 'forearm flexor compartment' },
+  palmaris_longus:                { kind: 'group', match: 'Flexor_Muscle',  label: 'forearm flexor compartment' },
+  flexor_carpi_ulnaris:           { kind: 'group', match: 'Flexor_Muscle',  label: 'forearm flexor compartment' },
+  flexor_digitorum_superficialis: { kind: 'group', match: 'Flexor_Muscle',  label: 'forearm flexor compartment' },
+  flexor_digitorum_profundus:     { kind: 'group', match: 'Flexor_Muscle',  label: 'forearm flexor compartment' },
+  flexor_pollicis_longus:         { kind: 'group', match: 'Flexor_Muscle',  label: 'forearm flexor compartment' },
+  // Forearm extensors — likewise generic → isolate the compartment.
+  extensor_carpi_radialis_longus: { kind: 'group', match: 'Extensor_Muscle', label: 'forearm extensor compartment' },
+  extensor_carpi_radialis_brevis: { kind: 'group', match: 'Extensor_Muscle', label: 'forearm extensor compartment' },
+  extensor_digitorum:             { kind: 'group', match: 'Extensor_Muscle', label: 'forearm extensor compartment' },
+  extensor_digiti_minimi:         { kind: 'group', match: 'Extensor_Muscle', label: 'forearm extensor compartment' },
+  extensor_carpi_ulnaris:         { kind: 'group', match: 'Extensor_Muscle', label: 'forearm extensor compartment' },
+  abductor_pollicis_longus:       { kind: 'group', match: 'Extensor_Muscle', label: 'forearm extensor compartment' },
+  extensor_pollicis_brevis:       { kind: 'group', match: 'Extensor_Muscle', label: 'forearm extensor compartment' },
+  extensor_pollicis_longus:       { kind: 'group', match: 'Extensor_Muscle', label: 'forearm extensor compartment' },
+  extensor_indicis:               { kind: 'group', match: 'Extensor_Muscle', label: 'forearm extensor compartment' },
+  // coracobrachialis, brachialis, anconeus, supinator: not in the model → 2D only.
+};
 
 export const MUSCLES = [
   // ==================== SHOULDER ====================
@@ -498,4 +544,4 @@ export const MUSCLES = [
       { q: 'How can a clinician demonstrate that extensor indicis exists as a distinct muscle from extensor digitorum?', a: 'Ask the patient to make a fist (flexing the other fingers) and then extend only the index finger. Because extensor indicis acts independently of extensor digitorum\'s shared tendon, the index finger can extend on its own while the others stay flexed — a movement that would be far weaker or impossible if extensor digitorum were the only extensor available to that finger.' }
     ]
   },
-].map(m => ({ ...m, sketchfabId: MYOLOGY_ID }));
+].map(m => ({ ...m, mesh3d: MESH_3D[m.id] || null }));

@@ -734,9 +734,21 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text
 .muscle-clinical{margin-top:10px;background:rgba(var(--glow-color),.05);border-left:2px solid var(--accent);border-radius:0 var(--rs) var(--rs) 0;padding:8px 11px}
 .muscle-clinical-label{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:3px}
 .muscle-clinical p{font-family:var(--body);font-size:12px;color:var(--text-dim);line-height:1.55;margin:0}
-.muscle-global-3d-wrap{padding:0 20px 10px;flex-shrink:0}
-#muscle-global-3d{margin-top:8px;border:1px solid rgba(var(--glow-color),.1);border-radius:var(--rs);overflow:hidden}
-.muscle-global-3d-note{font-family:var(--body);font-size:11px;color:var(--text-dim);line-height:1.5;margin:0;padding:8px 10px;background:rgba(var(--glow-color),.03)}
+.muscle-3d-section{padding:0 20px 10px;flex-shrink:0}
+.muscle-3d-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+.muscle-3d-title{font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--text-dim);line-height:1.4}
+.muscle-3d-reset{font-family:var(--mono);font-size:10px;padding:3px 10px;border-radius:4px;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--text-dim);transition:all .15s;flex-shrink:0}
+.muscle-3d-reset:hover{color:var(--text);border-color:var(--border-hover)}
+.muscle-3d-stage{border:1px solid rgba(var(--glow-color),.12);border-radius:var(--rs);position:relative;padding-bottom:56%}
+.muscle-3d-viewer{position:absolute;inset:0}
+.muscle-3d-viewer iframe{width:100%;height:100%;border:none}
+.muscle-3d-status{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;color:var(--text-dim);pointer-events:none;text-align:center;padding:12px}
+.muscle-3d-status:empty{display:none}
+.muscle-3d-caption{font-family:var(--mono);font-size:11px;color:var(--accent);margin-top:6px;min-height:14px;letter-spacing:.02em}
+.muscle-3d-credit{font-family:var(--body);font-size:10px;color:var(--text-dim);opacity:.7;margin:4px 0 0;line-height:1.4}
+.muscle-3d-credit a{color:var(--accent);text-decoration:none}
+.muscle-3d-btn{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:7px 12px;margin-top:10px;border-radius:6px;cursor:pointer;border:1px solid rgba(var(--glow-color),.25);background:rgba(var(--glow-color),.06);color:var(--accent);transition:all .15s;display:inline-block}
+.muscle-3d-btn:hover{background:rgba(var(--glow-color),.14);border-color:rgba(var(--glow-color),.5)}
 .muscle-diagram-wrap{margin-top:10px;border:1px solid rgba(var(--glow-color),.1);border-radius:var(--rs);overflow:hidden}
 .bone-wiki-link{font-family:var(--mono);font-size:10px;color:var(--accent);text-decoration:none;letter-spacing:.05em;opacity:.65;transition:opacity .15s;display:inline-flex;align-items:center;gap:4px}
 .bone-wiki-link:hover{opacity:1}
@@ -2083,14 +2095,17 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
     <div class="bones-search-wrap">
       <input id="muscles-search" class="bones-search" placeholder="Search muscles…" oninput="musclesSearchInput(this.value)">
     </div>
-    <div class="muscle-global-3d-wrap">
-      <button class="bm-open-ts" style="width:auto" onclick="muscleGlobalToggle3D()">⬡ Explore the full 3D muscular model</button>
-      <div id="muscle-global-3d" class="hidden">
-        <p class="muscle-global-3d-note">One shared full-body model (all muscles) — rotate and zoom to find the one you're studying. Each muscle's own diagram below shows exactly where it is and its shape.</p>
-        <div class="bone-3d-ratio">
-          <iframe data-src="https://sketchfab.com/models/31b40fd809b14665b93773936d67c52c/embed?autostart=1&ui_controls=0&ui_infos=0&ui_inspector=0&ui_stop=0&ui_watermark=0&ui_watermark_link=0&preload=1" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen loading="lazy" title="Full muscular system 3D model"></iframe>
-        </div>
+    <div class="muscle-3d-section" id="muscle-3d-section">
+      <div class="muscle-3d-head">
+        <span class="muscle-3d-title">Interactive 3D — tap “Show on 3D model” on any muscle below</span>
+        <button class="muscle-3d-reset" onclick="muscleReset3D()">Show all</button>
       </div>
+      <div class="bone-3d-ratio muscle-3d-stage">
+        <div id="muscle-3d-viewer" class="muscle-3d-viewer"></div>
+        <div id="muscle-3d-status" class="muscle-3d-status">Loading 3D model…</div>
+      </div>
+      <div class="muscle-3d-caption" id="muscle-3d-caption"></div>
+      <p class="muscle-3d-credit">3D model “Muscular &amp; Skeletal System” by <a href="https://sketchfab.com/3d-models/muscular-and-skeletal-system-anatomy-a15b72e769934d6fb1ebb258b9306df4" target="_blank" rel="noopener">ufulio</a> via Sketchfab. Rotate/zoom with your mouse.</p>
     </div>
     <div class="bones-list" id="muscles-list"></div>
   </div>

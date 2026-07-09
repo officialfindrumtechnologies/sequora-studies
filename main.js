@@ -27,7 +27,7 @@ import {
 } from './src/data/friends.js';
 import { BONES, BONE_REGIONS } from './src/data/bones.js';
 import { BONE_DIAGRAMS } from './src/data/bone-diagrams.js';
-import { MUSCLES, MUSCLE_REGIONS } from './src/data/muscles.js';
+import { MUSCLES, MUSCLE_REGIONS, MUSCLE_MODEL_ID, MUSCLE_MODEL_CREDIT } from './src/data/muscles.js';
 import { MUSCLE_DIAGRAMS } from './src/data/muscle-diagrams.js';
 import { getPastPapersForCode, filterIBPapers } from './src/data/past-papers.js';
 import { TOPIC_VISUALS, getTopicVisualsKey } from './src/data/topic-visuals.js';
@@ -5225,12 +5225,14 @@ window.openMusclesModal = function() {
   modal.classList.remove('hidden');
   _renderMusclesRegions();
   _renderMuscles();
+  _init3dViewer();   // warm up the interactive model so it's ready on first click
   const search = document.getElementById('muscles-search');
   if (search) { search.value = ''; search.focus(); }
 };
 
 window.closeMusclesModal = function() {
   document.getElementById('muscles-modal')?.classList.add('hidden');
+  _teardown3d();
 };
 
 // ── Topic Visual Modal ────────────────────────────────────────────────────
@@ -5882,25 +5884,115 @@ window.musclesToggleQa = function(el) {
   el.closest('.bone-qa-item').classList.toggle('open');
 };
 
-// There is exactly ONE 3D model (Z-Anatomy's Myology atlas) shared by every
-// muscle — it is a full-body model, not zoomed to any specific muscle. Giving
-// every muscle card its own "View 3D" button implied 30 different models and
-// was confusing/useless. Now there's a single, honestly-labelled explorer at
-// the top of the modal, and each muscle's own highlight diagram (which IS
-// unique per muscle) is shown immediately in its card — no toggle, no delay.
-window.muscleGlobalToggle3D = function() {
-  const panel = document.getElementById('muscle-global-3d');
-  if (!panel) return;
-  const opening = panel.classList.contains('hidden');
-  panel.classList.toggle('hidden');
-  if (opening) {
-    const iframe = panel.querySelector('iframe');
-    if (iframe && !iframe.dataset.loaded) {
-      iframe.src = iframe.dataset.src;
-      iframe.dataset.loaded = '1';
-    }
-  }
+// ── Interactive 3D muscle viewer (Sketchfab Viewer API) ────────────────────
+// One model, but its muscles are SEPARATE named meshes — so we can isolate any
+// muscle live: hide the other muscles, keep the skeleton for orientation, and
+// the picked muscle stands out in its real anatomical place. Falls back to the
+// 2D diagrams (which stay in every card) if the model/script fails to load.
+let _muscleApi = null;          // Sketchfab API handle once viewer is ready
+let _muscleNodes = [];          // [{ id, name, underMuscles }] geometry leaves
+let _muscle3dState = 'idle';    // idle | loading | ready | failed
+let _muscle3dPending = null;    // isolation requested before viewer was ready
+
+function _loadSketchfabScript() {
+  return new Promise((resolve, reject) => {
+    if (window.Sketchfab) return resolve();
+    const s = document.createElement('script');
+    s.src = 'https://static.sketchfab.com/api/sketchfab-viewer-1.12.1.js';
+    s.onload = () => resolve();
+    s.onerror = () => reject(new Error('sketchfab script failed'));
+    document.head.appendChild(s);
+  });
+}
+
+function _init3dViewer() {
+  if (_muscle3dState !== 'idle') return;
+  _muscle3dState = 'loading';
+  const wrap = document.getElementById('muscle-3d-viewer');
+  const statusEl = document.getElementById('muscle-3d-status');
+  if (!wrap) { _muscle3dState = 'idle'; return; }
+  if (statusEl) statusEl.textContent = 'Loading 3D model…';
+
+  const fail = (msg) => {
+    _muscle3dState = 'failed';
+    if (statusEl) statusEl.textContent = '3D model unavailable — use the diagrams below.';
+    console.warn('[muscle3d]', msg);
+  };
+
+  _loadSketchfabScript().then(() => {
+    const iframe = document.createElement('iframe');
+    iframe.id = 'muscle-3d-iframe';
+    iframe.allow = 'autoplay; fullscreen; xr-spatial-tracking';
+    iframe.style.cssText = 'width:100%;height:100%;border:none';
+    wrap.appendChild(iframe);
+    const client = new window.Sketchfab(iframe);
+    const failTimer = setTimeout(() => fail('viewer timeout'), 30000);
+    client.init(MUSCLE_MODEL_ID, {
+      success: (api) => {
+        api.start();
+        api.addEventListener('viewerready', () => {
+          api.getSceneGraph((err, graph) => {
+            clearTimeout(failTimer);
+            if (err) return fail('scenegraph error');
+            const nodes = [];
+            const walk = (n, underMuscles) => {
+              const um = underMuscles || n.name === 'muscles_folder';
+              if (n.type === 'Geometry') nodes.push({ id: n.instanceID, name: n.name || '', underMuscles: um });
+              (n.children || []).forEach(k => walk(k, um));
+            };
+            walk(graph, false);
+            _muscleApi = api;
+            _muscleNodes = nodes;
+            _muscle3dState = 'ready';
+            if (statusEl) statusEl.textContent = '';
+            if (_muscle3dPending) { const p = _muscle3dPending; _muscle3dPending = null; _isolate3d(p.match, p.label); }
+          });
+        });
+      },
+      error: () => { clearTimeout(failTimer); fail('init error'); },
+    });
+  }).catch(fail);
+}
+
+// Show only the muscle mesh(es) whose name matches `match`, keep the skeleton
+// visible for context, hide every other muscle. `match` is a substring.
+function _isolate3d(match, label) {
+  if (_muscle3dState === 'idle') { _muscle3dPending = { match, label }; _init3dViewer(); return; }
+  if (_muscle3dState === 'loading') { _muscle3dPending = { match, label }; return; }
+  if (_muscle3dState !== 'ready' || !_muscleApi) return;
+  const m = match.toLowerCase();
+  _muscleNodes.forEach(node => {
+    if (!node.underMuscles) return;               // never touch bones
+    const isTarget = node.name.toLowerCase().includes(m);
+    try { isTarget ? _muscleApi.show(node.id) : _muscleApi.hide(node.id); } catch (e) {}
+  });
+  const cap = document.getElementById('muscle-3d-caption');
+  if (cap) cap.textContent = label || '';
+}
+
+function _reset3d() {
+  if (_muscle3dState !== 'ready' || !_muscleApi) return;
+  _muscleNodes.forEach(node => { try { _muscleApi.show(node.id); } catch (e) {} });
+  const cap = document.getElementById('muscle-3d-caption');
+  if (cap) cap.textContent = '';
+}
+
+window.muscleShow3D = function(match, label) {
+  const sec = document.getElementById('muscle-3d-section');
+  if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  _isolate3d(match, label);
 };
+
+window.muscleReset3D = function() { _reset3d(); };
+
+// Reset viewer state when the modal closes so a fresh open re-inits cleanly.
+function _teardown3d() {
+  const iframe = document.getElementById('muscle-3d-iframe');
+  if (iframe) iframe.remove();
+  _muscleApi = null; _muscleNodes = []; _muscle3dState = 'idle'; _muscle3dPending = null;
+  const statusEl = document.getElementById('muscle-3d-status');
+  if (statusEl) statusEl.textContent = '';
+}
 
 function _renderMusclesRegions() {
   const container = document.getElementById('muscles-regions');
@@ -5950,6 +6042,17 @@ function _renderMuscles() {
         <div class="bone-diag-svg">${svg}</div>
       </div>` : '';
 
+    // Real 3D: precise muscles isolate exactly; forearm compartments isolate the
+    // group (honestly labelled); the 4 muscles absent from the model get no button.
+    let show3dBtn = '';
+    if (muscle.mesh3d) {
+      const label = muscle.mesh3d.kind === 'group'
+        ? `Showing the ${muscle.mesh3d.label} (this model doesn't separate them)`
+        : `Showing ${muscle.name} on the skeleton`;
+      const btnText = muscle.mesh3d.kind === 'group' ? '◎ Show compartment in 3D' : '◎ Show on 3D model';
+      show3dBtn = `<button class="muscle-3d-btn" onclick="muscleShow3D('${escapeHtml(muscle.mesh3d.match)}', ${JSON.stringify(label).replace(/"/g, '&quot;')})">${btnText}</button>`;
+    }
+
     const qaHtml = (muscle.questions || []).map(qa => `
       <div class="bone-qa-item">
         <button class="bone-qa-q" onclick="musclesToggleQa(this)">
@@ -5967,6 +6070,7 @@ function _renderMuscles() {
         </div>
         <p class="bone-desc">${escapeHtml(muscle.description)}</p>
         ${diagramHtml}
+        ${show3dBtn}
         <div class="muscle-facts">${factsHtml}</div>
         ${muscle.clinicalCorrelation ? `<div class="muscle-clinical"><span class="muscle-clinical-label">CLINICAL CORRELATION</span><p>${escapeHtml(muscle.clinicalCorrelation)}</p></div>` : ''}
         <div class="bone-qa">
