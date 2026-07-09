@@ -66,17 +66,18 @@ function requiresPro(featureName) {
   return false;
 }
 
-window.showPaywall = function(featureName) {
+window.showPaywall = function(featureName, minTier = 'paid_1') {
   const existing = document.getElementById('sq-paywall-modal');
   if (existing) existing.remove();
   const overlay = document.createElement('div');
   overlay.id = 'sq-paywall-modal';
   overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;padding:20px';
-  const feat = featureName ? `<b style="color:var(--text,#f4ece0)">${featureName}</b> requires Sequora Pro. ` : '';
+  const tierInfo = { paid_1: { label: 'Sequora Basic', price: '149' }, paid_2: { label: 'Sequora Plus', price: '299' }, paid_3: { label: 'Sequora Pro', price: '499' } }[minTier] || { label: 'Sequora Basic', price: '149' };
+  const feat = featureName ? `<b style="color:var(--text,#f4ece0)">${escapeHtml(featureName)}</b> requires ${tierInfo.label}. ` : '';
   overlay.innerHTML = `<div style="background:var(--ink2,#1a1815);border:1px solid var(--border,#332d26);border-radius:12px;padding:28px 32px;max-width:360px;width:100%;text-align:center">
     <div style="font-size:26px;margin-bottom:10px">⭐</div>
-    <div style="font-family:var(--display,'Fraunces',serif);font-size:20px;color:var(--accent,#e8a33d);margin-bottom:8px">Sequora Pro</div>
-    <div style="font-size:14px;color:var(--text-dim,#9b9184);margin-bottom:20px">${feat}Upgrade for <b style="color:var(--text,#f4ece0)">BDT 299/month</b>.</div>
+    <div style="font-family:var(--display,'Fraunces',serif);font-size:20px;color:var(--accent,#e8a33d);margin-bottom:8px">${tierInfo.label}</div>
+    <div style="font-size:14px;color:var(--text-dim,#9b9184);margin-bottom:20px">${feat}Upgrade for <b style="color:var(--text,#f4ece0)">BDT ${tierInfo.price}/month</b>.</div>
     <div style="display:flex;gap:10px;justify-content:center">
       <button id="sq-paywall-upgrade" style="background:var(--accent,#e8a33d);color:#12100e;border:none;border-radius:8px;padding:10px 22px;font-family:var(--mono,'JetBrains Mono',monospace);font-size:13px;font-weight:700;cursor:pointer">Upgrade</button>
       <button id="sq-paywall-close" style="background:transparent;border:1px solid var(--border,#332d26);border-radius:8px;padding:10px 22px;font-family:var(--mono,'JetBrains Mono',monospace);font-size:13px;color:var(--text-dim,#9b9184);cursor:pointer">Maybe later</button>
@@ -4713,7 +4714,7 @@ function _refreshBurgerSwatches(activeKey) {
 
 window.bmSelectTheme = function(key) {
   if (key !== 'ascent' && !isPro()) {
-    setToast('Upgrade to Pro to use ' + (THEMES[key]?.label || key));
+    setToast('Upgrade to unlock ' + (THEMES[key]?.label || key));
     showPaywall(THEMES[key]?.label || key);
     return;
   }
@@ -5543,8 +5544,8 @@ function _pqRenderSummary() {
     const more = _pq.gatedTotal - _pq.questions.length;
     paywallHtml = `<div class="pq-paywall-hint">
       ${more} more question${more !== 1 ? 's' : ''} available for this topic.
-      Upgrade to Pro for unlimited practice + AI-generated questions.
-      <button class="pq-upgrade-btn" onclick="closePracticeModal();showPaywall('Practice Questions')">Upgrade to Pro</button>
+      Upgrade for unlimited practice + AI-generated questions.
+      <button class="pq-upgrade-btn" onclick="closePracticeModal();showPaywall('Practice Questions')">Upgrade</button>
     </div>`;
   }
   const noteHtml = hasStructured
@@ -6275,10 +6276,10 @@ async function bibFindCitations() {
     return;
   }
 
-  // Mode B: API fallback
-  if (!isPro()) {
+  // Mode B: API fallback — Pro-only, matches server-side gate in api/find-sources.js
+  if (userTier !== 'paid_3') {
     const errEl = document.getElementById('cit-error');
-    errEl.innerHTML = 'Upgrade to Pro to use AI Web Grounding <a href="#" onclick="showPaywall(\'Sequora Citation AI\'); return false;" style="color:var(--accent);text-decoration:underline;">Upgrade</a>';
+    errEl.innerHTML = 'Upgrade to Pro to use AI Web Grounding <a href="#" onclick="showPaywall(\'Sequora Citation AI\', \'paid_3\'); return false;" style="color:var(--accent);text-decoration:underline;">Upgrade</a>';
     errEl.style.display = 'block';
     return;
   }
