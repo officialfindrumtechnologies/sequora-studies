@@ -6053,7 +6053,7 @@ function _renderMuscles() {
     if (muscle.mesh3d) {
       const label = muscle.mesh3d.kind === 'group'
         ? `Showing the ${muscle.mesh3d.label} (this model doesn't separate them)`
-        : `Showing ${muscle.name} on the skeleton`;
+        : `${muscle.name} — isolated in 3D (rotate to view)`;
       const btnText = muscle.mesh3d.kind === 'group' ? '◎ Show compartment in 3D' : '◎ Show on 3D model';
       show3dBtn = `<button class="muscle-3d-btn" onclick="muscleShow3D('${escapeHtml(muscle.mesh3d.match)}', ${JSON.stringify(label).replace(/"/g, '&quot;')})">${btnText}</button>`;
     }
