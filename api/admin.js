@@ -200,11 +200,13 @@ export default async function handler(req, res) {
     const today = todayStr();
     const monthStart = monthStartISO(0);
 
-    const [usersRes, paidRes, pendingRes, activeTodayRes, geminiRes, revRes] = await Promise.all([
+    const [usersRes, paidRes, pendingTrxRes, activeTodayRes, geminiRes, revRes] = await Promise.all([
       // Total users = all profiles (not subscriptions — users without subscription rows are still users)
       adminSb.from('profiles').select('*', { count: 'exact', head: true }),
       adminSb.from('subscriptions').select('*', { count: 'exact', head: true }).neq('tier', 'free').eq('status', 'active'),
-      adminSb.from('subscriptions').select('*', { count: 'exact', head: true }).not('bkash_trx_id', 'is', null).neq('status', 'active'),
+      // status defaults to 'active' for every user regardless of payment — a submitted
+      // TrxID is "pending" when it hasn't been activated yet, or was resubmitted after activation
+      adminSb.from('subscriptions').select('activated_at, bkash_submitted_at').not('bkash_trx_id', 'is', null),
       // Active today = distinct users with a session today (study_date is a date string 'YYYY-MM-DD')
       adminSb.from('sessions').select('user_id').eq('study_date', today),
       adminSb.from('api_usage_counters').select('count').eq('counter_key', 'gemini_grounded_search').eq('reset_date', today).maybeSingle(),
@@ -212,6 +214,8 @@ export default async function handler(req, res) {
     ]);
 
     const activeToday = new Set((activeTodayRes.data || []).map(s => s.user_id)).size;
+    const pendingTrxCount = (pendingTrxRes.data || [])
+      .filter(s => !s.activated_at || s.bkash_submitted_at > s.activated_at).length;
 
     // errors today — graceful if table missing or logged_at column absent
     let errorsToday = 0;
@@ -239,7 +243,7 @@ export default async function handler(req, res) {
     return res.status(200).json({
       totalUsers: usersRes.count || 0,
       paidActive: paidRes.count || 0,
-      pendingTrx: pendingRes.count || 0,
+      pendingTrx: pendingTrxCount,
       activeToday,
       totalStudyHours,
       geminiToday: geminiRes.data?.count || 0,
@@ -342,13 +346,15 @@ export default async function handler(req, res) {
       });
     }
 
-    // Pending payments
-    const { data: pendingData } = await adminSb
+    // Pending payments — status defaults to 'active' for every user regardless of payment,
+    // so a submitted TrxID is "pending" when unactivated, or resubmitted after activation
+    const { data: pendingRaw } = await adminSb
       .from('subscriptions')
-      .select('user_id, bkash_trx_id, bkash_amount, bkash_submitted_at, notes')
+      .select('user_id, bkash_trx_id, bkash_amount, bkash_submitted_at, activated_at, notes')
       .not('bkash_trx_id', 'is', null)
-      .neq('status', 'active')
       .order('bkash_submitted_at', { ascending: false });
+
+    const pendingData = (pendingRaw || []).filter(s => !s.activated_at || s.bkash_submitted_at > s.activated_at);
 
     const pendingUserIds = [...new Set((pendingData || []).map(p => p.user_id))];
     const pendingEmails = await emailMap(adminSb, pendingUserIds);
