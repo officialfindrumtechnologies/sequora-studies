@@ -5882,68 +5882,25 @@ window.musclesToggleQa = function(el) {
   el.closest('.bone-qa-item').classList.toggle('open');
 };
 
-window.musclesToggle3D = function(muscleId) {
-  const panel = document.getElementById('muscle-3d-' + muscleId);
+// There is exactly ONE 3D model (Z-Anatomy's Myology atlas) shared by every
+// muscle — it is a full-body model, not zoomed to any specific muscle. Giving
+// every muscle card its own "View 3D" button implied 30 different models and
+// was confusing/useless. Now there's a single, honestly-labelled explorer at
+// the top of the modal, and each muscle's own highlight diagram (which IS
+// unique per muscle) is shown immediately in its card — no toggle, no delay.
+window.muscleGlobalToggle3D = function() {
+  const panel = document.getElementById('muscle-global-3d');
   if (!panel) return;
-  const opening = !panel.classList.contains('open');
-  panel.classList.toggle('open');
+  const opening = panel.classList.contains('hidden');
+  panel.classList.toggle('hidden');
   if (opening) {
     const iframe = panel.querySelector('iframe');
     if (iframe && !iframe.dataset.loaded) {
       iframe.src = iframe.dataset.src;
       iframe.dataset.loaded = '1';
     }
-    musclesShowIframe(muscleId);
   }
 };
-
-window.musclesHighlightMuscle = function(muscleId) {
-  const panel = document.getElementById('muscle-3d-' + muscleId);
-  if (!panel || !panel.classList.contains('open')) {
-    musclesToggle3D(muscleId);
-    setTimeout(() => _showMuscleDiagram(muscleId), 350);
-    return;
-  }
-  _showMuscleDiagram(muscleId);
-};
-
-window.musclesShowIframe = function(muscleId) {
-  const diagramEl = document.getElementById('muscle-diag-' + muscleId);
-  const ratioEl   = document.getElementById('muscle-ratio-' + muscleId);
-  const hlBtn     = document.getElementById('muscle-hlbtn-' + muscleId);
-  const v3dBtn    = document.querySelector(`[data-mv3dbtn="${muscleId}"]`);
-  if (diagramEl)  diagramEl.classList.add('hidden');
-  if (ratioEl)    ratioEl.classList.remove('hidden');
-  if (hlBtn)      hlBtn.classList.remove('hidden');
-  if (v3dBtn)     v3dBtn.classList.remove('hidden');
-};
-
-function _showMuscleDiagram(muscleId) {
-  const diagramEl = document.getElementById('muscle-diag-' + muscleId);
-  const ratioEl   = document.getElementById('muscle-ratio-' + muscleId);
-  const hlBtn     = document.getElementById('muscle-hlbtn-' + muscleId);
-  const v3dBtn    = document.querySelector(`[data-mv3dbtn="${muscleId}"]`);
-  const muscle    = MUSCLES.find(m => m.id === muscleId);
-  if (!diagramEl || !ratioEl || !muscle) return;
-
-  const svg = MUSCLE_DIAGRAMS[muscleId];
-  if (!svg) return;
-
-  diagramEl.innerHTML = `
-    <div class="bone-diag-svg">${svg}</div>
-    <div class="bone-diag-caption">
-      <span class="bone-diag-name">${escapeHtml(muscle.name)}</span>
-      <span class="bone-diag-hint">${escapeHtml(muscle.region)}</span>
-    </div>
-    <div class="bone-diag-back-row">
-      <button class="bone-diag-back" onclick="musclesShowIframe('${muscleId}')">⬡ View Full 3D Model →</button>
-    </div>`;
-
-  ratioEl.classList.add('hidden');
-  diagramEl.classList.remove('hidden');
-  if (hlBtn)  hlBtn.classList.add('hidden');
-  if (v3dBtn) v3dBtn.classList.add('hidden');
-}
 
 function _renderMusclesRegions() {
   const container = document.getElementById('muscles-regions');
@@ -5975,11 +5932,7 @@ function _renderMuscles() {
   }
 
   list.innerHTML = filtered.map(muscle => {
-    const has3d = !!muscle.sketchfabId;
-    const hasHighlight = has3d && !!MUSCLE_DIAGRAMS[muscle.id];
-    const embedUrl = has3d
-      ? `https://sketchfab.com/models/${muscle.sketchfabId}/embed?autostart=1&ui_controls=0&ui_infos=0&ui_inspector=0&ui_stop=0&ui_watermark=0&ui_watermark_link=0&preload=1`
-      : '';
+    const svg = MUSCLE_DIAGRAMS[muscle.id];
 
     const factRows = [
       ['Origin', muscle.origin],
@@ -5992,15 +5945,9 @@ function _renderMuscles() {
       <div class="muscle-fact-row"><span class="muscle-fact-label">${escapeHtml(label)}</span><span class="muscle-fact-val">${escapeHtml(val)}</span></div>
     `).join('');
 
-    const viewer3d = has3d ? `
-      <div class="bone-3d-panel" id="muscle-3d-${muscle.id}">
-        <div class="bone-diag-panel hidden" id="muscle-diag-${muscle.id}"></div>
-        <div class="bone-3d-ratio" id="muscle-ratio-${muscle.id}">
-          <iframe data-src="${embedUrl}" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen loading="lazy" title="${escapeHtml(muscle.name)} 3D model"></iframe>
-        </div>
-        <div class="bone-3d-close-row">
-          <button class="bone-3d-close" onclick="musclesToggle3D('${muscle.id}')">✕ Close</button>
-        </div>
+    const diagramHtml = svg ? `
+      <div class="muscle-diagram-wrap">
+        <div class="bone-diag-svg">${svg}</div>
       </div>` : '';
 
     const qaHtml = (muscle.questions || []).map(qa => `
@@ -6019,13 +5966,9 @@ function _renderMuscles() {
           ${_musclesRegion === 'All' ? `<span class="bone-region-tag">${escapeHtml(muscle.region)}</span>` : ''}
         </div>
         <p class="bone-desc">${escapeHtml(muscle.description)}</p>
+        ${diagramHtml}
         <div class="muscle-facts">${factsHtml}</div>
         ${muscle.clinicalCorrelation ? `<div class="muscle-clinical"><span class="muscle-clinical-label">CLINICAL CORRELATION</span><p>${escapeHtml(muscle.clinicalCorrelation)}</p></div>` : ''}
-        ${viewer3d}
-        <div class="bone-links-row">
-          ${has3d ? `<button class="bone-3d-btn" data-mv3dbtn="${muscle.id}" onclick="musclesToggle3D('${muscle.id}')">⬡ View 3D</button>` : ''}
-          ${hasHighlight ? `<button class="bone-hl-btn" id="muscle-hlbtn-${muscle.id}" onclick="musclesHighlightMuscle('${muscle.id}')">◎ Highlight Muscle →</button>` : ''}
-        </div>
         <div class="bone-qa">
           <div class="bone-qa-label">PRACTICE QUESTIONS</div>
           ${qaHtml}
