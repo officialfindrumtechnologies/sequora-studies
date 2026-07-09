@@ -27,6 +27,8 @@ import {
 } from './src/data/friends.js';
 import { BONES, BONE_REGIONS } from './src/data/bones.js';
 import { BONE_DIAGRAMS } from './src/data/bone-diagrams.js';
+import { MUSCLES, MUSCLE_REGIONS } from './src/data/muscles.js';
+import { MUSCLE_DIAGRAMS } from './src/data/muscle-diagrams.js';
 import { getPastPapersForCode, filterIBPapers } from './src/data/past-papers.js';
 import { TOPIC_VISUALS, getTopicVisualsKey } from './src/data/topic-visuals.js';
 import { TOPIC_SVGS as CAM_SVGS } from './src/data/topic-svgs-igcse-cambridge.js';
@@ -4542,6 +4544,8 @@ let _lbSearchTimer = null;
 
 let _bonesRegion = 'All';
 let _bonesQuery = '';
+let _musclesRegion = 'All';
+let _musclesQuery = '';
 
 function toggleBurgerMenu() {
   const menu = document.getElementById('burger-menu');
@@ -5193,6 +5197,7 @@ function _bmAnatomyHtml(prof) {
   return `
     <div class="bm-section-label">Anatomy</div>
     <button class="bm-open-ts" onclick="closeBurgerMenu();openBonesModal()">Bones Reference</button>
+    <button class="bm-open-ts" onclick="closeBurgerMenu();openMusclesModal()">Muscles Reference</button>
   `;
 }
 
@@ -5210,6 +5215,22 @@ window.openBonesModal = function() {
 
 window.closeBonesModal = function() {
   document.getElementById('bones-modal')?.classList.add('hidden');
+};
+
+window.openMusclesModal = function() {
+  _musclesRegion = 'All';
+  _musclesQuery = '';
+  const modal = document.getElementById('muscles-modal');
+  if (!modal) return;
+  modal.classList.remove('hidden');
+  _renderMusclesRegions();
+  _renderMuscles();
+  const search = document.getElementById('muscles-search');
+  if (search) { search.value = ''; search.focus(); }
+};
+
+window.closeMusclesModal = function() {
+  document.getElementById('muscles-modal')?.classList.add('hidden');
 };
 
 // ── Topic Visual Modal ────────────────────────────────────────────────────
@@ -5839,6 +5860,175 @@ function _renderBones() {
         <div class="bone-qa">
           <div class="bone-qa-label">EXAM QUESTIONS</div>
           ${qaGroupsHtml}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+/* ============ muscles modal ============ */
+
+window.musclesSearchInput = function(q) {
+  _musclesQuery = q.toLowerCase().trim();
+  _renderMuscles();
+};
+
+window.musclesSetRegion = function(region) {
+  _musclesRegion = region;
+  _renderMusclesRegions();
+  _renderMuscles();
+};
+
+window.musclesToggleQa = function(el) {
+  el.closest('.bone-qa-item').classList.toggle('open');
+};
+
+window.musclesToggle3D = function(muscleId) {
+  const panel = document.getElementById('muscle-3d-' + muscleId);
+  if (!panel) return;
+  const opening = !panel.classList.contains('open');
+  panel.classList.toggle('open');
+  if (opening) {
+    const iframe = panel.querySelector('iframe');
+    if (iframe && !iframe.dataset.loaded) {
+      iframe.src = iframe.dataset.src;
+      iframe.dataset.loaded = '1';
+    }
+    musclesShowIframe(muscleId);
+  }
+};
+
+window.musclesHighlightMuscle = function(muscleId) {
+  const panel = document.getElementById('muscle-3d-' + muscleId);
+  if (!panel || !panel.classList.contains('open')) {
+    musclesToggle3D(muscleId);
+    setTimeout(() => _showMuscleDiagram(muscleId), 350);
+    return;
+  }
+  _showMuscleDiagram(muscleId);
+};
+
+window.musclesShowIframe = function(muscleId) {
+  const diagramEl = document.getElementById('muscle-diag-' + muscleId);
+  const ratioEl   = document.getElementById('muscle-ratio-' + muscleId);
+  const hlBtn     = document.getElementById('muscle-hlbtn-' + muscleId);
+  const v3dBtn    = document.querySelector(`[data-mv3dbtn="${muscleId}"]`);
+  if (diagramEl)  diagramEl.classList.add('hidden');
+  if (ratioEl)    ratioEl.classList.remove('hidden');
+  if (hlBtn)      hlBtn.classList.remove('hidden');
+  if (v3dBtn)     v3dBtn.classList.remove('hidden');
+};
+
+function _showMuscleDiagram(muscleId) {
+  const diagramEl = document.getElementById('muscle-diag-' + muscleId);
+  const ratioEl   = document.getElementById('muscle-ratio-' + muscleId);
+  const hlBtn     = document.getElementById('muscle-hlbtn-' + muscleId);
+  const v3dBtn    = document.querySelector(`[data-mv3dbtn="${muscleId}"]`);
+  const muscle    = MUSCLES.find(m => m.id === muscleId);
+  if (!diagramEl || !ratioEl || !muscle) return;
+
+  const svg = MUSCLE_DIAGRAMS[muscleId];
+  if (!svg) return;
+
+  diagramEl.innerHTML = `
+    <div class="bone-diag-svg">${svg}</div>
+    <div class="bone-diag-caption">
+      <span class="bone-diag-name">${escapeHtml(muscle.name)}</span>
+      <span class="bone-diag-hint">${escapeHtml(muscle.region)}</span>
+    </div>
+    <div class="bone-diag-back-row">
+      <button class="bone-diag-back" onclick="musclesShowIframe('${muscleId}')">⬡ View Full 3D Model →</button>
+    </div>`;
+
+  ratioEl.classList.add('hidden');
+  diagramEl.classList.remove('hidden');
+  if (hlBtn)  hlBtn.classList.add('hidden');
+  if (v3dBtn) v3dBtn.classList.add('hidden');
+}
+
+function _renderMusclesRegions() {
+  const container = document.getElementById('muscles-regions');
+  if (!container) return;
+  container.innerHTML = MUSCLE_REGIONS.map(r =>
+    `<button class="bones-rtab${r === _musclesRegion ? ' active' : ''}" onclick="musclesSetRegion('${escapeHtml(r)}')">${escapeHtml(r)}</button>`
+  ).join('');
+}
+
+function _renderMuscles() {
+  const list = document.getElementById('muscles-list');
+  if (!list) return;
+
+  let filtered = MUSCLES;
+  if (_musclesRegion !== 'All') {
+    filtered = filtered.filter(m => m.region === _musclesRegion);
+  }
+  if (_musclesQuery) {
+    filtered = filtered.filter(m =>
+      m.name.toLowerCase().includes(_musclesQuery) ||
+      m.description.toLowerCase().includes(_musclesQuery) ||
+      (m.questions || []).some(qa => qa.q.toLowerCase().includes(_musclesQuery) || qa.a.toLowerCase().includes(_musclesQuery))
+    );
+  }
+
+  if (!filtered.length) {
+    list.innerHTML = `<div class="bones-empty">No muscles found</div>`;
+    return;
+  }
+
+  list.innerHTML = filtered.map(muscle => {
+    const has3d = !!muscle.sketchfabId;
+    const hasHighlight = has3d && !!MUSCLE_DIAGRAMS[muscle.id];
+    const embedUrl = has3d
+      ? `https://sketchfab.com/models/${muscle.sketchfabId}/embed?autostart=1&ui_controls=0&ui_infos=0&ui_inspector=0&ui_stop=0&ui_watermark=0&ui_watermark_link=0&preload=1`
+      : '';
+
+    const factRows = [
+      ['Origin', muscle.origin],
+      ['Insertion', muscle.insertion],
+      ['Action', muscle.action],
+      ['Nerve', muscle.nerve],
+      ['Artery', muscle.artery],
+    ].filter(([, v]) => v);
+    const factsHtml = factRows.map(([label, val]) => `
+      <div class="muscle-fact-row"><span class="muscle-fact-label">${escapeHtml(label)}</span><span class="muscle-fact-val">${escapeHtml(val)}</span></div>
+    `).join('');
+
+    const viewer3d = has3d ? `
+      <div class="bone-3d-panel" id="muscle-3d-${muscle.id}">
+        <div class="bone-diag-panel hidden" id="muscle-diag-${muscle.id}"></div>
+        <div class="bone-3d-ratio" id="muscle-ratio-${muscle.id}">
+          <iframe data-src="${embedUrl}" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen loading="lazy" title="${escapeHtml(muscle.name)} 3D model"></iframe>
+        </div>
+        <div class="bone-3d-close-row">
+          <button class="bone-3d-close" onclick="musclesToggle3D('${muscle.id}')">✕ Close</button>
+        </div>
+      </div>` : '';
+
+    const qaHtml = (muscle.questions || []).map(qa => `
+      <div class="bone-qa-item">
+        <button class="bone-qa-q" onclick="musclesToggleQa(this)">
+          <span class="bone-qa-q-inner"><span class="bone-qa-q-text">${escapeHtml(qa.q)}</span></span>
+          <span class="bone-qa-chevron">▼</span>
+        </button>
+        <div class="bone-qa-a">${escapeHtml(qa.a)}</div>
+      </div>`).join('');
+
+    return `
+      <div class="bone-card">
+        <div class="bone-card-head">
+          <h3 class="bone-name">${escapeHtml(muscle.name)}</h3>
+          ${_musclesRegion === 'All' ? `<span class="bone-region-tag">${escapeHtml(muscle.region)}</span>` : ''}
+        </div>
+        <p class="bone-desc">${escapeHtml(muscle.description)}</p>
+        <div class="muscle-facts">${factsHtml}</div>
+        ${muscle.clinicalCorrelation ? `<div class="muscle-clinical"><span class="muscle-clinical-label">CLINICAL CORRELATION</span><p>${escapeHtml(muscle.clinicalCorrelation)}</p></div>` : ''}
+        ${viewer3d}
+        <div class="bone-links-row">
+          ${has3d ? `<button class="bone-3d-btn" data-mv3dbtn="${muscle.id}" onclick="musclesToggle3D('${muscle.id}')">⬡ View 3D</button>` : ''}
+          ${hasHighlight ? `<button class="bone-hl-btn" id="muscle-hlbtn-${muscle.id}" onclick="musclesHighlightMuscle('${muscle.id}')">◎ Highlight Muscle →</button>` : ''}
+        </div>
+        <div class="bone-qa">
+          <div class="bone-qa-label">PRACTICE QUESTIONS</div>
+          ${qaHtml}
         </div>
       </div>`;
   }).join('');
