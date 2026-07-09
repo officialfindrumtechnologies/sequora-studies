@@ -105,6 +105,8 @@ export default defineConfig({
         main: 'index.html',   // landing page — served at /
         app: 'app.html',      // study app — served at /app
         admin: 'admin.html',
+        terms: 'terms.html',
+        privacy: 'privacy.html',
       }
     }
   }
