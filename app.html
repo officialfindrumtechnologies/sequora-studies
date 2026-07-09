@@ -63,6 +63,7 @@ nav button.active{color:var(--text);border-bottom-color:var(--accent);font-weigh
 
 /* ---------- cards & grid ---------- */
 .grid{display:grid;gap:16px}
+.grid>*{min-width:0}
 .g3{grid-template-columns:repeat(3,1fr)} .g2{grid-template-columns:repeat(2,1fr)}
 .g-hero{grid-template-columns:1.4fr 1fr}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:24px;position:relative;overflow:hidden}
