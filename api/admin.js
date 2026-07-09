@@ -69,6 +69,8 @@ export default async function handler(req, res) {
   }
 
   // Restrict write actions based on admin role (RBAC)
+  // Fail closed: any role other than these three known values gets no
+  // write access at all, rather than silently falling through unrestricted.
   if (req.method === 'POST') {
     if (role === 'editor') {
       const billingActions = new Set(['activate', 'change_tier', 'dismiss_trx', 'simulate_bkash_payment']);
@@ -83,6 +85,8 @@ export default async function handler(req, res) {
       if (contentActions.has(action)) {
         return res.status(403).json({ error: 'Unauthorized: Support agents cannot modify content or announcements' });
       }
+    } else if (role !== 'super_admin') {
+      return res.status(403).json({ error: 'Unauthorized: unrecognized admin role' });
     }
   }
 
