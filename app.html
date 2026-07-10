@@ -735,6 +735,38 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text
 .muscle-clinical{margin-top:10px;background:rgba(var(--glow-color),.05);border-left:2px solid var(--accent);border-radius:0 var(--rs) var(--rs) 0;padding:8px 11px}
 .muscle-clinical-label{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:3px}
 .muscle-clinical p{font-family:var(--body);font-size:12px;color:var(--text-dim);line-height:1.55;margin:0}
+/* mode bar */
+.muscle-mode-bar{display:flex;gap:6px;padding:10px 20px 0;flex-shrink:0}
+.muscle-mode-btn{flex:1;font-family:var(--mono);font-size:11px;letter-spacing:.04em;padding:8px 10px;border-radius:6px;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--text-dim);transition:all .15s}
+.muscle-mode-btn:hover{color:var(--text);border-color:var(--border-hover)}
+.muscle-mode-btn.active{background:rgba(var(--glow-color),.12);border-color:rgba(var(--glow-color),.4);color:var(--accent)}
+/* recall reveal */
+.muscle-reveal{cursor:pointer;filter:blur(5px);border-radius:3px;background:rgba(var(--glow-color),.06);transition:filter .12s;user-select:none}
+.muscle-reveal::after{content:"";}
+.muscle-reveal:hover{background:rgba(var(--glow-color),.12)}
+.muscle-reveal.shown{filter:none;cursor:default;background:transparent;user-select:text}
+/* quiz */
+.mq-wrap{display:flex;flex-direction:column;gap:14px;padding:6px 2px}
+.mq-progress{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim)}
+.mq-prompt{font-family:var(--body);font-size:16px;font-weight:600;color:var(--text);line-height:1.4}
+.mq-options{display:flex;flex-direction:column;gap:8px}
+.mq-opt{text-align:left;font-family:var(--body);font-size:13px;color:var(--text);background:rgba(var(--glow-color),.04);border:1px solid rgba(var(--glow-color),.12);border-radius:8px;padding:11px 13px;cursor:pointer;transition:all .12s;line-height:1.4}
+.mq-opt:hover:not(:disabled){background:rgba(var(--glow-color),.1);border-color:rgba(var(--glow-color),.3)}
+.mq-opt:disabled{cursor:default}
+.mq-opt.correct{background:rgba(127,174,111,.16);border-color:rgba(127,174,111,.6);color:var(--text)}
+.mq-opt.wrong{background:rgba(207,106,85,.14);border-color:rgba(207,106,85,.55)}
+.mq-feedback{font-family:var(--mono);font-size:12px;min-height:16px}
+.mq-feedback.ok{color:var(--green,#7fae6f)}
+.mq-feedback.no{color:var(--red,#cf6a55)}
+.mq-btn{font-family:var(--mono);font-size:12px;padding:9px 16px;border-radius:6px;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--text-dim);transition:all .15s;align-self:flex-start}
+.mq-btn:hover{color:var(--text);border-color:var(--border-hover)}
+.mq-btn.primary{background:var(--accent);border-color:var(--accent);color:var(--ink,#0b0b0d);font-weight:700}
+.mq-btn.hidden{display:none}
+.mq-done{display:flex;flex-direction:column;align-items:center;gap:10px;padding:30px 20px;text-align:center}
+.mq-done-score{font-family:var(--display,var(--body));font-size:40px;font-weight:700;color:var(--accent)}
+.mq-done-pct{font-family:var(--mono);font-size:13px;color:var(--text-dim)}
+.mq-done-msg{font-family:var(--body);font-size:13px;color:var(--text-dim);max-width:340px;line-height:1.5;margin:4px 0 8px}
+.mq-done .mq-btn{align-self:center}
 .muscle-3d-section{flex-shrink:0}
 .muscle-3d-head{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;background:rgba(var(--glow-color),.04);border:1px solid rgba(var(--glow-color),.1);border-radius:var(--rs);padding:9px 12px;cursor:pointer;transition:background .15s}
 .muscle-3d-head:hover{background:rgba(var(--glow-color),.08)}
@@ -2097,6 +2129,7 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
       </div>
       <button class="lb-close" onclick="closeMusclesModal()">✕</button>
     </div>
+    <div class="muscle-mode-bar" id="muscle-mode-bar"></div>
     <div class="bones-regions" id="muscles-regions"></div>
     <div class="bones-search-wrap">
       <input id="muscles-search" class="bones-search" placeholder="Search muscles…" oninput="musclesSearchInput(this.value)">

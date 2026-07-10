@@ -4546,6 +4546,9 @@ let _bonesRegion = 'All';
 let _bonesQuery = '';
 let _musclesRegion = 'All';
 let _musclesQuery = '';
+let _muscleMode = 'learn';   // learn | recall | quiz
+// Quiz state (client-only; questions generated from the MUSCLES dataset).
+let _quiz = { questions: [], idx: 0, score: 0, answered: false };
 
 function toggleBurgerMenu() {
   const menu = document.getElementById('burger-menu');
@@ -5220,10 +5223,13 @@ window.closeBonesModal = function() {
 window.openMusclesModal = function() {
   _musclesRegion = 'All';
   _musclesQuery = '';
+  _muscleMode = 'learn';
   const modal = document.getElementById('muscles-modal');
   if (!modal) return;
   modal.classList.remove('hidden');
+  _renderMuscleModeBar();
   _renderMusclesRegions();
+  _applyMuscleModeUI();
   _renderMuscles();
   // Don't pre-warm the 3D viewer here — initializing it several async ticks
   // away from an actual click loses the browser's "user gesture" window, so
@@ -5232,6 +5238,42 @@ window.openMusclesModal = function() {
   // (the collapse toggle or a muscle's "Show on 3D model" button) instead.
   const search = document.getElementById('muscles-search');
   if (search) { search.value = ''; search.focus(); }
+};
+
+const MUSCLE_MODES = [
+  { key: 'learn',  label: '📖 Learn' },
+  { key: 'recall', label: '🎴 Recall' },
+  { key: 'quiz',   label: '❓ Quiz' },
+];
+
+function _renderMuscleModeBar() {
+  const bar = document.getElementById('muscle-mode-bar');
+  if (!bar) return;
+  bar.innerHTML = MUSCLE_MODES.map(m =>
+    `<button class="muscle-mode-btn${m.key === _muscleMode ? ' active' : ''}" onclick="muscleSetMode('${m.key}')">${m.label}</button>`
+  ).join('');
+}
+
+// Show/hide the search box, region tabs and 3D section depending on mode.
+// Recall reuses the same card list (just covers the facts); Quiz replaces the
+// list with the quiz panel and hides the reference-only chrome.
+function _applyMuscleModeUI() {
+  const isQuiz = _muscleMode === 'quiz';
+  const searchWrap = document.getElementById('muscles-search')?.closest('.bones-search-wrap');
+  const regions = document.getElementById('muscles-regions');
+  const sec3d = document.getElementById('muscle-3d-section');
+  if (searchWrap) searchWrap.style.display = isQuiz ? 'none' : '';
+  if (regions) regions.style.display = isQuiz ? 'none' : '';
+  if (sec3d) sec3d.style.display = isQuiz ? 'none' : '';
+}
+
+window.muscleSetMode = function(mode) {
+  if (!MUSCLE_MODES.some(m => m.key === mode)) return;
+  _muscleMode = mode;
+  _renderMuscleModeBar();
+  _applyMuscleModeUI();
+  if (mode === 'quiz') { _buildQuiz(); _renderQuiz(); }
+  else { _renderMuscles(); }
 };
 
 window.closeMusclesModal = function() {
@@ -6087,6 +6129,7 @@ function _renderMuscles() {
   list.innerHTML = filtered.map(muscle => {
     const svg = MUSCLE_DIAGRAMS[muscle.id];
 
+    const recall = _muscleMode === 'recall';
     const factRows = [
       ['Origin', muscle.origin],
       ['Insertion', muscle.insertion],
@@ -6094,8 +6137,14 @@ function _renderMuscles() {
       ['Nerve', muscle.nerve],
       ['Artery', muscle.artery],
     ].filter(([, v]) => v);
+    // In recall mode the values are hidden behind a blur until tapped — active
+    // recall: try to answer from the label before revealing.
     const factsHtml = factRows.map(([label, val]) => `
-      <div class="muscle-fact-row"><span class="muscle-fact-label">${escapeHtml(label)}</span><span class="muscle-fact-val">${escapeHtml(val)}</span></div>
+      <div class="muscle-fact-row"><span class="muscle-fact-label">${escapeHtml(label)}</span>${
+        recall
+          ? `<span class="muscle-fact-val muscle-reveal" onclick="this.classList.add('shown')" title="Tap to reveal">${escapeHtml(val)}</span>`
+          : `<span class="muscle-fact-val">${escapeHtml(val)}</span>`
+      }</div>
     `).join('');
 
     const diagramHtml = svg ? `
@@ -6133,7 +6182,7 @@ function _renderMuscles() {
         ${diagramHtml}
         ${show3dBtn}
         <div class="muscle-facts">${factsHtml}</div>
-        ${muscle.clinicalCorrelation ? `<div class="muscle-clinical"><span class="muscle-clinical-label">CLINICAL CORRELATION</span><p>${escapeHtml(muscle.clinicalCorrelation)}</p></div>` : ''}
+        ${muscle.clinicalCorrelation ? `<div class="muscle-clinical"><span class="muscle-clinical-label">CLINICAL CORRELATION</span><p${recall ? ' class="muscle-reveal" onclick="this.classList.add(\'shown\')" title="Tap to reveal"' : ''}>${escapeHtml(muscle.clinicalCorrelation)}</p></div>` : ''}
         <div class="bone-qa">
           <div class="bone-qa-label">PRACTICE QUESTIONS</div>
           ${qaHtml}
@@ -6141,6 +6190,115 @@ function _renderMuscles() {
       </div>`;
   }).join('');
 }
+
+/* ============ muscle quiz (client-only MCQs from the dataset) ============ */
+
+function _shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// Build one MCQ: ask `field` of a muscle, pull 3 distractors from other muscles'
+// same field (deduped, never equal to the correct answer). Returns null if not
+// enough distinct distractors exist.
+function _quizQ(muscle, field, prompt) {
+  const correct = muscle[field];
+  if (!correct) return null;
+  const pool = [...new Set(
+    MUSCLES.filter(m => m.id !== muscle.id && m[field] && m[field] !== correct).map(m => m[field])
+  )];
+  if (pool.length < 3) return null;
+  const distractors = _shuffle(pool).slice(0, 3);
+  const options = _shuffle([correct, ...distractors]);
+  return {
+    prompt: prompt.replace('{name}', muscle.name),
+    options,
+    correct: options.indexOf(correct),
+  };
+}
+
+function _buildQuiz() {
+  const specs = [
+    ['nerve',     'Nerve supply of the {name}?'],
+    ['action',    'Main action of the {name}?'],
+    ['origin',    'Origin of the {name}?'],
+    ['insertion', 'Insertion of the {name}?'],
+  ];
+  const pool = [];
+  MUSCLES.forEach(m => {
+    specs.forEach(([field, prompt]) => {
+      const q = _quizQ(m, field, prompt);
+      if (q) pool.push(q);
+    });
+  });
+  _quiz = { questions: _shuffle(pool).slice(0, 12), idx: 0, score: 0, answered: false };
+}
+
+function _renderQuiz() {
+  const list = document.getElementById('muscles-list');
+  if (!list) return;
+  const q = _quiz.questions[_quiz.idx];
+
+  if (!q) {
+    const total = _quiz.questions.length;
+    const pct = total ? Math.round((_quiz.score / total) * 100) : 0;
+    list.innerHTML = `
+      <div class="mq-done">
+        <div class="mq-done-score">${_quiz.score} / ${total}</div>
+        <div class="mq-done-pct">${pct}%</div>
+        <p class="mq-done-msg">${pct >= 80 ? 'Strong — you know these cold.' : pct >= 50 ? 'Getting there — review the ones you missed.' : 'Worth another pass in Learn mode, then retry.'}</p>
+        <button class="mq-btn primary" onclick="muscleQuizRestart()">↻ New quiz</button>
+        <button class="mq-btn" onclick="muscleSetMode('learn')">Back to Learn</button>
+      </div>`;
+    return;
+  }
+
+  list.innerHTML = `
+    <div class="mq-wrap">
+      <div class="mq-progress">Question ${_quiz.idx + 1} of ${_quiz.questions.length} · Score ${_quiz.score}</div>
+      <div class="mq-prompt">${escapeHtml(q.prompt)}</div>
+      <div class="mq-options">
+        ${q.options.map((opt, i) => `<button class="mq-opt" data-i="${i}" onclick="muscleQuizAnswer(${i})">${escapeHtml(opt)}</button>`).join('')}
+      </div>
+      <div class="mq-feedback" id="mq-feedback"></div>
+      <button class="mq-btn primary hidden" id="mq-next" onclick="muscleQuizNext()">Next →</button>
+    </div>`;
+}
+
+window.muscleQuizAnswer = function(i) {
+  if (_quiz.answered) return;
+  _quiz.answered = true;
+  const q = _quiz.questions[_quiz.idx];
+  const correct = i === q.correct;
+  if (correct) _quiz.score++;
+  document.querySelectorAll('.mq-opt').forEach(btn => {
+    const bi = parseInt(btn.dataset.i, 10);
+    btn.disabled = true;
+    if (bi === q.correct) btn.classList.add('correct');
+    else if (bi === i) btn.classList.add('wrong');
+  });
+  const fb = document.getElementById('mq-feedback');
+  if (fb) {
+    fb.textContent = correct ? '✓ Correct' : `✗ Correct answer: ${q.options[q.correct]}`;
+    fb.className = 'mq-feedback ' + (correct ? 'ok' : 'no');
+  }
+  document.getElementById('mq-next')?.classList.remove('hidden');
+};
+
+window.muscleQuizNext = function() {
+  _quiz.idx++;
+  _quiz.answered = false;
+  _renderQuiz();
+};
+
+window.muscleQuizRestart = function() {
+  _buildQuiz();
+  _renderQuiz();
+};
 
 /* ============ Supabase cache helpers ============ */
 
