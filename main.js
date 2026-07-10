@@ -5915,7 +5915,7 @@ function _init3dViewer() {
   const wrap = document.getElementById('muscle-3d-viewer');
   const statusEl = document.getElementById('muscle-3d-status');
   if (!wrap) { _muscle3dState = 'idle'; return; }
-  if (statusEl) statusEl.textContent = 'Loading 3D model…';
+  if (statusEl) statusEl.textContent = 'Loading anatomical model — a full-body model, can take up to 20s…';
 
   const fail = (msg) => {
     _muscle3dState = 'failed';
@@ -5933,6 +5933,7 @@ function _init3dViewer() {
     const failTimer = setTimeout(() => fail('viewer timeout'), 30000);
     client.init(MUSCLE_MODEL_ID, {
       autostart: 1,
+      autospin: 0,   // the built-in idle rotation is what made it look like it "moves closer and away" — kill it
       ui_controls: 0,
       ui_infos: 0,
       ui_watermark: 0,
@@ -5953,8 +5954,16 @@ function _init3dViewer() {
             _muscleApi = api;
             _muscleNodes = nodes;
             _muscle3dState = 'ready';
-            if (statusEl) statusEl.textContent = '';
-            if (_muscle3dPending) { const p = _muscle3dPending; _muscle3dPending = null; _isolate3d(p.match, p.label); }
+            // Keep the opaque "Loading…" cover up if a specific muscle is
+            // queued — reveal only once _isolate3d actually applies it, so
+            // students never see the raw, unrelated full body first. If
+            // nothing's queued (viewer opened without picking a muscle yet),
+            // reveal now.
+            if (_muscle3dPending) {
+              const p = _muscle3dPending; _muscle3dPending = null; _isolate3d(p.match, p.label);
+            } else if (statusEl) {
+              statusEl.textContent = '';
+            }
           });
         });
       },
@@ -5976,6 +5985,10 @@ function _isolate3d(match, label) {
     const isTarget = node.name.toLowerCase().includes(m);
     try { isTarget ? (_muscleApi.show(node.id), shown++) : _muscleApi.hide(node.id); } catch (e) {}
   });
+  // Reveal now that the isolated pose is applied — the very first thing a
+  // student sees is the target muscle, not the raw full-body model.
+  const statusEl = document.getElementById('muscle-3d-status');
+  if (statusEl) statusEl.textContent = '';
   // Frame the camera on what's now visible (the isolated muscle) so it fills the
   // viewer instead of sitting tiny in the full-body frame. Small delay lets the
   // hide/show calls apply before the bounding box is recomputed.
