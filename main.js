@@ -29,6 +29,7 @@ import { BONES, BONE_REGIONS } from './src/data/bones.js';
 import { BONE_DIAGRAMS } from './src/data/bone-diagrams.js';
 import { MUSCLES, MUSCLE_REGIONS, MUSCLE_MODEL_ID, MUSCLE_MODEL_CREDIT } from './src/data/muscles.js';
 import { MUSCLE_DIAGRAMS } from './src/data/muscle-diagrams.js';
+import { getMuscleRecall, markMusclePass, markMuscleFail, isMuscleDue, MASTERED_AT } from './src/data/muscle-recall.js';
 import { getPastPapersForCode, filterIBPapers } from './src/data/past-papers.js';
 import { TOPIC_VISUALS, getTopicVisualsKey } from './src/data/topic-visuals.js';
 import { TOPIC_SVGS as CAM_SVGS } from './src/data/topic-svgs-igcse-cambridge.js';
@@ -4549,6 +4550,9 @@ let _musclesQuery = '';
 let _muscleMode = 'learn';   // learn | recall | quiz
 // Quiz state (client-only; questions generated from the MUSCLES dataset).
 let _quiz = { questions: [], idx: 0, score: 0, answered: false };
+// Spaced-repetition state: muscle_id → { reps, next_due, last_result }
+let _muscleRecall = {};
+let _muscleDueOnly = false;   // Recall-mode filter: show only muscles due today
 
 function toggleBurgerMenu() {
   const menu = document.getElementById('burger-menu');
@@ -5224,6 +5228,7 @@ window.openMusclesModal = function() {
   _musclesRegion = 'All';
   _musclesQuery = '';
   _muscleMode = 'learn';
+  _muscleDueOnly = false;
   const modal = document.getElementById('muscles-modal');
   if (!modal) return;
   modal.classList.remove('hidden');
@@ -5231,6 +5236,13 @@ window.openMusclesModal = function() {
   _renderMusclesRegions();
   _applyMuscleModeUI();
   _renderMuscles();
+  // Load spaced-rep state in the background, then refresh the mode bar (due
+  // count) and any recall cards once it arrives.
+  if (currentUser) {
+    getMuscleRecall()
+      .then(map => { _muscleRecall = map; _renderMuscleModeBar(); if (_muscleMode === 'recall') _renderMuscles(); })
+      .catch(e => console.warn('[muscle-recall] load failed:', e.message));
+  }
   // Don't pre-warm the 3D viewer here — initializing it several async ticks
   // away from an actual click loses the browser's "user gesture" window, so
   // WebGL autoplay gets blocked and Sketchfab shows its own play-button
@@ -5246,12 +5258,18 @@ const MUSCLE_MODES = [
   { key: 'quiz',   label: '❓ Quiz' },
 ];
 
+function _muscleDueCount() {
+  return MUSCLES.reduce((n, m) => n + (isMuscleDue(_muscleRecall[m.id]) ? 1 : 0), 0);
+}
+
 function _renderMuscleModeBar() {
   const bar = document.getElementById('muscle-mode-bar');
   if (!bar) return;
-  bar.innerHTML = MUSCLE_MODES.map(m =>
-    `<button class="muscle-mode-btn${m.key === _muscleMode ? ' active' : ''}" onclick="muscleSetMode('${m.key}')">${m.label}</button>`
-  ).join('');
+  const due = _muscleDueCount();
+  bar.innerHTML = MUSCLE_MODES.map(m => {
+    const badge = (m.key === 'recall' && due > 0) ? `<span class="muscle-due-badge">${due}</span>` : '';
+    return `<button class="muscle-mode-btn${m.key === _muscleMode ? ' active' : ''}" onclick="muscleSetMode('${m.key}')">${m.label}${badge}</button>`;
+  }).join('');
 }
 
 // Show/hide the search box, region tabs and 3D section depending on mode.
@@ -6109,6 +6127,8 @@ function _renderMuscles() {
   const list = document.getElementById('muscles-list');
   if (!list) return;
 
+  const recallMode = _muscleMode === 'recall';
+
   let filtered = MUSCLES;
   if (_musclesRegion !== 'All') {
     filtered = filtered.filter(m => m.region === _musclesRegion);
@@ -6120,9 +6140,21 @@ function _renderMuscles() {
       (m.questions || []).some(qa => qa.q.toLowerCase().includes(_musclesQuery) || qa.a.toLowerCase().includes(_musclesQuery))
     );
   }
+  if (recallMode && _muscleDueOnly) {
+    filtered = filtered.filter(m => isMuscleDue(_muscleRecall[m.id]));
+  }
+
+  // Recall-mode toolbar: a "Due only" toggle + count.
+  const dueBar = recallMode ? (() => {
+    const due = _muscleDueCount();
+    return `<div class="muscle-recall-bar">
+      <span class="muscle-recall-hint">Reveal facts, then rate yourself — missed ones resurface on the 2-4-7 schedule.</span>
+      <button class="muscle-due-toggle${_muscleDueOnly ? ' active' : ''}" onclick="muscleToggleDueOnly()">${_muscleDueOnly ? '✓ Due only' : `Due only (${due})`}</button>
+    </div>`;
+  })() : '';
 
   if (!filtered.length) {
-    list.innerHTML = `<div class="bones-empty">No muscles found</div>`;
+    list.innerHTML = dueBar + `<div class="bones-empty">${recallMode && _muscleDueOnly ? 'Nothing due right now — great, come back later.' : 'No muscles found'}</div>`;
     return;
   }
 
@@ -6172,24 +6204,68 @@ function _renderMuscles() {
         <div class="bone-qa-a">${escapeHtml(qa.a)}</div>
       </div>`).join('');
 
+    // Recall-mode: status badge (in the head) + a rate row (Got it / Missed it)
+    // that writes spaced-rep state. Only shown when logged in.
+    const row = _muscleRecall[muscle.id];
+    let statusBadge = '';
+    let rateRow = '';
+    if (recall) {
+      if (row?.reps >= MASTERED_AT) statusBadge = `<span class="muscle-status mastered">✓ Mastered</span>`;
+      else if (isMuscleDue(row)) statusBadge = `<span class="muscle-status due">Due</span>`;
+      else if (row) statusBadge = `<span class="muscle-status seen">${row.reps}/${MASTERED_AT}</span>`;
+      if (currentUser && (!row || row.reps < MASTERED_AT)) {
+        rateRow = `<div class="muscle-rate-row">
+          <button class="muscle-rate miss" onclick="muscleRate('${muscle.id}', false)">✗ Missed it</button>
+          <button class="muscle-rate got" onclick="muscleRate('${muscle.id}', true)">✓ Got it</button>
+        </div>`;
+      }
+    }
+
     return `
-      <div class="bone-card">
+      <div class="bone-card" data-muscle-card="${muscle.id}">
         <div class="bone-card-head">
           <h3 class="bone-name">${escapeHtml(muscle.name)}</h3>
-          ${_musclesRegion === 'All' ? `<span class="bone-region-tag">${escapeHtml(muscle.region)}</span>` : ''}
+          <span style="display:flex;gap:6px;align-items:center">
+            ${statusBadge}
+            ${_musclesRegion === 'All' ? `<span class="bone-region-tag">${escapeHtml(muscle.region)}</span>` : ''}
+          </span>
         </div>
         <p class="bone-desc">${escapeHtml(muscle.description)}</p>
         ${diagramHtml}
         ${show3dBtn}
         <div class="muscle-facts">${factsHtml}</div>
         ${muscle.clinicalCorrelation ? `<div class="muscle-clinical"><span class="muscle-clinical-label">CLINICAL CORRELATION</span><p${recall ? ' class="muscle-reveal" onclick="this.classList.add(\'shown\')" title="Tap to reveal"' : ''}>${escapeHtml(muscle.clinicalCorrelation)}</p></div>` : ''}
+        ${rateRow}
         <div class="bone-qa">
           <div class="bone-qa-label">PRACTICE QUESTIONS</div>
           ${qaHtml}
         </div>
       </div>`;
   }).join('');
+
+  list.innerHTML = dueBar + list.innerHTML;
 }
+
+window.muscleToggleDueOnly = function() {
+  _muscleDueOnly = !_muscleDueOnly;
+  _renderMuscles();
+};
+
+// Write a spaced-rep result, update local cache, refresh badges/count.
+window.muscleRate = async function(muscleId, gotIt) {
+  if (!currentUser) return;
+  const prev = _muscleRecall[muscleId];
+  try {
+    const updated = gotIt
+      ? await markMusclePass(currentUser.id, muscleId, prev?.reps ?? 0)
+      : await markMuscleFail(currentUser.id, muscleId);
+    _muscleRecall[muscleId] = updated;
+    _renderMuscleModeBar();
+    _renderMuscles();
+  } catch (e) {
+    console.warn('[muscle-recall] rate failed:', e.message);
+  }
+};
 
 /* ============ muscle quiz (client-only MCQs from the dataset) ============ */
 
