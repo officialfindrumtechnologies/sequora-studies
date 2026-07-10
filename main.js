@@ -5938,6 +5938,7 @@ function _init3dViewer() {
       ui_infos: 0,
       ui_watermark: 0,
       ui_watermark_link: 0,
+      ui_loading: 0,   // that stray blue bar stuck at ~50% — Sketchfab's own loading bar, documented flag to hide it
       success: (api) => {
         api.start();
         api.addEventListener('viewerready', () => {
