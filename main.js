@@ -29,6 +29,7 @@ import { BONES, BONE_REGIONS } from './src/data/bones.js';
 import { BONE_DIAGRAMS } from './src/data/bone-diagrams.js';
 import { MUSCLES, MUSCLE_REGIONS, MUSCLE_MODEL_ID, MUSCLE_MODEL_CREDIT } from './src/data/muscles.js';
 import { MUSCLE_DIAGRAMS } from './src/data/muscle-diagrams.js';
+import { buildMuscleAttachment } from './src/data/muscle-attachments.js';
 import { getMuscleRecall, markMusclePass, markMuscleFail, isMuscleDue, MASTERED_AT } from './src/data/muscle-recall.js';
 import { getPastPapersForCode, filterIBPapers } from './src/data/past-papers.js';
 import { TOPIC_VISUALS, getTopicVisualsKey } from './src/data/topic-visuals.js';
@@ -6159,7 +6160,9 @@ function _renderMuscles() {
   }
 
   list.innerHTML = filtered.map(muscle => {
-    const svg = MUSCLE_DIAGRAMS[muscle.id];
+    // Attachment plate (origin/insertion on the bone schematic) is the primary
+    // visual; fall back to the old silhouette only if no attachment spec.
+    const svg = buildMuscleAttachment(muscle.id) || MUSCLE_DIAGRAMS[muscle.id];
 
     const recall = _muscleMode === 'recall';
     const factRows = [
