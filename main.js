@@ -5938,10 +5938,16 @@ function _init3dViewer() {
       ui_infos: 0,
       ui_watermark: 0,
       ui_watermark_link: 0,
-      ui_loading: 0,   // that stray blue bar stuck at ~50% — Sketchfab's own loading bar, documented flag to hide it
+      ui_loading: 0,
       success: (api) => {
         api.start();
         api.addEventListener('viewerready', () => {
+          // The model has a baked-in "C4D Animation Take" clip (confirmed via
+          // api.getAnimations()) — that's the real source of the swinging
+          // motion (autospin:0 only affects Sketchfab's own idle-orbit, not
+          // an authored animation clip). pause() halts it with no play-button
+          // regression (unlike stop(), which does show one).
+          try { api.pause(); } catch (e) {}
           api.getSceneGraph((err, graph) => {
             clearTimeout(failTimer);
             if (err) return fail('scenegraph error');
