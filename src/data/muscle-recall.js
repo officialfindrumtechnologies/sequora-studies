@@ -45,9 +45,10 @@ export async function markMusclePass(userId, muscleId, currentReps = 0) {
   return upsert(userId, muscleId, reps, nextDue, 'pass');
 }
 
-// "Missed it" — reset; resurface tomorrow.
+// "Missed it" — reset and keep it due *today* so it stays in the same-session
+// review queue for immediate re-drilling (like Anki's "Again").
 export async function markMuscleFail(userId, muscleId) {
-  return upsert(userId, muscleId, 0, addDays(1), 'fail');
+  return upsert(userId, muscleId, 0, todayStr(), 'fail');
 }
 
 export function isMuscleDue(row) {
