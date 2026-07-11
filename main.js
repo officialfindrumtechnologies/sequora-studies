@@ -6198,10 +6198,16 @@ function _renderMuscles() {
       show3dBtn = `<button class="muscle-3d-btn" onclick="muscleShow3D('${escapeHtml(muscle.mesh3d.match)}', ${JSON.stringify(label).replace(/"/g, '&quot;')})">${btnText}</button>`;
     }
 
+    // Real past-paper questions (qa.source set) get a green "REAL" tag with
+    // the exact sitting; everything else is an original practice question —
+    // never blur that line.
     const qaHtml = (muscle.questions || []).map(qa => `
       <div class="bone-qa-item">
         <button class="bone-qa-q" onclick="musclesToggleQa(this)">
-          <span class="bone-qa-q-inner"><span class="bone-qa-q-text">${escapeHtml(qa.q)}</span></span>
+          <span class="bone-qa-q-inner">
+            ${qa.source ? `<span class="qa-source-tag" title="Real 1st Prof exam question">REAL · ${escapeHtml(qa.source)}</span>` : ''}
+            <span class="bone-qa-q-text">${escapeHtml(qa.q)}</span>
+          </span>
           <span class="bone-qa-chevron">▼</span>
         </button>
         <div class="bone-qa-a">${escapeHtml(qa.a)}</div>
