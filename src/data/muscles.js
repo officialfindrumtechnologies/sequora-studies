@@ -17,7 +17,7 @@
 //   absent → no 3D for this one; its accurate 2D plate is the visual instead
 //        (coracobrachialis, brachialis, anconeus, supinator aren't in the model)
 
-export const MUSCLE_REGIONS = ['All', 'Shoulder', 'Arm', 'Forearm — Flexors', 'Forearm — Extensors'];
+export const MUSCLE_REGIONS = ['All', 'Shoulder', 'Arm', 'Forearm — Flexors', 'Forearm — Extensors', 'Gluteal', 'Thigh — Anterior', 'Thigh — Medial', 'Thigh — Posterior'];
 
 // Interactive, per-mesh-separated model (ufulio) used for isolation.
 export const MUSCLE_MODEL_ID = 'a15b72e769934d6fb1ebb258b9306df4';
@@ -542,6 +542,302 @@ export const MUSCLES = [
     questions: [
       { q: 'Why is extensor indicis a popular donor tendon in reconstructive hand surgery?', a: 'Its own function (independent index finger extension) is largely redundant, since extensor digitorum already extends the index finger together with the other fingers. This makes it "expendable" enough to sacrifice and transfer — classically to restore thumb extension in a patient with an irreparable EPL tendon rupture.' },
       { q: 'How can a clinician demonstrate that extensor indicis exists as a distinct muscle from extensor digitorum?', a: 'Ask the patient to make a fist (flexing the other fingers) and then extend only the index finger. Because extensor indicis acts independently of extensor digitorum\'s shared tendon, the index finger can extend on its own while the others stay flexed — a movement that would be far weaker or impossible if extensor digitorum were the only extensor available to that finger.' }
+    ]
+  },
+
+  // ==================== GLUTEAL ====================
+  {
+    id: 'gluteus_maximus',
+    name: 'Gluteus Maximus',
+    region: 'Gluteal',
+    description: 'The largest, most superficial gluteal muscle — the main extensor of the hip, powerful in climbing, standing from sitting, and running (but not in level walking).',
+    origin: 'Posterior gluteal line of the ilium, posterior surfaces of the sacrum and coccyx, and the sacrotuberous ligament',
+    insertion: 'Iliotibial tract (majority) and the gluteal tuberosity of the femur',
+    action: 'Powerful extension and lateral rotation of the hip; upper fibres assist abduction. Recruited chiefly for forceful extension — rising from sitting, climbing stairs, running — not for ordinary walking on the flat.',
+    nerve: 'Inferior gluteal nerve (L5, S1, S2)',
+    artery: 'Inferior gluteal artery',
+    clinicalCorrelation: 'The safe site for an intramuscular injection is the upper outer quadrant of the buttock, chosen to avoid the sciatic nerve and the gluteal vessels/nerves that emerge below piriformis. Weakness makes rising from a chair or climbing stairs difficult, though level walking is preserved.',
+    questions: [
+      { q: 'Why is gluteus maximus not essential for walking on level ground, yet vital for climbing stairs?', a: 'On level ground the hamstrings and gravity manage hip extension, so gluteus maximus stays relatively quiet. It is recruited for powerful/forced extension against resistance — climbing stairs, rising from sitting, running, jumping — where large extension torque is needed. Hence its weakness spares flat walking but impairs stair-climbing and standing up.' },
+      { q: 'Why is the upper outer quadrant chosen for a gluteal intramuscular injection?', a: 'It keeps the needle away from the sciatic nerve and the superior/inferior gluteal vessels and nerves, which lie in the lower and medial parts of the buttock (emerging around piriformis). Injecting into the upper outer quadrant reaches thick muscle while avoiding these structures, preventing sciatic nerve injury (which would cause foot drop and sensory loss).' }
+    ]
+  },
+  {
+    id: 'gluteus_medius',
+    name: 'Gluteus Medius',
+    region: 'Gluteal',
+    description: 'Fan-shaped abductor deep to gluteus maximus — a key pelvic stabiliser during walking. Its integrity is tested by the Trendelenburg sign.',
+    origin: 'External surface of the ilium between the anterior and posterior gluteal lines',
+    insertion: 'Lateral surface of the greater trochanter of the femur',
+    action: 'Abduction of the hip; crucially, steadies the pelvis over the planted limb during the stance phase of gait so the opposite (swinging) side does not drop. Anterior fibres also medially rotate.',
+    nerve: 'Superior gluteal nerve (L4, L5, S1)',
+    artery: 'Superior gluteal artery',
+    clinicalCorrelation: 'Weakness (or superior gluteal nerve injury) causes a positive Trendelenburg sign: when standing on the affected leg, the opposite unsupported hip drops. Bilateral or gait-phase weakness produces a waddling (Trendelenburg) gait. The superior gluteal nerve is at risk in badly placed gluteal injections and hip surgery.',
+    questions: [
+      { q: 'What is the Trendelenburg sign and what does a positive test indicate?', a: 'With the patient standing on one leg, the gluteus medius/minimus of the *stance* limb should hold the pelvis level. If they are weak (or the superior gluteal nerve is damaged) on the stance side, the pelvis drops on the *opposite* (unsupported) side — a positive Trendelenburg sign. It localises the lesion to the weight-bearing limb, not the side that drops.' },
+      { q: 'Why does superior gluteal nerve injury cause a characteristic gait?', a: 'The superior gluteal nerve supplies gluteus medius and minimus, the pelvic stabilisers in stance phase. Without them the pelvis tilts down toward the swing side each step, so the patient compensates by leaning the trunk toward the stance side — producing a lurching/waddling (Trendelenburg) gait, worse when bilateral.' }
+    ]
+  },
+  {
+    id: 'gluteus_minimus',
+    name: 'Gluteus Minimus',
+    region: 'Gluteal',
+    description: 'The smallest, deepest gluteal fan — works with gluteus medius as a hip abductor and pelvic stabiliser.',
+    origin: 'External surface of the ilium between the anterior and inferior gluteal lines',
+    insertion: 'Anterior surface of the greater trochanter of the femur',
+    action: 'Abduction and medial rotation of the hip; stabilises the pelvis in stance phase with gluteus medius',
+    nerve: 'Superior gluteal nerve (L4, L5, S1)',
+    artery: 'Superior gluteal artery',
+    clinicalCorrelation: 'Shares nerve, action and clinical significance (Trendelenburg) with gluteus medius — both are abductor-stabilisers supplied by the superior gluteal nerve, so a single nerve lesion knocks out both.',
+    questions: [
+      { q: 'Which two muscles does the superior gluteal nerve supply that act together, and what do they share?', a: 'Gluteus medius and gluteus minimus. Both abduct and medially rotate the hip and, most importantly, stabilise the pelvis over the stance limb during walking. Because one nerve (superior gluteal) supplies both, its injury weakens the whole abductor mechanism and produces a Trendelenburg sign/gait.' },
+      { q: 'How does gluteus minimus differ in insertion from gluteus medius?', a: 'Gluteus minimus inserts on the *anterior* surface of the greater trochanter, whereas gluteus medius inserts on the *lateral* surface. This slightly anterior line of pull gives minimus a stronger medial-rotation component, but functionally the two act as a unit in abduction and pelvic stabilisation.' }
+    ]
+  },
+  {
+    id: 'tensor_fasciae_latae',
+    name: 'Tensor Fasciae Latae',
+    region: 'Gluteal',
+    description: 'Small muscle enclosed in the fascia lata that tenses the iliotibial tract, helping stabilise the knee and hip in the extended, weight-bearing limb.',
+    origin: 'Anterior superior iliac spine (ASIS) and the anterior part of the iliac crest',
+    insertion: 'Iliotibial tract, which attaches to the lateral condyle of the tibia (Gerdy\'s tubercle)',
+    action: 'Tenses the iliotibial tract; assists flexion, abduction and medial rotation of the hip; helps steady the extended knee',
+    nerve: 'Superior gluteal nerve (L4, L5, S1)',
+    artery: 'Superior gluteal artery / lateral circumflex femoral artery',
+    clinicalCorrelation: 'A tight iliotibial tract (with TFL and gluteus maximus feeding into it) is implicated in iliotibial band syndrome, a common cause of lateral knee pain in runners as the band rubs over the lateral femoral condyle during repeated flexion/extension.',
+    questions: [
+      { q: 'How do tensor fasciae latae and gluteus maximus both relate to the iliotibial tract?', a: 'Both insert into the iliotibial tract — TFL anteriorly and the major part of gluteus maximus posteriorly. Through this shared tendon they tense the tract, which stabilises the hip and the extended knee laterally. It also explains why tightness/overuse of the tract (ITB syndrome) links to both muscles.' },
+      { q: 'Why is TFL grouped with the superior gluteal nerve muscles?', a: 'Like gluteus medius and minimus, TFL is supplied by the superior gluteal nerve and shares an abductor/medial-rotator role at the hip. It also helps stabilise the pelvis and the knee via the iliotibial tract — consistent with the superior gluteal nerve\'s theme of pelvic/limb stabilisation.' }
+    ]
+  },
+  {
+    id: 'piriformis',
+    name: 'Piriformis',
+    region: 'Gluteal',
+    description: 'Pear-shaped muscle that is the key landmark of the gluteal region — the sciatic nerve emerges just below it, and the gluteal vessels/nerves are named by their relation to it.',
+    origin: 'Anterior surface of the sacrum (between the anterior sacral foramina)',
+    insertion: 'Superior border of the greater trochanter of the femur',
+    action: 'Lateral rotation of the extended hip; abduction of the flexed hip; stabilises the femoral head in the acetabulum',
+    nerve: 'Nerve to piriformis (S1, S2)',
+    artery: 'Superior and inferior gluteal arteries',
+    clinicalCorrelation: 'The sciatic nerve usually exits the pelvis just inferior to piriformis; in a minority the nerve (or its common fibular division) pierces the muscle, predisposing to piriformis syndrome — buttock pain with sciatica-like radiation reproduced by resisted external rotation.',
+    questions: [
+      { q: 'Why is piriformis the key landmark of the gluteal region?', a: 'The gluteal neurovascular structures are named by their relation to piriformis: the superior gluteal nerve and vessels emerge *above* it, while the inferior gluteal nerve/vessels, the sciatic nerve, the pudendal nerve and the nerve to obturator internus emerge *below* it. Identifying piriformis therefore orients you to everything else in the buttock.' },
+      { q: 'What is piriformis syndrome and its anatomical basis?', a: 'Compression or irritation of the sciatic nerve by piriformis, causing buttock pain and sciatica-like radiation down the leg without a disc lesion. It is favoured by anatomical variants where the sciatic nerve (or its common fibular division) passes through rather than below the muscle. Pain is classically reproduced by resisted external rotation/abduction of the hip.' }
+    ]
+  },
+
+  // ==================== THIGH — ANTERIOR ====================
+  {
+    id: 'iliopsoas',
+    name: 'Iliopsoas',
+    region: 'Thigh — Anterior',
+    description: 'The chief flexor of the hip, formed by psoas major and iliacus sharing a common tendon. Psoas major is also a key posterior abdominal wall landmark.',
+    origin: 'Psoas major: transverse processes, bodies and discs of T12–L5. Iliacus: iliac fossa of the pelvis.',
+    insertion: 'Lesser trochanter of the femur (common tendon)',
+    action: 'Powerful flexion of the hip (and flexes the trunk on the hip when sitting up); weak lateral rotation. Psoas major also flexes the lumbar spine laterally.',
+    nerve: 'Psoas major: anterior rami of L1–L3. Iliacus: femoral nerve (L2, L3).',
+    artery: 'Medial femoral circumflex and iliolumbar arteries',
+    clinicalCorrelation: 'A psoas abscess (e.g. from TB, or spread from the spine/appendix) tracks down the psoas sheath into the groin, producing a positive psoas sign — pain on resisted hip flexion or passive hip extension — classically seen in retrocaecal appendicitis.',
+    questions: [
+      { q: 'What is the psoas sign and why does it appear in appendicitis?', a: 'The psoas sign is pain on passive extension (or resisted flexion) of the right hip, caused by irritation of the iliopsoas. In appendicitis — especially a retrocaecal appendix lying against the psoas — inflammation irritates the muscle, so stretching it reproduces pain. It also appears with a psoas abscess.' },
+      { q: 'Why is iliopsoas described as two muscles with one tendon, and does that matter for innervation?', a: 'Psoas major (from the lumbar vertebrae) and iliacus (from the iliac fossa) converge on a common tendon inserting on the lesser trochanter, acting together as the main hip flexor. Their nerve supply differs, though: psoas major from anterior rami of L1–L3 directly, iliacus from the femoral nerve — so they are functionally one unit but innervated separately.' }
+    ]
+  },
+  {
+    id: 'sartorius',
+    name: 'Sartorius',
+    region: 'Thigh — Anterior',
+    description: 'The longest muscle in the body — a strap running obliquely across the thigh, producing the "tailor\'s cross-legged sitting" position. Forms the lateral border of the femoral triangle.',
+    origin: 'Anterior superior iliac spine (ASIS)',
+    insertion: 'Superomedial surface of the tibia (as part of the pes anserinus)',
+    action: 'Flexes, abducts and laterally rotates the hip, and flexes the knee — combined, the movements that cross one leg over the opposite thigh',
+    nerve: 'Femoral nerve (L2, L3)',
+    artery: 'Femoral artery (muscular branches)',
+    clinicalCorrelation: 'Sartorius is the lateral border of the femoral triangle (inguinal ligament superiorly, adductor longus medially), within which lie the femoral nerve, artery and vein — the site for palpating the femoral pulse and for femoral vascular access.',
+    questions: [
+      { q: 'What are the boundaries of the femoral triangle and its contents?', a: 'Superiorly the inguinal ligament, laterally the medial border of sartorius, medially the medial border of adductor longus. Its floor is iliopsoas and pectineus. Contents (lateral→medial): femoral Nerve, Artery, Vein, and the femoral canal/lymphatics (mnemonic NAVEL). It is the site for the femoral pulse and vascular access.' },
+      { q: 'How do all of sartorius\'s actions combine into one functional movement?', a: 'Sartorius simultaneously flexes, abducts and laterally rotates the hip and flexes the knee. Put together, these place the ankle on the opposite knee — the cross-legged "tailor\'s position," which is the origin of its name (sartor = tailor).' }
+    ]
+  },
+  {
+    id: 'rectus_femoris',
+    name: 'Rectus Femoris',
+    region: 'Thigh — Anterior',
+    description: 'The only quadriceps head to cross the hip as well as the knee, so it both flexes the hip and extends the knee. The central, most superficial quadriceps component.',
+    origin: 'Straight head: anterior inferior iliac spine (AIIS). Reflected head: ilium above the acetabulum.',
+    insertion: 'Base of the patella, then via the patellar ligament to the tibial tuberosity',
+    action: 'Extends the knee and flexes the hip. Because it crosses two joints, it is a weaker knee extensor when the hip is already flexed.',
+    nerve: 'Femoral nerve (L2, L3, L4)',
+    artery: 'Lateral circumflex femoral artery',
+    clinicalCorrelation: 'All four quadriceps components converge on the patella; the knee-jerk (patellar reflex) tests this quadriceps/femoral nerve pathway at L3–L4. The patella is a sesamoid bone within the quadriceps tendon that improves the leverage of knee extension.',
+    questions: [
+      { q: 'Why is rectus femoris a weaker knee extensor when the hip is flexed?', a: 'Rectus femoris crosses both the hip and the knee. When the hip is already flexed the muscle is shortened (actively insufficient), so it can generate less force for knee extension. Conversely it extends the knee most effectively when the hip is extended — a two-joint muscle limitation the other three (single-joint) vasti do not share.' },
+      { q: 'What does the patellar (knee-jerk) reflex test, and at what level?', a: 'Tapping the patellar ligament stretches the quadriceps, triggering reflex contraction and knee extension via the femoral nerve — testing the L3–L4 spinal segments. A diminished reflex suggests an L3/L4 or femoral nerve lesion; a brisk one suggests an upper motor neuron problem above that level.' }
+    ]
+  },
+  {
+    id: 'vastus_lateralis',
+    name: 'Vastus Lateralis',
+    region: 'Thigh — Anterior',
+    description: 'The largest quadriceps component, forming the lateral bulk of the thigh — a common intramuscular injection site, especially in infants.',
+    origin: 'Greater trochanter and lateral lip of the linea aspera of the femur',
+    insertion: 'Base and lateral border of the patella, then via the patellar ligament to the tibial tuberosity',
+    action: 'Extends the knee; its lateral pull is balanced by vastus medialis to keep the patella tracking centrally',
+    nerve: 'Femoral nerve (L2, L3, L4)',
+    artery: 'Lateral circumflex femoral artery',
+    clinicalCorrelation: 'The vastus lateralis (mid-lateral thigh) is the recommended intramuscular injection site in infants, as it is a large muscle mass free of major nerves and vessels. An imbalance where vastus lateralis overpowers a weak vastus medialis can cause lateral patellar maltracking and anterior knee pain.',
+    questions: [
+      { q: 'Why is vastus lateralis the preferred IM injection site in infants?', a: 'It is a large, well-developed muscle on the mid-lateral thigh with no major nerves or vessels crossing it, unlike the gluteal region (sciatic nerve) which is also poorly developed in infants. This makes it a safe, high-volume site for infant vaccinations and injections.' },
+      { q: 'How do vastus lateralis and vastus medialis together affect patellar tracking?', a: 'Vastus lateralis pulls the patella laterally; vastus medialis (especially its oblique fibres, VMO) pulls it medially. Balanced tension keeps the patella tracking centrally in the trochlear groove. If vastus medialis is weak/inhibited, the unopposed lateral pull causes patellar maltracking and anterior knee pain.' }
+    ]
+  },
+  {
+    id: 'vastus_medialis',
+    name: 'Vastus Medialis',
+    region: 'Thigh — Anterior',
+    description: 'Forms the medial bulge just above the knee; its lowest oblique fibres (VMO) are crucial for the final degrees of knee extension and for patellar tracking.',
+    origin: 'Intertrochanteric line and medial lip of the linea aspera of the femur',
+    insertion: 'Base and medial border of the patella, then via the patellar ligament to the tibial tuberosity',
+    action: 'Extends the knee; the oblique (VMO) fibres pull the patella medially to keep it centred and lock the knee in terminal extension',
+    nerve: 'Femoral nerve (L2, L3, L4)',
+    artery: 'Femoral artery / descending genicular artery',
+    clinicalCorrelation: 'Vastus medialis (especially VMO) wastes early and visibly after knee injury or surgery, and its weakness is a classic contributor to patellofemoral pain from lateral patellar maltracking — hence it is a rehab target after knee problems.',
+    questions: [
+      { q: 'Why is vastus medialis a key rehabilitation target after knee injury?', a: 'It atrophies quickly and visibly after knee pathology, and its oblique fibres (VMO) are essential for keeping the patella tracking medially and completing terminal knee extension. Weakness leads to patellar maltracking and anterior knee pain, so strengthening it is central to knee rehab.' },
+      { q: 'What role does vastus medialis play in "locking" the knee?', a: 'Its oblique fibres contribute to the final ~15° of knee extension and help stabilise the patella, working with the overall quadriceps to fully straighten and stabilise the knee. Weakness produces an "extension lag" — inability to complete the last few degrees of active extension.' }
+    ]
+  },
+  {
+    id: 'vastus_intermedius',
+    name: 'Vastus Intermedius',
+    region: 'Thigh — Anterior',
+    description: 'The deepest quadriceps head, lying directly on the femur beneath rectus femoris. Its deepest fibres form the articularis genus, which retracts the knee-joint capsule.',
+    origin: 'Anterior and lateral surfaces of the shaft of the femur',
+    insertion: 'Base of the patella (deep to rectus femoris), then via the patellar ligament to the tibial tuberosity',
+    action: 'Extends the knee (a pure single-joint knee extensor with the two vasti)',
+    nerve: 'Femoral nerve (L2, L3, L4)',
+    artery: 'Femoral artery (muscular branches)',
+    clinicalCorrelation: 'Its deep fibres form articularis genus, which pulls the suprapatellar bursa/joint capsule proximally during extension to prevent it being pinched in the joint — a small but exam-worthy detail.',
+    questions: [
+      { q: 'What is articularis genus and what does it do?', a: 'Articularis genus is a small slip of the deepest fibres of vastus intermedius that inserts into the suprapatellar bursa and knee-joint capsule. During knee extension it pulls the capsule/bursa proximally, preventing it from being nipped between the patella and femur — protecting the joint capsule.' },
+      { q: 'Why is vastus intermedius considered a "pure" knee extensor unlike rectus femoris?', a: 'It arises solely from the femoral shaft and crosses only the knee, so it extends the knee regardless of hip position. Rectus femoris, by contrast, also crosses the hip (arising from the ilium), so its knee-extension power varies with hip position — vastus intermedius has no such limitation.' }
+    ]
+  },
+
+  // ==================== THIGH — MEDIAL (ADDUCTORS) ====================
+  {
+    id: 'adductor_longus',
+    name: 'Adductor Longus',
+    region: 'Thigh — Medial',
+    description: 'The most anterior adductor and a key landmark — its medial border forms the medial boundary of the femoral triangle. Its palpable tendon is a common site of groin strain.',
+    origin: 'Body of the pubis, just below the pubic crest',
+    insertion: 'Middle third of the linea aspera of the femur',
+    action: 'Adduction of the thigh at the hip; assists flexion',
+    nerve: 'Obturator nerve (L2, L3, L4)',
+    artery: 'Profunda femoris artery / obturator artery',
+    clinicalCorrelation: 'Its tendinous origin is a frequent site of adductor (groin) strain in footballers and sprinters. Its medial border is the medial boundary of the femoral triangle, aiding orientation to the femoral vessels.',
+    questions: [
+      { q: 'Which nerve supplies most of the adductor group, and what would its injury cause?', a: 'The obturator nerve (L2–L4) supplies the adductor compartment (adductor longus, brevis, gracilis, and the adductor part of adductor magnus). Its injury weakens thigh adduction, so the leg tends to swing outward, and can cause sensory loss over the medial thigh — sometimes seen after pelvic surgery or difficult childbirth.' },
+      { q: 'What is the role of adductor longus in the femoral triangle?', a: 'The medial border of adductor longus forms the medial boundary of the femoral triangle (with the inguinal ligament superiorly and sartorius laterally). This helps locate the femoral vessels and nerve within the triangle for pulse-taking or vascular access.' }
+    ]
+  },
+  {
+    id: 'adductor_magnus',
+    name: 'Adductor Magnus',
+    region: 'Thigh — Medial',
+    description: 'The largest adductor, with a dual nature: an adductor part (obturator nerve) and a hamstring part (sciatic nerve). Its tendon forms the boundary of the adductor hiatus.',
+    origin: 'Adductor part: ischiopubic ramus. Hamstring part: ischial tuberosity.',
+    insertion: 'Adductor part: linea aspera and medial supracondylar line. Hamstring part: adductor tubercle of the femur.',
+    action: 'Powerful adduction of the thigh; the adductor part also flexes, the hamstring part extends the hip',
+    nerve: 'Adductor part: obturator nerve (L2–L4). Hamstring part: tibial division of the sciatic nerve (L4).',
+    artery: 'Profunda femoris and obturator arteries',
+    clinicalCorrelation: 'The gap between its aponeurotic insertion and the femur is the adductor hiatus, through which the femoral vessels pass from the adductor canal into the popliteal fossa (becoming the popliteal artery and vein).',
+    questions: [
+      { q: 'Why does adductor magnus have a dual nerve supply?', a: 'It is developmentally and functionally two muscles fused together: the *adductor* part (obturator nerve) adducts and flexes the hip like the other adductors, and the *hamstring* part (tibial division of the sciatic nerve) extends the hip like the hamstrings. This split explains its dual innervation and dual action.' },
+      { q: 'What is the adductor hiatus and what passes through it?', a: 'The adductor hiatus is the gap between the aponeurotic (hamstring-part) insertion of adductor magnus and the femur. The femoral artery and vein pass through it from the adductor (subsartorial) canal in the thigh into the popliteal fossa, where they are renamed the popliteal artery and vein.' }
+    ]
+  },
+  {
+    id: 'gracilis',
+    name: 'Gracilis',
+    region: 'Thigh — Medial',
+    description: 'The most superficial and medial adductor, and the only one crossing the knee — a thin strap often harvested as a tendon/muscle graft because it can be spared.',
+    origin: 'Body and inferior ramus of the pubis',
+    insertion: 'Superomedial surface of the tibia (as part of the pes anserinus)',
+    action: 'Adduction of the hip and flexion of the knee; assists medial rotation of the flexed knee',
+    nerve: 'Obturator nerve (L2, L3)',
+    artery: 'Profunda femoris / obturator artery',
+    clinicalCorrelation: 'Because it is functionally dispensable, gracilis is frequently harvested as a muscle or tendon graft — for tendon reconstruction (e.g. ACL), facial reanimation, or as a free/flap muscle transfer — with little functional loss.',
+    questions: [
+      { q: 'Which three muscles form the pes anserinus, and what do they share functionally?', a: 'Sartorius, gracilis and semitendinosus form the pes anserinus on the superomedial tibia. Despite different origins and nerves (femoral, obturator, and tibial respectively), all three cross the knee medially — they flex the knee and contribute to medial rotation/valgus stability of the knee.' },
+      { q: 'Why is gracilis a favoured graft muscle?', a: 'It is a thin, long, superficial adductor whose loss barely affects hip adduction (the other, larger adductors compensate) or knee flexion. This "expendability," plus a reliable neurovascular pedicle, makes it ideal for tendon grafts (e.g. ACL reconstruction) and free muscle transfers such as facial reanimation.' }
+    ]
+  },
+  {
+    id: 'pectineus',
+    name: 'Pectineus',
+    region: 'Thigh — Medial',
+    description: 'A flat quadrangular muscle bridging the anterior and medial compartments — it forms part of the floor of the femoral triangle and can be supplied by two nerves.',
+    origin: 'Pecten pubis (pectineal line of the superior pubic ramus)',
+    insertion: 'Pectineal line of the femur (below the lesser trochanter)',
+    action: 'Adduction and flexion of the hip',
+    nerve: 'Femoral nerve (L2, L3); sometimes also a branch of the obturator nerve',
+    artery: 'Medial circumflex femoral / obturator artery',
+    clinicalCorrelation: 'Sitting at the junction of the flexor and adductor compartments, pectineus (with iliopsoas) forms the floor of the femoral triangle, over which the femoral vessels lie — relevant when accessing the femoral artery/vein.',
+    questions: [
+      { q: 'Why can pectineus have a dual nerve supply?', a: 'It straddles the boundary between the anterior (flexor, femoral nerve) and medial (adductor, obturator nerve) compartments. Reflecting this transitional position, it is usually supplied by the femoral nerve but may also receive a branch from the obturator nerve — a classic example of a muscle at a compartment border.' },
+      { q: 'What forms the floor of the femoral triangle?', a: 'The floor is formed by iliopsoas laterally and pectineus medially (with a small contribution from adductor longus). The femoral nerve, artery and vein lie on this muscular floor, which is why identifying pectineus and iliopsoas helps orient to the femoral neurovascular bundle.' }
+    ]
+  },
+
+  // ==================== THIGH — POSTERIOR (HAMSTRINGS) ====================
+  {
+    id: 'biceps_femoris',
+    name: 'Biceps Femoris',
+    region: 'Thigh — Posterior',
+    description: 'The lateral hamstring, with two heads — the only hamstring inserting laterally (on the fibular head) and the one forming the lateral border of the popliteal fossa.',
+    origin: 'Long head: ischial tuberosity. Short head: linea aspera and lateral supracondylar line of the femur.',
+    insertion: 'Head of the fibula',
+    action: 'Flexion of the knee and, via the long head, extension of the hip; laterally rotates the flexed knee',
+    nerve: 'Long head: tibial division of the sciatic nerve. Short head: common fibular division of the sciatic nerve (L5, S1, S2).',
+    artery: 'Perforating branches of the profunda femoris artery',
+    clinicalCorrelation: 'Its tendon forms the superolateral border of the popliteal fossa and is a landmark for the common fibular (peroneal) nerve, which runs along it around the fibular neck — a superficial site where the nerve is easily injured, causing foot drop.',
+    questions: [
+      { q: 'Why does biceps femoris have a split (dual) nerve supply?', a: 'Its long head is supplied by the tibial division of the sciatic nerve and its short head by the common fibular division. This is a classic exam point: the short head is the only hamstring supplied by the common fibular division, so isolated common fibular lesions can affect it while sparing the other hamstrings.' },
+      { q: 'How does biceps femoris relate to the common fibular nerve clinically?', a: 'The biceps femoris tendon forms the superolateral boundary of the popliteal fossa, and the common fibular nerve runs along its medial side toward the fibular neck. There the nerve is superficial and easily damaged (fractures, tight casts, crossing legs), producing foot drop and loss of eversion.' }
+    ]
+  },
+  {
+    id: 'semitendinosus',
+    name: 'Semitendinosus',
+    region: 'Thigh — Posterior',
+    description: 'A medial hamstring with a long, cord-like distal tendon (hence the name) that contributes to the pes anserinus — commonly harvested for ACL reconstruction.',
+    origin: 'Ischial tuberosity',
+    insertion: 'Superomedial surface of the tibia (as part of the pes anserinus)',
+    action: 'Flexion of the knee and extension of the hip; medially rotates the flexed knee',
+    nerve: 'Tibial division of the sciatic nerve (L5, S1, S2)',
+    artery: 'Perforating branches of the profunda femoris artery',
+    clinicalCorrelation: 'Its long tendon (with gracilis) is a favoured autograft for anterior cruciate ligament reconstruction, chosen because it is strong, accessible, and its loss is well tolerated.',
+    questions: [
+      { q: 'Which hamstring tendons are commonly used for ACL reconstruction and why?', a: 'The semitendinosus tendon, often together with gracilis, is a standard hamstring autograft for ACL reconstruction. Both have long, strong tendons that are easily harvested and whose loss is well tolerated because other knee flexors compensate — an alternative to a patellar-tendon graft.' },
+      { q: 'How do the medial hamstrings differ from biceps femoris in their rotation of the flexed knee?', a: 'Semitendinosus and semimembranosus (medial hamstrings) *medially* rotate the flexed knee, whereas biceps femoris (lateral hamstring) *laterally* rotates it. This opposing rotation lets the hamstrings fine-tune knee rotation, and is a common comparison point in exams.' }
+    ]
+  },
+  {
+    id: 'semimembranosus',
+    name: 'Semimembranosus',
+    region: 'Thigh — Posterior',
+    description: 'The deep medial hamstring, named for its broad membranous proximal tendon — it forms part of the superomedial border of the popliteal fossa and reinforces the knee.',
+    origin: 'Ischial tuberosity',
+    insertion: 'Medial condyle of the tibia (posterior surface)',
+    action: 'Flexion of the knee and extension of the hip; medially rotates the flexed knee; expansions reinforce the posteromedial knee capsule',
+    nerve: 'Tibial division of the sciatic nerve (L5, S1, S2)',
+    artery: 'Perforating branches of the profunda femoris artery',
+    clinicalCorrelation: 'Expansions from its tendon form the oblique popliteal ligament, reinforcing the posterior knee capsule; a Baker\'s (popliteal) cyst characteristically arises from the semimembranosus/gastrocnemius bursa in the popliteal fossa.',
+    questions: [
+      { q: 'What are the three "true" hamstrings and what defining features do they share?', a: 'Biceps femoris (long head), semitendinosus and semimembranosus. They share three features: origin from the ischial tuberosity, supply by the tibial division of the sciatic nerve, and a dual action — extending the hip and flexing the knee (crossing both joints). The short head of biceps femoris and the hamstring part of adductor magnus are "incomplete" hamstrings.' },
+      { q: 'How does semimembranosus contribute to knee stability?', a: 'Beyond flexing the knee, expansions from its tendon form the oblique popliteal ligament, which reinforces the posteromedial joint capsule and resists hyperextension. This structural role is why posteromedial knee stability and popliteal-fossa pathology (e.g. Baker\'s cyst) involve semimembranosus.' }
     ]
   },
 ].map(m => ({ ...m, mesh3d: MESH_3D[m.id] || null }));

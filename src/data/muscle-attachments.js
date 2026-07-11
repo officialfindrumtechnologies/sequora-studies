@@ -111,12 +111,82 @@ function marker(p, color, letter) {
 
 const RED = '#cf6a55', BLUE = '#5b8fd6';
 
+// ════════════ LOWER LIMB (hip + thigh) skeleton ════════════
+const BONES_LL = {
+  femur:  { a: [110, 130], b: [126, 250] },
+  tibia:  { a: [118, 272], b: [126, 404] },   // medial, weight-bearing
+  fibula: { a: [150, 274], b: [156, 400] },   // lateral, thin
+};
+const ANCHORS_LL = {
+  iliac_crest:  [150, 58],
+  asis:         [174, 86],   // anterior superior iliac spine
+  sacrum:       [138, 74],
+  pubis:        [116, 114],
+  ischial_tub:  [102, 122],  // ischial tuberosity (sit bone)
+  greater_troch:[98, 134],
+  patella:      [122, 258],
+  foot:         [122, 424],
+};
+function ptLL(ref) {
+  if (ref.anchor) return ANCHORS_LL[ref.anchor];
+  const b = BONES_LL[ref.bone];
+  const t = ref.t ?? 0.5;
+  return [b.a[0] + (b.b[0] - b.a[0]) * t, b.a[1] + (b.b[1] - b.a[1]) * t];
+}
+function llBone(seg, label, lx, ly, anchor) {
+  return `
+    <line x1="${seg.a[0]}" y1="${seg.a[1]}" x2="${seg.b[0]}" y2="${seg.b[1]}" stroke="rgba(255,255,255,0.22)" stroke-width="7" stroke-linecap="round"/>
+    <line x1="${seg.a[0]}" y1="${seg.a[1]}" x2="${seg.b[0]}" y2="${seg.b[1]}" stroke="rgba(255,255,255,0.10)" stroke-width="4" stroke-linecap="round"/>
+    <text x="${lx}" y="${ly}" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.4)" text-anchor="${anchor || 'start'}">${label}</text>`;
+}
+const SKELETON_LL = `
+  <rect width="${W}" height="${H}" fill="var(--surface,#111)"/>
+  <!-- hip bone / pelvis -->
+  <path d="M96 52 Q150 40 186 60 Q196 92 168 118 Q140 132 118 120 Q100 112 96 88 Z"
+    fill="rgba(255,255,255,0.09)" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
+  <text x="150" y="46" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.4)" text-anchor="middle">hip bone (pelvis)</text>
+  <circle cx="${ANCHORS_LL.ischial_tub[0]}" cy="${ANCHORS_LL.ischial_tub[1]}" r="3.5" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+  ${llBone(BONES_LL.femur, 'femur', 132, 190, 'start')}
+  <!-- patella -->
+  <circle cx="${ANCHORS_LL.patella[0]}" cy="${ANCHORS_LL.patella[1]}" r="6" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.24)" stroke-width="1.2"/>
+  <text x="140" y="261" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.35)" text-anchor="start">patella</text>
+  ${llBone(BONES_LL.tibia, 'tibia', 84, 340, 'end')}
+  ${llBone(BONES_LL.fibula, 'fibula', 168, 340, 'start')}
+  <!-- foot block -->
+  <rect x="96" y="408" width="60" height="24" rx="5" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
+  <text x="126" y="447" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.4)" text-anchor="middle">foot</text>
+`;
+const ATTACH_LL = {
+  gluteus_maximus:       { o: [{ anchor: 'iliac_crest' }, { anchor: 'sacrum' }], i: [{ bone: 'femur', t: 0.15 }] },
+  gluteus_medius:        { o: [{ anchor: 'iliac_crest' }], i: [{ anchor: 'greater_troch' }] },
+  gluteus_minimus:       { o: [{ anchor: 'iliac_crest' }], i: [{ anchor: 'greater_troch' }] },
+  tensor_fasciae_latae:  { o: [{ anchor: 'asis' }], i: [{ bone: 'tibia', t: 0.04 }] },
+  piriformis:            { o: [{ anchor: 'sacrum' }], i: [{ anchor: 'greater_troch' }] },
+  iliopsoas:             { o: [{ anchor: 'iliac_crest' }], i: [{ bone: 'femur', t: 0.22 }] },
+  sartorius:             { o: [{ anchor: 'asis' }], i: [{ bone: 'tibia', t: 0.12 }] },
+  rectus_femoris:        { o: [{ anchor: 'asis' }], i: [{ anchor: 'patella' }] },
+  vastus_lateralis:      { o: [{ bone: 'femur', t: 0.15 }], i: [{ anchor: 'patella' }] },
+  vastus_medialis:       { o: [{ bone: 'femur', t: 0.4 }], i: [{ anchor: 'patella' }] },
+  vastus_intermedius:    { o: [{ bone: 'femur', t: 0.45 }], i: [{ anchor: 'patella' }] },
+  adductor_longus:       { o: [{ anchor: 'pubis' }], i: [{ bone: 'femur', t: 0.5 }] },
+  adductor_magnus:       { o: [{ anchor: 'ischial_tub' }, { anchor: 'pubis' }], i: [{ bone: 'femur', t: 0.62 }] },
+  gracilis:              { o: [{ anchor: 'pubis' }], i: [{ bone: 'tibia', t: 0.14 }] },
+  pectineus:             { o: [{ anchor: 'pubis' }], i: [{ bone: 'femur', t: 0.2 }] },
+  biceps_femoris:        { o: [{ anchor: 'ischial_tub' }], i: [{ bone: 'fibula', t: 0.03 }] },
+  semitendinosus:        { o: [{ anchor: 'ischial_tub' }], i: [{ bone: 'tibia', t: 0.14 }] },
+  semimembranosus:       { o: [{ anchor: 'ischial_tub' }], i: [{ bone: 'tibia', t: 0.1 }] },
+};
+
 // Build the attachment plate SVG for a muscle id, or null if no spec exists.
+// Picks the upper- or lower-limb skeleton based on which spec map holds the id.
 export function buildMuscleAttachment(muscleId) {
-  const spec = ATTACH[muscleId];
+  let spec = ATTACH[muscleId], skeleton = SKELETON, resolve = pt;
+  if (!spec) {
+    spec = ATTACH_LL[muscleId]; skeleton = SKELETON_LL; resolve = ptLL;
+  }
   if (!spec) return null;
-  const oPts = spec.o.map(pt);
-  const iPts = spec.i.map(pt);
+  const oPts = spec.o.map(resolve);
+  const iPts = spec.i.map(resolve);
   const o0 = oPts[0], i0 = iPts[0];
 
   // Muscle belly: a thick semi-transparent band from first origin to first
@@ -136,7 +206,7 @@ export function buildMuscleAttachment(muscleId) {
     </g>`;
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${muscleId} attachment plate">
-    ${SKELETON}
+    ${skeleton}
     ${belly}
     ${originMarks}
     ${insertMarks}
