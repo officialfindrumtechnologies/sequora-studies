@@ -17,7 +17,7 @@
 //   absent → no 3D for this one; its accurate 2D plate is the visual instead
 //        (coracobrachialis, brachialis, anconeus, supinator aren't in the model)
 
-export const MUSCLE_REGIONS = ['All', 'Shoulder', 'Arm', 'Forearm — Flexors', 'Forearm — Extensors', 'Gluteal', 'Thigh — Anterior', 'Thigh — Medial', 'Thigh — Posterior', 'Leg — Anterior', 'Leg — Lateral', 'Leg — Posterior', 'Back — Superficial', 'Back — Deep'];
+export const MUSCLE_REGIONS = ['All', 'Shoulder', 'Arm', 'Forearm — Flexors', 'Forearm — Extensors', 'Gluteal', 'Thigh — Anterior', 'Thigh — Medial', 'Thigh — Posterior', 'Leg — Anterior', 'Leg — Lateral', 'Leg — Posterior', 'Back — Superficial', 'Back — Deep', 'Thorax — Pectoral', 'Thorax — Wall', 'Abdomen — Anterolateral', 'Abdomen — Posterior'];
 
 // Interactive, per-mesh-separated model (ufulio) used for isolation.
 export const MUSCLE_MODEL_ID = 'a15b72e769934d6fb1ebb258b9306df4';
@@ -1200,6 +1200,206 @@ export const MUSCLES = [
     questions: [
       { q: 'Why is multifidus a focus of low back pain rehabilitation?', a: 'Multifidus provides segmental stability to the lumbar vertebrae. In low back pain it undergoes rapid, selective atrophy and delayed activation, reducing spinal stability. Targeted retraining of multifidus (core/segmental stabilisation exercises) helps restore control and is a cornerstone of evidence-based back rehab.' },
       { q: 'How does multifidus differ from semispinalis within the transversospinales group?', a: 'Both run from transverse processes up to spinous processes, but multifidus spans only about 2–4 segments (short, deep, segmental control) and is thickest in the lumbar region, whereas semispinalis spans about 4–6 segments and is best developed in the thoracic/cervical region and head. Rotatores (the deepest) span just 1–2 segments.' }
+    ]
+  },
+
+  // ==================== THORAX — PECTORAL ====================
+  {
+    id: 'pectoralis_major',
+    name: 'Pectoralis Major',
+    region: 'Thorax — Pectoral',
+    description: 'Large fan-shaped muscle forming the anterior axillary fold — the powerful adductor and medial rotator of the arm, built from two heads with opposing roles in flexion.',
+    origin: 'Clavicular head: medial half of the clavicle. Sternocostal head: sternum, costal cartilages 1–6, and the aponeurosis of external oblique.',
+    insertion: 'Lateral lip of the intertubercular (bicipital) groove of the humerus',
+    action: 'Adduction and medial rotation of the arm. The clavicular head flexes the already-flexed shoulder further; the sternocostal head extends the flexed shoulder back down (e.g. a climbing or rowing pull). With the arm fixed, both heads assist forced inspiration.',
+    nerve: 'Lateral and medial pectoral nerves (C5–T1)',
+    artery: 'Pectoral branch of the thoracoacromial artery',
+    clinicalCorrelation: 'Poland syndrome is congenital absence/hypoplasia of the sternocostal head (sometimes the whole muscle), often with ipsilateral syndactyly — a classic embryology-anatomy exam link. Because the two heads oppose each other across the range of shoulder flexion, isolated testing (resisted horizontal adduction vs. a downward pulling motion) can distinguish weakness of one head from the other.',
+    questions: [
+      { q: 'Why does pectoralis major have two heads with seemingly opposite actions on shoulder flexion?', a: 'The clavicular head continues to flex an already-flexed shoulder (raising the arm further forward), while the sternocostal head extends the flexed shoulder back down toward the trunk (a pulling/climbing motion). Their different lines of pull relative to the joint axis at different degrees of flexion let the whole muscle contribute across the full range — flexing early, then extending later in the arc.' },
+      { q: 'What is Poland syndrome?', a: 'A congenital unilateral absence or hypoplasia of pectoralis major (classically the sternocostal head), often with pectoralis minor involvement and ipsilateral syndactyly (webbed fingers) — a well-known anatomy-embryology exam link, presenting as chest wall asymmetry with a flattened/sunken appearance on the affected side.' }
+    ]
+  },
+  {
+    id: 'pectoralis_minor',
+    name: 'Pectoralis Minor',
+    region: 'Thorax — Pectoral',
+    description: 'Small triangular muscle deep to pectoralis major — the key landmark dividing the axillary artery into three surgically-numbered parts.',
+    origin: 'Ribs 3–5 (anterior surfaces, near the costal cartilages)',
+    insertion: 'Coracoid process of the scapula',
+    action: 'Depresses and protracts the scapula (draws it forward/downward); stabilises the scapula against the thoracic wall; assists forced inspiration when the scapula is fixed',
+    nerve: 'Medial pectoral nerve (C8, T1)',
+    artery: 'Pectoral branch of the thoracoacromial artery',
+    clinicalCorrelation: 'Passes anterior to the axillary artery and divides it into three parts — 1st part proximal to the muscle, 2nd part directly posterior to it, 3rd part distal to it — a key landmark for describing the artery\'s branches and its relation to the brachial plexus cords, which surround the 2nd part.',
+    questions: [
+      { q: 'How does pectoralis minor define the three parts of the axillary artery?', a: 'The axillary artery is divided by its relation to pectoralis minor: the 1st part lies proximal (medial) to the muscle, the 2nd part lies directly posterior to it, and the 3rd part lies distal (lateral) to it. This numbering is used to describe branches and relations — notably, the cords of the brachial plexus surround the 2nd part, named for their relation to this same part of the artery.' },
+      { q: 'What are pectoralis minor\'s actions on the scapula?', a: 'It depresses and protracts the scapula, and stabilises it against the thoracic wall — important in movements that push the scapula forward and down, such as reaching forward or a braced forward push, and it assists forced inspiration by helping fix/elevate the ribs when the scapula is stabilised.' }
+    ]
+  },
+  {
+    id: 'serratus_anterior',
+    name: 'Serratus Anterior',
+    region: 'Thorax — Pectoral',
+    description: 'The "boxer\'s muscle," fanning out along the lateral chest wall — protracts the scapula and rotates it upward, essential for raising the arm overhead. Its paralysis produces the classic winged scapula.',
+    origin: 'Outer surfaces of ribs 1–8/9, forming a serrated fan along the lateral chest wall',
+    insertion: 'Anterior (costal) surface of the medial border of the scapula, along its whole length with the strongest pull at the inferior angle',
+    action: 'Protracts the scapula, holding it flush against the thoracic wall during pushing movements, and rotates it upward — allowing full abduction of the arm above the head',
+    nerve: 'Long thoracic nerve (C5, C6, C7)',
+    artery: 'Lateral thoracic artery',
+    clinicalCorrelation: 'The long thoracic nerve runs superficially on the lateral chest wall (on the muscle itself) and is vulnerable during axillary surgery (mastectomy, axillary node dissection) or blunt trauma. Its injury causes classic winged scapula — the medial border and inferior angle protrude posteriorly, worsened by pushing against a wall, with inability to fully raise the arm overhead.',
+    questions: [
+      { q: 'What is winged scapula and what test reveals it?', a: 'Winged scapula is posterior prominence of the medial border and inferior angle of the scapula, caused by serratus anterior weakness from long thoracic nerve injury. It is revealed or worsened by the wall push-up test — pushing outstretched arms against a wall — because a weak serratus can no longer hold the scapula flush against the thorax during protraction.' },
+      { q: 'Why is the long thoracic nerve especially vulnerable in axillary surgery?', a: 'It runs superficially along the lateral chest wall directly on serratus anterior, within the surgical field of axillary lymph node dissection (e.g. for breast cancer staging/treatment). Its superficial course makes it easy to stretch or transect, a well-recognised complication that results in a winged scapula and weak overhead arm raise.' }
+    ]
+  },
+  {
+    id: 'subclavius',
+    name: 'Subclavius',
+    region: 'Thorax — Pectoral',
+    description: 'A small muscle tucked beneath the clavicle — cushions the underlying subclavian vessels and steadies the sternoclavicular joint.',
+    origin: 'Junction of the 1st rib and its costal cartilage',
+    insertion: 'Inferior surface of the middle third of the clavicle',
+    action: 'Depresses and stabilises the clavicle, anchoring it during upper limb movement, and steadies the sternoclavicular joint',
+    nerve: 'Nerve to subclavius (C5, C6)',
+    artery: 'Clavicular branch of the thoracoacromial artery',
+    clinicalCorrelation: 'Its cushioning position between the clavicle and the subclavian vein is part of why direct vascular injury from a clavicle fracture is relatively uncommon, though not impossible in severe trauma. Its deep-to-clavicle location also makes it a soft-tissue landmark in central line placement (subclavian vein catheterisation).',
+    questions: [
+      { q: 'Why does subclavius matter clinically in clavicle fractures?', a: 'It sits directly between the clavicle and the underlying subclavian vessels, providing a cushioning layer that helps protect the subclavian vein from a fractured or displaced clavicle — part of why direct vascular injury is relatively uncommon in clavicle fractures despite the vein\'s close proximity, though it can still occur in severe trauma.' },
+      { q: 'What is subclavius\'s main mechanical role?', a: 'It depresses and stabilises the clavicle at the sternoclavicular joint, acting like a small anchor/shock absorber that steadies the clavicle\'s lateral movement during arm and shoulder activity, helping resist dislocating forces at the SC joint.' }
+    ]
+  },
+
+  // ==================== THORAX — WALL ====================
+  {
+    id: 'external_intercostals',
+    name: 'External Intercostals',
+    region: 'Thorax — Wall',
+    description: 'The outermost of the three intercostal layers, fibres running obliquely down and medially ("hands in pockets") — the main muscle elevating the ribs in inspiration.',
+    origin: 'Inferior border of the rib above (one muscle per intercostal space, 11 pairs total)',
+    insertion: 'Superior border of the rib below',
+    action: 'Elevates the ribs during inspiration, increasing the thoracic cavity\'s anteroposterior and transverse diameters',
+    nerve: 'Intercostal nerves (anterior rami of T1–T11)',
+    artery: 'Posterior and anterior intercostal arteries',
+    clinicalCorrelation: 'Fibre direction — obliquely down and medial, "hands in pockets," opposite to the internal intercostals — is a classic anatomy exam differentiator. The intercostal neurovascular bundle runs just deep to the internal intercostals along the inferior rib margin, relevant to safe needle/chest-tube placement.',
+    questions: [
+      { q: 'How do you distinguish external from internal intercostal fibre direction?', a: 'External intercostal fibres run obliquely downward and medially from the rib above to the rib below — like hands in a front trouser pocket. Internal intercostal fibres run obliquely downward and laterally, roughly perpendicular to the external layer. This crossing pattern is a classic identification question.' },
+      { q: 'What is the order of the intercostal neurovascular bundle, and where does it run?', a: 'From superior to inferior in the costal groove: Vein, Artery, Nerve (mnemonic "VAN," top to bottom), lying in the plane between the internal and innermost intercostal muscles, just below the inferior margin of the rib above. This is why chest drains/needles are inserted just above the lower rib of a space, avoiding the bundle running along the rib above.' }
+    ]
+  },
+  {
+    id: 'internal_intercostals',
+    name: 'Internal Intercostals',
+    region: 'Thorax — Wall',
+    description: 'The middle intercostal layer, fibres running opposite to the external layer — assists forced expiration by depressing the ribs.',
+    origin: 'Inferior border of the rib above, deep to the external intercostals',
+    insertion: 'Superior border of the rib below',
+    action: 'Depresses the ribs, assisting forced expiration (coughing, singing, blowing); the interchondral part between the costal cartilages may assist elevation instead',
+    nerve: 'Intercostal nerves (anterior rami of T1–T11)',
+    artery: 'Posterior and anterior intercostal arteries',
+    clinicalCorrelation: 'Together with the innermost intercostals, forms the deeper plane containing the intercostal neurovascular bundle — relevant to safe needle or chest-tube placement, aimed just above the lower rib of a space to avoid the vessels/nerve running along the rib above.',
+    questions: [
+      { q: 'What is the main functional difference between external and internal intercostals?', a: 'External intercostals are primarily inspiratory, elevating the ribs and most active in quiet and forced inspiration. Internal intercostals are primarily expiratory, depressing the ribs and most active in forced expiration (coughing, blowing) — quiet expiration is largely passive elastic recoil, so the internal intercostals matter mainly when expiration is active/forceful.' },
+      { q: 'Why is a chest tube or needle aimed just above the rib rather than below?', a: 'The intercostal neurovascular bundle runs in the costal groove along the inferior border of the rib above each space, protected there by the internal intercostal muscle. Aiming just above the lower rib of the space (i.e. the upper part of the intercostal space) avoids this bundle, reducing the risk of bleeding or nerve injury.' }
+    ]
+  },
+  {
+    id: 'diaphragm',
+    name: 'Diaphragm',
+    region: 'Thorax — Wall',
+    description: 'The prime mover of respiration — a dome-shaped musculotendinous sheet separating the thoracic and abdominal cavities, pierced by three major structures at three different vertebral levels.',
+    origin: 'Sternal part: xiphoid process. Costal part: costal cartilages/ribs 7–12. Lumbar part: right and left crura from the lumbar vertebrae (right crus L1–L3, left crus L1–L2), plus the medial and lateral arcuate ligaments.',
+    insertion: 'Central tendon — a trefoil-shaped aponeurosis at the centre of the dome (the diaphragm is unusual in effectively inserting into itself)',
+    action: 'Prime mover of quiet inspiration — contraction flattens the dome and draws the central tendon down, increasing thoracic volume and drawing air in; relaxation allows passive elastic recoil for expiration',
+    nerve: 'Phrenic nerve (C3, C4, C5 — "C3, 4, 5 keeps the diaphragm alive")',
+    artery: 'Musculophrenic and pericardiacophrenic arteries (from the internal thoracic artery), plus the inferior phrenic arteries (from the aorta)',
+    clinicalCorrelation: 'Diaphragmatic paralysis (phrenic nerve injury, e.g. from a mediastinal tumour or cardiac surgery) causes paradoxical upward movement of the affected hemidiaphragm on inspiration, seen on a fluoroscopic "sniff test." Diaphragmatic irritation (subphrenic abscess, splenic injury) classically refers pain to the shoulder tip, because the central diaphragm and the C4 shoulder dermatome share the same spinal segments.',
+    questions: [
+      { q: 'Why does diaphragmatic irritation cause referred shoulder-tip pain?', a: 'The central diaphragm is supplied by the phrenic nerve (C3–C5), the same root values as the C4 dermatome over the shoulder tip. Irritation of the diaphragm — e.g. blood or pus collecting beneath it, as in a subphrenic abscess or splenic rupture — is referred to the shoulder because the sensory afferents converge on the same spinal cord segments as shoulder skin.' },
+      { q: 'What three major structures pierce the diaphragm, and at what vertebral levels?', a: 'The inferior vena cava at T8 (through the central tendon), the oesophagus with the vagal trunks at T10 (through the muscular right crus), and the aorta with the thoracic duct and azygos vein at T12 (posterior to the diaphragm, between the crura, so technically passing behind rather than through it). Mnemonic: "I ate ten eggs at twelve" — IVC-T8, (o)Esophagus-T10, Aorta-T12.' }
+    ]
+  },
+
+  // ==================== ABDOMEN — ANTEROLATERAL ====================
+  {
+    id: 'rectus_abdominis',
+    name: 'Rectus Abdominis',
+    region: 'Abdomen — Anterolateral',
+    description: 'The paired vertical "six-pack" muscle running the length of the anterior abdominal wall, segmented by tendinous intersections and enclosed in the rectus sheath.',
+    origin: 'Pubic crest and pubic symphysis',
+    insertion: 'Xiphoid process and costal cartilages of ribs 5–7',
+    action: 'Flexes the trunk (lumbar spine) and compresses the abdominal contents; helps stabilise the pelvis',
+    nerve: 'Anterior rami of the thoracoabdominal nerves (T7–T11) and the subcostal nerve (T12)',
+    artery: 'Superior epigastric artery (from the internal thoracic) and inferior epigastric artery (from the external iliac), anastomosing within the rectus sheath',
+    clinicalCorrelation: 'The rectus sheath\'s composition changes at the arcuate line — below it, all three flat-muscle aponeuroses pass anterior to rectus abdominis, leaving only transversalis fascia posteriorly — a classic landmark for lower abdominal incisions, hernia repair, and laparoscopic port placement near the inferior epigastric vessels. Tendinous intersections firmly bind the muscle to the anterior sheath, so a rectus sheath haematoma (trauma or anticoagulation) stays well localised and can mimic an acute abdomen.',
+    questions: [
+      { q: 'What changes at the arcuate line, and why does it matter surgically?', a: 'Above the arcuate line, the rectus sheath has both anterior and posterior layers (from the split aponeuroses of external oblique, internal oblique and transversus abdominis). Below it, all three aponeuroses pass anterior to rectus abdominis, leaving only thin transversalis fascia posteriorly — relevant to the strength of lower abdominal incisions, hernia risk, and identifying the inferior epigastric vessels during laparoscopic port placement.' },
+      { q: 'Why does a rectus sheath haematoma stay well localised rather than spreading freely?', a: 'The tendinous intersections firmly bind rectus abdominis to the anterior wall of its sheath at several points, compartmentalising any bleeding within the muscle/sheath. This is why a rectus sheath haematoma (from a tear or anticoagulant use) tends to present as a discrete, tender abdominal wall mass that can mimic appendicitis or other acute abdominal pathology depending on its location.' }
+    ]
+  },
+  {
+    id: 'external_oblique',
+    name: 'External Oblique',
+    region: 'Abdomen — Anterolateral',
+    description: 'The largest and most superficial of the three flat abdominal muscles, fibres running "hands in pockets" — its aponeurosis folds to form the inguinal ligament.',
+    origin: 'External surfaces of ribs 5–12',
+    insertion: 'Linea alba, pubic tubercle, and the anterior half of the iliac crest; its inferior free edge folds back on itself to form the inguinal ligament',
+    action: 'Bilaterally flexes the trunk and compresses the abdominal contents; unilaterally rotates the trunk to the opposite side and laterally flexes to the same side',
+    nerve: 'Thoracoabdominal nerves (T7–T11) and the subcostal nerve (T12)',
+    artery: 'Lower posterior intercostal and subcostal arteries',
+    clinicalCorrelation: 'Its aponeurosis forms the anterior wall of the inguinal canal, and its folded inferior border forms the inguinal ligament — central to understanding inguinal hernias. The superficial inguinal ring, an opening in this aponeurosis just superior and medial to the pubic tubercle, is where an indirect inguinal hernia exits.',
+    questions: [
+      { q: 'How does external oblique contribute to the inguinal canal?', a: 'Its aponeurosis forms the anterior wall of the inguinal canal (reinforced laterally by muscle fibres), and its inferior free border rolls under to form the inguinal ligament (running from the ASIS to the pubic tubercle), which forms the floor of the canal. The superficial inguinal ring — an opening in this aponeurosis, superior and medial to the pubic tubercle — is where the canal\'s contents emerge.' },
+      { q: 'Which side does external oblique rotate the trunk to when acting alone, and why is this often confused?', a: 'Unilateral contraction rotates the trunk to the OPPOSITE side — e.g. the right external oblique contracting rotates the trunk to the left. This is often confused with internal oblique, which rotates to the SAME side as the contracting muscle; the ipsilateral internal oblique and contralateral external oblique work together as a pair to rotate the trunk toward one side.' }
+    ]
+  },
+  {
+    id: 'internal_oblique',
+    name: 'Internal Oblique',
+    region: 'Abdomen — Anterolateral',
+    description: 'The middle flat abdominal muscle, deep to external oblique with fibres running perpendicular to it — contributes to the conjoint tendon and the cremaster muscle.',
+    origin: 'Thoracolumbar fascia, iliac crest, and the lateral two-thirds of the inguinal ligament',
+    insertion: 'Ribs 10–12 and their costal cartilages, and the linea alba via the rectus sheath; its lowest fibres join transversus abdominis to form the conjoint tendon',
+    action: 'Bilaterally flexes the trunk and compresses the abdominal contents; unilaterally rotates the trunk to the same side and laterally flexes to the same side',
+    nerve: 'Thoracoabdominal nerves (T7–T11), subcostal nerve (T12), and the iliohypogastric and ilioinguinal nerves (L1)',
+    artery: 'Lower posterior intercostal, subcostal, and deep circumflex iliac arteries',
+    clinicalCorrelation: 'Its lowest fibres, fused with transversus abdominis, form the conjoint tendon, which reinforces the posterior wall of the inguinal canal medially and helps resist a direct inguinal hernia. Some fibres also form the cremaster muscle, which elevates the testis (the cremasteric reflex, L1/L2).',
+    questions: [
+      { q: 'What is the conjoint tendon, and what does it protect against?', a: 'The conjoint tendon is the fused inferior aponeurotic fibres of internal oblique and transversus abdominis, inserting on the pubic crest/pectineal line. It reinforces the posterior wall of the inguinal canal medially, helping resist a direct inguinal hernia, which pushes through the weakened area medial to the inferior epigastric vessels (Hesselbach\'s triangle).' },
+      { q: 'What is the cremasteric reflex and its anatomical basis?', a: 'Stroking the medial thigh skin causes reflex elevation of the ipsilateral testis via the cremaster muscle, which derives from internal oblique fibres that followed the spermatic cord during testicular descent. The reflex arc uses the ilioinguinal nerve as the afferent limb and the genital branch of the genitofemoral nerve as the efferent limb, both L1/L2 — so an absent reflex can suggest a lesion at that level.' }
+    ]
+  },
+  {
+    id: 'transversus_abdominis',
+    name: 'Transversus Abdominis',
+    region: 'Abdomen — Anterolateral',
+    description: 'The deepest flat abdominal muscle, with horizontally running fibres — the main muscular "corset" raising intra-abdominal pressure and providing core stability.',
+    origin: 'Thoracolumbar fascia, iliac crest, lateral third of the inguinal ligament, and costal cartilages of ribs 7–12 (interdigitating with the diaphragm)',
+    insertion: 'Linea alba (via the rectus sheath) and the pubic crest; its lowest fibres join internal oblique to form the conjoint tendon',
+    action: 'Compresses the abdominal contents, raising intra-abdominal pressure, without significant trunk flexion or rotation; contributes to core/spinal stabilisation',
+    nerve: 'Thoracoabdominal nerves (T7–T11), subcostal nerve (T12), and the iliohypogastric and ilioinguinal nerves (L1)',
+    artery: 'Lower posterior intercostal, subcostal, and deep circumflex iliac arteries',
+    clinicalCorrelation: 'Because its fibres run horizontally rather than obliquely, it contributes mainly to raising intra-abdominal pressure (Valsalva manoeuvre, forced expiration, defecation, childbirth) rather than trunk movement — making it a key target in "core" stability and low-back rehabilitation (transversus abdominis activation/"drawing-in" exercises).',
+    questions: [
+      { q: 'How does transversus abdominis differ functionally from the two obliques?', a: 'Its fibres run horizontally, so contraction produces almost no trunk flexion or rotation — unlike the obliques, whose oblique fibres do both. Its main role is raising intra-abdominal pressure (compression), important in forced expiration, coughing, defecation, childbirth, and spinal stabilisation, which is why it is specifically targeted in core-stability rehab.' },
+      { q: 'What is the significance of transversus abdominis interdigitating with the diaphragm?', a: 'Both muscles share fibre attachment at the costal cartilages of ribs 7–12, reflecting their combined role in generating intra-abdominal and intrathoracic pressure changes together during forced respiratory manoeuvres like coughing, and in bracing the trunk during heavy lifting.' }
+    ]
+  },
+
+  // ==================== ABDOMEN — POSTERIOR ====================
+  {
+    id: 'quadratus_lumborum',
+    name: 'Quadratus Lumborum',
+    region: 'Abdomen — Posterior',
+    description: 'A quadrilateral posterior abdominal wall muscle — a key "hip-hiker" and lateral trunk stabiliser, and an important landmark of the posterior abdominal wall.',
+    origin: 'Iliac crest and the iliolumbar ligament',
+    insertion: '12th rib and the transverse processes of L1–L4',
+    action: 'Laterally flexes the trunk to the same side ("hip-hiking" — elevating the ipsilateral hip during walking, or fixing the 12th rib during forced expiration); bilaterally extends the lumbar spine and fixes the 12th rib during deep inspiration',
+    nerve: 'Anterior rami of T12 and L1–L4 (subcostal nerve and lumbar plexus branches)',
+    artery: 'Subcostal and lumbar arteries',
+    clinicalCorrelation: 'Forms part of the floor of the posterior abdominal wall, lying directly posterior to the kidney — relevant to the surgical loin/flank approach to the kidney, which passes near or through it. It is frequently tender or in spasm in mechanical low back pain, and its weakness can produce a pelvic drop on the swing leg reminiscent of (but distinct from) a Trendelenburg gait.',
+    questions: [
+      { q: 'What is quadratus lumborum\'s role in walking, and how does its weakness present?', a: 'It "hip-hikes" — elevating the ipsilateral hip/pelvis to help clear the swinging leg off the ground — and stabilises the lumbar spine laterally. Weakness can cause a pelvic drop on the swing side reminiscent of a Trendelenburg gait, though the underlying cause differs from gluteus medius weakness and is distinguished by testing each muscle directly.' },
+      { q: 'Why is quadratus lumborum relevant to renal/flank surgery?', a: 'It lies in the posterior abdominal wall directly posterior to the kidney, forming part of the "bed" the kidney rests on. Flank/loin surgical approaches to the kidney (e.g. nephrectomy, pyeloplasty) pass near or through quadratus lumborum, making its anatomy relevant to surgical exposure and to interpreting flank pain from renal pathology.' }
     ]
   },
 ].map(m => ({ ...m, mesh3d: MESH_3D[m.id] || null }));

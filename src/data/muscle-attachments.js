@@ -253,8 +253,70 @@ const ATTACH_BACK = {
   multifidus:           { o: [{ anchor: 'sacrum' }], i: [{ bone: 'spine', t: 0.5 }] },
 };
 
+// ════════════ TRUNK (thorax + abdomen, anterior view) skeleton ════════════
+const BONES_TRUNK = {
+  sternum:     { a: [120, 38],  b: [120, 112] },   // manubrium → xiphoid
+  ribcage:     { a: [128, 55],  b: [172, 145] },   // upper→lower rib margin (lateral)
+  pelvis_line: { a: [82, 195],  b: [122, 228] },   // iliac crest → pubis
+};
+const ANCHORS_TRUNK = {
+  clavicle_lat:    [174, 40],
+  coracoid:        [152, 58],
+  humerus:         [180, 82],
+  scapula_medial:  [158, 96],
+  rib12:           [96, 168],
+  central_tendon:  [128, 118],
+};
+function ptTRUNK(ref) {
+  if (ref.anchor) return ANCHORS_TRUNK[ref.anchor];
+  const b = BONES_TRUNK[ref.bone];
+  const t = ref.t ?? 0.5;
+  return [b.a[0] + (b.b[0] - b.a[0]) * t, b.a[1] + (b.b[1] - b.a[1]) * t];
+}
+const SKELETON_TRUNK = `
+  <rect width="${W}" height="${H}" fill="var(--surface,#111)"/>
+  <!-- clavicle -->
+  <line x1="120" y1="40" x2="${ANCHORS_TRUNK.clavicle_lat[0]}" y2="${ANCHORS_TRUNK.clavicle_lat[1]}" stroke="rgba(255,255,255,0.2)" stroke-width="5" stroke-linecap="round"/>
+  <text x="176" y="34" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.38)" text-anchor="start">clavicle</text>
+  <!-- sternum -->
+  <line x1="120" y1="38" x2="120" y2="112" stroke="rgba(255,255,255,0.22)" stroke-width="7" stroke-linecap="round"/>
+  <text x="108" y="70" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.4)" text-anchor="end">sternum</text>
+  <!-- ribs (curved, right side) -->
+  <path d="M120 50 Q150 55 172 90" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="2.5"/>
+  <path d="M120 65 Q152 70 176 108" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="2.5"/>
+  <path d="M120 80 Q150 86 172 128" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="2.5"/>
+  <path d="M120 96 Q146 102 164 145" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="2.5"/>
+  <text x="180" y="112" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.4)" text-anchor="start">ribs</text>
+  <!-- scapula sliver (coracoid area) -->
+  <circle cx="${ANCHORS_TRUNK.coracoid[0]}" cy="${ANCHORS_TRUNK.coracoid[1]}" r="3.5" fill="rgba(255,255,255,0.16)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+  <!-- humerus stub -->
+  <line x1="176" y1="70" x2="${ANCHORS_TRUNK.humerus[0]}" y2="${ANCHORS_TRUNK.humerus[1]}" stroke="rgba(255,255,255,0.2)" stroke-width="6" stroke-linecap="round"/>
+  <text x="184" y="80" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.35)" text-anchor="start">humerus</text>
+  <!-- linea alba / midline guide -->
+  <line x1="120" y1="112" x2="120" y2="228" stroke="rgba(255,255,255,0.1)" stroke-width="1.5" stroke-dasharray="3 3"/>
+  <!-- pelvis (iliac crest + pubis) -->
+  <path d="M60 188 Q90 178 116 196 L122 228 Q108 236 96 228 Q68 214 60 188 Z" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)" stroke-width="1.1"/>
+  <text x="66" y="182" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.38)" text-anchor="start">iliac crest</text>
+  <text x="128" y="232" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.38)" text-anchor="start">pubis</text>
+  <text x="120" y="260" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.4)" text-anchor="middle">anterior trunk wall</text>
+`;
+const ATTACH_TRUNK = {
+  pectoralis_major:  { o: [{ anchor: 'clavicle_lat' }, { bone: 'sternum', t: 0.6 }], i: [{ anchor: 'humerus' }] },
+  pectoralis_minor:  { o: [{ bone: 'ribcage', t: 0.5 }], i: [{ anchor: 'coracoid' }] },
+  serratus_anterior: { o: [{ bone: 'ribcage', t: 0.3 }, { bone: 'ribcage', t: 0.7 }], i: [{ anchor: 'scapula_medial' }] },
+  subclavius:        { o: [{ bone: 'ribcage', t: 0.05 }], i: [{ anchor: 'clavicle_lat' }] },
+  external_intercostals: { o: [{ bone: 'ribcage', t: 0.3 }], i: [{ bone: 'ribcage', t: 0.45 }] },
+  internal_intercostals: { o: [{ bone: 'ribcage', t: 0.45 }], i: [{ bone: 'ribcage', t: 0.6 }] },
+  diaphragm:         { o: [{ bone: 'sternum', t: 1 }, { bone: 'ribcage', t: 0.95 }], i: [{ anchor: 'central_tendon' }] },
+  rectus_abdominis:  { o: [{ bone: 'pelvis_line', t: 1 }], i: [{ bone: 'sternum', t: 0.9 }] },
+  external_oblique:  { o: [{ bone: 'ribcage', t: 0.75 }], i: [{ bone: 'pelvis_line', t: 0 }] },
+  internal_oblique:  { o: [{ bone: 'pelvis_line', t: 0 }], i: [{ bone: 'ribcage', t: 0.9 }] },
+  transversus_abdominis: { o: [{ bone: 'pelvis_line', t: 0.2 }], i: [{ bone: 'sternum', t: 0.95 }] },
+  quadratus_lumborum: { o: [{ bone: 'pelvis_line', t: 0 }], i: [{ anchor: 'rib12' }] },
+};
+
 // Build the attachment plate SVG for a muscle id, or null if no spec exists.
-// Picks the upper-limb, lower-limb or back/axial skeleton by which map holds it.
+// Picks the upper-limb, lower-limb, back/axial or trunk skeleton by which map holds it.
 export function buildMuscleAttachment(muscleId) {
   let spec = ATTACH[muscleId], skeleton = SKELETON, resolve = pt;
   if (!spec) {
@@ -262,6 +324,9 @@ export function buildMuscleAttachment(muscleId) {
   }
   if (!spec) {
     spec = ATTACH_BACK[muscleId]; skeleton = SKELETON_BACK; resolve = ptBACK;
+  }
+  if (!spec) {
+    spec = ATTACH_TRUNK[muscleId]; skeleton = SKELETON_TRUNK; resolve = ptTRUNK;
   }
   if (!spec) return null;
   const oPts = spec.o.map(resolve);
