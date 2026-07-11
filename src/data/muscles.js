@@ -17,7 +17,7 @@
 //   absent → no 3D for this one; its accurate 2D plate is the visual instead
 //        (coracobrachialis, brachialis, anconeus, supinator aren't in the model)
 
-export const MUSCLE_REGIONS = ['All', 'Shoulder', 'Arm', 'Forearm — Flexors', 'Forearm — Extensors', 'Gluteal', 'Thigh — Anterior', 'Thigh — Medial', 'Thigh — Posterior', 'Leg — Anterior', 'Leg — Lateral', 'Leg — Posterior'];
+export const MUSCLE_REGIONS = ['All', 'Shoulder', 'Arm', 'Forearm — Flexors', 'Forearm — Extensors', 'Gluteal', 'Thigh — Anterior', 'Thigh — Medial', 'Thigh — Posterior', 'Leg — Anterior', 'Leg — Lateral', 'Leg — Posterior', 'Back — Superficial', 'Back — Deep'];
 
 // Interactive, per-mesh-separated model (ufulio) used for isolation.
 export const MUSCLE_MODEL_ID = 'a15b72e769934d6fb1ebb258b9306df4';
@@ -1052,6 +1052,154 @@ export const MUSCLES = [
     questions: [
       { q: 'Why is flexor hallucis longus especially important in push-off and in dancers?', a: 'It flexes the great toe, which bears much of the propulsive load during toe-off in walking, running and rising onto the toes. In ballet dancers, repeated forceful plantarflexion (pointe work) stresses its tendon behind the medial malleolus, causing FHL tendinitis ("dancer\'s tendinitis") and posteromedial ankle pain.' },
       { q: 'Which nerve supplies the deep posterior compartment of the leg, and what does its damage cause?', a: 'The tibial nerve supplies the deep (and superficial) posterior compartment — tibialis posterior, flexor digitorum longus, flexor hallucis longus (and gastrocnemius/soleus). Its damage weakens plantarflexion, inversion and toe flexion, and causes sensory loss over the sole (via its plantar branches).' }
+    ]
+  },
+
+  // ==================== BACK — SUPERFICIAL (extrinsic; move the upper limb) ====================
+  {
+    id: 'trapezius',
+    name: 'Trapezius',
+    region: 'Back — Superficial',
+    description: 'The large diamond-shaped muscle of the upper back — the odd one out among back muscles because it is supplied by a cranial nerve (the accessory nerve), not spinal nerves.',
+    origin: 'External occipital protuberance, ligamentum nuchae, and the spinous processes of C7–T12',
+    insertion: 'Lateral third of the clavicle, the acromion, and the spine of the scapula',
+    action: 'Upper fibres elevate the scapula, middle fibres retract it, lower fibres depress it; together they rotate the scapula upward to raise the arm above the head',
+    nerve: 'Accessory nerve (CN XI); proprioception via C3, C4',
+    artery: 'Transverse cervical artery',
+    clinicalCorrelation: 'The accessory nerve crosses the posterior triangle of the neck superficially and is easily injured during lymph node biopsy or surgery there, causing trapezius palsy: shoulder droop, difficulty raising the arm above the horizontal, and mild scapular winging.',
+    questions: [
+      { q: 'Why is trapezius unusual among the back muscles regarding its nerve supply?', a: 'It is supplied by the accessory nerve (cranial nerve XI), a cranial nerve, whereas the other intrinsic back muscles are supplied by posterior rami of spinal nerves and the other superficial ones by anterior rami. This reflects its developmental origin from the branchial (pharyngeal) arches rather than the trunk musculature.' },
+      { q: 'How does accessory nerve injury in the posterior triangle present?', a: 'The accessory nerve runs superficially across the posterior triangle of the neck and is vulnerable during lymph-node biopsy or neck surgery. Its injury paralyses trapezius, causing a drooping shoulder, weakness and pain on abducting the arm above horizontal (loss of scapular upward rotation), and mild winging of the scapula.' }
+    ]
+  },
+  {
+    id: 'latissimus_dorsi',
+    name: 'Latissimus Dorsi',
+    region: 'Back — Superficial',
+    description: 'The broad muscle of the lower back that sweeps up to the arm — the great adductor/extensor of the shoulder, active in pulling the body up or the arm down and back.',
+    origin: 'Spinous processes of T7–L5, thoracolumbar fascia, iliac crest, and the lower 3–4 ribs',
+    insertion: 'Floor of the intertubercular (bicipital) groove of the humerus',
+    action: 'Extension, adduction and medial rotation of the arm at the shoulder; pulls the body up toward the arms (climbing) or the trunk forward in a pull-up',
+    nerve: 'Thoracodorsal nerve (C6, C7, C8)',
+    artery: 'Thoracodorsal artery',
+    clinicalCorrelation: 'Nicknamed the "handcuff muscle" (it medially rotates and adducts the arm behind the back). With its reliable thoracodorsal neurovascular pedicle it is a workhorse flap for breast reconstruction and covering large soft-tissue defects.',
+    questions: [
+      { q: 'Why is latissimus dorsi a workhorse muscle for reconstructive surgery?', a: 'It is large, flat and expendable, with a single reliable neurovascular pedicle (the thoracodorsal nerve and vessels). This lets surgeons transfer it as a pedicled or free flap — classically for breast reconstruction after mastectomy or to cover large soft-tissue defects — without major functional loss.' },
+      { q: 'What movements define latissimus dorsi, and why is it called the "handcuff muscle"?', a: 'It extends, adducts and medially rotates the arm at the shoulder. Combined, these movements place the hand behind the back in the small-of-the-back position — as when putting on handcuffs — hence the nickname. It is also key in pulling movements like climbing and swimming.' }
+    ]
+  },
+  {
+    id: 'levator_scapulae',
+    name: 'Levator Scapulae',
+    region: 'Back — Superficial',
+    description: 'A strap running from the upper cervical vertebrae to the scapula — elevates the scapula and is a common source of neck/shoulder tension.',
+    origin: 'Transverse processes of C1–C4',
+    insertion: 'Medial (vertebral) border of the scapula, above the spine (superior angle)',
+    action: 'Elevates the scapula and helps rotate it downward (tilting the glenoid inferiorly); with the scapula fixed, laterally flexes the neck',
+    nerve: 'Dorsal scapular nerve (C5) and cervical nerves C3, C4',
+    artery: 'Dorsal scapular / transverse cervical artery',
+    clinicalCorrelation: 'A frequent site of myofascial neck-shoulder pain and stiffness (from posture/stress). Shares the dorsal scapular nerve with the rhomboids, so a dorsal scapular nerve lesion affects scapular elevation and retraction together.',
+    questions: [
+      { q: 'Which muscles share the dorsal scapular nerve, and what is their combined role?', a: 'Levator scapulae and the rhomboids (major and minor) are supplied by the dorsal scapular nerve (C5). Together they elevate and retract the scapula and rotate it downward — so a dorsal scapular nerve lesion weakens scapular elevation/retraction and can cause mild scapular winging.' },
+      { q: 'How does levator scapulae act differently depending on what is fixed?', a: 'With the neck fixed it elevates the scapula (shrugging). With the scapula fixed (e.g. the shoulder braced) it laterally flexes the cervical spine to the same side. This "reversible origin/insertion" is a common theme for muscles spanning the neck and shoulder girdle.' }
+    ]
+  },
+  {
+    id: 'rhomboid_major',
+    name: 'Rhomboid Major',
+    region: 'Back — Superficial',
+    description: 'The larger of the two rhomboids — retracts the scapula and, with rhomboid minor, holds it against the thoracic wall.',
+    origin: 'Spinous processes of T2–T5',
+    insertion: 'Medial (vertebral) border of the scapula, below the spine',
+    action: 'Retracts (adducts) the scapula and rotates it downward; helps fix the scapula to the thoracic wall',
+    nerve: 'Dorsal scapular nerve (C4, C5)',
+    artery: 'Dorsal scapular artery',
+    clinicalCorrelation: 'Rhomboid weakness (dorsal scapular nerve injury) lets the scapula drift laterally and produces a subtle medial winging — distinct from the more marked winging of serratus anterior (long thoracic nerve) palsy, which pushes the medial border out when pushing against a wall.',
+    questions: [
+      { q: 'How does rhomboid (dorsal scapular nerve) winging differ from serratus anterior (long thoracic nerve) winging?', a: 'Serratus anterior palsy (long thoracic nerve) causes prominent medial-border winging that worsens when pushing against a wall, because the muscle can no longer hold the scapula to the thorax during protraction. Rhomboid palsy (dorsal scapular nerve) causes milder winging with the scapula sitting slightly laterally, most evident with resisted retraction — the two are distinguished by which movement provokes the winging.' },
+      { q: 'What is the combined function of the rhomboids?', a: 'Rhomboid major and minor retract (adduct) the scapula, pulling it toward the midline, and rotate it downward (tilting the glenoid inferiorly). They also brace the scapula against the thoracic wall so other muscles have a stable base — important in movements like rowing.' }
+    ]
+  },
+  {
+    id: 'rhomboid_minor',
+    name: 'Rhomboid Minor',
+    region: 'Back — Superficial',
+    description: 'The smaller, more superior rhomboid, lying just above rhomboid major — same action, same nerve.',
+    origin: 'Ligamentum nuchae and spinous processes of C7–T1',
+    insertion: 'Medial (vertebral) border of the scapula, at the root of the spine of the scapula',
+    action: 'Retracts (adducts) the scapula and rotates it downward; fixes the scapula to the thoracic wall',
+    nerve: 'Dorsal scapular nerve (C4, C5)',
+    artery: 'Dorsal scapular artery',
+    clinicalCorrelation: 'Acts as a functional unit with rhomboid major; both are supplied by the dorsal scapular nerve, so they are affected together and produce the same subtle scapular winging when that nerve is injured.',
+    questions: [
+      { q: 'How is rhomboid minor distinguished anatomically from rhomboid major?', a: 'Rhomboid minor is smaller and lies just superior to rhomboid major. It arises higher (ligamentum nuchae and C7–T1 spinous processes) and inserts at the root of the scapular spine, whereas rhomboid major arises from T2–T5 and inserts along the medial border below the spine. Both have identical actions and nerve supply.' },
+      { q: 'Why are the rhomboids and trapezius both important in "squaring the shoulders"?', a: 'The rhomboids and the middle fibres of trapezius both retract the scapula, pulling the shoulder blades toward the midline ("squaring the shoulders"). They work together, though the rhomboids also rotate the scapula downward while the trapezius rotates it upward — so posture and movement depend on their balance.' }
+    ]
+  },
+
+  // ==================== BACK — DEEP (intrinsic; posterior rami) ====================
+  {
+    id: 'splenius_capitis',
+    name: 'Splenius Capitis',
+    region: 'Back — Deep',
+    description: 'A spinotransversalis (superficial deep) muscle wrapping the back of the neck like a bandage — extends and rotates the head to the same side.',
+    origin: 'Ligamentum nuchae and spinous processes of C7–T3/T4',
+    insertion: 'Mastoid process of the temporal bone and the lateral part of the superior nuchal line of the occipital bone',
+    action: 'Bilaterally extends the head and neck; unilaterally rotates and laterally flexes the head to the same (ipsilateral) side',
+    nerve: 'Posterior rami of middle cervical spinal nerves',
+    artery: 'Occipital / deep cervical artery',
+    clinicalCorrelation: 'As an intrinsic back muscle it is supplied by posterior rami — the defining feature separating the true (deep) back muscles from the superficial migrated limb muscles. Involved in whiplash and cervical strain.',
+    questions: [
+      { q: 'What single feature defines the "true" (intrinsic) back muscles, and how does splenius capitis fit?', a: 'The intrinsic (deep) back muscles are all supplied by the posterior rami of spinal nerves — unlike the superficial back muscles (trapezius via CN XI; latissimus, rhomboids, levator scapulae via anterior rami) which are migrated limb muscles. Splenius capitis, supplied by posterior cervical rami, is a true intrinsic back muscle.' },
+      { q: 'What is the action of splenius capitis acting on one side versus both?', a: 'Acting bilaterally, the two splenius capitis muscles extend the head and neck. Acting unilaterally, one rotates and laterally flexes the head toward the *same* side — a useful contrast with sternocleidomastoid, which rotates the head to the *opposite* side.' }
+    ]
+  },
+  {
+    id: 'erector_spinae',
+    name: 'Erector Spinae',
+    region: 'Back — Deep',
+    description: 'The great extensor column of the back — three vertical muscle columns (iliocostalis, longissimus, spinalis, lateral→medial) running the length of the spine.',
+    origin: 'Common tendon from the sacrum, iliac crest, and lumbar/sacral spinous processes',
+    insertion: 'Ribs and the transverse and spinous processes of vertebrae, up to the skull (via its three columns spanning the whole vertebral column)',
+    action: 'Bilaterally extends the vertebral column and head, and controls flexion eccentrically (bending forward); unilaterally laterally flexes the spine to the same side',
+    nerve: 'Posterior rami of spinal nerves (segmentally)',
+    artery: 'Posterior intercostal, lumbar and sacral arteries',
+    clinicalCorrelation: 'It is the main antigravity extensor maintaining posture; sudden overload (lifting with a flexed spine) causes mechanical back strain. Remember the three columns lateral→medial as "I Love Spine" — Iliocostalis, Longissimus, Spinalis.',
+    questions: [
+      { q: 'Name the three columns of erector spinae from lateral to medial, and a memory aid.', a: 'From lateral to medial: Iliocostalis, Longissimus, Spinalis — mnemonic "I Love Spine." Iliocostalis attaches to the ribs (costal), longissimus is the long central column reaching the mastoid, and spinalis lies most medially near the spinous processes.' },
+      { q: 'How does erector spinae act during bending forward and straightening up?', a: 'When you bend forward, erector spinae contracts eccentrically to control (pay out) the descent against gravity, then contracts concentrically to straighten the trunk back up. Lifting a heavy load with the spine flexed overloads it and is a common cause of acute mechanical low-back strain.' }
+    ]
+  },
+  {
+    id: 'semispinalis_capitis',
+    name: 'Semispinalis Capitis',
+    region: 'Back — Deep',
+    description: 'A transversospinalis muscle forming much of the fleshy bulk at the back of the neck — a powerful head extensor.',
+    origin: 'Transverse processes of C7–T6/T7',
+    insertion: 'Between the superior and inferior nuchal lines of the occipital bone',
+    action: 'Bilaterally extends the head and upper vertebral column (holding the head upright); helps rotate the head',
+    nerve: 'Posterior rami of cervical spinal nerves',
+    artery: 'Occipital / deep cervical artery',
+    clinicalCorrelation: 'It forms much of the muscle mass felt at the back of the neck and is a strong head extensor important in maintaining the upright posture of the head; the greater occipital nerve pierces it, so its tension is implicated in some occipital (tension-type) headaches.',
+    questions: [
+      { q: 'Which nerve pierces semispinalis capitis, and why is that clinically relevant?', a: 'The greater occipital nerve (posterior ramus of C2) pierces semispinalis capitis on its way to the scalp. Tension or spasm of the muscle can compress/irritate the nerve, contributing to occipital neuralgia and some tension-type headaches felt at the back of the head.' },
+      { q: 'What class of deep back muscle is semispinalis, and what is its general fibre direction?', a: 'It belongs to the transversospinales group, whose fibres run from transverse processes upward and medially to spinous processes (or the occiput). Semispinalis spans several segments (about 4–6), giving it a long lever for extending the head and neck, unlike the shorter multifidus and rotatores.' }
+    ]
+  },
+  {
+    id: 'multifidus',
+    name: 'Multifidus',
+    region: 'Back — Deep',
+    description: 'The deep segmental stabiliser of the spine — short transversospinalis fibres spanning a few vertebrae, best developed in the lumbar region.',
+    origin: 'Sacrum, ilium, and transverse processes of the vertebrae',
+    insertion: 'Spinous processes of vertebrae 2–4 segments above the origin',
+    action: 'Stabilises adjacent vertebrae during movement (segmental control); bilaterally extends and unilaterally rotates/side-bends the spine',
+    nerve: 'Posterior rami of spinal nerves (segmentally)',
+    artery: 'Segmental (lumbar, intercostal) arteries',
+    clinicalCorrelation: 'Multifidus is a key dynamic stabiliser of the lumbar spine; it atrophies rapidly and selectively in chronic low back pain, which is why its retraining (core/segmental stabilisation exercise) is central to back rehabilitation.',
+    questions: [
+      { q: 'Why is multifidus a focus of low back pain rehabilitation?', a: 'Multifidus provides segmental stability to the lumbar vertebrae. In low back pain it undergoes rapid, selective atrophy and delayed activation, reducing spinal stability. Targeted retraining of multifidus (core/segmental stabilisation exercises) helps restore control and is a cornerstone of evidence-based back rehab.' },
+      { q: 'How does multifidus differ from semispinalis within the transversospinales group?', a: 'Both run from transverse processes up to spinous processes, but multifidus spans only about 2–4 segments (short, deep, segmental control) and is thickest in the lumbar region, whereas semispinalis spans about 4–6 segments and is best developed in the thoracic/cervical region and head. Rotatores (the deepest) span just 1–2 segments.' }
     ]
   },
 ].map(m => ({ ...m, mesh3d: MESH_3D[m.id] || null }));

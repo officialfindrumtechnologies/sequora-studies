@@ -194,12 +194,74 @@ const ATTACH_LL = {
   flexor_hallucis_longus: { o: [{ bone: 'fibula', t: 0.5 }], i: [{ anchor: 'toes' }] },
 };
 
+// ════════════ BACK / AXIAL skeleton (posterior view) ════════════
+const BONES_BACK = {
+  spine: { a: [120, 84], b: [120, 350] },   // vertebral column, t: 0 top (C1) → 1 (sacrum)
+};
+const ANCHORS_BACK = {
+  occiput:        [120, 64],
+  mastoid:        [104, 72],
+  scapula_upper:  [158, 128],   // superior angle / medial border above spine
+  scapula_medial: [150, 172],   // medial (vertebral) border
+  scapula_spine:  [166, 150],   // spine of scapula / acromion
+  humerus:        [184, 168],   // intertubercular groove (lats)
+  iliac_crest:    [94, 348],
+  sacrum:         [120, 350],
+};
+function ptBACK(ref) {
+  if (ref.anchor) return ANCHORS_BACK[ref.anchor];
+  const b = BONES_BACK[ref.bone];
+  const t = ref.t ?? 0.5;
+  return [b.a[0] + (b.b[0] - b.a[0]) * t, b.a[1] + (b.b[1] - b.a[1]) * t];
+}
+const SKELETON_BACK = `
+  <rect width="${W}" height="${H}" fill="var(--surface,#111)"/>
+  <!-- skull (posterior) -->
+  <ellipse cx="120" cy="58" rx="26" ry="30" fill="rgba(255,255,255,0.09)" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
+  <text x="120" y="24" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.4)" text-anchor="middle">skull (occiput)</text>
+  <!-- vertebral column -->
+  <line x1="120" y1="84" x2="120" y2="350" stroke="rgba(255,255,255,0.22)" stroke-width="8" stroke-linecap="round"/>
+  <line x1="120" y1="84" x2="120" y2="350" stroke="rgba(255,255,255,0.10)" stroke-width="4" stroke-linecap="round"/>
+  <text x="132" y="120" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.4)" text-anchor="start">cervical</text>
+  <text x="132" y="215" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.4)" text-anchor="start">thoracic</text>
+  <text x="132" y="315" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.4)" text-anchor="start">lumbar</text>
+  <!-- ribs (right side, a few) -->
+  <path d="M120 175 Q160 185 176 215" fill="none" stroke="rgba(255,255,255,0.14)" stroke-width="2"/>
+  <path d="M120 195 Q162 208 178 240" fill="none" stroke="rgba(255,255,255,0.14)" stroke-width="2"/>
+  <path d="M120 215 Q160 230 172 262" fill="none" stroke="rgba(255,255,255,0.14)" stroke-width="2"/>
+  <!-- scapula (right) -->
+  <path d="M140 118 L188 126 L162 186 Z" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)" stroke-width="1.1"/>
+  <text x="192" y="126" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.38)" text-anchor="start">scapula</text>
+  <!-- humerus stub -->
+  <line x1="182" y1="150" x2="196" y2="205" stroke="rgba(255,255,255,0.2)" stroke-width="6" stroke-linecap="round"/>
+  <text x="200" y="196" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.35)" text-anchor="start">humerus</text>
+  <!-- pelvis -->
+  <path d="M88 344 Q120 334 152 344 Q150 372 120 378 Q90 372 88 344 Z" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)" stroke-width="1.1"/>
+  <text x="120" y="398" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.4)" text-anchor="middle">pelvis / sacrum</text>
+`;
+const ATTACH_BACK = {
+  // superficial (spine/skull → shoulder girdle or humerus)
+  trapezius:        { o: [{ anchor: 'occiput' }, { bone: 'spine', t: 0.5 }], i: [{ anchor: 'scapula_spine' }] },
+  latissimus_dorsi: { o: [{ bone: 'spine', t: 0.85 }, { anchor: 'iliac_crest' }], i: [{ anchor: 'humerus' }] },
+  levator_scapulae: { o: [{ bone: 'spine', t: 0.12 }], i: [{ anchor: 'scapula_upper' }] },
+  rhomboid_minor:   { o: [{ bone: 'spine', t: 0.2 }], i: [{ anchor: 'scapula_medial' }] },
+  rhomboid_major:   { o: [{ bone: 'spine', t: 0.4 }], i: [{ anchor: 'scapula_medial' }] },
+  // deep (intrinsic; run along the column / up to the skull)
+  splenius_capitis:     { o: [{ bone: 'spine', t: 0.3 }], i: [{ anchor: 'mastoid' }] },
+  erector_spinae:       { o: [{ anchor: 'sacrum' }], i: [{ anchor: 'occiput' }] },
+  semispinalis_capitis: { o: [{ bone: 'spine', t: 0.45 }], i: [{ anchor: 'occiput' }] },
+  multifidus:           { o: [{ anchor: 'sacrum' }], i: [{ bone: 'spine', t: 0.5 }] },
+};
+
 // Build the attachment plate SVG for a muscle id, or null if no spec exists.
-// Picks the upper- or lower-limb skeleton based on which spec map holds the id.
+// Picks the upper-limb, lower-limb or back/axial skeleton by which map holds it.
 export function buildMuscleAttachment(muscleId) {
   let spec = ATTACH[muscleId], skeleton = SKELETON, resolve = pt;
   if (!spec) {
     spec = ATTACH_LL[muscleId]; skeleton = SKELETON_LL; resolve = ptLL;
+  }
+  if (!spec) {
+    spec = ATTACH_BACK[muscleId]; skeleton = SKELETON_BACK; resolve = ptBACK;
   }
   if (!spec) return null;
   const oPts = spec.o.map(resolve);
