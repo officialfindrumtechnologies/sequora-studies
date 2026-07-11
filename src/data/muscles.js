@@ -17,7 +17,7 @@
 //   absent → no 3D for this one; its accurate 2D plate is the visual instead
 //        (coracobrachialis, brachialis, anconeus, supinator aren't in the model)
 
-export const MUSCLE_REGIONS = ['All', 'Shoulder', 'Arm', 'Forearm — Flexors', 'Forearm — Extensors', 'Gluteal', 'Thigh — Anterior', 'Thigh — Medial', 'Thigh — Posterior'];
+export const MUSCLE_REGIONS = ['All', 'Shoulder', 'Arm', 'Forearm — Flexors', 'Forearm — Extensors', 'Gluteal', 'Thigh — Anterior', 'Thigh — Medial', 'Thigh — Posterior', 'Leg — Anterior', 'Leg — Lateral', 'Leg — Posterior'];
 
 // Interactive, per-mesh-separated model (ufulio) used for isolation.
 export const MUSCLE_MODEL_ID = 'a15b72e769934d6fb1ebb258b9306df4';
@@ -838,6 +838,220 @@ export const MUSCLES = [
     questions: [
       { q: 'What are the three "true" hamstrings and what defining features do they share?', a: 'Biceps femoris (long head), semitendinosus and semimembranosus. They share three features: origin from the ischial tuberosity, supply by the tibial division of the sciatic nerve, and a dual action — extending the hip and flexing the knee (crossing both joints). The short head of biceps femoris and the hamstring part of adductor magnus are "incomplete" hamstrings.' },
       { q: 'How does semimembranosus contribute to knee stability?', a: 'Beyond flexing the knee, expansions from its tendon form the oblique popliteal ligament, which reinforces the posteromedial joint capsule and resists hyperextension. This structural role is why posteromedial knee stability and popliteal-fossa pathology (e.g. Baker\'s cyst) involve semimembranosus.' }
+    ]
+  },
+
+  // ==================== LEG — ANTERIOR (deep fibular nerve) ====================
+  {
+    id: 'tibialis_anterior',
+    name: 'Tibialis Anterior',
+    region: 'Leg — Anterior',
+    description: 'The main dorsiflexor of the ankle and the muscle whose failure produces foot drop — its tendon is the most prominent on the front of the ankle.',
+    origin: 'Lateral surface of the tibia and the interosseous membrane',
+    insertion: 'Medial cuneiform and base of the 1st metatarsal',
+    action: 'Dorsiflexion of the ankle and inversion of the foot; supports the medial longitudinal arch and clears the foot during the swing phase of gait',
+    nerve: 'Deep fibular (peroneal) nerve (L4, L5)',
+    artery: 'Anterior tibial artery',
+    clinicalCorrelation: 'Weakness (deep fibular nerve or L4/L5 lesion) causes foot drop — the foot cannot be dorsiflexed, so the patient develops a high-stepping (steppage) gait to avoid dragging the toes. The common fibular nerve at the fibular neck is the classic injury site.',
+    questions: [
+      { q: 'What is foot drop and which muscle/nerve failure causes it?', a: 'Foot drop is the inability to dorsiflex the ankle, so the foot hangs and the toes drag. It results from weakness of tibialis anterior (with the other anterior-compartment muscles), usually from a common or deep fibular nerve lesion — classically at the fibular neck. The patient compensates with a high-stepping (steppage) gait.' },
+      { q: 'Why does tibialis anterior both dorsiflex and invert the foot?', a: 'Its tendon crosses the front of the ankle and continues to the medial side of the foot (medial cuneiform/1st metatarsal). Pulling from that medial insertion lifts the foot up (dorsiflexion) and tilts the sole inward (inversion) at the same time.' }
+    ]
+  },
+  {
+    id: 'extensor_hallucis_longus',
+    name: 'Extensor Hallucis Longus',
+    region: 'Leg — Anterior',
+    description: 'Deep anterior-compartment muscle that extends the big toe — its function is a key clinical test of the L5 nerve root.',
+    origin: 'Middle of the anterior surface of the fibula and the interosseous membrane',
+    insertion: 'Base of the distal phalanx of the great toe (hallux)',
+    action: 'Extends the great toe; assists dorsiflexion of the ankle and inversion',
+    nerve: 'Deep fibular (peroneal) nerve (L5, S1)',
+    artery: 'Anterior tibial artery',
+    clinicalCorrelation: 'Strength of great-toe extension is the classic bedside test of the L5 myotome — weakness suggests an L5 radiculopathy (e.g. from an L4/L5 disc prolapse) or a deep fibular nerve lesion.',
+    questions: [
+      { q: 'Why is testing great-toe extension useful in a patient with back pain and sciatica?', a: 'Extension of the great toe is powered by extensor hallucis longus, whose main root value is L5. Weakness of great-toe extension is a sensitive sign of an L5 radiculopathy — commonly from an L4/L5 disc prolapse compressing the L5 root — helping localise the level of a nerve-root lesion.' },
+      { q: 'Where does the deep fibular nerve run, and what does it supply?', a: 'The deep fibular nerve runs in the anterior compartment of the leg with the anterior tibial vessels, supplying tibialis anterior, extensor hallucis longus, extensor digitorum longus and fibularis tertius (the dorsiflexors/toe extensors), then a small area of skin in the first web space. Its injury contributes to foot drop.' }
+    ]
+  },
+  {
+    id: 'extensor_digitorum_longus',
+    name: 'Extensor Digitorum Longus',
+    region: 'Leg — Anterior',
+    description: 'Anterior-compartment muscle that extends the lateral four toes and helps dorsiflex the ankle.',
+    origin: 'Lateral condyle of the tibia and the anterior surface of the fibula',
+    insertion: 'Middle and distal phalanges of the lateral four toes (via dorsal digital expansions)',
+    action: 'Extends the lateral four toes; assists dorsiflexion of the ankle',
+    nerve: 'Deep fibular (peroneal) nerve (L5, S1)',
+    artery: 'Anterior tibial artery',
+    clinicalCorrelation: 'One of the dorsiflexors lost in a common fibular nerve lesion (foot drop). Its tendons are visible fanning across the dorsum of the foot when the toes are extended.',
+    questions: [
+      { q: 'Which muscles make up the anterior compartment of the leg, and what do they share?', a: 'Tibialis anterior, extensor hallucis longus, extensor digitorum longus and fibularis tertius. All are supplied by the deep fibular nerve and are dorsiflexors of the ankle (plus toe extension), so a deep/common fibular nerve lesion knocks them all out — producing foot drop.' },
+      { q: 'How does extensor digitorum longus act on the toes despite inserting via expansions?', a: 'Its four tendons blend into the dorsal digital (extensor) expansions of the lateral four toes, transmitting force to the middle and distal phalanges. This lets it extend the toes at the interphalangeal and metatarsophalangeal joints, working with the lumbricals and interossei of the foot.' }
+    ]
+  },
+  {
+    id: 'fibularis_tertius',
+    name: 'Fibularis Tertius',
+    region: 'Leg — Anterior',
+    description: 'A small, often-present partial slip of extensor digitorum longus — an anterior-compartment muscle (despite the "fibularis" name) that aids dorsiflexion and eversion.',
+    origin: 'Distal anterior surface of the fibula',
+    insertion: 'Base of the 5th metatarsal',
+    action: 'Dorsiflexion of the ankle and eversion of the foot',
+    nerve: 'Deep fibular (peroneal) nerve (L5, S1)',
+    artery: 'Anterior tibial artery',
+    clinicalCorrelation: 'Unlike the other "fibularis" muscles (which are lateral compartment, evertors, superficial fibular nerve), fibularis tertius is an anterior-compartment dorsiflexor supplied by the deep fibular nerve — a common exam trap.',
+    questions: [
+      { q: 'Why is fibularis tertius a classic exam trap among the "fibularis" muscles?', a: 'Despite its name, fibularis tertius is in the *anterior* compartment, supplied by the *deep* fibular nerve, and it dorsiflexes (as well as everts). Fibularis longus and brevis are *lateral* compartment, supplied by the *superficial* fibular nerve, and they plantarflex-evert. Same name root, different compartment/nerve/action.' },
+      { q: 'What is the functional significance of fibularis tertius being variable/absent?', a: 'It is essentially a detached distal part of extensor digitorum longus and is absent in a minority of people with no deficit, because the other anterior-compartment muscles and the lateral evertors cover its actions. Its presence/absence is a normal anatomical variant.' }
+    ]
+  },
+
+  // ==================== LEG — LATERAL (superficial fibular nerve) ====================
+  {
+    id: 'fibularis_longus',
+    name: 'Fibularis Longus',
+    region: 'Leg — Lateral',
+    description: 'The superficial lateral-compartment evertor whose long tendon crosses the sole of the foot — key to eversion and to supporting both foot arches.',
+    origin: 'Head and upper lateral surface of the fibula',
+    insertion: 'Medial cuneiform and base of the 1st metatarsal (after crossing the sole of the foot)',
+    action: 'Eversion and plantarflexion of the foot; supports the lateral and transverse arches of the foot',
+    nerve: 'Superficial fibular (peroneal) nerve (L5, S1, S2)',
+    artery: 'Fibular (peroneal) artery',
+    clinicalCorrelation: 'Its tendon hooks behind the lateral malleolus then crosses the sole to the medial side, so it supports the arches; the superficial fibular nerve winds around the fibular neck and can be injured there, weakening eversion and predisposing to ankle inversion sprains.',
+    questions: [
+      { q: 'Why does the fibularis longus tendon travel all the way across the sole of the foot?', a: 'It passes behind the lateral malleolus, crosses the sole obliquely, and inserts on the medial cuneiform and 1st metatarsal on the *medial* side. This unusual course lets it evert and plantarflex the foot and act like a sling supporting the transverse and lateral longitudinal arches.' },
+      { q: 'What is the effect of a superficial fibular nerve lesion?', a: 'It weakens eversion (fibularis longus and brevis), so the foot tends to be held inverted, predisposing to inversion ankle sprains. There is also sensory loss over most of the dorsum of the foot. Unlike a deep fibular lesion, dorsiflexion is largely preserved.' }
+    ]
+  },
+  {
+    id: 'fibularis_brevis',
+    name: 'Fibularis Brevis',
+    region: 'Leg — Lateral',
+    description: 'The deeper, shorter lateral-compartment evertor — its insertion on the 5th metatarsal base is a common site of avulsion fracture in inversion injuries.',
+    origin: 'Lower lateral surface of the fibula',
+    insertion: 'Tuberosity at the base of the 5th metatarsal',
+    action: 'Eversion and plantarflexion of the foot',
+    nerve: 'Superficial fibular (peroneal) nerve (L5, S1, S2)',
+    artery: 'Fibular (peroneal) artery',
+    clinicalCorrelation: 'A forceful inversion injury can avulse the fibularis brevis insertion, producing a 5th metatarsal base avulsion fracture — a common finding on ankle X-rays taken for a "sprain," and distinct from the shaft (Jones) fracture.',
+    questions: [
+      { q: 'Why can an ankle inversion injury cause a 5th metatarsal base fracture?', a: 'Fibularis brevis inserts on the tuberosity at the base of the 5th metatarsal. During a sudden forceful inversion, the muscle contracts to resist it and can avulse a fragment of bone from its insertion — an avulsion fracture of the 5th metatarsal base, commonly mistaken for a simple sprain.' },
+      { q: 'How do the two lateral-compartment muscles differ in their tendon path and insertion?', a: 'Both pass behind the lateral malleolus, but fibularis brevis is shorter and inserts nearby on the 5th metatarsal base, while fibularis longus continues across the sole to the medial cuneiform/1st metatarsal. Both evert and plantarflex, but only longus significantly supports the arches.' }
+    ]
+  },
+
+  // ==================== LEG — POSTERIOR (tibial nerve) ====================
+  {
+    id: 'gastrocnemius',
+    name: 'Gastrocnemius',
+    region: 'Leg — Posterior',
+    description: 'The two-headed superficial calf muscle that gives the calf its shape — a powerful plantarflexor that also crosses the knee, so it works best with the knee extended.',
+    origin: 'Medial and lateral heads from the corresponding condyles of the femur',
+    insertion: 'Posterior surface of the calcaneus via the calcaneal (Achilles) tendon',
+    action: 'Plantarflexion of the ankle (strongest with the knee straight) and flexion of the knee; the main propulsive muscle in walking, running and jumping',
+    nerve: 'Tibial nerve (S1, S2)',
+    artery: 'Sural arteries (from the popliteal artery)',
+    clinicalCorrelation: 'With soleus it forms the calf and the Achilles tendon; rupture of the Achilles causes sudden calf pain and a positive Thompson test (squeezing the calf fails to plantarflex the foot). Because gastrocnemius crosses the knee, its power drops when the knee is flexed.',
+    questions: [
+      { q: 'Why is gastrocnemius a weaker plantarflexor when the knee is bent?', a: 'It crosses both the knee and the ankle, arising from the femoral condyles. When the knee is flexed the muscle is shortened (actively insufficient) and generates less plantarflexion force — which is why calf-raise strength is tested with the knee straight, and why soleus (which does not cross the knee) dominates plantarflexion in the seated position.' },
+      { q: 'What is the Thompson test and what does it detect?', a: 'With the patient prone and knee flexed, the examiner squeezes the calf. Normally this plantarflexes the foot via the intact gastrocnemius–soleus–Achilles unit. If the Achilles tendon is ruptured, squeezing produces no plantarflexion — a positive Thompson test — confirming the rupture.' }
+    ]
+  },
+  {
+    id: 'soleus',
+    name: 'Soleus',
+    region: 'Leg — Posterior',
+    description: 'The broad, flat muscle deep to gastrocnemius — a postural plantarflexor and the main venous "peripheral heart" pumping blood back up the leg.',
+    origin: 'Soleal line of the tibia and the posterior surface of the fibular head/upper fibula',
+    insertion: 'Posterior surface of the calcaneus via the calcaneal (Achilles) tendon',
+    action: 'Plantarflexion of the ankle (works at any knee position); a key postural muscle steadying the leg over the foot during standing',
+    nerve: 'Tibial nerve (S1, S2)',
+    artery: 'Posterior tibial and fibular arteries',
+    clinicalCorrelation: 'Its rhythmic contraction (the "soleal/calf pump") drives venous return; immobility removes this pump and predisposes to deep vein thrombosis. Because it does not cross the knee, it plantarflexes even when the knee is flexed.',
+    questions: [
+      { q: 'Why is soleus called the "peripheral heart," and what happens when it stops working?', a: 'Its rhythmic contractions compress the deep leg veins, pumping blood upward against gravity (the calf/soleal pump) and aiding venous return. With immobility (long flights, bed rest) this pump fails, blood stagnates in the deep veins, and the risk of deep vein thrombosis rises.' },
+      { q: 'How can you clinically distinguish soleus from gastrocnemius function?', a: 'Test plantarflexion with the knee *flexed* (e.g. seated calf raise). This slackens the two-joint gastrocnemius, so soleus — which does not cross the knee — is isolated. Strong plantarflexion with the knee bent indicates intact soleus even if gastrocnemius is compromised.' }
+    ]
+  },
+  {
+    id: 'plantaris',
+    name: 'Plantaris',
+    region: 'Leg — Posterior',
+    description: 'A small vestigial muscle with a tiny belly and a very long thin tendon — often mistaken for a nerve during surgery and a favourite tendon graft.',
+    origin: 'Lateral supracondylar line of the femur (above the lateral head of gastrocnemius)',
+    insertion: 'Posterior surface of the calcaneus (medial to the Achilles tendon)',
+    action: 'Weakly assists plantarflexion of the ankle and flexion of the knee',
+    nerve: 'Tibial nerve (S1, S2)',
+    artery: 'Sural arteries',
+    clinicalCorrelation: 'Its long thin tendon is commonly harvested as a graft, and its rupture (or that of the medial gastrocnemius) causes "tennis leg" — sudden sharp calf pain during push-off. Absent in a notable minority with no deficit.',
+    questions: [
+      { q: 'Why is plantaris clinically useful despite being functionally trivial?', a: 'Its long, thin, mostly tendinous form makes it an ideal expendable graft for tendon reconstruction (e.g. hand tendons). Surgeons also note it can be mistaken for a nerve. Functionally it contributes almost nothing to plantarflexion, so harvesting or losing it causes no deficit.' },
+      { q: 'What is "tennis leg"?', a: 'A sudden painful tear during forceful push-off (ankle dorsiflexed, knee extended), classically attributed to plantaris rupture but more often involving the medial head of gastrocnemius. It presents as an acute sharp pain in the calf, sometimes with a pop, bruising and difficulty weight-bearing.' }
+    ]
+  },
+  {
+    id: 'popliteus',
+    name: 'Popliteus',
+    region: 'Leg — Posterior',
+    description: 'A small deep muscle forming the floor of the popliteal fossa that "unlocks" the fully extended knee to allow flexion to begin.',
+    origin: 'Lateral condyle of the femur and the lateral meniscus',
+    insertion: 'Posterior surface of the tibia, above the soleal line',
+    action: 'Unlocks the extended knee by laterally rotating the femur on the fixed tibia (or medially rotating the tibia on the femur); weak knee flexion',
+    nerve: 'Tibial nerve (L4, L5, S1)',
+    artery: 'Popliteal artery (muscular branches)',
+    clinicalCorrelation: 'When the knee is fully extended it is "screwed home" (locked) for stability; popliteus rotates the joint to release this lock so flexion can start. It also retracts the lateral meniscus during flexion, protecting it from being crushed.',
+    questions: [
+      { q: 'What does it mean that popliteus "unlocks" the knee?', a: 'In full extension the knee rotates slightly into a close-packed, locked position ("screw-home mechanism") for stable standing. To begin flexion, popliteus laterally rotates the femur on the fixed tibia (or medially rotates the tibia), releasing the lock so the other flexors can bend the knee.' },
+      { q: 'How does popliteus protect the lateral meniscus?', a: 'It has an attachment to the lateral meniscus, and during knee flexion it pulls the meniscus posteriorly out of the way of the advancing femoral condyle — preventing the meniscus from being trapped and crushed within the joint.' }
+    ]
+  },
+  {
+    id: 'tibialis_posterior',
+    name: 'Tibialis Posterior',
+    region: 'Leg — Posterior',
+    description: 'The deepest, most central posterior-compartment muscle — the main invertor of the foot and the chief dynamic support of the medial longitudinal arch.',
+    origin: 'Interosseous membrane and adjacent posterior surfaces of the tibia and fibula',
+    insertion: 'Navicular tuberosity and spreading to several tarsals and metatarsal bases',
+    action: 'Inversion and plantarflexion of the foot; the principal dynamic support of the medial longitudinal arch',
+    nerve: 'Tibial nerve (L4, L5)',
+    artery: 'Posterior tibial and fibular arteries',
+    clinicalCorrelation: 'Tibialis posterior dysfunction (tendon degeneration/rupture) is the commonest cause of acquired adult flatfoot — the medial arch collapses, the heel drifts into valgus, and the patient cannot perform a single-leg heel raise.',
+    questions: [
+      { q: 'Why does tibialis posterior dysfunction cause acquired flatfoot?', a: 'Tibialis posterior is the main dynamic supporter of the medial longitudinal arch and the chief invertor. When its tendon degenerates or ruptures, the arch is no longer actively supported, so it collapses — producing acquired adult flatfoot with heel valgus, an inability to do a single-leg heel raise, and the "too many toes" sign.' },
+      { q: 'How do tibialis anterior and tibialis posterior together control foot inversion?', a: 'Both invert the foot: tibialis anterior inverts while dorsiflexing (its tendon crosses the front-medial ankle), whereas tibialis posterior inverts while plantarflexing (behind the medial malleolus). Together they form an "inversion stirrup," and both help support the medial arch.' }
+    ]
+  },
+  {
+    id: 'flexor_digitorum_longus',
+    name: 'Flexor Digitorum Longus',
+    region: 'Leg — Posterior',
+    description: 'Deep posterior-compartment muscle that flexes the lateral four toes and grips the ground during walking; its tendon passes behind the medial malleolus.',
+    origin: 'Posterior surface of the tibia (below the soleal line)',
+    insertion: 'Bases of the distal phalanges of the lateral four toes',
+    action: 'Flexes the lateral four toes; assists plantarflexion and inversion; helps grip the ground and push off in gait',
+    nerve: 'Tibial nerve (S2, S3)',
+    artery: 'Posterior tibial artery',
+    clinicalCorrelation: 'Its tendon passes behind the medial malleolus within the tarsal tunnel with tibialis posterior, flexor hallucis longus, the posterior tibial vessels and the tibial nerve — structures compressed in tarsal tunnel syndrome (mnemonic "Tom, Dick and a Very Nervous Harry").',
+    questions: [
+      { q: 'What structures pass through the tarsal tunnel, and in what order?', a: 'Behind the medial malleolus, from anterior to posterior: Tibialis posterior, flexor Digitorum longus, posterior tibial Artery, tibial Nerve, flexor Hallucis longus — mnemonic "Tom, Dick, And Very Nervous Harry." Compression here (tarsal tunnel syndrome) causes burning sole pain and tingling in the tibial nerve distribution.' },
+      { q: 'How do the long toe flexors contribute to walking?', a: 'Flexor digitorum longus (lateral four toes) and flexor hallucis longus (great toe) flex the toes against the ground during the stance and push-off phases, giving grip and helping propel the body forward — especially important on uneven ground and during the toe-off phase of gait.' }
+    ]
+  },
+  {
+    id: 'flexor_hallucis_longus',
+    name: 'Flexor Hallucis Longus',
+    region: 'Leg — Posterior',
+    description: 'The powerful deep flexor of the great toe — the "push-off" muscle of the foot, especially in walking, running and standing on tiptoe.',
+    origin: 'Posterior surface of the fibula and the interosseous membrane',
+    insertion: 'Base of the distal phalanx of the great toe (hallux)',
+    action: 'Flexes the great toe; assists plantarflexion and supports the medial arch; provides the final push-off in gait',
+    nerve: 'Tibial nerve (S2, S3)',
+    artery: 'Fibular (peroneal) artery',
+    clinicalCorrelation: 'It provides the propulsive "toe-off" in walking and running; its tendon runs behind the medial malleolus (the last structure in the tarsal tunnel) and can be a source of posterior ankle pain in dancers ("dancer\'s tendinitis") from repeated pointe work.',
+    questions: [
+      { q: 'Why is flexor hallucis longus especially important in push-off and in dancers?', a: 'It flexes the great toe, which bears much of the propulsive load during toe-off in walking, running and rising onto the toes. In ballet dancers, repeated forceful plantarflexion (pointe work) stresses its tendon behind the medial malleolus, causing FHL tendinitis ("dancer\'s tendinitis") and posteromedial ankle pain.' },
+      { q: 'Which nerve supplies the deep posterior compartment of the leg, and what does its damage cause?', a: 'The tibial nerve supplies the deep (and superficial) posterior compartment — tibialis posterior, flexor digitorum longus, flexor hallucis longus (and gastrocnemius/soleus). Its damage weakens plantarflexion, inversion and toe flexion, and causes sensory loss over the sole (via its plantar branches).' }
     ]
   },
 ].map(m => ({ ...m, mesh3d: MESH_3D[m.id] || null }));

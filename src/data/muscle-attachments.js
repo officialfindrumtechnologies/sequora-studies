@@ -125,7 +125,8 @@ const ANCHORS_LL = {
   ischial_tub:  [102, 122],  // ischial tuberosity (sit bone)
   greater_troch:[98, 134],
   patella:      [122, 258],
-  foot:         [122, 424],
+  foot:         [116, 420],
+  toes:         [150, 424],
 };
 function ptLL(ref) {
   if (ref.anchor) return ANCHORS_LL[ref.anchor];
@@ -175,6 +176,22 @@ const ATTACH_LL = {
   biceps_femoris:        { o: [{ anchor: 'ischial_tub' }], i: [{ bone: 'fibula', t: 0.03 }] },
   semitendinosus:        { o: [{ anchor: 'ischial_tub' }], i: [{ bone: 'tibia', t: 0.14 }] },
   semimembranosus:       { o: [{ anchor: 'ischial_tub' }], i: [{ bone: 'tibia', t: 0.1 }] },
+  // ── leg — anterior ──
+  tibialis_anterior:        { o: [{ bone: 'tibia', t: 0.25 }], i: [{ anchor: 'foot' }] },
+  extensor_hallucis_longus: { o: [{ bone: 'fibula', t: 0.4 }], i: [{ anchor: 'toes' }] },
+  extensor_digitorum_longus:{ o: [{ bone: 'fibula', t: 0.15 }, { bone: 'tibia', t: 0.05 }], i: [{ anchor: 'toes' }] },
+  fibularis_tertius:        { o: [{ bone: 'fibula', t: 0.6 }], i: [{ anchor: 'foot' }] },
+  // ── leg — lateral ──
+  fibularis_longus:  { o: [{ bone: 'fibula', t: 0.1 }], i: [{ anchor: 'foot' }] },
+  fibularis_brevis:  { o: [{ bone: 'fibula', t: 0.5 }], i: [{ anchor: 'foot' }] },
+  // ── leg — posterior ──
+  gastrocnemius:          { o: [{ bone: 'femur', t: 0.95 }], i: [{ anchor: 'foot' }] },
+  soleus:                 { o: [{ bone: 'fibula', t: 0.1 }, { bone: 'tibia', t: 0.25 }], i: [{ anchor: 'foot' }] },
+  plantaris:              { o: [{ bone: 'femur', t: 0.92 }], i: [{ anchor: 'foot' }] },
+  popliteus:              { o: [{ bone: 'femur', t: 0.96 }], i: [{ bone: 'tibia', t: 0.15 }] },
+  tibialis_posterior:     { o: [{ bone: 'tibia', t: 0.35 }, { bone: 'fibula', t: 0.35 }], i: [{ anchor: 'foot' }] },
+  flexor_digitorum_longus:{ o: [{ bone: 'tibia', t: 0.45 }], i: [{ anchor: 'toes' }] },
+  flexor_hallucis_longus: { o: [{ bone: 'fibula', t: 0.5 }], i: [{ anchor: 'toes' }] },
 };
 
 // Build the attachment plate SVG for a muscle id, or null if no spec exists.
