@@ -5333,9 +5333,12 @@ window.openTopicVisualModal = function(tvKey, topicId) {
   const qaHtml = (topic.examQA || []).map((qa, i) => `
     <div class="tv-qa-item">
       <button class="tv-qa-q" onclick="tvToggleQa(this)">
-        <span>${qa.q}</span><span class="tv-qa-chevron">▾</span>
+        <span class="tv-qa-q-inner">
+          ${qa.source ? `<span class="tv-qa-source-tag" title="Real exam question">REAL · ${escapeHtml(qa.source)}</span>` : ''}
+          <span>${qa.q}</span>
+        </span><span class="tv-qa-chevron">▾</span>
       </button>
-      <div class="tv-qa-a">${qa.a}${qa.year ? `<span class="tv-qa-year">${qa.year}</span>` : ''}</div>
+      <div class="tv-qa-a">${qa.a}</div>
     </div>`).join('');
 
   let view3dHtml = '';
