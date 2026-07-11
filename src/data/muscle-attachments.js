@@ -315,8 +315,83 @@ const ATTACH_TRUNK = {
   quadratus_lumborum: { o: [{ bone: 'pelvis_line', t: 0 }], i: [{ anchor: 'rib12' }] },
 };
 
+// ════════════ HEAD & NECK skeleton (anterolateral view) ════════════
+const BONES_HEAD = {
+  mandible:       { a: [150, 70],  b: [98, 118] },   // condyle/ramus → chin/body
+  cervical_spine: { a: [118, 94],  b: [118, 185] },  // base of skull → root of neck
+};
+const ANCHORS_HEAD = {
+  temporal_fossa:    [148, 36],
+  zygomatic_arch:    [156, 58],
+  coronoid:          [138, 60],
+  condyle:           [150, 70],
+  pterygoid_plate:   [126, 78],
+  mandible_angle:    [148, 108],
+  mandible_symphysis:[96, 116],
+  orbit:             [88, 46],
+  orbit_med:         [82, 46],
+  orbit_lat:         [94, 46],
+  mouth:             [104, 100],
+  mouth_l:           [98, 100],
+  mouth_r:           [110, 100],
+  cheek:             [132, 92],
+  forehead:          [112, 8],
+  occiput_base:      [118, 90],
+  mastoid:           [148, 82],
+  hyoid:             [118, 140],
+  manubrium:         [104, 182],
+  clavicle_med:      [128, 178],
+  rib1:              [146, 186],
+  rib2:              [150, 198],
+  scapula_notch:     [172, 190],
+};
+function ptHEAD(ref) {
+  if (ref.anchor) return ANCHORS_HEAD[ref.anchor];
+  const b = BONES_HEAD[ref.bone];
+  const t = ref.t ?? 0.5;
+  return [b.a[0] + (b.b[0] - b.a[0]) * t, b.a[1] + (b.b[1] - b.a[1]) * t];
+}
+const SKELETON_HEAD = `
+  <rect width="${W}" height="${H}" fill="var(--surface,#111)"/>
+  <!-- cranium -->
+  <ellipse cx="118" cy="45" rx="42" ry="48" fill="rgba(255,255,255,0.09)" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
+  <text x="118" y="-2" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.4)" text-anchor="middle" transform="translate(0,10)">skull</text>
+  <!-- mandible -->
+  <path d="M150 70 Q160 92 148 108 Q120 122 96 116 Q82 106 86 90" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
+  <text x="80" y="122" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.38)" text-anchor="start">mandible</text>
+  <!-- cervical spine -->
+  <line x1="118" y1="94" x2="118" y2="185" stroke="rgba(255,255,255,0.2)" stroke-width="6" stroke-linecap="round"/>
+  <text x="128" y="150" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.36)" text-anchor="start">cervical spine</text>
+  <!-- hyoid -->
+  <ellipse cx="118" cy="140" rx="9" ry="4" fill="rgba(255,255,255,0.14)" stroke="rgba(255,255,255,0.28)" stroke-width="1"/>
+  <text x="96" y="143" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.38)" text-anchor="end">hyoid</text>
+  <!-- clavicle + manubrium + rib1/2 -->
+  <line x1="104" y1="182" x2="146" y2="186" stroke="rgba(255,255,255,0.18)" stroke-width="4" stroke-linecap="round"/>
+  <text x="150" y="188" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.36)" text-anchor="start">clavicle / rib 1</text>
+  <line x1="104" y1="176" x2="104" y2="200" stroke="rgba(255,255,255,0.2)" stroke-width="5" stroke-linecap="round"/>
+  <text x="96" y="205" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.36)" text-anchor="middle">sternum</text>
+`;
+const ATTACH_HEAD = {
+  temporalis:        { o: [{ anchor: 'temporal_fossa' }], i: [{ anchor: 'coronoid' }] },
+  masseter:          { o: [{ anchor: 'zygomatic_arch' }], i: [{ anchor: 'mandible_angle' }] },
+  medial_pterygoid:  { o: [{ anchor: 'pterygoid_plate' }], i: [{ anchor: 'mandible_angle' }] },
+  lateral_pterygoid: { o: [{ anchor: 'pterygoid_plate' }], i: [{ anchor: 'condyle' }] },
+  orbicularis_oculi: { o: [{ anchor: 'orbit_med' }], i: [{ anchor: 'orbit_lat' }] },
+  orbicularis_oris:  { o: [{ anchor: 'mouth_l' }], i: [{ anchor: 'mouth_r' }] },
+  buccinator:        { o: [{ anchor: 'cheek' }], i: [{ anchor: 'mouth' }] },
+  occipitofrontalis: { o: [{ anchor: 'occiput_base' }], i: [{ anchor: 'forehead' }] },
+  sternocleidomastoid: { o: [{ anchor: 'manubrium' }, { anchor: 'clavicle_med' }], i: [{ anchor: 'mastoid' }] },
+  anterior_scalene:  { o: [{ bone: 'cervical_spine', t: 0.3 }], i: [{ anchor: 'rib1' }] },
+  middle_scalene:    { o: [{ bone: 'cervical_spine', t: 0.2 }], i: [{ anchor: 'rib1' }] },
+  posterior_scalene: { o: [{ bone: 'cervical_spine', t: 0.35 }], i: [{ anchor: 'rib2' }] },
+  digastric:         { o: [{ anchor: 'mandible_symphysis' }, { anchor: 'mastoid' }], i: [{ anchor: 'hyoid' }] },
+  mylohyoid:         { o: [{ anchor: 'mandible_symphysis' }], i: [{ anchor: 'hyoid' }] },
+  sternohyoid:       { o: [{ anchor: 'manubrium' }], i: [{ anchor: 'hyoid' }] },
+  omohyoid:          { o: [{ anchor: 'scapula_notch' }], i: [{ anchor: 'hyoid' }] },
+};
+
 // Build the attachment plate SVG for a muscle id, or null if no spec exists.
-// Picks the upper-limb, lower-limb, back/axial or trunk skeleton by which map holds it.
+// Picks the upper-limb, lower-limb, back/axial, trunk or head/neck skeleton by which map holds it.
 export function buildMuscleAttachment(muscleId) {
   let spec = ATTACH[muscleId], skeleton = SKELETON, resolve = pt;
   if (!spec) {
@@ -327,6 +402,9 @@ export function buildMuscleAttachment(muscleId) {
   }
   if (!spec) {
     spec = ATTACH_TRUNK[muscleId]; skeleton = SKELETON_TRUNK; resolve = ptTRUNK;
+  }
+  if (!spec) {
+    spec = ATTACH_HEAD[muscleId]; skeleton = SKELETON_HEAD; resolve = ptHEAD;
   }
   if (!spec) return null;
   const oPts = spec.o.map(resolve);

@@ -17,7 +17,7 @@
 //   absent → no 3D for this one; its accurate 2D plate is the visual instead
 //        (coracobrachialis, brachialis, anconeus, supinator aren't in the model)
 
-export const MUSCLE_REGIONS = ['All', 'Shoulder', 'Arm', 'Forearm — Flexors', 'Forearm — Extensors', 'Gluteal', 'Thigh — Anterior', 'Thigh — Medial', 'Thigh — Posterior', 'Leg — Anterior', 'Leg — Lateral', 'Leg — Posterior', 'Back — Superficial', 'Back — Deep', 'Thorax — Pectoral', 'Thorax — Wall', 'Abdomen — Anterolateral', 'Abdomen — Posterior'];
+export const MUSCLE_REGIONS = ['All', 'Shoulder', 'Arm', 'Forearm — Flexors', 'Forearm — Extensors', 'Gluteal', 'Thigh — Anterior', 'Thigh — Medial', 'Thigh — Posterior', 'Leg — Anterior', 'Leg — Lateral', 'Leg — Posterior', 'Back — Superficial', 'Back — Deep', 'Thorax — Pectoral', 'Thorax — Wall', 'Abdomen — Anterolateral', 'Abdomen — Posterior', 'Head — Mastication', 'Head — Facial Expression', 'Neck — SCM & Scalenes', 'Neck — Hyoid'];
 
 // Interactive, per-mesh-separated model (ufulio) used for isolation.
 export const MUSCLE_MODEL_ID = 'a15b72e769934d6fb1ebb258b9306df4';
@@ -1400,6 +1400,270 @@ export const MUSCLES = [
     questions: [
       { q: 'What is quadratus lumborum\'s role in walking, and how does its weakness present?', a: 'It "hip-hikes" — elevating the ipsilateral hip/pelvis to help clear the swinging leg off the ground — and stabilises the lumbar spine laterally. Weakness can cause a pelvic drop on the swing side reminiscent of a Trendelenburg gait, though the underlying cause differs from gluteus medius weakness and is distinguished by testing each muscle directly.' },
       { q: 'Why is quadratus lumborum relevant to renal/flank surgery?', a: 'It lies in the posterior abdominal wall directly posterior to the kidney, forming part of the "bed" the kidney rests on. Flank/loin surgical approaches to the kidney (e.g. nephrectomy, pyeloplasty) pass near or through quadratus lumborum, making its anatomy relevant to surgical exposure and to interpreting flank pain from renal pathology.' }
+    ]
+  },
+
+  // ==================== HEAD — MASTICATION (all CN V3) ====================
+  {
+    id: 'temporalis',
+    name: 'Temporalis',
+    region: 'Head — Mastication',
+    description: 'Large fan-shaped muscle filling the temporal fossa — the primary muscle for forceful jaw closure, with posterior fibres that retract the mandible.',
+    origin: 'Temporal fossa and the deep surface of the temporal fascia',
+    insertion: 'Coronoid process and anterior border of the ramus of the mandible',
+    action: 'Elevates (closes) the mandible; posterior fibres retract a protruded mandible',
+    nerve: 'Deep temporal branches of the mandibular nerve (V3)',
+    artery: 'Deep temporal branches of the maxillary artery',
+    clinicalCorrelation: 'Temporal hollowing (visible atrophy above the zygomatic arch) is a classic sign of trigeminal motor nerve dysfunction or severe systemic wasting, and jaw clenching with palpation over the muscle is a standard part of testing CN V motor function.',
+    questions: [
+      { q: 'Why does temporal hollowing suggest a problem, and what nerve is implicated?', a: 'Visible hollowing above the zygomatic arch reflects atrophy of temporalis, most often from trigeminal (CN V) motor nerve dysfunction — the mandibular division, V3, supplies all four muscles of mastication — or severe generalised wasting. Testing jaw clenching while palpating temporalis bulk is part of a standard CN V motor exam.' },
+      { q: 'What are temporalis\'s two distinct actions based on fibre direction?', a: 'The vertically-oriented anterior/middle fibres elevate (close) the mandible powerfully, while the more horizontal posterior fibres retract a protruded mandible back into position — one muscle producing direction-dependent actions from different fibre orientations within it.' }
+    ]
+  },
+  {
+    id: 'masseter',
+    name: 'Masseter',
+    region: 'Head — Mastication',
+    description: 'The thick, quadrangular muscle you feel bulge when clenching the jaw — the most powerful elevator of the mandible.',
+    origin: 'Zygomatic arch',
+    insertion: 'Angle and lateral surface of the ramus of the mandible',
+    action: 'Elevates (closes) the mandible forcefully; assists slight protrusion',
+    nerve: 'Masseteric branch of the mandibular nerve (V3)',
+    artery: 'Masseteric branch of the maxillary artery',
+    clinicalCorrelation: 'Masseter hypertrophy from habitual clenching or bruxism produces a visibly squared jawline, sometimes treated with botulinum toxin injected directly into the muscle; palpating its bulge during a bite is a simple bedside test of CN V motor function.',
+    questions: [
+      { q: 'How do you clinically test masseter function?', a: 'Ask the patient to clench their teeth while palpating the muscle bulge over the angle of the mandible (and temporalis above the zygomatic arch) — a simple, direct test of the motor division of the trigeminal nerve (V3), which supplies all four muscles of mastication.' },
+      { q: 'What is masseter hypertrophy and a modern treatment for it?', a: 'Habitual jaw clenching or grinding (bruxism) can cause masseter hypertrophy, producing a squared, prominent jawline. Botulinum toxin injected directly into the muscle is a common non-surgical treatment, weakening it to reduce bulk and clenching force.' }
+    ]
+  },
+  {
+    id: 'medial_pterygoid',
+    name: 'Medial Pterygoid',
+    region: 'Head — Mastication',
+    description: 'A deep muscle of mastication on the inner side of the mandible — together with masseter it forms a muscular "sling" holding the jaw up.',
+    origin: 'Medial surface of the lateral pterygoid plate (plus a small slip from the maxillary tuberosity)',
+    insertion: 'Medial surface of the angle and ramus of the mandible',
+    action: 'Elevates (closes) the mandible; assists protrusion; contributes to side-to-side grinding movements',
+    nerve: 'Medial pterygoid nerve, a branch of the mandibular nerve (V3)',
+    artery: 'Pterygoid branches of the maxillary artery',
+    clinicalCorrelation: 'With masseter it forms the "pterygomasseteric sling" around the angle of the mandible — relevant in mandible angle fractures, where the pull of these two muscles influences how the bone fragments displace.',
+    questions: [
+      { q: 'What is the pterygomasseteric sling and why does it matter in mandible fractures?', a: 'Medial pterygoid (medial surface) and masseter (lateral surface) both attach around the angle of the mandible, forming a muscular sling that helps suspend and elevate the jaw. In angle-of-mandible fractures, the pull of this sling influences how the bone fragments displace, which surgeons must account for during fixation.' },
+      { q: 'How does medial pterygoid resemble masseter functionally, despite being on the opposite side of the jaw?', a: 'Both elevate (close) the mandible and both attach near the angle of the ramus — medial pterygoid on the inner surface, masseter on the outer — so together they act like a sling from both sides, giving powerful, balanced jaw closure.' }
+    ]
+  },
+  {
+    id: 'lateral_pterygoid',
+    name: 'Lateral Pterygoid',
+    region: 'Head — Mastication',
+    description: 'The only muscle of mastication that opens rather than closes the jaw — its two heads pull the mandibular condyle and disc forward.',
+    origin: 'Upper head: infratemporal surface of the greater wing of the sphenoid. Lower head: lateral surface of the lateral pterygoid plate.',
+    insertion: 'Neck of the mandibular condyle and the articular disc/capsule of the temporomandibular joint (TMJ)',
+    action: 'Protrudes the mandible and depresses (opens) the jaw, assisting the suprahyoid muscles; unilaterally produces side-to-side grinding movements',
+    nerve: 'Lateral pterygoid nerve, a branch of the mandibular nerve (V3)',
+    artery: 'Pterygoid branches of the maxillary artery',
+    clinicalCorrelation: 'Because it inserts directly onto the TMJ disc and condyle, it is central to TMJ mechanics — spasm or dysfunction is implicated in temporomandibular disorders including disc displacement and jaw clicking.',
+    questions: [
+      { q: 'Why is lateral pterygoid the "odd one out" among the muscles of mastication?', a: 'It is the only one of the four that opens (depresses) rather than closes the jaw — temporalis, masseter and medial pterygoid all elevate the mandible, while lateral pterygoid protrudes and depresses it by pulling the condyle and articular disc forward, working with the suprahyoid muscles to open the mouth.' },
+      { q: 'Why is lateral pterygoid relevant to TMJ disorders?', a: 'It inserts directly onto the articular disc and capsule of the temporomandibular joint as well as the condylar neck. Muscle spasm or asymmetric contraction can displace the disc or alter joint mechanics, contributing to TMJ pain, clicking, or locking.' }
+    ]
+  },
+
+  // ==================== HEAD — FACIAL EXPRESSION (all CN VII) ====================
+  {
+    id: 'orbicularis_oculi',
+    name: 'Orbicularis Oculi',
+    region: 'Head — Facial Expression',
+    description: 'The sphincter muscle encircling the eye — closes the eyelids and is essential for blinking and protecting the cornea.',
+    origin: 'Medial orbital margin, medial palpebral ligament, and the lacrimal bone',
+    insertion: 'Skin and tissue around the eyelids, encircling the orbit (orbital, palpebral and lacrimal parts)',
+    action: 'Closes the eyelids — the palpebral part for blinking, the orbital part for forceful squeezing shut; the lacrimal part aids tear drainage by compressing the lacrimal sac',
+    nerve: 'Facial nerve (CN VII), temporal and zygomatic branches',
+    artery: 'Facial and superficial temporal arteries',
+    clinicalCorrelation: 'Facial nerve (CN VII) palsy weakens orbicularis oculi, causing incomplete eyelid closure (lagophthalmos) and exposure keratopathy from corneal drying — a key reason facial palsy needs prompt eye protection (lubricants, taping) regardless of cause.',
+    questions: [
+      { q: 'Why does facial nerve palsy threaten the cornea?', a: 'Orbicularis oculi, supplied by CN VII, is needed to fully close the eyelids. In facial palsy (e.g. Bell\'s palsy), weakness causes incomplete closure (lagophthalmos), so the cornea is no longer protected by blinking and can dry out and ulcerate (exposure keratopathy) — hence the need for lubricating drops/ointment and eye taping at night.' },
+      { q: 'What are the functional parts of orbicularis oculi?', a: 'The palpebral part (within the eyelids) produces gentle, involuntary blinking; the orbital part (surrounding the orbit) produces forceful voluntary eye closure/squeezing; the lacrimal part (deep, near the lacrimal sac) helps pump tears through the lacrimal drainage system with each blink.' }
+    ]
+  },
+  {
+    id: 'orbicularis_oris',
+    name: 'Orbicularis Oris',
+    region: 'Head — Facial Expression',
+    description: 'The sphincter muscle encircling the mouth — closes the lips and is essential for speech articulation, whistling, and sucking.',
+    origin: 'Fibres from converging facial muscles plus a slip from the maxilla and mandible near the midline',
+    insertion: 'Skin and mucous membrane of the lips, blending into the modiolus at the corners of the mouth',
+    action: 'Closes and protrudes the lips (puckering); resists distension of the cheeks during blowing; essential for articulating labial speech sounds (p, b, m) and containing food/liquid during chewing and swallowing',
+    nerve: 'Facial nerve (CN VII), buccal branches',
+    artery: 'Labial branches of the facial artery',
+    clinicalCorrelation: 'Facial nerve palsy weakens orbicularis oris, causing drooling from the affected corner of the mouth and slurred labial speech — part of the classic lower-face weakness pattern in a peripheral (LMN) facial palsy, distinguishing it from a central (UMN) lesion where the forehead is typically spared.',
+    questions: [
+      { q: 'How does orbicularis oris weakness help distinguish a peripheral from a central facial palsy?', a: 'In peripheral (LMN) facial nerve palsy (e.g. Bell\'s palsy), the whole side of the face is weak, including orbicularis oris (drooling, slurred labial speech) and orbicularis oculi/frontalis (unable to close the eye or raise the eyebrow). In a central (UMN) lesion (e.g. stroke), the forehead is spared because it receives bilateral cortical input, so only the lower face — including orbicularis oris — is weak, a pattern that localises the lesion.' },
+      { q: 'What is the modiolus and why is it relevant to orbicularis oris?', a: 'The modiolus is a fibromuscular node at each corner of the mouth where orbicularis oris interlaces with several other facial muscles (buccinator, zygomaticus, risorius, and others). It acts as a mechanical anchor point, and its integrity is important in facial reanimation surgery after nerve injury to restore a symmetric smile.' }
+    ]
+  },
+  {
+    id: 'buccinator',
+    name: 'Buccinator',
+    region: 'Head — Facial Expression',
+    description: 'The deep cheek muscle that keeps food between the teeth during chewing and powers forceful blowing.',
+    origin: 'Alveolar processes of the maxilla and mandible near the molar teeth, and the pterygomandibular raphe',
+    insertion: 'Blends into orbicularis oris at the angle of the mouth (modiolus)',
+    action: 'Compresses the cheek against the teeth, keeping food in place during chewing and preventing it pooling in the cheek pouch; assists forceful expulsion of air (blowing, playing wind instruments)',
+    nerve: 'Facial nerve (CN VII), buccal branches',
+    artery: 'Buccal branch of the maxillary artery',
+    clinicalCorrelation: 'Weakness from facial nerve palsy causes food to pocket in the cheek during eating, since the muscle can no longer sweep it back onto the occlusal surface of the teeth — a practical symptom asked about in facial nerve assessment.',
+    questions: [
+      { q: 'Why does facial nerve palsy cause food to collect in the cheek?', a: 'Buccinator normally compresses the cheek against the teeth, continuously sweeping food back onto the occlusal surface during chewing and preventing it pooling in the vestibule between cheek and gums. When CN VII is weak, this sweeping action is lost, so food accumulates in the cheek pouch on the affected side — a symptom patients commonly report with facial palsy.' },
+      { q: 'Why is buccinator sometimes grouped functionally with the muscles of mastication despite being a facial expression muscle?', a: 'Although developmentally a facial expression muscle (2nd pharyngeal arch, CN VII), it plays a genuinely mechanical role in chewing — holding food on the teeth — which is normally the job of true mastication muscles (1st arch, CN V). This dual relevance to eating despite its different nerve supply is a common point of exam confusion.' }
+    ]
+  },
+  {
+    id: 'occipitofrontalis',
+    name: 'Occipitofrontalis',
+    region: 'Head — Facial Expression',
+    description: 'A single muscle with two bellies joined by the galea aponeurotica spanning the scalp — raises the eyebrows and wrinkles the forehead.',
+    origin: 'Frontal belly: arises from the galea aponeurotica (no bony origin). Occipital belly: highest nuchal line of the occipital bone.',
+    insertion: 'Frontal belly inserts into the skin/fascia of the eyebrows and forehead; occipital belly inserts into the galea aponeurotica',
+    action: 'Frontal belly raises the eyebrows and wrinkles the forehead; occipital belly draws the scalp backward, anchoring the galea so the frontal belly has a fixed base to pull against',
+    nerve: 'Facial nerve (CN VII) — temporal branches (frontal belly), posterior auricular branch (occipital belly)',
+    artery: 'Supraorbital/supratrochlear arteries (frontal belly), occipital artery (occipital belly)',
+    clinicalCorrelation: 'Forehead wrinkling is the key bedside test distinguishing upper motor neuron (central, e.g. stroke — forehead spared) from lower motor neuron (peripheral, e.g. Bell\'s palsy — forehead weak) facial weakness, because frontalis receives bilateral cortical representation.',
+    questions: [
+      { q: 'Why is asking a patient to raise their eyebrows/wrinkle their forehead the key test in facial weakness?', a: 'The frontalis belly receives bilateral upper motor neuron input (each cortex supplies both frontalis muscles), so a unilateral UMN lesion (e.g. stroke) spares forehead wrinkling on the weak side — only the lower face is affected. A LMN lesion (e.g. Bell\'s palsy) affects the ipsilateral CN VII nerve itself, weakening the whole side including frontalis, so the forehead cannot wrinkle. This single test localises the lesion.' },
+      { q: 'How do the two bellies of occipitofrontalis work together despite having no bony connection?', a: 'They are connected by the galea aponeurotica, a tough connective-tissue sheet covering the skull vault. The occipital belly contracting pulls on the galea from behind, giving the frontal belly a fixed, anchored base to pull against when it contracts to raise the eyebrows — without this anchor the frontal belly alone would have little mechanical effect.' }
+    ]
+  },
+
+  // ==================== NECK — SCM & SCALENES ====================
+  {
+    id: 'sternocleidomastoid',
+    name: 'Sternocleidomastoid',
+    region: 'Neck — SCM & Scalenes',
+    description: 'The prominent strap muscle crossing the side of the neck — rotates and flexes the head, and is the key landmark dividing the neck into anterior and posterior triangles.',
+    origin: 'Sternal head: manubrium of the sternum. Clavicular head: medial third of the clavicle.',
+    insertion: 'Mastoid process of the temporal bone and the lateral half of the superior nuchal line',
+    action: 'Unilaterally rotates the head to the opposite side and laterally flexes it to the same side; bilaterally flexes the neck and assists forced inspiration',
+    nerve: 'Accessory nerve (CN XI) for motor supply; proprioception via C2, C3',
+    artery: 'Sternocleidomastoid branches of the occipital and superior thyroid arteries',
+    clinicalCorrelation: 'Congenital muscular torticollis (birth trauma or intrauterine positioning causing fibrosis of one SCM) tilts the head to the affected side with the chin rotated away. SCM also defines the anterior and posterior triangles of the neck, key landmarks for localising neck masses and surgical approaches.',
+    questions: [
+      { q: 'Why does SCM rotate the head to the OPPOSITE side when contracting unilaterally?', a: 'SCM runs obliquely from the sternum/clavicle up to the mastoid process behind the ear. Contracting one side pulls the mastoid process (and thus the face) down and around toward the opposite shoulder, rotating the chin away from the contracting muscle — e.g. right SCM contraction turns the face to the left, while tilting the head toward the right (same side as the contracting muscle).' },
+      { q: 'How does SCM divide the neck into triangles, and why is that useful clinically?', a: 'SCM\'s anterior and posterior borders define the boundaries of the anterior triangle (in front of SCM) and posterior triangle (behind SCM). This division is used to localise neck masses, lymph nodes, and surgical approaches — e.g. the carotid sheath lies in the anterior triangle, while the accessory nerve and brachial plexus roots pass through the posterior triangle.' }
+    ]
+  },
+  {
+    id: 'anterior_scalene',
+    name: 'Anterior Scalene',
+    region: 'Neck — SCM & Scalenes',
+    description: 'A deep lateral neck muscle whose relationship to the subclavian vessels defines a key anatomical landmark — the scalene triangle.',
+    origin: 'Anterior tubercles of the transverse processes of C3–C6',
+    insertion: 'Scalene tubercle on the inner border of the 1st rib',
+    action: 'Elevates the 1st rib, assisting forced inspiration; unilaterally flexes the neck laterally to the same side; bilaterally flexes the neck forward',
+    nerve: 'Anterior rami of C4–C6',
+    artery: 'Ascending cervical artery (branch of the inferior thyroid artery)',
+    clinicalCorrelation: 'The subclavian vein passes anterior to anterior scalene, while the subclavian artery and brachial plexus trunks pass posterior to it through the scalene triangle (between anterior and middle scalene) — compression here causes thoracic outlet syndrome, with neurovascular symptoms in the arm.',
+    questions: [
+      { q: 'What structures pass anterior versus posterior to anterior scalene, and why does that matter?', a: 'The subclavian VEIN passes ANTERIOR to anterior scalene, while the subclavian ARTERY and the trunks of the brachial plexus pass POSTERIOR to it, through the scalene triangle between anterior and middle scalene. This explains why thoracic outlet syndrome (compression in the scalene triangle) affects the artery and nerves but classically spares the vein, which has already passed in front of the muscle.' },
+      { q: 'What is thoracic outlet syndrome and its anatomical basis?', a: 'Compression of the subclavian artery and/or brachial plexus trunks within the scalene triangle (bounded by anterior scalene, middle scalene, and the 1st rib) — often from a cervical rib, muscle hypertrophy, or postural factors. It presents with arm pain, paraesthesia, weakness, and sometimes a diminished pulse, depending on which structures are more compressed.' }
+    ]
+  },
+  {
+    id: 'middle_scalene',
+    name: 'Middle Scalene',
+    region: 'Neck — SCM & Scalenes',
+    description: 'The largest and longest of the three scalenes, forming the posterior boundary of the scalene triangle through which the brachial plexus and subclavian artery pass.',
+    origin: 'Posterior tubercles of the transverse processes of C2–C7',
+    insertion: 'Upper surface of the 1st rib, posterior to the subclavian artery groove',
+    action: 'Elevates the 1st rib, assisting forced inspiration; laterally flexes the neck',
+    nerve: 'Anterior rami of C3–C8',
+    artery: 'Ascending cervical and deep cervical arteries',
+    clinicalCorrelation: 'The long thoracic nerve (to serratus anterior) typically pierces or runs through middle scalene shortly after forming — a classic anatomical relationship, and one reason pathology here can affect serratus anterior function.',
+    questions: [
+      { q: 'Which important nerve is classically related to middle scalene, and what does it supply?', a: 'The long thoracic nerve (C5–C7) typically pierces through the substance of middle scalene shortly after its roots unite, before running down the lateral chest wall to supply serratus anterior. This relationship explains one route by which serratus anterior function (and scapular stability) can be affected by pathology near the scalenes.' },
+      { q: 'How does middle scalene relate to the scalene triangle and its contents?', a: 'Middle scalene forms the posterior boundary of the scalene triangle (anterior scalene forms the anterior boundary, the 1st rib the base). The subclavian artery and the trunks of the brachial plexus pass through this triangle — so middle scalene hypertrophy or anatomical variants can also contribute to thoracic outlet syndrome.' }
+    ]
+  },
+  {
+    id: 'posterior_scalene',
+    name: 'Posterior Scalene',
+    region: 'Neck — SCM & Scalenes',
+    description: 'The smallest and most posterior of the three scalenes, acting on the 2nd rib rather than the 1st.',
+    origin: 'Posterior tubercles of the transverse processes of C4–C6',
+    insertion: 'Outer surface of the 2nd rib',
+    action: 'Elevates the 2nd rib, assisting forced inspiration; laterally flexes the neck',
+    nerve: 'Anterior rami of C6–C8',
+    artery: 'Deep cervical artery',
+    clinicalCorrelation: 'Because it inserts on the 2nd rib rather than the 1st, posterior scalene sits outside the scalene triangle and is less commonly implicated in thoracic outlet syndrome than anterior/middle scalene, though rare variants can still involve it.',
+    questions: [
+      { q: 'How does posterior scalene differ from the other two scalenes in its bony insertion, and what is the significance?', a: 'Anterior and middle scalene both insert on the 1st rib, forming the scalene triangle through which the brachial plexus and subclavian artery pass. Posterior scalene instead inserts on the 2nd rib, placing it outside this key triangle — so it is less commonly implicated in thoracic outlet syndrome compared to the other two.' },
+      { q: 'What is the shared general action of all three scalenes?', a: 'All three run from cervical transverse processes down to the upper two ribs (1st for anterior/middle, 2nd for posterior). Acting bilaterally they assist forced inspiration by elevating these ribs; acting unilaterally they laterally flex the neck to the same side — functioning as accessory respiratory muscles and neck stabilisers.' }
+    ]
+  },
+
+  // ==================== NECK — HYOID (suprahyoid + infrahyoid) ====================
+  {
+    id: 'digastric',
+    name: 'Digastric',
+    region: 'Neck — Hyoid',
+    description: 'A two-bellied muscle slung beneath the jaw via an intermediate tendon looped through the hyoid — helps open the jaw and elevates the hyoid during swallowing.',
+    origin: 'Anterior belly: digastric fossa on the inner surface of the mandible near the midline. Posterior belly: mastoid notch of the temporal bone.',
+    insertion: 'Both bellies connect via an intermediate tendon looped through a fibrous sling attached to the body of the hyoid bone',
+    action: 'Depresses the mandible (opens the jaw) when the hyoid is fixed; elevates the hyoid bone (as in swallowing) when the mandible is fixed',
+    nerve: 'Anterior belly: nerve to mylohyoid, a branch of the mandibular nerve (V3). Posterior belly: facial nerve (CN VII).',
+    artery: 'Facial and occipital arteries',
+    clinicalCorrelation: 'Its dual nerve supply (V3 anterior belly, CN VII posterior belly) reflects its developmental origin from two different pharyngeal arches (1st and 2nd) fused into one functional muscle — a classic embryology-anatomy integration question.',
+    questions: [
+      { q: 'Why does digastric have two different nerve supplies for its two bellies?', a: 'The anterior belly develops from the 1st pharyngeal arch (supplied by the mandibular nerve, V3, like the muscles of mastication), while the posterior belly develops from the 2nd pharyngeal arch (supplied by the facial nerve, CN VII, like the muscles of facial expression). Though functionally fused via the intermediate tendon, their embryological origins — and nerve supplies — remain distinct.' },
+      { q: 'How does digastric\'s action change depending on which end is fixed?', a: 'If the hyoid bone is stabilised by the infrahyoid muscles, digastric contraction depresses the mandible, helping open the jaw. If the mandible is instead held fixed (teeth together), digastric contraction elevates the hyoid bone — important in the initial stages of swallowing, working with the other suprahyoid muscles.' }
+    ]
+  },
+  {
+    id: 'mylohyoid',
+    name: 'Mylohyoid',
+    region: 'Neck — Hyoid',
+    description: 'The flat, sheet-like muscle forming the floor of the mouth — its two halves meet in a median raphe, supporting the tongue and oral contents from below.',
+    origin: 'Mylohyoid line on the inner surface of the mandible',
+    insertion: 'Body of the hyoid bone and a median fibrous raphe joining the two sides',
+    action: 'Elevates the hyoid bone and the floor of the mouth, pushing the food bolus toward the pharynx in the first stage of swallowing; can also depress the mandible when the hyoid is fixed',
+    nerve: 'Nerve to mylohyoid, a branch of the mandibular nerve (V3)',
+    artery: 'Sublingual and submental arteries',
+    clinicalCorrelation: 'As the muscular floor of the mouth, its integrity matters in floor-of-mouth tumour resections and in submandibular space infections (Ludwig\'s angina), which can spread rapidly along this plane and threaten the airway.',
+    questions: [
+      { q: 'What is Ludwig\'s angina and why is mylohyoid relevant to it?', a: 'Ludwig\'s angina is a rapidly spreading cellulitis of the floor of the mouth (submandibular/sublingual spaces), usually from a dental infection. It spreads along the fascial planes related to mylohyoid, pushing the tongue up and back, which can compromise the airway — a surgical/airway emergency. Mylohyoid\'s role as the muscular floor of the mouth is central to understanding how the infection spreads.' },
+      { q: 'What is the "sling" role of mylohyoid in the floor of the mouth?', a: 'The two mylohyoid muscles meet in a median raphe, together forming a muscular diaphragm/sling that supports the tongue, sublingual gland and floor-of-mouth soft tissues from below — separating the oral cavity above from the submandibular region below, and elevating the hyoid/floor during swallowing.' }
+    ]
+  },
+  {
+    id: 'sternohyoid',
+    name: 'Sternohyoid',
+    region: 'Neck — Hyoid',
+    description: 'A thin strap infrahyoid muscle running from the sternum to the hyoid — depresses the hyoid after it has been elevated during swallowing.',
+    origin: 'Posterior surface of the manubrium of the sternum and the medial end of the clavicle',
+    insertion: 'Body of the hyoid bone',
+    action: 'Depresses the hyoid bone, returning it to its resting position after swallowing',
+    nerve: 'Ansa cervicalis (C1–C3)',
+    artery: 'Superior thyroid artery',
+    clinicalCorrelation: 'The infrahyoid ("strap") muscles, including sternohyoid, are retracted or divided during anterior neck surgery (e.g. thyroidectomy) to access the thyroid gland, which lies deep to them.',
+    questions: [
+      { q: 'What is the ansa cervicalis and which muscles does it supply?', a: 'The ansa cervicalis is a nerve loop formed from C1–C3 fibres (via the hypoglossal nerve carrying C1 fibres, plus cervical plexus contributions for C2/C3) that supplies most of the infrahyoid ("strap") muscles — sternohyoid, sternothyroid, and the omohyoid bellies. Thyrohyoid is the exception, supplied directly by C1 fibres travelling with the hypoglossal nerve.' },
+      { q: 'Why are the strap muscles relevant in thyroid surgery?', a: 'Sternohyoid and the other infrahyoid muscles lie directly anterior to the thyroid gland, so during thyroidectomy they must be retracted (or occasionally divided) to expose and access the gland — their position as the superficial anterior neck layer makes them the first muscular structures encountered in this approach.' }
+    ]
+  },
+  {
+    id: 'omohyoid',
+    name: 'Omohyoid',
+    region: 'Neck — Hyoid',
+    description: 'An unusual two-bellied strap muscle with an intermediate tendon slung from the clavicle by a fascial sling — depresses the hyoid and tenses the deep cervical fascia.',
+    origin: 'Inferior belly: superior border of the scapula near the suprascapular notch. Superior belly: continues from the intermediate tendon (tethered to the clavicle by a fascial sling) up to the hyoid.',
+    insertion: 'Body of the hyoid bone, lateral to sternohyoid\'s insertion',
+    action: 'Depresses the hyoid bone after elevation (swallowing, speech); tenses the deep cervical (pretracheal) fascia, helping keep the great neck veins open',
+    nerve: 'Ansa cervicalis (C1–C3)',
+    artery: 'Suprascapular and superior thyroid arteries',
+    clinicalCorrelation: 'Its intermediate tendon, tethered to the clavicle by a fascial sling, divides the posterior triangle of the neck into a larger occipital part (above) and a smaller supraclavicular part (below) — a landmark used to localise masses and describe structures within the posterior triangle.',
+    questions: [
+      { q: 'How does omohyoid\'s intermediate tendon subdivide the posterior triangle of the neck?', a: 'The intermediate tendon is anchored to the clavicle by a fascial sling and crosses the posterior triangle, dividing it into a larger superior (occipital) part and a smaller inferior (supraclavicular/subclavian) part — used as a landmark to localise neck masses and structures like the accessory nerve or supraclavicular lymph nodes.' },
+      { q: 'Why is omohyoid unusual compared to the other infrahyoid strap muscles?', a: 'Unlike the simple sternohyoid or sternothyroid, omohyoid originates from the scapula (inferior belly) rather than the sternum, and is uniquely held down partway along its course by a fascial sling to the clavicle — creating a functional "two-belly" muscle via an intermediate tendon, distinguishing it anatomically from the other single-bellied infrahyoid muscles.' }
     ]
   },
 ].map(m => ({ ...m, mesh3d: MESH_3D[m.id] || null }));
