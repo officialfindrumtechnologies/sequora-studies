@@ -5244,11 +5244,12 @@ window.openMusclesModal = function() {
       .then(map => { _muscleRecall = map; _renderMuscleModeBar(); if (_muscleMode === 'recall') _renderMuscles(); })
       .catch(e => console.warn('[muscle-recall] load failed:', e.message));
   }
-  // Don't pre-warm the 3D viewer here — initializing it several async ticks
-  // away from an actual click loses the browser's "user gesture" window, so
-  // WebGL autoplay gets blocked and Sketchfab shows its own play-button
-  // screen instead of just rendering. Init happens on the first real click
-  // (the collapse toggle or a muscle's "Show on 3D model" button) instead.
+  // 3D is the primary visual now (open by default, not a collapsed toggle).
+  // Calling this synchronously inside the same click handler that opened the
+  // modal keeps it inside the browser's "user gesture" window — unlike a
+  // later async-delayed init, which loses that window and makes Sketchfab
+  // show its own play-button screen instead of just rendering.
+  _init3dViewer();
   const search = document.getElementById('muscles-search');
   if (search) { search.value = ''; search.focus(); }
 };
@@ -6114,9 +6115,11 @@ function _teardown3d() {
   _muscleApi = null; _muscleNodes = []; _muscle3dState = 'idle'; _muscle3dPending = null;
   const statusEl = document.getElementById('muscle-3d-status');
   if (statusEl) statusEl.textContent = '';
-  document.getElementById('muscle-3d-body')?.classList.add('hidden');
+  // 3D is open by default — leave it open (and the chevron pointed up) so the
+  // next modal-open re-inits straight into the primary view, not collapsed.
+  document.getElementById('muscle-3d-body')?.classList.remove('hidden');
   const chev = document.getElementById('muscle-3d-chevron');
-  if (chev) chev.textContent = '▾';
+  if (chev) chev.textContent = '▴';
 }
 
 function _renderMusclesRegions() {
