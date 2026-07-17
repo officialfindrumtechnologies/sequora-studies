@@ -38,10 +38,11 @@
   .nav-r a.cta:hover{background:var(--accent-soft)} .nav-r a.cta:active{transform:translateY(1px)}
 
   /* HERO */
-  .hero{position:relative; overflow:hidden; padding:96px 0 70px}
-  .hero::before{content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+  .hero{position:relative; overflow:hidden; padding-top:96px; padding-bottom:70px}
+  .hero-bg{position:absolute; inset:-10% -10%; z-index:0; pointer-events:none;
     background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);
     background-size:64px 64px; opacity:.22; -webkit-mask-image:radial-gradient(circle at 60% 35%,#000,transparent 75%); mask-image:radial-gradient(circle at 60% 35%,#000,transparent 75%)}
+  .hword{display:inline-block; will-change:transform}
   .hero-grid{position:relative; z-index:2; display:grid; grid-template-columns:1.1fr .9fr; gap:50px; align-items:center}
   .hero-eye{margin-bottom:26px}
   h1{font-family:var(--display); font-weight:400; font-size:clamp(44px,6.2vw,80px); line-height:1.02; letter-spacing:-.01em; margin-bottom:26px}
@@ -84,7 +85,7 @@
   @keyframes scroll{to{transform:translateX(-50%)}}
 
   /* SECTION */
-  .sec{padding:100px 0}
+  .sec{padding-top:100px; padding-bottom:100px}
   .sec-head{max-width:680px; margin-bottom:56px}
   .sec-head .lab{display:block; margin-bottom:18px}
   .sec-head h2{font-family:var(--display); font-weight:400; font-size:clamp(32px,4.2vw,52px); line-height:1.06; letter-spacing:-.01em}
@@ -126,8 +127,22 @@
   .tool h3{font-family:var(--display); font-weight:400; font-size:21px; letter-spacing:0; margin-bottom:8px}
   .tool p{font-size:14.5px; color:var(--text-dim); line-height:1.5}
 
+  /* FLASHCARD DEMO — real 3D (perspective + rotateY), real content */
+  .flip-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px}
+  .flip-wrap{perspective:1400px; height:230px}
+  .flip-card{position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform .65s cubic-bezier(.4,.15,.2,1); cursor:pointer}
+  .flip-card:focus-visible{outline:2px solid var(--accent); outline-offset:4px}
+  .flip-card.flipped{transform:rotateY(180deg)}
+  .flip-face{position:absolute; inset:0; -webkit-backface-visibility:hidden; backface-visibility:hidden; border-radius:14px; border:1px solid var(--border); padding:22px; display:flex; flex-direction:column}
+  .flip-front{background:var(--surface)}
+  .flip-back{background:var(--surface-2); transform:rotateY(180deg); overflow-y:auto}
+  .flip-tag{font-family:var(--mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:12px}
+  .flip-q{font-family:var(--display); font-size:17px; line-height:1.35; flex:1}
+  .flip-hint{font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.04em}
+  .flip-a{font-size:13.5px; line-height:1.55; color:#d4d0c6}
+
   /* CURRICULA */
-  .curr{border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:60px 0; text-align:center}
+  .curr{border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding-top:60px; padding-bottom:60px; text-align:center}
   .curr .lab{display:block; margin-bottom:26px}
   .boards{display:flex; flex-wrap:wrap; justify-content:center; gap:11px; margin-bottom:28px}
   .board{font-family:var(--mono); font-weight:500; font-size:12.5px; color:#c7c3b9; border:1px solid var(--border-2); border-radius:30px; padding:9px 17px; transition:border-color .2s, color .2s}
@@ -159,7 +174,7 @@
   .plan-cta.paid{background:var(--accent); color:var(--bg)} .plan-cta.paid:hover{background:var(--accent-soft)}
 
   /* FINAL */
-  .final{padding:120px 0; text-align:center; position:relative; overflow:hidden}
+  .final{padding-top:120px; padding-bottom:120px; text-align:center; position:relative; overflow:hidden}
   .final::before{content:""; position:absolute; left:50%; top:40%; transform:translate(-50%,-50%); width:560px; height:360px; background:radial-gradient(circle, rgba(242,223,168,.12), transparent 65%); pointer-events:none}
   .final h2{position:relative; font-family:var(--display); font-weight:400; font-size:clamp(36px,5.2vw,66px); line-height:1.04; letter-spacing:-.01em; margin-bottom:22px}
   .final h2 em{font-style:italic; color:var(--accent)}
@@ -167,7 +182,7 @@
   .final .btn{position:relative; font-size:16px; padding:17px 30px}
 
   /* FOOTER */
-  footer{border-top:1px solid var(--border); padding:38px 0 46px}
+  footer{border-top:1px solid var(--border); padding-top:38px; padding-bottom:46px}
   .foot{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px}
   .foot .b{font-family:var(--display); font-weight:400; font-size:19px} .foot .b span{color:var(--accent)}
   .foot .m{font-family:var(--mono); font-size:11px; color:var(--muted); margin-top:6px}
@@ -185,16 +200,20 @@
     .motif{order:-1} .motif-card{max-width:340px}
     .cov-sec{grid-template-columns:1fr; gap:36px}
     .tools{grid-template-columns:1fr 1fr}
+    .flip-grid{grid-template-columns:1fr 1fr}
   }
   @media(max-width:560px){
     .nav-r a.lnk{display:none}
-    .sec{padding:72px 0}
+    .sec{padding-top:72px; padding-bottom:72px}
     .tools{grid-template-columns:1fr}
+    .flip-grid{grid-template-columns:1fr}
     .price{grid-template-columns:1fr; max-width:420px}
     .clab{width:74px} .cc{height:15px}
   }
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.cc,.mc{transform:none;opacity:1}.rv{opacity:1;transform:none}}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </head>
 <body>
 
@@ -211,10 +230,11 @@
 
 <!-- HERO -->
 <header class="hero pad">
+  <div class="hero-bg" aria-hidden="true"></div>
   <div class="hero-grid">
     <div class="hero-copy">
       <div class="lab hero-eye">Study tracker · Bangladesh</div>
-      <h1>Know <em>exactly</em> what to study next.</h1>
+      <h1 id="heroH1">Know <em>exactly</em> what to study next.</h1>
       <p class="hero-sub">Sequora maps every topic across your syllabus — what you've mastered, what's due, and what's still ahead. Built for IGCSE, A-Level, IB and MBBS.</p>
       <div class="hero-act">
         <a class="btn" href="/app">Start free <span>→</span></a>
@@ -298,6 +318,57 @@
     <div class="tool">
       <div class="tool-h"><div class="tool-ic"><svg viewBox="0 0 30 30"><path class="ic" d="M6 23C9 22 11 17 17 11C20 8 23 7 24 7C24 9 23 12 20 15C14 21 11 20 9 23z"/></svg></div><span class="tool-n">06</span></div>
       <h3>Sequora Citation</h3><p>AI finds and formats sources for IB Extended Essays and research papers in seconds.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FLASHCARD DEMO -->
+<section class="sec pad" style="padding-top:20px">
+  <div class="sec-head rv">
+    <span class="lab">Real content, not filler</span>
+    <h2>These are real cards<br>from our <em>MBBS reference.</em></h2>
+    <p>No placeholder text. Click a card to flip it — this is exactly what a Sequora flashcard looks like.</p>
+  </div>
+
+  <div class="flip-grid rv">
+    <div class="flip-wrap">
+      <div class="flip-card" tabindex="0" role="button" aria-label="Flip flashcard: Tibialis Anterior">
+        <div class="flip-face flip-front">
+          <div class="flip-tag">MBBS · Anatomy</div>
+          <div class="flip-q">Why does tibialis anterior both dorsiflex and invert the foot?</div>
+          <div class="flip-hint">Tap to flip →</div>
+        </div>
+        <div class="flip-face flip-back">
+          <div class="flip-tag">Answer</div>
+          <div class="flip-a">Its tendon crosses the front of the ankle and continues to the medial side of the foot (medial cuneiform/1st metatarsal). Pulling from that medial insertion lifts the foot up (dorsiflexion) and tilts the sole inward (inversion) at the same time.</div>
+        </div>
+      </div>
+    </div>
+    <div class="flip-wrap">
+      <div class="flip-card" tabindex="0" role="button" aria-label="Flip flashcard: Popliteus">
+        <div class="flip-face flip-front">
+          <div class="flip-tag">MBBS · Anatomy</div>
+          <div class="flip-q">How does popliteus protect the lateral meniscus?</div>
+          <div class="flip-hint">Tap to flip →</div>
+        </div>
+        <div class="flip-face flip-back">
+          <div class="flip-tag">Answer</div>
+          <div class="flip-a">It attaches to the lateral meniscus, and during knee flexion it pulls the meniscus posteriorly out of the way of the advancing femoral condyle — preventing the meniscus from being trapped and crushed within the joint.</div>
+        </div>
+      </div>
+    </div>
+    <div class="flip-wrap">
+      <div class="flip-card" tabindex="0" role="button" aria-label="Flip flashcard: Sartorius">
+        <div class="flip-face flip-front">
+          <div class="flip-tag">MBBS · Anatomy</div>
+          <div class="flip-q">How do all of sartorius's actions combine into one movement?</div>
+          <div class="flip-hint">Tap to flip →</div>
+        </div>
+        <div class="flip-face flip-back">
+          <div class="flip-tag">Answer</div>
+          <div class="flip-a">Sartorius simultaneously flexes, abducts and laterally rotates the hip, and flexes the knee. Combined, these place the ankle on the opposite knee — the cross-legged "tailor's position," which is the origin of its name (sartor = tailor).</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -477,8 +548,90 @@
   function build(){codes.forEach(function(c){var s=document.createElement('span');s.innerHTML=c[0]+' <b>'+c[1]+'</b>';m.appendChild(s);});}
   build();build();
 
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
-  document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
+  var hasGsap = !reduce && window.gsap && window.ScrollTrigger;
+  if (hasGsap) {
+    gsap.registerPlugin(ScrollTrigger);
+    // Web fonts (DM Serif Display / Inter / JetBrains Mono) load async and
+    // reflow the page after ScrollTrigger has already measured trigger
+    // positions — without this, sections mid-page can silently never fire.
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(function(){ ScrollTrigger.refresh(); });
+    }
+    window.addEventListener('load', function(){ ScrollTrigger.refresh(); });
+  }
+
+  // Scroll reveals: plain CSS transition + IntersectionObserver, always —
+  // regardless of whether GSAP loaded. A gsap.from()+ScrollTrigger version of
+  // this shipped earlier and left sections permanently stuck at opacity:0 for
+  // real users (ScrollTrigger's "play" toggleAction can get cut short if the
+  // trigger zone is scrolled past before the tween's own timer finishes — it
+  // depends on requestAnimationFrame ticking at a normal rate, which browsers
+  // throttle in ways that are hard to guarantee). A CSS transition triggered
+  // by a class toggle can't get stuck like that: once the class is added the
+  // browser owns the transition, not a JS ticker.
+  if (reduce) {
+    document.querySelectorAll('.rv').forEach(function(el){ el.classList.add('in'); });
+  } else {
+    document.querySelectorAll('.tools, .price, .flip-grid').forEach(function(grid){
+      Array.from(grid.children).forEach(function(child, i){
+        child.style.transitionDelay = (i * 0.06) + 's';
+      });
+    });
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) { entry.target.classList.add('in'); io.unobserve(entry.target); }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+
+    // Hard safety net: content must never be permanently invisible, no matter
+    // what — a throttled/backgrounded tab, an IntersectionObserver edge case,
+    // anything. Anyone actually scrolled near a section gets it revealed on
+    // the spot; this is a backstop, not the primary mechanism.
+    window.addEventListener('scroll', function revealNearViewport(){
+      var vh = window.innerHeight;
+      document.querySelectorAll('.rv:not(.in)').forEach(function(el){
+        var r = el.getBoundingClientRect();
+        if (r.top < vh && r.bottom > 0) el.classList.add('in');
+      });
+    }, { passive: true });
+  }
+
+  if (hasGsap) {
+    // Hero headline: word-by-word entrance on load (no SplitText plugin needed —
+    // the headline is short, static, known text, so manual word-wrapping is safe).
+    // Load-triggered (not scroll-triggered), so there's no trigger-zone timing
+    // risk — it always plays once, right after paint.
+    var h1 = document.getElementById('heroH1');
+    var tokens = [['Know',0],['exactly',1],['what',0],['to',0],['study',0],['next.',0]];
+    h1.innerHTML = tokens.map(function(t){
+      return '<span class="hword">' + (t[1] ? '<em>' + t[0] + '</em>' : t[0]) + '</span>';
+    }).join(' ');
+    gsap.from('.hword', { opacity: 0, y: 22, duration: 0.7, stagger: 0.05, ease: 'expo.out', delay: 0.1 });
+    gsap.from('.hero-eye, .hero-sub, .hero-act, .hero-stats', { opacity: 0, y: 16, duration: 0.6, stagger: 0.08, ease: 'power2.out', delay: 0.45 });
+    gsap.from('.motif-card', { opacity: 0, y: 16, scale: .97, duration: 0.7, ease: 'power2.out', delay: 0.3 });
+
+    // Subtle parallax on the hero grid background — continuously scroll-scrubbed
+    // (not a discrete play/reverse toggle), so there's nothing to get stuck: its
+    // position is always a direct function of current scroll, recomputed every frame.
+    gsap.to('.hero-bg', { yPercent: 12, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.5 } });
+
+    // Card hover lift — momentary and reversible, never hides content by default.
+    document.querySelectorAll('.tool, .plan').forEach(function(card){
+      var up = gsap.to(card, { y: -6, boxShadow: '0 20px 40px -20px rgba(0,0,0,.6)', duration: 0.25, ease: 'power2.out', paused: true });
+      card.addEventListener('mouseenter', function(){ up.play(); });
+      card.addEventListener('mouseleave', function(){ up.reverse(); });
+    });
+  }
+
+  // flashcard flip demo — real CSS 3D (perspective + rotateY), click or Enter/Space
+  document.querySelectorAll('.flip-card').forEach(function(card){
+    function toggle(){ card.classList.toggle('flipped'); }
+    card.addEventListener('click', toggle);
+    card.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+    });
+  });
 
   // pricing billing-cycle toggle
   document.querySelectorAll('.pt-opt').forEach(function(btn){
