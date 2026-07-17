@@ -2910,7 +2910,9 @@ async function handleLogin() {
   const status = document.getElementById("loginStatus");
 
   if (!email) {
+    status.textContent = "Enter an email above first";
     setToast("Enter an email");
+    emailInput.focus();
     return;
   }
 
@@ -2958,7 +2960,9 @@ async function handlePasswordLogin() {
   const status = document.getElementById("loginStatus");
 
   if (!email || !password) {
+    status.textContent = "Enter both email & password above";
     setToast("Enter both email & password");
+    (!email ? emailInput : passwordInput).focus();
     return;
   }
 
@@ -3094,12 +3098,19 @@ async function handlePasswordReset() {
 }
 
 async function handleSignup() {
-  const email = document.getElementById('loginEmail').value.trim();
-  const password = document.getElementById('loginPassword').value;
+  const emailInput = document.getElementById('loginEmail');
+  const passwordInput = document.getElementById('loginPassword');
+  const email = emailInput.value.trim();
+  const password = passwordInput.value;
   const btn = document.getElementById('signupBtn');
   const status = document.getElementById('loginStatus');
 
-  if (!email || !password) { setToast('Enter email and password'); return; }
+  if (!email || !password) {
+    status.textContent = 'Enter email and password above';
+    setToast('Enter email and password');
+    (!email ? emailInput : passwordInput).focus();
+    return;
+  }
   if (password.length < 6) { status.textContent = 'Password must be at least 6 characters'; return; }
   if (!supabase) { status.textContent = 'Error: Supabase not configured'; return; }
 

@@ -40,27 +40,27 @@ function layout(content) {
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sequora Studies</title>
 </head>
-<body style="margin:0;padding:0;background:#12100e;font-family:'Georgia',serif;color:#f4ece0">
-<table width="100%" cellpadding="0" cellspacing="0" style="background:#12100e;padding:32px 0">
+<body style="margin:0;padding:0;background:#080808;font-family:'Georgia',serif;color:#f0ede8">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#080808;padding:32px 0">
   <tr><td align="center">
     <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%">
       <!-- header -->
       <tr>
         <td style="padding:0 0 24px 0">
-          <span style="font-family:'Georgia',serif;font-size:20px;color:#e8a33d;font-weight:700;letter-spacing:.02em">Sequora Studies</span>
+          <span style="font-family:'Georgia',serif;font-size:20px;color:#F2DFA8;font-weight:700;letter-spacing:.02em">Sequora Studies</span>
         </td>
       </tr>
       <!-- body -->
       <tr>
-        <td style="background:#1a1815;border:1px solid #332d26;border-radius:12px;padding:28px 32px">
+        <td style="background:#141410;border:1px solid #2a2820;border-radius:12px;padding:28px 32px">
           ${content}
         </td>
       </tr>
       <!-- footer -->
       <tr>
-        <td style="padding:20px 0 0 0;color:#9b9184;font-size:12px;line-height:1.6">
+        <td style="padding:20px 0 0 0;color:#888880;font-size:12px;line-height:1.6">
           Sequora Studies · Dhaka, Bangladesh<br>
-          Questions? Reply to this email or contact <a href="mailto:officialfindrumtechnologies@gmail.com" style="color:#e8a33d">officialfindrumtechnologies@gmail.com</a>
+          Questions? Reply to this email or contact <a href="mailto:officialfindrumtechnologies@gmail.com" style="color:#F2DFA8">officialfindrumtechnologies@gmail.com</a>
         </td>
       </tr>
     </table>
@@ -71,28 +71,28 @@ function layout(content) {
 }
 
 function h1(text) {
-  return `<h1 style="margin:0 0 16px 0;font-size:22px;color:#f0c277;font-weight:700;line-height:1.3">${text}</h1>`;
+  return `<h1 style="margin:0 0 16px 0;font-size:22px;color:#D4B878;font-weight:700;line-height:1.3">${text}</h1>`;
 }
 
 function p(text) {
-  return `<p style="margin:0 0 14px 0;font-size:15px;color:#cdc4b5;line-height:1.65">${text}</p>`;
+  return `<p style="margin:0 0 14px 0;font-size:15px;color:#c9c4ba;line-height:1.65">${text}</p>`;
 }
 
 function detail(label, value) {
   return `<tr>
-    <td style="padding:6px 0;font-size:13px;color:#9b9184;width:130px;vertical-align:top">${label}</td>
-    <td style="padding:6px 0;font-size:13px;color:#f4ece0;font-family:monospace">${value}</td>
+    <td style="padding:6px 0;font-size:13px;color:#888880;width:130px;vertical-align:top">${label}</td>
+    <td style="padding:6px 0;font-size:13px;color:#f0ede8;font-family:monospace">${value}</td>
   </tr>`;
 }
 
 function detailTable(rows) {
-  return `<table width="100%" cellpadding="0" cellspacing="0" style="margin:16px 0;border-top:1px solid #332d26;border-bottom:1px solid #332d26">
+  return `<table width="100%" cellpadding="0" cellspacing="0" style="margin:16px 0;border-top:1px solid #2a2820;border-bottom:1px solid #2a2820">
     ${rows}
   </table>`;
 }
 
 function cta(label, href) {
-  return `<a href="${href}" style="display:inline-block;margin-top:8px;padding:10px 22px;background:#e8a33d;color:#12100e;border-radius:8px;font-size:14px;font-weight:700;text-decoration:none;font-family:monospace">${label}</a>`;
+  return `<a href="${href}" style="display:inline-block;margin-top:8px;padding:10px 22px;background:#F2DFA8;color:#080808;border-radius:8px;font-size:14px;font-weight:700;text-decoration:none;font-family:monospace">${label}</a>`;
 }
 
 // ── email templates ───────────────────────────────────────────────────────────
@@ -121,7 +121,7 @@ export function emailVerification({ email, confirmUrl, actionType = 'signup' }) 
       <p style="margin:20px 0 8px 0;text-align:center">
         ${cta(ctaLabel, confirmUrl)}
       </p>
-      ${p('<span style="font-size:12px;color:#9b9184">If you didn\'t create an account or request this email, you can safely ignore it.</span>')}
+      ${p('<span style="font-size:12px;color:#888880">If you didn\'t create an account or request this email, you can safely ignore it.</span>')}
     `),
   });
 }
@@ -154,7 +154,7 @@ export function emailSuspended({ email, reason }) {
       ${p('Your Sequora Studies account has been suspended.')}
       ${reason ? `${p(`Reason: ${reason}`)}` : ''}
       ${p('If you believe this is an error, please reply to this email or contact us directly.')}
-      <a href="mailto:officialfindrumtechnologies@gmail.com" style="color:#e8a33d;font-size:14px">officialfindrumtechnologies@gmail.com</a>
+      <a href="mailto:officialfindrumtechnologies@gmail.com" style="color:#F2DFA8;font-size:14px">officialfindrumtechnologies@gmail.com</a>
     `),
   });
 }
@@ -222,11 +222,11 @@ export function emailWeeklyReport({ email, displayName, stats }) {
   const topSubjectBlock = topSubject ? `
     <tr>
       <td style="padding:0 0 20px 0">
-        <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="background:#111009;border:1px solid #2a2520;border-radius:8px">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="background:#1a1814;border:1px solid #2a2820;border-radius:8px">
           <tr>
             <td style="padding:18px 20px">
-              <div style="font-family:'Courier New',Courier,monospace;font-size:10px;color:#4a4540;letter-spacing:.15em;margin-bottom:8px">TOP SUBJECT THIS WEEK</div>
-              <div style="font-family:Georgia,'Times New Roman',serif;font-size:18px;font-weight:700;color:#f0c277">${topSubject}</div>
+              <div style="font-family:'Courier New',Courier,monospace;font-size:10px;color:#585450;letter-spacing:.15em;margin-bottom:8px">TOP SUBJECT THIS WEEK</div>
+              <div style="font-family:Georgia,'Times New Roman',serif;font-size:18px;font-weight:700;color:#D4B878">${topSubject}</div>
             </td>
           </tr>
         </table>
@@ -236,12 +236,12 @@ export function emailWeeklyReport({ email, displayName, stats }) {
   const examBlock = examDaysLeft !== null && examDaysLeft > 0 ? `
     <tr>
       <td style="padding:0 0 20px 0">
-        <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="background:#1c1608;border:1px solid #3d2f0f;border-radius:8px">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="background:#1a1814;border:1px solid #2a2820;border-radius:8px">
           <tr>
             <td style="padding:18px 20px">
-              <div style="font-family:'Courier New',Courier,monospace;font-size:10px;color:#7a5a1a;letter-spacing:.15em;margin-bottom:8px">EXAM COUNTDOWN</div>
-              <div style="font-family:'Courier New',Courier,monospace;font-size:28px;font-weight:700;color:#e8a33d;line-height:1;margin-bottom:4px">${examDaysLeft}</div>
-              <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;color:#9b7a30">days until your exam</div>
+              <div style="font-family:'Courier New',Courier,monospace;font-size:10px;color:#888880;letter-spacing:.15em;margin-bottom:8px">EXAM COUNTDOWN</div>
+              <div style="font-family:'Courier New',Courier,monospace;font-size:28px;font-weight:700;color:#F2DFA8;line-height:1;margin-bottom:4px">${examDaysLeft}</div>
+              <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;color:#888880">days until your exam</div>
             </td>
           </tr>
         </table>
@@ -270,8 +270,8 @@ export function emailWeeklyReport({ email, displayName, stats }) {
 <meta name="x-apple-disable-message-reformatting">
 <title>Your Sequora Week</title>
 </head>
-<body style="margin:0;padding:0;background:#0a0a0a;-webkit-text-size-adjust:100%;mso-line-height-rule:exactly">
-<table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="background:#0a0a0a">
+<body style="margin:0;padding:0;background:#080808;-webkit-text-size-adjust:100%;mso-line-height-rule:exactly">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="background:#080808">
   <tr>
     <td align="center" style="padding:32px 16px">
 
@@ -279,34 +279,34 @@ export function emailWeeklyReport({ email, displayName, stats }) {
 
         <!-- HEADER -->
         <tr>
-          <td style="background:#1a1815;border-top:1px solid #332d26;border-left:1px solid #332d26;border-right:1px solid #332d26;border-bottom:2px solid #e8a33d;border-radius:12px 12px 0 0;padding:24px 32px 22px">
-            <div style="font-family:'Courier New',Courier,monospace;font-size:20px;font-weight:700;color:#e8a33d;letter-spacing:5px;mso-line-height-rule:exactly">SEQUORA</div>
-            <div style="font-family:'Courier New',Courier,monospace;font-size:10px;color:#4a4540;letter-spacing:3px;margin-top:5px;mso-line-height-rule:exactly">WEEKLY REPORT</div>
+          <td style="background:#141410;border-top:1px solid #2a2820;border-left:1px solid #2a2820;border-right:1px solid #2a2820;border-bottom:2px solid #F2DFA8;border-radius:12px 12px 0 0;padding:24px 32px 22px">
+            <div style="font-family:'Courier New',Courier,monospace;font-size:20px;font-weight:700;color:#F2DFA8;letter-spacing:5px;mso-line-height-rule:exactly">SEQUORA</div>
+            <div style="font-family:'Courier New',Courier,monospace;font-size:10px;color:#585450;letter-spacing:3px;margin-top:5px;mso-line-height-rule:exactly">WEEKLY REPORT</div>
           </td>
         </tr>
 
         <!-- BODY -->
         <tr>
-          <td style="background:#1a1815;border-left:1px solid #332d26;border-right:1px solid #332d26;padding:32px 32px 28px">
+          <td style="background:#141410;border-left:1px solid #2a2820;border-right:1px solid #2a2820;padding:32px 32px 28px">
             <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation">
 
               <!-- Greeting -->
               <tr>
                 <td style="padding:0 0 28px 0">
-                  <div style="font-family:Georgia,'Times New Roman',serif;font-size:22px;color:#f4ece0;font-weight:700;margin:0 0 5px 0">Hi ${name},</div>
-                  <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;color:#4a4540;letter-spacing:.02em">${dateRange}</div>
+                  <div style="font-family:Georgia,'Times New Roman',serif;font-size:22px;color:#f0ede8;font-weight:700;margin:0 0 5px 0">Hi ${name},</div>
+                  <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;color:#585450;letter-spacing:.02em">${dateRange}</div>
                 </td>
               </tr>
 
               <!-- HERO -->
               <tr>
                 <td style="padding:0 0 16px 0">
-                  <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="background:#111009;border:1px solid #2a2520;border-radius:10px">
+                  <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="background:#1a1814;border:1px solid #2a2820;border-radius:10px">
                     <tr>
                       <td style="padding:32px 24px 28px;text-align:center">
-                        <div style="font-family:'Courier New',Courier,monospace;font-size:10px;color:#4a4540;letter-spacing:.18em;margin-bottom:14px">HOURS STUDIED THIS WEEK</div>
-                        <div style="font-family:'Courier New',Courier,monospace;font-size:72px;font-weight:700;color:${weeklyGoalMet ? '#e8a33d' : '#c8bfb0'};line-height:1;margin-bottom:10px">${hoursDisplay}</div>
-                        <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;color:#6b6359">hours</div>
+                        <div style="font-family:'Courier New',Courier,monospace;font-size:10px;color:#585450;letter-spacing:.18em;margin-bottom:14px">HOURS STUDIED THIS WEEK</div>
+                        <div style="font-family:'Courier New',Courier,monospace;font-size:72px;font-weight:700;color:${weeklyGoalMet ? '#F2DFA8' : '#c9c4ba'};line-height:1;margin-bottom:10px">${hoursDisplay}</div>
+                        <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;color:#888880">hours</div>
                         ${goalBadge}
                       </td>
                     </tr>
@@ -320,36 +320,36 @@ export function emailWeeklyReport({ email, displayName, stats }) {
                   <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation">
                     <tr>
                       <td width="50%" style="padding:0 5px 5px 0;vertical-align:top">
-                        <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="background:#111009;border:1px solid #2a2520;border-radius:8px">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="background:#1a1814;border:1px solid #2a2820;border-radius:8px">
                           <tr><td style="padding:20px 16px;text-align:center">
-                            <div style="font-family:'Courier New',Courier,monospace;font-size:32px;font-weight:700;color:#f0c277;line-height:1;margin-bottom:7px">${sessionsCount}</div>
-                            <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:11px;color:#4a4540;letter-spacing:.04em">Study Sessions</div>
+                            <div style="font-family:'Courier New',Courier,monospace;font-size:32px;font-weight:700;color:#D4B878;line-height:1;margin-bottom:7px">${sessionsCount}</div>
+                            <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:11px;color:#585450;letter-spacing:.04em">Study Sessions</div>
                           </td></tr>
                         </table>
                       </td>
                       <td width="50%" style="padding:0 0 5px 5px;vertical-align:top">
-                        <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="background:#111009;border:1px solid #2a2520;border-radius:8px">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="background:#1a1814;border:1px solid #2a2820;border-radius:8px">
                           <tr><td style="padding:20px 16px;text-align:center">
-                            <div style="font-family:'Courier New',Courier,monospace;font-size:32px;font-weight:700;color:#f0c277;line-height:1;margin-bottom:7px">${topicsStudied}</div>
-                            <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:11px;color:#4a4540;letter-spacing:.04em">Subjects Covered</div>
+                            <div style="font-family:'Courier New',Courier,monospace;font-size:32px;font-weight:700;color:#D4B878;line-height:1;margin-bottom:7px">${topicsStudied}</div>
+                            <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:11px;color:#585450;letter-spacing:.04em">Subjects Covered</div>
                           </td></tr>
                         </table>
                       </td>
                     </tr>
                     <tr>
                       <td width="50%" style="padding:0 5px 0 0;vertical-align:top">
-                        <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="background:#111009;border:1px solid #2a2520;border-radius:8px">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="background:#1a1814;border:1px solid #2a2820;border-radius:8px">
                           <tr><td style="padding:20px 16px;text-align:center">
-                            <div style="font-family:'Courier New',Courier,monospace;font-size:32px;font-weight:700;color:#f0c277;line-height:1;margin-bottom:7px">${streakDays}</div>
-                            <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:11px;color:#4a4540;letter-spacing:.04em">Day Streak</div>
+                            <div style="font-family:'Courier New',Courier,monospace;font-size:32px;font-weight:700;color:#D4B878;line-height:1;margin-bottom:7px">${streakDays}</div>
+                            <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:11px;color:#585450;letter-spacing:.04em">Day Streak</div>
                           </td></tr>
                         </table>
                       </td>
                       <td width="50%" style="padding:0 0 0 5px;vertical-align:top">
-                        <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="background:#111009;border:1px solid ${recallsDue > 0 ? '#4a1a1a' : '#2a2520'};border-radius:8px">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation" style="background:#1a1814;border:1px solid ${recallsDue > 0 ? '#4a1a1a' : '#2a2820'};border-radius:8px">
                           <tr><td style="padding:20px 16px;text-align:center">
-                            <div style="font-family:'Courier New',Courier,monospace;font-size:32px;font-weight:700;color:${recallsDue > 0 ? '#f87171' : '#f0c277'};line-height:1;margin-bottom:7px">${recallsDue}</div>
-                            <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:11px;color:#4a4540;letter-spacing:.04em">Recalls Due</div>
+                            <div style="font-family:'Courier New',Courier,monospace;font-size:32px;font-weight:700;color:${recallsDue > 0 ? '#f87171' : '#D4B878'};line-height:1;margin-bottom:7px">${recallsDue}</div>
+                            <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:11px;color:#585450;letter-spacing:.04em">Recalls Due</div>
                           </td></tr>
                         </table>
                       </td>
@@ -365,7 +365,7 @@ export function emailWeeklyReport({ email, displayName, stats }) {
               <tr>
                 <td style="padding:8px 0 24px 0">
                   <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation">
-                    <tr><td style="height:1px;background:#2a2520;font-size:0;line-height:0">&nbsp;</td></tr>
+                    <tr><td style="height:1px;background:#2a2820;font-size:0;line-height:0">&nbsp;</td></tr>
                   </table>
                 </td>
               </tr>
@@ -373,7 +373,7 @@ export function emailWeeklyReport({ email, displayName, stats }) {
               <!-- Motivation -->
               <tr>
                 <td style="padding:0 0 28px 0">
-                  <div style="font-family:Georgia,'Times New Roman',serif;font-size:16px;color:#cdc4b5;line-height:1.65;font-style:italic">${motivation}</div>
+                  <div style="font-family:Georgia,'Times New Roman',serif;font-size:16px;color:#c9c4ba;line-height:1.65;font-style:italic">${motivation}</div>
                 </td>
               </tr>
 
@@ -382,8 +382,8 @@ export function emailWeeklyReport({ email, displayName, stats }) {
                 <td align="center" style="padding:0 0 4px 0">
                   <table cellpadding="0" cellspacing="0" border="0" role="presentation" align="center">
                     <tr>
-                      <td align="center" bgcolor="#e8a33d" style="border-radius:8px">
-                        <a href="https://www.sequorastudies.com/app" style="display:block;padding:14px 36px;color:#0a0a0a;font-family:'Courier New',Courier,monospace;font-size:14px;font-weight:700;text-decoration:none;letter-spacing:.06em;border-radius:8px;mso-padding-alt:14px 36px">Open Sequora &#8594;</a>
+                      <td align="center" bgcolor="#F2DFA8" style="border-radius:8px">
+                        <a href="https://www.sequorastudies.com/app" style="display:block;padding:14px 36px;color:#080808;font-family:'Courier New',Courier,monospace;font-size:14px;font-weight:700;text-decoration:none;letter-spacing:.06em;border-radius:8px;mso-padding-alt:14px 36px">Open Sequora &#8594;</a>
                       </td>
                     </tr>
                   </table>
@@ -396,8 +396,8 @@ export function emailWeeklyReport({ email, displayName, stats }) {
 
         <!-- FOOTER -->
         <tr>
-          <td style="background:#111009;border:1px solid #1e1c18;border-top:none;border-radius:0 0 12px 12px;padding:20px 32px">
-            <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:11px;color:#3a3530;line-height:1.7;text-align:center">
+          <td style="background:#1a1814;border:1px solid #2a2820;border-top:none;border-radius:0 0 12px 12px;padding:20px 32px">
+            <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:11px;color:#585450;line-height:1.7;text-align:center">
               You&#39;re receiving this because weekly reports are enabled for your account.<br>
               To unsubscribe: open Sequora &rarr; menu &rarr; Settings &rarr; Weekly email report.<br><br>
               Sequora Studies &middot; Bangladesh
