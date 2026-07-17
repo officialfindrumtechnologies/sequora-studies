@@ -38,16 +38,18 @@
   .nav-r a.cta:hover{background:var(--accent-soft)} .nav-r a.cta:active{transform:translateY(1px)}
 
   /* HERO */
-  .hero{position:relative; overflow:hidden; padding-top:96px; padding-bottom:70px}
+  .hero{position:relative; overflow:hidden; min-height:94vh; display:flex; align-items:center; padding-top:100px; padding-bottom:70px}
   .hero-bg{position:absolute; inset:-10% -10%; z-index:0; pointer-events:none;
     background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);
-    background-size:64px 64px; opacity:.22; -webkit-mask-image:radial-gradient(circle at 60% 35%,#000,transparent 75%); mask-image:radial-gradient(circle at 60% 35%,#000,transparent 75%)}
+    background-size:64px 64px; opacity:.14; -webkit-mask-image:radial-gradient(circle at 50% 40%,#000,transparent 75%); mask-image:radial-gradient(circle at 50% 40%,#000,transparent 75%)}
+  #particleCanvas{position:absolute; inset:0; z-index:1; width:100%; height:100%; display:block}
   .hword{display:inline-block; will-change:transform}
-  .hero-grid{position:relative; z-index:2; display:grid; grid-template-columns:1.1fr .9fr; gap:50px; align-items:center}
+  .hero-grid{position:relative; z-index:2; max-width:640px}
   .hero-eye{margin-bottom:26px}
   h1{font-family:var(--display); font-weight:400; font-size:clamp(44px,6.2vw,80px); line-height:1.02; letter-spacing:-.01em; margin-bottom:26px}
   h1 em{font-style:italic; color:var(--accent)}
-  .hero-sub{font-size:19px; color:#c4bfb3; max-width:31em; margin-bottom:34px; line-height:1.55}
+  .hero-sub{font-size:19px; color:#c4bfb3; max-width:31em; margin-bottom:14px; line-height:1.55}
+  .hero-caption{font-family:var(--mono); font-size:12px; color:var(--muted); margin-bottom:34px}
   .hero-act{display:flex; align-items:center; gap:22px; flex-wrap:wrap; margin-bottom:40px}
   .btn{display:inline-flex; align-items:center; gap:9px; font-family:var(--body); font-weight:600; font-size:15px; color:var(--bg); background:var(--accent); padding:15px 26px; border-radius:10px; transition:background .15s, transform .1s}
   .btn:hover{background:var(--accent-soft)} .btn:active{transform:translateY(1px)}
@@ -57,25 +59,10 @@
   .hstat .n{font-family:var(--mono); font-weight:700; font-size:24px; color:var(--accent); line-height:1}
   .hstat .t{font-family:var(--mono); font-size:11px; letter-spacing:.04em; color:var(--text-dim); margin-top:6px; text-transform:uppercase}
 
-  /* HERO MOTIF — annotated coverage grid */
-  .motif{position:relative; display:flex; align-items:center; justify-content:center}
-  .motif-card{position:relative; width:100%; max-width:420px; background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:26px 26px 22px; box-shadow:0 40px 100px -50px rgba(0,0,0,.9)}
-  .motif-top{display:flex; justify-content:space-between; align-items:center; margin-bottom:18px}
-  .motif-top .pt{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-dim)}
-  .motif-top .live{display:flex; align-items:center; gap:7px; font-family:var(--mono); font-size:11px; color:var(--accent)}
-  .mdot{width:6px; height:6px; border-radius:50%; background:var(--accent); animation:pulse 2s infinite}
-  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(242,223,168,.55)}50%{box-shadow:0 0 0 6px rgba(242,223,168,0)}}
-  .mgrid{display:grid; grid-template-columns:repeat(12,1fr); gap:5px; margin-bottom:14px}
-  .mc{aspect-ratio:1; border-radius:3px; background:var(--surface-2); border:1px solid var(--border); transform:scale(.4); opacity:0; cursor:pointer; transition:transform .12s ease, outline-color .12s ease; outline:1.5px solid transparent; outline-offset:1px}
-  .mc.on{transform:scale(1); opacity:1; transition:transform .45s cubic-bezier(.2,.9,.3,1.3), opacity .45s}
-  .mc.learn{background:var(--accent-deep); border-color:transparent}
-  .mc.ready{background:var(--green-deep); border-color:transparent}
-  .mc.due{background:rgba(250,204,21,.5); border-color:transparent}
-  .mc:hover, .mc.active{outline-color:var(--accent); transform:scale(1.14) !important; z-index:1; position:relative}
-  .mtip{font-family:var(--mono); font-size:11.5px; color:var(--text); min-height:34px; display:flex; align-items:center; gap:8px; padding:0 2px}
-  .mtip .dot{width:6px; height:6px; border-radius:50%; flex-shrink:0}
-  .mtip .st{color:var(--text-dim); font-size:10px; text-transform:uppercase; letter-spacing:.06em}
-  .mtip .hint{color:var(--muted)}
+  /* PARTICLE TOOLTIP — follows cursor over the hero canvas */
+  .ptip{position:absolute; z-index:3; pointer-events:none; font-family:var(--mono); font-size:11.5px; color:var(--text); background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:8px 12px; opacity:0; transition:opacity .15s ease; white-space:nowrap; transform:translate(-50%,-130%)}
+  .ptip.show{opacity:1}
+  .ptip .st{color:var(--text-dim); font-size:9.5px; text-transform:uppercase; letter-spacing:.05em; margin-left:6px}
 
   /* MARQUEE */
   .marq{border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:15px 0; overflow:hidden; -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent); mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
@@ -126,20 +113,6 @@
   .tool-n{font-family:var(--mono); font-weight:700; font-size:13px; color:var(--muted); letter-spacing:.04em}
   .tool h3{font-family:var(--display); font-weight:400; font-size:21px; letter-spacing:0; margin-bottom:8px}
   .tool p{font-size:14.5px; color:var(--text-dim); line-height:1.5}
-
-  /* FLASHCARD DEMO — real 3D (perspective + rotateY), real content */
-  .flip-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px}
-  .flip-wrap{perspective:1400px; height:230px}
-  .flip-card{position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform .65s cubic-bezier(.4,.15,.2,1); cursor:pointer}
-  .flip-card:focus-visible{outline:2px solid var(--accent); outline-offset:4px}
-  .flip-card.flipped{transform:rotateY(180deg)}
-  .flip-face{position:absolute; inset:0; -webkit-backface-visibility:hidden; backface-visibility:hidden; border-radius:14px; border:1px solid var(--border); padding:22px; display:flex; flex-direction:column}
-  .flip-front{background:var(--surface)}
-  .flip-back{background:var(--surface-2); transform:rotateY(180deg); overflow-y:auto}
-  .flip-tag{font-family:var(--mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:12px}
-  .flip-q{font-family:var(--display); font-size:17px; line-height:1.35; flex:1}
-  .flip-hint{font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.04em}
-  .flip-a{font-size:13.5px; line-height:1.55; color:#d4d0c6}
 
   /* CURRICULA */
   .curr{border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding-top:60px; padding-bottom:60px; text-align:center}
@@ -196,24 +169,22 @@
     .price{grid-template-columns:1fr 1fr; max-width:600px}
   }
   @media(max-width:980px){
-    .hero-grid{grid-template-columns:1fr; gap:40px}
-    .motif{order:-1} .motif-card{max-width:340px}
     .cov-sec{grid-template-columns:1fr; gap:36px}
     .tools{grid-template-columns:1fr 1fr}
-    .flip-grid{grid-template-columns:1fr 1fr}
   }
   @media(max-width:560px){
     .nav-r a.lnk{display:none}
+    .hero{min-height:auto}
     .sec{padding-top:72px; padding-bottom:72px}
     .tools{grid-template-columns:1fr}
-    .flip-grid{grid-template-columns:1fr}
     .price{grid-template-columns:1fr; max-width:420px}
     .clab{width:74px} .cc{height:15px}
   }
-  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.cc,.mc{transform:none;opacity:1}.rv{opacity:1;transform:none}}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.cc{transform:none;opacity:1}.rv{opacity:1;transform:none}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
 
@@ -236,28 +207,21 @@
       <div class="lab hero-eye">Study tracker · Bangladesh</div>
       <h1 id="heroH1">Know <em>exactly</em> what to study next.</h1>
       <p class="hero-sub">Sequora maps every topic across your syllabus — what you've mastered, what's due, and what's still ahead. Built for IGCSE, A-Level, IB and MBBS.</p>
+      <p class="hero-caption">Every dot behind this text is a real topic — scroll to watch coverage take shape.</p>
       <div class="hero-act">
         <a class="btn" href="/app">Start free <span>→</span></a>
         <a class="btn-g" href="#coverage">See how it works</a>
       </div>
       <div class="hero-stats">
-        <div class="hstat"><div class="n">580+</div><div class="t">Topics mapped</div></div>
-        <div class="hstat"><div class="n">6</div><div class="t">Curricula</div></div>
-        <div class="hstat"><div class="n">15</div><div class="t">MBBS sections</div></div>
-      </div>
-    </div>
-
-    <div class="motif">
-      <div class="motif-card">
-        <div class="motif-top">
-          <span class="pt">Live coverage</span>
-          <span class="live"><span class="mdot"></span> tracking</span>
-        </div>
-        <div class="mgrid" id="mgrid" role="group" aria-label="Sample coverage map — hover or tap a square to see a topic"></div>
-        <div class="mtip" id="mtip"><span class="hint">Hover or tap a square →</span></div>
+        <div class="hstat"><div class="n" id="statTopics">0</div><div class="t">Topics mapped</div></div>
+        <div class="hstat"><div class="n" id="statCurr">0</div><div class="t">Curricula</div></div>
+        <div class="hstat"><div class="n" id="statMbbs">0</div><div class="t">MBBS sections</div></div>
+        <div class="hstat"><div class="n" id="statDays">--</div><div class="t">Days · example countdown</div></div>
       </div>
     </div>
   </div>
+  <canvas id="particleCanvas" aria-hidden="true"></canvas>
+  <div class="ptip" id="ptip"></div>
 </header>
 
 <!-- MARQUEE -->
@@ -318,57 +282,6 @@
     <div class="tool">
       <div class="tool-h"><div class="tool-ic"><svg viewBox="0 0 30 30"><path class="ic" d="M6 23C9 22 11 17 17 11C20 8 23 7 24 7C24 9 23 12 20 15C14 21 11 20 9 23z"/></svg></div><span class="tool-n">06</span></div>
       <h3>Sequora Citation</h3><p>AI finds and formats sources for IB Extended Essays and research papers in seconds.</p>
-    </div>
-  </div>
-</section>
-
-<!-- FLASHCARD DEMO -->
-<section class="sec pad" style="padding-top:20px">
-  <div class="sec-head rv">
-    <span class="lab">Real content, not filler</span>
-    <h2>These are real cards<br>from our <em>MBBS reference.</em></h2>
-    <p>No placeholder text. Click a card to flip it — this is exactly what a Sequora flashcard looks like.</p>
-  </div>
-
-  <div class="flip-grid rv">
-    <div class="flip-wrap">
-      <div class="flip-card" tabindex="0" role="button" aria-label="Flip flashcard: Tibialis Anterior">
-        <div class="flip-face flip-front">
-          <div class="flip-tag">MBBS · Anatomy</div>
-          <div class="flip-q">Why does tibialis anterior both dorsiflex and invert the foot?</div>
-          <div class="flip-hint">Tap to flip →</div>
-        </div>
-        <div class="flip-face flip-back">
-          <div class="flip-tag">Answer</div>
-          <div class="flip-a">Its tendon crosses the front of the ankle and continues to the medial side of the foot (medial cuneiform/1st metatarsal). Pulling from that medial insertion lifts the foot up (dorsiflexion) and tilts the sole inward (inversion) at the same time.</div>
-        </div>
-      </div>
-    </div>
-    <div class="flip-wrap">
-      <div class="flip-card" tabindex="0" role="button" aria-label="Flip flashcard: Popliteus">
-        <div class="flip-face flip-front">
-          <div class="flip-tag">MBBS · Anatomy</div>
-          <div class="flip-q">How does popliteus protect the lateral meniscus?</div>
-          <div class="flip-hint">Tap to flip →</div>
-        </div>
-        <div class="flip-face flip-back">
-          <div class="flip-tag">Answer</div>
-          <div class="flip-a">It attaches to the lateral meniscus, and during knee flexion it pulls the meniscus posteriorly out of the way of the advancing femoral condyle — preventing the meniscus from being trapped and crushed within the joint.</div>
-        </div>
-      </div>
-    </div>
-    <div class="flip-wrap">
-      <div class="flip-card" tabindex="0" role="button" aria-label="Flip flashcard: Sartorius">
-        <div class="flip-face flip-front">
-          <div class="flip-tag">MBBS · Anatomy</div>
-          <div class="flip-q">How do all of sartorius's actions combine into one movement?</div>
-          <div class="flip-hint">Tap to flip →</div>
-        </div>
-        <div class="flip-face flip-back">
-          <div class="flip-tag">Answer</div>
-          <div class="flip-a">Sartorius simultaneously flexes, abducts and laterally rotates the hip, and flexes the knee. Combined, these place the ankle on the opposite knee — the cross-legged "tailor's position," which is the origin of its name (sartor = tailor).</div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
@@ -484,42 +397,143 @@
 <script>
   var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // hero motif grid — a real, clickable mini-demo of the Coverage Map
-  var mgrid=document.getElementById('mgrid'),mtip=document.getElementById('mtip'),mcells=[];
-  var mpat="uuulllruuuulluulrrruulllruuluulrrruuuulllruuuluulrruuuu";
-  var mtopics=[
-    ["Newton's Laws of Motion","Physics"],["Moles & Stoichiometry","Chemistry"],["Cell Membrane Transport","Biology"],
-    ["Differentiation","Maths"],["Waves & Sound","Physics"],["Redox Reactions","Chemistry"],
-    ["Genetics & Inheritance","Biology"],["Quadratic Equations","Maths"],["Electric Circuits","Physics"],
-    ["Organic Chemistry: Alkenes","Chemistry"],["Photosynthesis","Biology"],["Integration","Maths"],
-    ["Renal Physiology","MBBS"],["Thermodynamics","Physics"],["Acids, Bases & Buffers","Chemistry"],
-    ["Cardiac Cycle","MBBS"],["Forces & Momentum","Physics"],["Periodicity","Chemistry"],
-    ["Respiration","Biology"],["Vectors","Maths"]
-  ];
-  var statusMeta={learn:['Learning','var(--accent-deep)'],ready:['Exam ready','var(--green-deep)'],due:['Due for recall','rgba(250,204,21,.8)'],u:['Not started','var(--muted)']};
-  for(var i=0;i<60;i++){
-    var c=document.createElement('div');c.className='mc';
-    var s=mpat[i%mpat.length];
-    var st=s==='l'?'learn':s==='r'?'ready':s==='d'?'due':'u';
-    if(st!=='u')c.classList.add(st);
-    var topic=mtopics[i%mtopics.length];
-    c.dataset.name=topic[0];c.dataset.subj=topic[1];c.dataset.status=st;
-    c.tabIndex=0;
-    c.setAttribute('role','button');
-    c.setAttribute('aria-label',topic[0]+' — '+statusMeta[st][0]);
-    mgrid.appendChild(c);mcells.push(c);
-  }
-  function showTip(c){
-    var st=statusMeta[c.dataset.status];
-    mtip.innerHTML='<span class="dot" style="background:'+st[1]+'"></span><span>'+c.dataset.name+'</span><span class="st">'+c.dataset.subj+' · '+st[0]+'</span>';
-  }
-  mcells.forEach(function(c){
-    c.addEventListener('mouseenter',function(){mcells.forEach(function(x){x.classList.remove('active')});c.classList.add('active');showTip(c);});
-    c.addEventListener('focus',function(){mcells.forEach(function(x){x.classList.remove('active')});c.classList.add('active');showTip(c);});
-    c.addEventListener('click',function(){mcells.forEach(function(x){x.classList.remove('active')});c.classList.add('active');showTip(c);});
-  });
-  if(!reduce){mcells.forEach(function(c,i){setTimeout(function(){c.classList.add('on');},120+i*16);});}
-  else mcells.forEach(function(c){c.classList.add('on');});
+  // Hero particle field — real topics, scattered → organized as you scroll.
+  // Each particle is a real topic from the curriculum; the whole field starts
+  // chaotic and resolves into a grid (mastered/learning/untouched, same color
+  // language as the real Coverage Map) as you scroll through the hero. That
+  // transition IS the product's core idea, not decoration bolted onto it.
+  (function initParticleHero(){
+    var canvas = document.getElementById('particleCanvas');
+    var heroEl = document.querySelector('.hero');
+    var ptip = document.getElementById('ptip');
+    if (!canvas || !heroEl || !window.THREE) return;
+
+    var mtopics = [
+      ["Newton's Laws of Motion","Physics"],["Moles & Stoichiometry","Chemistry"],["Cell Membrane Transport","Biology"],
+      ["Differentiation","Maths"],["Waves & Sound","Physics"],["Redox Reactions","Chemistry"],
+      ["Genetics & Inheritance","Biology"],["Quadratic Equations","Maths"],["Electric Circuits","Physics"],
+      ["Organic Chemistry: Alkenes","Chemistry"],["Photosynthesis","Biology"],["Integration","Maths"],
+      ["Renal Physiology","MBBS"],["Thermodynamics","Physics"],["Acids, Bases & Buffers","Chemistry"],
+      ["Cardiac Cycle","MBBS"],["Forces & Momentum","Physics"],["Periodicity","Chemistry"],
+      ["Respiration","Biology"],["Vectors","Maths"]
+    ];
+    var statusMeta = {
+      ready: ['Exam ready', 0x6fae6f],
+      learn: ['Learning',   0xD4B878],
+      due:   ['Due for recall', 0xFACC15],
+      u:     ['Not started', 0x484440]
+    };
+    var pattern = "uuulllruuuulluulrrruulllruuluulrrruuuulllruuuluulrruuuu";
+
+    var COLS = 20, ROWS = 15, COUNT = COLS * ROWS; // 300 particles
+    var statuses = [], topics = [];
+    for (var i = 0; i < COUNT; i++) {
+      var s = pattern[i % pattern.length];
+      statuses.push(s === 'l' ? 'learn' : s === 'r' ? 'ready' : s === 'd' ? 'due' : 'u');
+      topics.push(mtopics[i % mtopics.length]);
+    }
+
+    var scattered = new Float32Array(COUNT * 3);
+    var grid = new Float32Array(COUNT * 3);
+    var gridSpacingX = 3.1, gridSpacingY = 3.1;
+    for (var i = 0; i < COUNT; i++) {
+      // scattered: random within a wide, deep box — genuine chaos
+      scattered[i*3]   = (Math.random() - 0.5) * 70;
+      scattered[i*3+1] = (Math.random() - 0.5) * 40;
+      scattered[i*3+2] = (Math.random() - 0.5) * 40 - 10;
+      // grid: organized rows/cols, centered, tiny z jitter for depth
+      var col = i % COLS, row = Math.floor(i / COLS);
+      grid[i*3]   = (col - (COLS-1)/2) * gridSpacingX;
+      grid[i*3+1] = ((ROWS-1)/2 - row) * gridSpacingY;
+      grid[i*3+2] = (Math.random() - 0.5) * 3;
+    }
+
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(50, canvas.clientWidth / canvas.clientHeight, 0.1, 500);
+    camera.position.set(18, 0, 55);
+    camera.lookAt(18, 0, 0);
+
+    var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    function sizeRenderer(){ renderer.setSize(canvas.clientWidth, canvas.clientHeight, false); camera.aspect = canvas.clientWidth / canvas.clientHeight; camera.updateProjectionMatrix(); }
+    sizeRenderer();
+    window.addEventListener('resize', sizeRenderer);
+
+    var geo = new THREE.BufferGeometry();
+    var positions = new Float32Array(scattered); // start scattered
+    var colors = new Float32Array(COUNT * 3);
+    var tmpColor = new THREE.Color();
+    for (var i = 0; i < COUNT; i++) {
+      tmpColor.setHex(statusMeta[statuses[i]][1]);
+      colors[i*3] = tmpColor.r; colors[i*3+1] = tmpColor.g; colors[i*3+2] = tmpColor.b;
+    }
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    var mat = new THREE.PointsMaterial({ size: 1.7, vertexColors: true, transparent: true, opacity: 0.95, sizeAttenuation: true, depthWrite: false });
+    var points = new THREE.Points(geo, mat);
+    scene.add(points);
+
+    var raycaster = new THREE.Raycaster();
+    raycaster.params.Points.threshold = 1.4;
+    var mouseNDC = new THREE.Vector2(-10, -10);
+    var hoveredIndex = -1;
+
+    canvas.addEventListener('mousemove', function(e){
+      var r = canvas.getBoundingClientRect();
+      mouseNDC.x = ((e.clientX - r.left) / r.width) * 2 - 1;
+      mouseNDC.y = -((e.clientY - r.top) / r.height) * 2 + 1;
+      ptip.style.left = (e.clientX - r.left) + 'px';
+      ptip.style.top = (e.clientY - r.top) + 'px';
+    });
+    canvas.addEventListener('mouseleave', function(){ mouseNDC.set(-10,-10); ptip.classList.remove('show'); hoveredIndex = -1; });
+
+    function getScrollProgress(){
+      var rect = heroEl.getBoundingClientRect();
+      // Morph completes early (25% of hero scroll-through) so the organized
+      // grid is actually visible and hoverable for most of the hero's scroll
+      // range, instead of settling right as it scrolls out of view.
+      var range = heroEl.offsetHeight * 0.25;
+      var scrolled = -rect.top;
+      return Math.max(0, Math.min(1, scrolled / range));
+    }
+    function easeInOutCubic(t){ return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3) / 2; }
+
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var posAttr = geo.getAttribute('position');
+
+    function animate(){
+      requestAnimationFrame(animate);
+      var p = reduceMotion ? 1 : easeInOutCubic(getScrollProgress());
+      var arr = posAttr.array;
+      for (var i = 0; i < COUNT; i++) {
+        var i3 = i*3;
+        arr[i3]   = scattered[i3]   + (grid[i3]   - scattered[i3])   * p;
+        arr[i3+1] = scattered[i3+1] + (grid[i3+1] - scattered[i3+1]) * p;
+        arr[i3+2] = scattered[i3+2] + (grid[i3+2] - scattered[i3+2]) * p;
+      }
+      posAttr.needsUpdate = true;
+      if (!reduceMotion) points.rotation.y += 0.0009;
+
+      raycaster.setFromCamera(mouseNDC, camera);
+      var hits = raycaster.intersectObject(points);
+      if (hits.length) {
+        var idx = hits[0].index;
+        if (idx !== hoveredIndex) {
+          hoveredIndex = idx;
+          var st = statusMeta[statuses[idx]];
+          ptip.innerHTML = topics[idx][0] + '<span class="st">' + topics[idx][1] + ' · ' + st[0] + '</span>';
+        }
+        ptip.classList.add('show');
+      } else if (hoveredIndex !== -1 && mouseNDC.x < -5) {
+        ptip.classList.remove('show');
+        hoveredIndex = -1;
+      }
+      renderer.render(scene, camera);
+    }
+    // Expose for verification/debugging.
+    window.__particleHero = { getScrollProgress: getScrollProgress, COUNT: COUNT, posAttr: posAttr, scattered: scattered, grid: grid, points: points };
+    animate();
+  })();
 
   // coverage panel
   var rows=[
@@ -572,7 +586,7 @@
   if (reduce) {
     document.querySelectorAll('.rv').forEach(function(el){ el.classList.add('in'); });
   } else {
-    document.querySelectorAll('.tools, .price, .flip-grid').forEach(function(grid){
+    document.querySelectorAll('.tools, .price').forEach(function(grid){
       Array.from(grid.children).forEach(function(child, i){
         child.style.transitionDelay = (i * 0.06) + 's';
       });
@@ -608,8 +622,8 @@
       return '<span class="hword">' + (t[1] ? '<em>' + t[0] + '</em>' : t[0]) + '</span>';
     }).join(' ');
     gsap.from('.hword', { opacity: 0, y: 22, duration: 0.7, stagger: 0.05, ease: 'expo.out', delay: 0.1 });
-    gsap.from('.hero-eye, .hero-sub, .hero-act, .hero-stats', { opacity: 0, y: 16, duration: 0.6, stagger: 0.08, ease: 'power2.out', delay: 0.45 });
-    gsap.from('.motif-card', { opacity: 0, y: 16, scale: .97, duration: 0.7, ease: 'power2.out', delay: 0.3 });
+    gsap.from('.hero-eye, .hero-sub, .hero-caption, .hero-act, .hero-stats', { opacity: 0, y: 16, duration: 0.6, stagger: 0.08, ease: 'power2.out', delay: 0.45 });
+    gsap.from('#particleCanvas', { opacity: 0, duration: 1.2, ease: 'power1.out', delay: 0.2 });
 
     // Subtle parallax on the hero grid background — continuously scroll-scrubbed
     // (not a discrete play/reverse toggle), so there's nothing to get stuck: its
@@ -624,14 +638,38 @@
     });
   }
 
-  // flashcard flip demo — real CSS 3D (perspective + rotateY), click or Enter/Space
-  document.querySelectorAll('.flip-card').forEach(function(card){
-    function toggle(){ card.classList.toggle('flipped'); }
-    card.addEventListener('click', toggle);
-    card.addEventListener('keydown', function(e){
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+  // Hero milestone counters — count up once, on load (matches the coverage
+  // panel's existing tally counter pattern further down the page).
+  (function countUpStats(){
+    var targets = [['statTopics', 580, '+'], ['statCurr', 6, ''], ['statMbbs', 15, '']];
+    targets.forEach(function(t){
+      var el = document.getElementById(t[0]);
+      if (!el) return;
+      if (reduce) { el.textContent = t[1] + t[2]; return; }
+      var n = 0, target = t[1];
+      var step = Math.max(1, Math.round(target / 40));
+      var iv = setInterval(function(){
+        n += step;
+        if (n >= target) { n = target; clearInterval(iv); }
+        el.textContent = n + t[2];
+      }, 28);
     });
-  });
+    // Illustrative example countdown — not tied to any real user's exam date
+    // (this is the public homepage, no logged-in user to pull a real one
+    // from). Framed honestly as "example countdown" in the label.
+    var daysEl = document.getElementById('statDays');
+    if (daysEl) {
+      var exampleDays = 73; // matches the kind of number shown inside the real app
+      if (reduce) { daysEl.textContent = exampleDays; }
+      else {
+        var n2 = 0, iv2 = setInterval(function(){
+          n2 += 2;
+          if (n2 >= exampleDays) { n2 = exampleDays; clearInterval(iv2); }
+          daysEl.textContent = n2;
+        }, 28);
+      }
+    }
+  })();
 
   // pricing billing-cycle toggle
   document.querySelectorAll('.pt-opt').forEach(function(btn){
