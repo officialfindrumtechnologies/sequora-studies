@@ -1898,6 +1898,10 @@ async function delError(id){
   await renderLogs();
 }
 function escapeHtml(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+// Safe for interpolating into a single-quoted JS string literal that sits inside an
+// onclick="..." HTML attribute. Backslash must be escaped before quotes, otherwise a
+// trailing backslash in the input eats the literal's closing quote.
+function escapeJsAttr(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;');}
 
 /* ============ payment card ============ */
 const BKASH_NUMBER = import.meta.env.VITE_BKASH_NUMBER || '01XXXXXXXXXX';
@@ -4988,7 +4992,6 @@ async function _renderFriendsPanel() {
     const initials = escapeHtml((r.display_name || '?').charAt(0).toUpperCase());
     const isOnline = activeSet.has(r.uid);
     const qual = (r.qualification || r.exam_board) ? formatQualBoard(r.qualification, r.exam_board) : '';
-    const safeName = (r.display_name || '').replace(/'/g, "\\'");
     return `<div class="lb-friend-card">
       <div class="lb-friend-avatar">${initials}${isOnline ? '<span class="lb-friend-online"></span>' : ''}</div>
       <div class="lb-friend-info">
@@ -5029,7 +5032,7 @@ async function _lbDoSearch() {
     results.innerHTML = users.map(u => `
       <div class="lb-result-row">
         <div><div class="lb-result-name">${escapeHtml(u.display_name || '')}</div>${(u.qualification || u.exam_board) ? `<div class="lb-result-sub">${escapeHtml(formatQualBoard(u.qualification, u.exam_board))}</div>` : ''}</div>
-        <button class="btn sm" id="lb-add-${u.id}" onclick="lbSendRequest('${u.id}','${(u.display_name||'').replace(/'/g,"\\'").replace(/"/g,'&quot;')}')">Add friend</button>
+        <button class="btn sm" id="lb-add-${u.id}" onclick="lbSendRequest('${u.id}','${escapeJsAttr(u.display_name)}')">Add friend</button>
       </div>`).join('');
   } catch(e) { results.innerHTML = '<div class="lb-empty-small">Search failed</div>'; }
 }

@@ -1,6 +1,9 @@
 import { createClient } from '@supabase/supabase-js';
 import { applyCors } from './_cors.js';
 
+const rateLimitMap = new Map();
+const PQ_LIMITS = { free: 0, paid_1: 20, paid_2: 40, paid_3: 100 };
+
 export function detectExamFormat(examCode = '') {
   const code = examCode.toUpperCase();
   if (code.includes('BMDC') || code.startsWith('MBBS')) return 'mbbs';
@@ -315,6 +318,56 @@ export default async function handler(req, res) {
   const adminSb = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
   const { data: { user }, error: authError } = await adminSb.auth.getUser(token);
   if (authError || !user) return res.status(401).json({ error: 'Invalid or expired session' });
+
+  // Subscription tier + status check — this route generates and shares content
+  // (is_shared: true) and calls a paid Gemini API, so it must not be reachable
+  // by free-tier accounts just because they hold a valid JWT.
+  const { data: sub, error: subErr } = await adminSb
+    .from('subscriptions')
+    .select('tier, status')
+    .eq('user_id', user.id)
+    .single();
+
+  if (subErr || !sub || sub.status !== 'active') {
+    return res.status(403).json({ error: 'Account not active.', code: 'INACTIVE' });
+  }
+
+  const pqLimit = PQ_LIMITS[sub.tier] ?? 0;
+  if (pqLimit === 0) {
+    return res.status(403).json({
+      error: 'AI-generated practice questions require a paid plan.',
+      code: 'UPGRADE_REQUIRED',
+    });
+  }
+
+  // Monthly quota via atomic RPC (same mechanism as api/gemini.js)
+  const monthYear = new Date().toISOString().slice(0, 7);
+  const { data: pqUsage, error: pqRpcErr } = await adminSb.rpc('increment_ai_usage', {
+    p_user_id: user.id,
+    p_call_type: 'practice_questions',
+    p_month_year: monthYear,
+    p_limit: pqLimit,
+  });
+  if (pqRpcErr) {
+    console.error('[GenQ] increment_ai_usage RPC error:', pqRpcErr);
+    return res.status(500).json({ error: 'Usage tracking failed.' });
+  }
+  if (pqUsage?.blocked) {
+    return res.status(429).json({
+      error: `Monthly AI question-generation limit of ${pqLimit} reached. Resets 1st of next month.`,
+      code: 'QUOTA_EXCEEDED',
+    });
+  }
+
+  // Per-minute burst protection
+  const now = Date.now();
+  let requests = rateLimitMap.get(user.id) || [];
+  requests = requests.filter(time => now - time < 60000);
+  if (requests.length >= 10) {
+    return res.status(429).json({ error: 'Too many requests. Please wait a minute.' });
+  }
+  requests.push(now);
+  rateLimitMap.set(user.id, requests);
 
   const { topic_key, exam_code, topic_name, count = 5, difficulty = 'medium' } = req.body || {};
   if (!topic_key || !exam_code || !topic_name) {
