@@ -172,6 +172,11 @@
     .cov-sec{grid-template-columns:1fr; gap:36px}
     .tools{grid-template-columns:1fr 1fr}
   }
+  @media(max-width:768px){
+    /* Touch has no hover, so the constellation can't be explored — drop it to
+       a subtle ambient backdrop so headline/body text stays fully crisp. */
+    #particleCanvas{opacity:.34 !important}
+  }
   @media(max-width:560px){
     .nav-r a.lnk{display:none}
     .hero{min-height:auto}
@@ -207,7 +212,7 @@
       <div class="lab hero-eye">Study tracker · Bangladesh</div>
       <h1 id="heroH1">Know <em>exactly</em> what to study next.</h1>
       <p class="hero-sub">Sequora maps every topic across your syllabus — what you've mastered, what's due, and what's still ahead. Built for IGCSE, A-Level, IB and MBBS.</p>
-      <p class="hero-caption">Every dot behind this text is a real topic — scroll to watch coverage take shape.</p>
+      <p class="hero-caption">Every node behind this text is a real topic. The lines are how they connect — hover to explore your syllabus.</p>
       <div class="hero-act">
         <a class="btn" href="/app">Start free <span>→</span></a>
         <a class="btn-g" href="#coverage">See how it works</a>
@@ -397,141 +402,146 @@
 <script>
   var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Hero particle field — real topics, scattered → organized as you scroll.
-  // Each particle is a real topic from the curriculum; the whole field starts
-  // chaotic and resolves into a grid (mastered/learning/untouched, same color
-  // language as the real Coverage Map) as you scroll through the hero. That
-  // transition IS the product's core idea, not decoration bolted onto it.
-  (function initParticleHero(){
+  // Hero knowledge constellation — a real 3D map of how a syllabus connects.
+  // Each glowing node is a real topic; edges link topics that build on each
+  // other (prerequisite → dependent). This is the product's actual job made
+  // visible — a study tracker maps how your whole syllabus fits together —
+  // rendered as one coherent, continuously-rotating form (round soft nodes,
+  // real depth, connecting light) rather than scattered decoration.
+  (function initConstellation(){
     var canvas = document.getElementById('particleCanvas');
-    var heroEl = document.querySelector('.hero');
     var ptip = document.getElementById('ptip');
-    if (!canvas || !heroEl || !window.THREE) return;
+    if (!canvas || !window.THREE) return;
 
-    var mtopics = [
-      ["Newton's Laws of Motion","Physics"],["Moles & Stoichiometry","Chemistry"],["Cell Membrane Transport","Biology"],
-      ["Differentiation","Maths"],["Waves & Sound","Physics"],["Redox Reactions","Chemistry"],
-      ["Genetics & Inheritance","Biology"],["Quadratic Equations","Maths"],["Electric Circuits","Physics"],
-      ["Organic Chemistry: Alkenes","Chemistry"],["Photosynthesis","Biology"],["Integration","Maths"],
-      ["Renal Physiology","MBBS"],["Thermodynamics","Physics"],["Acids, Bases & Buffers","Chemistry"],
-      ["Cardiac Cycle","MBBS"],["Forces & Momentum","Physics"],["Periodicity","Chemistry"],
-      ["Respiration","Biology"],["Vectors","Maths"]
+    // Real topics grouped into subject clusters. Clusters sit at different
+    // points in 3D space; nodes scatter softly around their cluster centre,
+    // so the whole thing reads as connected subject-galaxies, not random dust.
+    var clusters = [
+      { subj:'Physics',   color:0xF2DFA8, centre:[-16,  6, -4], topics:['Newton’s Laws','Waves & Sound','Electric Circuits','Thermodynamics','Forces & Momentum','Vectors','Fields'] },
+      { subj:'Chemistry', color:0xD4B878, centre:[ 14,  9,  2], topics:['Moles & Stoichiometry','Redox Reactions','Periodicity','Alkenes','Acids & Bases','Rates','Equilibria'] },
+      { subj:'Biology',   color:0x6fae6f, centre:[-12, -9,  5], topics:['Cell Transport','Genetics','Photosynthesis','Respiration','Homeostasis','Enzymes'] },
+      { subj:'Maths',     color:0xF8EDCA, centre:[ 16, -7, -3], topics:['Differentiation','Integration','Quadratics','Trigonometry','Vectors','Series'] },
+      { subj:'MBBS',      color:0x9db88f, centre:[  0,  0, 10], topics:['Renal Physiology','Cardiac Cycle','Anatomy','Pharmacology','Histology','Pathology'] }
     ];
-    var statusMeta = {
-      ready: ['Exam ready', 0x6fae6f],
-      learn: ['Learning',   0xD4B878],
-      due:   ['Due for recall', 0xFACC15],
-      u:     ['Not started', 0x484440]
-    };
-    var pattern = "uuulllruuuulluulrrruulllruuluulrrruuuulllruuuluulrruuuu";
 
-    var COLS = 20, ROWS = 15, COUNT = COLS * ROWS; // 300 particles
-    var statuses = [], topics = [];
-    for (var i = 0; i < COUNT; i++) {
-      var s = pattern[i % pattern.length];
-      statuses.push(s === 'l' ? 'learn' : s === 'r' ? 'ready' : s === 'd' ? 'due' : 'u');
-      topics.push(mtopics[i % mtopics.length]);
-    }
-
-    var scattered = new Float32Array(COUNT * 3);
-    var grid = new Float32Array(COUNT * 3);
-    var gridSpacingX = 3.1, gridSpacingY = 3.1;
-    for (var i = 0; i < COUNT; i++) {
-      // scattered: random within a wide, deep box — genuine chaos
-      scattered[i*3]   = (Math.random() - 0.5) * 70;
-      scattered[i*3+1] = (Math.random() - 0.5) * 40;
-      scattered[i*3+2] = (Math.random() - 0.5) * 40 - 10;
-      // grid: organized rows/cols, centered, tiny z jitter for depth
-      var col = i % COLS, row = Math.floor(i / COLS);
-      grid[i*3]   = (col - (COLS-1)/2) * gridSpacingX;
-      grid[i*3+1] = ((ROWS-1)/2 - row) * gridSpacingY;
-      grid[i*3+2] = (Math.random() - 0.5) * 3;
-    }
+    var nodes = []; // {pos:[x,y,z], subj, color, topic}
+    clusters.forEach(function(cl){
+      cl.topics.forEach(function(t){
+        var spread = 5.5;
+        nodes.push({
+          pos: [ cl.centre[0] + (Math.random()-0.5)*spread,
+                 cl.centre[1] + (Math.random()-0.5)*spread,
+                 cl.centre[2] + (Math.random()-0.5)*spread ],
+          subj: cl.subj, color: cl.color, topic: t
+        });
+      });
+    });
+    var COUNT = nodes.length;
 
     var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(50, canvas.clientWidth / canvas.clientHeight, 0.1, 500);
-    camera.position.set(18, 0, 55);
-    camera.lookAt(18, 0, 0);
+    var group = new THREE.Group(); scene.add(group);
+    var camera = new THREE.PerspectiveCamera(52, canvas.clientWidth/canvas.clientHeight, 0.1, 500);
+    camera.position.set(0, 0, 46);
 
-    var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    var renderer = new THREE.WebGLRenderer({ canvas:canvas, alpha:true, antialias:true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    function sizeRenderer(){ renderer.setSize(canvas.clientWidth, canvas.clientHeight, false); camera.aspect = canvas.clientWidth / canvas.clientHeight; camera.updateProjectionMatrix(); }
+    function sizeRenderer(){ renderer.setSize(canvas.clientWidth, canvas.clientHeight, false); camera.aspect = canvas.clientWidth/canvas.clientHeight; camera.updateProjectionMatrix(); }
     sizeRenderer();
     window.addEventListener('resize', sizeRenderer);
 
-    var geo = new THREE.BufferGeometry();
-    var positions = new Float32Array(scattered); // start scattered
-    var colors = new Float32Array(COUNT * 3);
-    var tmpColor = new THREE.Color();
-    for (var i = 0; i < COUNT; i++) {
-      tmpColor.setHex(statusMeta[statuses[i]][1]);
-      colors[i*3] = tmpColor.r; colors[i*3+1] = tmpColor.g; colors[i*3+2] = tmpColor.b;
+    // Soft round glowing sprite texture (radial gradient) — kills the "square
+    // particle" look that read as generic/AI. This is the single biggest
+    // difference between "premium generative" and "matrix slop".
+    function makeDot(){
+      var c = document.createElement('canvas'); c.width = c.height = 64;
+      var g = c.getContext('2d');
+      var grd = g.createRadialGradient(32,32,0, 32,32,32);
+      grd.addColorStop(0,   'rgba(255,255,255,1)');
+      grd.addColorStop(0.25,'rgba(255,255,255,0.9)');
+      grd.addColorStop(0.55,'rgba(255,255,255,0.25)');
+      grd.addColorStop(1,   'rgba(255,255,255,0)');
+      g.fillStyle = grd; g.fillRect(0,0,64,64);
+      var tex = new THREE.Texture(c); tex.needsUpdate = true; return tex;
     }
-    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-    var mat = new THREE.PointsMaterial({ size: 1.7, vertexColors: true, transparent: true, opacity: 0.95, sizeAttenuation: true, depthWrite: false });
-    var points = new THREE.Points(geo, mat);
-    scene.add(points);
+    var dotTex = makeDot();
+
+    var positions = new Float32Array(COUNT*3), colors = new Float32Array(COUNT*3);
+    var tmp = new THREE.Color();
+    nodes.forEach(function(n,i){
+      positions[i*3]=n.pos[0]; positions[i*3+1]=n.pos[1]; positions[i*3+2]=n.pos[2];
+      tmp.setHex(n.color); colors[i*3]=tmp.r; colors[i*3+1]=tmp.g; colors[i*3+2]=tmp.b;
+    });
+    var geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(positions,3));
+    geo.setAttribute('color', new THREE.BufferAttribute(colors,3));
+    var mat = new THREE.PointsMaterial({ size:2.4, map:dotTex, vertexColors:true, transparent:true, opacity:0.95, sizeAttenuation:true, depthWrite:false, blending:THREE.AdditiveBlending });
+    var points = new THREE.Points(geo, mat); group.add(points);
+
+    // Edges: connect nodes within the same subject (prerequisite chains) plus a
+    // few cross-subject links (e.g. Maths ↔ Physics) — faint gold light lines.
+    var edgePairs = [];
+    for (var a=0; a<COUNT; a++){
+      for (var b=a+1; b<COUNT; b++){
+        var sameSubj = nodes[a].subj === nodes[b].subj;
+        var dx=nodes[a].pos[0]-nodes[b].pos[0], dy=nodes[a].pos[1]-nodes[b].pos[1], dz=nodes[a].pos[2]-nodes[b].pos[2];
+        var d = Math.sqrt(dx*dx+dy*dy+dz*dz);
+        if (sameSubj && d < 6.5) edgePairs.push([a,b]);
+      }
+    }
+    // a handful of deliberate cross-subject bridges (index pairs picked to span clusters)
+    var bridges = [[0, COUNT-1],[5, 12],[13, 20],[7, 24]];
+    bridges.forEach(function(p){ if (p[0]<COUNT && p[1]<COUNT) edgePairs.push(p); });
+
+    var edgePos = new Float32Array(edgePairs.length*6);
+    edgePairs.forEach(function(p,i){
+      var A=nodes[p[0]].pos, B=nodes[p[1]].pos;
+      edgePos[i*6]=A[0]; edgePos[i*6+1]=A[1]; edgePos[i*6+2]=A[2];
+      edgePos[i*6+3]=B[0]; edgePos[i*6+4]=B[1]; edgePos[i*6+5]=B[2];
+    });
+    var edgeGeo = new THREE.BufferGeometry();
+    edgeGeo.setAttribute('position', new THREE.BufferAttribute(edgePos,3));
+    var edgeMat = new THREE.LineBasicMaterial({ color:0xF2DFA8, transparent:true, opacity:0.12, blending:THREE.AdditiveBlending, depthWrite:false });
+    var lines = new THREE.LineSegments(edgeGeo, edgeMat); group.add(lines);
 
     var raycaster = new THREE.Raycaster();
-    raycaster.params.Points.threshold = 1.4;
-    var mouseNDC = new THREE.Vector2(-10, -10);
-    var hoveredIndex = -1;
+    raycaster.params.Points.threshold = 1.6;
+    var mouseNDC = new THREE.Vector2(-10,-10);
+    var targetRotX = 0, targetRotY = 0, hoveredIndex = -1;
 
     canvas.addEventListener('mousemove', function(e){
       var r = canvas.getBoundingClientRect();
-      mouseNDC.x = ((e.clientX - r.left) / r.width) * 2 - 1;
-      mouseNDC.y = -((e.clientY - r.top) / r.height) * 2 + 1;
+      var nx = (e.clientX - r.left)/r.width, ny = (e.clientY - r.top)/r.height;
+      mouseNDC.x = nx*2 - 1; mouseNDC.y = -(ny*2 - 1);
+      targetRotY = (nx - 0.5) * 0.5;   // gentle parallax tilt toward cursor
+      targetRotX = (ny - 0.5) * 0.35;
       ptip.style.left = (e.clientX - r.left) + 'px';
-      ptip.style.top = (e.clientY - r.top) + 'px';
+      ptip.style.top  = (e.clientY - r.top) + 'px';
     });
-    canvas.addEventListener('mouseleave', function(){ mouseNDC.set(-10,-10); ptip.classList.remove('show'); hoveredIndex = -1; });
-
-    function getScrollProgress(){
-      var rect = heroEl.getBoundingClientRect();
-      // Morph completes early (25% of hero scroll-through) so the organized
-      // grid is actually visible and hoverable for most of the hero's scroll
-      // range, instead of settling right as it scrolls out of view.
-      var range = heroEl.offsetHeight * 0.25;
-      var scrolled = -rect.top;
-      return Math.max(0, Math.min(1, scrolled / range));
-    }
-    function easeInOutCubic(t){ return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3) / 2; }
+    canvas.addEventListener('mouseleave', function(){ mouseNDC.set(-10,-10); targetRotX=0; targetRotY=0; ptip.classList.remove('show'); hoveredIndex=-1; });
 
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var posAttr = geo.getAttribute('position');
-
+    var autoY = 0;
     function animate(){
       requestAnimationFrame(animate);
-      var p = reduceMotion ? 1 : easeInOutCubic(getScrollProgress());
-      var arr = posAttr.array;
-      for (var i = 0; i < COUNT; i++) {
-        var i3 = i*3;
-        arr[i3]   = scattered[i3]   + (grid[i3]   - scattered[i3])   * p;
-        arr[i3+1] = scattered[i3+1] + (grid[i3+1] - scattered[i3+1]) * p;
-        arr[i3+2] = scattered[i3+2] + (grid[i3+2] - scattered[i3+2]) * p;
-      }
-      posAttr.needsUpdate = true;
-      if (!reduceMotion) points.rotation.y += 0.0009;
+      if (!reduceMotion) autoY += 0.0016;                       // continuous slow spin
+      group.rotation.y += ((autoY + targetRotY) - group.rotation.y) * 0.05;
+      group.rotation.x += (targetRotX - group.rotation.x) * 0.05;
 
       raycaster.setFromCamera(mouseNDC, camera);
       var hits = raycaster.intersectObject(points);
-      if (hits.length) {
+      if (hits.length){
         var idx = hits[0].index;
-        if (idx !== hoveredIndex) {
+        if (idx !== hoveredIndex){
           hoveredIndex = idx;
-          var st = statusMeta[statuses[idx]];
-          ptip.innerHTML = topics[idx][0] + '<span class="st">' + topics[idx][1] + ' · ' + st[0] + '</span>';
+          ptip.innerHTML = nodes[idx].topic + '<span class="st">' + nodes[idx].subj + '</span>';
         }
         ptip.classList.add('show');
-      } else if (hoveredIndex !== -1 && mouseNDC.x < -5) {
-        ptip.classList.remove('show');
-        hoveredIndex = -1;
+      } else if (hoveredIndex !== -1 && mouseNDC.x < -5){
+        ptip.classList.remove('show'); hoveredIndex = -1;
       }
       renderer.render(scene, camera);
     }
-    // Expose for verification/debugging.
-    window.__particleHero = { getScrollProgress: getScrollProgress, COUNT: COUNT, posAttr: posAttr, scattered: scattered, grid: grid, points: points };
+    window.__constellation = { COUNT: COUNT, edges: edgePairs.length, group: group, points: points };
     animate();
   })();
 
