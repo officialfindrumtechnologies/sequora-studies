@@ -933,11 +933,21 @@ function windowsOverlap(a,b){
 }
 
 /* ============ toolkit: routine clock + personalized block plan ============ */
-const TKC={C:140,R:104,RT1:114,RT2:122,RL:132};
+const TKC={C:140,RS:100,RZ:70,RT1:114,RT2:121,RL:131};
 function _tkPt(r,min){const a=(min/1440*360-90)*Math.PI/180;return{x:TKC.C+r*Math.cos(a),y:TKC.C+r*Math.sin(a)};}
 function _tkArc(r,a1,a2){
   const s=spanMin(a1,a2),p1=_tkPt(r,a1),p2=_tkPt(r,a2);
   return`M ${p1.x.toFixed(1)} ${p1.y.toFixed(1)} A ${r} ${r} 0 ${s>720?1:0} 1 ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`;
+}
+function _tkShort(min){
+  min=((min%1440)+1440)%1440;
+  const h=Math.floor(min/60),m=min%60;
+  return(((h+11)%12)+1)+(m?':'+String(m).padStart(2,'0'):'')+(h<12?'a':'p');
+}
+function _tkBlocksLine(rt){
+  const L=spanMin(rt.study[0],rt.study[1]);
+  const per=Math.round(L/4);
+  return`4 blocks · ${Math.floor(per/60)}h ${String(per%60).padStart(2,'0')}m each · first at ${fmtMin(rt.study[0])}`;
 }
 function _tkAdvice(study){
   const h=Math.floor(study[0]/60);
@@ -955,17 +965,30 @@ function _tkClockSvg(rt){
     const p=_tkPt(TKC.RL,l[0]);
     return`<text class="lblt" x="${p.x.toFixed(1)}" y="${(p.y+3).toFixed(1)}" text-anchor="middle">${l[1]}</text>`;
   }).join('');
-  function hnd(key,cls,min){const p=_tkPt(TKC.R,min);return`<circle class="hnd ${cls}" data-key="${key}" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="8.5"/>`;}
+  // study = OUTER gold ring, sleep = INNER grey ring — separate radii, so the
+  // two windows can never visually collide. Every handle carries a live time
+  // tag (outside the study ring, inside the sleep ring).
+  function hnd(key,cls,r,min,rad){
+    const p=_tkPt(r,min);
+    return`<circle class="hnd ${cls}" data-key="${key}" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${rad}"/>`;
+  }
+  function hlbl(key,r,min){
+    const p=_tkPt(r,min);
+    return`<text class="hlbl" id="tkHL-${key}" x="${p.x.toFixed(1)}" y="${(p.y+3).toFixed(1)}" text-anchor="middle">${_tkShort(min)}</text>`;
+  }
   const L=spanMin(rt.study[0],rt.study[1]),SL=spanMin(rt.sleep[0],rt.sleep[1]);
   return`
-    <circle class="ring" cx="${TKC.C}" cy="${TKC.C}" r="${TKC.R}"/>
+    <circle class="track track-s" cx="${TKC.C}" cy="${TKC.C}" r="${TKC.RS}"/>
+    <circle class="track track-z" cx="${TKC.C}" cy="${TKC.C}" r="${TKC.RZ}"/>
     ${ticks}${labs}
-    <path class="arc-sleep" id="tkArcSleep" d="${_tkArc(TKC.R,rt.sleep[0],rt.sleep[1])}"/>
-    <path class="arc-study" id="tkArcStudy" d="${_tkArc(TKC.R,rt.study[0],rt.study[1])}"/>
-    ${hnd('study0','study',rt.study[0])}${hnd('study1','study',rt.study[1])}
-    ${hnd('sleep0','sleep',rt.sleep[0])}${hnd('sleep1','sleep',rt.sleep[1])}
-    <text class="cent-a" x="${TKC.C}" y="${TKC.C-6}" text-anchor="middle" id="tkCentStudy">${(L/60).toFixed(1)}h study</text>
-    <text class="cent-b" x="${TKC.C}" y="${TKC.C+14}" text-anchor="middle" id="tkCentSleep">${(SL/60).toFixed(1)}h sleep</text>`;
+    <path class="arc-study" id="tkArcStudy" d="${_tkArc(TKC.RS,rt.study[0],rt.study[1])}"/>
+    <path class="arc-sleep" id="tkArcSleep" d="${_tkArc(TKC.RZ,rt.sleep[0],rt.sleep[1])}"/>
+    ${hnd('study0','study',TKC.RS,rt.study[0],9)}${hnd('study1','study',TKC.RS,rt.study[1],9)}
+    ${hnd('sleep0','sleep',TKC.RZ,rt.sleep[0],7.5)}${hnd('sleep1','sleep',TKC.RZ,rt.sleep[1],7.5)}
+    ${hlbl('study0',TKC.RS+19,rt.study[0])}${hlbl('study1',TKC.RS+19,rt.study[1])}
+    ${hlbl('sleep0',TKC.RZ-17,rt.sleep[0])}${hlbl('sleep1',TKC.RZ-17,rt.sleep[1])}
+    <text class="cent-a" x="${TKC.C}" y="${TKC.C-4}" text-anchor="middle" id="tkCentStudy">${(L/60).toFixed(1)}h</text>
+    <text class="cent-b" x="${TKC.C}" y="${TKC.C+13}" text-anchor="middle" id="tkCentSleep">study</text>`;
 }
 function _tkRowsHtml(){
   const subs=_sbCache.subjects.filter(s=>!isIbCore(s));
@@ -1003,9 +1026,10 @@ function renderTkPlan(){
     <div class="tk-clock-wrap">
       <svg class="tk-clock" id="tkClockSvg" viewBox="0 0 280 280">${_tkClockSvg(rt)}</svg>
       <div class="tk-clock-side">
-        <div class="tk-leg"><i class="study"></i>Study window · <b id="tkLegStudy">${fmtMin(rt.study[0])} – ${fmtMin(rt.study[1])}</b></div>
-        <div class="tk-leg"><i class="sleep"></i>Sleep · <b id="tkLegSleep">${fmtMin(rt.sleep[0])} – ${fmtMin(rt.sleep[1])}</b></div>
+        <div class="tk-leg"><i class="study"></i>Outer ring — study · <b id="tkLegStudy">${fmtMin(rt.study[0])} – ${fmtMin(rt.study[1])}</b></div>
+        <div class="tk-leg"><i class="sleep"></i>Inner ring — sleep · <b id="tkLegSleep">${fmtMin(rt.sleep[0])} – ${fmtMin(rt.sleep[1])}</b></div>
         <div class="tk-leg"><i class="free"></i>The rest is breaks, school and life</div>
+        <div class="tk-blocks-line" id="tkBlocksLine">${_tkBlocksLine(rt)}</div>
         <div class="tk-advice" id="tkAdvice">${_tkAdvice(rt.study)}</div>
         <div class="tk-conflict" id="tkConflict" style="display:none">Study and sleep overlap — drag one of them clear.</div>
       </div>
@@ -1022,16 +1046,25 @@ function renderTkPlan(){
     return Math.round(a/360*1440/15)*15%1440;
   }
   function applyVisual(){
-    document.getElementById('tkArcStudy').setAttribute('d',_tkArc(TKC.R,rt.study[0],rt.study[1]));
-    document.getElementById('tkArcSleep').setAttribute('d',_tkArc(TKC.R,rt.sleep[0],rt.sleep[1]));
+    document.getElementById('tkArcStudy').setAttribute('d',_tkArc(TKC.RS,rt.study[0],rt.study[1]));
+    document.getElementById('tkArcSleep').setAttribute('d',_tkArc(TKC.RZ,rt.sleep[0],rt.sleep[1]));
+    function minFor(k){return k==='study0'?rt.study[0]:k==='study1'?rt.study[1]:k==='sleep0'?rt.sleep[0]:rt.sleep[1];}
     svg.querySelectorAll('.hnd').forEach(function(h){
-      const k=h.dataset.key,min=k==='study0'?rt.study[0]:k==='study1'?rt.study[1]:k==='sleep0'?rt.sleep[0]:rt.sleep[1];
-      const p=_tkPt(TKC.R,min);h.setAttribute('cx',p.x.toFixed(1));h.setAttribute('cy',p.y.toFixed(1));
+      const k=h.dataset.key,min=minFor(k);
+      const r=k.indexOf('study')===0?TKC.RS:TKC.RZ;
+      const p=_tkPt(r,min);h.setAttribute('cx',p.x.toFixed(1));h.setAttribute('cy',p.y.toFixed(1));
     });
-    document.getElementById('tkCentStudy').textContent=(spanMin(rt.study[0],rt.study[1])/60).toFixed(1)+'h study';
-    document.getElementById('tkCentSleep').textContent=(spanMin(rt.sleep[0],rt.sleep[1])/60).toFixed(1)+'h sleep';
+    svg.querySelectorAll('.hlbl').forEach(function(t){
+      const k=t.id.slice(5),min=minFor(k);
+      const r=k.indexOf('study')===0?TKC.RS+19:TKC.RZ-17;
+      const p=_tkPt(r,min);
+      t.setAttribute('x',p.x.toFixed(1));t.setAttribute('y',(p.y+3).toFixed(1));
+      t.textContent=_tkShort(min);
+    });
+    document.getElementById('tkCentStudy').textContent=(spanMin(rt.study[0],rt.study[1])/60).toFixed(1)+'h';
     document.getElementById('tkLegStudy').textContent=fmtMin(rt.study[0])+' – '+fmtMin(rt.study[1]);
     document.getElementById('tkLegSleep').textContent=fmtMin(rt.sleep[0])+' – '+fmtMin(rt.sleep[1]);
+    document.getElementById('tkBlocksLine').textContent=_tkBlocksLine(rt);
     document.getElementById('tkAdvice').textContent=_tkAdvice(rt.study);
     document.getElementById('tkConflict').style.display=windowsOverlap(rt.study,rt.sleep)>0?'block':'none';
     document.getElementById('tkRows').innerHTML=_tkRowsHtml.call(null);

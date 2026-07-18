@@ -293,18 +293,20 @@ textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-h
    themes restyle it automatically */
 .tk-clock-wrap{display:flex;gap:30px;align-items:center;flex-wrap:wrap;margin:8px 0 22px}
 .tk-clock{width:min(280px,76vw);height:auto;flex-shrink:0;touch-action:none;user-select:none}
-.tk-clock .ring{fill:none;stroke:var(--ink3);stroke-width:14}
+.tk-clock .track{fill:none;stroke:var(--ink3);stroke-width:12}
+.tk-clock .track-z{stroke-width:9}
 .tk-clock .tick{stroke:var(--line);stroke-width:1}
 .tk-clock .tick.major{stroke:var(--text-dim);stroke-width:1.5}
-.tk-clock .lblt{font-family:var(--mono);font-size:9px;fill:var(--muted)}
-.tk-clock .arc-study{fill:none;stroke:var(--amber);stroke-width:14;stroke-linecap:round}
-.tk-clock .arc-sleep{fill:none;stroke:var(--paper-dim);opacity:.4;stroke-width:14;stroke-linecap:round}
-.tk-clock .hnd{fill:var(--ink);stroke-width:3;cursor:grab}
+.tk-clock .lblt{font-family:var(--mono);font-size:9.5px;fill:var(--text-dim)}
+.tk-clock .arc-study{fill:none;stroke:var(--amber);stroke-width:12;stroke-linecap:round}
+.tk-clock .arc-sleep{fill:none;stroke:var(--paper-dim);opacity:.55;stroke-width:9;stroke-linecap:round}
+.tk-clock .hnd{fill:var(--amber);stroke:var(--ink);stroke-width:3;cursor:grab}
 .tk-clock .hnd:active{cursor:grabbing}
-.tk-clock .hnd.study{stroke:var(--amber)}
-.tk-clock .hnd.sleep{stroke:var(--paper-dim)}
-.tk-clock .cent-a{font-family:var(--mono);font-size:15px;font-weight:700;fill:var(--amber)}
-.tk-clock .cent-b{font-family:var(--mono);font-size:11px;fill:var(--text-dim)}
+.tk-clock .hnd.sleep{fill:var(--paper-dim)}
+.tk-clock .hlbl{font-family:var(--mono);font-size:9px;font-weight:600;fill:var(--muted);pointer-events:none}
+.tk-clock .cent-a{font-family:var(--mono);font-size:22px;font-weight:700;fill:var(--amber)}
+.tk-clock .cent-b{font-family:var(--mono);font-size:9.5px;fill:var(--text-dim);letter-spacing:.14em;text-transform:uppercase}
+.tk-blocks-line{font-family:var(--mono);font-size:11.5px;color:var(--amber-soft);margin-top:4px;padding:8px 0 0;border-top:1px solid var(--border)}
 .tk-clock-side{min-width:0;flex:1}
 .tk-leg{font-family:var(--mono);font-size:11.5px;color:var(--text-dim);margin-bottom:9px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
 .tk-leg b{color:var(--text);font-weight:600}
