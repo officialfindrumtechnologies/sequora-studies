@@ -286,20 +286,34 @@ textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-h
 /* personalized block plan */
 .tkb{display:flex;align-items:flex-start;gap:14px;padding:13px 0;border-top:1px solid var(--border)}
 .tkb:first-child{border-top:none}
-.tkb-time{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--amber);background:var(--ink2);border:1px solid var(--border);border-radius:var(--rs);padding:8px 10px;width:104px;flex-shrink:0;cursor:pointer;transition:border-color .15s,background .15s;text-align:left}
-.tkb-time:hover,.tkb-time:focus{border-color:var(--amber-deep);background:var(--ink3);outline:none}
+.tkb-time-ro{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--amber);background:var(--ink2);border:1px solid var(--border);border-radius:var(--rs);padding:8px 10px;width:104px;flex-shrink:0;text-align:left}
+.tkb-time-ro.dim{color:var(--text-dim)}
 
-/* custom themed time picker popover — replaces native input[type=time],
-   whose dropdown is OS-rendered and can't be themed */
-.tk-time-pop{position:absolute;z-index:400;display:flex;gap:2px;background:var(--ink2);border:1px solid var(--border-hover);border-radius:var(--r);padding:8px;box-shadow:0 20px 50px -20px rgba(0,0,0,.7);animation:tkPopIn .12s ease-out}
-@keyframes tkPopIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
-.tk-time-col{display:flex;flex-direction:column;gap:2px;max-height:196px;overflow-y:auto;padding-right:2px}
-.tk-time-col::-webkit-scrollbar{width:5px}
-.tk-time-col::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
-.tk-time-ampm{max-height:none;justify-content:center}
-.tk-time-opt{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--text-dim);background:transparent;border:none;border-radius:var(--rs);padding:7px 12px;cursor:pointer;transition:background .12s,color .12s;text-align:center}
-.tk-time-opt:hover{background:var(--ink3);color:var(--text)}
-.tk-time-opt.on{background:var(--amber);color:var(--ink)}
+/* 24-hour routine clock — pure SVG, every color from theme vars so premium
+   themes restyle it automatically */
+.tk-clock-wrap{display:flex;gap:30px;align-items:center;flex-wrap:wrap;margin:8px 0 22px}
+.tk-clock{width:min(280px,76vw);height:auto;flex-shrink:0;touch-action:none;user-select:none}
+.tk-clock .ring{fill:none;stroke:var(--ink3);stroke-width:14}
+.tk-clock .tick{stroke:var(--line);stroke-width:1}
+.tk-clock .tick.major{stroke:var(--text-dim);stroke-width:1.5}
+.tk-clock .lblt{font-family:var(--mono);font-size:9px;fill:var(--muted)}
+.tk-clock .arc-study{fill:none;stroke:var(--amber);stroke-width:14;stroke-linecap:round}
+.tk-clock .arc-sleep{fill:none;stroke:var(--paper-dim);opacity:.4;stroke-width:14;stroke-linecap:round}
+.tk-clock .hnd{fill:var(--ink);stroke-width:3;cursor:grab}
+.tk-clock .hnd:active{cursor:grabbing}
+.tk-clock .hnd.study{stroke:var(--amber)}
+.tk-clock .hnd.sleep{stroke:var(--paper-dim)}
+.tk-clock .cent-a{font-family:var(--mono);font-size:15px;font-weight:700;fill:var(--amber)}
+.tk-clock .cent-b{font-family:var(--mono);font-size:11px;fill:var(--text-dim)}
+.tk-clock-side{min-width:0;flex:1}
+.tk-leg{font-family:var(--mono);font-size:11.5px;color:var(--text-dim);margin-bottom:9px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.tk-leg b{color:var(--text);font-weight:600}
+.tk-leg i{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.tk-leg i.study{background:var(--amber)}
+.tk-leg i.sleep{background:var(--paper-dim);opacity:.5}
+.tk-leg i.free{background:transparent;border:1px solid var(--line)}
+.tk-advice{font-size:13.5px;color:var(--paper-dim);line-height:1.6;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)}
+.tk-conflict{font-family:var(--mono);font-size:11px;color:var(--red,#ef4444);margin-top:10px}
 .tkb-time-fixed{font-family:var(--mono);font-size:11px;color:var(--muted);width:104px;flex-shrink:0;padding:8px 0;text-transform:uppercase;letter-spacing:.05em}
 .tkb-body{min-width:0}
 .tkb-s{font-size:15px;font-weight:600;color:var(--text);line-height:1.4}
@@ -1680,7 +1694,7 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
     <div class="card accent" style="margin-bottom:14px">
       <div class="lead">Study sequence · yours</div>
       <h2>Your day, in blocks</h2>
-      <p class="sub">Built from your real subjects — the weakest one gets your sharpest hours. Click any time to match your own routine; it saves to your account.</p>
+      <p class="sub">Drag the gold arc to set when you study and the grey arc for sleep — your whole plan reshapes around it and saves to your account. Weakest subject gets your sharpest hours.</p>
       <div id="tkPlan"></div>
     </div>
 

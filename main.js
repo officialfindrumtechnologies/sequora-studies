@@ -881,10 +881,12 @@ function weakestSubjectsSb(n){
   return _sbCache.subjects.filter(s=>!isIbCore(s)).map(s=>({s,pct:subjReadySb(s).pct})).sort((a,b)=>a.pct-b.pct).slice(0,n);
 }
 
-/* ============ user routine preferences (block start times) ============ */
-// Stored in profiles.preferences (jsonb) so the routine follows the account
-// across devices. Cached after first load; defaults until then.
-const DEFAULT_BLOCK_TIMES=["07:30","10:00","12:15","15:00"];
+/* ============ user routine (study + sleep windows) ============ */
+// Stored in profiles.preferences.routine (jsonb) so it follows the account
+// across devices. Everything time-of-day in the app derives from these two
+// windows: block times, block count, the evening-off anchor (study end) and
+// the Anki-before-bed anchor (45 min before sleep).
+const DEFAULT_ROUTINE={sleep:[23*60,7*60],study:[7*60+30,16*60+30]};
 let _prefsCache=null;
 async function loadPrefs(){
   if(_prefsCache||!currentUser)return _prefsCache||{};
@@ -894,72 +896,81 @@ async function loadPrefs(){
   }catch{_prefsCache={};}
   return _prefsCache;
 }
-function getBlockTimes(){
-  const t=_prefsCache&&_prefsCache.block_times;
-  return (Array.isArray(t)&&t.length===4&&t.every(x=>/^\d{2}:\d{2}$/.test(x)))?t.slice():DEFAULT_BLOCK_TIMES.slice();
+function getRoutine(){
+  const r=_prefsCache&&_prefsCache.routine;
+  if(r&&Array.isArray(r.sleep)&&r.sleep.length===2&&Array.isArray(r.study)&&r.study.length===2)
+    return{sleep:r.sleep.slice(),study:r.study.slice()};
+  return{sleep:DEFAULT_ROUTINE.sleep.slice(),study:DEFAULT_ROUTINE.study.slice()};
 }
+function spanMin(a,b){return(b-a+1440)%1440;}
+function minToHM(m){m=((m%1440)+1440)%1440;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');}
 function fmtBlockTime(hm){
   const p=hm.split(':'),h=+p[0],m=+p[1];
-  return (((h+11)%12)+1)+':'+String(m).padStart(2,'0')+(h<12?' am':' pm');
+  return(((h+11)%12)+1)+':'+String(m).padStart(2,'0')+(h<12?' am':' pm');
 }
-async function setBlockTime(i,val){
+function fmtMin(m){return fmtBlockTime(minToHM(m));}
+// Block start times: the study window split into four equal segments.
+function getBlockTimes(){
+  const st=getRoutine().study;
+  const L=spanMin(st[0],st[1])||540;
+  return[0,1,2,3].map(i=>minToHM(st[0]+Math.round(L*i/4)));
+}
+async function saveRoutine(routine){
   if(!_prefsCache)_prefsCache={};
-  const t=getBlockTimes();t[i]=val;_prefsCache.block_times=t;
-  renderTkPlan();buildTodayBlocks();
+  _prefsCache.routine=routine;
   try{await updateProfile({preferences:_prefsCache});setToast('Routine saved');}
   catch{setToast('Save failed — check connection');}
 }
-
-/* ---- custom themed time picker (native <input type=time> can't be
-   themed — its popup is OS-rendered white regardless of CSS) ---- */
-window.tkOpenTimePicker=function(btn,i){
-  document.querySelectorAll('.tk-time-pop').forEach(p=>p.remove());
-  const [hh,mm]=getBlockTimes()[i].split(':').map(Number);
-  const h12=((hh+11)%12)+1, isPm=hh>=12;
-  const pop=document.createElement('div');
-  pop.className='tk-time-pop';
-  const hours=Array.from({length:12},(_,k)=>k+1);
-  const mins=[0,15,30,45];
-  pop.innerHTML=`
-    <div class="tk-time-col">${hours.map(h=>`<button type="button" class="tk-time-opt${h===h12?' on':''}" data-h="${h}">${h}</button>`).join('')}</div>
-    <div class="tk-time-col">${mins.map(m=>`<button type="button" class="tk-time-opt${m===mm?' on':''}" data-m="${m}">${String(m).padStart(2,'0')}</button>`).join('')}</div>
-    <div class="tk-time-col tk-time-ampm">
-      <button type="button" class="tk-time-opt${!isPm?' on':''}" data-ap="am">AM</button>
-      <button type="button" class="tk-time-opt${isPm?' on':''}" data-ap="pm">PM</button>
-    </div>`;
-  document.body.appendChild(pop);
-  const r=btn.getBoundingClientRect();
-  pop.style.left=Math.min(r.left+window.scrollX,window.innerWidth-pop.offsetWidth-12)+'px';
-  pop.style.top=(r.bottom+window.scrollY+6)+'px';
-
-  let cur={h:h12,m:mm,ap:isPm?'pm':'am'};
-  function apply(){
-    const h24=(cur.ap==='pm'?(cur.h%12)+12:cur.h%12);
-    setBlockTime(i,String(h24).padStart(2,'0')+':'+String(cur.m).padStart(2,'0'));
+// minutes of overlap between two circular day-windows
+function windowsOverlap(a,b){
+  let n=0;
+  for(let m=0;m<1440;m+=15){
+    const inA=spanMin(a[0],m)<spanMin(a[0],a[1]);
+    const inB=spanMin(b[0],m)<spanMin(b[0],b[1]);
+    if(inA&&inB)n+=15;
   }
-  pop.addEventListener('click',function(e){
-    const opt=e.target.closest('.tk-time-opt');
-    if(!opt)return;
-    if(opt.dataset.h){cur.h=+opt.dataset.h;opt.parentElement.querySelectorAll('.tk-time-opt').forEach(o=>o.classList.toggle('on',o===opt));}
-    else if(opt.dataset.m){cur.m=+opt.dataset.m;opt.parentElement.querySelectorAll('.tk-time-opt').forEach(o=>o.classList.toggle('on',o===opt));}
-    else if(opt.dataset.ap){cur.ap=opt.dataset.ap;opt.parentElement.querySelectorAll('.tk-time-opt').forEach(o=>o.classList.toggle('on',o===opt));}
-    apply();
-  });
-  setTimeout(()=>document.addEventListener('click',function outside(e){
-    if(!pop.contains(e.target)&&e.target!==btn){pop.remove();document.removeEventListener('click',outside);}
-  }),0);
-};
+  return n;
+}
 
-/* ============ toolkit: your personalized block plan ============ */
-function renderTkPlan(){
-  const host=document.getElementById('tkPlan');
-  if(!host)return;
+/* ============ toolkit: routine clock + personalized block plan ============ */
+const TKC={C:140,R:104,RT1:114,RT2:122,RL:132};
+function _tkPt(r,min){const a=(min/1440*360-90)*Math.PI/180;return{x:TKC.C+r*Math.cos(a),y:TKC.C+r*Math.sin(a)};}
+function _tkArc(r,a1,a2){
+  const s=spanMin(a1,a2),p1=_tkPt(r,a1),p2=_tkPt(r,a2);
+  return`M ${p1.x.toFixed(1)} ${p1.y.toFixed(1)} A ${r} ${r} 0 ${s>720?1:0} 1 ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`;
+}
+function _tkAdvice(study){
+  const h=Math.floor(study[0]/60);
+  if(h>=16)return"Evening routine — hardest subject goes first while you're still freshest. Keep the last block for drills, not new content.";
+  if(h>=12)return"Afternoon routine — deep blocks stack at the start of your window; save papers for the tail.";
+  return"Morning routine — your sharpest hours go to your weakest subject, first thing.";
+}
+function _tkClockSvg(rt){
+  let ticks='';
+  for(let h=0;h<24;h++){
+    const M=h%6===0,p1=_tkPt(TKC.RT1,h*60),p2=_tkPt(M?TKC.RT2+3:TKC.RT2,h*60);
+    ticks+=`<line class="tick${M?' major':''}" x1="${p1.x.toFixed(1)}" y1="${p1.y.toFixed(1)}" x2="${p2.x.toFixed(1)}" y2="${p2.y.toFixed(1)}"/>`;
+  }
+  const labs=[[0,'12a'],[360,'6a'],[720,'12p'],[1080,'6p']].map(function(l){
+    const p=_tkPt(TKC.RL,l[0]);
+    return`<text class="lblt" x="${p.x.toFixed(1)}" y="${(p.y+3).toFixed(1)}" text-anchor="middle">${l[1]}</text>`;
+  }).join('');
+  function hnd(key,cls,min){const p=_tkPt(TKC.R,min);return`<circle class="hnd ${cls}" data-key="${key}" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="8.5"/>`;}
+  const L=spanMin(rt.study[0],rt.study[1]),SL=spanMin(rt.sleep[0],rt.sleep[1]);
+  return`
+    <circle class="ring" cx="${TKC.C}" cy="${TKC.C}" r="${TKC.R}"/>
+    ${ticks}${labs}
+    <path class="arc-sleep" id="tkArcSleep" d="${_tkArc(TKC.R,rt.sleep[0],rt.sleep[1])}"/>
+    <path class="arc-study" id="tkArcStudy" d="${_tkArc(TKC.R,rt.study[0],rt.study[1])}"/>
+    ${hnd('study0','study',rt.study[0])}${hnd('study1','study',rt.study[1])}
+    ${hnd('sleep0','sleep',rt.sleep[0])}${hnd('sleep1','sleep',rt.sleep[1])}
+    <text class="cent-a" x="${TKC.C}" y="${TKC.C-6}" text-anchor="middle" id="tkCentStudy">${(L/60).toFixed(1)}h study</text>
+    <text class="cent-b" x="${TKC.C}" y="${TKC.C+14}" text-anchor="middle" id="tkCentSleep">${(SL/60).toFixed(1)}h sleep</text>`;
+}
+function _tkRowsHtml(){
   const subs=_sbCache.subjects.filter(s=>!isIbCore(s));
-  const times=getBlockTimes();
-  if(!subs.length){
-    host.innerHTML='<div class="tk-empty">Add your subjects in the Subjects tab — this plan builds itself from them.</div>';
-    return;
-  }
+  if(!subs.length)return'<div class="tk-empty">Add your subjects in the Subjects tab — this plan builds itself from them.</div>';
+  const times=getBlockTimes(),rt=getRoutine();
   const ranked=weakestSubjectsSb(subs.length);
   const why=[
     "Weakest right now — it gets your best brain",
@@ -971,18 +982,90 @@ function renderTkPlan(){
   const deep=Math.min(3,ranked.length);
   for(let i=0;i<deep;i++){
     const w=ranked[i];
-    rows.push({i,time:times[i],title:escapeHtml(w.s.name),meta:w.pct+"% ready · "+why[i]});
+    rows.push({time:times[i],title:escapeHtml(w.s.name),meta:w.pct+"% ready · "+why[i]});
   }
   const rest=ranked.slice(3);
-  rows.push({i:3,time:times[3],title:rest.length?rest.map(x=>escapeHtml(x.s.name)).join(' · '):'Past-paper practice',meta:why[3]});
-  host.innerHTML=rows.map(r=>`
+  rows.push({time:times[3],title:rest.length?rest.map(x=>escapeHtml(x.s.name)).join(' · '):'Past-paper practice',meta:why[3]});
+  return rows.map(r=>`
     <div class="tkb">
-      <button type="button" class="tkb-time" onclick="tkOpenTimePicker(this,${r.i})" aria-label="Change block start time">${fmtBlockTime(r.time)}</button>
+      <span class="tkb-time-ro">${fmtBlockTime(r.time)}</span>
       <div class="tkb-body"><div class="tkb-s">${r.title}</div><div class="tkb-m">${r.meta}</div></div>
     </div>`).join('')+
-    `<div class="tkb static"><div class="tkb-time-fixed">evening</div><div class="tkb-body"><div class="tkb-s">Off — earned reward</div><div class="tkb-m">Locked leisure once the blocks are done</div></div></div>
-     <div class="tkb static"><div class="tkb-time-fixed">before bed</div><div class="tkb-body"><div class="tkb-s">Anki + skim today's notes</div><div class="tkb-m">~15 minutes — sleep locks the day in</div></div></div>
+    `<div class="tkb static"><span class="tkb-time-ro dim">${fmtMin(rt.study[1])}</span><div class="tkb-body"><div class="tkb-s">Off — earned reward</div><div class="tkb-m">Locked leisure once the blocks are done</div></div></div>
+     <div class="tkb static"><span class="tkb-time-ro dim">${fmtMin((rt.sleep[0]-45+1440)%1440)}</span><div class="tkb-body"><div class="tkb-s">Anki + recall sweep before sleep</div><div class="tkb-m">~15 minutes — memory consolidates overnight</div></div></div>
      <div class="tk-note">Weekends switch automatically to past papers and repair work — see Today's blocks on the Deck.</div>`;
+}
+function renderTkPlan(){
+  const host=document.getElementById('tkPlan');
+  if(!host)return;
+  let rt=getRoutine();
+  host.innerHTML=`
+    <div class="tk-clock-wrap">
+      <svg class="tk-clock" id="tkClockSvg" viewBox="0 0 280 280">${_tkClockSvg(rt)}</svg>
+      <div class="tk-clock-side">
+        <div class="tk-leg"><i class="study"></i>Study window · <b id="tkLegStudy">${fmtMin(rt.study[0])} – ${fmtMin(rt.study[1])}</b></div>
+        <div class="tk-leg"><i class="sleep"></i>Sleep · <b id="tkLegSleep">${fmtMin(rt.sleep[0])} – ${fmtMin(rt.sleep[1])}</b></div>
+        <div class="tk-leg"><i class="free"></i>The rest is breaks, school and life</div>
+        <div class="tk-advice" id="tkAdvice">${_tkAdvice(rt.study)}</div>
+        <div class="tk-conflict" id="tkConflict" style="display:none">Study and sleep overlap — drag one of them clear.</div>
+      </div>
+    </div>
+    <div id="tkRows">${_tkRowsHtml()}</div>`;
+
+  // drag: pointer on a handle rotates that window edge, snapped to 15 min.
+  const svg=document.getElementById('tkClockSvg');
+  let drag=null;
+  function minsFromEvent(e){
+    const r=svg.getBoundingClientRect();
+    const x=e.clientX-r.left-r.width/2,y=e.clientY-r.top-r.height/2;
+    let a=Math.atan2(y,x)*180/Math.PI+90;if(a<0)a+=360;
+    return Math.round(a/360*1440/15)*15%1440;
+  }
+  function applyVisual(){
+    document.getElementById('tkArcStudy').setAttribute('d',_tkArc(TKC.R,rt.study[0],rt.study[1]));
+    document.getElementById('tkArcSleep').setAttribute('d',_tkArc(TKC.R,rt.sleep[0],rt.sleep[1]));
+    svg.querySelectorAll('.hnd').forEach(function(h){
+      const k=h.dataset.key,min=k==='study0'?rt.study[0]:k==='study1'?rt.study[1]:k==='sleep0'?rt.sleep[0]:rt.sleep[1];
+      const p=_tkPt(TKC.R,min);h.setAttribute('cx',p.x.toFixed(1));h.setAttribute('cy',p.y.toFixed(1));
+    });
+    document.getElementById('tkCentStudy').textContent=(spanMin(rt.study[0],rt.study[1])/60).toFixed(1)+'h study';
+    document.getElementById('tkCentSleep').textContent=(spanMin(rt.sleep[0],rt.sleep[1])/60).toFixed(1)+'h sleep';
+    document.getElementById('tkLegStudy').textContent=fmtMin(rt.study[0])+' – '+fmtMin(rt.study[1]);
+    document.getElementById('tkLegSleep').textContent=fmtMin(rt.sleep[0])+' – '+fmtMin(rt.sleep[1]);
+    document.getElementById('tkAdvice').textContent=_tkAdvice(rt.study);
+    document.getElementById('tkConflict').style.display=windowsOverlap(rt.study,rt.sleep)>0?'block':'none';
+    document.getElementById('tkRows').innerHTML=_tkRowsHtml.call(null);
+  }
+  svg.addEventListener('pointerdown',function(e){
+    const h=e.target.closest('.hnd');if(!h)return;
+    e.preventDefault();drag=h.dataset.key;svg.setPointerCapture(e.pointerId);
+  });
+  svg.addEventListener('pointermove',function(e){
+    if(!drag)return;
+    const m=minsFromEvent(e);
+    if(drag==='study0')rt.study[0]=m;else if(drag==='study1')rt.study[1]=m;
+    else if(drag==='sleep0')rt.sleep[0]=m;else rt.sleep[1]=m;
+    // clamp spans (on the dragged edge): dragging one handle past the other
+    // must not wrap into a 23h window, and windows can't collapse below 1h
+    function clampWin(w,edge,minL,maxL){
+      const L=spanMin(w[0],w[1]);
+      if(L<minL){ if(edge===0)w[0]=(w[1]-minL+1440)%1440; else w[1]=(w[0]+minL)%1440; }
+      else if(L>maxL){ if(edge===0)w[0]=(w[1]-maxL+1440)%1440; else w[1]=(w[0]+maxL)%1440; }
+    }
+    if(drag==='study0'||drag==='study1')clampWin(rt.study,drag==='study0'?0:1,60,960);
+    else clampWin(rt.sleep,drag==='sleep0'?0:1,60,840);
+    if(!_prefsCache)_prefsCache={};
+    _prefsCache.routine={sleep:rt.sleep.slice(),study:rt.study.slice()};
+    applyVisual();
+  });
+  function endDrag(){
+    if(!drag)return;
+    drag=null;
+    saveRoutine({sleep:rt.sleep.slice(),study:rt.study.slice()});
+    buildTodayBlocks();
+  }
+  svg.addEventListener('pointerup',endDrag);
+  svg.addEventListener('pointercancel',endDrag);
 }
 window.renderTkPlan=renderTkPlan;
 
@@ -1043,8 +1126,9 @@ function buildTodayBlocks(){
     b4block={time:fmtBlockTime(slotTimes[3]),s:"Past-paper practice (lighter)",t:"Work a few past-paper questions on a topic you just learned — retrieval under mild pressure.",hint:"Block 4 alternates with your other subjects"};
   }
   addBlockEl(el,b4block,false);
-  addBlockEl(el,{time:"4–10pm",s:"OFF — earned reward",t:"Locked leisure. Guilt-free, because you did the mornings. Put real movement here.",hint:"Work-then-reward is the engine",locked:true},false);
-  addBlockEl(el,{time:"10:00",s:"Anki + skim today's notes (~45m)",t:"15 min of spaced repetition before sleep locks the day in. Then sleep ~11.",hint:"Memory consolidates in sleep",locked:true},false);
+  const rout=getRoutine();
+  addBlockEl(el,{time:fmtMin(rout.study[1]),s:"OFF — earned reward",t:"Locked leisure. Guilt-free, because you did the blocks. Put real movement here.",hint:"Work-then-reward is the engine",locked:true},false);
+  addBlockEl(el,{time:fmtMin((rout.sleep[0]-45+1440)%1440),s:"Anki + skim today's notes (~45m)",t:"15 min of spaced repetition before sleep locks the day in. Then lights out at "+fmtMin(rout.sleep[0])+".",hint:"Memory consolidates in sleep",locked:true},false);
 }
 function addBlockEl(parent,b,done){
   const div=document.createElement("div");
