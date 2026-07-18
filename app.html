@@ -294,7 +294,10 @@ textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-h
 .tk-clock-wrap{display:flex;gap:30px;align-items:center;flex-wrap:wrap;margin:8px 0 22px}
 .tk-clock{width:min(280px,76vw);height:auto;flex-shrink:0;touch-action:none;user-select:none}
 .tk-clock .track{fill:none;stroke:var(--ink3);stroke-width:12}
+.tk-clock .track-c{stroke-width:7}
 .tk-clock .track-z{stroke-width:9}
+.tk-clock .arc-school{fill:none;stroke:var(--blue);opacity:.75;stroke-width:7;stroke-linecap:round}
+.tk-clock .hnd.school{fill:var(--blue)}
 .tk-clock .tick{stroke:var(--line);stroke-width:1}
 .tk-clock .tick.major{stroke:var(--text-dim);stroke-width:1.5}
 .tk-clock .lblt{font-family:var(--mono);font-size:9.5px;fill:var(--text-dim)}
@@ -312,8 +315,13 @@ textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-h
 .tk-leg b{color:var(--text);font-weight:600}
 .tk-leg i{width:10px;height:10px;border-radius:50%;flex-shrink:0}
 .tk-leg i.study{background:var(--amber)}
+.tk-leg i.school{background:var(--blue);opacity:.85}
 .tk-leg i.sleep{background:var(--paper-dim);opacity:.5}
 .tk-leg i.free{background:transparent;border:1px solid var(--line)}
+.tk-leg-x{font-size:10px;color:var(--muted);background:transparent;border:1px solid var(--border);border-radius:50%;width:18px;height:18px;line-height:1;cursor:pointer;flex-shrink:0;transition:color .15s,border-color .15s}
+.tk-leg-x:hover{color:var(--red);border-color:var(--red)}
+.tk-add-school{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:var(--text-dim);background:transparent;border:1px dashed var(--border);border-radius:var(--rs);padding:7px 12px;cursor:pointer;margin-top:2px;transition:color .15s,border-color .15s}
+.tk-add-school:hover{color:var(--blue);border-color:var(--blue)}
 .tk-advice{font-size:13.5px;color:var(--paper-dim);line-height:1.6;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)}
 .tk-conflict{font-family:var(--mono);font-size:11px;color:var(--red,#ef4444);margin-top:10px}
 .tkb-time-fixed{font-family:var(--mono);font-size:11px;color:var(--muted);width:104px;flex-shrink:0;padding:8px 0;text-transform:uppercase;letter-spacing:.05em}
@@ -1696,7 +1704,7 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
     <div class="card accent" style="margin-bottom:14px">
       <div class="lead">Study sequence · yours</div>
       <h2>Your day, in blocks</h2>
-      <p class="sub">Drag the gold arc to set when you study and the grey arc for sleep — your whole plan reshapes around it and saves to your account. Weakest subject gets your sharpest hours.</p>
+      <p class="sub">Three rings: gold is when you study, blue is school or classes, grey is sleep. Drag any handle — study blocks route themselves around school, and it all saves to your account. Weakest subject gets your sharpest hours.</p>
       <div id="tkPlan"></div>
     </div>
 

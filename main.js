@@ -886,7 +886,7 @@ function weakestSubjectsSb(n){
 // across devices. Everything time-of-day in the app derives from these two
 // windows: block times, block count, the evening-off anchor (study end) and
 // the Anki-before-bed anchor (45 min before sleep).
-const DEFAULT_ROUTINE={sleep:[23*60,7*60],study:[7*60+30,16*60+30]};
+const DEFAULT_ROUTINE={sleep:[23*60,7*60],study:[7*60+30,16*60+30],school:[8*60,14*60]};
 let _prefsCache=null;
 async function loadPrefs(){
   if(_prefsCache||!currentUser)return _prefsCache||{};
@@ -898,9 +898,11 @@ async function loadPrefs(){
 }
 function getRoutine(){
   const r=_prefsCache&&_prefsCache.routine;
-  if(r&&Array.isArray(r.sleep)&&r.sleep.length===2&&Array.isArray(r.study)&&r.study.length===2)
-    return{sleep:r.sleep.slice(),study:r.study.slice()};
-  return{sleep:DEFAULT_ROUTINE.sleep.slice(),study:DEFAULT_ROUTINE.study.slice()};
+  if(r&&Array.isArray(r.sleep)&&r.sleep.length===2&&Array.isArray(r.study)&&r.study.length===2){
+    const school=Array.isArray(r.school)&&r.school.length===2?r.school.slice():(r.school===null?null:DEFAULT_ROUTINE.school.slice());
+    return{sleep:r.sleep.slice(),study:r.study.slice(),school:school};
+  }
+  return{sleep:DEFAULT_ROUTINE.sleep.slice(),study:DEFAULT_ROUTINE.study.slice(),school:DEFAULT_ROUTINE.school.slice()};
 }
 function spanMin(a,b){return(b-a+1440)%1440;}
 function minToHM(m){m=((m%1440)+1440)%1440;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');}
@@ -909,12 +911,47 @@ function fmtBlockTime(hm){
   return(((h+11)%12)+1)+':'+String(m).padStart(2,'0')+(h<12?' am':' pm');
 }
 function fmtMin(m){return fmtBlockTime(minToHM(m));}
-// Block start times: the study window split into four equal segments.
+// Block start times: four blocks placed in the study window, routed AROUND
+// school hours — the window is cut into free segments and blocks are
+// allocated to segments proportional to their length.
 function getBlockTimes(){
-  const st=getRoutine().study;
-  const L=spanMin(st[0],st[1])||540;
-  return[0,1,2,3].map(i=>minToHM(st[0]+Math.round(L*i/4)));
+  const rt=getRoutine();
+  const L=spanMin(rt.study[0],rt.study[1])||540;
+  let segs=[[rt.study[0],L]];   // [startMin, lengthMin]
+  if(rt.school){
+    const schL=spanMin(rt.school[0],rt.school[1]);
+    const out=[];
+    segs.forEach(function(sg){
+      const relS=spanMin(sg[0],rt.school[0]),relE=spanMin(sg[0],rt.school[1]);
+      if(relS<sg[1]){                      // school starts inside the segment
+        if(relS>=45)out.push([sg[0],relS]);
+        const after=sg[1]-(relS+schL);
+        if(after>=45)out.push([(sg[0]+relS+schL)%1440,after]);
+      }else if(relE<sg[1]&&relE>0){        // school covers the segment's head
+        if(sg[1]-relE>=45)out.push([(sg[0]+relE)%1440,sg[1]-relE]);
+      }else out.push(sg);
+    });
+    if(out.length)segs=out;
+  }
+  const tot=segs.reduce((a,s)=>a+s[1],0);
+  let alloc=segs.map(s=>Math.max(1,Math.round(4*s[1]/tot)));
+  let sum=alloc.reduce((a,b)=>a+b,0);
+  while(sum>4){const i=alloc.indexOf(Math.max.apply(null,alloc));alloc[i]--;sum--;}
+  while(sum<4){const i=alloc.indexOf(Math.min.apply(null,alloc));alloc[i]++;sum++;}
+  const times=[];
+  segs.forEach(function(s,i){
+    for(let k=0;k<alloc[i];k++)times.push(minToHM(s[0]+Math.round(s[1]*k/alloc[i])));
+  });
+  return times.slice(0,4);
 }
+window.tkToggleSchool=function(){
+  if(!_prefsCache)_prefsCache={};
+  const rt=getRoutine();
+  rt.school=rt.school?null:DEFAULT_ROUTINE.school.slice();
+  _prefsCache.routine=rt;
+  renderTkPlan();buildTodayBlocks();
+  saveRoutine(rt);
+};
 async function saveRoutine(routine){
   if(!_prefsCache)_prefsCache={};
   _prefsCache.routine=routine;
@@ -933,7 +970,7 @@ function windowsOverlap(a,b){
 }
 
 /* ============ toolkit: routine clock + personalized block plan ============ */
-const TKC={C:140,RS:100,RZ:70,RT1:114,RT2:121,RL:131};
+const TKC={C:140,RS:102,RC:84,RZ:66,RT1:114,RT2:121,RL:131};
 function _tkPt(r,min){const a=(min/1440*360-90)*Math.PI/180;return{x:TKC.C+r*Math.cos(a),y:TKC.C+r*Math.sin(a)};}
 function _tkArc(r,a1,a2){
   const s=spanMin(a1,a2),p1=_tkPt(r,a1),p2=_tkPt(r,a2);
@@ -945,9 +982,12 @@ function _tkShort(min){
   return(((h+11)%12)+1)+(m?':'+String(m).padStart(2,'0'):'')+(h<12?'a':'p');
 }
 function _tkBlocksLine(rt){
-  const L=spanMin(rt.study[0],rt.study[1]);
-  const per=Math.round(L/4);
-  return`4 blocks · ${Math.floor(per/60)}h ${String(per%60).padStart(2,'0')}m each · first at ${fmtMin(rt.study[0])}`;
+  const slots=getBlockTimes();
+  const first=fmtBlockTime(slots[0]);
+  if(rt.school&&windowsOverlap(rt.study,rt.school)>0)
+    return`4 blocks · routed around school · first at ${first}`;
+  const per=Math.round(spanMin(rt.study[0],rt.study[1])/4);
+  return`4 blocks · ${Math.floor(per/60)}h ${String(per%60).padStart(2,'0')}m each · first at ${first}`;
 }
 function _tkAdvice(study){
   const h=Math.floor(study[0]/60);
@@ -976,17 +1016,23 @@ function _tkClockSvg(rt){
     const p=_tkPt(r,min);
     return`<text class="hlbl" id="tkHL-${key}" x="${p.x.toFixed(1)}" y="${(p.y+3).toFixed(1)}" text-anchor="middle">${_tkShort(min)}</text>`;
   }
-  const L=spanMin(rt.study[0],rt.study[1]),SL=spanMin(rt.sleep[0],rt.sleep[1]);
+  const L=spanMin(rt.study[0],rt.study[1]);
+  const school=rt.school?`
+    <circle class="track track-c" cx="${TKC.C}" cy="${TKC.C}" r="${TKC.RC}"/>
+    <path class="arc-school" id="tkArcSchool" d="${_tkArc(TKC.RC,rt.school[0],rt.school[1])}"/>
+    ${hnd('school0','school',TKC.RC,rt.school[0],7.5)}${hnd('school1','school',TKC.RC,rt.school[1],7.5)}
+    ${hlbl('school0',TKC.RC-13,rt.school[0])}${hlbl('school1',TKC.RC-13,rt.school[1])}`:'';
   return`
     <circle class="track track-s" cx="${TKC.C}" cy="${TKC.C}" r="${TKC.RS}"/>
     <circle class="track track-z" cx="${TKC.C}" cy="${TKC.C}" r="${TKC.RZ}"/>
     ${ticks}${labs}
     <path class="arc-study" id="tkArcStudy" d="${_tkArc(TKC.RS,rt.study[0],rt.study[1])}"/>
     <path class="arc-sleep" id="tkArcSleep" d="${_tkArc(TKC.RZ,rt.sleep[0],rt.sleep[1])}"/>
+    ${school}
     ${hnd('study0','study',TKC.RS,rt.study[0],9)}${hnd('study1','study',TKC.RS,rt.study[1],9)}
-    ${hnd('sleep0','sleep',TKC.RZ,rt.sleep[0],7.5)}${hnd('sleep1','sleep',TKC.RZ,rt.sleep[1],7.5)}
+    ${hnd('sleep0','sleep',TKC.RZ,rt.sleep[0],7)}${hnd('sleep1','sleep',TKC.RZ,rt.sleep[1],7)}
     ${hlbl('study0',TKC.RS+19,rt.study[0])}${hlbl('study1',TKC.RS+19,rt.study[1])}
-    ${hlbl('sleep0',TKC.RZ-17,rt.sleep[0])}${hlbl('sleep1',TKC.RZ-17,rt.sleep[1])}
+    ${hlbl('sleep0',TKC.RZ-16,rt.sleep[0])}${hlbl('sleep1',TKC.RZ-16,rt.sleep[1])}
     <text class="cent-a" x="${TKC.C}" y="${TKC.C-4}" text-anchor="middle" id="tkCentStudy">${(L/60).toFixed(1)}h</text>
     <text class="cent-b" x="${TKC.C}" y="${TKC.C+13}" text-anchor="middle" id="tkCentSleep">study</text>`;
 }
@@ -998,7 +1044,7 @@ function _tkRowsHtml(){
   const why=[
     "Weakest right now — it gets your best brain",
     "Second-weakest — front-loaded while focus is high",
-    "Evaluation & essay marks decide the top grades",
+    "Third-weakest — steady progress before the day tails off",
     "Rotates through your remaining subjects and past papers"
   ];
   const rows=[];
@@ -1008,7 +1054,8 @@ function _tkRowsHtml(){
     rows.push({time:times[i],title:escapeHtml(w.s.name),meta:w.pct+"% ready · "+why[i]});
   }
   const rest=ranked.slice(3);
-  rows.push({time:times[3],title:rest.length?rest.map(x=>escapeHtml(x.s.name)).join(' · '):'Past-paper practice',meta:why[3]});
+  const restNames=[...new Set(rest.map(x=>escapeHtml(x.s.name)))];
+  rows.push({time:times[3],title:restNames.length?restNames.join(' · '):'Past-paper practice',meta:why[3]});
   return rows.map(r=>`
     <div class="tkb">
       <span class="tkb-time-ro">${fmtBlockTime(r.time)}</span>
@@ -1026,9 +1073,11 @@ function renderTkPlan(){
     <div class="tk-clock-wrap">
       <svg class="tk-clock" id="tkClockSvg" viewBox="0 0 280 280">${_tkClockSvg(rt)}</svg>
       <div class="tk-clock-side">
-        <div class="tk-leg"><i class="study"></i>Outer ring — study · <b id="tkLegStudy">${fmtMin(rt.study[0])} – ${fmtMin(rt.study[1])}</b></div>
-        <div class="tk-leg"><i class="sleep"></i>Inner ring — sleep · <b id="tkLegSleep">${fmtMin(rt.sleep[0])} – ${fmtMin(rt.sleep[1])}</b></div>
-        <div class="tk-leg"><i class="free"></i>The rest is breaks, school and life</div>
+        <div class="tk-leg"><i class="study"></i>Outer — study · <b id="tkLegStudy">${fmtMin(rt.study[0])} – ${fmtMin(rt.study[1])}</b></div>
+        <div class="tk-leg" id="tkLegSchoolRow" style="${rt.school?'':'display:none'}"><i class="school"></i>Middle — school · <b id="tkLegSchool">${rt.school?fmtMin(rt.school[0])+' – '+fmtMin(rt.school[1]):''}</b><button class="tk-leg-x" onclick="tkToggleSchool()" title="Remove school hours">✕</button></div>
+        <div class="tk-leg"><i class="sleep"></i>Inner — sleep · <b id="tkLegSleep">${fmtMin(rt.sleep[0])} – ${fmtMin(rt.sleep[1])}</b></div>
+        <div class="tk-leg"><i class="free"></i>The rest is breaks and life</div>
+        ${rt.school?'':'<button class="tk-add-school" onclick="tkToggleSchool()">+ Add school / class hours</button>'}
         <div class="tk-blocks-line" id="tkBlocksLine">${_tkBlocksLine(rt)}</div>
         <div class="tk-advice" id="tkAdvice">${_tkAdvice(rt.study)}</div>
         <div class="tk-conflict" id="tkConflict" style="display:none">Study and sleep overlap — drag one of them clear.</div>
@@ -1048,16 +1097,28 @@ function renderTkPlan(){
   function applyVisual(){
     document.getElementById('tkArcStudy').setAttribute('d',_tkArc(TKC.RS,rt.study[0],rt.study[1]));
     document.getElementById('tkArcSleep').setAttribute('d',_tkArc(TKC.RZ,rt.sleep[0],rt.sleep[1]));
-    function minFor(k){return k==='study0'?rt.study[0]:k==='study1'?rt.study[1]:k==='sleep0'?rt.sleep[0]:rt.sleep[1];}
+    if(rt.school){
+      const as=document.getElementById('tkArcSchool');
+      if(as)as.setAttribute('d',_tkArc(TKC.RC,rt.school[0],rt.school[1]));
+      const ls=document.getElementById('tkLegSchool');
+      if(ls)ls.textContent=fmtMin(rt.school[0])+' – '+fmtMin(rt.school[1]);
+    }
+    function minFor(k){
+      return k==='study0'?rt.study[0]:k==='study1'?rt.study[1]
+        :k==='sleep0'?rt.sleep[0]:k==='sleep1'?rt.sleep[1]
+        :k==='school0'?(rt.school?rt.school[0]:0):(rt.school?rt.school[1]:0);
+    }
+    function radFor(k,label){
+      if(k.indexOf('study')===0)return label?TKC.RS+19:TKC.RS;
+      if(k.indexOf('school')===0)return label?TKC.RC-13:TKC.RC;
+      return label?TKC.RZ-16:TKC.RZ;
+    }
     svg.querySelectorAll('.hnd').forEach(function(h){
-      const k=h.dataset.key,min=minFor(k);
-      const r=k.indexOf('study')===0?TKC.RS:TKC.RZ;
-      const p=_tkPt(r,min);h.setAttribute('cx',p.x.toFixed(1));h.setAttribute('cy',p.y.toFixed(1));
+      const k=h.dataset.key,p=_tkPt(radFor(k,false),minFor(k));
+      h.setAttribute('cx',p.x.toFixed(1));h.setAttribute('cy',p.y.toFixed(1));
     });
     svg.querySelectorAll('.hlbl').forEach(function(t){
-      const k=t.id.slice(5),min=minFor(k);
-      const r=k.indexOf('study')===0?TKC.RS+19:TKC.RZ-17;
-      const p=_tkPt(r,min);
+      const k=t.id.slice(5),min=minFor(k),p=_tkPt(radFor(k,true),min);
       t.setAttribute('x',p.x.toFixed(1));t.setAttribute('y',(p.y+3).toFixed(1));
       t.textContent=_tkShort(min);
     });
@@ -1077,7 +1138,9 @@ function renderTkPlan(){
     if(!drag)return;
     const m=minsFromEvent(e);
     if(drag==='study0')rt.study[0]=m;else if(drag==='study1')rt.study[1]=m;
-    else if(drag==='sleep0')rt.sleep[0]=m;else rt.sleep[1]=m;
+    else if(drag==='sleep0')rt.sleep[0]=m;else if(drag==='sleep1')rt.sleep[1]=m;
+    else if(rt.school&&drag==='school0')rt.school[0]=m;
+    else if(rt.school&&drag==='school1')rt.school[1]=m;
     // clamp spans (on the dragged edge): dragging one handle past the other
     // must not wrap into a 23h window, and windows can't collapse below 1h
     function clampWin(w,edge,minL,maxL){
@@ -1086,15 +1149,16 @@ function renderTkPlan(){
       else if(L>maxL){ if(edge===0)w[0]=(w[1]-maxL+1440)%1440; else w[1]=(w[0]+maxL)%1440; }
     }
     if(drag==='study0'||drag==='study1')clampWin(rt.study,drag==='study0'?0:1,60,960);
-    else clampWin(rt.sleep,drag==='sleep0'?0:1,60,840);
+    else if(drag==='sleep0'||drag==='sleep1')clampWin(rt.sleep,drag==='sleep0'?0:1,60,840);
+    else if(rt.school)clampWin(rt.school,drag==='school0'?0:1,60,720);
     if(!_prefsCache)_prefsCache={};
-    _prefsCache.routine={sleep:rt.sleep.slice(),study:rt.study.slice()};
+    _prefsCache.routine={sleep:rt.sleep.slice(),study:rt.study.slice(),school:rt.school?rt.school.slice():null};
     applyVisual();
   });
   function endDrag(){
     if(!drag)return;
     drag=null;
-    saveRoutine({sleep:rt.sleep.slice(),study:rt.study.slice()});
+    saveRoutine({sleep:rt.sleep.slice(),study:rt.study.slice(),school:rt.school?rt.school.slice():null});
     buildTodayBlocks();
   }
   svg.addEventListener('pointerup',endDrag);
@@ -1771,7 +1835,7 @@ function renderFlags(){
     const late=[];
     for(const s of subs){
       const x=subjReadySb(s);
-      if(x.pct<20&&x.tot>3)late.push(s.name);
+      if(x.pct<20&&x.tot>3&&!late.includes(s.name))late.push(s.name);
     }
     if(late.length){
       const names=late.map(escapeHtml);
