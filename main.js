@@ -881,8 +881,112 @@ function weakestSubjectsSb(n){
   return _sbCache.subjects.filter(s=>!isIbCore(s)).map(s=>({s,pct:subjReadySb(s).pct})).sort((a,b)=>a.pct-b.pct).slice(0,n);
 }
 
+/* ============ user routine preferences (block start times) ============ */
+// Stored in profiles.preferences (jsonb) so the routine follows the account
+// across devices. Cached after first load; defaults until then.
+const DEFAULT_BLOCK_TIMES=["07:30","10:00","12:15","15:00"];
+let _prefsCache=null;
+async function loadPrefs(){
+  if(_prefsCache||!currentUser)return _prefsCache||{};
+  try{
+    const {data}=await supabase.from('profiles').select('preferences').eq('id',currentUser.id).single();
+    _prefsCache=(data&&data.preferences)||{};
+  }catch{_prefsCache={};}
+  return _prefsCache;
+}
+function getBlockTimes(){
+  const t=_prefsCache&&_prefsCache.block_times;
+  return (Array.isArray(t)&&t.length===4&&t.every(x=>/^\d{2}:\d{2}$/.test(x)))?t.slice():DEFAULT_BLOCK_TIMES.slice();
+}
+function fmtBlockTime(hm){
+  const p=hm.split(':'),h=+p[0],m=+p[1];
+  return (((h+11)%12)+1)+':'+String(m).padStart(2,'0')+(h<12?' am':' pm');
+}
+async function setBlockTime(i,val){
+  if(!_prefsCache)_prefsCache={};
+  const t=getBlockTimes();t[i]=val;_prefsCache.block_times=t;
+  renderTkPlan();buildTodayBlocks();
+  try{await updateProfile({preferences:_prefsCache});setToast('Routine saved');}
+  catch{setToast('Save failed — check connection');}
+}
+
+/* ---- custom themed time picker (native <input type=time> can't be
+   themed — its popup is OS-rendered white regardless of CSS) ---- */
+window.tkOpenTimePicker=function(btn,i){
+  document.querySelectorAll('.tk-time-pop').forEach(p=>p.remove());
+  const [hh,mm]=getBlockTimes()[i].split(':').map(Number);
+  const h12=((hh+11)%12)+1, isPm=hh>=12;
+  const pop=document.createElement('div');
+  pop.className='tk-time-pop';
+  const hours=Array.from({length:12},(_,k)=>k+1);
+  const mins=[0,15,30,45];
+  pop.innerHTML=`
+    <div class="tk-time-col">${hours.map(h=>`<button type="button" class="tk-time-opt${h===h12?' on':''}" data-h="${h}">${h}</button>`).join('')}</div>
+    <div class="tk-time-col">${mins.map(m=>`<button type="button" class="tk-time-opt${m===mm?' on':''}" data-m="${m}">${String(m).padStart(2,'0')}</button>`).join('')}</div>
+    <div class="tk-time-col tk-time-ampm">
+      <button type="button" class="tk-time-opt${!isPm?' on':''}" data-ap="am">AM</button>
+      <button type="button" class="tk-time-opt${isPm?' on':''}" data-ap="pm">PM</button>
+    </div>`;
+  document.body.appendChild(pop);
+  const r=btn.getBoundingClientRect();
+  pop.style.left=Math.min(r.left+window.scrollX,window.innerWidth-pop.offsetWidth-12)+'px';
+  pop.style.top=(r.bottom+window.scrollY+6)+'px';
+
+  let cur={h:h12,m:mm,ap:isPm?'pm':'am'};
+  function apply(){
+    const h24=(cur.ap==='pm'?(cur.h%12)+12:cur.h%12);
+    setBlockTime(i,String(h24).padStart(2,'0')+':'+String(cur.m).padStart(2,'0'));
+  }
+  pop.addEventListener('click',function(e){
+    const opt=e.target.closest('.tk-time-opt');
+    if(!opt)return;
+    if(opt.dataset.h){cur.h=+opt.dataset.h;opt.parentElement.querySelectorAll('.tk-time-opt').forEach(o=>o.classList.toggle('on',o===opt));}
+    else if(opt.dataset.m){cur.m=+opt.dataset.m;opt.parentElement.querySelectorAll('.tk-time-opt').forEach(o=>o.classList.toggle('on',o===opt));}
+    else if(opt.dataset.ap){cur.ap=opt.dataset.ap;opt.parentElement.querySelectorAll('.tk-time-opt').forEach(o=>o.classList.toggle('on',o===opt));}
+    apply();
+  });
+  setTimeout(()=>document.addEventListener('click',function outside(e){
+    if(!pop.contains(e.target)&&e.target!==btn){pop.remove();document.removeEventListener('click',outside);}
+  }),0);
+};
+
+/* ============ toolkit: your personalized block plan ============ */
+function renderTkPlan(){
+  const host=document.getElementById('tkPlan');
+  if(!host)return;
+  const subs=_sbCache.subjects.filter(s=>!isIbCore(s));
+  const times=getBlockTimes();
+  if(!subs.length){
+    host.innerHTML='<div class="tk-empty">Add your subjects in the Subjects tab — this plan builds itself from them.</div>';
+    return;
+  }
+  const ranked=weakestSubjectsSb(subs.length);
+  const why=[
+    "Weakest right now — it gets your best brain",
+    "Second-weakest — front-loaded while focus is high",
+    "Evaluation & essay marks decide the top grades",
+    "Rotates through your remaining subjects and past papers"
+  ];
+  const rows=[];
+  const deep=Math.min(3,ranked.length);
+  for(let i=0;i<deep;i++){
+    const w=ranked[i];
+    rows.push({i,time:times[i],title:escapeHtml(w.s.name),meta:w.pct+"% ready · "+why[i]});
+  }
+  const rest=ranked.slice(3);
+  rows.push({i:3,time:times[3],title:rest.length?rest.map(x=>escapeHtml(x.s.name)).join(' · '):'Past-paper practice',meta:why[3]});
+  host.innerHTML=rows.map(r=>`
+    <div class="tkb">
+      <button type="button" class="tkb-time" onclick="tkOpenTimePicker(this,${r.i})" aria-label="Change block start time">${fmtBlockTime(r.time)}</button>
+      <div class="tkb-body"><div class="tkb-s">${r.title}</div><div class="tkb-m">${r.meta}</div></div>
+    </div>`).join('')+
+    `<div class="tkb static"><div class="tkb-time-fixed">evening</div><div class="tkb-body"><div class="tkb-s">Off — earned reward</div><div class="tkb-m">Locked leisure once the blocks are done</div></div></div>
+     <div class="tkb static"><div class="tkb-time-fixed">before bed</div><div class="tkb-body"><div class="tkb-s">Anki + skim today's notes</div><div class="tkb-m">~15 minutes — sleep locks the day in</div></div></div>
+     <div class="tk-note">Weekends switch automatically to past papers and repair work — see Today's blocks on the Deck.</div>`;
+}
+window.renderTkPlan=renderTkPlan;
+
 /* ============ today's cross-subject plan ============ */
-const TIME_SLOTS=["7:30","10:00","12:15","3:00"];
 function buildTodayBlocks(){
   const dow=new Date().getDay();
   const weekend=(dow===0||dow===6);
@@ -916,11 +1020,12 @@ function buildTodayBlocks(){
   const deepCount=Math.min(3,ranked.length);
   const labels=["Deep 1 · sharpest hours","Deep 2","Deep 3 · concept work"];
   const hints=["Weakest subject — gets your best hours every day","Second-weakest — front-loaded while focus is high","Third-weakest — evaluation marks decide A*"];
+  const slotTimes=getBlockTimes();
   for(let i=0;i<deepCount;i++){
     const w=ranked[i];
     const nt=nextTopicSb(w.s);
     addBlockEl(el,{
-      time:TIME_SLOTS[i], s:escapeHtml(w.s.name)+" — "+labels[i],
+      time:fmtBlockTime(slotTimes[i]), s:escapeHtml(w.s.name)+" — "+labels[i],
       t:nt?("Study next: <b>"+(nt.section?escapeHtml(nt.section)+" · ":"")+escapeHtml(nt.name)+"</b>"):"All topics Exam-ready — switch to timed past papers",
       hint:hints[i], key:w.s.id
     },false);
@@ -933,9 +1038,9 @@ function buildTodayBlocks(){
   if(rest.length && dayNum%2===0){
     const w=rest[dayNum%rest.length];
     const nt=nextTopicSb(w.s);
-    b4block={time:"3:00",s:escapeHtml(w.s.name)+" — Block 4 (lighter)",t:nt?("Study next: <b>"+escapeHtml(nt.name)+"</b>"):"All topics ready — do a paper",hint:"Rotates through your other subjects",key:w.s.id};
+    b4block={time:fmtBlockTime(slotTimes[3]),s:escapeHtml(w.s.name)+" — Block 4 (lighter)",t:nt?("Study next: <b>"+escapeHtml(nt.name)+"</b>"):"All topics ready — do a paper",hint:"Rotates through your other subjects",key:w.s.id};
   } else {
-    b4block={time:"3:00",s:"Past-paper practice (lighter)",t:"Work a few past-paper questions on a topic you just learned — retrieval under mild pressure.",hint:"Block 4 alternates with your other subjects"};
+    b4block={time:fmtBlockTime(slotTimes[3]),s:"Past-paper practice (lighter)",t:"Work a few past-paper questions on a topic you just learned — retrieval under mild pressure.",hint:"Block 4 alternates with your other subjects"};
   }
   addBlockEl(el,b4block,false);
   addBlockEl(el,{time:"4–10pm",s:"OFF — earned reward",t:"Locked leisure. Guilt-free, because you did the mornings. Put real movement here.",hint:"Work-then-reward is the engine",locked:true},false);
@@ -1017,6 +1122,8 @@ function renderDash(){
   if (wkMiniPhaseTitleEl) wkMiniPhaseTitleEl.textContent=wk.phase==="CONTENT"?"Build the foundation":wk.phase==="PRACTICE"?"Drill the patterns":"Taper & perform";
 
   buildTodayBlocks();
+  // saved routine times arrive async on first render — rebuild once loaded
+  if(!_prefsCache)loadPrefs().then(()=>{buildTodayBlocks();renderTkPlan();});
   renderDashProgress();
   renderRecall();
   renderTodos();
@@ -1536,26 +1643,32 @@ function renderFlags(){
       const recent=ps.slice(0,3);
       const avg=recent.reduce((a,b)=>a+b.score/b.max_score,0)/recent.length*100;
       if(avg<75){
-        flags.push({type:"red",icon:"!",html:`<b>${escapeHtml(s.name)}:</b> you've marked ${x.pct}% exam-ready, but your recent papers average ${Math.round(avg)}% — below the A* line. Understanding ≠ scoring. Re-test your "ready" topics under timed conditions.`});
+        flags.push({type:"red",icon:"!",html:`<b>${escapeHtml(s.name)}:</b> marked ${x.pct}% ready, but recent papers average ${Math.round(avg)}%. Re-test those topics under exam timing.`});
       }
     }
   }
+  // One consolidated banner for all late subjects — three near-identical
+  // stacked warnings read as spam and get ignored.
   const wi=Math.min(Math.max(weekIndexFor(parseD(todayStr())),1),17);
   if(wi>=6){
+    const late=[];
     for(const s of subs){
       const x=subjReadySb(s);
-      if(x.pct<20&&x.tot>3){
-        flags.push({type:"amber",icon:"–",html:`<b>${escapeHtml(s.name)}</b> is still ${x.pct}% ready in week ${wi}. Don't let a whole subject drift late — even your easier A*s need timed practice.`});
-      }
+      if(x.pct<20&&x.tot>3)late.push(s.name);
+    }
+    if(late.length){
+      const names=late.map(escapeHtml);
+      const list=names.length>1?names.slice(0,-1).join(", ")+" & "+names[names.length-1]:names[0];
+      flags.push({type:"amber",icon:"–",html:`<b>${list}</b> — still untouched, and it's week ${wi}. Book the first session this week.`});
     }
   }
   const hr=new Date().getHours();
   const studiedToday=_sbCache.sessions.some(s=>s.study_date===todayStr());
   if(!studiedToday && hr>=14 && new Date().getDay()!==0 && new Date().getDay()!==6){
-    flags.push({type:"amber",icon:"–",html:`It's past 2pm and no study logged today. Your deep-work hours are slipping — even 30 focused minutes keeps the streak and the momentum alive.`});
+    flags.push({type:"amber",icon:"–",html:`Past 2pm, nothing logged today. Thirty focused minutes keeps the streak alive.`});
   }
   if(!flags.length)return;
-  flags.slice(0,3).forEach(f=>{
+  flags.slice(0,2).forEach(f=>{
     const div=document.createElement("div");div.className="flag"+(f.type==="amber"?" amber":"");
     div.innerHTML=`<div class="fi">${f.icon}</div><div class="ft">${f.html}</div>`;
     strip.appendChild(div);
@@ -2095,6 +2208,8 @@ window.showUpgradePrompt = function() {
 /* ============ render: toolkit ============ */
 function renderToolkit(){
   renderPaymentCard();
+  loadPrefs().then(()=>{renderTkPlan();});
+  renderTkPlan();
   const p=document.getElementById("prompts");
   if (p) {
     p.innerHTML="";
@@ -4595,6 +4710,15 @@ function closeBurgerMenu() {
 }
 window.closeBurgerMenu = closeBurgerMenu;
 
+// Plan & billing lives in a modal (opened from the burger menu) — the
+// payment card renderer targets #payment-card inside it.
+window.openBillingModal = function () {
+  const m = document.getElementById('billing-modal');
+  if (!m) return;
+  m.classList.remove('hidden');
+  renderPaymentCard();
+};
+
 function _burgerOutsideClick(e) {
   const wrap = document.getElementById('burger-wrap');
   if (wrap && !wrap.contains(e.target)) closeBurgerMenu();
@@ -4725,6 +4849,11 @@ function renderBurgerMenu() {
     <div class="bm-divider"></div>
     <div class="bm-section" id="bm-anatomy-body">
       ${_bmAnatomyHtml(_burgerProfileCache)}
+    </div>
+    <div class="bm-divider"></div>
+    <div class="bm-section">
+      <div class="bm-section-label">Plan &amp; billing</div>
+      <button class="bm-open-ts" onclick="closeBurgerMenu();openBillingModal()">Manage plan &amp; payment</button>
     </div>
     <div class="bm-divider"></div>
     <div class="bm-section">

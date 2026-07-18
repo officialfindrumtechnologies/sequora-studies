@@ -70,8 +70,9 @@ nav button.active{color:var(--text);border-bottom-color:var(--accent);font-weigh
 .card.accent{border-color:var(--border-2);border-left:3px solid rgba(var(--glow-color),.4)}
 #countdown-card{background:var(--surface);padding-bottom:20px}
 #study-now-card{background:var(--surface)}
-.card h2{font-family:var(--body);font-weight:500;font-size:18px;letter-spacing:-.02em;margin-bottom:4px;color:var(--text)}
+.card h2{font-family:var(--display);font-weight:400;font-size:21px;letter-spacing:0;margin-bottom:4px;color:var(--text)}
 .card .lead{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);font-weight:500;margin-bottom:14px}
+.card .sub{font-size:13px;color:var(--muted);margin:2px 0 14px;line-height:1.55}
 .kicker{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);font-weight:500}
 
 /* ---------- countdown ---------- */
@@ -206,9 +207,9 @@ textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-h
 .todo-completed-list.open{display:block}
 .todo-celebrate{font-family:var(--mono);font-size:11px;color:var(--accent);background:rgba(var(--glow-color),.05);border:1px solid rgba(var(--glow-color),.15);border-radius:var(--rs);padding:10px 12px;text-align:center;margin-top:10px;letter-spacing:.04em}
 
-.flag{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;border-radius:var(--rs);margin-bottom:9px;background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2)}
-.flag .fi{font-size:16px;flex-shrink:0;margin-top:2px}
-.flag .ft{font-size:14px;line-height:1.5;color:var(--text)}
+.flag{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-radius:var(--rs);margin-bottom:8px;background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2)}
+.flag .fi{font-family:var(--mono);font-size:13px;flex-shrink:0;margin-top:2px;color:var(--text-dim)}
+.flag .ft{font-size:13.5px;line-height:1.5;color:var(--text)}
 .flag .ft b{color:var(--red)}
 .flag.amber{background:var(--surface-2);border-color:rgba(var(--glow-color),.15);border-left:3px solid rgba(var(--glow-color),.6)}
 .flag.amber .ft b{color:var(--accent)}
@@ -226,7 +227,7 @@ textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-h
 .stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;position:relative;overflow:hidden;display:flex;flex-direction:column}
 .stat .v{font-family:var(--mono);font-weight:700;font-size:clamp(32px,4vw,48px);color:var(--accent);line-height:1;letter-spacing:-.02em;order:2}
 .stat .k{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;order:1}
-.stat .x{display:none}
+.stat .x{display:block;order:3;font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.03em;margin-top:7px}
 .flame-wrap,.flame,.flame-emoji{display:none}
 .stat::after{content:"";position:absolute;bottom:0;left:0;right:0;height:2px;background:rgba(var(--glow-color),.08)}
 .stat::before{content:"";position:absolute;bottom:0;left:0;height:2px;width:var(--prog,0%);background:rgba(var(--glow-color),.55);transition:width .8s cubic-bezier(.2,.8,.2,1)}
@@ -274,6 +275,49 @@ textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-h
 
 /* ---------- check-in ---------- */
 .checkin-row{display:flex;gap:12px;align-items:center;padding:12px;border:1px solid var(--border);border-radius:var(--rs);background:var(--surface);margin-top:14px}
+
+/* ---------- toolkit sub-nav ---------- */
+.tk-nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.tk-nav button{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:9px 16px;border-radius:30px;border:1px solid var(--border);background:transparent;color:var(--text-dim);cursor:pointer;transition:border-color .15s,color .15s,background .15s}
+.tk-nav button:hover{border-color:var(--border-hover);color:var(--text)}
+.tk-nav button.active{background:var(--amber);color:var(--ink);border-color:var(--amber)}
+.tk-sec>.card{max-width:860px}
+
+/* personalized block plan */
+.tkb{display:flex;align-items:flex-start;gap:14px;padding:13px 0;border-top:1px solid var(--border)}
+.tkb:first-child{border-top:none}
+.tkb-time{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--amber);background:var(--ink2);border:1px solid var(--border);border-radius:var(--rs);padding:8px 10px;width:104px;flex-shrink:0;cursor:pointer;transition:border-color .15s,background .15s;text-align:left}
+.tkb-time:hover,.tkb-time:focus{border-color:var(--amber-deep);background:var(--ink3);outline:none}
+
+/* custom themed time picker popover — replaces native input[type=time],
+   whose dropdown is OS-rendered and can't be themed */
+.tk-time-pop{position:absolute;z-index:400;display:flex;gap:2px;background:var(--ink2);border:1px solid var(--border-hover);border-radius:var(--r);padding:8px;box-shadow:0 20px 50px -20px rgba(0,0,0,.7);animation:tkPopIn .12s ease-out}
+@keyframes tkPopIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.tk-time-col{display:flex;flex-direction:column;gap:2px;max-height:196px;overflow-y:auto;padding-right:2px}
+.tk-time-col::-webkit-scrollbar{width:5px}
+.tk-time-col::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.tk-time-ampm{max-height:none;justify-content:center}
+.tk-time-opt{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--text-dim);background:transparent;border:none;border-radius:var(--rs);padding:7px 12px;cursor:pointer;transition:background .12s,color .12s;text-align:center}
+.tk-time-opt:hover{background:var(--ink3);color:var(--text)}
+.tk-time-opt.on{background:var(--amber);color:var(--ink)}
+.tkb-time-fixed{font-family:var(--mono);font-size:11px;color:var(--muted);width:104px;flex-shrink:0;padding:8px 0;text-transform:uppercase;letter-spacing:.05em}
+.tkb-body{min-width:0}
+.tkb-s{font-size:15px;font-weight:600;color:var(--text);line-height:1.4}
+.tkb-m{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:3px}
+.tkb.static .tkb-s{color:var(--text-dim);font-weight:500}
+.tk-empty{font-family:var(--mono);font-size:12px;color:var(--muted);padding:14px 0}
+.tk-note{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:12px}
+.tk-fold{max-width:860px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:0 20px;margin-bottom:10px}
+.tk-fold summary{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);padding:15px 0;cursor:pointer;list-style:none;transition:color .15s}
+.tk-fold summary:hover{color:var(--text)}
+.tk-fold summary::before{content:"▸";display:inline-block;margin-right:9px;transition:transform .2s;color:var(--amber-deep)}
+.tk-fold[open] summary::before{transform:rotate(90deg)}
+.tk-fold p{font-size:14px;color:var(--paper-dim);line-height:1.65;padding-bottom:16px}
+.tk-steps{list-style:none;counter-reset:tks;padding-bottom:6px}
+.tk-steps li{counter-increment:tks;font-size:14px;color:var(--text);padding:7px 0;border-top:1px solid var(--border);display:flex;align-items:baseline;gap:10px}
+.tk-steps li:first-child{border-top:none}
+.tk-steps li::before{content:counter(tks);font-family:var(--mono);font-size:11px;font-weight:700;color:var(--amber);flex-shrink:0;width:16px}
+.tk-steps li span{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--muted);flex-shrink:0}
 
 /* ---------- toolkit prompts ---------- */
 .prompt{background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:14px 15px;margin-bottom:10px;position:relative}
@@ -1164,8 +1208,8 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
 <div class="wrap">
   <header>
     <div class="brand">
-      <span class="mark">Project · November 2026</span>
-      <h1>Sequora <em>— study tracker</em></h1>
+      <span class="mark">Study tracker · November 2026</span>
+      <h1>Sequora <em>Studies</em></h1>
       <span class="sub">You're not a lazy student. You're running a four-month focused project.</span>
     </div>
     <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end;">
@@ -1284,7 +1328,7 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
           <div class="card" id="recallCard">
             <div class="lead">Recall check · fight the forgetting</div>
             <h2 id="recallTitle">Nothing due yet</h2>
-            <p style="color:var(--muted);font-size:13px;margin:2px 0 12px;font-style:italic">2-4-7 method: topics resurface 2 days after learning, then 4 days, then 7 days. Complete all 3 recalls → mastered. Recall cold — if it's gone, reset it.</p>
+            <p class="sub">Topics resurface 2, 4, then 7 days after you learn them. Three clean recalls → mastered. If it's gone, reset it.</p>
             <div id="recallList"></div>
           </div>
           <div class="card" id="todoCard">
@@ -1320,11 +1364,11 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
         <div class="grid g-hero">
           <div class="card accent" id="today-blocks-card">
             <div class="lead" style="display:flex; justify-content:space-between; align-items:center;">
-              <span>Right now — your day, in order</span>
+              <span>Today · in order</span>
               <button class="btn primary sm" id="aiRecommendBtn" onclick="getAIRecommendation()" style="margin: -6px 0;">Ask AI Advisor</button>
             </div>
             <h2 id="dayTitle">Today's blocks</h2>
-            <p style="color:var(--muted);font-size:13px;margin:2px 0 16px;font-style:italic" id="dayMode"></p>
+            <p class="sub" id="dayMode" style="margin-bottom:16px"></p>
             <div id="todayBlocks"></div>
           </div>
           <div class="card" id="this-week-card">
@@ -1356,16 +1400,16 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
           <button class="home-row-remove" onclick="removeHomeRow('analytics')" title="Remove from homepage">✕</button>
         </div>
         <div class="card accent" id="analytics-card">
-          <div class="lead">Analytics & Momentum</div>
+          <div class="lead">Analytics &amp; Momentum</div>
           <div class="grid g2" style="margin-top:16px;">
             <div>
-              <h2 style="font-size:15px;margin-bottom:8px;">7-Day Momentum (Hours)</h2>
+              <div class="lead" style="margin-bottom:10px;letter-spacing:.12em">7-day momentum · hours</div>
               <div style="position:relative;height:200px;">
                 <canvas id="momentumChart"></canvas>
               </div>
             </div>
             <div>
-              <h2 style="font-size:15px;margin-bottom:8px;">Curriculum Mastery</h2>
+              <div class="lead" style="margin-bottom:10px;letter-spacing:.12em">Curriculum mastery</div>
               <div style="position:relative;height:200px;">
                 <canvas id="masteryChart"></canvas>
               </div>
@@ -1625,43 +1669,40 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
   <!-- ================= TOOLKIT ================= -->
   <section id="view-toolkit" class="view hidden">
 
-    <!-- Payment / subscription card (rendered by renderPaymentCard() in main.js) -->
-    <div id="payment-card" class="card" style="margin-bottom:18px"></div>
-
-    <div class="card accent" style="margin-bottom:18px">
-      <div class="lead">Study sequence</div>
-      <h2>Where to start — the exact order</h2>
-
-      <div style="margin-top:16px">
-        <div class="wk-block">
-          <div class="lab">Which subject gets which block</div>
-          <p><b style="color:var(--amber-soft)">Block 1</b> (sharpest hours, first thing) = your least crammable subject — the one built on layered prerequisites (maths, sciences, accounting-type subjects). Gets your best brain every day.<br>
-          <b style="color:var(--amber-soft)">Block 2</b> (mid-morning) = your other dependency-chain subject — front-loaded for the same reason.<br>
-          <b style="color:var(--amber-soft)">Block 3</b> (early afternoon) = subjects graded on evaluation/analysis (business, economics, essay-based humanities) — alternate daily.<br>
-          <b style="color:var(--amber-soft)">Block 4</b> (lighter, later) + weekends = language and skill-based subjects, plus past papers — these hold up better under lighter focus.<br>
-          <span style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:6px;display:block">Principle: front-load what you can't cram later. Check your own Subjects tab and slot your real subjects into these four blocks by how crammable each one actually is.</span></p>
-        </div>
-
-        <div class="wk-block">
-          <div class="lab">Which chapter first within a subject</div>
-          <p>Follow the topic order <b style="color:var(--amber-soft)">top-to-bottom</b> in each subject's tracker — they're already sequenced so prerequisites come before what needs them. Don't jump ahead; finish a topic to Exam-ready before the next. Drop in an easy "island" topic when you want a confidence win.</p>
-        </div>
-
-        <div class="wk-block">
-          <div class="lab">The daily loop per topic</div>
-          <p style="line-height:1.75">
-            <b style="color:var(--amber-soft)">1.</b> Learn — NotebookLM with the spec loaded (~25 min)<br>
-            <b style="color:var(--amber-soft)">2.</b> Note in your own words (~5 min)<br>
-            <b style="color:var(--amber-soft)">3.</b> Drill past-paper questions on that topic (~30 min)<br>
-            <b style="color:var(--amber-soft)">4.</b> Quiz yourself unaided in Gemini (~10 min)<br>
-            <b style="color:var(--amber-soft)">5.</b> Mark the tracker<br>
-            <span style="font-family:var(--mono);font-size:11px;color:var(--muted);display:block;margin-top:6px">A topic is only Exam-ready when you score well <i>unaided</i> against the mark scheme.</span>
-          </p>
-        </div>
-      </div>
+    <div class="tk-nav" id="tkNav">
+      <button data-tk="seq" class="active" onclick="tkShow('seq')">Study sequence</button>
+      <button data-tk="prompts" onclick="tkShow('prompts')">AI prompts</button>
+      <button data-tk="edge" onclick="tkShow('edge')">The A* edge</button>
+      <button data-tk="privacy" onclick="tkShow('privacy')">Data &amp; privacy</button>
     </div>
 
-    <div class="grid g2">
+    <div class="tk-sec" data-tk="seq">
+    <div class="card accent" style="margin-bottom:14px">
+      <div class="lead">Study sequence · yours</div>
+      <h2>Your day, in blocks</h2>
+      <p class="sub">Built from your real subjects — the weakest one gets your sharpest hours. Click any time to match your own routine; it saves to your account.</p>
+      <div id="tkPlan"></div>
+    </div>
+
+    <details class="tk-fold">
+      <summary>Which chapter first within a subject</summary>
+      <p>Follow the topic order top-to-bottom in each subject's tracker — prerequisites come before what needs them. Finish a topic to Exam-ready before starting the next. Drop in an easy "island" topic when you want a confidence win.</p>
+    </details>
+
+    <details class="tk-fold">
+      <summary>The daily loop per topic</summary>
+      <ol class="tk-steps">
+        <li>Learn — NotebookLM with the spec loaded <span>~25 min</span></li>
+        <li>Note it in your own words <span>~5 min</span></li>
+        <li>Drill past-paper questions on that topic <span>~30 min</span></li>
+        <li>Quiz yourself unaided in Gemini <span>~10 min</span></li>
+        <li>Mark the tracker</li>
+      </ol>
+      <p class="tk-note" style="margin-top:10px">A topic is only Exam-ready when you score well unaided against the mark scheme.</p>
+    </details>
+    </div>
+
+    <div class="tk-sec hidden" data-tk="prompts">
       <div class="card">
         <div class="lead">AI prompts · tap to copy</div>
         <h2>NotebookLM explains · Gemini tests</h2>
@@ -1670,19 +1711,25 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
         </div>
         <div id="prompts"></div>
       </div>
+    </div>
+
+    <div class="tk-sec hidden" data-tk="edge">
       <div class="card">
         <div class="lead">The A* edge</div>
         <h2>What separates A* from B</h2>
         <div id="tactics" style="margin-top:12px"></div>
       </div>
     </div>
-    <div class="card" style="margin-top:18px">
+
+    <div class="tk-sec hidden" data-tk="privacy">
+    <div class="card">
       <div class="lead">Data &amp; privacy</div>
       <p style="font-size:13px;color:var(--muted);margin:6px 0 14px">Your data belongs to you. Export a full copy any time, or permanently delete your account and all associated data.</p>
       <div class="split" style="gap:10px;flex-wrap:wrap">
         <button class="btn sm ghost" onclick="exportData()">↓ Export all my data (JSON)</button>
         <button class="btn sm ghost danger" onclick="deleteAccount()" style="margin-left:auto">Delete account…</button>
       </div>
+    </div>
     </div>
   </section>
 
@@ -1762,6 +1809,20 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
       </div>
     </div>
   </section>
+
+  <!-- Plan & billing modal (payment card rendered here by renderPaymentCard()) -->
+  <div id="billing-modal" class="modal-overlay hidden" onclick="if(event.target===this)this.classList.add('hidden')">
+    <div class="modal-box" style="max-width:660px">
+      <div class="modal-head">
+        <div>
+          <div class="lead" style="margin:0">Plan &amp; billing</div>
+          <h2 style="margin-top:3px;font-size:18px">Your subscription</h2>
+        </div>
+        <button class="btn sm ghost" onclick="document.getElementById('billing-modal').classList.add('hidden')">✕</button>
+      </div>
+      <div id="payment-card"></div>
+    </div>
+  </div>
 
   <!-- Delete account confirmation modal -->
   <div id="delete-account-modal" class="modal-overlay hidden">
@@ -2100,6 +2161,13 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
 </div>
 
 <script src="/topic-3d-functions.js"></script>
+<script>
+  // Toolkit sub-nav: one section visible at a time
+  function tkShow(k){
+    document.querySelectorAll('#view-toolkit .tk-sec').forEach(function(s){ s.classList.toggle('hidden', s.dataset.tk !== k); });
+    document.querySelectorAll('#view-toolkit .tk-nav button').forEach(function(b){ b.classList.toggle('active', b.dataset.tk === k); });
+  }
+</script>
 <script type="module" src="/main.js"></script>
 
 <!-- Delete subject confirm modal -->
