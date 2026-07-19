@@ -1020,8 +1020,7 @@ function _tkClockSvg(rt){
   const school=rt.school?`
     <circle class="track track-c" cx="${TKC.C}" cy="${TKC.C}" r="${TKC.RC}"/>
     <path class="arc-school" id="tkArcSchool" d="${_tkArc(TKC.RC,rt.school[0],rt.school[1])}"/>
-    ${hnd('school0','school',TKC.RC,rt.school[0],7.5)}${hnd('school1','school',TKC.RC,rt.school[1],7.5)}
-    ${hlbl('school0',TKC.RC-13,rt.school[0])}${hlbl('school1',TKC.RC-13,rt.school[1])}`:'';
+    ${hnd('school0','school',TKC.RC,rt.school[0],7.5)}${hnd('school1','school',TKC.RC,rt.school[1],7.5)}`:'';
   return`
     <circle class="track track-s" cx="${TKC.C}" cy="${TKC.C}" r="${TKC.RS}"/>
     <circle class="track track-z" cx="${TKC.C}" cy="${TKC.C}" r="${TKC.RZ}"/>
@@ -1032,7 +1031,6 @@ function _tkClockSvg(rt){
     ${hnd('study0','study',TKC.RS,rt.study[0],9)}${hnd('study1','study',TKC.RS,rt.study[1],9)}
     ${hnd('sleep0','sleep',TKC.RZ,rt.sleep[0],7)}${hnd('sleep1','sleep',TKC.RZ,rt.sleep[1],7)}
     ${hlbl('study0',TKC.RS+19,rt.study[0])}${hlbl('study1',TKC.RS+19,rt.study[1])}
-    ${hlbl('sleep0',TKC.RZ-16,rt.sleep[0])}${hlbl('sleep1',TKC.RZ-16,rt.sleep[1])}
     <text class="cent-a" x="${TKC.C}" y="${TKC.C-4}" text-anchor="middle" id="tkCentStudy">${(L/60).toFixed(1)}h</text>
     <text class="cent-b" x="${TKC.C}" y="${TKC.C+13}" text-anchor="middle" id="tkCentSleep">study</text>`;
 }
@@ -1070,20 +1068,22 @@ function renderTkPlan(){
   if(!host)return;
   let rt=getRoutine();
   host.innerHTML=`
-    <div class="tk-clock-wrap">
+    <div class="tk-grid">
       <svg class="tk-clock" id="tkClockSvg" viewBox="0 0 280 280">${_tkClockSvg(rt)}</svg>
-      <div class="tk-clock-side">
-        <div class="tk-leg"><i class="study"></i>Outer — study · <b id="tkLegStudy">${fmtMin(rt.study[0])} – ${fmtMin(rt.study[1])}</b></div>
-        <div class="tk-leg" id="tkLegSchoolRow" style="${rt.school?'':'display:none'}"><i class="school"></i>Middle — school · <b id="tkLegSchool">${rt.school?fmtMin(rt.school[0])+' – '+fmtMin(rt.school[1]):''}</b><button class="tk-leg-x" onclick="tkToggleSchool()" title="Remove school hours">✕</button></div>
-        <div class="tk-leg"><i class="sleep"></i>Inner — sleep · <b id="tkLegSleep">${fmtMin(rt.sleep[0])} – ${fmtMin(rt.sleep[1])}</b></div>
-        <div class="tk-leg"><i class="free"></i>The rest is breaks and life</div>
+      <div class="tk-side">
+        <div class="tk-leg"><i class="study"></i><span>Study</span><b id="tkLegStudy">${fmtMin(rt.study[0])} – ${fmtMin(rt.study[1])}</b><span></span></div>
+        <div class="tk-leg" id="tkLegSchoolRow" style="${rt.school?'':'display:none'}"><i class="school"></i><span>School</span><b id="tkLegSchool">${rt.school?fmtMin(rt.school[0])+' – '+fmtMin(rt.school[1]):''}</b><button class="tk-leg-x" onclick="tkToggleSchool()" title="Remove school hours">✕</button></div>
+        <div class="tk-leg"><i class="sleep"></i><span>Sleep</span><b id="tkLegSleep">${fmtMin(rt.sleep[0])} – ${fmtMin(rt.sleep[1])}</b><span></span></div>
         ${rt.school?'':'<button class="tk-add-school" onclick="tkToggleSchool()">+ Add school / class hours</button>'}
         <div class="tk-blocks-line" id="tkBlocksLine">${_tkBlocksLine(rt)}</div>
         <div class="tk-advice" id="tkAdvice">${_tkAdvice(rt.study)}</div>
         <div class="tk-conflict" id="tkConflict" style="display:none">Study and sleep overlap — drag one of them clear.</div>
       </div>
     </div>
-    <div id="tkRows">${_tkRowsHtml()}</div>`;
+    <div class="tk-rows-wrap">
+      <div class="lead" style="margin-bottom:4px">Your blocks · live</div>
+      <div id="tkRows">${_tkRowsHtml()}</div>
+    </div>`;
 
   // drag: pointer on a handle rotates that window edge, snapped to 15 min.
   const svg=document.getElementById('tkClockSvg');
