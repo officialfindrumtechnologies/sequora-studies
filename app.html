@@ -535,6 +535,28 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text
 .pay-status.suspended .ps-label{color:var(--red)}
 .pay-status .ps-detail{font-size:13px;color:var(--text-dim);margin-top:2px}
 .bkash-instruction{background:var(--surface);border:1px solid var(--border);border-radius:var(--rs);padding:14px 16px;margin:14px 0;font-size:14px;color:var(--text-dim);line-height:1.6}
+.wallet-credit-note{background:rgba(var(--glow-color),.08);border:1px solid rgba(var(--glow-color),.25);border-radius:var(--rs);padding:11px 14px;margin:12px 0 0;font-size:13px;color:var(--text);line-height:1.5}
+.wallet-credit-note b{color:var(--amber)}
+
+/* feedback / cashback tab */
+.fb-wallet{font-family:var(--mono);font-size:12px;color:var(--text-dim);background:var(--ink2);border:1px solid var(--border);border-radius:var(--rs);padding:9px 13px;margin:14px 0}
+.fb-wallet b{color:var(--amber)}
+.fb-type-toggle{display:flex;gap:8px;margin-bottom:10px}
+.fb-type-opt{font-family:var(--body);font-size:13px;font-weight:600;color:var(--text-dim);background:var(--ink2);border:1px solid var(--border);border-radius:30px;padding:8px 16px;cursor:pointer;transition:border-color .15s,color .15s,background .15s}
+.fb-type-opt:hover{border-color:var(--border-hover);color:var(--text)}
+.fb-type-opt.active{background:var(--amber);color:var(--ink);border-color:var(--amber)}
+#fbMessage{width:100%;font-family:var(--body);font-size:14px;line-height:1.5;padding:12px 14px;background:var(--ink2);border:1px solid var(--border);border-radius:var(--rs);color:var(--text);resize:vertical}
+#fbMessage:focus{outline:none;border-color:var(--border-hover)}
+.fb-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:11px 0;border-top:1px solid var(--border)}
+.fb-row:first-child{border-top:none}
+.fb-row-body{min-width:0}
+.fb-row-msg{font-size:13.5px;color:var(--text);line-height:1.4;overflow-wrap:break-word}
+.fb-row-meta{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.04em}
+.fb-badge{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:4px 9px;border-radius:20px;white-space:nowrap;flex-shrink:0}
+.fb-badge.pending{background:var(--ink3);color:var(--text-dim)}
+.fb-badge.duplicate{background:var(--ink3);color:var(--muted)}
+.fb-badge.reviewed{background:var(--ink3);color:var(--text-dim)}
+.fb-badge.rewarded{background:var(--amber);color:var(--ink)}
 .bkash-number{display:inline-block;font-family:var(--mono);font-size:15px;font-weight:700;color:var(--accent);background:rgba(var(--glow-color),.07);border:1px solid rgba(var(--glow-color),.18);border-radius:var(--rs);padding:4px 12px;margin:6px 0;letter-spacing:.08em}
 
 /* ---------- coverage heatmap ---------- */
@@ -1710,6 +1732,7 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
       <button data-tk="prompts" onclick="tkShow('prompts')">AI prompts</button>
       <button data-tk="edge" onclick="tkShow('edge')">The A* edge</button>
       <button data-tk="privacy" onclick="tkShow('privacy')">Data &amp; privacy</button>
+      <button data-tk="feedback" onclick="tkShow('feedback')">Report &amp; suggest</button>
     </div>
 
     <div class="tk-sec" data-tk="seq">
@@ -1766,6 +1789,28 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
         <button class="btn sm ghost danger" onclick="deleteAccount()" style="margin-left:auto">Delete account…</button>
       </div>
     </div>
+    </div>
+
+    <div class="tk-sec hidden" data-tk="feedback">
+      <div class="card">
+        <div class="lead">Report a bug or suggest a feature</div>
+        <h2>Help us improve Sequora</h2>
+        <p class="sub">Tell us what's broken or what you'd like to see. New reports and suggestions are reviewed by hand — every so often, a genuinely new one earns a surprise wallet credit toward your subscription.</p>
+        <div class="fb-wallet" id="fbWallet"></div>
+        <div class="fb-type-toggle">
+          <button type="button" class="fb-type-opt active" data-fbtype="bug" onclick="fbSetType('bug')">🐛 Bug report</button>
+          <button type="button" class="fb-type-opt" data-fbtype="feature" onclick="fbSetType('feature')">💡 Feature idea</button>
+        </div>
+        <textarea id="fbMessage" placeholder="What happened, or what should Sequora do?" maxlength="2000" rows="4"></textarea>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:10px">
+          <button class="btn primary sm" id="fbSubmitBtn" onclick="fbSubmit()">Submit</button>
+          <span id="fbSubmitMsg" style="font-family:var(--mono);font-size:11px;color:var(--muted)"></span>
+        </div>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <div class="lead">Your reports</div>
+        <div id="fbHistory"><div class="tk-empty">Loading…</div></div>
+      </div>
     </div>
   </section>
 

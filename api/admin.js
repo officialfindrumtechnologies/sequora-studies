@@ -85,7 +85,7 @@ export default async function handler(req, res) {
   // write access at all, rather than silently falling through unrestricted.
   if (req.method === 'POST') {
     if (role === 'editor') {
-      const billingActions = new Set(['activate', 'change_tier', 'dismiss_trx', 'simulate_bkash_payment', 'generate_code']);
+      const billingActions = new Set(['activate', 'change_tier', 'dismiss_trx', 'simulate_bkash_payment', 'generate_code', 'update_feedback_settings', 'approve_feedback', 'mark_duplicate']);
       if (billingActions.has(action)) {
         return res.status(403).json({ error: 'Unauthorized: Editors cannot modify billing state' });
       }
@@ -825,6 +825,31 @@ export default async function handler(req, res) {
     return res.status(200).json({ logs: data });
   }
 
+  // ── feedback_settings (cashback odds/caps) ──────────────────────────────────
+  if (req.method === 'GET' && action === 'feedback_settings') {
+    const { data, error } = await adminSb.from('feedback_settings').select('*').eq('id', 1).single();
+    if (error) return res.status(500).json({ error: 'Failed to load settings' });
+    return res.status(200).json({ settings: data });
+  }
+
+  // ── list_feedback ────────────────────────────────────────────────────────
+  if (req.method === 'GET' && action === 'list_feedback') {
+    const statusFilter = req.query?.status || '';
+    let q = adminSb
+      .from('feedback_submissions')
+      .select('id, user_id, type, message, status, duplicate_of, reward_taka, created_at, reviewed_at')
+      .order('created_at', { ascending: false })
+      .limit(200);
+    if (statusFilter) q = q.eq('status', statusFilter);
+    const { data, error } = await q;
+    if (error) return res.status(500).json({ error: 'Failed to load submissions' });
+
+    const userIds = [...new Set((data || []).map(r => r.user_id))];
+    const emails = await emailMap(adminSb, userIds);
+    const rows = (data || []).map(r => ({ ...r, user_email: emails[r.user_id] || r.user_id }));
+    return res.status(200).json({ submissions: rows });
+  }
+
   // ── activity_feed ──────────────────────────────────────────────────────────
   if (req.method === 'GET' && action === 'activity_feed') {
     const [sessionsRes, errorsRes, profilesRes] = await Promise.all([
@@ -1018,9 +1043,22 @@ export default async function handler(req, res) {
   // ── dismiss_trx ────────────────────────────────────────────────────────────
   if (action === 'dismiss_trx') {
     if (!userId) return res.status(400).json({ error: 'userId required' });
+
+    // Refund any wallet credit that was earmarked against this now-dismissed
+    // submission — it was never actually spent (real bKash money moving
+    // nowhere), so the user shouldn't lose the balance.
+    const { data: subRow } = await adminSb
+      .from('subscriptions')
+      .select('wallet_credit_applied')
+      .eq('user_id', userId)
+      .single();
+    if (subRow?.wallet_credit_applied > 0) {
+      await adminSb.rpc('increment_wallet_credit', { p_user_id: userId, p_amount: subRow.wallet_credit_applied }).catch(() => {});
+    }
+
     const { error } = await adminSb
       .from('subscriptions')
-      .update({ bkash_trx_id: null, bkash_submitted_at: null, bkash_amount: null, updated_at: new Date().toISOString() })
+      .update({ bkash_trx_id: null, bkash_submitted_at: null, bkash_amount: null, wallet_credit_applied: 0, updated_at: new Date().toISOString() })
       .eq('user_id', userId);
 
     if (error) return res.status(500).json({ error: 'Dismiss failed: ' + error.message });
@@ -1030,6 +1068,66 @@ export default async function handler(req, res) {
     });
 
     return res.status(200).json({ ok: true });
+  }
+
+  // ── update_feedback_settings (cashback odds/caps) ───────────────────────────
+  if (action === 'update_feedback_settings') {
+    const { win_probability, min_reward_taka, max_reward_taka, per_submission_cap_taka, overall_budget_cap_taka } = req.body;
+    const nums = { win_probability, min_reward_taka, max_reward_taka, per_submission_cap_taka, overall_budget_cap_taka };
+    for (const [k, v] of Object.entries(nums)) {
+      if (typeof v !== 'number' || !Number.isFinite(v) || v < 0) {
+        return res.status(400).json({ error: `Invalid value for ${k}` });
+      }
+    }
+    if (win_probability > 1) return res.status(400).json({ error: 'win_probability must be between 0 and 1' });
+    if (min_reward_taka > max_reward_taka) return res.status(400).json({ error: 'min_reward_taka cannot exceed max_reward_taka' });
+
+    const { error } = await adminSb
+      .from('feedback_settings')
+      .update({ ...nums, updated_at: new Date().toISOString() })
+      .eq('id', 1);
+    if (error) return res.status(500).json({ error: 'Failed to save settings: ' + error.message });
+
+    await adminSb.from('admin_log').insert({
+      admin_id: user.id, action: 'update_feedback_settings', target_user: null, details: nums,
+    });
+    return res.status(200).json({ ok: true });
+  }
+
+  // ── mark_duplicate ───────────────────────────────────────────────────────
+  if (action === 'mark_duplicate') {
+    const { submissionId, duplicateOf } = req.body;
+    if (!submissionId || !duplicateOf) return res.status(400).json({ error: 'submissionId and duplicateOf required' });
+    if (submissionId === duplicateOf) return res.status(400).json({ error: 'A submission cannot be a duplicate of itself' });
+
+    const { data: current } = await adminSb.from('feedback_submissions').select('status').eq('id', submissionId).maybeSingle();
+    if (!current) return res.status(404).json({ error: 'Submission not found' });
+    if (current.status !== 'pending') return res.status(409).json({ error: 'Submission already reviewed' });
+
+    const { error } = await adminSb
+      .from('feedback_submissions')
+      .update({ status: 'duplicate', duplicate_of: duplicateOf, reviewed_at: new Date().toISOString(), reviewed_by: user.id })
+      .eq('id', submissionId);
+    if (error) return res.status(500).json({ error: 'Failed to mark duplicate: ' + error.message });
+
+    await adminSb.from('admin_log').insert({
+      admin_id: user.id, action: 'mark_duplicate', target_user: null, details: { submissionId, duplicateOf },
+    });
+    return res.status(200).json({ ok: true });
+  }
+
+  // ── approve_feedback (rolls the cashback dice server-side) ──────────────────
+  if (action === 'approve_feedback') {
+    const { submissionId } = req.body;
+    if (!submissionId) return res.status(400).json({ error: 'submissionId required' });
+
+    const { data: reward, error } = await adminSb.rpc('approve_feedback_and_maybe_reward', { p_submission_id: submissionId });
+    if (error) return res.status(400).json({ error: error.message });
+
+    await adminSb.from('admin_log').insert({
+      admin_id: user.id, action: 'approve_feedback', target_user: null, details: { submissionId, reward },
+    });
+    return res.status(200).json({ ok: true, reward: parseFloat(reward) });
   }
 
   // ── generate_code ──────────────────────────────────────────────────────────

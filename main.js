@@ -13,6 +13,7 @@ import {
 } from './src/auth/onboarding.js';
 import { QUAL_BOARDS, resolveQualBoard, formatQualBoard, isMbbs, NO_DATE_QUALS } from './src/lib/qualboards.js';
 import { getSubscription, submitBkashPayment } from './src/data/subscriptions.js';
+import { submitFeedback, getMyFeedback } from './src/data/feedback.js';
 import { initSubjectsView, setSubjectsViewTier, getActiveSubjectId } from './src/views/subjects-view.js';
 import { getSubjects } from './src/data/subjects.js';
 import { getAllTopics, markRecallPass, markRecallFail } from './src/data/topics.js';
@@ -2282,6 +2283,7 @@ const PLANS = [
 ];
 
 let _payCard = null;   // cached sub data for submit handler
+let _payWalletBalance = 0;   // cached wallet credit (taka) for the payment form's net-amount display
 
 async function renderPaymentCard() {
   const card = document.getElementById('payment-card');
@@ -2294,6 +2296,9 @@ async function renderPaymentCard() {
   catch { card.innerHTML = ''; return; }   // silently skip if not authed yet
 
   _payCard = sub;
+  let walletBalance = 0;
+  try { const prof = await getProfile(); walletBalance = parseFloat(prof?.wallet_credit_taka) || 0; } catch {}
+  _payWalletBalance = walletBalance;
 
   const isPaid    = sub.status === 'active' && sub.tier !== 'free';
   const isPending = sub.bkash_trx_id && (!sub.activated_at || sub.bkash_submitted_at > sub.activated_at);
@@ -2327,32 +2332,35 @@ async function renderPaymentCard() {
       <button class="btn sm ghost" onclick="showPaymentForm()">Resubmit</button>
     </div>`;
   } else if (!isPaid || isExpired) {
-    html += renderPaymentForm();
+    html += renderPaymentForm(walletBalance);
   } else {
     // Active + not expiring soon: just show renew option collapsed
     html += `<div style="margin-top:10px"><button class="btn sm ghost" onclick="showPaymentForm()">Renew / upgrade</button></div>`;
   }
 
   // Hidden form for resubmit/renew
-  html += `<div id="payment-form-area" class="hidden" style="margin-top:14px">${renderPaymentForm()}</div>`;
+  html += `<div id="payment-form-area" class="hidden" style="margin-top:14px">${renderPaymentForm(walletBalance)}</div>`;
   card.innerHTML = html;
+  updatePayNetAmount();
 }
 
-function renderPaymentForm() {
+function renderPaymentForm(walletBalance) {
+  walletBalance = walletBalance || 0;
   return `
     <div class="plan-grid">
       ${PLANS.map(p => `
         <label class="plan-opt ${p.key === 'basic_monthly' ? 'selected' : ''}" onclick="selectPlan('${p.key}', this)">
-          <input type="radio" name="sq-plan" value="${p.key}" ${p.key === 'basic_monthly' ? 'checked' : ''}>
+          <input type="radio" name="sq-plan" value="${p.key}" data-amount="${p.amount}" ${p.key === 'basic_monthly' ? 'checked' : ''}>
           <span class="pname">${p.tier}</span>
           <span class="pprice">৳${p.amount.toLocaleString()}</span>
           <span style="font-family:var(--mono);font-size:10px;color:var(--muted)">${p.period}${p.save ? ' · ' : ''}<span class="psave">${p.save}</span></span>
         </label>
       `).join('')}
     </div>
+    ${walletBalance > 0 ? `<div class="wallet-credit-note">💰 Wallet credit: <b>৳${walletBalance.toFixed(2)}</b> — applied automatically. You only need to send <b id="pay-net-amount"></b> via bKash.</div>` : ''}
     <div class="bkash-instruction">
       <b>How to pay:</b><br>
-      1. Send the amount above to this bKash number:<br>
+      1. Send the amount${walletBalance > 0 ? ' shown above (after your wallet credit)' : ' above'} to this bKash number:<br>
       <span class="bkash-number">${BKASH_NUMBER}</span><br>
       2. Copy the Transaction ID (TrxID) from your bKash confirmation<br>
       3. Paste it below — we verify and activate within 24 hours
@@ -2422,8 +2430,20 @@ function selectPlan(key, el) {
   el.classList.add('selected');
   const radio = el.querySelector('input[type=radio]');
   if (radio) radio.checked = true;
+  updatePayNetAmount();
 }
 window.selectPlan = selectPlan;
+
+// Recomputes "amount to send" after wallet credit for whichever plan radio
+// is currently checked — called on render and every plan selection.
+function updatePayNetAmount() {
+  document.querySelectorAll('#pay-net-amount').forEach(el => {
+    const checked = document.querySelector('input[name="sq-plan"]:checked');
+    const amount = parseFloat(checked?.dataset.amount) || 0;
+    const net = Math.max(amount - (_payWalletBalance || 0), 0);
+    el.textContent = '৳' + net.toLocaleString();
+  });
+}
 
 async function submitPayment() {
   const plan   = document.querySelector('input[name="sq-plan"]:checked')?.value;
@@ -2463,6 +2483,7 @@ function renderToolkit(){
   renderPaymentCard();
   loadPrefs().then(()=>{renderTkPlan();});
   renderTkPlan();
+  renderFeedbackTab();
   const p=document.getElementById("prompts");
   if (p) {
     p.innerHTML="";
@@ -2490,6 +2511,74 @@ function renderToolkit(){
   const storageNoteEl = document.getElementById("storageNote");
   if (storageNoteEl) storageNoteEl.textContent=LS_OK?"saved in this browser & synced to cloud":"Warning: browser storage blocked — data won't persist";
 }
+
+/* ============ report a bug / suggest a feature (+ cashback) ============ */
+let _fbType = 'bug';
+window.fbSetType = function(t){
+  _fbType = t;
+  document.querySelectorAll('.fb-type-opt').forEach(function(b){ b.classList.toggle('active', b.dataset.fbtype === t); });
+};
+
+const FB_STATUS_LABEL = {
+  pending:   'Pending review',
+  duplicate: 'Already reported — no reward',
+  reviewed:  'Reviewed — thanks!',
+  rewarded:  'Rewarded',
+};
+
+async function renderFeedbackTab(){
+  const wallet = document.getElementById('fbWallet');
+  if (wallet) {
+    try {
+      const prof = await getProfile();
+      const bal = parseFloat(prof?.wallet_credit_taka) || 0;
+      wallet.innerHTML = 'Wallet credit: <b>৳' + bal.toFixed(2) + '</b>' + (bal > 0 ? ' — applied automatically on your next payment' : '');
+    } catch { wallet.innerHTML = ''; }
+  }
+  await fbRenderHistory();
+}
+
+async function fbRenderHistory(){
+  const host = document.getElementById('fbHistory');
+  if (!host) return;
+  try {
+    const rows = await getMyFeedback();
+    if (!rows.length) { host.innerHTML = '<div class="tk-empty">Nothing submitted yet.</div>'; return; }
+    host.innerHTML = rows.map(function(r){
+      const badge = r.status === 'rewarded'
+        ? '🎉 +৳' + parseFloat(r.reward_taka).toFixed(2)
+        : FB_STATUS_LABEL[r.status] || r.status;
+      return '<div class="fb-row">'
+        + '<div class="fb-row-body"><div class="fb-row-msg">' + escapeHtml(r.message) + '</div>'
+        + '<div class="fb-row-meta">' + (r.type === 'bug' ? 'Bug' : 'Feature') + ' · ' + new Date(r.created_at).toLocaleDateString('en-GB') + '</div></div>'
+        + '<span class="fb-badge ' + r.status + '">' + escapeHtml(badge) + '</span>'
+        + '</div>';
+    }).join('');
+  } catch {
+    host.innerHTML = '<div class="tk-empty">Couldn\'t load your reports — check your connection.</div>';
+  }
+}
+
+window.fbSubmit = async function(){
+  const ta = document.getElementById('fbMessage');
+  const btn = document.getElementById('fbSubmitBtn');
+  const msg = document.getElementById('fbSubmitMsg');
+  const text = (ta?.value || '').trim();
+  if (text.length < 5) { if (msg) { msg.textContent = 'Say a bit more (5+ characters)'; msg.style.color = 'var(--red)'; } return; }
+  if (btn) { btn.disabled = true; btn.textContent = 'Submitting…'; }
+  if (msg) { msg.textContent = ''; msg.style.color = 'var(--muted)'; }
+  try {
+    await submitFeedback(_fbType, text);
+    if (ta) ta.value = '';
+    if (msg) { msg.textContent = '✓ Submitted — thanks!'; msg.style.color = 'var(--green)'; }
+    fbRenderHistory();
+  } catch (err) {
+    if (msg) { msg.textContent = err.message; msg.style.color = 'var(--red)'; }
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = 'Submit'; }
+  }
+};
+
 function copyPrompt(i){
   const txt=PROMPTS[i][1];
   navigator.clipboard?.writeText(txt).then(()=>setToast("Prompt copied")).catch(()=>setToast("Select & copy manually"));

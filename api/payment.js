@@ -86,6 +86,16 @@ export default async function handler(req, res) {
     }
   }
 
+  // Apply any wallet credit (cashback rewards) the user has toward this
+  // payment — locked/atomic so it can't be double-spent by a concurrent
+  // request. Refunded automatically if the admin later dismisses this trx.
+  let creditApplied = 0;
+  const { data: creditResult, error: creditErr } = await adminSb.rpc('apply_wallet_credit_to_payment', {
+    p_user_id: user.id,
+    p_max_amount: planMeta.amount,
+  });
+  if (!creditErr && creditResult != null) creditApplied = parseFloat(creditResult);
+
   // Update subscription with payment details (tier stays unchanged until admin activates)
   const { error: updateErr } = await adminSb
     .from('subscriptions')
@@ -94,11 +104,17 @@ export default async function handler(req, res) {
       bkash_amount:       planMeta.amount,
       bkash_submitted_at: new Date().toISOString(),
       notes:              matchedNote,
+      wallet_credit_applied: creditApplied,
       updated_at:         new Date().toISOString(),
     })
     .eq('user_id', user.id);
 
   if (updateErr) {
+    // The submission failed after credit was already deducted — refund it
+    // rather than silently losing the user's balance.
+    if (creditApplied > 0) {
+      await adminSb.rpc('increment_wallet_credit', { p_user_id: user.id, p_amount: creditApplied }).catch(() => {});
+    }
     if (updateErr.code === '23505') {
       // Unique constraint on bkash_trx_id caught a race with the earlier
       // duplicate check — same friendly message as the pre-check path.
@@ -114,5 +130,7 @@ export default async function handler(req, res) {
     message: 'Payment submitted. We will verify and activate your plan within 24 hours.',
     plan: planMeta.label,
     amount: planMeta.amount,
+    walletCreditApplied: creditApplied,
+    amountDue: Math.max(planMeta.amount - creditApplied, 0),
   });
 }
