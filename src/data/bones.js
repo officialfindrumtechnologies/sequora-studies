@@ -151,6 +151,107 @@ export const BONES = [
     landmarks: ['Frontal process (to frontal bone)', 'Temporal process (to zygomatic arch)', 'Maxillary process (to maxilla)', 'Zygomaticofacial foramen', 'Zygomaticotemporal foramen', 'Orbital surface', 'Lateral surface (cheek prominence)'],
     wiki: 'https://en.wikipedia.org/wiki/Zygomatic_bone'
   },
+  {
+    id: 'nasal',
+    name: 'Nasal Bone',
+    region: 'Skull',
+    description: 'Two small oblong bones forming the bridge of the nose, articulating with each other at the midline, the frontal bone superiorly, the frontal process of the maxilla laterally, and the perpendicular plate of the ethmoid posteriorly. Nasal cartilages attach to its inferior border. It is the most fractured facial bone owing to its thin, prominent, unsupported position.',
+    questions: [
+      { q: 'Why is the nasal bone the most commonly fractured facial bone?', a: 'The nasal bones project furthest from the facial skeleton and are thin, so they absorb the initial impact of frontal or lateral facial trauma before deeper structures. Lateral force fractures both nasal bones and the nasal septum together; frontal force causes a saddle-nose deformity from septal collapse. Epistaxis is near-universal (rich mucosal vascularity).', year: '1st Prof 2016' },
+      { q: 'What structures does the nasal bone articulate with?', a: 'Superiorly with the nasal part of the frontal bone (nasion), laterally with the frontal process of the maxilla, posteriorly (internal surface) with the perpendicular plate of the ethmoid, and medially with the contralateral nasal bone. Inferiorly it is continuous with the upper lateral nasal cartilage.', year: '1st Prof 2017' },
+      { q: 'What nerve supplies sensation to the nasal bone region and where is it clinically blocked?', a: 'The external nasal branch of the anterior ethmoidal nerve (itself a branch of the nasociliary nerve, V1) emerges between the nasal bone and lateral cartilage to supply the skin over the nasal dorsum and tip. It is blocked for minor nasal procedures at the rhinion (bony-cartilaginous junction).', year: '1st Prof 2019' },
+      { q: 'How does the nasal bone ossify?', a: 'Intramembranous ossification from a single centre appearing around the 8th–10th fetal week, one of the earliest facial bones to ossify. No cartilaginous precursor is involved, unlike the underlying septal and lateral nasal cartilages which remain cartilaginous into adult life.', year: '1st Prof (common)' },
+      { q: 'What is the clinical significance of the nasion in craniometry and rhinoplasty?', a: 'The nasion is the midline suture point between the two nasal bones and the frontal bone — the deepest point of the naso-frontal angle. It is a key craniometric landmark for cephalometric analysis and a reference point in rhinoplasty for planning dorsal augmentation or reduction.', year: '1st Prof 2020' }
+    ],
+    sketchfabId: '0f46e7f845a145208e4922e94cd0c1b6',
+    position_hint: 'Forms the bridge of the nose — paired small bones between the orbits',
+    landmarks: ['Nasion (superior articulation with frontal)', 'Internal crest (for septal cartilage)', 'Foramen for external nasal branch of ethmoidal nerve', 'Lateral border (to frontal process of maxilla)', 'Inferior border (to lateral nasal cartilage)'],
+    wiki: 'https://en.wikipedia.org/wiki/Nasal_bone'
+  },
+  {
+    id: 'lacrimal',
+    name: 'Lacrimal Bone',
+    region: 'Skull',
+    description: 'The smallest and most fragile bone of the skull, forming part of the anterior medial orbital wall. Its posterior lacrimal crest and the anterior lacrimal crest of the maxilla bound the lacrimal fossa, which houses the lacrimal sac. Together with the orbital plate of the ethmoid it completes the thin medial orbital wall.',
+    questions: [
+      { q: 'Why is the lacrimal bone clinically significant in orbital blow-out fractures?', a: 'Being the thinnest bone in the skull, the lacrimal bone (with the adjacent ethmoidal lamina papyracea) fractures easily in orbital trauma, allowing orbital contents to herniate into the ethmoid sinuses or disrupting the lacrimal drainage apparatus, causing epiphora (watering eye).', year: '1st Prof 2018' },
+      { q: 'What does the lacrimal fossa contain and what muscle attaches to the posterior lacrimal crest?', a: 'The lacrimal fossa houses the lacrimal sac, which drains inferiorly into the nasolacrimal duct (opening into the inferior meatus). The posterior lacrimal crest gives origin to a slip of orbicularis oculi (Horner\'s muscle / lacrimal part) that helps pump tears through the sac by encircling it.', year: '1st Prof 2019' },
+      { q: 'Which bones border the lacrimal bone?', a: 'Frontal bone superiorly, orbital plate of the ethmoid posteriorly, frontal process of the maxilla anteriorly, and the inferior concha inferiorly (via its descending process, which helps form the nasolacrimal canal with the maxilla).', year: '1st Prof 2021' },
+      { q: 'How does the lacrimal bone ossify and when does it appear?', a: 'It ossifies intramembranously from a single centre in the 12th fetal week — one of the last facial bones to ossify, correlating with its small size and fragility.', year: '1st Prof (common)' },
+      { q: 'What is dacryocystitis and how does lacrimal bone anatomy explain its presentation?', a: 'Dacryocystitis is infection/inflammation of the lacrimal sac, usually from nasolacrimal duct obstruction. Because the sac sits in the bony lacrimal fossa just medial to the eye, infection presents as a tender, red swelling below the medial canthal tendon, distinguishable from orbital cellulitis by its location inferior to the tendon.', year: '1st Prof 2022' }
+    ],
+    sketchfabId: '0f46e7f845a145208e4922e94cd0c1b6',
+    position_hint: 'Smallest skull bone — forms the anterior medial orbital wall, just behind the inner corner of the eye',
+    landmarks: ['Posterior lacrimal crest', 'Lacrimal fossa (for lacrimal sac)', 'Lacrimal hamulus (inferior)', 'Orbital surface'],
+    wiki: 'https://en.wikipedia.org/wiki/Lacrimal_bone'
+  },
+  {
+    id: 'palatine',
+    name: 'Palatine Bone',
+    region: 'Skull',
+    description: 'A paired L-shaped bone with a horizontal plate (forming the posterior quarter of the hard palate and floor of the nasal cavity) and a perpendicular plate (forming part of the lateral nasal wall and posterior orbital floor via the orbital process). The pyramidal process fills the gap between the pterygoid plates of the sphenoid, and together the palatine bones help form the pterygopalatine fossa.',
+    questions: [
+      { q: 'What foramina pierce the horizontal plate of the palatine bone and what do they transmit?', a: 'The greater palatine foramen (at the posterolateral corner of the hard palate) transmits the greater palatine nerve and vessels to the hard palate mucosa. The lesser palatine foramina (in the pyramidal process) transmit the lesser palatine nerves to the soft palate and tonsil. Both are branches of the maxillary nerve (V2) via the pterygopalatine ganglion.', year: '1st Prof (common)' },
+      { q: 'How does the palatine bone contribute to the pterygopalatine fossa?', a: 'The perpendicular plate and pyramidal process of the palatine bone form the anteromedial and inferior boundaries of the pterygopalatine fossa, alongside the maxilla (anterior) and pterygoid process of the sphenoid (posterior). This fossa is a key crossroads for the maxillary nerve, maxillary artery, and pterygopalatine ganglion.', year: '1st Prof 2020' },
+      { q: 'What is the embryological relevance of the palatine bone to cleft palate?', a: 'The horizontal plates of the palatine bones (posterior hard palate) develop from the palatine shelves of the maxillary processes, fusing with each other and with the primary palate (from the median nasal process) in the midline by the 12th week. Failure of this fusion causes cleft (secondary) palate, distinct from cleft lip (primary palate failure).', year: '1st Prof 2021' },
+      { q: 'What does the orbital process of the palatine bone contribute to?', a: 'The orbital process forms a small posteromedial part of the orbital floor, completing it alongside the maxilla (largest contributor), zygomatic bone, and lesser wing of sphenoid. It lies just medial to the inferior orbital fissure.', year: '1st Prof 2022' },
+      { q: 'What is the greater palatine nerve block used for and where is it given?', a: 'The greater palatine nerve block anaesthetises the posterior hard palate and is used in dental/maxillofacial procedures (posterior tooth extraction, palatal surgery). It is injected at the greater palatine foramen, typically located medial to the 2nd/3rd maxillary molar.', year: '1st Prof 2023' }
+    ],
+    sketchfabId: '0f46e7f845a145208e4922e94cd0c1b6',
+    position_hint: 'Deep facial bone — forms the posterior hard palate and part of the nasal cavity, behind the maxilla',
+    landmarks: ['Horizontal plate (posterior hard palate)', 'Perpendicular plate', 'Pyramidal process', 'Orbital process', 'Greater palatine foramen', 'Lesser palatine foramina'],
+    wiki: 'https://en.wikipedia.org/wiki/Palatine_bone'
+  },
+  {
+    id: 'inferior_nasal_concha',
+    name: 'Inferior Nasal Concha',
+    region: 'Skull',
+    description: 'An independent, curled, scroll-shaped bone attached to the lateral nasal wall — unlike the superior and middle conchae, which are projections of the ethmoid. It has lacrimal, maxillary, and ethmoidal processes anchoring it to the lateral nasal wall, and it is covered by a highly vascular mucosa that helps warm and humidify inspired air.',
+    questions: [
+      { q: 'Why is the inferior concha a separate bone while the superior and middle conchae are part of the ethmoid?', a: 'Developmentally, the inferior concha ossifies from its own centre in the lateral nasal cartilage capsule (endochondral) and remains a distinct bone throughout life, whereas the superior and middle conchae arise from the ethmoid labyrinth and stay fused to it. This is a classic osteology viva distinction.', year: '1st Prof 2018' },
+      { q: 'What lies in the inferior meatus, beneath the inferior concha?', a: 'The nasolacrimal duct opens into the inferior meatus, roughly 3 cm from the nostril, via the plica lacrimalis (a mucosal fold acting as a one-way valve). This is why nasolacrimal duct obstruction can cause both epiphora and secondary sinus/nasal congestion.', year: '1st Prof 2019' },
+      { q: 'Why is the inferior concha significant in epistaxis and nasal congestion?', a: 'The mucosa over the inferior concha contains erectile venous plexuses that engorge in response to temperature, allergens, and the nasal cycle, causing alternating nasal obstruction. Chronic engorgement (allergic rhinitis, vasomotor rhinitis) leads to inferior turbinate hypertrophy, a common cause of nasal obstruction treated by turbinate reduction surgery.', year: '1st Prof 2020' },
+      { q: 'What processes anchor the inferior concha to the lateral nasal wall?', a: 'The lacrimal process articulates with the descending process of the lacrimal bone and inferior margin of the maxillary hiatus (helping complete the nasolacrimal canal), the maxillary process attaches to the conchal crest of the maxilla, and the ethmoidal process ascends to the uncinate process of the ethmoid.', year: '1st Prof 2022' },
+      { q: 'What is the clinical relevance of the inferior meatus in nasal packing for epistaxis?', a: 'Anterior epistaxis packing is placed along the floor of the nose beneath the inferior concha, avoiding pressure directly on the turbinate mucosa which is highly vascular and friable — excessive pressure or blind instrumentation here risks further mucosal trauma and rebleeding.', year: '1st Prof (common)' }
+    ],
+    sketchfabId: '0f46e7f845a145208e4922e94cd0c1b6',
+    position_hint: 'Curled independent bone on the lateral wall of the nasal cavity, below the middle concha',
+    landmarks: ['Lacrimal process', 'Maxillary process', 'Ethmoidal process', 'Medial (mucosal) surface', 'Lateral surface (forms roof of inferior meatus)'],
+    wiki: 'https://en.wikipedia.org/wiki/Inferior_nasal_concha'
+  },
+  {
+    id: 'vomer',
+    name: 'Vomer',
+    region: 'Skull',
+    description: 'A single, thin, plough-shaped bone forming the posteroinferior part of the nasal septum, articulating with the perpendicular plate of the ethmoid superiorly (which forms the posterosuperior septum), the septal cartilage anteriorly, and the maxillary and palatine crests inferiorly. Its two winged alae articulate with the sphenoid rostrum.',
+    questions: [
+      { q: 'What structures form the complete nasal septum, and what is the vomer\'s contribution?', a: 'The nasal septum is formed by the perpendicular plate of the ethmoid (posterosuperior), the vomer (posteroinferior), and the septal cartilage (anteriorly), with small contributions from the nasal crests of the maxilla and palatine bones inferiorly. A deviated septum most commonly occurs at the vomero-septal cartilage junction.', year: '1st Prof 2017' },
+      { q: 'What groove runs along the vomer and what does it transmit?', a: 'The vomerine groove (nasopalatine groove) runs obliquely on each side of the vomer, transmitting the nasopalatine nerve (from the pterygopalatine ganglion, V2) and the septal branch of the sphenopalatine artery, en route to the incisive canal and anterior hard palate.', year: '1st Prof 2019' },
+      { q: 'How does the vomer ossify, and how does this differ from most facial bones?', a: 'The vomer ossifies intramembranously, but unusually from two centres (one on each side of the nasal septal cartilage) that later fuse into a single median bone — different from the paired bones (nasal, lacrimal) that remain bilateral throughout life.', year: '1st Prof 2021' },
+      { q: 'What is Kiesselbach\'s plexus and how does it relate to the vomer and septum?', a: 'Kiesselbach\'s plexus (Little\'s area) is an anastomotic network on the anteroinferior septum — over the septal cartilage rather than the vomer itself — combining branches of the anterior ethmoidal, sphenopalatine, greater palatine, and superior labial arteries. It is the source of ~90% of epistaxis, most of it anterior.', year: '1st Prof (common)' },
+      { q: 'What is the surgical relevance of the vomer in septoplasty?', a: 'In septoplasty for a deviated septum, the surgeon elevates mucoperichondrial/mucoperiosteal flaps and may need to resect or reposition the deviated bony vomer or its junction with the septal cartilage, taking care to preserve enough dorsal and caudal cartilaginous strut to prevent saddle-nose deformity.', year: '1st Prof 2023' }
+    ],
+    sketchfabId: '0f46e7f845a145208e4922e94cd0c1b6',
+    position_hint: 'Midline bone forming the posteroinferior nasal septum, deep within the nasal cavity',
+    landmarks: ['Ala (articulates with sphenoid rostrum)', 'Vomerine groove (nasopalatine nerve)', 'Posterior free border (separates the choanae)', 'Inferior border (maxillary + palatine crests)'],
+    wiki: 'https://en.wikipedia.org/wiki/Vomer'
+  },
+  {
+    id: 'hyoid',
+    name: 'Hyoid Bone',
+    region: 'Skull',
+    description: 'A U-shaped bone in the anterior neck at the C3 vertebral level, unique as the only bone in the body that articulates with no other bone — suspended by the stylohyoid ligaments and muscles. It comprises a body, and paired greater and lesser horns (cornua). It anchors the suprahyoid and infrahyoid muscle groups and supports the larynx via the thyrohyoid membrane.',
+    questions: [
+      { q: 'Why is hyoid bone fracture forensically significant in suspected strangulation?', a: 'Hyoid fracture (typically at the junction of the greater horn and body) is a classic finding in manual strangulation and hanging, especially in individuals over 40 where the horns have ossified and fused to the body, making the bone less pliable. Its absence does not exclude strangulation, particularly in younger victims with cartilaginous, flexible synchondroses.', year: '1st Prof 2020' },
+      { q: 'What is the developmental origin of the hyoid bone?', a: 'The lesser horn and upper part of the body derive from the 2nd pharyngeal (hyoid) arch cartilage (Reichert\'s cartilage); the greater horn and lower body derive from the 3rd pharyngeal arch cartilage. This dual arch origin explains its distinct innervation pattern for attached muscles.', year: '1st Prof 2021' },
+      { q: 'Which muscles attach to the hyoid bone, and how are they grouped?', a: 'Suprahyoid muscles (elevate hyoid/larynx during swallowing): digastric, stylohyoid, mylohyoid, geniohyoid. Infrahyoid ("strap") muscles (depress hyoid/larynx): sternohyoid, omohyoid, thyrohyoid, sternothyroid (the last attaches to thyroid cartilage, not hyoid, but is grouped functionally). Also gives partial origin to hyoglossus and middle pharyngeal constrictor.', year: '1st Prof (common)' },
+      { q: 'What is the clinical relevance of the hyoid bone in laryngoscopy and airway assessment?', a: 'The hyomental distance (from hyoid to chin, neck extended) is used in airway assessment (<3 fingerbreadths predicts difficult laryngoscopy). The hyoid also serves as a surgical landmark for level of the epiglottis and superior laryngeal neurovascular bundle during neck dissection.', year: '1st Prof 2022' },
+      { q: 'What ligaments suspend the hyoid bone and what structures attach via the thyrohyoid membrane?', a: 'The hyoid is suspended by the paired stylohyoid ligaments (from the styloid process) and anchored inferiorly to the thyroid cartilage by the thyrohyoid membrane, which is pierced by the internal laryngeal nerve and superior laryngeal vessels. The hyoepiglottic ligament also attaches the body of the hyoid to the epiglottis.', year: '1st Prof 2023' }
+    ],
+    position_hint: 'Anterior neck at the level of C3 — the only bone in the body with no direct bony articulation',
+    landmarks: ['Body', 'Greater horn (cornu)', 'Lesser horn (cornu)', 'Stylohyoid ligament attachment (lesser horn tip)', 'Thyrohyoid membrane attachment (greater horn + body)'],
+    wiki: 'https://en.wikipedia.org/wiki/Hyoid_bone'
+  },
 
   // ==================== VERTEBRAL COLUMN ====================
   {
@@ -529,6 +630,40 @@ export const BONES = [
     position_hint: 'Seven ankle and midfoot bones — between the leg bones and metatarsals',
     landmarks: ['Calcaneus (largest tarsal — heel)', 'Talus (transmits body weight from ankle)', 'Navicular (medial foot, arch keystone)', 'Cuboid (lateral foot)', 'Medial cuneiform', 'Intermediate cuneiform', 'Lateral cuneiform', 'Subtalar (talocalcaneal) joint', 'Sustentaculum tali', 'Chopart\'s (midtarsal) joint'],
     wiki: 'https://en.wikipedia.org/wiki/Tarsus_(skeleton)'
+  },
+  {
+    id: 'talus',
+    name: 'Talus',
+    region: 'Lower Limb',
+    description: 'The second-largest tarsal bone and the only tarsal that articulates with the leg bones, transmitting the entire body weight from the tibia to the rest of the foot. It has a head (articulates with the navicular), neck, and body (whose superior trochlear surface forms the ankle mortise with the tibia and fibula). Uniquely, no muscle or tendon attaches directly to the talus — it is moved entirely by forces transmitted through its articular surfaces and ligaments.',
+    questions: [
+      { q: 'Why is the talus at high risk of avascular necrosis, and how does the fracture location predict it?', a: 'Blood supply enters the talus retrogradely through its neck (branches of the posterior tibial, dorsalis pedis, and peroneal arteries) — the body has no direct vascular entry of its own. A talar neck fracture can sever this supply to the body. The Hawkins classification predicts AVN risk: Type I (non-displaced) ~0–15% risk, Type II (subtalar dislocation) ~20–50%, Type III (subtalar + ankle dislocation) ~80–100%, Type IV (also talonavicular dislocation) near 100%.', year: '1st Prof 2021' },
+      { q: 'What is the Hawkins sign and why is it reassuring?', a: 'The Hawkins sign is a subchondral lucency in the talar dome seen on an AP ankle X-ray 6–8 weeks after a talar neck fracture, representing disuse osteopenia in bone that still has an intact blood supply (bone must be alive to resorb). Its presence is a good prognostic sign against AVN; its absence raises suspicion for AVN, which is then confirmed on MRI.', year: '1st Prof 2022' },
+      { q: 'Why does no muscle attach to the talus, and what is the functional consequence?', a: 'The talus is almost entirely covered by articular cartilage (ankle, subtalar, and talonavicular joints) and ligamentous attachments, leaving no surface for muscle origin or insertion. All movement of the talus is passive, driven by muscles acting on the tibia above and the calcaneus/navicular below — it functions purely as a load-transmitting and motion-coupling bone.', year: '1st Prof (common)' },
+      { q: 'What bones and ligaments form the ankle mortise, and what is a mortise fracture?', a: 'The ankle mortise is formed by the distal tibia (roof + medial malleolus), fibula (lateral malleolus), and the talar trochlea articulating within, stabilised by the medial (deltoid) ligament, lateral ligament complex (ATFL, CFL, PTFL), and the tibiofibular syndesmosis. A "mortise fracture" (bimalleolar or trimalleolar) disrupts this ring, causing talar instability/shift — requiring anatomical reduction to prevent early osteoarthritis.', year: '1st Prof 2020' },
+      { q: 'What is the os trigonum and its clinical significance?', a: 'The os trigonum is an accessory ossicle that occurs when the posterolateral tubercle of the talus (Stieda\'s process) fails to fuse, remaining as a separate bone in ~7–14% of people. It can become symptomatic in ballet dancers and footballers (forced plantarflexion) — "os trigonum syndrome" — causing posterior ankle impingement pain, sometimes confused with a fracture on X-ray.', year: '1st Prof 2023' }
+    ],
+    sketchfabId: 'd69e5651252e44d0bb5d7742670d1d48',
+    position_hint: 'Ankle bone sitting atop the calcaneus — the only tarsal bone that articulates with the tibia and fibula',
+    landmarks: ['Head (to navicular)', 'Neck', 'Body + trochlea (ankle mortise)', 'Lateral process', 'Posterior process (+ os trigonum if present)', 'Groove for flexor hallucis longus tendon'],
+    wiki: 'https://en.wikipedia.org/wiki/Talus_bone'
+  },
+  {
+    id: 'calcaneus',
+    name: 'Calcaneus',
+    region: 'Lower Limb',
+    description: 'The largest and strongest tarsal bone, forming the heel and acting as a lever for the calf muscles via the Achilles tendon. It has three articular facets (anterior, middle, posterior) for the talus above (subtalar joint) and one facet anteriorly for the cuboid. The sustentaculum tali projects medially to support the talar head, and the posterior tuberosity gives attachment to the tendo calcaneus (Achilles) and plantar fascia.',
+    questions: [
+      { q: 'What attaches to the calcaneal tuberosity and how does this explain heel pain patterns?', a: 'The posterosuperior tuberosity receives the tendo calcaneus (Achilles tendon — gastrocnemius + soleus). The inferior (plantar) tuberosity, via its medial and lateral processes, gives origin to the plantar fascia and flexor digitorum brevis/abductor hallucis. This dual attachment explains why heel pain has two classic patterns: posterior (Achilles tendinopathy/insertional enthesopathy) versus inferior (plantar fasciitis, worst with first steps in the morning).', year: '1st Prof 2019' },
+      { q: 'What is a calcaneal (calcaneal apophysis) growth plate injury and who gets it?', a: 'Sever\'s disease (calcaneal apophysitis) is traction injury/inflammation at the posterior calcaneal growth plate (apophysis) where the Achilles tendon inserts, in growing children/adolescents (typically 8–14 years) doing repetitive running/jumping sports. It is self-limiting, resolving with apophyseal fusion (~15–17 years); managed conservatively with activity modification, stretching, and heel cushioning.', year: '1st Prof 2021' },
+      { q: 'What is the peroneal (fibular) trochlea and its clinical relevance?', a: 'The peroneal trochlea is a small bony ridge on the lateral surface of the calcaneus separating the fibularis (peroneus) longus tendon (inferior) from the fibularis brevis tendon (superior) as they curve around the lateral malleolus towards their insertions. It can be a site of peroneal tendon subluxation or stenosing tenosynovitis after ankle sprain.', year: '1st Prof 2022' },
+      { q: 'How many articular facets does the calcaneus have with the talus, and why does this matter surgically?', a: 'Three: posterior (largest, main weight-bearing facet, convex), middle (on the sustentaculum tali, concave), and anterior (often continuous with the middle facet). Together with the corresponding talar facets they form the subtalar joint. The posterior facet is the key reference for calcaneal fracture classification (Sanders, based on CT through this facet) because articular step-off here predicts post-traumatic subtalar arthritis.', year: '1st Prof (common)' },
+      { q: 'What structure passes through the sinus tarsi, and what is sinus tarsi syndrome?', a: 'The sinus tarsi is a conical space between the talar neck and the anterior calcaneus (anterolateral to the sustentaculum), containing the interosseous talocalcaneal ligament, cervical ligament, and fat. Sinus tarsi syndrome — chronic lateral hindfoot pain, often post-inversion-sprain — results from synovitis/fibrosis in this space affecting subtalar proprioception and stability.', year: '1st Prof 2020' }
+    ],
+    sketchfabId: 'd69e5651252e44d0bb5d7742670d1d48',
+    position_hint: 'Heel bone — largest tarsal, sits below the talus and behind the cuboid',
+    landmarks: ['Posterior tuberosity (Achilles insertion)', 'Sustentaculum tali', 'Peroneal (fibular) trochlea', 'Posterior, middle, anterior talar facets', 'Cuboid facet (anterior)', 'Sinus tarsi (groove for interosseous ligament)'],
+    wiki: 'https://en.wikipedia.org/wiki/Calcaneus'
   },
   {
     id: 'metatarsals',
