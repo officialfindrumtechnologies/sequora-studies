@@ -877,8 +877,34 @@ function nextTopicSb(subj){
   const t=_sbCache.allTopics.filter(x=>x.subject_id===subj.id).sort((a,b)=>(a.position??0)-(b.position??0));
   return t.find(x=>x.status!=="ready"&&x.status!=="mastered")||null;
 }
+// Composite weakness ranking — NOT just "fewest chapters done", which
+// punishes subjects that happen to have many easy chapters and hides ones
+// with few hard chapters. Four signals per subject:
+//   coverage  (40%) share of topics not yet exam-ready
+//   effort    (25%) hours actually studied, relative to your most-studied subject
+//   papers    (25%) average past-paper score (skipped + redistributed if no papers)
+//   staleness (10%) days since the subject was last touched (capped at 2 weeks)
 function weakestSubjectsSb(n){
-  return _sbCache.subjects.filter(s=>!isIbCore(s)).map(s=>({s,pct:subjReadySb(s).pct})).sort((a,b)=>a.pct-b.pct).slice(0,n);
+  const subs=_sbCache.subjects.filter(s=>!isIbCore(s));
+  const hrs={},lastD={};
+  for(const v of _sbCache.sessions){
+    if(!v.subject_id)continue;
+    hrs[v.subject_id]=(hrs[v.subject_id]||0)+(v.duration_sec||0)/3600;
+    if(!lastD[v.subject_id]||v.study_date>lastD[v.subject_id])lastD[v.subject_id]=v.study_date;
+  }
+  const maxH=Math.max(1,...subs.map(s=>hrs[s.id]||0));
+  return subs.map(s=>{
+    const x=subjReadySb(s);
+    const cov=1-(x.tot?x.r/x.tot:0);
+    const eff=1-((hrs[s.id]||0)/maxH);
+    const ps=_sbCache.papers.filter(p=>p.subject_id===s.id&&p.max_score);
+    const perf=ps.length?1-(ps.reduce((a,b)=>a+b.score/b.max_score,0)/ps.length):null;
+    const stale=lastD[s.id]?Math.min(Math.max(daysBetween(parseD(lastD[s.id]),new Date()),0)/14,1):1;
+    const wk=perf===null
+      ? cov*0.55+eff*0.35+stale*0.10
+      : cov*0.40+eff*0.25+perf*0.25+stale*0.10;
+    return{s,pct:x.pct,wk};
+  }).sort((a,b)=>b.wk-a.wk).slice(0,n);
 }
 
 /* ============ user routine (study + sleep windows) ============ */
@@ -914,8 +940,8 @@ function fmtMin(m){return fmtBlockTime(minToHM(m));}
 // Block start times: four blocks placed in the study window, routed AROUND
 // school hours — the window is cut into free segments and blocks are
 // allocated to segments proportional to their length.
-function getBlockTimes(){
-  const rt=getRoutine();
+function getBlockTimes(rtArg){
+  const rt=rtArg||getRoutine();
   const L=spanMin(rt.study[0],rt.study[1])||540;
   let segs=[[rt.study[0],L]];   // [startMin, lengthMin]
   if(rt.school){
@@ -944,14 +970,6 @@ function getBlockTimes(){
   });
   return times.slice(0,4);
 }
-window.tkToggleSchool=function(){
-  if(!_prefsCache)_prefsCache={};
-  const rt=getRoutine();
-  rt.school=rt.school?null:DEFAULT_ROUTINE.school.slice();
-  _prefsCache.routine=rt;
-  renderTkPlan();buildTodayBlocks();
-  saveRoutine(rt);
-};
 async function saveRoutine(routine){
   if(!_prefsCache)_prefsCache={};
   _prefsCache.routine=routine;
@@ -982,7 +1000,7 @@ function _tkShort(min){
   return(((h+11)%12)+1)+(m?':'+String(m).padStart(2,'0'):'')+(h<12?'a':'p');
 }
 function _tkBlocksLine(rt){
-  const slots=getBlockTimes();
+  const slots=getBlockTimes(rt);
   const first=fmtBlockTime(slots[0]);
   if(rt.school&&windowsOverlap(rt.study,rt.school)>0)
     return`4 blocks · routed around school · first at ${first}`;
@@ -1047,9 +1065,12 @@ function _tkRowsHtml(){
   ];
   const rows=[];
   const deep=Math.min(3,ranked.length);
+  const sc=suggestChaptersOn();
   for(let i=0;i<deep;i++){
     const w=ranked[i];
-    rows.push({time:times[i],title:escapeHtml(w.s.name),meta:w.pct+"% ready · "+why[i]});
+    let meta=w.pct+"% ready · "+why[i];
+    if(sc){const nt=nextTopicSb(w.s);if(nt)meta+=" · next: "+escapeHtml(nt.name);}
+    rows.push({time:times[i],title:escapeHtml(w.s.name),meta:meta});
   }
   const rest=ranked.slice(3);
   const restNames=[...new Set(rest.map(x=>escapeHtml(x.s.name)))];
@@ -1063,29 +1084,88 @@ function _tkRowsHtml(){
      <div class="tkb static"><span class="tkb-time-ro dim">${fmtMin((rt.sleep[0]-45+1440)%1440)}</span><div class="tkb-body"><div class="tkb-s">Anki + recall sweep before sleep</div><div class="tkb-m">~15 minutes — memory consolidates overnight</div></div></div>
      <div class="tk-note">Weekends switch automatically to past papers and repair work — see Today's blocks on the Deck.</div>`;
 }
+function suggestChaptersOn(){return !_prefsCache||_prefsCache.suggest_chapters!==false;}
+// Section view: read-only routine summary + the derived plan. Editing lives
+// in a modal with explicit Save/Cancel — a routine is a commitment, not
+// something to reshuffle with a stray drag.
 function renderTkPlan(){
   const host=document.getElementById('tkPlan');
   if(!host)return;
-  let rt=getRoutine();
+  const rt=getRoutine();
   host.innerHTML=`
+    <div class="tk-sum">
+      <div class="tk-sum-rows">
+        <div class="tk-leg"><i class="study"></i><span>Study</span><b>${fmtMin(rt.study[0])} – ${fmtMin(rt.study[1])}</b><span></span></div>
+        ${rt.school?`<div class="tk-leg"><i class="school"></i><span>School</span><b>${fmtMin(rt.school[0])} – ${fmtMin(rt.school[1])}</b><span></span></div>`:''}
+        <div class="tk-leg"><i class="sleep"></i><span>Sleep</span><b>${fmtMin(rt.sleep[0])} – ${fmtMin(rt.sleep[1])}</b><span></span></div>
+        <div class="tk-blocks-line">${_tkBlocksLine(rt)}</div>
+      </div>
+      <button class="btn sm ghost" onclick="openRoutineModal()">✎ Edit routine</button>
+    </div>
+    <div class="tk-advice">${_tkAdvice(rt.study)}</div>
+    <div class="tk-rows-wrap">
+      <div class="tk-rows-head">
+        <span class="lead" style="margin:0">Your blocks · live</span>
+        <span class="tk-sugg"><span class="tk-sugg-lbl">Suggest chapters</span><label class="bm-toggle"><input type="checkbox" ${suggestChaptersOn()?'checked':''} onchange="tkSuggestToggle(this.checked)"><span class="bm-toggle-slider"></span></label></span>
+      </div>
+      <div id="tkRows">${_tkRowsHtml()}</div>
+    </div>`;
+}
+window.renderTkPlan=renderTkPlan;
+
+window.tkSuggestToggle=async function(on){
+  if(!_prefsCache)_prefsCache={};
+  _prefsCache.suggest_chapters=!!on;
+  renderTkPlan();buildTodayBlocks();
+  try{await updateProfile({preferences:_prefsCache});}
+  catch{setToast('Save failed — check connection');}
+};
+
+/* ---- routine editor modal: drags stage a pending copy, nothing persists
+   until "Save routine"; Cancel/backdrop/✕ discards ---- */
+let _pendRt=null;
+window.openRoutineModal=function(){
+  _pendRt=getRoutine();
+  const m=document.getElementById('routine-modal');
+  if(!m)return;
+  m.classList.remove('hidden');
+  renderRoutineEditor();
+};
+window.closeRoutineModal=function(save){
+  const m=document.getElementById('routine-modal');
+  if(save&&_pendRt){
+    if(!_prefsCache)_prefsCache={};
+    _prefsCache.routine={sleep:_pendRt.sleep.slice(),study:_pendRt.study.slice(),school:_pendRt.school?_pendRt.school.slice():null};
+    saveRoutine(_prefsCache.routine);
+    renderTkPlan();buildTodayBlocks();
+  }
+  _pendRt=null;
+  if(m)m.classList.add('hidden');
+};
+window.tkToggleSchoolPending=function(){
+  if(!_pendRt)return;
+  _pendRt.school=_pendRt.school?null:DEFAULT_ROUTINE.school.slice();
+  renderRoutineEditor();
+};
+function renderRoutineEditor(){
+  const host=document.getElementById('routineModalBody');
+  if(!host||!_pendRt)return;
+  const rt=_pendRt;
+  host.innerHTML=`
+    <p class="sub" style="margin-top:0">Gold outer ring — study. Blue middle — school. Grey inner — sleep. Drag any handle; nothing changes until you save.</p>
     <div class="tk-grid">
       <svg class="tk-clock" id="tkClockSvg" viewBox="0 0 280 280">${_tkClockSvg(rt)}</svg>
       <div class="tk-side">
         <div class="tk-leg"><i class="study"></i><span>Study</span><b id="tkLegStudy">${fmtMin(rt.study[0])} – ${fmtMin(rt.study[1])}</b><span></span></div>
-        <div class="tk-leg" id="tkLegSchoolRow" style="${rt.school?'':'display:none'}"><i class="school"></i><span>School</span><b id="tkLegSchool">${rt.school?fmtMin(rt.school[0])+' – '+fmtMin(rt.school[1]):''}</b><button class="tk-leg-x" onclick="tkToggleSchool()" title="Remove school hours">✕</button></div>
+        <div class="tk-leg" id="tkLegSchoolRow" style="${rt.school?'':'display:none'}"><i class="school"></i><span>School</span><b id="tkLegSchool">${rt.school?fmtMin(rt.school[0])+' – '+fmtMin(rt.school[1]):''}</b><button class="tk-leg-x" onclick="tkToggleSchoolPending()" title="Remove school hours">✕</button></div>
         <div class="tk-leg"><i class="sleep"></i><span>Sleep</span><b id="tkLegSleep">${fmtMin(rt.sleep[0])} – ${fmtMin(rt.sleep[1])}</b><span></span></div>
-        ${rt.school?'':'<button class="tk-add-school" onclick="tkToggleSchool()">+ Add school / class hours</button>'}
+        ${rt.school?'':'<button class="tk-add-school" onclick="tkToggleSchoolPending()">+ Add school / class hours</button>'}
         <div class="tk-blocks-line" id="tkBlocksLine">${_tkBlocksLine(rt)}</div>
         <div class="tk-advice" id="tkAdvice">${_tkAdvice(rt.study)}</div>
-        <div class="tk-conflict" id="tkConflict" style="display:none">Study and sleep overlap — drag one of them clear.</div>
+        <div class="tk-conflict" id="tkConflict" style="display:${windowsOverlap(rt.study,rt.sleep)>0?'block':'none'}">Study and sleep overlap — drag one of them clear.</div>
       </div>
-    </div>
-    <div class="tk-rows-wrap">
-      <div class="lead" style="margin-bottom:4px">Your blocks · live</div>
-      <div id="tkRows">${_tkRowsHtml()}</div>
     </div>`;
 
-  // drag: pointer on a handle rotates that window edge, snapped to 15 min.
   const svg=document.getElementById('tkClockSvg');
   let drag=null;
   function minsFromEvent(e){
@@ -1128,11 +1208,11 @@ function renderTkPlan(){
     document.getElementById('tkBlocksLine').textContent=_tkBlocksLine(rt);
     document.getElementById('tkAdvice').textContent=_tkAdvice(rt.study);
     document.getElementById('tkConflict').style.display=windowsOverlap(rt.study,rt.sleep)>0?'block':'none';
-    document.getElementById('tkRows').innerHTML=_tkRowsHtml.call(null);
   }
   svg.addEventListener('pointerdown',function(e){
     const h=e.target.closest('.hnd');if(!h)return;
-    e.preventDefault();drag=h.dataset.key;svg.setPointerCapture(e.pointerId);
+    e.preventDefault();drag=h.dataset.key;
+    try{svg.setPointerCapture(e.pointerId);}catch{}
   });
   svg.addEventListener('pointermove',function(e){
     if(!drag)return;
@@ -1151,20 +1231,12 @@ function renderTkPlan(){
     if(drag==='study0'||drag==='study1')clampWin(rt.study,drag==='study0'?0:1,60,960);
     else if(drag==='sleep0'||drag==='sleep1')clampWin(rt.sleep,drag==='sleep0'?0:1,60,840);
     else if(rt.school)clampWin(rt.school,drag==='school0'?0:1,60,720);
-    if(!_prefsCache)_prefsCache={};
-    _prefsCache.routine={sleep:rt.sleep.slice(),study:rt.study.slice(),school:rt.school?rt.school.slice():null};
     applyVisual();
   });
-  function endDrag(){
-    if(!drag)return;
-    drag=null;
-    saveRoutine({sleep:rt.sleep.slice(),study:rt.study.slice(),school:rt.school?rt.school.slice():null});
-    buildTodayBlocks();
-  }
+  function endDrag(){drag=null;}
   svg.addEventListener('pointerup',endDrag);
   svg.addEventListener('pointercancel',endDrag);
 }
-window.renderTkPlan=renderTkPlan;
 
 /* ============ today's cross-subject plan ============ */
 function buildTodayBlocks(){
