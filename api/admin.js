@@ -97,6 +97,12 @@ export default async function handler(req, res) {
       if (contentActions.has(action)) {
         return res.status(403).json({ error: 'Unauthorized: Support agents cannot modify content or announcements' });
       }
+      // Cashback approval + odds config move real money — super-admin only.
+      // (mark_duplicate is fine for support: it denies a reward, never pays one.)
+      const financialActions = new Set(['approve_feedback', 'update_feedback_settings']);
+      if (financialActions.has(action)) {
+        return res.status(403).json({ error: 'Unauthorized: Support agents cannot roll cashback or change reward odds' });
+      }
     } else if (role !== 'super_admin') {
       return res.status(403).json({ error: 'Unauthorized: unrecognized admin role' });
     }
