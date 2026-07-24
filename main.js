@@ -923,6 +923,20 @@ async function loadPrefs(){
   }catch{_prefsCache={};}
   return _prefsCache;
 }
+// preferences is a single jsonb column, but two independent surfaces write to
+// it (the routine editor's _prefsCache, the burger menu's _burgerProfileCache)
+// — merging against either stale local cache risks silently clobbering
+// whatever the other surface last saved. Always re-fetch fresh from the DB
+// immediately before merging and writing, so the two can never race.
+async function patchPreferences(patch){
+  if(!currentUser)throw new Error('Not logged in');
+  const {data}=await supabase.from('profiles').select('preferences').eq('id',currentUser.id).single();
+  const merged={...(data&&data.preferences||{}),...patch};
+  await updateProfile({preferences:merged});
+  _prefsCache=merged;
+  if(_burgerProfileCache)_burgerProfileCache.preferences=merged;
+  return merged;
+}
 function getRoutine(){
   const r=_prefsCache&&_prefsCache.routine;
   if(r&&Array.isArray(r.sleep)&&r.sleep.length===2&&Array.isArray(r.study)&&r.study.length===2){
@@ -972,9 +986,7 @@ function getBlockTimes(rtArg){
   return times.slice(0,4);
 }
 async function saveRoutine(routine){
-  if(!_prefsCache)_prefsCache={};
-  _prefsCache.routine=routine;
-  try{await updateProfile({preferences:_prefsCache});setToast('Routine saved');}
+  try{await patchPreferences({routine});setToast('Routine saved');}
   catch{setToast('Save failed — check connection');}
 }
 // minutes of overlap between two circular day-windows
@@ -1115,10 +1127,12 @@ function renderTkPlan(){
 window.renderTkPlan=renderTkPlan;
 
 window.tkSuggestToggle=async function(on){
+  // optimistic local update for instant UI feedback — patchPreferences below
+  // does the actual safe (fetch-fresh-then-merge) write and reconciles _prefsCache
   if(!_prefsCache)_prefsCache={};
   _prefsCache.suggest_chapters=!!on;
   renderTkPlan();buildTodayBlocks();
-  try{await updateProfile({preferences:_prefsCache});}
+  try{await patchPreferences({suggest_chapters:!!on});}
   catch{setToast('Save failed — check connection');}
 };
 
@@ -5106,10 +5120,15 @@ function _bmProfileHtml(prof) {
 
 function _bmSettingsHtml(profile) {
   const emailReports = profile?.email_reports !== false;
+  const dailyNudge = profile?.preferences?.daily_nudge !== false;
   return `
     <div class="bm-toggle-row">
       <span class="bm-toggle-label">Weekly email report</span>
       <label class="bm-toggle"><input type="checkbox" ${emailReports ? 'checked' : ''} onchange="bmEmailReportToggle(this.checked)"><span class="bm-toggle-slider"></span></label>
+    </div>
+    <div class="bm-toggle-row">
+      <span class="bm-toggle-label">Daily study reminder</span>
+      <label class="bm-toggle"><input type="checkbox" ${dailyNudge ? 'checked' : ''} onchange="bmDailyNudgeToggle(this.checked)"><span class="bm-toggle-slider"></span></label>
     </div>`;
 }
 
@@ -5145,6 +5164,16 @@ window.bmEmailReportToggle = async function(enabled) {
   try {
     await updateProfile({ email_reports: enabled });
     setToast(enabled ? 'Weekly reports on' : 'Weekly reports off');
+  } catch (e) {
+    setToast('Save failed — check connection');
+  }
+};
+
+window.bmDailyNudgeToggle = async function(enabled) {
+  try {
+    const merged = await patchPreferences({ daily_nudge: enabled });
+    if (_burgerProfileCache) _burgerProfileCache.preferences = merged;
+    setToast(enabled ? 'Daily reminder on' : 'Daily reminder off');
   } catch (e) {
     setToast('Save failed — check connection');
   }
@@ -5223,7 +5252,7 @@ function renderBurgerMenu() {
   if ((!_burgerProfileCache || !_privacyCache) && currentUser) {
     supabase
       .from('profiles')
-      .select('display_name,qualification,exam_board,exam_date,privacy_settings,email_reports')
+      .select('display_name,qualification,exam_board,exam_date,privacy_settings,email_reports,preferences')
       .eq('id', currentUser.id)
       .single()
       .then(({ data }) => {

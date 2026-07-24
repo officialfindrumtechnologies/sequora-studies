@@ -193,6 +193,44 @@ export function emailExpired({ email, planLabel }) {
   });
 }
 
+// Short daily nudge — one dominant reason, not a report. reason is whichever
+// of 'streak' | 'recall' | 'reengage' triggered the send (see cron/daily-nudge.js
+// for the priority order), so the headline always matches the strongest signal.
+export function emailDailyNudge({ email, displayName, reason, streakDays, recallsDue, daysSinceLastSession, examDaysLeft }) {
+  const name = displayName || 'there';
+
+  let subject, headline, body;
+
+  if (reason === 'streak') {
+    subject = `Don't lose your ${streakDays}-day streak`;
+    headline = `Your ${streakDays}-day streak is on the line`;
+    body = `You haven't logged a study session today yet. One session — even 25 minutes — keeps it alive.`;
+  } else if (reason === 'recall') {
+    subject = `${recallsDue} topic${recallsDue === 1 ? '' : 's'} due for recall today`;
+    headline = `${recallsDue} topic${recallsDue === 1 ? '' : 's'} ready to review`;
+    body = `These are topics you already learned — the spaced-recall window is open now. A quick pass today is what makes them stick long-term.`;
+  } else {
+    subject = `It's been ${daysSinceLastSession} days — pick up where you left off`;
+    headline = `It's been ${daysSinceLastSession} days since your last session`;
+    body = `Your subjects and topics are exactly where you left them. No pressure to catch up all at once — just open one topic and go.`;
+  }
+
+  const examLine = examDaysLeft !== null && examDaysLeft > 0
+    ? p(`<span style="color:#888880">${examDaysLeft} days until your exam.</span>`)
+    : '';
+
+  return send({
+    to: email,
+    subject,
+    html: layout(`
+      ${h1(`Hi ${name} — ${headline}`)}
+      ${p(body)}
+      ${examLine}
+      ${cta('Open Sequora →', 'https://sequorastudies.com/app')}
+    `),
+  });
+}
+
 export function emailWeeklyReport({ email, displayName, stats }) {
   const {
     studyHours = 0,
