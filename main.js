@@ -2259,9 +2259,15 @@ function boardRow(r,i){
   const live=r.live_subject
     ? ` <span class="soc-live-tag"><i></i>${escapeHtml(r.live_subject)}</span>`
     : '';
+  // study-with-me: anyone live (and not you) gets a Join button that starts
+  // your own timer on your matching subject
+  const join=(r.live_subject&&!r.is_self)
+    ? `<button class="soc-join" onclick="joinFriendSession('${escapeJsAttr(r.live_subject)}')">Join</button>`
+    : '';
   return`<div class="ft-rank-row${r.is_self?' me':''}">
     <span class="ft-rank-n soc-medal">${medal(i)}</span>
     <span class="ft-rank-name">${escapeHtml(r.display_name||'—')}${r.is_self?' <em>you</em>':''}${live}</span>
+    ${join}
     <span class="ft-rank-h">${(Number(r.seconds_today)/3600).toFixed(1)}h</span>
   </div>`;
 }
@@ -2286,7 +2292,8 @@ async function renderFocusSocial(){
       liveEl.innerHTML=live.length
         ? live.map(f=>{
             const mins=Math.max(0,Math.round((Date.now()-new Date(f.started_at).getTime())/60000));
-            return`<div class="ft-live-row"><span class="ft-live-dot"></span><span class="ft-live-name">${escapeHtml(f.display_name||'Friend')}</span><span class="ft-live-meta">${f.subject_name?escapeHtml(f.subject_name)+' · ':''}${mins}m</span></div>`;
+            const join=f.subject_name?`<button class="soc-join" onclick="joinFriendSession('${escapeJsAttr(f.subject_name)}')">Join</button>`:'';
+            return`<div class="ft-live-row"><span class="ft-live-dot"></span><span class="ft-live-name">${escapeHtml(f.display_name||'Friend')}</span>${join}<span class="ft-live-meta">${f.subject_name?escapeHtml(f.subject_name)+' · ':''}${mins}m</span></div>`;
           }).join('')
         : '<div class="ft-empty">Nobody studying right now.</div>';
     }
@@ -2300,67 +2307,110 @@ async function renderFocusSocial(){
   }
 }
 
-/* ---- groups: create/join, live board, chat ---- */
+/* ---- groups: messenger-style — list of groups → chat with tappable
+   header → slide-down member panel ---- */
 let _myGroups=[],_curGroupId=null,_grpUnsub=null;
+let _grpView='list',_grpMembersOpen=false;
 
 async function renderGroupsArea(){
   const host=document.getElementById('grpArea');
   if(!host||!currentUser)return;
   try{_myGroups=await getMyGroups();}catch{host.innerHTML='<div class="ft-empty">Couldn\'t load groups.</div>';return;}
-  if(!_myGroups.length){
-    host.innerHTML=`
-      <div class="lead">Study groups</div>
-      <div class="grp-form">
-        <div class="grp-row2">
-          <input id="grpNewName" maxlength="40" placeholder="New group name">
-          <button class="btn sm primary" onclick="grpCreate()">Create</button>
-        </div>
-        <div class="grp-row2">
-          <input id="grpJoinCode" maxlength="6" placeholder="Join code e.g. 4F2K9A" style="text-transform:uppercase">
-          <button class="btn sm" onclick="grpJoin()">Join</button>
-        </div>
-        <div class="ft-empty">Create a group and share the code with friends — you'll see each other studying live.</div>
-      </div>`;
-    return;
+  if(_grpView==='chat'&&_curGroupId&&_myGroups.some(g=>g.id===_curGroupId)){
+    renderGroupChatView(host);
+  }else{
+    _grpView='list';
+    renderGroupListView(host);
   }
-  if(!_curGroupId||!_myGroups.some(g=>g.id===_curGroupId))_curGroupId=_myGroups[0].id;
+}
+
+function renderGroupListView(host){
+  if(_grpUnsub){_grpUnsub();_grpUnsub=null;}
+  const rows=_myGroups.map(g=>`
+    <button class="grp-item" onclick="grpOpen('${g.id}')">
+      <span class="grp-item-avatar">${escapeHtml((g.name||'?').charAt(0).toUpperCase())}</span>
+      <span class="grp-item-body">
+        <span class="grp-item-name">${escapeHtml(g.name)}</span>
+        <span class="grp-item-sub">${g.member_count} member${g.member_count==1?'':'s'}</span>
+      </span>
+      <span class="grp-item-arrow">›</span>
+    </button>`).join('');
+  host.innerHTML=`
+    <div class="lead">Your groups</div>
+    ${rows||'<div class="ft-empty" style="margin:8px 0">No groups yet.</div>'}
+    <div class="grp-form" style="margin-top:14px">
+      <div class="grp-row2">
+        <input id="grpNewName" maxlength="40" placeholder="New group name">
+        <button class="btn sm primary" onclick="grpCreate()">Create</button>
+      </div>
+      <div class="grp-row2">
+        <input id="grpJoinCode" maxlength="6" placeholder="Join code e.g. 4F2K9A" style="text-transform:uppercase">
+        <button class="btn sm" onclick="grpJoin()">Join</button>
+      </div>
+    </div>`;
+}
+
+function renderGroupChatView(host){
   const g=_myGroups.find(x=>x.id===_curGroupId);
   host.innerHTML=`
-    <div class="grp-pills">${_myGroups.map(x=>`<button class="grp-pill${x.id===_curGroupId?' on':''}" onclick="grpSwitch('${x.id}')">${escapeHtml(x.name)}</button>`).join('')}
-      <button class="grp-pill" onclick="grpShowJoinCreate()">+</button></div>
-    <div class="grp-code">Invite code: <b onclick="navigator.clipboard?.writeText('${escapeJsAttr(g.code)}').then(()=>setToast('Code copied'))" title="Click to copy">${escapeHtml(g.code)}</b> · ${g.member_count} member${g.member_count==1?'':'s'}
-      <button class="btn sm ghost danger" style="margin-left:auto;font-size:10px;padding:3px 8px" onclick="grpLeave()">Leave</button></div>
-    <div id="grpBoard"><div class="ft-empty">—</div></div>
+    <div class="grp-chat-head">
+      <button class="grp-back" onclick="grpBack()" title="All groups">‹</button>
+      <button class="grp-head-main" onclick="grpToggleMembers()" title="Tap for members">
+        <span class="grp-head-name">${escapeHtml(g.name)}</span>
+        <span class="grp-head-sub">${g.member_count} member${g.member_count==1?'':'s'} · tap for members</span>
+      </button>
+    </div>
+    <div class="grp-members${_grpMembersOpen?'':' hidden'}" id="grpMembers">
+      <div class="grp-code">Invite code: <b onclick="navigator.clipboard?.writeText('${escapeJsAttr(g.code)}').then(()=>setToast('Code copied'))" title="Click to copy">${escapeHtml(g.code)}</b>
+        <button class="btn sm ghost danger" style="margin-left:auto;font-size:10px;padding:3px 8px" onclick="grpLeave()">Leave group</button></div>
+      <div id="grpBoard"><div class="ft-empty">—</div></div>
+    </div>
     <div class="grp-chat" id="grpChat"></div>
     <div class="grp-input-row">
-      <input id="grpMsgInput" maxlength="500" placeholder="Message the group…" onkeydown="if(event.key==='Enter')grpSend()">
+      <input id="grpMsgInput" maxlength="500" placeholder="Message ${escapeHtml(g.name)}…" onkeydown="if(event.key==='Enter')grpSend()">
       <button class="btn sm primary" onclick="grpSend()">Send</button>
     </div>
     <div class="grp-share-row">
       <button class="btn sm ghost" onclick="grpShareRoutine()">Share my routine</button>
       <button class="btn sm ghost" onclick="grpShareProgress()">Share my progress</button>
     </div>`;
-  renderGroupBoard();
+  if(_grpMembersOpen)renderGroupBoard();
   loadGroupChat();
 }
-window.grpShowJoinCreate=function(){_curGroupId=null;_myGroups=[];renderGroupsArea();};
-window.grpSwitch=function(id){_curGroupId=id;renderGroupsArea();};
+
+window.grpOpen=function(id){_curGroupId=id;_grpView='chat';_grpMembersOpen=false;renderGroupsArea();};
+window.grpBack=function(){_grpView='list';if(_grpUnsub){_grpUnsub();_grpUnsub=null;}renderGroupsArea();};
+window.grpToggleMembers=function(){
+  _grpMembersOpen=!_grpMembersOpen;
+  const p=document.getElementById('grpMembers');
+  if(p){p.classList.toggle('hidden',!_grpMembersOpen);if(_grpMembersOpen)renderGroupBoard();}
+};
 window.grpCreate=async function(){
   const name=document.getElementById('grpNewName')?.value.trim();
   if(!name||name.length<2){setToast('Give the group a name');return;}
-  try{const g=await createStudyGroup(name);_curGroupId=g.id;setToast('Group created — code '+g.code);renderGroupsArea();}
+  try{const g=await createStudyGroup(name);_curGroupId=g.id;_grpView='chat';setToast('Group created — code '+g.code);renderGroupsArea();}
   catch(e){setToast(e.message||'Failed to create');}
 };
 window.grpJoin=async function(){
   const code=document.getElementById('grpJoinCode')?.value.trim();
   if(!code){setToast('Enter a join code');return;}
-  try{const g=await joinGroupByCode(code);_curGroupId=g.id;setToast('Joined '+g.name);renderGroupsArea();}
+  try{const g=await joinGroupByCode(code);_curGroupId=g.id;_grpView='chat';setToast('Joined '+g.name);renderGroupsArea();}
   catch(e){setToast(e.message||'Failed to join');}
 };
 window.grpLeave=async function(){
   if(!confirm('Leave this group?'))return;
-  try{await leaveGroup(_curGroupId,currentUser.id);_curGroupId=null;renderGroupsArea();}
+  try{await leaveGroup(_curGroupId,currentUser.id);_curGroupId=null;_grpView='list';renderGroupsArea();}
   catch{setToast('Failed to leave');}
+};
+
+/* ---- study-with-me: join a friend who's live right now ---- */
+window.joinFriendSession=function(subjectName){
+  if(timerRunning){setToast('Your timer is already running');return;}
+  go('focus');
+  const mine=_sbCache.subjects.find(s=>!isIbCore(s)&&s.name.toLowerCase()===String(subjectName||'').toLowerCase());
+  if(mine){curTimerSubject=mine.id;renderTimerSubjects();}
+  toggleTimer();
+  setToast(mine?('Joined — studying '+mine.name+' together'):('Joined — timer started on '+subjName(curTimerSubject)));
 };
 async function renderGroupBoard(){
   const el=document.getElementById('grpBoard');
