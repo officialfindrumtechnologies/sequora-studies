@@ -10,10 +10,18 @@ export async function getSessions({ subjectId = null, since = null } = {}) {
   return data;
 }
 
-export async function createSession({ userId, subjectId, durationSec, studyDate = null }) {
+export async function createSession({ userId, subjectId, durationSec, studyDate = null, startedAt = null }) {
   const { data, error } = await supabase
     .from('sessions')
-    .insert({ user_id: userId, subject_id: subjectId, duration_sec: durationSec, study_date: studyDate ?? todayStr() })
+    .insert({
+      user_id: userId,
+      subject_id: subjectId,
+      duration_sec: durationSec,
+      study_date: studyDate ?? todayStr(),
+      // Exact wall-clock start, so the 24h day clock can place this block on
+      // the dial. Null for manual logs — the clock falls back to deriving it.
+      started_at: startedAt,
+    })
     .select()
     .single();
   if (error) throw error;

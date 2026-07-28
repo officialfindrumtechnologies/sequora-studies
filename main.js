@@ -14,6 +14,7 @@ import {
 import { QUAL_BOARDS, resolveQualBoard, formatQualBoard, isMbbs, NO_DATE_QUALS } from './src/lib/qualboards.js';
 import { getSubscription, submitBkashPayment } from './src/data/subscriptions.js';
 import { submitFeedback, getMyFeedback } from './src/data/feedback.js';
+import { beatPresence, clearPresence, getFriendsStudyingNow, getFriendsTodayRanking } from './src/data/presence.js';
 import { initSubjectsView, setSubjectsViewTier, getActiveSubjectId } from './src/views/subjects-view.js';
 import { getSubjects } from './src/data/subjects.js';
 import { getAllTopics, markRecallPass, markRecallFail } from './src/data/topics.js';
@@ -1945,6 +1946,41 @@ function renderFlags(){
 
 /* ============ render: focus timer ============ */
 let timerRunning=false,timerStart=0,timerAccum=0,timerInterval=null;
+// YPT-style modes. timerAccum always holds STUDY seconds only — pomodoro break
+// time is deliberately excluded so a saved session never overstates real work.
+let timerMode='stopwatch';           // 'stopwatch' | 'countdown' | 'pomodoro'
+let timerTargetSec=25*60;            // countdown goal
+let pomoPhase='work';                // 'work' | 'break'
+let pomoWorkSec=25*60, pomoBreakSec=5*60, pomoRound=1;
+let phaseAccum=0;                    // seconds banked in the current pomo phase
+let sessionStartedAt=null;           // ISO wall-clock start of this sitting
+let presenceInterval=null, socialInterval=null;
+
+function isWorkPhase(){ return timerMode!=='pomodoro' || pomoPhase==='work'; }
+function phaseTargetSec(){ return pomoPhase==='work'?pomoWorkSec:pomoBreakSec; }
+function liveSec(){ return timerRunning?(Date.now()-timerStart)/1000:0; }
+function studySec(){ return timerAccum+(isWorkPhase()?liveSec():0); }
+
+window.setTimerMode=function(mode){
+  if(timerRunning){setToast('Stop the timer before switching mode');return;}
+  timerMode=mode; pomoPhase='work'; phaseAccum=0; pomoRound=1;
+  document.querySelectorAll('.ft-mode').forEach(b=>b.classList.toggle('on',b.dataset.mode===mode));
+  const tgt=document.getElementById('ftTargetRow');
+  if(tgt)tgt.classList.toggle('hidden',mode==='stopwatch');
+  const lbl=document.getElementById('ftTargetLabel');
+  if(lbl)lbl.textContent=mode==='pomodoro'?'Work / break minutes':'Target minutes';
+  const pom=document.getElementById('ftBreakWrap');
+  if(pom)pom.classList.toggle('hidden',mode!=='pomodoro');
+  discardTimer();
+};
+window.ftTargetChanged=function(){
+  const t=parseInt(document.getElementById('ftTargetMins')?.value,10);
+  const b=parseInt(document.getElementById('ftBreakMins')?.value,10);
+  if(Number.isFinite(t)&&t>0){timerTargetSec=t*60;pomoWorkSec=t*60;}
+  if(Number.isFinite(b)&&b>0){pomoBreakSec=b*60;}
+  paintTimer();
+};
+
 function renderTimerSubjects(){
   const host=document.getElementById("timerSubjects");
   if (!host) return;
@@ -1958,19 +1994,101 @@ function renderTimerSubjects(){
   }
 }
 function fmtHMS(sec){const h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),s=Math.floor(sec%60);return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");}
-function tick(){const el=document.getElementById("timerFace");const sec=timerAccum+(timerRunning?(Date.now()-timerStart)/1000:0);if (el) el.textContent=fmtHMS(sec);}
+// Ring geometry — r=104 in a 240 viewBox (see .ft-ring in app.html)
+const FT_RING_CIRC=2*Math.PI*104;
+
+function paintTimer(){
+  const face=document.getElementById('timerFace');
+  const ring=document.getElementById('ftRingFill');
+  const phaseEl=document.getElementById('ftPhase');
+  const sSec=studySec();
+  const pSec=phaseAccum+liveSec();
+
+  let shown, frac, phaseLabel='';
+  if(timerMode==='countdown'){
+    shown=Math.max(0,timerTargetSec-sSec);
+    frac=timerTargetSec>0?Math.min(sSec/timerTargetSec,1):0;
+    phaseLabel=`target ${Math.round(timerTargetSec/60)}m`;
+  }else if(timerMode==='pomodoro'){
+    const t=phaseTargetSec();
+    shown=Math.max(0,t-pSec);
+    frac=t>0?Math.min(pSec/t,1):0;
+    phaseLabel=(pomoPhase==='work'?'WORK':'BREAK')+` · round ${pomoRound}`;
+  }else{
+    shown=sSec;
+    frac=(sSec%3600)/3600;           // fills once per hour — honest motion, no fake target
+    phaseLabel=sSec>0?`${(sSec/3600).toFixed(1)}h this sitting`:'';
+  }
+
+  if(face)face.textContent=fmtHMS(shown);
+  if(phaseEl)phaseEl.textContent=phaseLabel;
+  if(ring){
+    ring.style.strokeDasharray=FT_RING_CIRC;
+    ring.style.strokeDashoffset=FT_RING_CIRC*(1-frac);
+    ring.classList.toggle('breaking',timerMode==='pomodoro'&&pomoPhase==='break');
+  }
+}
+
+function advancePomoPhase(){
+  // bank the segment just finished (work only) before flipping
+  if(isWorkPhase())timerAccum+=liveSec();
+  pomoPhase=pomoPhase==='work'?'break':'work';
+  if(pomoPhase==='work')pomoRound++;
+  phaseAccum=0; timerStart=Date.now();
+  setToast(pomoPhase==='work'?`Break over — round ${pomoRound}, back in`:'Work block done — take the break');
+  try{ new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABAAZGF0YQAAAAA=').play().catch(()=>{}); }catch{}
+}
+
+function tick(){
+  if(timerRunning){
+    const pSec=phaseAccum+liveSec();
+    if(timerMode==='pomodoro'&&pSec>=phaseTargetSec()){ advancePomoPhase(); }
+    if(timerMode==='countdown'&&studySec()>=timerTargetSec){
+      toggleTimer();
+      setToast('Target reached — save the session');
+      paintTimer(); ensureSaveBtn(); return;
+    }
+  }
+  paintTimer();
+  // The day clock rebuilds its whole SVG, which restarts the live arc's CSS
+  // pulse — so refresh it every ~5s rather than on every 250ms tick.
+  if(Date.now()-_lastDayClockPaint>5000){ _lastDayClockPaint=Date.now(); renderDayClock(); }
+}
+let _lastDayClockPaint=0;
+
 function toggleTimer(){
   const btn=document.getElementById("startBtn");const face=document.getElementById("timerFace");const st=document.getElementById("timerStatus");
   if(!timerRunning){
-    timerRunning=true;timerStart=Date.now();if (btn) btn.textContent="Pause";if (face) face.classList.add("running");
+    timerRunning=true;timerStart=Date.now();
+    if(!sessionStartedAt)sessionStartedAt=new Date().toISOString();
+    if (btn) btn.textContent="Pause";if (face) face.classList.add("running");
     if (st) st.textContent="● focusing on "+subjName(curTimerSubject)+" — stay in it";
     timerInterval=setInterval(tick,250);
+    startPresence();
   }else{
-    timerRunning=false;timerAccum+=(Date.now()-timerStart)/1000;clearInterval(timerInterval);
+    timerRunning=false;
+    if(isWorkPhase())timerAccum+=liveSec();
+    phaseAccum+=liveSec();
+    clearInterval(timerInterval);
     if (btn) btn.textContent="Resume";if (face) face.classList.remove("running");
     if (st) st.textContent="paused · "+fmtHMS(timerAccum)+" banked — press Resume, or Reset to save";
+    stopPresence();
   }
+  paintTimer();
   ensureSaveBtn();
+}
+
+/* ---- live presence: broadcast "studying now" to friends while running ---- */
+function startPresence(){
+  if(!currentUser)return;
+  const beat=()=>beatPresence({userId:currentUser.id,subjectId:_sbCache.subjects.some(s=>s.id===curTimerSubject)?curTimerSubject:null,startedAt:sessionStartedAt}).catch(()=>{});
+  beat();
+  clearInterval(presenceInterval);
+  presenceInterval=setInterval(beat,45000);
+}
+function stopPresence(){
+  clearInterval(presenceInterval);presenceInterval=null;
+  if(currentUser)clearPresence(currentUser.id).catch(()=>{});
 }
 function ensureSaveBtn(){
   let sb=document.getElementById("saveSessBtn");
@@ -1984,11 +2102,12 @@ function ensureSaveBtn(){
   }else if(sb){sb.remove();}
 }
 async function saveTimerSession(){
-  const sec=Math.round(timerAccum+(timerRunning?(Date.now()-timerStart)/1000:0));
+  const sec=Math.round(studySec());
   if(sec<30){setToast("Too short to log");return;}
+  const startedAt=sessionStartedAt;
   sessions.push({id:Date.now(),subject:curTimerSubject,dur:sec,date:todayStr(),ts:Date.now()});
   saveJSON("ascent_sessions",sessions);
-  await persistSessionToRealTable(sec);
+  await persistSessionToRealTable(sec,startedAt);
   discardTimer();setToast("Logged "+(sec/60).toFixed(0)+" min on "+subjName(curTimerSubject));
   refreshAll();
 }
@@ -1996,39 +2115,163 @@ async function saveTimerSession(){
 // Real subject ids are UUIDs from the subjects table (via refreshSbCache →
 // _timerSubjects); legacy fallback keys ("maths","acc",...) are not real
 // subjects and have nothing to write to.
-async function persistSessionToRealTable(durationSec){
+async function persistSessionToRealTable(durationSec,startedAt=null){
   if(!currentUser) return;
   if(!_sbCache.subjects.some(s=>s.id===curTimerSubject)) return;
   try{
-    await createSession({ userId: currentUser.id, subjectId: curTimerSubject, durationSec });
+    await createSession({ userId: currentUser.id, subjectId: curTimerSubject, durationSec, startedAt });
     await refreshSbCache();
   }catch(e){
     console.error('[Sessions] Failed to save to sessions table:', e.message);
   }
 }
 function discardTimer(){
-  timerRunning=false;timerAccum=0;clearInterval(timerInterval);
+  timerRunning=false;timerAccum=0;phaseAccum=0;sessionStartedAt=null;
+  pomoPhase='work';pomoRound=1;
+  clearInterval(timerInterval);
+  stopPresence();
   const face = document.getElementById("timerFace");
-  if (face) {
-    face.textContent="00:00:00";
-    face.classList.remove("running");
-  }
+  if (face) face.classList.remove("running");
   const btn = document.getElementById("startBtn");
   if (btn) btn.textContent="Start";
   const st = document.getElementById("timerStatus");
   if (st) st.textContent="pick a subject & press start";
+  paintTimer();
   ensureSaveBtn();
+  renderDayClock();
 }
 async function logManual(){
   const mins=prompt("How many minutes did you study "+subjName(curTimerSubject)+"?");
   const m=parseInt(mins);if(!m||m<=0)return;
   sessions.push({id:Date.now(),subject:curTimerSubject,dur:m*60,date:todayStr(),ts:Date.now()});
   saveJSON("ascent_sessions",sessions);
-  await persistSessionToRealTable(m*60);
+  // Manual logs have no real start time — left null so the day clock can mark
+  // them as approximate rather than pretending to know when they happened.
+  await persistSessionToRealTable(m*60,null);
   setToast("Logged "+m+" min");refreshAll();
 }
+/* ============ 24-hour day clock (YPT-style) ============ */
+// Outer faint ring = the study window you planned in Toolkit → My Routine.
+// Inner solid arcs = what you actually studied today, in each subject's colour.
+// viewBox is 300 wide (see #ftDayClock) so the hour labels sit clear of the
+// tick marks instead of colliding with the rings.
+const FDC={C:150,RP:118,RA:98,RT1:128,RT2:134,RL:144};
+function _fdPt(r,min){const a=(min/1440*360-90)*Math.PI/180;return{x:FDC.C+r*Math.cos(a),y:FDC.C+r*Math.sin(a)};}
+function _fdArc(r,m1,m2){
+  const span=(m2-m1+1440)%1440;
+  const p1=_fdPt(r,m1),p2=_fdPt(r,m2);
+  return`M ${p1.x.toFixed(1)} ${p1.y.toFixed(1)} A ${r} ${r} 0 ${span>720?1:0} 1 ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`;
+}
+function subjColor(id){
+  const s=_sbCache.subjects.find(x=>x.id===id);
+  return (s&&s.color)||'#D4B878';
+}
+// Returns {startMin,endMin,approx} or null. Manual logs have no started_at, so
+// they're derived from logged_at (≈ end) and flagged approx rather than faked.
+function sessionSpan(s){
+  let startIso=s.started_at,approx=false;
+  if(!startIso){
+    if(!s.logged_at)return null;
+    startIso=new Date(new Date(s.logged_at).getTime()-(s.duration_sec||0)*1000).toISOString();
+    approx=true;
+  }
+  const st=new Date(startIso);
+  if(isNaN(st.getTime()))return null;
+  const startMin=st.getHours()*60+st.getMinutes()+st.getSeconds()/60;
+  return{startMin,endMin:Math.min(startMin+(s.duration_sec||0)/60,1440),approx};
+}
+function renderDayClock(){
+  const svg=document.getElementById('ftDayClock');
+  if(!svg)return;
+  const rt=(typeof getRoutine==='function')?getRoutine():null;
+  let ticks='';
+  for(let h=0;h<24;h++){
+    const M=h%6===0,p1=_fdPt(FDC.RT1,h*60),p2=_fdPt(M?FDC.RT2+3:FDC.RT2,h*60);
+    ticks+=`<line class="fd-tick${M?' major':''}" x1="${p1.x.toFixed(1)}" y1="${p1.y.toFixed(1)}" x2="${p2.x.toFixed(1)}" y2="${p2.y.toFixed(1)}"/>`;
+  }
+  const labs=[[0,'12a'],[360,'6a'],[720,'12p'],[1080,'6p']].map(l=>{
+    const p=_fdPt(FDC.RL,l[0]);
+    return`<text class="fd-lbl" x="${p.x.toFixed(1)}" y="${(p.y+3).toFixed(1)}" text-anchor="middle">${l[1]}</text>`;
+  }).join('');
+
+  const planArc=(rt&&rt.study)?`<path class="fd-plan" d="${_fdArc(FDC.RP,rt.study[0],rt.study[1])}"/>`:'';
+
+  const todays=_sbCache.sessions.filter(s=>s.study_date===todayStr());
+  let blocks='',totalSec=0;
+  const perSubject={};
+  for(const s of todays){
+    totalSec+=s.duration_sec||0;
+    perSubject[s.subject_id]=(perSubject[s.subject_id]||0)+(s.duration_sec||0);
+    const sp=sessionSpan(s);
+    if(!sp||sp.endMin<=sp.startMin)continue;
+    blocks+=`<path class="fd-block${sp.approx?' approx':''}" stroke="${subjColor(s.subject_id)}" d="${_fdArc(FDC.RA,sp.startMin,sp.endMin)}"/>`;
+  }
+  // in-progress sitting, drawn live
+  let liveArc='';
+  if(timerRunning&&sessionStartedAt){
+    const st=new Date(sessionStartedAt);
+    const sMin=st.getHours()*60+st.getMinutes();
+    const now=new Date();
+    const eMin=now.getHours()*60+now.getMinutes()+now.getSeconds()/60;
+    if(eMin>sMin)liveArc=`<path class="fd-block live" stroke="${subjColor(curTimerSubject)}" d="${_fdArc(FDC.RA,sMin,eMin)}"/>`;
+  }
+  const liveSecs=timerRunning?studySec():0;
+  const totalH=((totalSec+liveSecs)/3600).toFixed(1);
+
+  svg.innerHTML=`
+    <circle class="fd-track plan" cx="${FDC.C}" cy="${FDC.C}" r="${FDC.RP}"/>
+    <circle class="fd-track" cx="${FDC.C}" cy="${FDC.C}" r="${FDC.RA}"/>
+    ${ticks}${labs}${planArc}${blocks}${liveArc}
+    <text class="fd-cent" x="${FDC.C}" y="${FDC.C-2}" text-anchor="middle">${totalH}h</text>
+    <text class="fd-cent-sub" x="${FDC.C}" y="${FDC.C+18}" text-anchor="middle">TODAY</text>`;
+
+  const legend=document.getElementById('ftDayLegend');
+  if(legend){
+    const rows=Object.entries(perSubject).sort((a,b)=>b[1]-a[1]);
+    legend.innerHTML=rows.length
+      ? rows.map(([id,sec])=>{
+          const s=_sbCache.subjects.find(x=>x.id===id);
+          return`<span class="fd-leg"><i style="background:${subjColor(id)}"></i>${escapeHtml(s?s.name:'Unknown')} · ${(sec/60).toFixed(0)}m</span>`;
+        }).join('')
+      : '<span class="fd-leg-empty">No sessions logged yet today</span>';
+  }
+}
+
+/* ============ social: who's studying now + today's ranking ============ */
+async function renderFocusSocial(){
+  const liveEl=document.getElementById('ftLive');
+  const rankEl=document.getElementById('ftRank');
+  if(!liveEl&&!rankEl)return;
+  if(!currentUser)return;
+  try{
+    const [live,rank]=await Promise.all([getFriendsStudyingNow(),getFriendsTodayRanking()]);
+    if(liveEl){
+      liveEl.innerHTML=live.length
+        ? live.map(f=>{
+            const mins=Math.max(0,Math.round((Date.now()-new Date(f.started_at).getTime())/60000));
+            return`<div class="ft-live-row"><span class="ft-live-dot"></span><span class="ft-live-name">${escapeHtml(f.display_name||'Friend')}</span><span class="ft-live-meta">${f.subject_name?escapeHtml(f.subject_name)+' · ':''}${mins}m</span></div>`;
+          }).join('')
+        : '<div class="ft-empty">Nobody studying right now.</div>';
+    }
+    if(rankEl){
+      rankEl.innerHTML=rank.length
+        ? rank.map((r,i)=>`<div class="ft-rank-row${r.is_self?' me':''}"><span class="ft-rank-n">${i+1}</span><span class="ft-rank-name">${escapeHtml(r.display_name||'—')}${r.is_self?' <em>you</em>':''}</span><span class="ft-rank-h">${(Number(r.seconds_today)/3600).toFixed(1)}h</span></div>`).join('')
+        : '<div class="ft-empty">Add friends to see a ranking.</div>';
+    }
+  }catch(e){
+    if(liveEl&&!liveEl.innerHTML)liveEl.innerHTML='<div class="ft-empty">Couldn\'t load.</div>';
+  }
+}
+
 function renderFocus(){
   renderTimerSubjects();
+  paintTimer();
+  renderDayClock();
+  renderFocusSocial();
+  clearInterval(socialInterval);
+  socialInterval=setInterval(()=>{
+    if(!document.getElementById('view-focus')?.classList.contains('hidden'))renderFocusSocial();
+  },60000);
   const sw=startOfWeek().getTime();
   const fmTodayEl = document.getElementById("fmToday");
   if (fmTodayEl) fmTodayEl.textContent=hoursForSb(s=>s.study_date===todayStr()).toFixed(1)+"h";

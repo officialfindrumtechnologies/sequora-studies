@@ -95,8 +95,68 @@ input:focus,select:focus,textarea:focus{border-color:var(--border-hover)}
 textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-height:60px;line-height:1.5}
 
 /* ---------- timer ---------- */
-.timer-face{font-family:var(--mono);font-weight:700;font-size:60px;letter-spacing:.02em;text-align:center;color:var(--text);margin:8px 0 4px;font-variant-numeric:tabular-nums}
+.timer-face{font-family:var(--mono);font-weight:700;font-size:44px;letter-spacing:.02em;text-align:center;color:var(--text);margin:0;font-variant-numeric:tabular-nums;line-height:1}
 .timer-face.running{color:var(--accent)}
+
+/* focus layout: timer left, 24h clock + social right */
+.focus-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:16px;align-items:start}
+.ft-right{display:flex;flex-direction:column;gap:16px;min-width:0}
+@media(max-width:980px){.focus-grid{grid-template-columns:1fr}}
+
+/* mode switcher */
+.ft-modes{display:flex;gap:6px;justify-content:center;margin-bottom:12px}
+.ft-mode{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);background:var(--ink2);border:1px solid var(--border);border-radius:30px;padding:7px 14px;cursor:pointer;transition:border-color .15s,color .15s,background .15s}
+.ft-mode:hover{border-color:var(--border-hover);color:var(--text)}
+.ft-mode.on{background:var(--amber);color:var(--ink);border-color:var(--amber)}
+.ft-target-row{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.ft-target-lbl{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim)}
+.ft-target-row input{width:62px;font-family:var(--mono);font-size:13px;text-align:center;background:var(--ink2);color:var(--text);border:1px solid var(--border);border-radius:var(--rs);padding:6px 8px}
+.ft-target-row input:focus{outline:none;border-color:var(--border-hover)}
+.ft-target-sep{color:var(--muted);font-family:var(--mono);margin:0 2px}
+
+/* ring around the live timer */
+.ft-ring-wrap{position:relative;width:min(240px,70vw);margin:6px auto 10px;aspect-ratio:1}
+.ft-ring{width:100%;height:100%;transform:rotate(-90deg)}
+.ft-ring-track{fill:none;stroke:rgba(var(--text-rgb),.09);stroke-width:10}
+.ft-ring-fill{fill:none;stroke:var(--amber);stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset .3s linear,stroke .3s}
+.ft-ring-fill.breaking{stroke:var(--green,#7fae6f)}
+.ft-ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;pointer-events:none}
+.ft-phase{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-dim);min-height:12px}
+
+/* 24-hour day clock */
+.ft-day{width:min(300px,92%);height:auto;display:block;margin:6px auto 4px}
+.fd-track{fill:none;stroke:rgba(var(--text-rgb),.07);stroke-width:14}
+.fd-track.plan{stroke-width:6}
+.fd-tick{stroke:var(--line);stroke-width:1}
+.fd-tick.major{stroke:var(--text-dim);stroke-width:1.5}
+.fd-lbl{font-family:var(--mono);font-size:9.5px;fill:var(--text-dim)}
+.fd-plan{fill:none;stroke:var(--paper-dim);opacity:.45;stroke-width:6;stroke-linecap:round}
+.fd-block{fill:none;stroke-width:14;stroke-linecap:butt;opacity:.9}
+.fd-block.approx{opacity:.45;stroke-dasharray:3 3}
+.fd-block.live{opacity:1;animation:fdPulse 1.6s ease-in-out infinite}
+@keyframes fdPulse{0%,100%{opacity:1}50%{opacity:.5}}
+.fd-cent{font-family:var(--mono);font-size:24px;font-weight:700;fill:var(--amber)}
+.fd-cent-sub{font-family:var(--mono);font-size:9px;fill:var(--text-dim);letter-spacing:.16em}
+.ft-day-legend{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:8px}
+.fd-leg{font-family:var(--mono);font-size:10.5px;color:var(--text-dim);display:flex;align-items:center;gap:6px}
+.fd-leg i{width:9px;height:9px;border-radius:2px;flex-shrink:0}
+.fd-leg-empty,.ft-empty{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.ft-day-note{font-family:var(--mono);font-size:10px;color:var(--muted);text-align:center;margin-top:10px;line-height:1.5}
+
+/* social: live + ranking */
+.ft-live-row{display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px solid var(--border)}
+.ft-live-row:first-child{border-top:none}
+.ft-live-dot{width:7px;height:7px;border-radius:50%;background:var(--green,#7fae6f);flex-shrink:0;animation:fdPulse 1.8s ease-in-out infinite}
+.ft-live-name{font-size:13.5px;color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ft-live-meta{font-family:var(--mono);font-size:10.5px;color:var(--muted);flex-shrink:0}
+.ft-rank-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-top:1px solid var(--border)}
+.ft-rank-row:first-child{border-top:none}
+.ft-rank-row.me{color:var(--amber)}
+.ft-rank-n{font-family:var(--mono);font-size:11px;color:var(--muted);width:16px;flex-shrink:0}
+.ft-rank-name{flex:1;font-size:13.5px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ft-rank-row.me .ft-rank-name{color:var(--amber)}
+.ft-rank-name em{font-style:normal;font-family:var(--mono);font-size:10px;color:var(--muted)}
+.ft-rank-h{font-family:var(--mono);font-size:12px;font-weight:600;flex-shrink:0}
 .timer-sub{text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:18px}
 .btn-row{display:flex;gap:9px;justify-content:center;flex-wrap:wrap}
 
@@ -1486,13 +1546,36 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
 
   <!-- ================= FOCUS ================= -->
   <section id="view-focus" class="view hidden">
-    <div class="grid g-hero" style="margin-bottom:18px">
+    <div class="focus-grid" style="margin-bottom:18px">
       <div class="card accent">
         <div class="lead">Deep-block focus timer</div>
         <div class="subjsel" id="timerSubjects"></div>
-        <div class="timer-face" id="timerFace">00:00:00</div>
+
+        <div class="ft-modes">
+          <button class="ft-mode on" data-mode="stopwatch" onclick="setTimerMode('stopwatch')">Stopwatch</button>
+          <button class="ft-mode" data-mode="countdown" onclick="setTimerMode('countdown')">Countdown</button>
+          <button class="ft-mode" data-mode="pomodoro" onclick="setTimerMode('pomodoro')">Pomodoro</button>
+        </div>
+        <div class="ft-target-row hidden" id="ftTargetRow">
+          <label class="ft-target-lbl" id="ftTargetLabel">Target minutes</label>
+          <input type="number" id="ftTargetMins" min="1" max="240" value="25" onchange="ftTargetChanged()">
+          <span id="ftBreakWrap" class="hidden"><span class="ft-target-sep">/</span>
+            <input type="number" id="ftBreakMins" min="1" max="60" value="5" onchange="ftTargetChanged()">
+          </span>
+        </div>
+
+        <div class="ft-ring-wrap">
+          <svg class="ft-ring" viewBox="0 0 240 240" aria-hidden="true">
+            <circle class="ft-ring-track" cx="120" cy="120" r="104"/>
+            <circle class="ft-ring-fill" id="ftRingFill" cx="120" cy="120" r="104"/>
+          </svg>
+          <div class="ft-ring-center">
+            <div class="timer-face" id="timerFace">00:00:00</div>
+            <div class="ft-phase" id="ftPhase"></div>
+          </div>
+        </div>
+
         <div class="timer-sub" id="timerStatus">pick a subject &amp; press start</div>
-        <div class="pomo-tip">Pomodoro suggestion: <span>25 min</span> study · <span>5 min</span> break · repeat</div>
         <div class="btn-row">
           <button class="btn primary" id="startBtn" onclick="toggleTimer()">Start</button>
           <button class="btn ghost" onclick="logManual()">Log time manually</button>
@@ -1508,9 +1591,23 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
           <b>The method (every block):</b> Learn (~25m, NotebookLM) → Note it in your words (~5m) → <b>Drill past-paper questions</b> (~30m) → Quiz yourself unaided in Gemini (~10m) → mark the topic. A topic is "Exam-ready" only when you score well <b>unaided against the mark scheme</b>.
         </div>
       </div>
-      <div class="card">
-        <div class="lead">Session log · today</div>
-        <div id="sessionLog"></div>
+      <div class="ft-right">
+        <div class="card">
+          <div class="lead">Today · 24-hour clock</div>
+          <svg class="ft-day" id="ftDayClock" viewBox="0 0 300 300"></svg>
+          <div class="ft-day-legend" id="ftDayLegend"></div>
+          <div class="ft-day-note">Outer faint ring = your planned study window. Inner arcs = what you actually studied.</div>
+        </div>
+        <div class="card">
+          <div class="lead">Studying now</div>
+          <div id="ftLive"><div class="ft-empty">—</div></div>
+          <div class="lead" style="margin-top:18px">Today's ranking</div>
+          <div id="ftRank"><div class="ft-empty">—</div></div>
+        </div>
+        <div class="card">
+          <div class="lead">Session log · today</div>
+          <div id="sessionLog"></div>
+        </div>
       </div>
     </div>
   </section>
