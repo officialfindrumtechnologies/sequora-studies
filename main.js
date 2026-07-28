@@ -2066,9 +2066,12 @@ function toggleTimer(){
     timerInterval=setInterval(tick,250);
     startPresence();
   }else{
+    // capture elapsed BEFORE flipping the flag — liveSec() reads timerRunning
+    // and returns 0 once it's false, which silently banked nothing on pause
+    const el=liveSec();
     timerRunning=false;
-    if(isWorkPhase())timerAccum+=liveSec();
-    phaseAccum+=liveSec();
+    if(isWorkPhase())timerAccum+=el;
+    phaseAccum+=el;
     clearInterval(timerInterval);
     if (btn) btn.textContent="Resume";if (face) face.classList.remove("running");
     if (st) st.textContent="paused · "+fmtHMS(timerAccum)+" banked — press Resume, or Reset to save";

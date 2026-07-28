@@ -115,7 +115,11 @@ textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-h
 .ft-target-sep{color:var(--muted);font-family:var(--mono);margin:0 2px}
 
 /* ring around the live timer */
-.ft-ring-wrap{position:relative;width:min(240px,70vw);margin:6px auto 10px;aspect-ratio:1}
+.ft-ring-wrap{position:relative;width:min(290px,84%);margin:6px auto 10px;aspect-ratio:1}
+/* the readout must fit INSIDE the ring (r=104 of 240 ⇒ inner ≈ 78% of wrap) —
+   the standalone 44px face overflows and collides with the stroke */
+.ft-ring-center .timer-face{font-size:clamp(26px,11cqw,34px)}
+.ft-ring-wrap{container-type:inline-size}
 .ft-ring{width:100%;height:100%;transform:rotate(-90deg)}
 .ft-ring-track{fill:none;stroke:rgba(var(--text-rgb),.09);stroke-width:10}
 .ft-ring-fill{fill:none;stroke:var(--amber);stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset .3s linear,stroke .3s}
