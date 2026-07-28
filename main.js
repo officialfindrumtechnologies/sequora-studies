@@ -15,6 +15,7 @@ import { QUAL_BOARDS, resolveQualBoard, formatQualBoard, isMbbs, NO_DATE_QUALS }
 import { getSubscription, submitBkashPayment } from './src/data/subscriptions.js';
 import { submitFeedback, getMyFeedback } from './src/data/feedback.js';
 import { beatPresence, clearPresence, getFriendsStudyingNow, getFriendsTodayRanking } from './src/data/presence.js';
+import { createStudyGroup, joinGroupByCode, leaveGroup, getMyGroups, getGroupBoard, getGlobalBoard, getGroupMessages, sendGroupMessage, subscribeGroupMessages } from './src/data/groups.js';
 import { initSubjectsView, setSubjectsViewTier, getActiveSubjectId } from './src/views/subjects-view.js';
 import { getSubjects } from './src/data/subjects.js';
 import { getAllTopics, markRecallPass, markRecallFail } from './src/data/topics.js';
@@ -2052,7 +2053,7 @@ function tick(){
   paintTimer();
   // The day clock rebuilds its whole SVG, which restarts the live arc's CSS
   // pulse — so refresh it every ~5s rather than on every 250ms tick.
-  if(Date.now()-_lastDayClockPaint>5000){ _lastDayClockPaint=Date.now(); renderDayClock(); }
+  if(Date.now()-_lastDayClockPaint>5000){ _lastDayClockPaint=Date.now(); renderDayClock(); checkMilestones(); }
 }
 let _lastDayClockPaint=0;
 
@@ -2240,7 +2241,40 @@ function renderDayClock(){
   }
 }
 
-/* ============ social: who's studying now + today's ranking ============ */
+/* ============ social: Friends / Global / Groups (YPT-style) ============ */
+let _socScope='friends';
+window.socShow=function(scope){
+  _socScope=scope;
+  document.querySelectorAll('.soc-tab').forEach(b=>b.classList.toggle('on',b.dataset.soc===scope));
+  ['Friends','Global','Groups'].forEach(s=>{
+    document.getElementById('soc'+s)?.classList.toggle('hidden',s.toLowerCase()!==scope);
+  });
+  if(scope==='global')renderGlobalBoard();
+  if(scope==='groups')renderGroupsArea();
+  if(scope==='friends')renderFocusSocial();
+};
+
+function medal(i){return i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1);}
+function boardRow(r,i){
+  const live=r.live_subject
+    ? ` <span class="soc-live-tag"><i></i>${escapeHtml(r.live_subject)}</span>`
+    : '';
+  return`<div class="ft-rank-row${r.is_self?' me':''}">
+    <span class="ft-rank-n soc-medal">${medal(i)}</span>
+    <span class="ft-rank-name">${escapeHtml(r.display_name||'—')}${r.is_self?' <em>you</em>':''}${live}</span>
+    <span class="ft-rank-h">${(Number(r.seconds_today)/3600).toFixed(1)}h</span>
+  </div>`;
+}
+
+async function renderGlobalBoard(){
+  const el=document.getElementById('ftGlobal');
+  if(!el||!currentUser)return;
+  try{
+    const rows=await getGlobalBoard();
+    el.innerHTML=rows.length?rows.map(boardRow).join(''):'<div class="ft-empty">Nobody has studied today yet. Be first.</div>';
+  }catch{el.innerHTML='<div class="ft-empty">Couldn\'t load.</div>';}
+}
+
 async function renderFocusSocial(){
   const liveEl=document.getElementById('ftLive');
   const rankEl=document.getElementById('ftRank');
@@ -2258,7 +2292,7 @@ async function renderFocusSocial(){
     }
     if(rankEl){
       rankEl.innerHTML=rank.length
-        ? rank.map((r,i)=>`<div class="ft-rank-row${r.is_self?' me':''}"><span class="ft-rank-n">${i+1}</span><span class="ft-rank-name">${escapeHtml(r.display_name||'—')}${r.is_self?' <em>you</em>':''}</span><span class="ft-rank-h">${(Number(r.seconds_today)/3600).toFixed(1)}h</span></div>`).join('')
+        ? rank.map((r,i)=>boardRow({...r,live_subject:null},i)).join('')
         : '<div class="ft-empty">Add friends to see a ranking.</div>';
     }
   }catch(e){
@@ -2266,14 +2300,178 @@ async function renderFocusSocial(){
   }
 }
 
+/* ---- groups: create/join, live board, chat ---- */
+let _myGroups=[],_curGroupId=null,_grpUnsub=null;
+
+async function renderGroupsArea(){
+  const host=document.getElementById('grpArea');
+  if(!host||!currentUser)return;
+  try{_myGroups=await getMyGroups();}catch{host.innerHTML='<div class="ft-empty">Couldn\'t load groups.</div>';return;}
+  if(!_myGroups.length){
+    host.innerHTML=`
+      <div class="lead">Study groups</div>
+      <div class="grp-form">
+        <div class="grp-row2">
+          <input id="grpNewName" maxlength="40" placeholder="New group name">
+          <button class="btn sm primary" onclick="grpCreate()">Create</button>
+        </div>
+        <div class="grp-row2">
+          <input id="grpJoinCode" maxlength="6" placeholder="Join code e.g. 4F2K9A" style="text-transform:uppercase">
+          <button class="btn sm" onclick="grpJoin()">Join</button>
+        </div>
+        <div class="ft-empty">Create a group and share the code with friends — you'll see each other studying live.</div>
+      </div>`;
+    return;
+  }
+  if(!_curGroupId||!_myGroups.some(g=>g.id===_curGroupId))_curGroupId=_myGroups[0].id;
+  const g=_myGroups.find(x=>x.id===_curGroupId);
+  host.innerHTML=`
+    <div class="grp-pills">${_myGroups.map(x=>`<button class="grp-pill${x.id===_curGroupId?' on':''}" onclick="grpSwitch('${x.id}')">${escapeHtml(x.name)}</button>`).join('')}
+      <button class="grp-pill" onclick="grpShowJoinCreate()">+</button></div>
+    <div class="grp-code">Invite code: <b onclick="navigator.clipboard?.writeText('${escapeJsAttr(g.code)}').then(()=>setToast('Code copied'))" title="Click to copy">${escapeHtml(g.code)}</b> · ${g.member_count} member${g.member_count==1?'':'s'}
+      <button class="btn sm ghost danger" style="margin-left:auto;font-size:10px;padding:3px 8px" onclick="grpLeave()">Leave</button></div>
+    <div id="grpBoard"><div class="ft-empty">—</div></div>
+    <div class="grp-chat" id="grpChat"></div>
+    <div class="grp-input-row">
+      <input id="grpMsgInput" maxlength="500" placeholder="Message the group…" onkeydown="if(event.key==='Enter')grpSend()">
+      <button class="btn sm primary" onclick="grpSend()">Send</button>
+    </div>
+    <div class="grp-share-row">
+      <button class="btn sm ghost" onclick="grpShareRoutine()">Share my routine</button>
+      <button class="btn sm ghost" onclick="grpShareProgress()">Share my progress</button>
+    </div>`;
+  renderGroupBoard();
+  loadGroupChat();
+}
+window.grpShowJoinCreate=function(){_curGroupId=null;_myGroups=[];renderGroupsArea();};
+window.grpSwitch=function(id){_curGroupId=id;renderGroupsArea();};
+window.grpCreate=async function(){
+  const name=document.getElementById('grpNewName')?.value.trim();
+  if(!name||name.length<2){setToast('Give the group a name');return;}
+  try{const g=await createStudyGroup(name);_curGroupId=g.id;setToast('Group created — code '+g.code);renderGroupsArea();}
+  catch(e){setToast(e.message||'Failed to create');}
+};
+window.grpJoin=async function(){
+  const code=document.getElementById('grpJoinCode')?.value.trim();
+  if(!code){setToast('Enter a join code');return;}
+  try{const g=await joinGroupByCode(code);_curGroupId=g.id;setToast('Joined '+g.name);renderGroupsArea();}
+  catch(e){setToast(e.message||'Failed to join');}
+};
+window.grpLeave=async function(){
+  if(!confirm('Leave this group?'))return;
+  try{await leaveGroup(_curGroupId,currentUser.id);_curGroupId=null;renderGroupsArea();}
+  catch{setToast('Failed to leave');}
+};
+async function renderGroupBoard(){
+  const el=document.getElementById('grpBoard');
+  if(!el||!_curGroupId)return;
+  try{
+    const rows=await getGroupBoard(_curGroupId);
+    el.innerHTML=rows.map(boardRow).join('');
+  }catch{el.innerHTML='<div class="ft-empty">Couldn\'t load members.</div>';}
+}
+function grpMsgHtml(m){
+  const mine=m.user_id===currentUser?.id;
+  const name=escapeHtml(m.display_name||_grpNames[m.user_id]||'—');
+  const t=new Date(m.created_at).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+  if(m.kind==='routine'&&m.payload){
+    const blocks=(m.payload.blocks||[]).map(b=>`<div class="gc-line"><b>${escapeHtml(b.time)}</b> ${escapeHtml(b.title)}</div>`).join('');
+    return`<div class="grp-msg${mine?' me':''}"><span class="gm-name">${name}</span><span class="gm-time">${t}</span>
+      <div class="grp-card"><div class="gc-title">📅 Today's routine</div>${blocks||'<div class="gc-line">—</div>'}</div></div>`;
+  }
+  if(m.kind==='progress'&&m.payload){
+    return`<div class="grp-msg${mine?' me':''}"><span class="gm-name">${name}</span><span class="gm-time">${t}</span>
+      <div class="grp-card"><div class="gc-title">📈 Progress</div>
+        <div class="gc-line"><b>${escapeHtml(String(m.payload.hours??'0'))}h</b> today · <b>${escapeHtml(String(m.payload.streak??0))}d</b> streak · <b>${escapeHtml(String(m.payload.ready??0))}%</b> exam-ready</div></div></div>`;
+  }
+  return`<div class="grp-msg${mine?' me':''}"><span class="gm-name">${name}</span>${escapeHtml(m.body||'')}<span class="gm-time">${t}</span></div>`;
+}
+let _grpNames={};
+async function loadGroupChat(){
+  const box=document.getElementById('grpChat');
+  if(!box||!_curGroupId)return;
+  if(_grpUnsub){_grpUnsub();_grpUnsub=null;}
+  try{
+    // resolve member names once per group for message attribution
+    const board=await getGroupBoard(_curGroupId);
+    _grpNames={};board.forEach(r=>{_grpNames[r.uid]=r.display_name||'—';});
+    const msgs=await getGroupMessages(_curGroupId);
+    box.innerHTML=msgs.map(grpMsgHtml).join('')||'<div class="ft-empty">Say hi 👋</div>';
+    box.scrollTop=box.scrollHeight;
+    _grpUnsub=subscribeGroupMessages(_curGroupId,(m)=>{
+      if(document.getElementById('grpChat')){
+        const b=document.getElementById('grpChat');
+        b.insertAdjacentHTML('beforeend',grpMsgHtml(m));
+        b.scrollTop=b.scrollHeight;
+      }
+    });
+  }catch{box.innerHTML='<div class="ft-empty">Couldn\'t load chat.</div>';}
+}
+window.grpSend=async function(){
+  const inp=document.getElementById('grpMsgInput');
+  const text=inp?.value.trim();
+  if(!text||!_curGroupId)return;
+  inp.value='';
+  try{await sendGroupMessage({groupId:_curGroupId,userId:currentUser.id,body:text});}
+  catch{setToast('Failed to send');}
+};
+window.grpShareRoutine=async function(){
+  if(!_curGroupId)return;
+  try{
+    const times=getBlockTimes();
+    const subs=_sbCache.subjects.filter(s=>!isIbCore(s));
+    const ranked=weakestSubjectsSb(subs.length);
+    const blocks=ranked.slice(0,3).map((w,i)=>({time:fmtBlockTime(times[i]),title:w.s.name}));
+    const rest=ranked.slice(3);
+    blocks.push({time:fmtBlockTime(times[3]),title:rest.length?rest.map(x=>x.s.name).join(' · '):'Past papers'});
+    await sendGroupMessage({groupId:_curGroupId,userId:currentUser.id,kind:'routine',payload:{blocks}});
+  }catch{setToast('Failed to share');}
+};
+window.grpShareProgress=async function(){
+  if(!_curGroupId)return;
+  try{
+    const hours=hoursForSb(s=>s.study_date===todayStr()).toFixed(1);
+    const dates=_sbCache.sessions.map(s=>s.study_date);
+    await sendGroupMessage({groupId:_curGroupId,userId:currentUser.id,kind:'progress',
+      payload:{hours,streak:(typeof getBestStreak==='function'?getBestStreak():0),ready:overallReady()}});
+  }catch{setToast('Failed to share');}
+};
+
+/* ---- YPT-style study milestones ---- */
+const MILESTONES=[[1,'WARMED UP'],[2,'DEEP WORK'],[3,'LOCKED IN'],[4,'RELENTLESS'],[6,'MACHINE MODE'],[8,'LEGENDARY']];
+let _todayBaseSec=0;
+function checkMilestones(){
+  const total=_todayBaseSec+studySec();
+  const key='sq_ms_'+todayStr();
+  let done=[];try{done=JSON.parse(localStorage.getItem(key)||'[]');}catch{}
+  for(const [h,word] of MILESTONES){
+    if(total>=h*3600&&!done.includes(h)){
+      done.push(h);
+      try{localStorage.setItem(key,JSON.stringify(done));}catch{}
+      const ov=document.getElementById('msOverlay');
+      if(ov){
+        document.getElementById('msHours').textContent=h+'h';
+        document.getElementById('msWord').textContent=word;
+        ov.classList.remove('hidden');
+        setTimeout(()=>ov.classList.add('hidden'),4200);
+      }
+      break; // one celebration at a time
+    }
+  }
+}
+
 function renderFocus(){
   renderTimerSubjects();
   paintTimer();
   renderDayClock();
-  renderFocusSocial();
+  _todayBaseSec=_sbCache.sessions.filter(s=>s.study_date===todayStr()).reduce((a,s)=>a+(s.duration_sec||0),0);
+  socShow(_socScope);
   clearInterval(socialInterval);
   socialInterval=setInterval(()=>{
-    if(!document.getElementById('view-focus')?.classList.contains('hidden'))renderFocusSocial();
+    if(document.getElementById('view-focus')?.classList.contains('hidden'))return;
+    if(_socScope==='friends')renderFocusSocial();
+    else if(_socScope==='global')renderGlobalBoard();
+    else if(_socScope==='groups')renderGroupBoard(); // board refresh only — chat is realtime
   },60000);
   const sw=startOfWeek().getTime();
   const fmTodayEl = document.getElementById("fmToday");
