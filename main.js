@@ -2018,7 +2018,7 @@ function paintTimer(){
   }else{
     shown=sSec;
     frac=(sSec%3600)/3600;           // fills once per hour — honest motion, no fake target
-    phaseLabel=sSec>0?`${(sSec/3600).toFixed(1)}h this sitting`:'';
+    phaseLabel=sSec>0?`${fmtDur(sSec)} this sitting`:'';
   }
 
   if(face)face.textContent=fmtHMS(shown);
@@ -2220,13 +2220,13 @@ function renderDayClock(){
     if(eMin>sMin)liveArc=`<path class="fd-block live" stroke="${subjColor(curTimerSubject)}" d="${_fdArc(FDC.RA,sMin,eMin)}"/>`;
   }
   const liveSecs=timerRunning?studySec():0;
-  const totalH=((totalSec+liveSecs)/3600).toFixed(1);
+  const totalH=fmtDur(totalSec+liveSecs);
 
   svg.innerHTML=`
     <circle class="fd-track plan" cx="${FDC.C}" cy="${FDC.C}" r="${FDC.RP}"/>
     <circle class="fd-track" cx="${FDC.C}" cy="${FDC.C}" r="${FDC.RA}"/>
     ${ticks}${labs}${planArc}${blocks}${liveArc}
-    <text class="fd-cent" x="${FDC.C}" y="${FDC.C-2}" text-anchor="middle">${totalH}h</text>
+    <text class="fd-cent" x="${FDC.C}" y="${FDC.C-2}" text-anchor="middle">${totalH}</text>
     <text class="fd-cent-sub" x="${FDC.C}" y="${FDC.C+18}" text-anchor="middle">TODAY</text>`;
 
   const legend=document.getElementById('ftDayLegend');
@@ -2242,6 +2242,15 @@ function renderDayClock(){
 }
 
 /* ============ stats: per-subject pie, day / week / month ============ */
+// Hours-with-one-decimal renders anything under ~6 minutes as "0.0h", which
+// reads as "nothing logged". Show minutes below an hour instead.
+function fmtDur(sec){
+  sec=Math.max(0,Math.round(sec));
+  if(sec<60)return sec+'s';
+  if(sec<3600)return Math.round(sec/60)+'m';
+  const h=Math.floor(sec/3600),m=Math.round(sec%3600/60);
+  return m?`${h}h ${m}m`:`${h}h`;
+}
 let _statsRange='day';
 window.statsRange=function(r){
   _statsRange=r;
@@ -2287,17 +2296,17 @@ function renderStats(){
     ang+=sweep;
   });
   pie.innerHTML=paths+`<circle cx="100" cy="100" r="46" fill="var(--surface)"/>
-    <text x="100" y="97" text-anchor="middle" style="font-family:var(--mono);font-size:20px;font-weight:700;fill:var(--amber)">${(total/3600).toFixed(1)}h</text>
+    <text x="100" y="97" text-anchor="middle" style="font-family:var(--mono);font-size:18px;font-weight:700;fill:var(--amber)">${fmtDur(total)}</text>
     <text x="100" y="114" text-anchor="middle" style="font-family:var(--mono);font-size:8.5px;fill:var(--text-dim);letter-spacing:.12em">${_statsRange.toUpperCase()}</text>`;
   list.innerHTML=entries.map(([id,sec])=>{
     const s=_sbCache.subjects.find(x=>x.id===id);
     return`<div class="st-row"><i style="background:${subjColor(id)}"></i>
       <span class="st-n">${escapeHtml(s?s.name:'Unknown')}</span>
-      <span class="st-v">${(sec/3600).toFixed(1)}h · ${Math.round(sec/total*100)}%</span></div>`;
+      <span class="st-v">${fmtDur(sec)} · ${Math.round(sec/total*100)}%</span></div>`;
   }).join('');
   if(totalEl){
     const days=Math.max(1,Math.round((Date.now()-start.getTime())/86400000)+ (_statsRange==='day'?0:1));
-    totalEl.textContent=`${rows.length} session${rows.length===1?'':'s'} · avg ${(total/3600/days).toFixed(1)}h/day`;
+    totalEl.textContent=`${rows.length} session${rows.length===1?'':'s'} · avg ${fmtDur(total/days)}/day`;
   }
 }
 
@@ -2314,7 +2323,9 @@ function renderHistory(){
     days.push(d);
   }
   const byDay=days.map(d=>{
-    const key=d.toISOString().slice(0,10);
+    // must be the LOCAL date — toISOString() shifts to UTC, which silently
+    // offsets every bucket by a day in any timezone ahead of UTC
+    const key=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
     const rows=_sbCache.sessions.filter(s=>s.study_date===key);
     return{d,key,sec:rows.reduce((a,s)=>a+(s.duration_sec||0),0),rows};
   });
@@ -2323,7 +2334,7 @@ function renderHistory(){
   bars.innerHTML=byDay.map(x=>{
     const h=Math.round(x.sec/max*100);
     return`<div class="hist-col${x.key===todayKey?' today':''}">
-      <span class="hist-val">${x.sec?(x.sec/3600).toFixed(1):''}</span>
+      <span class="hist-val">${x.sec?fmtDur(x.sec):''}</span>
       <div class="hist-bar" style="height:${Math.max(h,x.sec?4:1)}%"></div>
       <span class="hist-lbl">${x.d.toLocaleDateString('en-GB',{weekday:'short'}).slice(0,2)}</span>
     </div>`;
@@ -2369,7 +2380,7 @@ function boardRow(r,i){
     <span class="ft-rank-n soc-medal">${medal(i)}</span>
     <span class="ft-rank-name">${escapeHtml(r.display_name||'—')}${r.is_self?' <em>you</em>':''}${live}</span>
     ${join}
-    <span class="ft-rank-h">${(Number(r.seconds_today)/3600).toFixed(1)}h</span>
+    <span class="ft-rank-h">${fmtDur(Number(r.seconds_today))}</span>
   </div>`;
 }
 
@@ -2543,7 +2554,7 @@ function renderGroupGoal(goal){
     return;
   }
   el.innerHTML=`<div class="grp-goal-row">
-      <span class="grp-goal-lbl">Daily goal <b>${(goalSec/3600).toFixed(1)}h</b> each</span>
+      <span class="grp-goal-lbl">Daily goal <b>${fmtDur(goalSec)}</b> each</span>
       <span class="grp-goal-prog">${met}/${members} today</span>
       ${streak>0?`<span class="grp-goal-streak">🔥 ${streak}d group streak</span>`:''}
       <button class="btn sm ghost" style="font-size:10px;padding:3px 8px" onclick="grpEditGoal()">Edit</button>
