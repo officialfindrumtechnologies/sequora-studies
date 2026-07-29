@@ -2088,7 +2088,7 @@ function toggleTimer(){
 /* ---- live presence: broadcast "studying now" to friends while running ---- */
 function startPresence(){
   if(!currentUser)return;
-  const beat=()=>beatPresence({userId:currentUser.id,subjectId:_sbCache.subjects.some(s=>s.id===curTimerSubject)?curTimerSubject:null,startedAt:sessionStartedAt}).catch(()=>{});
+  const beat=()=>beatPresence({userId:currentUser.id,subjectId:_sbCache.subjects.some(s=>s.id===curTimerSubject)?curTimerSubject:null,startedAt:sessionStartedAt,roomId:_curRoomId}).catch(()=>{});
   beat();
   clearInterval(presenceInterval);
   presenceInterval=setInterval(beat,45000);
@@ -2473,13 +2473,90 @@ let _socScope='friends';
 window.socShow=function(scope){
   _socScope=scope;
   document.querySelectorAll('.soc-tab').forEach(b=>b.classList.toggle('on',b.dataset.soc===scope));
-  ['Friends','Global','Groups'].forEach(s=>{
+  ['Friends','Global','Groups','League'].forEach(s=>{
     document.getElementById('soc'+s)?.classList.toggle('hidden',s.toLowerCase()!==scope);
   });
   if(scope==='global')renderGlobalBoard();
   if(scope==='groups')renderGroupsArea();
   if(scope==='friends')renderFocusSocial();
+  if(scope==='league')renderLeague();
 };
+
+/* ---- weekly leagues ---- */
+const LEAGUE_META={bronze:{icon:'🥉',label:'Bronze'},silver:{icon:'🥈',label:'Silver'},gold:{icon:'🥇',label:'Gold'},diamond:{icon:'💎',label:'Diamond'}};
+async function renderLeague(){
+  const head=document.getElementById('leagueHead');
+  const board=document.getElementById('leagueBoard');
+  if(!head||!board||!currentUser)return;
+  try{
+    const [me,rows]=await Promise.all([getMyLeague(),getLeagueBoard()]);
+    const m=LEAGUE_META[me?.tier||'bronze']||LEAGUE_META.bronze;
+    head.innerHTML=`<div class="lg-head">
+      <span class="lg-icon">${m.icon}</span>
+      <span class="lg-body"><span class="lg-tier">${m.label} league</span>
+        <span class="lg-sub">Rank ${me?me.rank_in_tier:'—'} of ${me?me.tier_size:'—'} · ${fmtDur(Number(me?.week_seconds||0))} this week</span></span>
+    </div>
+    <div class="lg-note">Top 5 promote, bottom 5 demote each week.</div>`;
+    board.innerHTML=rows.length
+      ? rows.map((r,i)=>`<div class="ft-rank-row${r.is_self?' me':''}${i<5?' lg-promo':''}${i>=rows.length-5&&rows.length>10?' lg-demo':''}">
+          <span class="ft-rank-n soc-medal">${medal(i)}</span>
+          <span class="ft-rank-name">${escapeHtml(r.display_name||'—')}${r.is_self?' <em>you</em>':''}</span>
+          <span class="ft-rank-h">${fmtDur(Number(r.week_seconds))}</span></div>`).join('')
+      : '<div class="ft-empty">No one in your league has studied this week yet.</div>';
+  }catch{board.innerHTML='<div class="ft-empty">Couldn\'t load league.</div>';}
+}
+
+/* ---- study-with-me rooms ---- */
+let _curRoomId=null;
+window.roomToggleForm=function(){document.getElementById('roomForm')?.classList.toggle('hidden');};
+window.roomCreate=async function(){
+  const name=document.getElementById('roomName')?.value.trim();
+  if(!name||name.length<2){setToast('Name the room');return;}
+  try{
+    const r=await createStudyRoom(name);
+    document.getElementById('roomName').value='';
+    document.getElementById('roomForm')?.classList.add('hidden');
+    _curRoomId=r.id;
+    setToast('Room created — start your timer to appear in it');
+    if(timerRunning)startPresence();
+    renderRooms();
+  }catch(e){setToast(e.message||'Failed to create room');}
+};
+window.roomJoin=function(id){
+  _curRoomId=(_curRoomId===id)?null:id;
+  setToast(_curRoomId?'Joined room — your timer shows here':'Left room');
+  if(timerRunning)startPresence();      // re-beat with the new room id
+  renderRooms();
+};
+async function renderRooms(){
+  const host=document.getElementById('roomList');
+  if(!host||!currentUser)return;
+  try{
+    const rooms=await getOpenRooms();
+    if(!rooms.length){host.innerHTML='<div class="ft-empty">No rooms yet — create one and study together.</div>';return;}
+    const parts=[];
+    for(const r of rooms){
+      const joined=_curRoomId===r.id;
+      let members='';
+      if(joined||Number(r.live_count)>0){
+        try{
+          const ms=await getRoomMembers(r.id);
+          members=ms.length?`<div class="room-members">${ms.map(m=>{
+            const mins=Math.max(0,Math.round((Date.now()-new Date(m.started_at).getTime())/60000));
+            return`<span class="room-chip${m.is_self?' me':''}"><i></i>${escapeHtml(m.display_name||'—')}${m.subject_name?' · '+escapeHtml(m.subject_name):''} · ${mins}m</span>`;
+          }).join('')}</div>`:'';
+        }catch{}
+      }
+      parts.push(`<div class="room-row${joined?' joined':''}">
+        <div class="room-top">
+          <span class="room-name">${escapeHtml(r.name)}</span>
+          <span class="room-live">${Number(r.live_count)>0?`<i></i>${r.live_count} studying`:'quiet'}</span>
+          <button class="btn sm ${joined?'ghost':'primary'}" style="font-size:10px;padding:4px 10px" onclick="roomJoin('${r.id}')">${joined?'Leave':'Join'}</button>
+        </div>${members}</div>`);
+    }
+    host.innerHTML=parts.join('');
+  }catch{host.innerHTML='<div class="ft-empty">Couldn\'t load rooms.</div>';}
+}
 
 function medal(i){return i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1);}
 function boardRow(r,i){
@@ -2788,6 +2865,7 @@ function renderFocus(){
   _todayBaseSec=_sbCache.sessions.filter(s=>s.study_date===todayStr()).reduce((a,s)=>a+(s.duration_sec||0),0);
   renderStats();
   renderHistory();
+  renderRooms();
   socShow(_socScope);
   clearInterval(socialInterval);
   socialInterval=setInterval(()=>{
@@ -2795,6 +2873,8 @@ function renderFocus(){
     if(_socScope==='friends')renderFocusSocial();
     else if(_socScope==='global')renderGlobalBoard();
     else if(_socScope==='groups')renderGroupBoard(); // board refresh only — chat is realtime
+    else if(_socScope==='league')renderLeague();
+    renderRooms();
   },60000);
   const sw=startOfWeek().getTime();
   const fmTodayEl = document.getElementById("fmToday");

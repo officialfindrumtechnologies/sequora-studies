@@ -203,6 +203,28 @@ textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-h
 .fc-proj{position:absolute;top:0;bottom:0;background:repeating-linear-gradient(90deg,rgba(var(--glow-color),.5) 0 4px,transparent 4px 8px);border-radius:4px}
 .fc-note{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:7px;line-height:1.5}
 
+/* leagues */
+.lg-head{display:flex;align-items:center;gap:12px;background:var(--ink2);border:1px solid var(--border);border-radius:var(--rs);padding:12px 14px;margin-bottom:8px}
+.lg-icon{font-size:26px;flex-shrink:0}
+.lg-body{display:flex;flex-direction:column;gap:2px;min-width:0}
+.lg-tier{font-family:var(--display);font-size:17px;color:var(--text)}
+.lg-sub{font-family:var(--mono);font-size:10.5px;color:var(--text-dim)}
+.lg-note{font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:10px;text-align:center}
+.ft-rank-row.lg-promo{box-shadow:inset 2px 0 0 var(--green,#7fae6f)}
+.ft-rank-row.lg-demo{box-shadow:inset 2px 0 0 var(--red,#cf6a55)}
+
+/* study rooms */
+.room-row{border:1px solid var(--border);border-radius:var(--rs);background:var(--ink2);padding:10px 12px;margin-bottom:8px}
+.room-row.joined{border-color:var(--amber-deep)}
+.room-top{display:flex;align-items:center;gap:10px}
+.room-name{flex:1;min-width:0;font-size:13.5px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.room-live{font-family:var(--mono);font-size:10px;color:var(--muted);display:inline-flex;align-items:center;gap:5px;flex-shrink:0}
+.room-live i{width:6px;height:6px;border-radius:50%;background:var(--green,#7fae6f);animation:fdPulse 1.8s ease-in-out infinite}
+.room-members{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;padding-top:9px;border-top:1px solid var(--border)}
+.room-chip{font-family:var(--mono);font-size:10px;color:var(--text-dim);background:var(--ink3);border-radius:20px;padding:4px 9px;display:inline-flex;align-items:center;gap:5px}
+.room-chip.me{color:var(--amber)}
+.room-chip i{width:5px;height:5px;border-radius:50%;background:var(--green,#7fae6f)}
+
 /* stats: pie + per-subject breakdown */
 .st-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
 .st-range{display:flex;gap:4px}
@@ -1776,6 +1798,7 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
             <button class="soc-tab on" data-soc="friends" onclick="socShow('friends')">Friends</button>
             <button class="soc-tab" data-soc="global" onclick="socShow('global')">Global</button>
             <button class="soc-tab" data-soc="groups" onclick="socShow('groups')">Groups</button>
+            <button class="soc-tab" data-soc="league" onclick="socShow('league')">League</button>
           </div>
           <div id="socFriends">
             <div class="lead">Studying now</div>
@@ -1790,6 +1813,22 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
           <div id="socGroups" class="hidden">
             <div id="grpArea"><div class="ft-empty">—</div></div>
           </div>
+          <div id="socLeague" class="hidden">
+            <div id="leagueHead"></div>
+            <div id="leagueBoard"><div class="ft-empty">—</div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="st-head">
+            <div class="lead" style="margin:0">Study rooms</div>
+            <button class="btn sm ghost" style="font-size:10px;padding:3px 9px" onclick="roomToggleForm()">+ New</button>
+          </div>
+          <div id="roomForm" class="dday-form hidden">
+            <input id="roomName" maxlength="40" placeholder="Room name e.g. Late night grind">
+            <button class="btn sm primary" onclick="roomCreate()">Create</button>
+          </div>
+          <div id="roomList"><div class="ft-empty">—</div></div>
         </div>
         <div class="card">
           <div class="lead">Session log · today</div>
