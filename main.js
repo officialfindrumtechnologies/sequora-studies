@@ -2181,9 +2181,17 @@ function _fdArc(r,m1,m2){
   const p1=_fdPt(r,m1),p2=_fdPt(r,m2);
   return`M ${p1.x.toFixed(1)} ${p1.y.toFixed(1)} A ${r} ${r} 0 ${span>720?1:0} 1 ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`;
 }
+// Every subject ships with the same DB default colour (#e8a33d), which would
+// render the pie, day clock and history dials as one indistinguishable block.
+// Fall back to a stable per-subject palette unless the user actually picked a
+// custom colour.
+const SUBJ_PALETTE=['#F2DFA8','#7fae6f','#6f9dc4','#cf8a55','#b98ac4','#5fb0a8','#d4b878','#c47f7f','#8fa8d4','#9fc47f'];
+const SUBJ_DEFAULT_COLOR='#e8a33d';
 function subjColor(id){
-  const s=_sbCache.subjects.find(x=>x.id===id);
-  return (s&&s.color)||'#D4B878';
+  const i=_sbCache.subjects.findIndex(x=>x.id===id);
+  const s=i>=0?_sbCache.subjects[i]:null;
+  if(s&&s.color&&s.color.toLowerCase()!==SUBJ_DEFAULT_COLOR)return s.color;
+  return SUBJ_PALETTE[(i<0?0:i)%SUBJ_PALETTE.length];
 }
 // Returns {startMin,endMin,approx} or null. Manual logs have no started_at, so
 // they're derived from logged_at (≈ end) and flagged approx rather than faked.
@@ -2458,7 +2466,8 @@ function renderForecast(){
       : `At your current pace you'll be ~${projected}% ready for ${escapeHtml(upcoming.label)} in ${daysLeft} days.`;
   host.innerHTML=`<div class="fc-bar">
     <div class="fc-head"><span class="fc-lbl">Readiness forecast</span><span class="fc-val">${pctNow}% → ${projected}%</span></div>
-    <div class="fc-track"><div class="fc-proj" style="left:0;width:${projected}%"></div><div class="fc-now" style="width:${pctNow}%"></div></div>
+    <div class="fc-track"><div class="fc-proj" style="width:${projected}%"></div><div class="fc-now" style="width:${pctNow}%"></div></div>
+    <div class="fc-legend"><span><i class="now"></i>now ${pctNow}%</span><span><i class="proj"></i>projected ${projected}%</span></div>
     <div class="fc-note">${note}</div></div>`;
 }
 
@@ -2556,7 +2565,7 @@ function renderHistory(){
     const h=Math.round(x.sec/max*100);
     return`<div class="hist-col${x.key===todayKey?' today':''}">
       <span class="hist-val">${x.sec?fmtDur(x.sec):''}</span>
-      <div class="hist-bar" style="height:${Math.max(h,x.sec?4:1)}%"></div>
+      <div class="hist-bar${x.sec?'':' zero'}" style="height:${x.sec?Math.max(h,4):0}%"></div>
       <span class="hist-lbl">${x.d.toLocaleDateString('en-GB',{weekday:'short'}).slice(0,2)}</span>
     </div>`;
   }).join('');
@@ -2985,11 +2994,11 @@ function renderFocus(){
   },60000);
   const sw=startOfWeek().getTime();
   const fmTodayEl = document.getElementById("fmToday");
-  if (fmTodayEl) fmTodayEl.textContent=hoursForSb(s=>s.study_date===todayStr()).toFixed(1)+"h";
+  if (fmTodayEl) fmTodayEl.textContent=fmtDur(hoursForSb(s=>s.study_date===todayStr())*3600);
   const fmWeekEl = document.getElementById("fmWeek");
-  if (fmWeekEl) fmWeekEl.textContent=hoursForSb(s=>parseD(s.study_date).getTime()>=sw).toFixed(1)+"h";
+  if (fmWeekEl) fmWeekEl.textContent=fmtDur(hoursForSb(s=>parseD(s.study_date).getTime()>=sw)*3600);
   const fmTotalEl = document.getElementById("fmTotal");
-  if (fmTotalEl) fmTotalEl.textContent=hoursForSb(()=>true).toFixed(1)+"h";
+  if (fmTotalEl) fmTotalEl.textContent=fmtDur(hoursForSb(()=>true)*3600);
   const fmSessionsEl = document.getElementById("fmSessions");
   if (fmSessionsEl) fmSessionsEl.textContent=_sbCache.sessions.length;
 

@@ -228,9 +228,15 @@ textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-h
 .fc-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:7px}
 .fc-lbl{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim)}
 .fc-val{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--amber)}
-.fc-track{height:6px;background:var(--ink3);border-radius:4px;overflow:hidden;position:relative}
-.fc-now{position:absolute;left:0;top:0;bottom:0;background:var(--amber);border-radius:4px}
-.fc-proj{position:absolute;top:0;bottom:0;background:repeating-linear-gradient(90deg,rgba(var(--glow-color),.5) 0 4px,transparent 4px 8px);border-radius:4px}
+.fc-track{height:8px;background:var(--ink3);border-radius:5px;overflow:hidden;position:relative}
+/* min-width so a 2% value still reads as a bar rather than a stray dot */
+.fc-now{position:absolute;left:0;top:0;bottom:0;background:var(--amber);border-radius:5px 0 0 5px;min-width:5px;z-index:2}
+.fc-proj{position:absolute;left:0;top:0;bottom:0;background:repeating-linear-gradient(90deg,rgba(var(--glow-color),.45) 0 5px,rgba(var(--glow-color),.12) 5px 10px);border-radius:5px 0 0 5px;min-width:5px;z-index:1}
+.fc-legend{display:flex;gap:14px;margin-top:8px;font-family:var(--mono);font-size:9.5px;color:var(--muted)}
+.fc-legend span{display:inline-flex;align-items:center;gap:5px}
+.fc-legend i{width:9px;height:5px;border-radius:2px;flex-shrink:0}
+.fc-legend i.now{background:var(--amber)}
+.fc-legend i.proj{background:repeating-linear-gradient(90deg,rgba(var(--glow-color),.45) 0 3px,rgba(var(--glow-color),.12) 3px 6px)}
 .fc-note{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:7px;line-height:1.5}
 
 /* leagues */
@@ -273,7 +279,9 @@ textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-h
 /* history */
 .hist-bars{display:flex;align-items:flex-end;gap:6px;height:90px;margin-bottom:10px}
 .hist-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;height:100%;justify-content:flex-end}
-.hist-bar{width:100%;background:var(--amber-deep);border-radius:3px 3px 0 0;min-height:2px;transition:height .3s;opacity:.85}
+.hist-bar{width:100%;background:var(--amber-deep);border-radius:3px 3px 0 0;min-height:3px;transition:height .3s;opacity:.85}
+/* a day with no study shows a flat baseline tick, not a stray floating line */
+.hist-bar.zero{min-height:2px;background:rgba(var(--text-rgb),.10);opacity:1}
 .hist-col.today .hist-bar{background:var(--amber);opacity:1}
 .hist-lbl{font-family:var(--mono);font-size:9px;color:var(--muted);white-space:nowrap}
 .hist-val{font-family:var(--mono);font-size:9px;color:var(--text-dim)}
