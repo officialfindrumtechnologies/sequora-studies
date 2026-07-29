@@ -4233,6 +4233,11 @@ function go(v){
 /* ============ misc ============ */
 let toastT=null;
 function setToast(msg){const t=document.getElementById("toast");if (!t) return;t.textContent=msg;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("show"),2200);}
+// subjects-view.js reaches this through window (its sbToast is a no-op when
+// it's missing). Without the binding all 45 of its toasts were swallowed —
+// "Subject added", every "Failed: ..." error, and the free-plan subject-limit
+// warning, which made hitting the limit look like a dead button.
+window.setToast = setToast;
 function refreshAll(){renderDash();if(!document.getElementById("view-focus").classList.contains("hidden"))renderFocus();if(!document.getElementById("view-logs").classList.contains("hidden"))renderLogs();renderSubjTabs();}
 function updateClock(){
   const d=new Date();
