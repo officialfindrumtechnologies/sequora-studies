@@ -39,6 +39,17 @@ export async function getGlobalBoard() {
   return data || [];
 }
 
+export async function setGroupGoal(groupId, goalSec) {
+  const { error } = await supabase.rpc('set_group_goal', { p_group_id: groupId, p_goal_sec: goalSec });
+  if (error) throw error;
+}
+
+export async function getGroupGoalStatus(groupId) {
+  const { data, error } = await supabase.rpc('get_group_goal_status', { p_group_id: groupId });
+  if (error) throw error;
+  return data?.[0] || null;
+}
+
 export async function getGroupMessages(groupId, limit = 50) {
   const { data, error } = await supabase
     .from('group_messages')

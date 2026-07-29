@@ -15,7 +15,7 @@ import { QUAL_BOARDS, resolveQualBoard, formatQualBoard, isMbbs, NO_DATE_QUALS }
 import { getSubscription, submitBkashPayment } from './src/data/subscriptions.js';
 import { submitFeedback, getMyFeedback } from './src/data/feedback.js';
 import { beatPresence, clearPresence, getFriendsStudyingNow, getFriendsTodayRanking } from './src/data/presence.js';
-import { createStudyGroup, joinGroupByCode, leaveGroup, getMyGroups, getGroupBoard, getGlobalBoard, getGroupMessages, sendGroupMessage, subscribeGroupMessages } from './src/data/groups.js';
+import { createStudyGroup, joinGroupByCode, leaveGroup, getMyGroups, getGroupBoard, getGlobalBoard, getGroupMessages, sendGroupMessage, subscribeGroupMessages, setGroupGoal, getGroupGoalStatus } from './src/data/groups.js';
 import { initSubjectsView, setSubjectsViewTier, getActiveSubjectId } from './src/views/subjects-view.js';
 import { getSubjects } from './src/data/subjects.js';
 import { getAllTopics, markRecallPass, markRecallFail } from './src/data/topics.js';
@@ -2241,6 +2241,107 @@ function renderDayClock(){
   }
 }
 
+/* ============ stats: per-subject pie, day / week / month ============ */
+let _statsRange='day';
+window.statsRange=function(r){
+  _statsRange=r;
+  document.querySelectorAll('.st-r[data-range]').forEach(b=>b.classList.toggle('on',b.dataset.range===r));
+  renderStats();
+};
+function rangeStartDate(r){
+  const d=new Date();d.setHours(0,0,0,0);
+  if(r==='week'){const dow=(d.getDay()+6)%7;d.setDate(d.getDate()-dow);}      // Monday
+  else if(r==='month'){d.setDate(1);}
+  return d;
+}
+function pieSlice(cx,cy,r,a1,a2){
+  const p=(a)=>({x:cx+r*Math.cos((a-90)*Math.PI/180),y:cy+r*Math.sin((a-90)*Math.PI/180)});
+  const s=p(a1),e=p(a2);
+  return`M ${cx} ${cy} L ${s.x.toFixed(1)} ${s.y.toFixed(1)} A ${r} ${r} 0 ${(a2-a1)>180?1:0} 1 ${e.x.toFixed(1)} ${e.y.toFixed(1)} Z`;
+}
+function renderStats(){
+  const pie=document.getElementById('stPie');
+  const list=document.getElementById('stList');
+  const totalEl=document.getElementById('stTotal');
+  if(!pie||!list)return;
+  const start=rangeStartDate(_statsRange);
+  const rows=_sbCache.sessions.filter(s=>parseD(s.study_date).getTime()>=start.getTime());
+  const per={};
+  rows.forEach(s=>{per[s.subject_id]=(per[s.subject_id]||0)+(s.duration_sec||0);});
+  const entries=Object.entries(per).sort((a,b)=>b[1]-a[1]);
+  const total=entries.reduce((a,[,v])=>a+v,0);
+
+  if(!total){
+    pie.innerHTML=`<circle cx="100" cy="100" r="72" fill="none" stroke="rgba(var(--text-rgb),.07)" stroke-width="26"/>`;
+    list.innerHTML='<div class="ft-empty">No study logged in this range.</div>';
+    if(totalEl)totalEl.textContent='';
+    return;
+  }
+  let ang=0,paths='';
+  entries.forEach(([id,sec])=>{
+    const sweep=sec/total*360;
+    // a single subject at 100% can't be drawn as an arc (start==end) — use a ring
+    paths += (entries.length===1)
+      ? `<circle cx="100" cy="100" r="72" fill="none" stroke="${subjColor(id)}" stroke-width="26"/>`
+      : `<path d="${pieSlice(100,100,85,ang,ang+sweep)}" fill="${subjColor(id)}" opacity=".9"/>`;
+    ang+=sweep;
+  });
+  pie.innerHTML=paths+`<circle cx="100" cy="100" r="46" fill="var(--surface)"/>
+    <text x="100" y="97" text-anchor="middle" style="font-family:var(--mono);font-size:20px;font-weight:700;fill:var(--amber)">${(total/3600).toFixed(1)}h</text>
+    <text x="100" y="114" text-anchor="middle" style="font-family:var(--mono);font-size:8.5px;fill:var(--text-dim);letter-spacing:.12em">${_statsRange.toUpperCase()}</text>`;
+  list.innerHTML=entries.map(([id,sec])=>{
+    const s=_sbCache.subjects.find(x=>x.id===id);
+    return`<div class="st-row"><i style="background:${subjColor(id)}"></i>
+      <span class="st-n">${escapeHtml(s?s.name:'Unknown')}</span>
+      <span class="st-v">${(sec/3600).toFixed(1)}h · ${Math.round(sec/total*100)}%</span></div>`;
+  }).join('');
+  if(totalEl){
+    const days=Math.max(1,Math.round((Date.now()-start.getTime())/86400000)+ (_statsRange==='day'?0:1));
+    totalEl.textContent=`${rows.length} session${rows.length===1?'':'s'} · avg ${(total/3600/days).toFixed(1)}h/day`;
+  }
+}
+
+/* ============ history: past days' dials + trend bars ============ */
+let _histOffset=0;
+window.histShift=function(d){_histOffset=Math.min(0,_histOffset+d);renderHistory();};
+function renderHistory(){
+  const bars=document.getElementById('histBars');
+  const dials=document.getElementById('histDials');
+  if(!bars||!dials)return;
+  const days=[];
+  for(let i=6;i>=0;i--){
+    const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-i+_histOffset);
+    days.push(d);
+  }
+  const byDay=days.map(d=>{
+    const key=d.toISOString().slice(0,10);
+    const rows=_sbCache.sessions.filter(s=>s.study_date===key);
+    return{d,key,sec:rows.reduce((a,s)=>a+(s.duration_sec||0),0),rows};
+  });
+  const max=Math.max(...byDay.map(x=>x.sec),1);
+  const todayKey=todayStr();
+  bars.innerHTML=byDay.map(x=>{
+    const h=Math.round(x.sec/max*100);
+    return`<div class="hist-col${x.key===todayKey?' today':''}">
+      <span class="hist-val">${x.sec?(x.sec/3600).toFixed(1):''}</span>
+      <div class="hist-bar" style="height:${Math.max(h,x.sec?4:1)}%"></div>
+      <span class="hist-lbl">${x.d.toLocaleDateString('en-GB',{weekday:'short'}).slice(0,2)}</span>
+    </div>`;
+  }).join('');
+  // mini 24h dial per day, same convention as the big clock
+  dials.innerHTML=byDay.map(x=>{
+    const arcs=x.rows.map(s=>{
+      const sp=sessionSpan(s);
+      if(!sp||sp.endMin<=sp.startMin)return'';
+      const P=(min,r)=>{const a=(min/1440*360-90)*Math.PI/180;return{x:30+r*Math.cos(a),y:30+r*Math.sin(a)};};
+      const p1=P(sp.startMin,22),p2=P(sp.endMin,22);
+      const span=(sp.endMin-sp.startMin+1440)%1440;
+      return`<path class="hd-block" stroke="${subjColor(s.subject_id)}" d="M ${p1.x.toFixed(1)} ${p1.y.toFixed(1)} A 22 22 0 ${span>720?1:0} 1 ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}"/>`;
+    }).join('');
+    return`<svg class="hist-dial" viewBox="0 0 60 60"><circle class="hd-track" cx="30" cy="30" r="22"/>${arcs}</svg>`;
+  }).join('');
+}
+
 /* ============ social: Friends / Global / Groups (YPT-style) ============ */
 let _socScope='friends';
 window.socShow=function(scope){
@@ -2363,6 +2464,7 @@ function renderGroupChatView(host){
     <div class="grp-members${_grpMembersOpen?'':' hidden'}" id="grpMembers">
       <div class="grp-code">Invite code: <b onclick="navigator.clipboard?.writeText('${escapeJsAttr(g.code)}').then(()=>setToast('Code copied'))" title="Click to copy">${escapeHtml(g.code)}</b>
         <button class="btn sm ghost danger" style="margin-left:auto;font-size:10px;padding:3px 8px" onclick="grpLeave()">Leave group</button></div>
+      <div id="grpGoal"></div>
       <div id="grpBoard"><div class="ft-empty">—</div></div>
     </div>
     <div class="grp-chat" id="grpChat"></div>
@@ -2416,10 +2518,53 @@ async function renderGroupBoard(){
   const el=document.getElementById('grpBoard');
   if(!el||!_curGroupId)return;
   try{
-    const rows=await getGroupBoard(_curGroupId);
-    el.innerHTML=rows.map(boardRow).join('');
+    const [rows,goal]=await Promise.all([getGroupBoard(_curGroupId),getGroupGoalStatus(_curGroupId).catch(()=>null)]);
+    const goalSec=goal?Number(goal.goal_sec):0;
+    el.innerHTML=rows.map((r,i)=>{
+      const hit=goalSec>0&&Number(r.seconds_today)>=goalSec;
+      return boardRow(r,i).replace('<span class="ft-rank-h">',
+        (goalSec>0?`<span class="grp-goal-tick${hit?' hit':''}">${hit?'✓':'○'}</span>`:'')+'<span class="ft-rank-h">');
+    }).join('');
+    renderGroupGoal(goal);
   }catch{el.innerHTML='<div class="ft-empty">Couldn\'t load members.</div>';}
 }
+function renderGroupGoal(goal){
+  const el=document.getElementById('grpGoal');
+  if(!el)return;
+  const g=_myGroups.find(x=>x.id===_curGroupId);
+  const goalSec=goal?Number(goal.goal_sec):0;
+  const met=goal?Number(goal.met_today):0, members=goal?Number(goal.member_count):0;
+  const streak=goal?Number(goal.streak_days):0;
+  if(!goalSec){
+    el.innerHTML=`<div class="grp-goal-row">
+      <span class="grp-goal-lbl">No daily goal set</span>
+      <input id="grpGoalHrs" type="number" min="0" max="24" step="0.5" placeholder="e.g. 3" class="grp-goal-input">
+      <button class="btn sm" onclick="grpSetGoal()">Set goal</button></div>`;
+    return;
+  }
+  el.innerHTML=`<div class="grp-goal-row">
+      <span class="grp-goal-lbl">Daily goal <b>${(goalSec/3600).toFixed(1)}h</b> each</span>
+      <span class="grp-goal-prog">${met}/${members} today</span>
+      ${streak>0?`<span class="grp-goal-streak">🔥 ${streak}d group streak</span>`:''}
+      <button class="btn sm ghost" style="font-size:10px;padding:3px 8px" onclick="grpEditGoal()">Edit</button>
+    </div>`;
+}
+window.grpEditGoal=function(){
+  const el=document.getElementById('grpGoal');
+  if(el)el.innerHTML=`<div class="grp-goal-row">
+    <span class="grp-goal-lbl">New daily goal (hours, 0 = off)</span>
+    <input id="grpGoalHrs" type="number" min="0" max="24" step="0.5" placeholder="3" class="grp-goal-input">
+    <button class="btn sm" onclick="grpSetGoal()">Save</button></div>`;
+};
+window.grpSetGoal=async function(){
+  const h=parseFloat(document.getElementById('grpGoalHrs')?.value);
+  if(!Number.isFinite(h)||h<0||h>24){setToast('Enter hours between 0 and 24');return;}
+  try{
+    await setGroupGoal(_curGroupId,Math.round(h*3600));
+    setToast(h>0?`Goal set — ${h}h each per day`:'Goal turned off');
+    renderGroupBoard();
+  }catch(e){setToast(e.message||'Only the group creator can set the goal');}
+};
 function grpMsgHtml(m){
   const mine=m.user_id===currentUser?.id;
   const name=escapeHtml(m.display_name||_grpNames[m.user_id]||'—');
@@ -2515,6 +2660,8 @@ function renderFocus(){
   paintTimer();
   renderDayClock();
   _todayBaseSec=_sbCache.sessions.filter(s=>s.study_date===todayStr()).reduce((a,s)=>a+(s.duration_sec||0),0);
+  renderStats();
+  renderHistory();
   socShow(_socScope);
   clearInterval(socialInterval);
   socialInterval=setInterval(()=>{

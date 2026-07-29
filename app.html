@@ -171,6 +171,33 @@ textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-h
 .soc-live-tag{font-family:var(--mono);font-size:9.5px;color:var(--green,#7fae6f);display:inline-flex;align-items:center;gap:4px}
 .soc-live-tag i{width:6px;height:6px;border-radius:50%;background:var(--green,#7fae6f);animation:fdPulse 1.8s ease-in-out infinite}
 
+/* stats: pie + per-subject breakdown */
+.st-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.st-range{display:flex;gap:4px}
+.st-r{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-dim);background:var(--ink2);border:1px solid var(--border);border-radius:20px;padding:5px 11px;cursor:pointer;transition:.15s}
+.st-r:hover{border-color:var(--border-hover);color:var(--text)}
+.st-r.on{background:var(--amber);color:var(--ink);border-color:var(--amber)}
+.st-body{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.st-pie{width:130px;height:130px;flex-shrink:0}
+.st-list{flex:1;min-width:150px;display:flex;flex-direction:column;gap:7px}
+.st-row{display:flex;align-items:center;gap:8px;font-size:12.5px}
+.st-row i{width:9px;height:9px;border-radius:2px;flex-shrink:0}
+.st-row .st-n{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)}
+.st-row .st-v{font-family:var(--mono);font-size:11px;color:var(--text-dim);flex-shrink:0}
+.st-total{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:12px;padding-top:10px;border-top:1px solid var(--border);text-align:center}
+
+/* history */
+.hist-bars{display:flex;align-items:flex-end;gap:6px;height:90px;margin-bottom:10px}
+.hist-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;height:100%;justify-content:flex-end}
+.hist-bar{width:100%;background:var(--amber-deep);border-radius:3px 3px 0 0;min-height:2px;transition:height .3s;opacity:.85}
+.hist-col.today .hist-bar{background:var(--amber);opacity:1}
+.hist-lbl{font-family:var(--mono);font-size:9px;color:var(--muted);white-space:nowrap}
+.hist-val{font-family:var(--mono);font-size:9px;color:var(--text-dim)}
+.hist-dials{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.hist-dial{width:100%;height:auto}
+.hd-track{fill:none;stroke:rgba(var(--text-rgb),.07);stroke-width:14}
+.hd-block{fill:none;stroke-width:14}
+
 /* groups — messenger-style */
 .grp-item{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--ink2);border:1px solid var(--border);border-radius:var(--rs);padding:11px 13px;margin-bottom:8px;cursor:pointer;transition:border-color .15s,background .15s}
 .grp-item:hover{border-color:var(--border-hover);background:var(--ink3)}
@@ -189,6 +216,15 @@ textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-h
 .grp-members{border:1px solid var(--border);border-radius:var(--rs);background:var(--ink2);padding:10px 12px;margin-bottom:10px;animation:fadein .18s ease}
 .soc-join{font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink);background:var(--green,#7fae6f);border:none;border-radius:20px;padding:4px 10px;cursor:pointer;flex-shrink:0;transition:opacity .15s}
 .soc-join:hover{opacity:.85}
+.grp-goal-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 0 10px;border-bottom:1px solid var(--border);margin-bottom:8px}
+.grp-goal-lbl{font-family:var(--mono);font-size:10.5px;color:var(--text-dim)}
+.grp-goal-lbl b{color:var(--amber)}
+.grp-goal-prog{font-family:var(--mono);font-size:10.5px;color:var(--text)}
+.grp-goal-streak{font-family:var(--mono);font-size:10.5px;color:var(--amber);margin-left:auto}
+.grp-goal-input{width:64px;font-family:var(--mono);font-size:12px;background:var(--ink3);color:var(--text);border:1px solid var(--border);border-radius:var(--rs);padding:5px 8px}
+.grp-goal-input:focus{outline:none;border-color:var(--border-hover)}
+.grp-goal-tick{font-family:var(--mono);font-size:12px;flex-shrink:0;color:var(--muted);margin-right:6px}
+.grp-goal-tick.hit{color:var(--green,#7fae6f)}
 .grp-form{display:flex;flex-direction:column;gap:10px}
 .grp-form input{font-family:var(--mono);font-size:13px;background:var(--ink2);color:var(--text);border:1px solid var(--border);border-radius:var(--rs);padding:9px 11px}
 .grp-form input:focus{outline:none;border-color:var(--border-hover)}
@@ -1663,6 +1699,31 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
           <svg class="ft-day" id="ftDayClock" viewBox="0 0 300 300"></svg>
           <div class="ft-day-legend" id="ftDayLegend"></div>
           <div class="ft-day-note">Outer faint ring = your planned study window. Inner arcs = what you actually studied.</div>
+        </div>
+
+        <div class="card">
+          <div class="st-head">
+            <div class="lead" style="margin:0">Stats</div>
+            <div class="st-range">
+              <button class="st-r on" data-range="day" onclick="statsRange('day')">Day</button>
+              <button class="st-r" data-range="week" onclick="statsRange('week')">Week</button>
+              <button class="st-r" data-range="month" onclick="statsRange('month')">Month</button>
+            </div>
+          </div>
+          <div class="st-body">
+            <svg class="st-pie" id="stPie" viewBox="0 0 200 200"></svg>
+            <div class="st-list" id="stList"></div>
+          </div>
+          <div class="st-total" id="stTotal"></div>
+        </div>
+
+        <div class="card">
+          <div class="st-head">
+            <div class="lead" style="margin:0">History · last 7 days</div>
+            <div class="st-range"><button class="st-r" onclick="histShift(-7)">‹</button><button class="st-r" onclick="histShift(7)">›</button></div>
+          </div>
+          <div class="hist-bars" id="histBars"></div>
+          <div class="hist-dials" id="histDials"></div>
         </div>
         <div class="card">
           <div class="soc-tabs">
