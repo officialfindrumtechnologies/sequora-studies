@@ -55,6 +55,24 @@ export async function deleteSubject(id) {
   if (error) throw error;
 }
 
+// How many templates exist per qualification + board. The add-subject picker
+// used to offer a hardcoded board list, so boards we never seeded (OCR, AQA,
+// BMDC Bangladesh) were selectable and then rendered an empty list. Drive the
+// dropdowns off this instead so a board only appears when it has content.
+export async function getTemplateCounts() {
+  const { data, error } = await supabase
+    .from('syllabus_templates')
+    .select('qualification, exam_board');
+  if (error) throw error;
+  const counts = {};
+  for (const r of data) {
+    if (!r.qualification || !r.exam_board) continue;
+    (counts[r.qualification] ??= {})[r.exam_board] =
+      (counts[r.qualification][r.exam_board] || 0) + 1;
+  }
+  return counts;
+}
+
 // Fetch templates filtered by qualification + exam board (new schema)
 export async function getTemplatesByQualBoard(qualification, examBoard) {
   const { data, error } = await supabase

@@ -1,7 +1,7 @@
 import { supabase } from '../lib/supabase.js';
 import {
   getSubjects, createSubject, updateSubject, reorderSubjects, deleteSubject,
-  getTemplatesByQualBoard, createSubjectFromTemplate,
+  getTemplatesByQualBoard, createSubjectFromTemplate, getTemplateCounts,
 } from '../data/subjects.js';
 import { QUAL_BOARDS, isIB } from '../lib/qualboards.js';
 import {
@@ -26,6 +26,8 @@ const sv = {
 };
 
 let pdfTopics = [];
+// {qualification: {board: templateCount}} — loaded once, drives the picker
+let tmplCounts = null;
 
 // ── public API ─────────────────────────────────────────────────────────────
 export async function initSubjectsView(tier) {
@@ -163,9 +165,36 @@ function sbShowAddSubjectPanel() {
   const panel = document.getElementById('sb-add-panel');
   if (!panel) return;
   const hidden = panel.classList.toggle('hidden');
-  if (!hidden) document.getElementById('sb-new-subj-name')?.focus();
+  if (!hidden) {
+    document.getElementById('sb-new-subj-name')?.focus();
+    loadTemplateCounts();
+  }
 }
 window.sbShowAddSubjectPanel = sbShowAddSubjectPanel;
+
+// Restrict the qualification dropdown to quals we actually have templates for,
+// so the picker can't lead anywhere empty.
+async function loadTemplateCounts() {
+  if (tmplCounts) return;
+  try { tmplCounts = await getTemplateCounts(); }
+  catch { tmplCounts = null; return; }
+
+  const qualSel = document.getElementById('sb-template-qual');
+  if (!qualSel) return;
+  const current = qualSel.value;
+  const quals = Object.keys(QUAL_BOARDS).filter(q => boardsFor(q).length);
+  qualSel.innerHTML = '<option value="">— select qualification —</option>' +
+    quals.map(q => `<option value="${esc(q)}">${esc(q)}</option>`).join('');
+  if (quals.includes(current)) qualSel.value = current;
+}
+
+// Boards for a qual, in the order QUAL_BOARDS declares, minus any with no
+// templates behind them. Falls back to the full list if counts didn't load.
+function boardsFor(qual) {
+  const all = QUAL_BOARDS[qual] || [];
+  if (!tmplCounts) return all;
+  return all.filter(b => (tmplCounts[qual]?.[b] || 0) > 0);
+}
 
 // Called when qual or board select changes in the add-subject panel
 export function sbQualChange() {
@@ -174,10 +203,10 @@ export function sbQualChange() {
   const boardWrap = document.getElementById('sb-template-board-wrap');
   if (!boardSel) return;
 
-  const boards = QUAL_BOARDS[qual] || [];
-  if (boardWrap) boardWrap.classList.toggle('hidden', boards.length === 0);
+  const boards = boardsFor(qual);
+  if (boardWrap) boardWrap.classList.toggle('hidden', boards.length <= 1);
   boardSel.innerHTML = '<option value="">— select board —</option>' +
-    boards.map(b => `<option value="${b}">${b}</option>`).join('');
+    boards.map(b => `<option value="${esc(b)}">${esc(b)}</option>`).join('');
   if (boards.length === 1) {
     boardSel.value = boards[0];
     sbLoadTemplatesForBoard();
@@ -198,7 +227,7 @@ async function sbLoadTemplatesForBoard() {
   try {
     const templates = await getTemplatesByQualBoard(qual, board);
     if (!templates.length) {
-      list.innerHTML = '<div class="empty" style="padding:8px 0">No templates for this board yet.</div>';
+      list.innerHTML = '<div class="empty" style="padding:8px 0">No ready-made syllabus for this board yet — add the subject by name below and build its topics yourself, or extract them from a PDF.</div>';
       return;
     }
 
