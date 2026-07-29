@@ -487,7 +487,14 @@ textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-h
 .stat::before{content:"";position:absolute;bottom:0;left:0;height:2px;width:var(--prog,0%);background:rgba(var(--glow-color),.55);transition:width .8s cubic-bezier(.2,.8,.2,1)}
 
 /* ---------- section headers ---------- */
-.section-h{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);font-weight:500;margin:20px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--border)}
+.section-h{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);font-weight:500;margin:20px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--border)}
+.section-h .sh-text{flex:1;min-width:0;cursor:pointer}
+/* chapter-level tick: ticking it takes every sub-chapter with it */
+.sh-cyc{width:18px;height:18px;border-radius:5px;border:1px solid var(--border-2);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--text-dim);transition:.15s}
+.sh-cyc:hover{border-color:rgba(var(--glow-color),.6);color:var(--accent)}
+.sh-cyc.all{background:var(--green);border-color:var(--green);color:#0b0b08}
+.sh-cyc.some{border-color:var(--amber-deep);color:var(--amber-deep)}
+.sh-count{flex-shrink:0;font-size:9px;letter-spacing:.08em;color:var(--muted)}
 
 /* ---------- topic rows ---------- */
 .topic{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--rs);margin-bottom:4px;background:transparent;border:1px solid transparent;transition:.12s}

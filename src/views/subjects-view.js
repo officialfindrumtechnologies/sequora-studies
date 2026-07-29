@@ -646,6 +646,54 @@ async function sbCycleStatus(id) {
 }
 window.sbCycleStatus = sbCycleStatus;
 
+// Aggregate state of a chapter: 'all' | 'some' | 'none' of its sub-chapters
+// are exam-ready. Drives the tick shown next to the section heading.
+function sectionState(section) {
+  const kids = sv.topics.filter(t => (t.section || '') === section);
+  if (!kids.length) return 'none';
+  const done = kids.filter(t => t.status === 'ready' || t.status === 'mastered').length;
+  return done === kids.length ? 'all' : done ? 'some' : 'none';
+}
+
+// Tick a chapter and every sub-chapter under it goes with it; untick and they
+// all come back. Marking twenty sub-chapters one at a time to record "I've
+// finished this chapter" is the kind of busywork that stops people logging
+// progress at all.
+async function sbToggleSection(section) {
+  const kids = sv.topics.filter(t => (t.section || '') === section);
+  if (!kids.length) return;
+
+  const makeReady = sectionState(section) !== 'all';
+  const next = makeReady ? 'ready' : 'notstarted';
+  // Already-mastered sub-chapters keep their status: demoting a mastered
+  // topic to 'ready' would throw away its 2-4-7 recall progress.
+  const targets = kids.filter(t => t.status !== 'mastered' && t.status !== next);
+  if (!targets.length) return;
+
+  const prev = new Map(targets.map(t => [t.id, t.status]));
+  targets.forEach(t => { t.status = next; });
+  renderTopicPanel(); renderOrderCard(); renderSubjectControls();
+
+  const updates = makeReady
+    ? { status: 'ready', ready_at: new Date().toISOString().slice(0, 10) }
+    : { status: 'notstarted', ready_at: null, recall_reps: 0 };
+
+  const results = await Promise.allSettled(targets.map(t => updateTopic(t.id, updates)));
+  const failed = results.filter(r => r.status === 'rejected').length;
+
+  if (failed) {
+    targets.forEach(t => { t.status = prev.get(t.id); });
+    renderTopicPanel(); renderOrderCard(); renderSubjectControls();
+    sbToast(`Chapter update failed — ${failed} of ${targets.length} didn't save`);
+    return;
+  }
+  window.__refreshSbCache?.().catch?.(() => {});
+  sbToast(makeReady
+    ? `${targets.length} sub-chapter${targets.length > 1 ? 's' : ''} marked exam-ready`
+    : `Chapter reset to not started`);
+}
+window.sbToggleSection = sbToggleSection;
+
 async function sbDeleteTopic(id) {
   try {
     await deleteTopic(id);
@@ -811,9 +859,19 @@ function renderTopicPanel() {
     }
 
     if (tp.section && tp.section !== lastSec) {
+      const st = sectionState(tp.section);
+      const n  = sv.topics.filter(t => (t.section || '') === tp.section).length;
+      const done = sv.topics.filter(t => (t.section || '') === tp.section
+        && (t.status === 'ready' || t.status === 'mastered')).length;
       const h = document.createElement('div');
       h.className = 'section-h';
-      h.innerHTML = `<span class="sh-text" onclick="sbRenameSection('${esc(tp.section)}')" title="Click to rename section">${esc(tp.section)}</span>`;
+      h.innerHTML =
+        `<div class="sh-cyc ${st}" onclick="sbToggleSection('${esc(tp.section)}')" role="checkbox"` +
+        ` aria-checked="${st === 'all' ? 'true' : st === 'some' ? 'mixed' : 'false'}" tabindex="0"` +
+        ` title="${st === 'all' ? 'Reset this chapter' : 'Mark the whole chapter exam-ready'}">` +
+        `${st === 'all' ? '✓' : st === 'some' ? '–' : ''}</div>` +
+        `<span class="sh-text" onclick="sbRenameSection('${esc(tp.section)}')" title="Click to rename section">${esc(tp.section)}</span>` +
+        `<span class="sh-count">${done}/${n}</span>`;
       list.appendChild(h);
       lastSec = tp.section;
     }
