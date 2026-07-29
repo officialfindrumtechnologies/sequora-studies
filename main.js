@@ -16,6 +16,7 @@ import { getSubscription, submitBkashPayment } from './src/data/subscriptions.js
 import { submitFeedback, getMyFeedback } from './src/data/feedback.js';
 import { beatPresence, clearPresence, getFriendsStudyingNow, getFriendsTodayRanking } from './src/data/presence.js';
 import { createStudyGroup, joinGroupByCode, leaveGroup, getMyGroups, getGroupBoard, getGlobalBoard, getGroupMessages, sendGroupMessage, subscribeGroupMessages, setGroupGoal, getGroupGoalStatus } from './src/data/groups.js';
+import { getExamDates, addExamDate, deleteExamDate, useStreakFreeze, getMyLeague, getLeagueBoard, createStudyRoom, getOpenRooms, getRoomMembers } from './src/data/exams.js';
 import { initSubjectsView, setSubjectsViewTier, getActiveSubjectId } from './src/views/subjects-view.js';
 import { getSubjects } from './src/data/subjects.js';
 import { getAllTopics, markRecallPass, markRecallFail } from './src/data/topics.js';
@@ -1399,6 +1400,8 @@ function renderDash(){
   renderTodos();
   renderFlags();
   renderStudyNow();
+  renderDDays().then(renderForecast);
+  renderFreezeBar();
   if (typeof renderAnalytics === 'function') renderAnalytics();
 }
 function renderDashProgress(){
@@ -2239,6 +2242,118 @@ function renderDayClock(){
         }).join('')
       : '<span class="fd-leg-empty">No sessions logged yet today</span>';
   }
+}
+
+/* ============ D-Day countdowns (multiple exams) ============ */
+let _examDates=[];
+window.ddToggleForm=function(){document.getElementById('ddForm')?.classList.toggle('hidden');};
+window.ddAdd=async function(){
+  const label=document.getElementById('ddLabel')?.value.trim();
+  const date=document.getElementById('ddDate')?.value;
+  if(!label||!date){setToast('Name and date required');return;}
+  try{
+    await addExamDate({userId:currentUser.id,label,examDate:date});
+    document.getElementById('ddLabel').value='';document.getElementById('ddDate').value='';
+    document.getElementById('ddForm')?.classList.add('hidden');
+    await renderDDays();
+    renderForecast();
+  }catch(e){setToast(e.message||'Failed to add');}
+};
+window.ddDelete=async function(id){
+  try{await deleteExamDate(id);await renderDDays();renderForecast();}
+  catch{setToast('Failed to remove');}
+};
+async function renderDDays(){
+  const host=document.getElementById('ddList');
+  if(!host||!currentUser)return;
+  try{_examDates=await getExamDates();}catch{host.innerHTML='';return;}
+  const today=new Date();today.setHours(0,0,0,0);
+  const upcoming=_examDates.filter(e=>parseD(e.exam_date).getTime()>=today.getTime());
+  if(!upcoming.length){host.innerHTML='<div class="dday-empty">No exams added yet.</div>';return;}
+  host.innerHTML=upcoming.map(e=>{
+    const days=Math.ceil((parseD(e.exam_date)-today)/86400000);
+    return`<div class="dday-row">
+      <span class="dday-n${days<=14?' soon':''}">${days}d</span>
+      <span class="dday-body"><span class="dday-label">${escapeHtml(e.label)}</span>
+        <span class="dday-date">${parseD(e.exam_date).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</span></span>
+      <button class="dday-del" onclick="ddDelete('${e.id}')" title="Remove">✕</button>
+    </div>`;
+  }).join('');
+}
+
+/* ============ streak freeze ============ */
+let _freezeState=null;
+async function renderFreezeBar(){
+  const host=document.getElementById('freezeBar');
+  if(!host||!currentUser)return;
+  try{
+    const prof=await getProfile();
+    _freezeState=prof?.streak_freezes||{available:0,used:[]};
+  }catch{host.innerHTML='';return;}
+  const avail=Number(_freezeState.available||0);
+  const used=_freezeState.used||[];
+  const days=new Set(_sbCache.sessions.map(s=>s.study_date));
+  const yesterday=dateOff(-1);
+  // Offer a freeze only when yesterday was genuinely missed and isn't already
+  // covered — i.e. the streak is actually at risk right now.
+  const missedYesterday=!days.has(yesterday)&&!used.includes(yesterday);
+  const streak=computeStreakSb();
+  if(missedYesterday&&avail>0&&streak===0&&days.has(dateOff(-2))){
+    host.innerHTML=`<div class="freeze-bar">
+      <span class="freeze-txt">You missed <b>yesterday</b>. Use a streak freeze to keep your run alive.</span>
+      <button class="btn sm primary" onclick="useFreeze('${yesterday}')">Use freeze (${avail} left)</button>
+    </div>`;
+  }else{
+    host.innerHTML=avail>0?`<div class="freeze-count">🧊 ${avail} streak freeze${avail===1?'':'s'} banked</div>`:'';
+  }
+}
+window.useFreeze=async function(day){
+  try{
+    _freezeState=await useStreakFreeze(day);
+    setToast('Streak saved — freeze used');
+    renderFreezeBar();renderDash();
+  }catch(e){setToast(e.message||'Could not use freeze');}
+};
+
+/* ============ exam-readiness forecast ============ */
+function renderForecast(){
+  const host=document.getElementById('forecastBar');
+  if(!host)return;
+  const allTopics=_sbCache.allTopics.filter(t=>{
+    const s=_sbCache.subjects.find(x=>x.id===t.subject_id);
+    return s&&!isIbCore(s);
+  });
+  const total=allTopics.length;
+  if(!total){host.innerHTML='';return;}
+  const readyNow=allTopics.filter(t=>t.status==='ready'||t.status==='mastered').length;
+  const pctNow=Math.round(readyNow/total*100);
+
+  // rate = topics that became ready in the last 21 days, per day
+  const since=new Date();since.setHours(0,0,0,0);since.setDate(since.getDate()-21);
+  const recent=allTopics.filter(t=>t.ready_at&&parseD(t.ready_at).getTime()>=since.getTime()).length;
+  const perDay=recent/21;
+
+  // nearest upcoming exam drives the horizon
+  const today=new Date();today.setHours(0,0,0,0);
+  const upcoming=_examDates.filter(e=>parseD(e.exam_date).getTime()>=today.getTime())
+    .sort((a,b)=>parseD(a.exam_date)-parseD(b.exam_date))[0];
+  if(!upcoming){
+    host.innerHTML=`<div class="fc-bar"><div class="fc-head"><span class="fc-lbl">Exam readiness</span><span class="fc-val">${pctNow}%</span></div>
+      <div class="fc-track"><div class="fc-now" style="width:${pctNow}%"></div></div>
+      <div class="fc-note">Add an exam date above to see a projection.</div></div>`;
+    return;
+  }
+  const daysLeft=Math.max(0,Math.ceil((parseD(upcoming.exam_date)-today)/86400000));
+  const projected=Math.min(100,Math.round(pctNow+perDay*daysLeft/total*100));
+  const note=perDay<=0
+    ? `No topics marked ready in the last 3 weeks — at this pace you'd still be at ${pctNow}% on the day.`
+    : projected>=100
+      ? `On pace to finish the syllabus before ${escapeHtml(upcoming.label)} — ${daysLeft} days out.`
+      : `At your current pace you'll be ~${projected}% ready for ${escapeHtml(upcoming.label)} in ${daysLeft} days.`;
+  host.innerHTML=`<div class="fc-bar">
+    <div class="fc-head"><span class="fc-lbl">Readiness forecast</span><span class="fc-val">${pctNow}% → ${projected}%</span></div>
+    <div class="fc-track"><div class="fc-proj" style="left:0;width:${projected}%"></div><div class="fc-now" style="width:${pctNow}%"></div></div>
+    <div class="fc-note">${note}</div></div>`;
 }
 
 /* ============ stats: per-subject pie, day / week / month ============ */

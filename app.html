@@ -171,6 +171,38 @@ textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-h
 .soc-live-tag{font-family:var(--mono);font-size:9.5px;color:var(--green,#7fae6f);display:inline-flex;align-items:center;gap:4px}
 .soc-live-tag i{width:6px;height:6px;border-radius:50%;background:var(--green,#7fae6f);animation:fdPulse 1.8s ease-in-out infinite}
 
+/* D-Day list */
+.dday-wrap{margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
+.dday-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.dday-title{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim)}
+.dday-form{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.dday-form input{flex:1;min-width:110px;font-family:var(--mono);font-size:12px;background:var(--ink2);color:var(--text);border:1px solid var(--border);border-radius:var(--rs);padding:7px 9px}
+.dday-form input:focus{outline:none;border-color:var(--border-hover)}
+.dday-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-top:1px solid var(--border)}
+.dday-row:first-child{border-top:none}
+.dday-n{font-family:var(--mono);font-size:17px;font-weight:700;color:var(--amber);min-width:44px;text-align:right}
+.dday-n.soon{color:var(--red,#cf6a55)}
+.dday-body{flex:1;min-width:0}
+.dday-label{font-size:13px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dday-date{font-family:var(--mono);font-size:9.5px;color:var(--muted)}
+.dday-del{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:13px;flex-shrink:0;padding:2px 5px}
+.dday-del:hover{color:var(--red,#cf6a55)}
+.dday-empty{font-family:var(--mono);font-size:10.5px;color:var(--muted);padding:4px 0}
+
+/* streak freeze + forecast */
+.freeze-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:rgba(var(--glow-color),.06);border:1px solid rgba(var(--glow-color),.2);border-radius:var(--rs);padding:10px 12px;margin-top:14px}
+.freeze-txt{font-size:12.5px;color:var(--text);flex:1;min-width:150px;line-height:1.45}
+.freeze-txt b{color:var(--amber)}
+.freeze-count{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:10px;text-align:center}
+.fc-bar{margin-top:14px;padding-top:12px;border-top:1px solid var(--border)}
+.fc-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:7px}
+.fc-lbl{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim)}
+.fc-val{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--amber)}
+.fc-track{height:6px;background:var(--ink3);border-radius:4px;overflow:hidden;position:relative}
+.fc-now{position:absolute;left:0;top:0;bottom:0;background:var(--amber);border-radius:4px}
+.fc-proj{position:absolute;top:0;bottom:0;background:repeating-linear-gradient(90deg,rgba(var(--glow-color),.5) 0 4px,transparent 4px 8px);border-radius:4px}
+.fc-note{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:7px;line-height:1.5}
+
 /* stats: pie + per-subject breakdown */
 .st-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
 .st-range{display:flex;gap:4px}
@@ -1494,6 +1526,18 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
               <div class="cd-journey-track"><div class="cd-journey-fill" id="cd-journey-fill"></div></div>
               <div class="cd-journey-meta" id="cd-journey-meta"></div>
             </div>
+            <div class="dday-wrap">
+              <div class="dday-head">
+                <span class="dday-title">All exams</span>
+                <button class="btn sm ghost" style="font-size:10px;padding:3px 9px" onclick="ddToggleForm()">+ Add</button>
+              </div>
+              <div id="ddForm" class="dday-form hidden">
+                <input id="ddLabel" maxlength="60" placeholder="e.g. Physics Paper 1">
+                <input id="ddDate" type="date">
+                <button class="btn sm primary" onclick="ddAdd()">Save</button>
+              </div>
+              <div id="ddList"></div>
+            </div>
             <!-- hidden elements kept for JS compat -->
             <span id="cd-weeks" style="display:none"></span>
             <span id="cd-day1" style="display:none"></span>
@@ -1514,6 +1558,8 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
               <div class="stat"><div class="v" id="weekHrs">0.0</div><div class="k">Hours this week</div><div class="x" id="weekX">target ≈ 28h</div></div>
               <div class="stat"><div class="v" id="readyPct">0%</div><div class="k">Exam-ready</div><div class="x" id="readyX">across all subjects</div></div>
             </div>
+            <div id="freezeBar"></div>
+            <div id="forecastBar"></div>
             <div style="margin-top:14px;display:flex;justify-content:flex-end">
               <button class="btn sm ghost" onclick="openShareModal()" style="font-family:var(--mono);font-size:11px;letter-spacing:.06em">
                 ↗ Share today's card
