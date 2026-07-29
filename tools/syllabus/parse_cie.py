@@ -17,9 +17,49 @@ Two things make this harder than it looks:
 import re, sys, json, subprocess
 from collections import Counter, defaultdict
 
-SUB_RE  = re.compile(r'^([CE]?)(\d{1,2})\.(\d{1,2})\s+([A-Za-z(].{2,90}?)\s*$')
-CHAP_RE = re.compile(r'^(\d{1,2})\s{2,}([A-Z].{2,90}?)\s*$')
-NOISE   = re.compile(r'Notes and examples|Candidates should be able|www\.|Back to contents', re.I)
+SUB_RE  = re.compile(r'^([CE]?)(\d{1,2})\.(\d{1,2})\s+([A-Za-z(].{2,120}?)\s*$')
+# Numbers 1-9 are padded ("1   Cell structure") but 10+ are not
+# ("12 Energy and respiration"), so this must accept a single space.
+CHAP_RE = re.compile(r'^(\d{1,2})\s{1,}([A-Z].{2,90}?)\s*$')
+NOISE   = re.compile(r'Candidates should be able|www\.|Back to contents', re.I)
+# The syllabus's own numbered section headings ("3 Subject content") have the
+# exact shape of a chapter heading and repeat on every page, so they outvote
+# the real title. Left unfiltered, topic 3 came out as "Subject content" in
+# Biology, Chemistry and Physics alike.
+SECTION_HEADINGS = re.compile(
+    r'^(Subject content|Details of the assessment|What else you need to know|'
+    r'Syllabus overview|Why choose this syllabus\??|Introduction|Contents|'
+    r'Appendix|Practical assessment|Mathematical requirements|'
+    r'Additional information|Other information)$', re.I)
+# Learning objectives are numbered like chapters and, contrary to the first
+# guess, plenty of them start with a capital: "Calculate percentage increase or
+# decrease.", "Recall and use the equation". Untreated these became topic
+# titles in Maths 0580/4024 (topic 3, really Coordinate geometry) and in
+# Physics 5054 (topics 1-3, really Motion/Thermal physics/Waves).
+OBJECTIVE = re.compile(
+    r'^(recall|calculate|describe|state|explain|understand|use|identify|'
+    r'determine|investigate|draw|define|know|apply|solve|construct|convert|'
+    r'estimate|interpret|sketch|show|find|represent|deduce|derive|list|'
+    r'compare|discuss|outline|predict|measure|record|select|suggest)\b', re.I)
+
+
+def is_objective(t):
+    return bool(OBJECTIVE.match(t)) or t.endswith('.')
+
+
+# Right-hand column headings that bleed onto the end of a heading line.
+TAIL    = re.compile(r'\s{2,}(Learning outcomes|Notes and examples|Notes|Examples).*$', re.I)
+
+
+def clean(t):
+    # The contents pages are two-column, so pdftotext -layout yields
+    # "1 Atomic structure        23 Chemical energetics" on one line. A run of
+    # 3+ spaces is a column break; no real heading contains one.
+    t = re.split(r'\s{3,}', t)[0]
+    t = TAIL.sub('', t)
+    t = re.sub(r'\s*\((continued|cont)\)\s*$', '', t, flags=re.I)
+    t = re.sub(r'\s+continued\s*$', '', t, flags=re.I)
+    return re.sub(r'\s{2,}', ' ', t).strip()
 
 
 def pdf_lines(pdf):
@@ -35,6 +75,19 @@ def content_start(lines):
     return idx[-1] if idx else 0
 
 
+def content_end(lines, start):
+    """First top-level section after subject content. Without this bound the
+    appendices leak in: 9701 ends with numbered reference tables ('1 Important
+    values, constants and standards', '5 Pauling electronegativity values')
+    that otherwise outvote the real chapter titles."""
+    pat = re.compile(r'^\s*\d+\s+(Details of the assessment|What else you need to know|'
+                     r'Appendix|Practical assessment|Mathematical requirements)\b', re.I)
+    for i in range(start + 1, len(lines)):
+        if pat.match(lines[i]) and '....' not in lines[i]:
+            return i
+    return len(lines)
+
+
 def overview_chapters(head):
     """Chapter titles from the contents/overview list: the longest run of
     consecutive '1..N Title' lines appearing before the content pages. Some
@@ -44,25 +97,42 @@ def overview_chapters(head):
     for l in head:
         s = l.strip()
         m = None if '....' in s else re.match(r'^(\d{1,2})\s{1,}([A-Z].{2,90}?)\s*$', s)
-        if m and int(m.group(1)) == expect:
-            run[expect] = m.group(2).strip(); expect += 1
+        if m and int(m.group(1)) == expect and not SECTION_HEADINGS.match(clean(m.group(2))) and not is_objective(clean(m.group(2))):
+            run[expect] = clean(m.group(2)); expect += 1
         elif run:
             if len(run) > len(best): best = run
             run, expect = {}, 1
             if m and int(m.group(1)) == 1:
-                run[1] = m.group(2).strip(); expect = 2
+                run[1] = clean(m.group(2)); expect = 2
     return run if len(run) > len(best) else best
 
 
 def parse(pdf):
     lines = pdf_lines(pdf)
     start = content_start(lines)
-    body = lines[start:]
+    body = lines[start:content_end(lines, start)]
     overview = overview_chapters(lines[:start])
 
     subs = defaultdict(list)          # (variant, chapter) -> [(sub, title)]
     seen = set()
     chap_hits = defaultdict(Counter)  # chapter -> Counter(title)
+
+    for raw in lines[:content_end(lines, start)]:
+        # Contents pages are two-column, so "10 Group 2      30 Hydrocarbons"
+        # is one line and the right-hand topic would otherwise be invisible.
+        # Stops before the appendices: 9701's printed periodic table is
+        # appendix section 9 titled "The Periodic Table of Elements", which
+        # tied with the real topic 9 "The Periodic Table: chemical periodicity"
+        # and won on dict ordering.
+        for frag in re.split(r'\s{3,}', raw.strip()):
+            frag = frag.strip()
+            if not frag or '....' in frag:
+                continue
+            m = CHAP_RE.match(frag)
+            if m:
+                t = clean(m.group(2))
+                if t and not SECTION_HEADINGS.match(t) and not is_objective(t):
+                    chap_hits[int(m.group(1))][t] += 1
 
     for raw in body:
         s = raw.strip()
@@ -71,19 +141,19 @@ def parse(pdf):
 
         m = SUB_RE.match(s)
         if m:
-            var, ch, sub, title = m.group(1), int(m.group(2)), int(m.group(3)), m.group(4).strip()
-            title = re.sub(r'\s*\(continued\)\s*$', '', title, flags=re.I)
+            var, ch, sub = m.group(1), int(m.group(2)), int(m.group(3))
+            title = clean(m.group(4))
             key = (var, ch, sub)
-            if key not in seen:
+            if title and key not in seen:
                 seen.add(key)
                 subs[(var, ch)].append((sub, title))
             continue
 
         m = CHAP_RE.match(s)
         if m:
-            ch, title = int(m.group(1)), m.group(2).strip()
-            title = re.sub(r'\s*\(continued\)\s*$', '', title, flags=re.I)
-            chap_hits[ch][title] += 1
+            ch, title = int(m.group(1)), clean(m.group(2))
+            if title and not SECTION_HEADINGS.match(title) and not is_objective(title):
+                chap_hits[ch][title] += 1
 
     # A chapter title must belong to a chapter that actually has sub-chapters.
     # Prefer a title repeated as a running header (strongest signal); fall back
@@ -99,21 +169,62 @@ def parse(pdf):
         elif hits:
             chapters[ch] = hits.most_common(1)[0][0]
 
-    variants = sorted({v for (v, _c) in subs})
+    # Some topics genuinely have no sub-chapters (9701 topic 10 "Group 2").
+    # Dropping them would silently lose a whole topic, which is the failure
+    # this whole exercise exists to fix, so they survive as a single row.
+    if chapters:
+        for ch in range(1, max(chapters) + 1):
+            if ch in chapters:
+                continue
+            if ch in overview:
+                chapters[ch] = overview[ch]
+            elif chap_hits.get(ch):
+                # Appears only in the two-column contents list, never as a
+                # running header — 9701's "10 Group 2" and "12 Nitrogen and
+                # sulfur". Safe because a learning objective starts lowercase
+                # and so never matches CHAP_RE.
+                chapters[ch] = chap_hits[ch].most_common(1)[0][0]
+
+    variants = sorted({v for (v, _c) in subs}) or ['']
     rows = []
     for var in variants:
         prefix = {'C': 'Core — ', 'E': 'Extended — ', '': ''}.get(var, '')
-        for ch in sorted({c for (v, c) in subs if v == var}):
+        chs = {c for (v, c) in subs if v == var} | (set(chapters) if var == variants[0] else set())
+        for ch in sorted(chs):
             title = chapters.get(ch)
             if not title:
                 continue
             sec = f'{prefix}{ch}. {title}'
-            for sub, stitle in sorted(subs[(var, ch)]):
-                rows.append({'section': sec, 'name': f'{var}{ch}.{sub} {stitle}'})
+            kids = sorted(subs.get((var, ch), []))
+            if kids:
+                for sub, stitle in kids:
+                    rows.append({'section': sec, 'name': f'{var}{ch}.{sub} {stitle}'})
+            else:
+                rows.append({'section': sec, 'name': title})
 
     return chapters, rows
 
 
+def validate(chapters, rows):
+    """Refuse to trust a parse with holes in it. A gap means a topic was
+    dropped, and a dropped topic is exactly the defect being fixed."""
+    problems = []
+    if not chapters:
+        problems.append('no chapters found')
+        return problems
+    gaps = [n for n in range(1, max(chapters) + 1) if n not in chapters]
+    if gaps:
+        problems.append(f'missing chapters: {gaps}')
+    for ch, t in chapters.items():
+        if len(t) < 3 or re.match(r'^\d', t) or SECTION_HEADINGS.match(t) or is_objective(t):
+            problems.append(f'suspect title for {ch}: {t!r}')
+    return problems
+
+
 if __name__ == '__main__':
     ch, rows = parse(sys.argv[1])
-    print(json.dumps({'chapters': len(ch), 'topics': len(rows), 'rows': rows}, indent=1))
+    problems = validate(ch, rows)
+    print(json.dumps({'chapters': len(ch), 'topics': len(rows),
+                      'ok': not problems, 'problems': problems,
+                      'chapter_titles': {k: ch[k] for k in sorted(ch)},
+                      'rows': rows}, indent=1))

@@ -48,32 +48,51 @@ Two things make it harder than it looks:
 
 `SOURCES.txt` records the exact official URL each subject resolved to.
 
+## What the parser gets wrong if you let it
+
+Every one of these produced plausible-looking but false content, and each is
+now guarded. They are listed because the next board's documents will do
+something similar:
+
+| Trap | Symptom |
+|---|---|
+| Chapters ≥10 use one space (`12 Energy and respiration`), 1–9 use three | every subject silently lost all topics past 9 |
+| The syllabus's own `3 Subject content` heading repeats on every page | topic 3 became "Subject content" in Biology, Chemistry *and* Physics |
+| Objectives can start with a capital (`Recall and use the equation`) | Maths 0580/4024 topic 3 became "Calculate percentage increase or decrease." instead of Coordinate geometry; Physics 5054 topics 1–3 all became "Recall and use the equation" |
+| Appendices are numbered too | 9701 topic 9 became "The Periodic Table of Elements" (the printed table) instead of "The Periodic Table: chemical periodicity" — a 2–2 tie broken by dict order |
+| Contents pages are two-column | `10 Group 2   30 Hydrocarbons` on one line; right column invisible, left column polluted |
+| 0580/4024 mark skipped Core sub-topics `Extended content only.` | 19 rows telling a Core student to revise "C1.17 Extended content only." |
+
+`validate()` refuses any parse with a gap in its chapter numbering, since a gap
+means a dropped topic — the exact defect this exists to fix. `write_batch.mjs`
+refuses to write anything that fails it.
+
 ## Status
 
-Nothing has been written to the database yet — the parse is not accurate enough
-across the board to overwrite existing content, and half-verified syllabus data
-is worse than none.
+**Written and verified: 17 Cambridge sciences + maths templates.**
 
-* **42 official Cambridge PDFs** fetched, version-correct for the 2027 sitting
-* **~25 parse cleanly**, verified by chapter count against the real spec
-  (0610 → 21/61, 0620 → 12/49, 9702 → 25/76, 9701 → 33/80)
-* **~8 parse partially** and need per-subject work: Maths D 4024, IGCSE Maths
-  0580 (Core/Extended split), Geography 9696, Psychology 9990, Travel & Tourism
-  0471, Computer Science 0478/2210, Law 9084
+| Board | Subjects | was → now |
+|---|---|---|
+| Cambridge IGCSE | Biology 0610, Chemistry 0620, Physics 0625, Mathematics 0580 | 16→61, 16→49, 19→24, 19→124 |
+| Cambridge O Level | Biology 5090, Chemistry 5070, Physics 5054, Mathematics D 4024 | 11→52, 11→49, 15→25, 15→67 |
+| Cambridge A Level | Biology 9700, Chemistry 9701, Physics 9702, Maths 9709, Further Maths 9231 | 19→44, 23→87, 23→76, 29→38, 17→23 |
+| Cambridge AS Level | Biology, Chemistry, Physics, Mathematics | 10→24, 14→50, 11→32, 16→38 |
+
+AS Level rows are capped at the topics the document itself states AS candidates
+study ("Candidates for Cambridge International AS Level should study topics
+1–11"), so AS Biology carries 11 chapters and A Level Biology carries 19.
+Maths 9709 is the exception: its units are chosen by route, so capping by topic
+number would assert a route the student may not be on, and both rows keep the
+full unit list.
+
+## Remaining
+
+* **~8 Cambridge subjects parse partially:** Geography 9696, Psychology 9990,
+  Travel & Tourism 0471, Computer Science 0478/2210, Law 9084, Accounting 9706
 * **9 have no numbered subject content at all** — English Language 0500/1123/9093,
   English Literature 9695, IGCSE History 0470, IGCSE Sociology 0495, PE 0413,
-  Art & Design 9479, Music 9483. These are structured by assessment component,
-  not by numbered topics, so they need a different extraction shape.
-* **Not yet started:** Edexcel (48 templates), IB (49), MBBS, OCR, AQA
-
-## Before writing to the database
-
-Each template should carry provenance so a wrong line can be traced and so
-staleness is visible when a board publishes a new spec:
-
-```sql
-alter table syllabus_templates
-  add column source_url text,
-  add column syllabus_years text,   -- '2026-2028'
-  add column verified_at timestamptz;
-```
+  Art & Design 9479, Music 9483. Structured by assessment component, not
+  numbered topics, so they need a different extraction shape.
+* **5 could not be fetched** (slug unresolved): PE 9396, IGCSE English
+  Literature 0475, O Level Accounting 7110, Bangla 3204, History 2059
+* **Not started:** Edexcel (48 templates), IB (49), MBBS, OCR, AQA

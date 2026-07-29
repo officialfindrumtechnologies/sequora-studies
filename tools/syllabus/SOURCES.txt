@@ -1,6 +1,7 @@
 cambridge-igcse-accounting-0452  https://www.cambridgeinternational.org/Images/718141-2027-2029-syllabus.pdf
 cambridge-igcse-biology-0610  https://www.cambridgeinternational.org/Images/697203-2026-2028-syllabus.pdf
 cambridge-igcse-business-studies-0450  https://www.cambridgeinternational.org/Images/596930-2023-2025-syllabus.pdf
+cambridge-igcse-chemistry-0620  https://www.cambridgeinternational.org/Images/697205-2026-2028-syllabus.pdf
 cambridge-igcse-computer-science-0478  https://www.cambridgeinternational.org/Images/697167-2026-2028-syllabus.pdf
 cambridge-igcse-economics-0455  https://www.cambridgeinternational.org/Images/718148-2027-2029-syllabus.pdf
 cambridge-igcse-english-first-language-0500  https://www.cambridgeinternational.org/Images/718783-2027-2029-syllabus.pdf
