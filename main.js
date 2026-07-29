@@ -1695,7 +1695,8 @@ async function addTodo(){
     position: _todos.filter(t=>!t.parent_id).length,
     created_at: new Date().toISOString(),
     date: todayStr(),
-    completed_at: null
+    completed_at: null,
+    subject_id: document.getElementById('todoSubject')?.value || null
   };
   _todos.push(todo);
   _saveTodosLocal();
@@ -1776,7 +1777,16 @@ async function addSubtask(parentId, text){
   }
 }
 
+function renderTodoSubjectOptions(){
+  const sel=document.getElementById('todoSubject');
+  if(!sel)return;
+  const keep=sel.value;
+  const subs=_sbCache.subjects.filter(s=>!isIbCore(s));
+  sel.innerHTML='<option value="">—</option>'+subs.map(s=>`<option value="${escapeHtml(s.id)}">${escapeHtml(s.name)}</option>`).join('');
+  if(keep)sel.value=keep;
+}
 function renderTodos(){
+  renderTodoSubjectOptions();
   const list = document.getElementById('todoList');
   const completedList = document.getElementById('completedList');
   const completedSection = document.getElementById('todoCompletedSection');
@@ -1993,7 +2003,7 @@ function renderTimerSubjects(){
   for(const s of subs){
     const b=document.createElement("button");b.textContent=s.name;
     b.className=(s.key===curTimerSubject)?"on":"";
-    b.onclick=()=>{if(timerRunning){setToast("Stop the timer before switching");return;}curTimerSubject=s.key;renderTimerSubjects();};
+    b.onclick=()=>{if(timerRunning){setToast("Stop the timer before switching");return;}curTimerSubject=s.key;renderTimerSubjects();renderBlockTasks();};
     host.appendChild(b);
   }
 }
@@ -2114,9 +2124,11 @@ async function saveTimerSession(){
   const startedAt=sessionStartedAt;
   sessions.push({id:Date.now(),subject:curTimerSubject,dur:sec,date:todayStr(),ts:Date.now()});
   saveJSON("ascent_sessions",sessions);
+  const savedSubject=curTimerSubject;
   await persistSessionToRealTable(sec,startedAt);
   discardTimer();setToast("Logged "+(sec/60).toFixed(0)+" min on "+subjName(curTimerSubject));
   refreshAll();
+  renderPostSession(savedSubject);
 }
 
 // Real subject ids are UUIDs from the subjects table (via refreshSbCache →
@@ -2242,6 +2254,56 @@ function renderDayClock(){
         }).join('')
       : '<span class="fd-leg-empty">No sessions logged yet today</span>';
   }
+}
+
+/* ============ close the loop: recall + tasks for the studied subject ============ */
+// Shown right after a session saves — the moment the material is freshest is
+// the moment spaced recall is worth the most.
+function renderPostSession(subjectId){
+  const host=document.getElementById('postSession');
+  if(!host)return;
+  if(!subjectId){host.innerHTML='';return;}
+  const due=recallDueSb().filter(d=>d.tp.subject_id===subjectId);
+  const subj=_sbCache.subjects.find(s=>s.id===subjectId);
+  if(!due.length){
+    const next=subj?nextTopicSb(subj):null;
+    host.innerHTML=next
+      ? `<div class="ps-box"><div class="ps-title">Session saved ✓</div>
+          <div class="ps-line">Nothing due for recall in ${escapeHtml(subj.name)}. Next up: <b>${escapeHtml(next.name)}</b></div></div>`
+      : `<div class="ps-box"><div class="ps-title">Session saved ✓</div><div class="ps-line">Nothing due for recall right now.</div></div>`;
+    return;
+  }
+  host.innerHTML=`<div class="ps-box">
+    <div class="ps-title">Session saved ✓ · ${due.length} topic${due.length===1?'':'s'} due for recall in ${escapeHtml(subj?subj.name:'this subject')}</div>
+    ${due.slice(0,3).map(d=>`<div class="ps-recall">
+      <span class="ps-topic">${escapeHtml(d.tp.name)}</span>
+      <span class="ps-btns">
+        <button class="btn sm" onclick="psRecall('${d.tp.id}',true)">Recalled ✓</button>
+        <button class="btn sm ghost danger" onclick="psRecall('${d.tp.id}',false)">Forgot</button>
+      </span></div>`).join('')}
+    <button class="ps-dismiss" onclick="document.getElementById('postSession').innerHTML=''">Dismiss</button>
+  </div>`;
+}
+window.psRecall=async function(id,passed){
+  const subjectId=_sbCache.allTopics.find(t=>t.id===id)?.subject_id;
+  if(passed)await recallPass(id);else await recallFail(id);
+  renderPostSession(subjectId);
+  renderRecall();
+};
+
+// Today's open tasks for whichever subject is selected on the timer
+function renderBlockTasks(){
+  const host=document.getElementById('blockTasks');
+  if(!host)return;
+  const open=(_todos||[]).filter(t=>!t.completed&&t.subject_id===curTimerSubject);
+  if(!open.length){host.innerHTML='';return;}
+  const subj=_sbCache.subjects.find(s=>s.id===curTimerSubject);
+  host.innerHTML=`<div class="bt-box">
+    <div class="bt-title">Tasks for ${escapeHtml(subj?subj.name:'this subject')}</div>
+    ${open.slice(0,4).map(t=>`<label class="bt-row">
+      <input type="checkbox" onchange="toggleTodo('${escapeJsAttr(t.id)}')">
+      <span>${escapeHtml(t.text)}</span></label>`).join('')}
+  </div>`;
 }
 
 /* ============ D-Day countdowns (multiple exams) ============ */
@@ -2863,6 +2925,7 @@ function renderFocus(){
   paintTimer();
   renderDayClock();
   _todayBaseSec=_sbCache.sessions.filter(s=>s.study_date===todayStr()).reduce((a,s)=>a+(s.duration_sec||0),0);
+  renderBlockTasks();
   renderStats();
   renderHistory();
   renderRooms();

@@ -171,6 +171,24 @@ textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-h
 .soc-live-tag{font-family:var(--mono);font-size:9.5px;color:var(--green,#7fae6f);display:inline-flex;align-items:center;gap:4px}
 .soc-live-tag i{width:6px;height:6px;border-radius:50%;background:var(--green,#7fae6f);animation:fdPulse 1.8s ease-in-out infinite}
 
+/* post-session recall prompt + block tasks */
+.ps-box{background:rgba(var(--glow-color),.06);border:1px solid rgba(var(--glow-color),.22);border-radius:var(--rs);padding:12px 14px;margin:12px 0}
+.ps-title{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--amber);margin-bottom:8px}
+.ps-line{font-size:13px;color:var(--text-dim);line-height:1.5}
+.ps-line b{color:var(--text)}
+.ps-recall{display:flex;align-items:center;gap:10px;padding:6px 0;border-top:1px solid var(--border);flex-wrap:wrap}
+.ps-recall:first-of-type{border-top:none}
+.ps-topic{flex:1;min-width:120px;font-size:13px;color:var(--text)}
+.ps-btns{display:flex;gap:6px;flex-shrink:0}
+.ps-dismiss{background:transparent;border:none;color:var(--muted);font-family:var(--mono);font-size:10px;cursor:pointer;margin-top:8px;padding:0}
+.ps-dismiss:hover{color:var(--text)}
+.bt-box{background:var(--ink2);border:1px solid var(--border);border-radius:var(--rs);padding:11px 13px;margin:12px 0}
+.bt-title{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);margin-bottom:7px}
+.bt-row{display:flex;align-items:flex-start;gap:9px;padding:5px 0;font-size:13px;color:var(--text);cursor:pointer}
+.bt-row input{margin-top:2px;flex-shrink:0;accent-color:var(--amber)}
+.todo-subj{font-family:var(--mono);font-size:11px;background:var(--ink2);color:var(--text-dim);border:1px solid var(--border);border-radius:var(--rs);padding:0 6px;max-width:110px;flex-shrink:0}
+.todo-subj:focus{outline:none;border-color:var(--border-hover)}
+
 /* D-Day list */
 .dday-wrap{margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
 .dday-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
@@ -1627,6 +1645,7 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
             <div class="todo-input-row">
               <button class="todo-prio-selector medium" id="todoPrioBtn" title="Priority: medium — click to cycle" onclick="cyclePendingPriority()"></button>
               <input type="text" id="todoInput" placeholder="What needs to get done?" onkeydown="if(event.key==='Enter')addTodo()">
+              <select id="todoSubject" class="todo-subj" title="Link to a subject (optional)"><option value="">—</option></select>
               <button class="todo-add-btn" onclick="addTodo()" title="Add task">+</button>
             </div>
             <div id="todoList"></div>
@@ -1746,6 +1765,8 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
         </div>
 
         <div class="timer-sub" id="timerStatus">pick a subject &amp; press start</div>
+        <div id="postSession"></div>
+        <div id="blockTasks"></div>
         <div class="btn-row">
           <button class="btn primary" id="startBtn" onclick="toggleTimer()">Start</button>
           <button class="btn ghost" onclick="logManual()">Log time manually</button>
