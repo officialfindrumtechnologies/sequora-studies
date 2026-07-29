@@ -59,7 +59,8 @@ def pages(pdf):
             txt = re.sub(r'\s+', ' ', txt)
             if txt:
                 rows.append({'x': float(lm.group(1)), 'y': float(lm.group(2)),
-                             'x2': float(lm.group(3)), 't': txt})
+                             'x2': float(lm.group(3)), 't': txt,
+                             'h': float(lm.group(4)) - float(lm.group(2))})
         yield w, sorted(rows, key=lambda r: (r['y'], r['x']))
 
 
@@ -131,10 +132,33 @@ def parse(pdf):
                       if obj_max < r['x'] < hours_min and not DROP.match(clean(r['t'])))
         indent = (col.most_common(1)[0][0] + 4) if col else (w * CONT_INDENT)
 
-        # A chapter heading is a short centred line sitting above the table.
-        header_y = min([r['y'] for r in rows if r['x'] > obj_max], default=None)
+        # A chapter heading is a short centred line that occupies its own row
+        # band. It is NOT restricted to the top of the page: several subjects
+        # start a new chapter partway down, after the previous chapter's table
+        # ends. Only scanning above the first table row silently dropped whole
+        # chapters — Community Medicine lost Medical Entomology, Public Health
+        # Nutrition and Occupational Health that way, which is precisely the
+        # failure this extraction exists to prevent.
+        # Headings are set in a larger face than the table body — about 12.6pt
+        # against 10pt. Height is the discriminator because position alone is
+        # not: restricting to the top of the page silently dropped chapters
+        # that start mid-page, while accepting any line alone in its row band
+        # swept up the last line of table cells ("vagina", "yolk sac etc").
+        # Neither signal is sufficient alone. Physiology does not always set
+        # its headings larger, so height alone lost half its chapters; and
+        # position alone (above the first table row) lost every chapter that
+        # starts mid-page. A heading is accepted on either signal, with the
+        # reject list and the "must have >= 3 sub-chapters" rule catching what
+        # slips through.
+        body_h = sorted(q['h'] for q in rows)[len(rows) // 2] if rows else 10.0
+        table_top = min([q['y'] for q in rows if q['x'] > obj_max], default=1e9)
         for r in rows:
-            if header_y is not None and r['y'] > header_y:
+            bigger = r['h'] >= body_h * 1.12
+            above  = r['y'] <= table_top
+            if not (bigger or above):
+                continue
+            alone = not any(q is not r and abs(q['y'] - r['y']) < 5 for q in rows)
+            if not alone:
                 continue
             mid = (r['x'] + r['x2']) / 2
             centred = abs(mid - w / 2) < w * 0.09

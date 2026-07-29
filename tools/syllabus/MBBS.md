@@ -39,38 +39,61 @@ Two details are load-bearing:
 
 ## Status — NOT written to the database
 
-Column-gutter detection and the geometry-driven page filter got most
-pre-clinical subjects extracting cleanly. The clinical subjects did not follow.
+### The finding that decides the design
 
-| Subject | chapters | sub-topics | assessment |
+**Chapter detection cannot be left to heuristics.** Every subject checked
+against its PDF turned out to be silently missing chapters:
+
+* Community Medicine lost Medical Entomology, Public Health Nutrition and
+  Occupational Health — they start mid-page, and the parser only looked above
+  the first table row.
+* Biochemistry lost its opening chapter, Biophysics & Biomolecules.
+* Physiology looked complete and correct, but only because its chapters all
+  happen to start at the top of a page.
+
+Silent omission is exactly the defect this whole exercise exists to remove: it
+is what made the old hand-written IGCSE Biology template drop three topics. A
+missing chapter is worse than a mangled one, because nothing on screen shows
+that anything is absent.
+
+Two detection signals were tried and both fail alone:
+
+| signal | fails how |
+|---|---|
+| heading sits above the first table row | drops every chapter starting mid-page |
+| heading is set in a larger face (12.6pt vs 10pt) | Physiology does not always use a larger face; lost half its chapters |
+| heading is alone in its row band | sweeps up the last line of table cells ("vagina", "yolk sac etc") |
+
+The parser now takes the union of the first two plus the third as a filter,
+which recovers most chapters — but "most" is not a standard worth shipping
+medical content against.
+
+### The way to finish
+
+Pin the chapter list per subject, read off each PDF by hand, and let the parser
+only assign sub-chapters to those pinned chapters. That removes guessing from
+the part that matters and leaves the machine doing the part it is good at —
+lifting the Contents column verbatim. `mbbs_subjects.py` is the place for it;
+it already holds per-subject drop and fixup rules because one global regex
+provably cannot serve all eleven (widening it to drop "TIME SCHEDULE" also
+dropped Anatomy's real chapters, since "Regional Anatomy : THORAX CARD"
+legitimately contains "CARD").
+
+### Where each subject stands
+
+| Subject | chapters | sub-topics | state |
 |---|---|---|---|
-| Physiology | 10 | 156 | **verified** — read in full against the PDF |
-| Community Medicine | 9 | 159 | chapters correct, sub-topics unverified |
-| Microbiology | 7 | 186 | chapters correct, sub-topics unverified |
-| Biochemistry | 6 | 110 | chapters correct, sub-topics unverified |
-| Forensic Medicine | 13 | 297 | section headings correct, unverified |
-| Anatomy | 11 | 136 | regions correct but titles carry a stray "CARD" suffix |
-| Pathology | 1 | 359 | **broken** — collapses to a single chapter |
-| Pharmacology | 2 | 62 | **broken** — "Pharmacology Practicals", "COURSE ORGANIZATION" |
-| Medicine | 8 | 889 | **broken** — chapters are teaching-hour headings |
-| Surgery | 2 | 506 | **broken** — same |
-| Obs & Gynae | 16 | 507 | **broken** — "Lectures in Obstetrics (4th Year)" etc. |
+| Physiology | 10 (+1 junk) | 156 | correct and complete; junk row droppable |
+| Microbiology | 7 | 186 | chapters correct; completeness unconfirmed |
+| Anatomy | 9 (+2 admin) | 136 | regions correct; "CARD" suffix strippable |
+| Biochemistry | 6 | 110 | **incomplete** — missing Biophysics & Biomolecules |
+| Community Medicine | 8 (+4 junk) | 158 | **incomplete** — missing 3 chapters |
+| Forensic Medicine | ~10 (+4 junk) | 297 | section numbering has gaps |
+| Pathology, Pharmacology, Medicine, Surgery, Obs & Gynae | — | — | no topic table in the document; need manual curation |
 
-### Why the clinical subjects resist
+The clinical subjects are structural, not a bug: Medicine, Surgery, Obs & Gynae
+and Pathology are organised around clinical postings, teaching cards and lecture
+lists, so their headings genuinely are "Clinical/Bedside & Ambulatory care
+teaching (in hours)". There is no topic table to lift.
 
-Medicine, Surgery, Obs & Gynae and Pathology are not organised as topic tables.
-They are organised around clinical postings, teaching cards and lecture lists,
-so their centred headings are things like "Clinical/Bedside & Ambulatory care
-teaching (in hours)" — genuinely how the document is structured, not a parsing
-artefact. There is no topic table to extract because the curriculum does not
-present one in the same form. These need either a different extraction shape or
-manual curation against the PDF.
-
-Tuning the chapter filter trades one subject against another: broadening it to
-drop "TIME SCHEDULE" also dropped Anatomy's real chapters, because "Regional
-Anatomy : THORAX CARD" legitimately contains "CARD". Per-subject rules will
-almost certainly be needed rather than one global regex.
-
-Nothing is in `syllabus_templates`. Wrong medical content is the worst failure
-this app can have, so the bar stays what the Cambridge batch met: a subject read
-in full against its source before it is written.
+Nothing is in `syllabus_templates`.
