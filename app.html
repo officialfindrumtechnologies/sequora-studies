@@ -100,7 +100,7 @@ textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-h
 
 /* focus layout: timer left, 24h clock + social right */
 .focus-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:16px;align-items:start}
-.ft-right{display:flex;flex-direction:column;gap:16px;min-width:0}
+.ft-left,.ft-right{display:flex;flex-direction:column;gap:16px;min-width:0}
 @media(max-width:980px){.focus-grid{grid-template-columns:1fr}}
 
 /* mode switcher */
@@ -373,7 +373,7 @@ textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-h
 .pomo-tip span{color:var(--accent-soft);font-weight:600;font-family:var(--mono)}
 /* ---------- timer meta ---------- */
 .timer-meta{display:flex;justify-content:space-between;margin-top:16px;gap:10px}
-.timer-meta div{flex:1;text-align:center;padding:12px 6px;background:var(--bg);border-radius:var(--rs);border:1px solid var(--border)}
+.timer-meta>div{flex:1;text-align:center;padding:12px 6px;background:var(--bg);border-radius:var(--rs);border:1px solid var(--border)}
 .timer-meta .v{font-family:var(--mono);font-weight:700;font-size:20px;color:var(--accent)}
 .timer-meta .k{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-dim);margin-top:4px}
 
@@ -654,6 +654,69 @@ footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text
 .view > *{animation:rise .45s ease both}
 .view > *:nth-child(2){animation-delay:.04s}.view > *:nth-child(3){animation-delay:.08s}.view > *:nth-child(4){animation-delay:.12s}
 @media(max-width:880px){.g3,.g2,.g-hero{grid-template-columns:1fr}.brand h1{font-size:20px}.countdown .num{font-size:72px}.timer-face{font-size:44px}}
+
+/* ============ mobile ============
+   On a 375px screen the header + wrapping nav ate 61% of the first screen
+   before any content. Nav becomes a single swipeable strip, the header
+   collapses to one row, and padding/type tighten up. */
+
+/* --- tablet & below: nav stops wrapping, touch targets grow --- */
+@media(max-width:768px){
+  header{flex-wrap:nowrap;align-items:flex-end;gap:14px}
+  .brand{min-width:0}
+  .headclock{flex-shrink:0;white-space:nowrap}
+
+  /* one swipeable row instead of three stacked rows */
+  nav{flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav button{flex:0 0 auto;white-space:nowrap}
+
+  /* touch targets — anything tappable gets a real hit area */
+  .btn,.btn.sm,nav button,.soc-tab,.st-r,.ft-mode,.grp-pill,.tk-nav button,.pp-subtab{min-height:40px}
+  .modal-box{max-height:90vh}
+}
+
+/* --- phone: reclaim the fold --- */
+@media(max-width:560px){
+  .wrap,.pad{padding-left:14px;padding-right:14px}
+  header{padding:14px 0 11px;align-items:center;gap:10px}
+  .brand h1{font-size:19px;white-space:nowrap}
+  .brand .mark,.brand .sub{display:none}   /* date lives in the clock; tagline is desktop-only */
+  .headclock{font-size:10.5px;line-height:1.45}
+
+  #nav-bar-wrap{margin-bottom:16px!important}
+  nav button{padding:11px 13px 9px;font-size:13px}
+  #layout-customize-btn{display:none}
+
+  .card{padding:16px 15px 15px}
+  .lead{margin-bottom:11px}
+  .sec,.view{padding-top:0}
+  .grid,.g2,.g3,.g-hero,.focus-grid{gap:12px}
+  .home-row{margin-bottom:12px}
+  .btn.sm{padding:9px 14px}
+
+  /* dials and rings scale down so they don't dominate the fold */
+  .ft-ring-wrap{width:min(230px,78%)}
+  .ft-day{width:min(240px,88%)}
+  .st-pie{width:112px;height:112px}
+  .countdown .num{font-size:64px}
+  .timer-face{font-size:38px}
+
+  .st-body{gap:12px}
+  .hist-bars{height:70px}
+  .hist-dials{gap:4px}
+  .grp-chat{height:210px}      /* chat panel shouldn't swallow the screen */
+  .modal-box{padding:18px 16px}
+}
+@media(max-width:420px){
+  .st-body{flex-direction:column;align-items:center;text-align:center}
+  .st-list{width:100%}
+  .timer-meta{flex-wrap:wrap;gap:8px}
+  .timer-meta>div{flex:1 1 calc(50% - 8px)}
+  .dday-form,.grp-row2{flex-direction:column}
+  .dday-form input,.grp-row2 input{width:100%}
+  .wk-grid{grid-template-columns:1fr}
+}
 
 /* ---------- auth overlay ---------- */
 .login-overlay{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;padding:22px}
@@ -1756,6 +1819,7 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
   <!-- ================= FOCUS ================= -->
   <section id="view-focus" class="view hidden">
     <div class="focus-grid" style="margin-bottom:18px">
+      <div class="ft-left">
       <div class="card accent">
         <div class="lead">Deep-block focus timer</div>
         <div class="subjsel" id="timerSubjects"></div>
@@ -1802,14 +1866,6 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
           <b>The method (every block):</b> Learn (~25m, NotebookLM) → Note it in your words (~5m) → <b>Drill past-paper questions</b> (~30m) → Quiz yourself unaided in Gemini (~10m) → mark the topic. A topic is "Exam-ready" only when you score well <b>unaided against the mark scheme</b>.
         </div>
       </div>
-      <div class="ft-right">
-        <div class="card">
-          <div class="lead">Today · 24-hour clock</div>
-          <svg class="ft-day" id="ftDayClock" viewBox="0 0 300 300"></svg>
-          <div class="ft-day-legend" id="ftDayLegend"></div>
-          <div class="ft-day-note">Outer faint ring = your planned study window. Inner arcs = what you actually studied.</div>
-        </div>
-
         <div class="card">
           <div class="st-head">
             <div class="lead" style="margin:0">Stats</div>
@@ -1834,6 +1890,15 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
           <div class="hist-bars" id="histBars"></div>
           <div class="hist-dials" id="histDials"></div>
         </div>
+      </div>
+      <div class="ft-right">
+        <div class="card">
+          <div class="lead">Today · 24-hour clock</div>
+          <svg class="ft-day" id="ftDayClock" viewBox="0 0 300 300"></svg>
+          <div class="ft-day-legend" id="ftDayLegend"></div>
+          <div class="ft-day-note">Outer faint ring = your planned study window. Inner arcs = what you actually studied.</div>
+        </div>
+
         <div class="card">
           <div class="soc-tabs">
             <button class="soc-tab on" data-soc="friends" onclick="socShow('friends')">Friends</button>
