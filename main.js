@@ -4248,6 +4248,8 @@ function updateClock(){
   else phase="wind-down · Anki";
   const clockEl = document.getElementById("headclock");
   if (clockEl) clockEl.innerHTML=`${ds}<br><b>${t}</b> · ${phase}`;
+  const markEl = document.getElementById("brandMark");
+  if (markEl) markEl.textContent=`Study tracker · ${d.toLocaleDateString("en-GB",{month:"long",year:"numeric"})}`;
 }
 
 /* ============ Supabase Auth & Sync Integration ============ */
@@ -7910,6 +7912,13 @@ async function refreshSbCache() {
     // Re-render Focus Timer stats if currently visible
     const focusEl = document.getElementById("view-focus");
     if(focusEl && !focusEl.classList.contains("hidden")) renderFocus();
+
+    // Same for Subjects. It only rendered on navigation, so landing there
+    // while the session was still restoring left it stuck on "No subjects
+    // yet" — getSubjects() returns [] under RLS with no session, and
+    // nothing re-ran it once auth arrived.
+    const subjEl = document.getElementById("view-subjects");
+    if(subjEl && !subjEl.classList.contains("hidden")) renderSubjects();
   } catch(e) {
     console.warn('[sbCache] refresh failed:', e);
   }
