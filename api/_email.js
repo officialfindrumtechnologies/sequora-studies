@@ -231,6 +231,34 @@ export function emailDailyNudge({ email, displayName, reason, streakDays, recall
   });
 }
 
+// Group weekly recap — sent to every member of a group that studied at all.
+export function emailGroupRecap({ email, displayName, groupName, stats }) {
+  const { totalHours = 0, topName = null, topHours = 0, memberRows = [], goalStreak = 0, yourHours = 0 } = stats;
+  const rows = memberRows.map((m, i) => `
+    <tr>
+      <td style="padding:7px 0;font-size:13px;color:${m.isSelf ? '#F2DFA8' : '#c9c4ba'}">${i + 1}. ${m.name}${m.isSelf ? ' (you)' : ''}</td>
+      <td style="padding:7px 0;font-size:13px;font-family:monospace;color:${m.isSelf ? '#F2DFA8' : '#f0ede8'};text-align:right">${m.hours.toFixed(1)}h</td>
+    </tr>`).join('');
+
+  return send({
+    to: email,
+    subject: `${groupName} — last week: ${totalHours.toFixed(1)}h together`,
+    html: layout(`
+      ${h1(`${groupName} · last week`)}
+      ${p(`Hi ${displayName || 'there'}, here's how your group did.`)}
+      ${detailTable(`
+        ${detail('Group total', `${totalHours.toFixed(1)} hours`)}
+        ${detail('Your share', `${yourHours.toFixed(1)} hours`)}
+        ${topName ? detail('Top studier', `${topName} — ${topHours.toFixed(1)}h`) : ''}
+        ${goalStreak > 0 ? detail('Goal streak', `${goalStreak} day${goalStreak === 1 ? '' : 's'} running`) : ''}
+      `)}
+      <table width="100%" cellpadding="0" cellspacing="0" style="margin:8px 0 18px">${rows}</table>
+      ${p('New week, clean slate. First one to log a session sets the pace.')}
+      ${cta('Open Sequora →', 'https://sequorastudies.com/app')}
+    `),
+  });
+}
+
 export function emailWeeklyReport({ email, displayName, stats }) {
   const {
     studyHours = 0,

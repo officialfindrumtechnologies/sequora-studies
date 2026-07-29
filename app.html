@@ -171,6 +171,18 @@ textarea{font-family:var(--body);font-size:14px;width:100%;resize:vertical;min-h
 .soc-live-tag{font-family:var(--mono);font-size:9.5px;color:var(--green,#7fae6f);display:inline-flex;align-items:center;gap:4px}
 .soc-live-tag i{width:6px;height:6px;border-radius:50%;background:var(--green,#7fae6f);animation:fdPulse 1.8s ease-in-out infinite}
 
+/* weak-spot heatmap */
+.wk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-top:14px}
+.wk-cell{border-radius:var(--rs);padding:13px 14px;border:1px solid var(--border);background:var(--ink2)}
+.wk-cell.hot{border-color:rgba(207,106,85,.55);background:rgba(207,106,85,.10)}
+.wk-cell.warm{border-color:rgba(232,163,61,.45);background:rgba(232,163,61,.08)}
+.wk-cell.mild{border-color:rgba(var(--glow-color),.25)}
+.wk-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:7px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wk-metrics{display:flex;flex-wrap:wrap;gap:8px;font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-bottom:8px}
+.wk-verdict{font-size:12px;color:var(--paper-dim);line-height:1.4}
+.wk-cell.hot .wk-verdict{color:#e08a76}
+.wk-note{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:12px;line-height:1.55}
+
 /* post-session recall prompt + block tasks */
 .ps-box{background:rgba(var(--glow-color),.06);border:1px solid rgba(var(--glow-color),.22);border-radius:var(--rs);padding:12px 14px;margin:12px 0}
 .ps-title{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--amber);margin-bottom:8px}
@@ -1991,6 +2003,16 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
     <div class="pp-subtabs">
       <button class="pp-subtab active" id="pp-tab-papers" onclick="ppSwitchTab('papers')">Past Papers</button>
       <button class="pp-subtab" id="pp-tab-errors" onclick="ppSwitchTab('errors')">Error Log</button>
+      <button class="pp-subtab" id="pp-tab-weak" onclick="ppSwitchTab('weak')">Weak Spots</button>
+    </div>
+
+    <!-- Weak-spot heatmap -->
+    <div id="pp-weak-section" class="hidden">
+      <div class="card">
+        <div class="lead">Where you're losing marks</div>
+        <p class="sub">Built from your logged mistakes and past-paper scores — the topics actually costing you, not just the ones you haven't ticked.</p>
+        <div id="weakGrid"></div>
+      </div>
     </div>
 
     <!-- Past Papers sub-section -->

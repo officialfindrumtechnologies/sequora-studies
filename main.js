@@ -2256,6 +2256,50 @@ function renderDayClock(){
   }
 }
 
+/* ============ weak-spot heatmap ============ */
+// Scores subjects by what's actually costing marks, not by unticked boxes:
+// logged mistakes, past-paper average, and how much of the syllabus is still
+// unfinished. Says plainly when there isn't enough data to judge.
+function renderWeakSpots(){
+  const host=document.getElementById('weakGrid');
+  if(!host)return;
+  const subs=_sbCache.subjects.filter(s=>!isIbCore(s));
+  if(!subs.length){host.innerHTML='<div class="ft-empty">Add subjects first.</div>';return;}
+
+  const rows=subs.map(s=>{
+    const topics=_sbCache.allTopics.filter(t=>t.subject_id===s.id);
+    const errs=_sbCache.errors.filter(e=>e.subject_id===s.id);
+    const papers=_sbCache.papers.filter(p=>p.subject_id===s.id&&p.max_score);
+    const ready=topics.filter(t=>t.status==='ready'||t.status==='mastered').length;
+    const coverage=topics.length?ready/topics.length:0;
+    const avg=papers.length?papers.reduce((a,p)=>a+p.score/p.max_score,0)/papers.length:null;
+    // error density per topic — a subject with 8 mistakes over 10 topics is
+    // in worse shape than one with 8 over 80
+    const errRate=topics.length?errs.length/topics.length:0;
+    const score=(1-coverage)*0.45 + (avg===null?0.25:(1-avg)*0.40) + Math.min(errRate,1)*0.15;
+    return{s,topics:topics.length,errs:errs.length,papers:papers.length,coverage,avg,score};
+  }).sort((a,b)=>b.score-a.score);
+
+  const band=v=>v>=.6?'hot':v>=.4?'warm':v>=.22?'mild':'cool';
+  host.innerHTML=`<div class="wk-grid">${rows.map(r=>`
+    <div class="wk-cell ${band(r.score)}">
+      <div class="wk-name">${escapeHtml(r.s.name)}</div>
+      <div class="wk-metrics">
+        <span>${Math.round(r.coverage*100)}% ready</span>
+        <span>${r.avg===null?'no papers':Math.round(r.avg*100)+'% avg'}</span>
+        <span>${r.errs} mistake${r.errs===1?'':'s'}</span>
+      </div>
+      <div class="wk-verdict">${
+        r.topics===0 ? 'No topics set up yet'
+        : r.avg!==null&&r.avg<0.6 ? 'Scoring below target — drill papers here'
+        : r.coverage<0.3 ? 'Barely started — biggest gap'
+        : r.errs>0&&r.errs/Math.max(r.topics,1)>0.15 ? 'Mistakes clustering here'
+        : r.avg===null&&r.coverage>0.5 ? 'Marked ready but untested — sit a paper'
+        : 'Holding up well'}</div>
+    </div>`).join('')}</div>
+  <div class="wk-note">Ranked by a blend of syllabus left, paper average, and mistakes per topic. Subjects with no papers logged are treated as unproven, not safe.</div>`;
+}
+
 /* ============ close the loop: recall + tasks for the studied subject ============ */
 // Shown right after a session saves — the moment the material is freshest is
 // the moment spaced recall is worth the most.
@@ -3953,9 +3997,12 @@ function ppSwitchTab(tab) {
   document.querySelectorAll('.pp-subtab').forEach(b => {
     b.classList.toggle('active', b.id === 'pp-tab-' + tab);
   });
+  const weakSection = document.getElementById('pp-weak-section');
   if (papersSection) papersSection.classList.toggle('hidden', tab !== 'papers');
   if (errorsSection) errorsSection.classList.toggle('hidden', tab !== 'errors');
+  if (weakSection) weakSection.classList.toggle('hidden', tab !== 'weak');
   if (tab === 'errors') { fillSubjSelects(); renderLogs(); }
+  if (tab === 'weak') renderWeakSpots();
 }
 window.ppSwitchTab = ppSwitchTab;
 
