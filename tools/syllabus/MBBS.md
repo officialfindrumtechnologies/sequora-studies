@@ -39,28 +39,38 @@ Two details are load-bearing:
 
 ## Status — NOT written to the database
 
+Column-gutter detection and the geometry-driven page filter got most
+pre-clinical subjects extracting cleanly. The clinical subjects did not follow.
+
 | Subject | chapters | sub-topics | assessment |
 |---|---|---|---|
-| Physiology | 10 | 166 | **good** — read in full; chapters are the real systems, sub-topics read correctly |
-| Biochemistry | 6 | 110 | plausible, unverified |
-| Microbiology | 8 | 217 | plausible, unverified |
-| Anatomy | 10 | 117 | one chapter empty |
-| Community Medicine | 10 | 113 | one chapter empty |
-| Forensic Medicine | 10 | 160 | one chapter empty |
-| Medicine | 7 | 482 | chapters empty; 482 sub-topics looks like over-capture |
-| Pathology | 3 | 217 | **wrong** — a chapter is named "= 05 Hours" |
-| Pharmacology | 2 | 101 | **wrong** — chapters are "Term II", "Pharmacology Practicals" |
-| Surgery | 0 | 0 | produces nothing |
-| Obs & Gynae | 0 | 0 | produces nothing |
+| Physiology | 10 | 156 | **verified** — read in full against the PDF |
+| Community Medicine | 9 | 159 | chapters correct, sub-topics unverified |
+| Microbiology | 7 | 186 | chapters correct, sub-topics unverified |
+| Biochemistry | 6 | 110 | chapters correct, sub-topics unverified |
+| Forensic Medicine | 13 | 297 | section headings correct, unverified |
+| Anatomy | 11 | 136 | regions correct but titles carry a stray "CARD" suffix |
+| Pathology | 1 | 359 | **broken** — collapses to a single chapter |
+| Pharmacology | 2 | 62 | **broken** — "Pharmacology Practicals", "COURSE ORGANIZATION" |
+| Medicine | 8 | 889 | **broken** — chapters are teaching-hour headings |
+| Surgery | 2 | 506 | **broken** — same |
+| Obs & Gynae | 16 | 507 | **broken** — "Lectures in Obstetrics (4th Year)" etc. |
 
-Only Physiology has been read end-to-end against its PDF and confirmed.
+### Why the clinical subjects resist
 
-`validate()` is currently too weak: it only checks that every chapter has some
-content, which is why it passed Pathology and Pharmacology despite obviously
-wrong chapter names. Before any of this is trusted it needs to reject
-administrative headings ("Term I", "Practicals"), anything containing an hours
-figure, and chapter counts that disagree with the document's own contents page.
+Medicine, Surgery, Obs & Gynae and Pathology are not organised as topic tables.
+They are organised around clinical postings, teaching cards and lecture lists,
+so their centred headings are things like "Clinical/Bedside & Ambulatory care
+teaching (in hours)" — genuinely how the document is structured, not a parsing
+artefact. There is no topic table to extract because the curriculum does not
+present one in the same form. These need either a different extraction shape or
+manual curation against the PDF.
 
-Nothing here is in `syllabus_templates`. Wrong medical content is the worst
-failure this app can have, so the bar stays what the Cambridge batch met: a
-subject read in full against its source before it is written.
+Tuning the chapter filter trades one subject against another: broadening it to
+drop "TIME SCHEDULE" also dropped Anatomy's real chapters, because "Regional
+Anatomy : THORAX CARD" legitimately contains "CARD". Per-subject rules will
+almost certainly be needed rather than one global regex.
+
+Nothing is in `syllabus_templates`. Wrong medical content is the worst failure
+this app can have, so the bar stays what the Cambridge batch met: a subject read
+in full against its source before it is written.

@@ -30,6 +30,19 @@ DROP = re.compile(
     r'^(CORE|Additional|Applied|Core Contents|Contents|Learning Objectives?|Hours|Teaching|'
     r'At the end of|Sl\.?|Name of item|Marks|Remarks|Full)\b', re.I)
 NUMERIC = re.compile(r'^[\d\s./=%-]*$')
+# Pages that are administration rather than syllabus.
+ADMIN = re.compile(
+    r'(Continuous Assessment Card|Academic Calendar|Roll no|Name of item|'
+    r'Distribution of (Teaching|Marks)|Summative Assessment|Mark distribution|'
+    r'Formative Exam|Attendance)', re.I)
+# Headings that are scheduling/assessment furniture rather than syllabus
+# chapters. Without this the tail of each subject fills up with "TIME
+# SCHEDULE", "= 05 Hours", "CLASS PERFORMANCE CARD-1A", "Study Tour".
+CHAPTER_REJECT = re.compile(
+    r'(\d+\s*hours?\b|=\s*\d|schedule|card\s*(no|-|\d)|questionnaire|'
+    r'\btour\b|please specify|performance card|box contents|'
+    r'^(topic|date|materials|oral|theoretical|consolidated.*)$|'
+    r'^\W|^(term|year)\b|case histories|^note:)', re.I)
 
 
 def pages(pdf):
@@ -91,18 +104,21 @@ def parse(pdf):
         obj_max, hours_min = column_bounds(rows, w)
         indent = w * CONT_INDENT
 
-        # Only pages carrying the syllabus table count. These PDFs also contain
-        # teaching-hour tables, assessment mark sheets, continuous-assessment
-        # cards and academic calendars, all of which are centred headings over
-        # columns and would otherwise be harvested as chapters and topics.
-        has_obj  = any(re.match(r'^Learning Objectives', r['t'], re.I) for r in rows)
-        # Header wording varies by subject: Pharmacology writes "Core
-        # Contents", Surgery and Obs & Gynae run "Contents" and "Teaching"
-        # together on one line. Requiring an exact "Contents" match returned
-        # nothing at all for those three.
-        has_cont = any(re.match(r'^(Core\s+)?Contents\b', r['t'], re.I) and r['x'] > obj_max
-                       for r in rows)
-        if not (has_obj and has_cont):
+        # Only pages carrying the syllabus table count. These PDFs also hold
+        # teaching-hour tables, mark sheets, continuous-assessment cards and
+        # academic calendars, which are also centred headings over columns and
+        # would otherwise be harvested as chapters and topics.
+        #
+        # This is geometry-driven rather than header-driven: Surgery prints its
+        # column headers once and repeats nothing on continuation pages, so
+        # requiring "Learning Objectives" and "Contents" on every page rejected
+        # the entire subject. A syllabus page is instead one with real text in
+        # both the objectives and the contents columns.
+        left  = [r for r in rows if r['x'] < obj_max and len(r['t']) > 12]
+        right = [r for r in rows if obj_max < r['x'] < hours_min and len(r['t']) > 8]
+        if len(left) < 2 or len(right) < 2:
+            continue
+        if any(ADMIN.search(r['t']) for r in rows):
             continue
 
         # Bullets are the most frequent start position in the Contents column;
@@ -123,7 +139,7 @@ def parse(pdf):
             mid = (r['x'] + r['x2']) / 2
             centred = abs(mid - w / 2) < w * 0.09
             if centred and 3 < len(r['t']) < 70 and not NUMERIC.match(r['t']) \
-                    and not DROP.match(r['t']):
+                    and not DROP.match(r['t']) and not CHAPTER_REJECT.search(clean(r['t'])):
                 name = clean(r['t'])
                 if name and name not in by_name:
                     by_name[name] = []
@@ -145,6 +161,10 @@ def parse(pdf):
                 bucket[-1] = (bucket[-1] + ' ' + t).strip()   # wrapped line
             else:
                 bucket.append(t)
+
+    # A real chapter has several sub-chapters under it. Anything thinner is
+    # almost always a stray centred line that slipped through.
+    chapters = [c for c in chapters if len(by_name[c]) >= 3]
 
     rows_out = []
     for ch in chapters:
