@@ -116,18 +116,32 @@ should be migrated when IAL content is written.
 IAL Physics found only 26 statements until the plain-integer form was added;
 it now finds 178.
 
-### Not written, and why
+**Also written:** IAL Biology (6 units / 171), Chemistry (20 topics / 319) and
+Physics (6 units / 166), with `subject_code` migrated to the IAL codes
+(YBI11, YCH11, YPH11).
 
-* **IAL Chemistry** — content is right but grouping is not: 19 chapters against
-  the real 6 units, because topic headings inside a unit are being promoted to
-  units ("Unit 7: Intermolecular Forces" is a topic within Unit 2).
-* **IAL Physics** — units and counts look right, but the first statements of
-  each unit are the unit preamble ("1.1 Unit description", "1.2 Assessment
-  information") rather than syllabus content.
-* **IAL Biology** — Unit 5 (Respiration, Internal Environment, Coordination)
-  extracts empty. That is a real missing chapter, not an artefact.
-* **IGCSE Geography** — sub-topic names truncate mid-phrase and the tail picks
-  up copyright lines.
+The three defects that held those back, and what each turned out to be:
+
+* **IAL Biology's empty Unit 5** was self-inflicted. Its heading wraps as
+  "Unit 5: Respiration, Internal Environment," and headings ending in a comma
+  were rejected, so Unit 4 silently absorbed the whole unit. Divisions are now
+  validated against the contents page instead, which also fixed Chemistry.
+* **IAL Chemistry's 19 units** were topics. Where a spec carries "Topic N:"
+  headings the statements are numbered within the topic (8.14 belongs to
+  Topic 8) and the Unit headings above them only group topics for assessment,
+  so statements are keyed off their own number rather than document position.
+  Assigning positionally had filed topics 6–10 under "Unit 6: Practical Skills".
+* **IAL Physics's preamble rows** are the specification's own subsections
+  ("1.1 Unit description", "1.2 Assessment information"), which collide with
+  unit statements because Physics numbers those as plain integers. They appear
+  before any real statement so they are filtered at output rather than while
+  scanning.
+
+Practical-skills units legitimately carry no numbered statements — they are
+assessed as competencies — so an empty one is not reported as missing.
+
+* **IGCSE Geography** — still not written: sub-topic names truncate mid-phrase
+  and the tail picks up copyright lines.
 
 ### Fetching
 

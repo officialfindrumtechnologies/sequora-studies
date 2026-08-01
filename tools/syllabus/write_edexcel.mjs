@@ -12,16 +12,22 @@ const env = Object.fromEntries(
     .map(m => [m[1], m[2].replace(/^["']|["']$/g, '').trim()]));
 const sb = createClient(env.VITE_SUPABASE_URL || env.SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY);
 
-// [parsed-file, qualification, exam_board, subject_name, syllabus years]
+// [parsed-file, qualification, exam_board, subject_name, syllabus years, subject_code]
+// A Level rows move to International A Level codes (YBI11 etc). Bangladeshi
+// students sit IAL, not UK GCE, so the stored 9BI0/8BI0 codes were wrong for
+// the audience as well as pointing at a different specification.
 const BATCH = [
-  ['igcse-biology-4BI1',   'IGCSE / O Level', 'Edexcel IGCSE', 'Biology',   '2017'],
-  ['igcse-chemistry-4CH1', 'IGCSE / O Level', 'Edexcel IGCSE', 'Chemistry', '2017'],
+  ['igcse-biology-4BI1',   'IGCSE / O Level', 'Edexcel IGCSE', 'Biology',   '2017', '4BI1'],
+  ['igcse-chemistry-4CH1', 'IGCSE / O Level', 'Edexcel IGCSE', 'Chemistry', '2017', '4CH1'],
+  ['ial-biology',   'A Level', 'Edexcel', 'Biology',   '2018', 'YBI11'],
+  ['ial-chemistry', 'A Level', 'Edexcel', 'Chemistry', '2018', 'YCH11'],
+  ['ial-physics',   'A Level', 'Edexcel', 'Physics',   '2018', 'YPH11'],
 ];
 
 const dry = process.argv.includes('--dry');
 let fails = 0;
 
-for (const [stem, qualification, exam_board, subject_name, years] of BATCH) {
+for (const [stem, qualification, exam_board, subject_name, years, code] of BATCH) {
   const d = JSON.parse(fs.readFileSync(`${DIR}/pe-${stem}.json`, 'utf8'));
   if (!d.ok) { console.error(`REFUSED ${subject_name}: ${d.problems}`); fails++; continue; }
 
@@ -37,7 +43,7 @@ for (const [stem, qualification, exam_board, subject_name, years] of BATCH) {
   if (dry) { console.log(`DRY  ${exam_board} ${subject_name.padEnd(12)} ${was} -> ${rows.length}`); continue; }
 
   const { error } = await sb.from('syllabus_templates').update({
-    topics: rows, source_url: url, syllabus_years: years,
+    topics: rows, source_url: url, syllabus_years: years, subject_code: code,
     verified_at: new Date().toISOString(),
   }).eq('id', existing.id);
 

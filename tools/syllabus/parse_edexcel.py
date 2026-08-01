@@ -95,6 +95,9 @@ OBJ   = re.compile(r'^(\d{1,2})\.(\d{1,2})\s+(.{6,}?)\s*$')
 # ("7  understand how to make use of...") rather than 1.7, so the dotted form
 # alone found 26 statements for the whole subject.
 OBJ_FLAT = re.compile(r'^(\d{1,3})\s{2,}([a-z(].{10,}?)\s*$')
+SPEC_SUBSECTION = re.compile(
+    r'^(Unit description|Assessment information|Overview of|Content\b|'
+    r'Assessment objectives|Qualification aims|Externally assessed)', re.I)
 
 
 def parse_gce(pdf):
@@ -109,12 +112,46 @@ def parse_gce(pdf):
     Environment,"), which otherwise produced 13 units for a 6-unit subject.
     """
     lines = text(pdf)
-    titles, buckets, order, current, kind = {}, {}, [], None, 'Topic'
+
+    # The contents page is authoritative for which divisions exist. Without it
+    # Chemistry promoted topic headings inside a unit to units of their own and
+    # reported 19 chapters against its real 6.
+    # Where a spec carries "Topic N:" headings, statements are numbered within
+    # the topic (8.14 belongs to Topic 8) and topics are the true chapters -
+    # the Unit headings above them only group topics for assessment. Assigning
+    # by document position instead put IAL Chemistry's topic 6-10 statements
+    # under "Unit 6: Practical Skills in Chemistry II".
+    topic_titles = {}
+    for l in lines:
+        m = re.match(r'^Topic\s+(\d{1,2})\s*[:.]\s*(.{3,70}?)\s*$',
+                     re.sub(r'\s{2,}\d{1,3}$', '', l.strip()))
+        if m:
+            n, t = int(m.group(1)), m.group(2).strip().rstrip('.,')
+            if len(t) > len(topic_titles.get(n, '')):
+                topic_titles[n] = t
+
+    valid, toc_titles = set(), {}
+    for l in lines[:200]:
+        m = TOPIC.match(re.sub(r'\s{2,}\d{1,3}$', '', l.strip()))
+        if m:
+            n = int(m.group(1))
+            valid.add(n)
+            t = m.group(2).strip().rstrip('.,')
+            if len(t) > len(toc_titles.get(n, '')):
+                toc_titles[n] = t
+    if valid:
+        valid = {n for n in valid if n <= max(k for k in valid if k <= len(valid) + 2)}
+
+    titles, buckets, order, current, kind = dict(toc_titles), {}, [], None, 'Topic'
+    flat_units = {}   # unit -> True once a plain-integer statement is seen
     for raw in lines:
         s = raw.rstrip()
         t = re.sub(r'\s{2,}\d{1,3}$', '', s.strip())
         m = TOPIC.match(t)
-        if m and not t.endswith((',',)):
+        # A trailing comma is not disqualifying: IAL Biology's Unit 5 heading
+        # wraps as "Unit 5: Respiration, Internal Environment," and rejecting
+        # it meant Unit 4 absorbed all of Unit 5's content.
+        if m and (not valid or int(m.group(1)) in valid):
             n = int(m.group(1))
             kind = 'Unit' if t.lower().startswith('unit') else 'Topic'
             title = m.group(2).strip().rstrip('.')
@@ -133,12 +170,20 @@ def parse_gce(pdf):
         if current is not None:
             m = OBJ.match(t)
             mf = None if m else OBJ_FLAT.match(t)
+            # Where a unit numbers its statements as plain integers, the dotted
+            # "1.1"/"1.2" forms on the same pages are the specification's own
+            # subsections, not syllabus content - they put "1.1 Unit
+            # description" and "1.2 Assessment information" at the head of
+            # every IAL Physics unit.
+            if m and flat_units.get(current) and SPEC_SUBSECTION.match(m.group(3)):
+                m = None
             if m and len(m.group(3)) > 10:
                 label = f'{m.group(1)}.{m.group(2)}'
                 body = re.sub(r'\s{2,}', ' ', m.group(3)).strip()
                 if not any(e.startswith(label + ' ') for e in buckets[current]):
                     buckets[current].append(f'{label} {body}')
             elif mf:
+                flat_units[current] = True
                 label = f'{current}.{mf.group(1)}'
                 body = re.sub(r'\s{2,}', ' ', mf.group(2)).strip()
                 if not any(e.startswith(label + ' ') for e in buckets[current]):
@@ -147,11 +192,43 @@ def parse_gce(pdf):
                     and not re.match(r'^(Students should|Pearson|Specification|Issue)', t):
                 buckets[current][-1] = (buckets[current][-1] + ' ' + t)[:300]
 
+    # Topic-numbered specs are re-keyed off the statement numbers themselves.
+    if topic_titles and any(OBJ.match(re.sub(r'^', '', v)) for n in order for v in buckets[n]):
+        regrouped = {}
+        for n in order:
+            for v in buckets[n]:
+                m = re.match(r'^(\d{1,2})\.(\d{1,2})\s', v)
+                if not m:
+                    continue
+                tn = int(m.group(1))
+                if tn in topic_titles:
+                    regrouped.setdefault(tn, []).append(v)
+        if len(regrouped) >= max(2, len(order)):
+            order = sorted(regrouped)
+            buckets = regrouped
+            titles = topic_titles
+            kind = 'Topic'
+
     names = [f'{kind} {n}: {titles.get(n, "")}'.strip() for n in order]
+    # Drop the specification's own subsections wherever they were captured.
+    # They are the head of every IAL Physics unit ("1.1 Unit description",
+    # "1.2 Assessment information") and appear before any real statement, so
+    # they cannot be filtered while scanning.
+    def is_spec_subsection(v):
+        body = re.sub(r'^\d+(\.\d+)?\s+', '', v)
+        return bool(SPEC_SUBSECTION.match(body))
+
+    for n in order:
+        buckets[n] = [v for v in buckets[n] if not is_spec_subsection(v)]
+
     rows = [{'section': f'{kind} {n}: {titles.get(n, "")}'.strip(),
              'name': re.sub(r'\s{2,}', ' ', v).strip()}
             for n in order for v in buckets[n]]
-    empty = [f'{kind} {n}' for n in order if not buckets[n]]
+    # Practical-skills units carry no numbered statements in IAL - they are
+    # assessed as practical competencies - so being empty is correct for them
+    # and must not be reported as a missing chapter.
+    empty = [f'{kind} {n}' for n in order
+             if not buckets[n] and 'practical skills' not in titles.get(n, '').lower()]
     probs = []
     if not order:
         probs.append('no chapters found')
