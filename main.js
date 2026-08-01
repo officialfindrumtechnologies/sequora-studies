@@ -3857,6 +3857,10 @@ function cycleStudyNow() {
   _studyNowIdx++;
   renderStudyNow();
 }
+// main.js is type="module", so a top-level declaration is not global and the
+// inline onclick on the "next recommendation" button could not see it — the
+// button threw ReferenceError and did nothing.
+window.cycleStudyNow = cycleStudyNow;
 
 /* ============ coverage heatmap ============ */
 async function renderCoverage(){
