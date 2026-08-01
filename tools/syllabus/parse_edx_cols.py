@@ -17,7 +17,8 @@ import re, sys, json, subprocess
 TOPIC = re.compile(r'^Topic\s+(\d{1,2})\s*[:.]\s*(.{3,70}?)\s*$')
 IDEA  = re.compile(r'^(\d{1,2})\.(\d{1,2})\s+(.*)$')
 NOISE = re.compile(r'(Pearson|Specification|Issue \d|©|International GCSE|'
-                   r'What students need to learn|Key ideas|Detailed content)', re.I)
+                   r'What students need to learn|Key ideas|Detailed content|'
+                   r'^Subject content$|^Content$)', re.I)
 # Blocks that follow a key idea in the same column but are not part of it.
 # Without this the case-study and integrated-skills blurbs were appended onto
 # the previous idea's title, and fieldwork sections were filed as key ideas.
@@ -42,6 +43,24 @@ def pages(pdf):
         yield w, sorted(rows, key=lambda r: (r['y'], r['x']))
 
 
+def infer_split(rows, w):
+    """Widest gap between line-start positions in the left half of the page.
+
+    A two-column content table leaves a clear gutter there; a page of running
+    prose does not, so a minimum gap width is required before a split is
+    accepted and the page treated as tabular.
+    """
+    xs = sorted({round(r['x']) for r in rows if r['x'] < 0.75 * w})
+    if len(xs) < 3:
+        return None
+    gaps = [(xs[i + 1] - xs[i], (xs[i] + xs[i + 1]) / 2) for i in range(len(xs) - 1)]
+    gaps = [g for g in gaps if 0.18 * w < g[1] < 0.55 * w]
+    if not gaps:
+        return None
+    width, mid = max(gaps)
+    return mid if width > 0.10 * w else None
+
+
 def parse(pdf):
     titles, buckets, order, current = {}, {}, [], None
     split = None      # x boundary between Key ideas and Detailed content
@@ -57,6 +76,15 @@ def parse(pdf):
         dc = next((r for r in rows if r['t'].strip().lower() == 'detailed content'), None)
         if ki and dc and dc['x'] - ki['x'] > 50:
             split = dc['x'] - 8
+        else:
+            # No named header: infer the gutter from the data. Most Edexcel
+            # subjects use the same two-column shape as Geography but label the
+            # columns differently (Psychology heads them "Content"/"Detailed
+            # content", Computer Science uses neither), so keying on header
+            # text only ever unlocked one subject.
+            got = infer_split(rows, w)
+            if got:
+                split = got
 
         for r in rows:
             m = TOPIC.match(r['t'])
@@ -88,16 +116,30 @@ def parse(pdf):
                     and len(r['t']) > 2:
                 buckets[current][-1][1] = (buckets[current][-1][1] + ' ' + r['t']).strip()
 
+    # An idea label must name a topic that exists. Psychology's appendix of
+    # statistical tables is full of decimals like "79.72" that otherwise match
+    # the idea pattern and arrive as sub-chapters.
+    maxtopic = max(order) if order else 0
+
     rows_out = []
     for n in order:
         seen = set()
         for label, body in buckets[n]:
             body = re.sub(r'\s{2,}', ' ', body).strip().rstrip('.')
+            # The next section's heading can run onto the last idea of a topic
+            # ("...and impact 3 Assessment information").
+            body = re.sub(r'\s+\d+\s+(Assessment information|Subject content|'
+                          r'Administration|Appendi\w*)\b.*$', '', body, flags=re.I).strip()
             # Paper description pages carry their own numbered subsections
             # ("2.1 Description", "2.2 Assessment information") in the same
             # column shape as key ideas.
             if re.match(r'^(Description|Assessment information|Subject content|'
                         r'Overview|Paper \d)', body, re.I):
+                continue
+            # Topic numbering starts at 1; a "0.x" label comes from a
+            # statistical-tables appendix, not the syllabus.
+            head = int(label.split('.')[0]) if label.split('.')[0].isdigit() else 0
+            if head < 1 or head > maxtopic:
                 continue
             if label == '__closed__' or not body or label in seen:
                 continue

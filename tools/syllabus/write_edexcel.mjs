@@ -23,21 +23,26 @@ const BATCH = [
   ['ial-chemistry', 'A Level', 'Edexcel', 'Chemistry', '2018', 'YCH11'],
   ['ial-physics',   'A Level', 'Edexcel', 'Physics',   '2018', 'YPH11'],
   // parsed by parse_edx_cols.py (two-column "Key ideas | Detailed content")
-  ['geo', 'IGCSE / O Level', 'Edexcel IGCSE', 'Geography', '2017', '4GE1'],
+  ['igcse-geography-4GE1',       'IGCSE / O Level', 'Edexcel IGCSE', 'Geography',        '2017', '4GE1'],
+  ['igcse-computerscience-4CP1', 'IGCSE / O Level', 'Edexcel IGCSE', 'Computer Science', '2017', '4CP1'],
+  // UK GCE Psychology: IAL Psychology's specification is not reachable, so
+  // this is the GCE one, kept deliberately and flagged by its 9PS0/8PS0 code.
+  ['alevel-psychology-9PS0', 'A Level',  'Edexcel', 'Psychology', '2015', '9PS0'],
+  ['as-psychology-8PS0',     'AS Level', 'Edexcel', 'Psychology', '2015', '8PS0'],
 ];
 
 const dry = process.argv.includes('--dry');
 let fails = 0;
 
 for (const [stem, qualification, exam_board, subject_name, years, code] of BATCH) {
-  const jsonPath = fs.existsSync(`${DIR}/pe-${stem}.json`)
-    ? `${DIR}/pe-${stem}.json` : `${DIR}/pc-${stem}.json`;
+  // prefer the column-aware parse where one exists
+  const jsonPath = fs.existsSync(`${DIR}/pc-${stem}.json`)
+    ? `${DIR}/pc-${stem}.json` : `${DIR}/pe-${stem}.json`;
   const d = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
   if (!d.ok) { console.error(`REFUSED ${subject_name}: ${d.problems}`); fails++; continue; }
 
   const rows = d.rows.map(r => ({ section: r.section, name: r.name }));
-  const srcName = stem === 'geo' ? 'igcse-geography-4GE1' : stem;
-  const url = fs.readFileSync(`${DIR}/edx/${srcName}.src`, 'utf8').trim();
+  const url = fs.readFileSync(`${DIR}/edx/${stem}.src`, 'utf8').trim();
 
   const { data: existing } = await sb.from('syllabus_templates')
     .select('id, topics').eq('qualification', qualification)
