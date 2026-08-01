@@ -49,9 +49,26 @@ CHAPTERS = {
         'Clinical Microbiology',
         'Practical',
     ],
+    '10.CommunityMedicine': [
+        'Concept of Public Health, Community Medicine, Health and Disease',
+        'Behavioural Science',
+        'Health Communication & Health Education',
+        'Research Methodology and Biostatistics',
+        'Medical Entomology',
+        'Environment & Health',
+        'Immunity, Immunization',
+        'Public Health Nutrition',
+        'Principles of Epidemiology',
+        'Epidemiology of Communicable & Non-Communicable Disease (NCDs)',
+        'MCH-FP & Demography',
+        'School Health Services',
+        'Occupational Health',
+        'Public Health Administration & Management',
+    ],
 }
 
 SUBJECT_NAMES = {
+    '10.CommunityMedicine': 'Community Medicine',
     '4.Physiology': 'Physiology',
     '5.Biochemistry': 'Biochemistry',
     '12.Microbiology': 'Microbiology',
@@ -60,6 +77,8 @@ SUBJECT_NAMES = {
 DROP = re.compile(
     r'^(CORE|Additional|Applied|Core Contents|Contents|Learning Objectives?|'
     r'Hours|Teaching|At the end of|Sl\.?|Name of item|Marks|Remarks|Full)\b', re.I)
+BULLET_LEAD = re.compile(r'^[\uf0b7\u2022\u25cf\uf0a7\uf0d8]')
+BULLET = re.compile(r'[\uf0b7\u2022\u25cf\uf0a7\uf0d8\s]+')
 NUMERIC = re.compile(r'^[\d\s./=%•-]*$')
 HOURS_TOKEN = re.compile(r'\b(?:L|T|P|IT|C|CL)\s*=\s*\d+\b', re.I)
 # Anchored, and specific enough not to match page furniture. "Total teaching
@@ -126,15 +145,21 @@ def parse(stem, pdf):
     missing = [c for c in pinned if c not in {a[2] for a in anchors}]
     anchors.sort()
 
-    # Column geometry: widest gaps between line starts, measured per page.
     def bounds(rows, w):
+        """Column gutters: the widest gap whose midpoint falls in the band each
+        gutter must occupy. Taking the two widest gaps overall was wrong when
+        two gaps tie — on one Community Medicine page that put the left gutter
+        at x=485 with the Contents text at x=420, so two chapters extracted
+        empty. Constraining each gutter to its own band picks the right pair.
+        """
         xs = sorted({round(r['x']) for r in rows})
         if len(xs) < 3:
             return w * 0.46, w * 0.83
-        gaps = sorted(((xs[i+1]-xs[i], (xs[i]+xs[i+1])/2) for i in range(len(xs)-1)), reverse=True)
-        cuts = sorted(m for _, m in gaps[:2])
-        lo = next((c for c in cuts if 0.15*w < c < 0.60*w), w*0.46)
-        hi = next((c for c in reversed(cuts) if c > max(lo, 0.60*w)), w*0.83)
+        gaps = [(xs[i+1] - xs[i], (xs[i] + xs[i+1]) / 2) for i in range(len(xs) - 1)]
+        left  = [g for g in gaps if 0.18 * w < g[1] < 0.55 * w]
+        right = [g for g in gaps if g[1] > 0.62 * w]
+        lo = max(left)[1] if left else w * 0.46
+        hi = max(right)[1] if right else w * 0.83
         return lo, hi
 
     def chapter_at(pi, y):
@@ -154,9 +179,31 @@ def parse(stem, pdf):
         if pi < (anchors[0][0] if anchors else 0):
             continue
         lo, hi = bounds(rows, w)
-        colx = Counter(round(r['x']) for r in rows
-                       if lo < r['x'] < hi and not DROP.match(clean(r['t'])))
-        indent = (colx.most_common(1)[0][0] + 4) if colx else lo + 20
+        colx = [round(r['x']) for r in rows
+                if lo < r['x'] < hi and not DROP.match(clean(r['t']))
+                and norm(clean(r['t'])) not in want]
+        indent = (min(colx) + 5) if colx else lo + 20
+        # Only bullets belonging to the Contents column count, and only when
+        # there are enough of them to be the page's actual list marker. A
+        # couple of stray bullets elsewhere on the page previously made every
+        # unbulleted content line look like a continuation, merging a whole
+        # chapter into one run-on entry.
+        bullets = [r['y'] for r in rows
+                   if BULLET.fullmatch(r['t'].strip()) and lo - 40 < r['x'] < hi]
+        if len(bullets) < 2:
+            bullets = []
+
+        def starts_item(r):
+            # Two bullet layouts occur in the same document: on some pages the
+            # Wingdings bullet is its own line just above the text it marks, on
+            # others it is the first character of the text line itself.
+            if BULLET_LEAD.match(r['t']):
+                return True
+            if bullets and any(abs(b - r['y']) < 7 for b in bullets):
+                return True
+            if bullets:
+                return False
+            return r['x'] <= indent
 
         for r in rows:
             if STOP.search(r['t']):
@@ -171,7 +218,7 @@ def parse(stem, pdf):
             if ch is None or norm(t) in want:
                 continue
             b = buckets[ch]
-            if r['x'] > indent and b:
+            if b and not starts_item(r):
                 b[-1] = (b[-1] + ' ' + t).strip()
             else:
                 b.append(t)
