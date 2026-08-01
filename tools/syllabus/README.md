@@ -96,3 +96,49 @@ full unit list.
 * **5 could not be fetched** (slug unresolved): PE 9396, IGCSE English
   Literature 0475, O Level Accounting 7110, Bangla 3204, History 2059
 * **Not started:** Edexcel (48 templates), IB (49), MBBS, OCR, AQA
+
+## Edexcel — status
+
+International A Level is the target, not UK GCE: Bangladeshi students sit
+IAL (YBI11 / XBI11), and the templates' stored UK GCE codes (9BI0, 8BI0)
+should be migrated when IAL content is written.
+
+**Written:** International GCSE Biology (5 chapters / 22) and Chemistry (4 / 28).
+
+`parse_edexcel.py` carries three strategies because Pearson uses three shapes:
+
+| shape | used by |
+|---|---|
+| numbered sections with lettered `(a)` sub-topics | International GCSE |
+| `Topic N:` + `1.1` statements | UK GCE |
+| `Unit N:` + plain `7` statements | International A Level |
+
+IAL Physics found only 26 statements until the plain-integer form was added;
+it now finds 178.
+
+### Not written, and why
+
+* **IAL Chemistry** — content is right but grouping is not: 19 chapters against
+  the real 6 units, because topic headings inside a unit are being promoted to
+  units ("Unit 7: Intermolecular Forces" is a topic within Unit 2).
+* **IAL Physics** — units and counts look right, but the first statements of
+  each unit are the unit preamble ("1.1 Unit description", "1.2 Assessment
+  information") rather than syllabus content.
+* **IAL Biology** — Unit 5 (Respiration, Internal Environment, Coordination)
+  extracts empty. That is a real missing chapter, not an artefact.
+* **IGCSE Geography** — sub-topic names truncate mid-phrase and the tail picks
+  up copyright lines.
+
+### Fetching
+
+Landing-page scraping works for most subjects but returns nothing for Law,
+Politics, Further Maths, Accounting, Computer Science, Sociology and IGCSE
+Business: those pages carry no PDF links at all, because Pearson serves their
+specifications from a JavaScript-loaded course-materials template. They need
+either the course-materials endpoint or manual URLs.
+
+### Validator note
+
+Zero chapters used to report clean — "no chapter has empty content" is
+trivially true with no chapters — so seven subjects passed while extracting
+nothing. Fixed; the honest pass count fell from twelve to five.

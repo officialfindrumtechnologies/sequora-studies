@@ -87,52 +87,79 @@ def parse(pdf):
     return order, rows, problems
 
 
-TOPIC = re.compile(r'^Topic\s+(\d{1,2})\s*[:.]\s*(.{3,70}?)\s*$')
+# International A Level numbers its divisions "Unit N:", UK GCE uses
+# "Topic N:". Both carry numbered objective statements beneath.
+TOPIC = re.compile(r'^(?:Topic|Unit)\s+(\d{1,2})\s*[:.]\s*(.{3,70}?)\s*$')
 OBJ   = re.compile(r'^(\d{1,2})\.(\d{1,2})\s+(.{6,}?)\s*$')
+# IAL Physics numbers its statements as plain integers within each unit
+# ("7  understand how to make use of...") rather than 1.7, so the dotted form
+# alone found 26 statements for the whole subject.
+OBJ_FLAT = re.compile(r'^(\d{1,3})\s{2,}([a-z(].{10,}?)\s*$')
 
 
 def parse_gce(pdf):
-    """UK GCE specifications are laid out as "Topic N: Title" with numbered
-    objective statements beneath, rather than the numbered-section / lettered
-    sub-topic shape used by International GCSE. The statements are the actual
-    syllabus detail, so they become the sub-chapters."""
+    """UK GCE and International A Level are laid out as "Topic N:" / "Unit N:"
+    with numbered objective statements beneath, rather than the numbered
+    section / lettered sub-topic shape used by International GCSE. The
+    statements are the actual syllabus detail, so they become sub-chapters.
+
+    Divisions are keyed by NUMBER, not by title text: the contents page and the
+    body wrap long titles differently ("Unit 5: Respiration, Internal
+    Environment, Coordination" against "Unit 5: Respiration, Internal
+    Environment,"), which otherwise produced 13 units for a 6-unit subject.
+    """
     lines = text(pdf)
-    order, buckets, current = [], {}, None
+    titles, buckets, order, current, kind = {}, {}, [], None, 'Topic'
     for raw in lines:
         s = raw.rstrip()
-        t = s.strip()
+        t = re.sub(r'\s{2,}\d{1,3}$', '', s.strip())
         m = TOPIC.match(t)
-        if m and not t.endswith(('.', ',')):
-            name = f'Topic {int(m.group(1))}: {m.group(2).strip()}'
-            if name not in buckets:
-                buckets[name] = []
-                order.append(name)
-            current = name
+        if m and not t.endswith((',',)):
+            n = int(m.group(1))
+            kind = 'Unit' if t.lower().startswith('unit') else 'Topic'
+            title = m.group(2).strip().rstrip('.')
+            # Unit headings also appear inside assessment tables, where the
+            # "title" is really a marks cell - IAL Physics Unit 5 came out as
+            # "IA2 Externally assessed 90 marks" instead of its real name.
+            if re.search(r'\bmarks?\b|externally assessed|written exam|IA[12]\b', title, re.I):
+                title = ''
+            if n not in buckets:
+                buckets[n] = []
+                order.append(n)
+            if len(title) > len(titles.get(n, '')):
+                titles[n] = title
+            current = n
             continue
-        if current:
+        if current is not None:
             m = OBJ.match(t)
+            mf = None if m else OBJ_FLAT.match(t)
             if m and len(m.group(3)) > 10:
                 label = f'{m.group(1)}.{m.group(2)}'
                 body = re.sub(r'\s{2,}', ' ', m.group(3)).strip()
-                entry = f'{label} {body}'
                 if not any(e.startswith(label + ' ') for e in buckets[current]):
-                    buckets[current].append(entry)
+                    buckets[current].append(f'{label} {body}')
+            elif mf:
+                label = f'{current}.{mf.group(1)}'
+                body = re.sub(r'\s{2,}', ' ', mf.group(2)).strip()
+                if not any(e.startswith(label + ' ') for e in buckets[current]):
+                    buckets[current].append(f'{label} {body}')
             elif buckets[current] and s.startswith((' ' * 5, '\t')) and len(t) > 3 \
-                    and not re.match(r'^(Students should|Pearson|Specification)', t):
+                    and not re.match(r'^(Students should|Pearson|Specification|Issue)', t):
                 buckets[current][-1] = (buckets[current][-1] + ' ' + t)[:300]
-    rows = [{'section': c, 'name': re.sub(r'\s{2,}', ' ', n).strip()}
-            for c in order for n in buckets[c]]
-    empty = [c for c in order if not buckets[c]]
+
+    names = [f'{kind} {n}: {titles.get(n, "")}'.strip() for n in order]
+    rows = [{'section': f'{kind} {n}: {titles.get(n, "")}'.strip(),
+             'name': re.sub(r'\s{2,}', ' ', v).strip()}
+            for n in order for v in buckets[n]]
+    empty = [f'{kind} {n}' for n in order if not buckets[n]]
     probs = []
-    # Zero chapters previously reported clean, because "no chapter has empty
-    # content" is trivially true when there are no chapters at all.
     if not order:
         probs.append('no chapters found')
     if not rows:
         probs.append('no sub-chapters found')
     if empty:
-        probs.append(f'topics with no content: {empty[:4]}')
-    return order, rows, probs
+        probs.append(f'units with no content: {empty[:4]}')
+    return names, rows, probs
 
 
 def parse_any(pdf):
