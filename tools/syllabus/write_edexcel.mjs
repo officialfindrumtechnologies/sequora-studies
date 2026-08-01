@@ -1,0 +1,48 @@
+// Write verified Edexcel templates. Only subjects listed here have been read
+// against their specification PDF and confirmed complete.
+import { createClient } from '@supabase/supabase-js';
+import fs from 'fs';
+
+const ROOT = '/Volumes/DevWorkspace/Sequora-studies/sequora';
+const DIR  = '/private/tmp/claude-501/-Volumes-DevWorkspace-Sequora-studies-sequora/9f60502e-15a1-43b9-823d-c26e91e05cce/scratchpad/syllabi';
+
+const env = Object.fromEntries(
+  fs.readFileSync(`${ROOT}/.env`, 'utf8').split('\n')
+    .map(l => l.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)$/)).filter(Boolean)
+    .map(m => [m[1], m[2].replace(/^["']|["']$/g, '').trim()]));
+const sb = createClient(env.VITE_SUPABASE_URL || env.SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY);
+
+// [parsed-file, qualification, exam_board, subject_name, syllabus years]
+const BATCH = [
+  ['igcse-biology-4BI1',   'IGCSE / O Level', 'Edexcel IGCSE', 'Biology',   '2017'],
+  ['igcse-chemistry-4CH1', 'IGCSE / O Level', 'Edexcel IGCSE', 'Chemistry', '2017'],
+];
+
+const dry = process.argv.includes('--dry');
+let fails = 0;
+
+for (const [stem, qualification, exam_board, subject_name, years] of BATCH) {
+  const d = JSON.parse(fs.readFileSync(`${DIR}/pe-${stem}.json`, 'utf8'));
+  if (!d.ok) { console.error(`REFUSED ${subject_name}: ${d.problems}`); fails++; continue; }
+
+  const rows = d.rows.map(r => ({ section: r.section, name: r.name }));
+  const url = fs.readFileSync(`${DIR}/edx/${stem}.src`, 'utf8').trim();
+
+  const { data: existing } = await sb.from('syllabus_templates')
+    .select('id, topics').eq('qualification', qualification)
+    .eq('exam_board', exam_board).eq('subject_name', subject_name).maybeSingle();
+  if (!existing) { console.error(`REFUSED: no row for ${exam_board} ${subject_name}`); fails++; continue; }
+
+  const was = Array.isArray(existing.topics) ? existing.topics.length : 0;
+  if (dry) { console.log(`DRY  ${exam_board} ${subject_name.padEnd(12)} ${was} -> ${rows.length}`); continue; }
+
+  const { error } = await sb.from('syllabus_templates').update({
+    topics: rows, source_url: url, syllabus_years: years,
+    verified_at: new Date().toISOString(),
+  }).eq('id', existing.id);
+
+  if (error) { console.error(`FAIL ${subject_name}: ${error.message}`); fails++; }
+  else console.log(`OK   ${exam_board} ${subject_name.padEnd(12)} ${was} -> ${rows.length}`);
+}
+console.log(fails ? `\n${fails} failed` : '\ndone');
+process.exit(fails ? 1 : 0);
