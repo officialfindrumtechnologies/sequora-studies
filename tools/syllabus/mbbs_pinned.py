@@ -65,9 +65,44 @@ CHAPTERS = {
         'Occupational Health',
         'Public Health Administration & Management',
     ],
+    '8.ForensicMedicine': [
+        'Section -01: Introduction to Forensic Medicine',
+        'Section-02: Legal aspect (Legal structure; court procedure)',
+        'Section 3: Medical Jurisprudence (Medical ethics)',
+        'Section 4: Forensic Pathology (L-24hrs; T-16hrs)',
+        'Section 5: Clinical Forensic Medicine (L-18hrs; T-12hrs)',
+        'Section 6: Identification',
+        'Section 7: Forensic aspect of reproduction',
+        'Section -08: Forensic Psychiatry',
+        'Section-09: Forensic Toxicology',
+        'Section-10: PRACTICAL (40hrs)',
+        'Section-11: Observation of ten Medico-legal Autopsies (10days)',
+    ],
+    # Pharmacology is divided by term rather than by system - that is the
+    # document's own top-level structure - with numbered drug topics beneath.
+    '7.Pharmacology': [
+        'Term I',
+        'Term II',
+        'Pharmacology Practicals',
+        'Pharmacology Tutorial',
+    ],
+    '3.Anatomy': [
+        'General Anatomy',
+        'Cell Biology',
+        'Human Genetics',
+        'General Histology',
+        'Systemic Histology',
+        'General Embryology',
+        'Systemic Developmental Anatomy',
+        'Neuroanatomy',
+        'Clinical Anatomy',
+    ],
 }
 
 SUBJECT_NAMES = {
+    '3.Anatomy': 'Anatomy',
+    '7.Pharmacology': 'Pharmacology & Therapeutics',
+    '8.ForensicMedicine': 'Forensic Medicine & Toxicology',
     '10.CommunityMedicine': 'Community Medicine',
     '4.Physiology': 'Physiology',
     '5.Biochemistry': 'Biochemistry',
@@ -76,7 +111,8 @@ SUBJECT_NAMES = {
 
 DROP = re.compile(
     r'^(CORE|Additional|Applied|Core Contents|Contents|Learning Objectives?|'
-    r'Hours|Teaching|At the end of|Sl\.?|Name of item|Marks|Remarks|Full)\b', re.I)
+    r'Hours|Teaching|At the end of|Sl\.?|Name of item|Marks|Remarks|Full|'
+    r'Learning\s+Strateg|Evaluations?|Lectures?:|Tutorials?:|Practicals?:)\b', re.I)
 BULLET_LEAD = re.compile(r'^[\uf0b7\u2022\u25cf\uf0a7\uf0d8]')
 BULLET = re.compile(r'[\uf0b7\u2022\u25cf\uf0a7\uf0d8\s]+')
 NUMERIC = re.compile(r'^[\d\s./=%•-]*$')
@@ -86,7 +122,9 @@ HOURS_TOKEN = re.compile(r'\b(?:L|T|P|IT|C|CL)\s*=\s*\d+\b', re.I)
 # "Total Teaching Hours" halted extraction on the first content page and the
 # subject came out with one chapter populated out of seven.
 STOP = re.compile(r'^(Evaluation of \w|Summative Assessment|Continuous Assessment Card|'
-                  r'Academic Calendar|Total Teaching Hours for|Distribution of Teaching)', re.I)
+                  r'Academic Calendar|Total Teaching Hours for|Distribution of Teaching|'
+                  r'Teaching\s*-?\s*Learning\s*&?\s*Assessment|Assessment in \w|'
+                  r'Time allocation in|Marks distribution)', re.I)
 
 
 def clean(t):
@@ -133,15 +171,32 @@ def parse(stem, pdf):
     anchors, seen = [], set()
     for pi, (w, rows) in enumerate(pages):
         for r in rows:
-            key = norm(clean(r['t']))
-            if key not in want or key in seen:
+            line = norm(clean(r['t']))
+            # Anatomy sets its chapter headings flush left in the objectives
+            # column, not centred, and runs some of them into the objective
+            # text on the same line ("Systemic Histology: Students will be able
+            # to..."), so an exact, alone, centred match finds almost none of
+            # them. A far-left heading matched by prefix is safe because the
+            # pinned name still has to match from the start of the line.
+            far_left = r['x'] < 0.12 * w
+            key = None
+            if line in want:
+                key = line
+            elif far_left:
+                key = next((k for k in want if line.startswith(k + ' ')), None)
+            if key is None or key in seen:
                 continue
             centred = abs((r['x'] + r['x2']) / 2 - w / 2) < w * 0.14
             alone = not any(q is not r and abs(q['y'] - r['y']) < 5 for q in rows)
-            if not (centred and alone):
+            # Forensic Medicine left-aligns some section headings, so centring
+            # cannot be required; the length floor is what stops short generic
+            # names like Microbiology's "Practical" matching a stray table cell.
+            ok = (alone and (centred or len(want[key]) >= 15)) or far_left
+            if not ok:
                 continue
             seen.add(key)
             anchors.append((pi, r['y'], want[key]))
+
     missing = [c for c in pinned if c not in {a[2] for a in anchors}]
     anchors.sort()
 
