@@ -140,8 +140,26 @@ The three defects that held those back, and what each turned out to be:
 Practical-skills units legitimately carry no numbered statements — they are
 assessed as competencies — so an empty one is not reported as missing.
 
-* **IGCSE Geography** — still not written: sub-topic names truncate mid-phrase
-  and the tail picks up copyright lines.
+**IGCSE Geography** is now written too (9 topics / 27 key ideas), via
+`parse_edx_cols.py`. It is a two-column table — numbered Key ideas beside
+lettered Detailed content — so `-layout` welded the two together and produced
+"1.1 The world's water a) The hydrological cycle: characteris". Reading word
+coordinates and keeping only the Key ideas column fixes it. Three details
+mattered: the spec explains "Key ideas" and "Detailed content" in prose earlier
+at the same left margin, so calibration requires the two headers at clearly
+different x; the idea number is its own line element with the title starting to
+its right; and case-study blurbs following an idea must close it rather than be
+appended to its title.
+
+### Still unwritten
+
+* **IGCSE Computer Science** parses but with the same two-column bleed
+  Geography had ("1.1 Algorithms 1.1.1 Understand what an algorithm is") — it
+  uses different column headers so `parse_edx_cols.py` cannot calibrate on it.
+* **UK GCE Psychology** extracts cleanly but is the wrong qualification now
+  that IAL is the target, and IAL Psychology is among the unfetchable set.
+* **English, History, Economics, IGCSE Maths and IGCSE Physics** produce
+  nothing from either parser — more layouts again.
 
 ### Fetching
 

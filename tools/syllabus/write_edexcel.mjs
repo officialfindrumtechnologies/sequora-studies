@@ -22,17 +22,22 @@ const BATCH = [
   ['ial-biology',   'A Level', 'Edexcel', 'Biology',   '2018', 'YBI11'],
   ['ial-chemistry', 'A Level', 'Edexcel', 'Chemistry', '2018', 'YCH11'],
   ['ial-physics',   'A Level', 'Edexcel', 'Physics',   '2018', 'YPH11'],
+  // parsed by parse_edx_cols.py (two-column "Key ideas | Detailed content")
+  ['geo', 'IGCSE / O Level', 'Edexcel IGCSE', 'Geography', '2017', '4GE1'],
 ];
 
 const dry = process.argv.includes('--dry');
 let fails = 0;
 
 for (const [stem, qualification, exam_board, subject_name, years, code] of BATCH) {
-  const d = JSON.parse(fs.readFileSync(`${DIR}/pe-${stem}.json`, 'utf8'));
+  const jsonPath = fs.existsSync(`${DIR}/pe-${stem}.json`)
+    ? `${DIR}/pe-${stem}.json` : `${DIR}/pc-${stem}.json`;
+  const d = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
   if (!d.ok) { console.error(`REFUSED ${subject_name}: ${d.problems}`); fails++; continue; }
 
   const rows = d.rows.map(r => ({ section: r.section, name: r.name }));
-  const url = fs.readFileSync(`${DIR}/edx/${stem}.src`, 'utf8').trim();
+  const srcName = stem === 'geo' ? 'igcse-geography-4GE1' : stem;
+  const url = fs.readFileSync(`${DIR}/edx/${srcName}.src`, 'utf8').trim();
 
   const { data: existing } = await sb.from('syllabus_templates')
     .select('id, topics').eq('qualification', qualification)
