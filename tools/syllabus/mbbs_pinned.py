@@ -97,9 +97,64 @@ CHAPTERS = {
         'Neuroanatomy',
         'Clinical Anatomy',
     ],
+    # Pathology is divided by term, the document's own structure.
+    '11.Pathology': [
+        'Term I A- General Pathology, Haematolymphoid System (Term-1A)',
+        'Term-1B - General Pathology, Haematolymphoid System (Term-1B)',
+        'Term-2A - Systemic Pathology (Term-2A)',
+        'Term-2B - Systemic Pathology (Term-2B )',
+    ],
+    # Medicine, Surgery and Obs & Gynae each bundle several disciplines, and
+    # the document declares them with its own "Learning Objectives and Course
+    # Contents in X" headings. Those are the anchors; RENAME gives them names
+    # a student would recognise.
+    '14.Medicine': [
+        'Learning Objectives and Course Contents in Medicine',
+        'Learning Objectives and Course Contents in SKIN & VD (lectures)',
+        'Learning Objectives and Course Contents in Psychiatry',
+    ],
+    '15.Surgery': [
+        'Learning Objectives and Course Contents in Surgery',
+        'Learning Objectives and Course Contents in ophthalmology',
+        'Learning Objectives and Course Contents in Otorhinolaryngology & Head-Neck Surgery',
+    ],
+    '16.ObsGynae': [
+        'Learning Objectives and Course Contents in Obstetrics',
+        'Learning Objectives and Course Contents in Gynaecology',
+    ],
+}
+
+RENAME = {
+    '14.Medicine': {
+        'Learning Objectives and Course Contents in Medicine': 'Medicine',
+        'Learning Objectives and Course Contents in SKIN & VD (lectures)': 'Skin & Venereal Diseases',
+        'Learning Objectives and Course Contents in Psychiatry': 'Psychiatry',
+    },
+    '15.Surgery': {
+        'Learning Objectives and Course Contents in Surgery': 'Surgery',
+        'Learning Objectives and Course Contents in ophthalmology': 'Ophthalmology',
+        'Learning Objectives and Course Contents in Otorhinolaryngology & Head-Neck Surgery':
+            'Otorhinolaryngology & Head-Neck Surgery',
+    },
+    '16.ObsGynae': {
+        'Learning Objectives and Course Contents in Obstetrics': 'Obstetrics',
+        'Learning Objectives and Course Contents in Gynaecology': 'Gynaecology',
+    },
+    '11.Pathology': {
+        'Term I A- General Pathology, Haematolymphoid System (Term-1A)':
+            'Term 1A - General Pathology & Haematolymphoid System',
+        'Term-1B - General Pathology, Haematolymphoid System (Term-1B)':
+            'Term 1B - General Pathology & Haematolymphoid System',
+        'Term-2A - Systemic Pathology (Term-2A)': 'Term 2A - Systemic Pathology',
+        'Term-2B - Systemic Pathology (Term-2B )': 'Term 2B - Systemic Pathology',
+    },
 }
 
 SUBJECT_NAMES = {
+    '11.Pathology': 'Pathology',
+    '14.Medicine': 'Medicine',
+    '15.Surgery': 'Surgery',
+    '16.ObsGynae': 'Obstetrics & Gynaecology',
     '3.Anatomy': 'Anatomy',
     '7.Pharmacology': 'Pharmacology & Therapeutics',
     '8.ForensicMedicine': 'Forensic Medicine & Toxicology',
@@ -260,10 +315,17 @@ def parse(stem, pdf):
                 return False
             return r['x'] <= indent
 
-        for r in rows:
-            if STOP.search(r['t']):
+        # An administrative page mid-document must not end extraction, only be
+        # skipped. Medicine and Surgery carry assessment and teaching-hour
+        # pages BETWEEN their disciplines, so halting on the first one left
+        # Skin & VD, Psychiatry, Ophthalmology and ENT completely empty.
+        # Extraction only ends once the last pinned chapter has been passed.
+        if any(STOP.search(r['t']) for r in rows):
+            if anchors and pi > anchors[-1][0]:
                 stopped = True
-                break
+            continue
+
+        for r in rows:
             if not (lo < r['x'] < hi):
                 continue
             t = clean(r['t'])
@@ -278,9 +340,11 @@ def parse(stem, pdf):
             else:
                 b.append(t)
 
-    rows_out = [{'section': c, 'name': re.sub(r'\s{2,}', ' ', s).strip()}
+    ren = RENAME.get(stem, {})
+    rows_out = [{'section': ren.get(c, c), 'name': re.sub(r'\s{2,}', ' ', s).strip()}
                 for c in pinned for s in buckets[c] if len(s) > 2]
-    empty = [c for c in pinned if not buckets[c]]
+    empty = [ren.get(c, c) for c in pinned if not buckets[c]]
+    pinned = [ren.get(c, c) for c in pinned]
     problems = ([f'pinned headings not found: {missing}'] if missing else []) + \
                ([f'chapters with no content: {empty}'] if empty else [])
     return pinned, rows_out, problems

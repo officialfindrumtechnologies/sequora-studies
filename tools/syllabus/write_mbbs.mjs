@@ -21,6 +21,10 @@ const BATCH = [
   ['3.Anatomy', 'Anatomy', `${BASE}/3.Anatomy.pdf`],
   ['8.ForensicMedicine', 'Forensic Medicine & Toxicology', `${BASE}/8.ForensicMedicine.pdf`],
   ['7.Pharmacology', 'Pharmacology & Therapeutics', `${BASE}/7.Pharmacology.pdf`],
+  ['11.Pathology', 'Pathology', `${BASE}/11.Pathology.pdf`],
+  ['14.Medicine', 'Medicine', `${BASE}/14.Medicine.pdf`],
+  ['15.Surgery', 'Surgery', `${BASE}/15.Surgery.pdf`],
+  ['16.ObsGynae', 'Obstetrics & Gynaecology', `${BASE}/16.ObsGynae.pdf`],
 ];
 
 const dry = process.argv.includes('--dry');
