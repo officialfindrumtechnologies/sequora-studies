@@ -253,30 +253,32 @@ levels of organization, Physics uses themes A–E with `A.1 Kinematics`, and
 Chemistry uses `Structure 1` / `Reactivity 1` with `Reactivity 1.1—Measuring
 enthalpy changes`.
 
-### Biology SL is not written
+### HL and SL
 
-One guide covers both levels and marks HL-only topics in a roadmap table. In
-flat text the columns interleave, so a tag lands against whichever topic shares
-its text line — "A1.2 Nucleic acids [HL only]" when the tag belongs to A2.1 in
-the next column. Attributing by coordinates recovers most but demonstrably not
-all: `A3.2 Classification and cladistics [HL only]` and `C2.2 Neural signalling
-[HL only]` wrap onto further lines and are missed.
+All ten IB rows are written at both levels.
 
-Worse than incomplete, it is **misattributed**: pdftotext merges adjacent
-columns into a single line element, so `B2.2 Organelles` and `and motility
-[HL only]` from the next column arrive as one line reading "B2.2 Organelles and
-motility [HL only]" — the tag belongs to B3.3 Muscle and motility. Coordinates
-cannot separate what is already one line element; that needs word-level
-extraction (`pdftotext -bbox`).
+Biology genuinely differs: six topics are HL-only — A2.1 Origins of cells,
+A2.3 Viruses, A3.2 Classification and cladistics, B3.3 Muscle and motility,
+C2.1 Chemical signalling, D2.2 Gene expression — so SL carries 34 against HL's
+40.
 
-`hl_only_topics()` is therefore disabled and returns an empty set. Only HL rows
-are written, carrying the full topic list, which is correct for HL by
-definition. No HL/SL distinction is claimed anywhere.
+Getting that right needed **word-level** extraction. The roadmap table marks
+HL-only topics with a `[HL only]` tag under its topic, but pdftotext merges
+adjacent columns into one line element, so `B2.2 Organelles` and `and motility
+[HL only]` from the next column arrive as a single line and the tag lands on
+B2.2 instead of B3.3. At word level the columns separate cleanly: topic labels
+cluster at one x per column, and a tag belongs to the last label above it in
+its own column. An earlier line-level attempt also read C2.2 as HL-only; at
+word level the tag sits under C2.1, and C2.2 has none.
 
-**Mathematics AA is the exception worth doing next:** it labels content `SL 1.1`
-against `AHL 1.10`, so the split is unambiguous from the label itself. It needs
-the column treatment first — labels and content statements sit in separate
-columns.
+Physics and Chemistry share their topic list across levels. They mark
+"Additional higher level" *within* topics rather than reserving whole topics —
+Physics's single "higher level only" note is about depth inside one content
+statement — so both levels take the same list, which is correct rather than a
+compromise.
+
+Mathematics AA and AI label every sub-topic `SL 1.1` or `AHL 1.10`, so HL is
+SL plus AHL and SL is the SL items alone.
 
 ### Remaining
 

@@ -83,54 +83,46 @@ TOPIC_CHEM = re.compile(r'^(Structure|Reactivity)\s+(\d)\.(\d{1,2})\s*[—–-]\
 PLACEHOLDER = re.compile(r'^(Topic name|Content statement|Guiding question)', re.I)
 
 
-def hl_only_topics(pdf):
-    """DISABLED — returns an empty set. Kept for the record of why.
+def hl_only_topics(pdf, label_re):
+    """Which topics are HL-only, read off the syllabus roadmap table.
 
-    The roadmap table's [HL only] tags cannot be attributed reliably at line
-    level. pdftotext merges adjacent columns into one line element, so
-    "B2.2 Organelles" from one column and "and motility [HL only]" from the
-    next arrive as a single line reading "B2.2 Organelles and motility
-    [HL only]" — the tag belongs to B3.3 Muscle and motility, not B2.2.
-    Coordinates do not help when two columns already share a line element;
-    that needs word-level extraction (pdftotext -bbox), not line-level.
+    Line-level extraction cannot do this. pdftotext merges adjacent columns
+    into one line element, so "B2.2 Organelles" and "and motility [HL only]"
+    from the next column arrive as a single line and the tag lands on the wrong
+    topic — B2.2 instead of B3.3.
 
-    Until then no HL/SL distinction is claimed: HL rows carry the full topic
-    list, which is correct for HL by definition, and SL rows are left alone.
-
-    The marker is a separate "[HL only]" line sitting under its topic in the
-    same column. In flat text the columns interleave, so the tag appears
-    against whichever topic happens to share its text line — "A1.2 Nucleic
-    acids [HL only]" when the tag actually belongs to A2.1 in the next column.
-    Attribution therefore has to be done on coordinates: same column, next tag
-    below the topic.
+    At word level the columns are separable: topic labels cluster at a handful
+    of x positions, one per column, and a tag belongs to the last label above
+    it in its own column.
     """
-    return set()
-
-    xml = subprocess.run(['pdftotext', '-bbox-layout', pdf, '-'],
-                         capture_output=True, text=True, check=True).stdout
     hl = set()
-    for pm in re.finditer(r'<page width="[\d.]+" height="[\d.]+">(.*?)</page>', xml, re.S):
-        rows = []
-        for lm in re.finditer(
-                r'<line xMin="([\d.]+)" yMin="([\d.]+)"[^>]*>(.*?)</line>', pm.group(1), re.S):
-            t = ' '.join(re.findall(r'>([^<]*)</word>', lm.group(3))).strip()
-            if t:
-                rows.append({'x': float(lm.group(1)), 'y': float(lm.group(2)), 't': t})
-        # The tag itself wraps: "and cladistics [HL" on one line, "only]" on
-        # the next. Matching only the complete string "HL only" missed those,
-        # which is how A3.2 and C2.2 escaped detection.
-        tags = [r for r in rows if re.search(r'\[HL\b|HL only', r['t'])]
-        if not tags:
+    for _w, words in pages_words(pdf):
+        labels = [(wd, label_re.match(wd['t'])) for wd in words]
+        labels = [(wd, m) for wd, m in labels if m]
+        tags = [wd for wd in words if wd['t'].startswith('[HL')]
+        if not labels or not tags:
             continue
-        labels = [(r, re.match(r'^([A-D])([1-4])\.(\d{1,2})\b', r['t'])) for r in rows]
-        labels = [(r, m) for r, m in labels if m]
+
+        # Column origins are the distinct x positions the labels start at.
+        cols = sorted({round(wd['x']) for wd, _ in labels})
+        merged = []
+        for c in cols:
+            if not merged or c - merged[-1] > 25:
+                merged.append(c)
+
+        def col_of(x):
+            hit = [c for c in merged if x >= c - 12]
+            return hit[-1] if hit else None
+
         for tag in tags:
-            # nearest topic label above, in the same column
-            cands = [(r, m) for r, m in labels
-                     if abs(r['x'] - tag['x']) < 40 and 0 <= tag['y'] - r['y'] < 60]
-            if cands:
-                r, m = max(cands, key=lambda p: p[0]['y'])
-                hl.add((m.group(1), int(m.group(2)), int(m.group(3))))
+            tc = col_of(tag['x'])
+            if tc is None:
+                continue
+            above = [(wd, m) for wd, m in labels
+                     if col_of(wd['x']) == tc and wd['y'] <= tag['y'] + 6]
+            if above:
+                wd, m = max(above, key=lambda p: p[0]['y'])
+                hl.add(m.group(0))
     return hl
 
 
@@ -304,7 +296,8 @@ def parse(key, pdf, level=None):
                             lambda m: (f'{m.group(1)} {m.group(2)}',
                                        f'{m.group(1)} {m.group(2)}.{m.group(3)}',
                                        m.group(4).strip()))
-    hl = hl_only_topics(pdf)
+    hl_labels = hl_only_topics(pdf, re.compile(r'^[A-D][1-4]\.\d{1,2}$'))
+    hl = {(l[0], int(l[1]), int(l.split('.')[1])) for l in hl_labels}
     themes, levels = cfg['themes'], cfg['levels']
     found = {}
 
@@ -314,6 +307,11 @@ def parse(key, pdf, level=None):
             continue
         theme, lvl, num, title = m.group(1), int(m.group(2)), int(m.group(3)), m.group(4).strip()
         if PLACEHOLDER.match(title):
+            continue
+        # Titles must come from the body heading, not the roadmap table: the
+        # table merges columns, so "A2.3 Viruses" arrives as "Viruses [HL and
+        # cladistics [HL of biodiversity [HL only]".
+        if '[HL' in title:
             continue
         title = re.sub(r'\s*\[HL only\]\s*$', '', title, flags=re.I).strip()
         # The clearest wording wins: the contents page truncates some titles

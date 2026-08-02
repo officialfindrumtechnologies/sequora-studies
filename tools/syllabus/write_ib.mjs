@@ -18,16 +18,24 @@ const env = Object.fromEntries(
 const sb = createClient(env.VITE_SUPABASE_URL || env.SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY);
 
 // [parsed-file, subject_name, level, years, source]
-// Only HL is written for Biology. The guide covers SL and HL in one document
-// and marks HL-only topics in a roadmap table whose tags wrap across lines, so
-// the SL subset cannot be derived reliably yet — and an SL list carrying
-// HL-only topics would tell a student to study material off their syllabus.
+//
+// SL rows are now written too. Biology genuinely differs by level: six topics
+// are HL-only, and word-level extraction attributes the roadmap's [HL only]
+// tags correctly where line-level could not. Physics and Chemistry share their
+// topic list across levels — they mark "Additional higher level" WITHIN topics
+// rather than reserving whole topics — so both levels take the same list.
 const BATCH = [
   ['pib-biology-HL', 'Biology',   'HL', 'first assessment 2025',
    'https://anatolia.edu.gr/images/highschool/IBDP/Biology%20Guide%202025.pdf'],
+  ['pib-biology-SL', 'Biology',   'SL', 'first assessment 2025',
+   'https://anatolia.edu.gr/images/highschool/IBDP/Biology%20Guide%202025.pdf'],
   ['pib-physics',    'Physics',   'HL', 'first assessment 2025',
    'https://anatolia.edu.gr/images/highschool/IBDP/Physics%20Guide%202025.pdf'],
+  ['pib-physics',    'Physics',   'SL', 'first assessment 2025',
+   'https://anatolia.edu.gr/images/highschool/IBDP/Physics%20Guide%202025.pdf'],
   ['pib-chemistry',  'Chemistry', 'HL', 'first assessment 2025',
+   'https://anatolia.edu.gr/images/highschool/IBDP/Chemistry%20Guide%202025.pdf'],
+  ['pib-chemistry',  'Chemistry', 'SL', 'first assessment 2025',
    'https://anatolia.edu.gr/images/highschool/IBDP/Chemistry%20Guide%202025.pdf'],
   // Mathematics AA is the one guide whose SL/HL split is unambiguous: every
   // sub-topic is labelled "SL 1.1" or "AHL 1.10", so both levels can be written.
