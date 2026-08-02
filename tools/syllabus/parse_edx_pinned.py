@@ -81,7 +81,8 @@ SUB_DOTTED3_ALONE = re.compile(r'^(\d)\.(\d)\.(\d{1,2})$')
 # ethics"), with lettered detail in the right-hand column.
 SUB_PLAIN = re.compile(r'^(\d{1,2})\s+([A-Z][a-z].{2,70}?)\s*$')
 SUB_PLAIN_ALONE = re.compile(r'^(\d{1,2})$')
-CONTENT_COL = re.compile(r'^(Students should be taught to|What students need to learn)', re.I)
+CONTENT_COL = re.compile(r'^(Students should be taught to|What students need to learn|'
+                         r'What learners need to study)', re.I)
 NOISE = re.compile(r'(Pearson|Specification|Issue \d|©|International GCSE|Notes|'
                    r'Assessment|Appendi|Sample|Subject content|^\d{1,3}$)', re.I)
 
@@ -111,9 +112,19 @@ def parse_dotted3(cfg, pdf):
     # Appends are confined to the label's own column: Economics has no header
     # to calibrate a split from, and without this the right-hand detail column
     # ("a) The problem of scarcity...") was appended onto every topic name.
-    buckets, pending, pend_x = {}, None, None
+    # Economics does have a header pair, worded "Subject content" against
+    # "What learners need to study:", so the column split can be calibrated
+    # rather than approximated by proximity to the label - which failed because
+    # a wrapped name is indented further than its own label ("1.1.1 The
+    # economic" at x=68, "problem" at x=104).
+    buckets, pending, split = {}, None, None
     for _w, rows in pages(pdf):
+        cc = next((r for r in rows if CONTENT_COL.match(r['t'])), None)
+        if cc:
+            split = cc['x'] - 8
         for r in rows:
+            if split is not None and r['x'] >= split:
+                continue
             txt = r['t'].strip()
             m = SUB_DOTTED3.match(txt)
             if m:
@@ -123,7 +134,7 @@ def parse_dotted3(cfg, pdf):
                     buckets.setdefault(key, m.group(4).strip())
                     # Names wrap in the narrow label column, so the key stays
                     # open and following lines in that column append to it.
-                    pending, pend_x = key, r['x']
+                    pending = key
                 else:
                     pending = None
                 continue
@@ -131,10 +142,15 @@ def parse_dotted3(cfg, pdf):
             if m:
                 ch = f'{m.group(1)}.{m.group(2)}'
                 pending = (by_label[ch], f'{ch}.{m.group(3)}') if ch in by_label else None
-                pend_x = r['x']
                 continue
-            if pending and pend_x is not None and abs(r['x'] - pend_x) < 25 \
-                    and re.match(r'^[A-Za-z0-9]', txt) and not NOISE.search(txt) \
+            # A chapter heading closes the entry above it; without this
+            # "1.1.6 Externalities" absorbed "1.2 - Business economics".
+            # A chapter heading, or the start of the next paper's section,
+            # closes the entry above it.
+            if re.match(r'^\d\.\d\s*[–-]', txt) or re.match(r'^Paper\b', txt, re.I):
+                pending = None
+                continue
+            if pending and re.match(r'^[A-Za-z0-9]', txt) and not NOISE.search(txt) \
                     and len(txt) > 1:
                 buckets[pending] = (buckets.get(pending, '') + ' ' + txt).strip()
     order, out = [], []

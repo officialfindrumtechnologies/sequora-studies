@@ -198,16 +198,17 @@ sub-topic shapes, because Edexcel varies that too:
 | lettered | `1 Forces and motion` → `(a) Units` | IGCSE Physics |
 | numbered | `1.1 Integers`, tiered Foundation/Higher | IGCSE Mathematics A |
 | plain | `Topic 1:` → `4 Professional ethics` | IGCSE Accounting |
-| dotted | `1.1` chapters → `1.1.1` sub-topics | IGCSE Economics *(not written)* |
+| dotted | `1.1` chapters → `1.1.1` sub-topics | IGCSE Economics |
 
 Requiring a heading's title to match a pinned name is what stops bibliography
 entries becoming chapters, which no general rule managed.
 
-**IGCSE Economics is parsed but not written.** Its sub-topic names wrap onto a
-following line at a different indent from their label, so they truncate — "The
-economic" instead of "The economic problem" — and confining appends by column
-proximity does not recover them. Wrong names under right structure is still
-wrong.
+**IGCSE Economics is now written** (11 → 18). It does have a header pair to
+calibrate from, worded "Subject content" against "What learners need to
+study:", which the other subjects' wordings did not match. With a real column
+split, wrapped names resolve — proximity to the label never could, because a
+wrapped line is indented *further* than its own label ("1.1.1 The economic" at
+x=68, "problem" at x=104).
 
 ### Fetching
 
