@@ -29,6 +29,16 @@ const BATCH = [
    'https://anatolia.edu.gr/images/highschool/IBDP/Physics%20Guide%202025.pdf'],
   ['pib-chemistry',  'Chemistry', 'HL', 'first assessment 2025',
    'https://anatolia.edu.gr/images/highschool/IBDP/Chemistry%20Guide%202025.pdf'],
+  // Mathematics AA is the one guide whose SL/HL split is unambiguous: every
+  // sub-topic is labelled "SL 1.1" or "AHL 1.10", so both levels can be written.
+  ['pib-maths-aa-HL', 'Mathematics: Analysis & Approaches', 'HL', 'first assessment 2021',
+   'https://resources.finalsite.net/images/v1701373021/d11org/afkyrocwzw9kr5xjo2xu/Mathematics-AnalysisandApproaches.pdf'],
+  ['pib-maths-aa-SL', 'Mathematics: Analysis & Approaches', 'SL', 'first assessment 2021',
+   'https://resources.finalsite.net/images/v1701373021/d11org/afkyrocwzw9kr5xjo2xu/Mathematics-AnalysisandApproaches.pdf'],
+  ['pib-maths-ai-HL', 'Mathematics: Applications & Interpretation', 'HL', 'first assessment 2021',
+   'https://dp.uwcea.org/docs/Mathematics%20-%20Applications%20and%20Interpretation%20Subject%20Guide.pdf'],
+  ['pib-maths-ai-SL', 'Mathematics: Applications & Interpretation', 'SL', 'first assessment 2021',
+   'https://dp.uwcea.org/docs/Mathematics%20-%20Applications%20and%20Interpretation%20Subject%20Guide.pdf'],
 ];
 
 const dry = process.argv.includes('--dry');

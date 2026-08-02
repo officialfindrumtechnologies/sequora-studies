@@ -41,6 +41,30 @@ GUIDES = {
             'Reactivity 3': 'What are the mechanisms of chemical change?',
         },
     },
+    'maths-aa': {
+        'subject': 'Mathematics: Analysis & Approaches',
+        'years': 'first assessment 2021',
+        'style': 'maths',
+        'chapters': {
+            1: 'Number and algebra',
+            2: 'Functions',
+            3: 'Geometry and trigonometry',
+            4: 'Statistics and probability',
+            5: 'Calculus',
+        },
+    },
+    'maths-ai': {
+        'subject': 'Mathematics: Applications & Interpretation',
+        'years': 'first assessment 2021',
+        'style': 'maths',
+        'chapters': {
+            1: 'Number and algebra',
+            2: 'Functions',
+            3: 'Geometry and trigonometry',
+            4: 'Statistics and probability',
+            5: 'Calculus',
+        },
+    },
     'biology': {
         'subject': 'Biology',
         'years': 'first assessment 2025',
@@ -147,8 +171,131 @@ def parse_simple(cfg, pdf, pattern, keyfn):
     return order, rows, probs
 
 
+# "SL 1.1" / "AHL 1.10" — the level is in the label itself, which is why this
+# guide can be split into SL and HL when the sciences cannot.
+MATHS_LABEL = re.compile(r'^(SL|AHL)\s+(\d)\.(\d{1,2})$')
+MATHS_STOP = re.compile(r'^(Connections|Other contexts|Links to other subjects|'
+                        r'International-mindedness|TOK:|Enrichment|Use of technology|'
+                        r'Aim|Syllabus content)', re.I)
+# Column headers sit between the label and its statement; they must be skipped
+# without closing the topic, or the statement itself is never reached.
+MATHS_HEADER = re.compile(r'^(Content|Guidance)\b', re.I)
+
+
+def parse_maths(cfg, pdf, want_level):
+    """Mathematics guides label each sub-topic "SL 1.1" or "AHL 1.10" and put
+    its statement in a Content column beside a Guidance column. There are no
+    short topic names, so the statement itself becomes the name.
+
+    HL studies SL plus AHL; SL studies only the SL items. Unlike the sciences,
+    that split is unambiguous because it is written into every label.
+    """
+    found, order_seen = {}, []
+    for _w, words in pages_words(pdf):
+        # group words into visual rows
+        rows, cur_b, buf = [], None, []
+        for wd in words:
+            b = round(wd['y'] / 7)
+            if cur_b is None or b == cur_b:
+                buf.append(wd); cur_b = b
+            else:
+                rows.append(buf); buf = [wd]; cur_b = b
+        if buf:
+            rows.append(buf)
+
+        split = None
+        for row in rows:
+            for wd in row:
+                if wd['t'].startswith('Guidance'):
+                    split = wd['x'] - 8
+        cur = None
+        for row in rows:
+            line = ' '.join(w['t'] for w in row).strip()
+            m = MATHS_LABEL.match(line)
+            if m:
+                cur = (m.group(1), int(m.group(2)), int(m.group(3)))
+                if cur not in found:
+                    found[cur] = ''
+                    order_seen.append(cur)
+                continue
+            if cur is None:
+                continue
+            if MATHS_HEADER.match(line):
+                continue
+            if MATHS_STOP.match(line):
+                cur = None
+                continue
+            # keep only the words in the Content column
+            kept = ' '.join(w['t'] for w in row if split is None or w['x'] < split).strip()
+            if len(kept) > 1:
+                found[cur] = (found[cur] + ' ' + kept).strip()
+
+    levels = ['SL', 'AHL'] if want_level == 'HL' else ['SL']
+    order, rows_out = [], []
+    for n in sorted(cfg['chapters']):
+        keys = [k for k in order_seen if k[1] == n and k[0] in levels]
+        keys.sort(key=lambda k: (k[0] != 'SL', k[2]))
+        if not keys:
+            continue
+        label = f'Topic {n}: {cfg["chapters"][n]}'
+        order.append(label)
+        for k in keys:
+            body = re.sub(r'\s{2,}', ' ', found[k]).strip()
+            if not body:
+                continue
+            rows_out.append({'section': label,
+                             'name': f'{k[0]} {k[1]}.{k[2]} {body}'[:300]})
+    missing = [n for n in cfg['chapters'] if not any(k[1] == n for k in found)]
+    probs = []
+    if not rows_out:
+        probs.append('no topics found')
+    if missing:
+        probs.append(f'topics with no content: {missing}')
+    return order, rows_out, probs
+
+
+def pages_words(pdf):
+    """Word-level coordinates. Line-level is not enough here: pdftotext merges
+    the Content and Guidance columns into a single line element, so a statement
+    arrives with guidance text welded onto it ("...a x 10 k where Calculator or
+    co"). Filtering words by x is the only way to separate them."""
+    xml = subprocess.run(['pdftotext', '-bbox', pdf, '-'],
+                         capture_output=True, text=True, check=True).stdout
+    for pm in re.finditer(r'<page width="([\d.]+)" height="[\d.]+">(.*?)</page>', xml, re.S):
+        words = []
+        for wm in re.finditer(
+                r'<word xMin="([\d.]+)" yMin="([\d.]+)" xMax="[\d.]+" yMax="[\d.]+">([^<]*)</word>',
+                pm.group(2)):
+            t = wm.group(3).replace('&amp;', '&').replace('&#39;', "'") \
+                           .replace('&lt;', '<').replace('&gt;', '>').strip()
+            if t:
+                words.append({'x': float(wm.group(1)), 'y': float(wm.group(2)), 't': t})
+        # Maths notation puts superscripts and subscripts on their own y, so
+        # sorting strictly by y then x interleaves "10 k" out of order. Rows are
+        # bucketed to a tolerance that keeps a line together, then read left to
+        # right within the bucket.
+        yield float(pm.group(1)), sorted(words, key=lambda w: (round(w['y'] / 7), w['x']))
+
+
+def pages_xy(pdf):
+    xml = subprocess.run(['pdftotext', '-bbox-layout', pdf, '-'],
+                         capture_output=True, text=True, check=True).stdout
+    for pm in re.finditer(r'<page width="([\d.]+)" height="[\d.]+">(.*?)</page>', xml, re.S):
+        rows = []
+        for lm in re.finditer(
+                r'<line xMin="([\d.]+)" yMin="([\d.]+)"[^>]*>(.*?)</line>', pm.group(2), re.S):
+            t = ' '.join(re.findall(r'>([^<]*)</word>', lm.group(3)))
+            t = re.sub(r'\s+', ' ', t.replace('&amp;', '&').replace('&#39;', "'")
+                       .replace('&lt;', '<').replace('&gt;', '>')).strip()
+            if t:
+                rows.append({'x': float(lm.group(1)), 'y': float(lm.group(2)), 't': t})
+        yield float(pm.group(1)), sorted(rows, key=lambda r: (r['y'], r['x']))
+
+
 def parse(key, pdf, level=None):
     cfg = GUIDES[key]
+    if cfg.get('style') == 'maths':
+        return parse_maths(cfg, pdf, level or 'HL')
     if cfg.get('style') == 'physics':
         return parse_simple(cfg, pdf, TOPIC_PHYSICS,
                             lambda m: (m.group(1), f'{m.group(1)}.{m.group(2)}', m.group(3).strip()))
