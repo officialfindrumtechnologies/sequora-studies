@@ -35,7 +35,18 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: error.message });
   }
 
-  const result = Array.isArray(data) ? data[0] : data;
-  console.log('[LeagueRollover] done:', result);
-  return res.status(200).json({ ok: true, ...result });
+  // Streak freezes are earned on the same weekly boundary. Kept as a separate
+  // call with its own idempotency marker so a failure in one does not block or
+  // double-apply the other.
+  const { data: fz, error: fzErr } = await adminSb.rpc('grant_streak_freezes', { p_week: week });
+  if (fzErr) console.error('[LeagueRollover] freeze grant failed:', fzErr.message);
+
+  const league = Array.isArray(data) ? data[0] : data;
+  const freezes = Array.isArray(fz) ? fz[0] : fz;
+  console.log('[LeagueRollover] done:', { league, freezes });
+  return res.status(200).json({
+    ok: true, ...league,
+    freezes: freezes || null,
+    freezeError: fzErr?.message || null,
+  });
 }
