@@ -2,6 +2,7 @@ import { supabase } from '../lib/supabase.js';
 import {
   getSubjects, createSubject, updateSubject, reorderSubjects, deleteSubject,
   getTemplatesByQualBoard, createSubjectFromTemplate, getTemplateCounts,
+  getStaleSubjects, refreshSubjectFromTemplate,
 } from '../data/subjects.js';
 import { QUAL_BOARDS, isIB } from '../lib/qualboards.js';
 import {
@@ -26,6 +27,8 @@ const sv = {
 };
 
 let pdfTopics = [];
+// subjects whose template was rebuilt after they were created
+let staleSubjects = [];
 // {qualification: {board: templateCount}} — loaded once, drives the picker
 let tmplCounts = null;
 
@@ -46,6 +49,7 @@ export function getActiveSubjectId() {
 async function loadAll() {
   try {
     sv.subjects = await getSubjects();
+    staleSubjects = await getStaleSubjects().catch(() => []);
     if (!sv.activeId || !sv.subjects.find(s => s.id === sv.activeId)) {
       sv.activeId = sv.subjects[0]?.id ?? null;
     }
@@ -146,7 +150,20 @@ function renderSubjectControls() {
 
   if (!ctrl) return;
   const idx = sv.subjects.findIndex(s => s.id === sv.activeId);
-  ctrl.innerHTML = `
+  // A subject created before its syllabus was rebuilt keeps the old topic
+  // list forever unless it is offered the new one.
+  const stale = staleSubjects.find(x => x.id === sv.activeId);
+  const staleHtml = stale ? `
+    <div class="sb-stale">
+      <div class="sb-stale-msg">
+        <b>Updated syllabus available</b> — this subject was set up from the older
+        list. The official ${stale.years ? esc(stale.years) + ' ' : ''}syllabus has
+        ${stale.templateTopics} topics.
+        <span class="sb-stale-warn">Refreshing replaces your topics and clears their progress.</span>
+      </div>
+      <button class="btn sm primary" onclick="sbRefreshSyllabus()">Refresh syllabus</button>
+    </div>` : '';
+  ctrl.innerHTML = staleHtml + `
     <div class="sb-ctrl-row">
       <button class="btn sm ghost" onclick="sbMoveSubjectUp()" ${idx === 0 ? 'disabled' : ''} title="Move up">↑ Up</button>
       <button class="btn sm ghost" onclick="sbMoveSubjectDown()" ${idx >= sv.subjects.length - 1 ? 'disabled' : ''} title="Move down">↓ Down</button>
@@ -171,6 +188,25 @@ function sbShowAddSubjectPanel() {
   }
 }
 window.sbShowAddSubjectPanel = sbShowAddSubjectPanel;
+
+async function sbRefreshSyllabus() {
+  const stale = staleSubjects.find(x => x.id === sv.activeId);
+  if (!stale) return;
+  const ok = confirm(
+    `Replace "${stale.name}" with the official syllabus (${stale.templateTopics} topics)?\n\n`
+    + 'Your current topics and their progress will be deleted.');
+  if (!ok) return;
+  try {
+    const n = await refreshSubjectFromTemplate(sv.activeId);
+    staleSubjects = staleSubjects.filter(x => x.id !== sv.activeId);
+    sv.topics = await getTopics(sv.activeId);
+    renderAll();
+    sbToast(`Syllabus updated — ${n} topics`);
+  } catch (err) {
+    sbToast('Refresh failed: ' + err.message);
+  }
+}
+window.sbRefreshSyllabus = sbRefreshSyllabus;
 
 // Restrict the qualification dropdown to quals we actually have templates for,
 // so the picker can't lead anywhere empty.
@@ -236,7 +272,7 @@ async function sbLoadTemplatesForBoard() {
     } else {
       list.innerHTML = templates.map(t => `
         <div class="sb-tmpl-row">
-          <span>${esc(t.subject_name)}${t.subject_code ? ` <span class="tag">${esc(t.subject_code)}</span>` : ''}${t.level ? ` <span class="tag">${esc(t.level)}</span>` : ''}</span>
+          <span>${esc(t.subject_name)}${t.subject_code ? ` <span class="tag">${esc(t.subject_code)}</span>` : ''}${t.level ? ` <span class="tag">${esc(t.level)}</span>` : ''}${verifiedBadge(t)}</span>
           <span style="opacity:.5;font-size:12px">${Array.isArray(t.topics) ? t.topics.length : 0} topics</span>
           <button class="btn sm" onclick="sbAddFromTemplate('${t.id}', this)">Add</button>
         </div>
@@ -247,6 +283,19 @@ async function sbLoadTemplatesForBoard() {
   }
 }
 window.sbLoadTemplatesForBoard = sbLoadTemplatesForBoard;
+
+// Says whether a syllabus came from the official document or is still the
+// older hand-written approximation. Both look identical in the picker
+// otherwise, while only one of them can be trusted topic-for-topic.
+function verifiedBadge(t) {
+  if (t.verified_at) {
+    const yrs = t.syllabus_years ? ` ${esc(t.syllabus_years)}` : '';
+    return ` <span class="sb-verified" title="Taken from the official published syllabus${
+      t.source_url ? ` — ${esc(t.source_url)}` : ''}">✓ official${yrs}</span>`;
+  }
+  return ' <span class="sb-unverified" title="Written by hand and not yet checked against the official syllabus. Verify against your own spec.">unverified</span>';
+}
+window.verifiedBadge = verifiedBadge;
 
 // Render IB template list — groups HL+SL per subject, shows level radio picker
 function _renderIBTemplateList(templates) {
@@ -263,7 +312,7 @@ function _renderIBTemplateList(templates) {
     if (isCore) {
       const t = variants[0];
       return `<div class="sb-tmpl-row">
-        <span>${esc(t.subject_name)} <span class="ib-lv-badge ib-lv-core">Core</span></span>
+        <span>${esc(t.subject_name)} <span class="ib-lv-badge ib-lv-core">Core</span>${verifiedBadge(t)}</span>
         <span style="opacity:.5;font-size:12px">${Array.isArray(t.topics) ? t.topics.length : 0} topics</span>
         <button class="btn sm" onclick="sbAddFromTemplate('${t.id}', this)">Add</button>
       </div>`;
@@ -281,7 +330,7 @@ function _renderIBTemplateList(templates) {
     if (slT) radios += `<label class="ib-radio-lbl"><input type="radio" name="${radioName}" value="${slT.id}" data-topics="${Array.isArray(slT.topics) ? slT.topics.length : 0}" ${!hlT ? 'checked' : ''} onchange="sbIBRadioChange('${radioName}')"> SL</label>`;
 
     return `<div class="sb-tmpl-row" id="row-${radioName}">
-      <span>${esc(name)}</span>
+      <span>${esc(name)}${verifiedBadge(hlT || slT || variants[0])}</span>
       <div class="ib-level-pick">${radios}</div>
       <span class="sb-tmpl-topics" id="topics-${radioName}" style="opacity:.5;font-size:12px">${defaultTopics} topics</span>
       <button class="btn sm" onclick="sbAddFromIBTemplate('${radioName}', this)">Add</button>

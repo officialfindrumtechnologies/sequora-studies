@@ -77,7 +77,7 @@ export async function getTemplateCounts() {
 export async function getTemplatesByQualBoard(qualification, examBoard) {
   const { data, error } = await supabase
     .from('syllabus_templates')
-    .select('id, subject_name, subject_code, topics, level')
+    .select('id, subject_name, subject_code, topics, level, verified_at, syllabus_years, source_url')
     .eq('qualification', qualification)
     .eq('exam_board', examBoard)
     .order('level', { ascending: true, nullsFirst: true })
@@ -90,7 +90,7 @@ export async function getTemplatesByQualBoard(qualification, examBoard) {
 export async function getTemplatesByBoard(board) {
   const { data, error } = await supabase
     .from('syllabus_templates')
-    .select('id, subject_name, subject_code, topics, level')
+    .select('id, subject_name, subject_code, topics, level, verified_at, syllabus_years, source_url')
     .eq('board', board)
     .order('subject_name');
   if (error) throw error;
@@ -130,5 +130,77 @@ export async function createSubjectFromTemplate({ userId, templateId, overrideLe
     }
   }
 
+  // Remember the source, so a corrected syllabus can reach this subject later.
+  await supabase.from('subjects')
+    .update({ template_id: templateId, syllabus_synced_at: new Date().toISOString() })
+    .eq('id', subject.id);
+
   return subject;
+}
+
+// Subjects whose template has been updated since they last took content from it.
+// Templates were rebuilt from official documents, and a subject created before
+// that rebuild keeps the old, hand-written topic list forever without this.
+export async function getStaleSubjects() {
+  const { data, error } = await supabase
+    .from('subjects')
+    .select('id, name, syllabus_synced_at, template_id, '
+          + 'syllabus_templates!inner(id, subject_name, topics, verified_at, syllabus_years, source_url)')
+    .not('template_id', 'is', null);
+  if (error) throw error;
+
+  return (data || []).filter(s => {
+    const t = s.syllabus_templates;
+    if (!t?.verified_at) return false;              // only offer verified rebuilds
+    if (!s.syllabus_synced_at) return true;         // predates the link entirely
+    return new Date(t.verified_at) > new Date(s.syllabus_synced_at);
+  }).map(s => ({
+    id: s.id,
+    name: s.name,
+    templateTopics: Array.isArray(s.syllabus_templates.topics)
+      ? s.syllabus_templates.topics.length : 0,
+    years: s.syllabus_templates.syllabus_years,
+    sourceUrl: s.syllabus_templates.source_url,
+  }));
+}
+
+// Replace a subject's topics with its template's current content.
+//
+// This REPLACES rather than merges: progress on the old topics is discarded.
+// That is the right trade while the corrected syllabuses are landing — the old
+// lists are the invented ones that dropped whole topics — but it is destructive
+// and the UI must say so before calling it.
+export async function refreshSubjectFromTemplate(subjectId) {
+  const { data: subject, error: sErr } = await supabase
+    .from('subjects').select('id, user_id, template_id').eq('id', subjectId).single();
+  if (sErr) throw sErr;
+  if (!subject.template_id) throw new Error('This subject was not created from a syllabus');
+
+  const { data: tmpl, error: tErr } = await supabase
+    .from('syllabus_templates').select('topics').eq('id', subject.template_id).single();
+  if (tErr) throw tErr;
+
+  const rows = (tmpl.topics || []).map((t, i) => ({
+    user_id: subject.user_id,
+    subject_id: subject.id,
+    section: t.section || null,
+    name: t.name,
+    status: 'notstarted',
+    position: i,
+  }));
+  if (!rows.length) throw new Error('That syllabus has no topics to copy');
+
+  const { error: delErr } = await supabase.from('topics').delete().eq('subject_id', subject.id);
+  if (delErr) throw delErr;
+
+  for (let i = 0; i < rows.length; i += 500) {
+    const { error } = await supabase.from('topics').insert(rows.slice(i, i + 500));
+    if (error) throw error;
+  }
+
+  await supabase.from('subjects')
+    .update({ syllabus_synced_at: new Date().toISOString() })
+    .eq('id', subject.id);
+
+  return rows.length;
 }
