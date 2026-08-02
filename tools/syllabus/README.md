@@ -223,3 +223,40 @@ either the course-materials endpoint or manual URLs.
 Zero chapters used to report clean — "no chapter has empty content" is
 trivially true with no chapters — so seven subjects passed while extracting
 nothing. Fixed; the honest pass count fell from twelve to five.
+
+## IB Diploma — status
+
+**Correcting an earlier claim in this file's history:** IB guides are not
+unobtainable. They are not on ibo.org — they sit behind My IB — but schools
+mirror the official PDFs, and those carry IB copyright, the IB publication
+imprint and a stated first-assessment year, so the content is authentic.
+
+The mirror is not authoritative for *currency*, so every IB template records
+the exact file used in `source_url` and the guide's own stated version in
+`syllabus_years`.
+
+**Written:** Biology HL — 16 chapters / 40 topics (was 51 hand-written entries).
+
+The 2025 sciences are four themes lettered A–D, each explored at four levels of
+biological organization, giving chapters "A1 Unity and diversity — Molecules"
+with topics "A1.1 Water" beneath. Content statements ("A1.1.1—Water as the
+medium for life") sit a level below and are deliberately not used as
+sub-chapters: they are sentences, not topic names.
+
+### Biology SL is not written
+
+One guide covers both levels and marks HL-only topics in a roadmap table. In
+flat text the columns interleave, so a tag lands against whichever topic shares
+its text line — "A1.2 Nucleic acids [HL only]" when the tag belongs to A2.1 in
+the next column. Attributing by coordinates recovers most but demonstrably not
+all: `A3.2 Classification and cladistics [HL only]` and `C2.2 Neural signalling
+[HL only]` wrap onto further lines and are missed.
+
+An SL list built from an incomplete HL set would tell an SL student to study
+material that is not on their syllabus, so only HL — where the full topic list
+is correct by definition — has been written.
+
+### Remaining
+
+48 IB templates. Each subject needs its guide located on a school mirror, and
+the HL/SL split solved before any SL row can be written.
