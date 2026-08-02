@@ -41,6 +41,30 @@ PINNED = {
             6: 'Statistics and probability',
         },
     },
+    'igcse-accounting-4AC1': {
+        'subject': 'Accounting',
+        'tiers': None,
+        'mode': 'plain',      # sub-topics are plain integers within each topic
+        'sections': {
+            1: 'The accounting environment',
+            2: 'Introduction to bookkeeping',
+            3: 'Introduction to control processes',
+            4: 'The preparation of financial statements',
+            5: 'Accounting for end of period adjustments',
+        },
+    },
+    'igcse-economics-4EC1': {
+        'subject': 'Economics',
+        'tiers': None,
+        'mode': 'dotted',     # chapters are 1.1/1.2, sub-topics are 1.1.1 etc
+        'sections': {
+            1: 'The market system',
+            2: 'Business economics',
+            3: 'Government and the economy',
+            4: 'The global economy',
+        },
+        'chapter_labels': {1: '1.1', 2: '1.2', 3: '2.1', 4: '2.2'},
+    },
 }
 
 SUB_INLINE = re.compile(r'^(\d{1,2})\.(\d{1,2})\s+([A-Za-z(].{2,80}?)\s*$')
@@ -50,9 +74,16 @@ SEC_HEAD = re.compile(r'^(\d{1,2})\s+([A-Z].{3,60}?)\s*$')
 LETTER_ALONE = re.compile(r'^\(([a-z])\)$')
 LETTER_INLINE = re.compile(r'^\(([a-z])\)\s+([A-Za-z].{2,80}?)\s*$')
 SUB_ALONE  = re.compile(r'^(\d{1,2})\.(\d{1,2})$')
+# Economics nests one level deeper: chapters 1.1/1.2, sub-topics 1.1.1 etc.
+SUB_DOTTED3 = re.compile(r'^(\d)\.(\d)\.(\d{1,2})\s+([A-Za-z].{2,80}?)\s*$')
+SUB_DOTTED3_ALONE = re.compile(r'^(\d)\.(\d)\.(\d{1,2})$')
+# Accounting numbers its sub-topics plainly within each topic ("4 Professional
+# ethics"), with lettered detail in the right-hand column.
+SUB_PLAIN = re.compile(r'^(\d{1,2})\s+([A-Z][a-z].{2,70}?)\s*$')
+SUB_PLAIN_ALONE = re.compile(r'^(\d{1,2})$')
 CONTENT_COL = re.compile(r'^(Students should be taught to|What students need to learn)', re.I)
 NOISE = re.compile(r'(Pearson|Specification|Issue \d|©|International GCSE|Notes|'
-                   r'Assessment|Appendi|Sample)', re.I)
+                   r'Assessment|Appendi|Sample|Subject content|^\d{1,3}$)', re.I)
 
 
 def pages(pdf):
@@ -71,8 +102,109 @@ def pages(pdf):
         yield w, sorted(rows, key=lambda r: (r['y'], r['x']))
 
 
+def parse_dotted3(cfg, pdf):
+    """Economics nests a level deeper than the rest: chapters are 1.1/1.2 and
+    sub-topics 1.1.1, so the chapter is taken from the first two components of
+    each sub-topic's own label."""
+    labels = cfg['chapter_labels']
+    by_label = {v: k for k, v in labels.items()}
+    # Appends are confined to the label's own column: Economics has no header
+    # to calibrate a split from, and without this the right-hand detail column
+    # ("a) The problem of scarcity...") was appended onto every topic name.
+    buckets, pending, pend_x = {}, None, None
+    for _w, rows in pages(pdf):
+        for r in rows:
+            txt = r['t'].strip()
+            m = SUB_DOTTED3.match(txt)
+            if m:
+                ch = f'{m.group(1)}.{m.group(2)}'
+                if ch in by_label:
+                    key = (by_label[ch], f'{ch}.{m.group(3)}')
+                    buckets.setdefault(key, m.group(4).strip())
+                    # Names wrap in the narrow label column, so the key stays
+                    # open and following lines in that column append to it.
+                    pending, pend_x = key, r['x']
+                else:
+                    pending = None
+                continue
+            m = SUB_DOTTED3_ALONE.match(txt)
+            if m:
+                ch = f'{m.group(1)}.{m.group(2)}'
+                pending = (by_label[ch], f'{ch}.{m.group(3)}') if ch in by_label else None
+                pend_x = r['x']
+                continue
+            if pending and pend_x is not None and abs(r['x'] - pend_x) < 25 \
+                    and re.match(r'^[A-Za-z0-9]', txt) and not NOISE.search(txt) \
+                    and len(txt) > 1:
+                buckets[pending] = (buckets.get(pending, '') + ' ' + txt).strip()
+    order, out = [], []
+    for n in sorted(cfg['sections']):
+        keys = sorted((k for k in buckets if k[0] == n),
+                      key=lambda k: [int(p) for p in k[1].split('.')])
+        if not keys:
+            continue
+        label = f'{labels[n]} {cfg["sections"][n]}'
+        order.append(label)
+        for k in keys:
+            nm = re.sub(r'\s+\d{1,3}\b', ' ', buckets[k])
+            nm = re.sub(r'\s{2,}', ' ', nm).strip()
+            out.append({'section': label, 'name': f'{k[1]} {nm}'[:300]})
+    probs = [] if len(order) == len(cfg['sections']) else \
+        [f'{len(order)} of {len(cfg["sections"])} pinned sections have content']
+    return order, out, probs
+
+
+def parse_plain(cfg, pdf):
+    """Accounting numbers sub-topics plainly within each pinned topic."""
+    sections = cfg['sections']
+    buckets, cur, pending, split = {}, None, None, None
+    for w, rows in pages(pdf):
+        for r in rows:
+            txt = r['t'].strip()
+            m = re.match(r'^Topic\s+(\d{1,2})\s*:\s*(.{3,60}?)\s*$', txt)
+            if m and int(m.group(1)) in sections:
+                cur, pending = int(m.group(1)), None
+                split = None
+                continue
+            if cur is None:
+                continue
+            if split is None and r['x'] > 0.20 * w:
+                split = r['x'] - 4      # first right-column text sets the gutter
+            if split and r['x'] >= split:
+                continue
+            m = SUB_PLAIN.match(txt)
+            if m:
+                key = (cur, int(m.group(1)))
+                buckets.setdefault(key, m.group(2).strip())
+                pending = key
+                continue
+            m = SUB_PLAIN_ALONE.match(txt)
+            if m:
+                pending = (cur, int(m.group(1)))
+                continue
+            if pending and re.match(r'^[A-Za-z]', txt) and not NOISE.search(txt) \
+                    and len(txt) > 1:
+                buckets[pending] = (buckets.get(pending, '') + ' ' + txt).strip()
+    order, out = [], []
+    for n in sorted(sections):
+        keys = sorted(k for k in buckets if k[0] == n)
+        if not keys:
+            continue
+        label = f'Topic {n}: {sections[n]}'
+        order.append(label)
+        for k in keys:
+            out.append({'section': label, 'name': f'{k[1]}. {buckets[k]}'[:300]})
+    probs = [] if len(order) == len(sections) else \
+        [f'{len(order)} of {len(sections)} pinned sections have content']
+    return order, out, probs
+
+
 def parse(stem, pdf):
     cfg = PINNED[stem]
+    if cfg.get('mode') == 'dotted':
+        return parse_dotted3(cfg, pdf)
+    if cfg.get('mode') == 'plain':
+        return parse_plain(cfg, pdf)
     sections, tiers = cfg['sections'], cfg['tiers']
     buckets, split, tier = {}, None, (tiers[0] if tiers else None)
     lettered, cur_sec, pending_letter = {}, None, None

@@ -32,6 +32,7 @@ const BATCH = [
   // parsed by parse_edx_pinned.py against hand-read section lists
   ['igcse-mathematics-a-4MA1', 'IGCSE / O Level', 'Edexcel IGCSE', 'Mathematics A', '2016', '4MA1'],
   ['igcse-physics-4PH1',       'IGCSE / O Level', 'Edexcel IGCSE', 'Physics',       '2017', '4PH1'],
+  ['igcse-accounting-4AC1',    'IGCSE / O Level', 'Edexcel IGCSE', 'Accounting',    '2016', '4AC1'],
 ];
 
 const dry = process.argv.includes('--dry');

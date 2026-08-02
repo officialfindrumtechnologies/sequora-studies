@@ -188,6 +188,27 @@ These need a per-subject section list, pinned by hand the way the MBBS subjects
 are in `mbbs_pinned.py`. That approach is proven and is the right next step
 here; a general rule has now traded one subject against another four times.
 
+### Pinned subjects
+
+`parse_edx_pinned.py` carries a hand-read section list per subject and three
+sub-topic shapes, because Edexcel varies that too:
+
+| mode | shape | subject |
+|---|---|---|
+| lettered | `1 Forces and motion` → `(a) Units` | IGCSE Physics |
+| numbered | `1.1 Integers`, tiered Foundation/Higher | IGCSE Mathematics A |
+| plain | `Topic 1:` → `4 Professional ethics` | IGCSE Accounting |
+| dotted | `1.1` chapters → `1.1.1` sub-topics | IGCSE Economics *(not written)* |
+
+Requiring a heading's title to match a pinned name is what stops bibliography
+entries becoming chapters, which no general rule managed.
+
+**IGCSE Economics is parsed but not written.** Its sub-topic names wrap onto a
+following line at a different indent from their label, so they truncate — "The
+economic" instead of "The economic problem" — and confining appends by column
+proximity does not recover them. Wrong names under right structure is still
+wrong.
+
 ### Fetching
 
 Landing-page scraping works for most subjects but returns nothing for Law,
