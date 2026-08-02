@@ -6535,7 +6535,15 @@ window.lbSendRequest = async function(addresseeId, name) {
   } catch(e) {
     const msg = e?.message || '';
     if (msg.includes('duplicate') || e?.code === '23505') {
-      if (btn) { btn.textContent = 'Already sent'; btn.disabled = true; }
+      // A friendship is one relationship in either direction, so a conflict
+      // can mean they already asked us — "Already sent" would be wrong then.
+      let label = 'Already sent';
+      try {
+        const rel = await getExistingRelationship(currentUser.id, addresseeId);
+        if (rel?.status === 'accepted') label = 'Already friends';
+        else if (rel && rel.requester_id !== currentUser.id) label = 'They asked you';
+      } catch {}
+      if (btn) { btn.textContent = label; btn.disabled = true; }
     } else {
       if (btn) { btn.disabled = false; btn.textContent = 'Add friend'; }
       setToast('Failed to send request');
