@@ -29,6 +29,9 @@ const BATCH = [
   // this is the GCE one, kept deliberately and flagged by its 9PS0/8PS0 code.
   ['alevel-psychology-9PS0', 'A Level',  'Edexcel', 'Psychology', '2015', '9PS0'],
   ['as-psychology-8PS0',     'AS Level', 'Edexcel', 'Psychology', '2015', '8PS0'],
+  // parsed by parse_edx_pinned.py against hand-read section lists
+  ['igcse-mathematics-a-4MA1', 'IGCSE / O Level', 'Edexcel IGCSE', 'Mathematics A', '2016', '4MA1'],
+  ['igcse-physics-4PH1',       'IGCSE / O Level', 'Edexcel IGCSE', 'Physics',       '2017', '4PH1'],
 ];
 
 const dry = process.argv.includes('--dry');
@@ -36,8 +39,8 @@ let fails = 0;
 
 for (const [stem, qualification, exam_board, subject_name, years, code] of BATCH) {
   // prefer the column-aware parse where one exists
-  const jsonPath = fs.existsSync(`${DIR}/pc-${stem}.json`)
-    ? `${DIR}/pc-${stem}.json` : `${DIR}/pe-${stem}.json`;
+  const jsonPath = [`${DIR}/pp-${stem}.json`, `${DIR}/pc-${stem}.json`,
+                    `${DIR}/pe-${stem}.json`].find(p => fs.existsSync(p));
   const d = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
   if (!d.ok) { console.error(`REFUSED ${subject_name}: ${d.problems}`); fails++; continue; }
 
