@@ -16,6 +16,31 @@ sentences, not topic names.
 import re, sys, json, subprocess
 
 GUIDES = {
+    'physics': {
+        'subject': 'Physics',
+        'years': 'first assessment 2025',
+        'style': 'physics',
+        'chapters': {
+            'A': 'Space, time and motion',
+            'B': 'The particulate nature of matter',
+            'C': 'Wave behaviour',
+            'D': 'Fields',
+            'E': 'Nuclear and quantum physics',
+        },
+    },
+    'chemistry': {
+        'subject': 'Chemistry',
+        'years': 'first assessment 2025',
+        'style': 'chemistry',
+        'chapters': {
+            'Structure 1': 'Models of the particulate nature of matter',
+            'Structure 2': 'Models of bonding and structure',
+            'Structure 3': 'Classification of matter',
+            'Reactivity 1': 'What drives chemical reactions?',
+            'Reactivity 2': 'How much, how fast and how far?',
+            'Reactivity 3': 'What are the mechanisms of chemical change?',
+        },
+    },
     'biology': {
         'subject': 'Biology',
         'years': 'first assessment 2025',
@@ -25,13 +50,28 @@ GUIDES = {
     },
 }
 
+# Each 2025 science guide numbers itself differently, so the pattern and the
+# chapter names come from the guide's own config rather than being assumed.
 TOPIC = re.compile(r'^([A-D])([1-4])\.(\d{1,2})\s+([A-Z].{3,60}?)\s*$')
+TOPIC_PHYSICS = re.compile(r'^([A-E])\.(\d{1,2})\s+([A-Z].{3,60}?)\s*$')
+TOPIC_CHEM = re.compile(r'^(Structure|Reactivity)\s+(\d)\.(\d{1,2})\s*[—–-]\s*([A-Za-z].{3,60}?)\s*$')
 # The guide explains its own numbering with a worked example on an early page.
 PLACEHOLDER = re.compile(r'^(Topic name|Content statement|Guiding question)', re.I)
 
 
 def hl_only_topics(pdf):
-    """Which topics are HL-only, read off the syllabus roadmap table.
+    """DISABLED — returns an empty set. Kept for the record of why.
+
+    The roadmap table's [HL only] tags cannot be attributed reliably at line
+    level. pdftotext merges adjacent columns into one line element, so
+    "B2.2 Organelles" from one column and "and motility [HL only]" from the
+    next arrive as a single line reading "B2.2 Organelles and motility
+    [HL only]" — the tag belongs to B3.3 Muscle and motility, not B2.2.
+    Coordinates do not help when two columns already share a line element;
+    that needs word-level extraction (pdftotext -bbox), not line-level.
+
+    Until then no HL/SL distinction is claimed: HL rows carry the full topic
+    list, which is correct for HL by definition, and SL rows are left alone.
 
     The marker is a separate "[HL only]" line sitting under its topic in the
     same column. In flat text the columns interleave, so the tag appears
@@ -40,6 +80,8 @@ def hl_only_topics(pdf):
     Attribution therefore has to be done on coordinates: same column, next tag
     below the topic.
     """
+    return set()
+
     xml = subprocess.run(['pdftotext', '-bbox-layout', pdf, '-'],
                          capture_output=True, text=True, check=True).stdout
     hl = set()
@@ -50,7 +92,10 @@ def hl_only_topics(pdf):
             t = ' '.join(re.findall(r'>([^<]*)</word>', lm.group(3))).strip()
             if t:
                 rows.append({'x': float(lm.group(1)), 'y': float(lm.group(2)), 't': t})
-        tags = [r for r in rows if 'HL only' in r['t']]
+        # The tag itself wraps: "and cladistics [HL" on one line, "only]" on
+        # the next. Matching only the complete string "HL only" missed those,
+        # which is how A3.2 and C2.2 escaped detection.
+        tags = [r for r in rows if re.search(r'\[HL\b|HL only', r['t'])]
         if not tags:
             continue
         labels = [(r, re.match(r'^([A-D])([1-4])\.(\d{1,2})\b', r['t'])) for r in rows]
@@ -58,7 +103,7 @@ def hl_only_topics(pdf):
         for tag in tags:
             # nearest topic label above, in the same column
             cands = [(r, m) for r, m in labels
-                     if abs(r['x'] - tag['x']) < 40 and 0 <= tag['y'] - r['y'] < 40]
+                     if abs(r['x'] - tag['x']) < 40 and 0 <= tag['y'] - r['y'] < 60]
             if cands:
                 r, m = max(cands, key=lambda p: p[0]['y'])
                 hl.add((m.group(1), int(m.group(2)), int(m.group(3))))
@@ -70,8 +115,48 @@ def lines(pdf):
                           capture_output=True, text=True, check=True).stdout.split('\n')
 
 
+def parse_simple(cfg, pdf, pattern, keyfn):
+    """Physics and Chemistry: one flat chapter key per topic, taken from the
+    topic's own label, so chapter order never has to be inferred."""
+    found = {}
+    for raw in lines(pdf):
+        m = pattern.match(raw.strip())
+        if not m:
+            continue
+        ch, label, title = keyfn(m)
+        if PLACEHOLDER.match(title) or ch not in cfg['chapters']:
+            continue
+        if len(title) > len(found.get((ch, label), '')):
+            found[(ch, label)] = title
+    order, rows = [], []
+    for ch in cfg['chapters']:
+        subs = [k for k in found if k[0] == ch]
+        subs.sort(key=lambda k: [int(p) for p in re.findall(r'\d+', k[1])])
+        if not subs:
+            continue
+        name = f'{ch}. {cfg["chapters"][ch]}'
+        order.append(name)
+        for k in subs:
+            rows.append({'section': name, 'name': f'{k[1]} {found[k]}'[:300]})
+    missing = [c for c in cfg['chapters'] if not any(k[0] == c for k in found)]
+    probs = []
+    if not rows:
+        probs.append('no topics found')
+    if missing:
+        probs.append(f'chapters with no topics: {missing}')
+    return order, rows, probs
+
+
 def parse(key, pdf, level=None):
     cfg = GUIDES[key]
+    if cfg.get('style') == 'physics':
+        return parse_simple(cfg, pdf, TOPIC_PHYSICS,
+                            lambda m: (m.group(1), f'{m.group(1)}.{m.group(2)}', m.group(3).strip()))
+    if cfg.get('style') == 'chemistry':
+        return parse_simple(cfg, pdf, TOPIC_CHEM,
+                            lambda m: (f'{m.group(1)} {m.group(2)}',
+                                       f'{m.group(1)} {m.group(2)}.{m.group(3)}',
+                                       m.group(4).strip()))
     hl = hl_only_topics(pdf)
     themes, levels = cfg['themes'], cfg['levels']
     found = {}

@@ -23,8 +23,12 @@ const sb = createClient(env.VITE_SUPABASE_URL || env.SUPABASE_URL, env.SUPABASE_
 // the SL subset cannot be derived reliably yet — and an SL list carrying
 // HL-only topics would tell a student to study material off their syllabus.
 const BATCH = [
-  ['pib-biology-HL', 'Biology', 'HL', 'first assessment 2025',
+  ['pib-biology-HL', 'Biology',   'HL', 'first assessment 2025',
    'https://anatolia.edu.gr/images/highschool/IBDP/Biology%20Guide%202025.pdf'],
+  ['pib-physics',    'Physics',   'HL', 'first assessment 2025',
+   'https://anatolia.edu.gr/images/highschool/IBDP/Physics%20Guide%202025.pdf'],
+  ['pib-chemistry',  'Chemistry', 'HL', 'first assessment 2025',
+   'https://anatolia.edu.gr/images/highschool/IBDP/Chemistry%20Guide%202025.pdf'],
 ];
 
 const dry = process.argv.includes('--dry');

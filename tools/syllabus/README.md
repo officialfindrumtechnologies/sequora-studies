@@ -243,6 +243,16 @@ with topics "A1.1 Water" beneath. Content statements ("A1.1.1—Water as the
 medium for life") sit a level below and are deliberately not used as
 sub-chapters: they are sentences, not topic names.
 
+**Also written:** Physics HL (5 chapters / 24) and Chemistry HL (6 / 22). Both
+shrank against their hand-written predecessors (37 and 48) because the 2025
+syllabuses genuinely are smaller — options and Paper 3 were removed.
+
+Each 2025 science numbers itself differently, so the topic pattern and chapter
+names come from each guide's own config: Biology uses themes A–D across four
+levels of organization, Physics uses themes A–E with `A.1 Kinematics`, and
+Chemistry uses `Structure 1` / `Reactivity 1` with `Reactivity 1.1—Measuring
+enthalpy changes`.
+
 ### Biology SL is not written
 
 One guide covers both levels and marks HL-only topics in a roadmap table. In
@@ -252,9 +262,21 @@ the next column. Attributing by coordinates recovers most but demonstrably not
 all: `A3.2 Classification and cladistics [HL only]` and `C2.2 Neural signalling
 [HL only]` wrap onto further lines and are missed.
 
-An SL list built from an incomplete HL set would tell an SL student to study
-material that is not on their syllabus, so only HL — where the full topic list
-is correct by definition — has been written.
+Worse than incomplete, it is **misattributed**: pdftotext merges adjacent
+columns into a single line element, so `B2.2 Organelles` and `and motility
+[HL only]` from the next column arrive as one line reading "B2.2 Organelles and
+motility [HL only]" — the tag belongs to B3.3 Muscle and motility. Coordinates
+cannot separate what is already one line element; that needs word-level
+extraction (`pdftotext -bbox`).
+
+`hl_only_topics()` is therefore disabled and returns an empty set. Only HL rows
+are written, carrying the full topic list, which is correct for HL by
+definition. No HL/SL distinction is claimed anywhere.
+
+**Mathematics AA is the exception worth doing next:** it labels content `SL 1.1`
+against `AHL 1.10`, so the split is unambiguous from the label itself. It needs
+the column treatment first — labels and content statements sit in separate
+columns.
 
 ### Remaining
 
