@@ -161,6 +161,33 @@ appended to its title.
 * **English, History, Economics, IGCSE Maths and IGCSE Physics** produce
   nothing from either parser — more layouts again.
 
+### The subjects that produce nothing
+
+IGCSE Maths A, IGCSE Physics, Economics, History and the English subjects were
+attempted again and are **still not written**. What was learned:
+
+* Their sections are headed by a bare number with the number and title as
+  separate line elements ("1" at x=62, "Numbers and the number system" at
+  x=105), so no heading pattern that expects them on one line will match.
+* Maths A is a **three**-column table (labels | students-should-be-taught-to |
+  notes). Inferring a single gutter from the data lands past the middle column
+  and pulls its content in as sub-topics; the named "Students should be taught
+  to" header is the only reliable split, and Physics has no equivalent.
+* Pairing the number with its title, and trusting bare-number sections only in
+  documents that never say "Topic N:", did get Maths to 7 sections / 39
+  sub-topics and Physics to 10 / 146 with correct sub-topic text.
+
+That was still not shippable: the section **titles** came from the
+bibliography ("Section 1: OECD (2012), Better Skills, Better Jobs", "Section 2:
+Koenig, J. A. (2011) Assessing 21st Century Skills") because reference-list
+entries are also numbered lines, and Geography lost a topic in the same pass.
+Correct sub-topics under wrong chapter names is worse than leaving the old data
+in place, so the change was reverted rather than committed.
+
+These need a per-subject section list, pinned by hand the way the MBBS subjects
+are in `mbbs_pinned.py`. That approach is proven and is the right next step
+here; a general rule has now traded one subject against another four times.
+
 ### Fetching
 
 Landing-page scraping works for most subjects but returns nothing for Law,
