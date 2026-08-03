@@ -18,6 +18,11 @@ import re, sys, json, subprocess
 from collections import Counter, defaultdict
 
 SUB_RE  = re.compile(r'^([CE]?)(\d{1,2})\.(\d{1,2})\s+([A-Za-z(].{2,120}?)\s*$')
+# 0580 numbers Core and Extended identically and fills the gaps on the Core
+# side with "C6.3 Extended content only." Those are cross-references, not
+# content: taken literally they put four Extended trigonometry topics onto a
+# Core student's plan, and Core came out the same length as Extended.
+PLACEHOLDER_SUB = re.compile(r'^(Extended|Core) content only\.?$', re.I)
 # Numbers 1-9 are padded ("1   Cell structure") but 10+ are not
 # ("12 Energy and respiration"), so this must accept a single space.
 #
@@ -76,6 +81,11 @@ def clean(t):
 def pdf_lines(pdf):
     txt = subprocess.run(['pdftotext', '-layout', pdf, '-'],
                          capture_output=True, text=True, check=True).stdout
+    # Bullet and dingbat glyphs have no Unicode mapping in some syllabus fonts
+    # and pdftotext emits the raw control byte. 9990 numbers its sub-topics
+    # "1.2\t\x07Mood (affective) disorders", and the \x07 sitting where a
+    # letter was expected hid three of topic 1's five sub-topics.
+    txt = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f]', ' ', txt)
     return txt.split('\n')
 
 
@@ -126,6 +136,7 @@ def parse(pdf):
 
     subs = defaultdict(list)          # (variant, chapter) -> [(sub, title)]
     seen = set()
+    placeholders = set()              # (variant, chapter, sub) deliberately dropped
     chap_hits = defaultdict(Counter)  # chapter -> Counter(title)
 
     for raw in lines[:content_end(lines, start)]:
@@ -135,7 +146,18 @@ def parse(pdf):
         # appendix section 9 titled "The Periodic Table of Elements", which
         # tied with the real topic 9 "The Periodic Table: chemical periodicity"
         # and won on dict ordering.
-        for frag in re.split(r'\s{3,}', raw.strip()):
+        # The whole line is tried before it is split, because a chapter number
+        # is itself padded away from its title ("2   Consumer Psychology") and
+        # splitting first tore the number off every such heading — 9990 lost
+        # topics 2, 3 and 4 that way. clean() already trims a right-hand column
+        # off the captured title, so the whole-line match survives a two-column
+        # contents row; the split is still needed to reach the right-hand entry.
+        # Counted once per line, not once per way of reading it: the whole line
+        # and its first fragment often yield the same heading, and counting
+        # both would let a single contents-page row look like a repeated
+        # running header — the very signal used to pick the right title.
+        hits_here = set()
+        for frag in [raw.strip()] + re.split(r'\s{3,}', raw.strip()):
             frag = frag.strip()
             if not frag or '....' in frag:
                 continue
@@ -143,7 +165,9 @@ def parse(pdf):
             if m:
                 t = clean(m.group(2))
                 if t and not SECTION_HEADINGS.match(t) and not is_objective(t):
-                    chap_hits[int(m.group(1))][t] += 1
+                    hits_here.add((int(m.group(1)), t))
+        for ch, t in hits_here:
+            chap_hits[ch][t] += 1
 
     for raw in body:
         s = raw.strip()
@@ -155,6 +179,18 @@ def parse(pdf):
             var, ch, sub = m.group(1), int(m.group(2)), int(m.group(3))
             title = clean(m.group(4))
             key = (var, ch, sub)
+            # A decimal quantity in a table reads exactly like a sub-topic
+            # number: 0625 lists "9.8 m / s2" for gravitational field strength
+            # and it arrived as sub-topic 8 of a chapter 9 that does not exist.
+            # Every real title contains a word; a unit expression does not.
+            if not re.search(r'[A-Za-z]{3}', title):
+                continue
+            if PLACEHOLDER_SUB.match(title):
+                # Remembered, not merely skipped: Core numbering is shared with
+                # Extended, so removing C2.3 leaves a hole that is expected
+                # rather than evidence of a sub-topic that failed to parse.
+                placeholders.add(key)
+                continue
             if title and key not in seen:
                 seen.add(key)
                 subs[(var, ch)].append((sub, title))
@@ -230,16 +266,16 @@ def parse(pdf):
     # ones that survived, so validate() can tell the two apart. A chapter whose
     # title is never found is dropped here with its sub-chapters, and counting
     # only what survived cannot see the loss.
-    return chapters, rows, {ch for (_v, ch) in subs}
+    return chapters, rows, {ch for (_v, ch) in subs}, placeholders
 
 
-def validate(chapters, rows, sub_chapters=frozenset()):
+def validate(chapters, rows, sub_chapters=frozenset(), placeholders=frozenset()):
     """Refuse to trust a parse with holes in it. A gap means a topic was
     dropped, and a dropped topic is exactly the defect being fixed."""
     problems = []
     if not chapters:
         problems.append('no chapters found')
-        return problems
+        return problems, []
     gaps = [n for n in range(1, max(chapters) + 1) if n not in chapters]
     if gaps:
         problems.append(f'missing chapters: {gaps}')
@@ -264,21 +300,31 @@ def validate(chapters, rows, sub_chapters=frozenset()):
         m = re.match(r'^([CE]?)(\d{1,2})\.(\d{1,2})\s', r['name'])
         if m:
             found[(m.group(1), int(m.group(2)))].add(int(m.group(3)))
+    for var, ch, sub in placeholders:
+        found[(var, ch)].add(sub)
+    #
+    # A chapter with no sub-chapters is reported but not refused. Some topics
+    # genuinely have none — 0478 topic 7 "Algorithm design and problem-solving"
+    # is a flat list of learning objectives, and 9701 topic 10 "Group 2" is a
+    # single statement — and the parser keeps those as a chapter row, so
+    # nothing is lost. A gap in the numbering is different: it can only mean a
+    # sub-chapter that exists was not read.
+    notes = []
     if found:
         for ch in sorted(chapters):
             for var in sorted({v for (v, _c) in found}):
                 nums = found.get((var, ch))
                 if nums is None:
-                    problems.append(f'chapter {var}{ch} has no sub-chapters')
+                    notes.append(f'chapter {var}{ch} has no sub-chapters')
                 elif sorted(nums) != list(range(1, max(nums) + 1)):
                     problems.append(f'chapter {var}{ch} sub-numbering has a gap: {sorted(nums)}')
-    return problems
+    return problems, notes
 
 
 if __name__ == '__main__':
-    ch, rows, sub_ch = parse(sys.argv[1])
-    problems = validate(ch, rows, sub_ch)
+    ch, rows, sub_ch, ph = parse(sys.argv[1])
+    problems, notes = validate(ch, rows, sub_ch, ph)
     print(json.dumps({'chapters': len(ch), 'topics': len(rows),
-                      'ok': not problems, 'problems': problems,
+                      'ok': not problems, 'problems': problems, 'notes': notes,
                       'chapter_titles': {k: ch[k] for k in sorted(ch)},
                       'rows': rows}, indent=1))

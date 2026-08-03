@@ -41,10 +41,36 @@ SUBJECTS = {
              'and Paper 2 (The Family) — topics 1-4'),
     '9395': ('cambridge_alevel', 'A Level', 'Travel & Tourism', 5,
              '"Candidates for Cambridge International AS Level study topics 1-5."'),
+    '9990': ('cambridge_alevel', 'A Level', 'Psychology', 0,
+             'subject content is split by headings "3.1 AS Level Content" / '
+             '"3.2 A Level Content"; the four numbered topics are all A Level'),
+    '9700': ('cambridge_alevel', 'A Level', 'Biology', 11,
+             '"Candidates for Cambridge International AS Level should study topics 1-11."'),
+    '9701': ('cambridge_alevel', 'A Level', 'Chemistry', 22,
+             '"Candidates for Cambridge International AS Level should study topics 1-22."'),
+    '9702': ('cambridge_alevel', 'A Level', 'Physics', 11,
+             '"Candidates for Cambridge International AS Level should study topics 1-11."'),
+    # 9709 is chosen by component (Pure 1/3, Mechanics, Probability &
+    # Statistics 1/2) rather than by a topic range, so there is no prefix to
+    # take and both levels carry the full list.
+    '9709': ('cambridge_alevel', 'A Level', 'Mathematics', -1,
+             'AS is a choice of components, not a prefix of the topic list'),
     '0452': ('cambridge_igcse', 'IGCSE / O Level', 'Accounting', None, ''),
     '0455': ('cambridge_igcse', 'IGCSE / O Level', 'Economics', None, ''),
     '0460': ('cambridge_igcse', 'IGCSE / O Level', 'Geography', None, ''),
+    '0471': ('cambridge_igcse', 'IGCSE / O Level', 'Travel & Tourism', None, ''),
+    '0478': ('cambridge_igcse', 'IGCSE / O Level', 'Computer Science', None, ''),
+    '0610': ('cambridge_igcse', 'IGCSE / O Level', 'Biology', None, ''),
+    '0620': ('cambridge_igcse', 'IGCSE / O Level', 'Chemistry', None, ''),
+    '0625': ('cambridge_igcse', 'IGCSE / O Level', 'Physics', None, ''),
+    '0580': ('cambridge_igcse', 'IGCSE / O Level', 'Mathematics', None, ''),
+    '2210': ('o_level', 'IGCSE / O Level', 'Computer Science', None, ''),
+    '2217': ('o_level', 'IGCSE / O Level', 'Geography', None, ''),
     '2281': ('o_level', 'IGCSE / O Level', 'Economics', None, ''),
+    '5090': ('o_level', 'IGCSE / O Level', 'Biology', None, ''),
+    '5070': ('o_level', 'IGCSE / O Level', 'Chemistry', None, ''),
+    '5054': ('o_level', 'IGCSE / O Level', 'Physics', None, ''),
+    '4024': ('o_level', 'IGCSE / O Level', 'Mathematics D', None, ''),
 }
 
 
@@ -75,7 +101,14 @@ def emit(pdf, outdir):
 
     for qualification, limit in variants:
         rows = d['rows']
-        if limit is not None:
+        # -1 means the AS course is not a prefix of the topic list (9709 picks
+        # components instead), so both levels carry everything. 0 means the
+        # numbered topics are all A Level and AS content is unnumbered, which
+        # cannot be sliced and must not be guessed at.
+        if limit == 0:
+            print(f'skip {subject} AS Level: AS content is not numbered', file=sys.stderr)
+            continue
+        if limit is not None and limit > 0:
             rows = [r for r in rows
                     if (n := chapter_no(r['section'])) is not None and n <= limit]
         # An empty AS slice means the pinned boundary does not match the parse;
