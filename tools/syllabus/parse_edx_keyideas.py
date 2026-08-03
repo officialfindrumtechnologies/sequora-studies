@@ -45,6 +45,34 @@ SUBJECTS = {
             (2, 3): 'Paper 2 · Section C: Challenges for Bangladesh',
         },
     },
+    'igcse-bangla-4BA0': {
+        'subject': 'Bangla', 'code': '4BA0',
+        'years': 'first teaching 2017',
+        'mode': 'themes',
+        # "Themes and topics" states plainly that "the examination paper will be
+        # based on these themes and topics", so this list is the examinable
+        # content. The vocabulary section later in the spec repeats the theme
+        # headings with different wording beneath them; only the first list is
+        # taken.
+        'theme_count': 5,
+    },
+    'igcse-business-4BS1': {
+        'subject': 'Business Studies', 'code': '4BS1',
+        'years': 'first teaching 2017',
+        # Numbering runs straight through both papers rather than restarting,
+        # so the paper must NOT be tracked: the assessment section names the
+        # papers, and following that marker moved every topic to a paper 2 that
+        # has no sections, emptying the parse.
+        'single_paper': True,
+        'split_header': r'^What learners need to study',
+        'sections': {
+            (1, 1): '1 Business activity and influences on business',
+            (1, 2): '2 People in business',
+            (1, 3): '3 Business finance',
+            (1, 4): '4 Marketing',
+            (1, 5): '5 Business operations',
+        },
+    },
     'igcse-history-4HI1': {
         'subject': 'History', 'code': '4HI1',
         'years': 'first teaching 2017',
@@ -76,6 +104,26 @@ SUBJECTS = {
             'B7': 'Paper 2 breadth study · B7 The Middle East: conflict, crisis and change, 1917-2012',
             'B8': 'Paper 2 breadth study · B8 Diversity, rights and equality in Britain, 1914-2010',
         },
+    },
+    'igcse-englishlit-4ET1': {
+        'subject': 'English Literature', 'code': '4ET1',
+        'years': 'first teaching 2016',
+        'mode': 'settexts',
+        # "3 Set texts at a glance" enumerates every text a learner may be
+        # entered for, grouped by the sentence that introduces each list. Those
+        # sentences are the only reliable boundary — the lists themselves are
+        # just Title/Writer pairs with nothing to tell one group from the next.
+        'region': (r'^3\s+Set texts at a glance', r'^4\s+English Literature content'),
+        'triggers': [
+            (r'^Part 3 of the Pearson Edexcel International GCSE English Anthology',
+             'Component 1 · Section B: Anthology Poetry (all poems)'),
+            (r'^One modern prose text from the list below',
+             'Component 1 · Section C: Modern Prose (choose one)'),
+            (r'^One modern drama text from the list below',
+             'Component 2/3 · Section A: Modern Drama (choose one)'),
+            (r'^One literary heritage text from the list below',
+             'Component 2/3 · Section B: Literary Heritage Texts (choose one)'),
+        ],
     },
 }
 
@@ -127,19 +175,32 @@ def rows_xy(pdf):
 def parse(stem, pdf):
     cfg = SUBJECTS[stem]
     sections = cfg['sections']
+    # The facing column is headed differently from spec to spec — "Detailed
+    # content" in Bangladesh Studies, "What learners need to study" in
+    # Business — and the gutter is measured from whichever it is.
+    split_re = re.compile(cfg.get('split_header', SPLIT.pattern), re.I)
     buckets = {}
     paper, pending, split, label_x, text_x = 1, None, None, 0.0, None
 
     for _w, rows in rows_xy(pdf):
-        hdr = [r for r in rows if SPLIT.match(r['t'])]
+        hdr = [r for r in rows if split_re.match(r['t'])]
         if hdr:
             split = max(h['x'] for h in hdr) - 6
+        else:
+            # Business sets both column headings on one line element
+            # ("Subject content   What learners need to study"), so the header
+            # never matches and no gutter is ever measured. Falling back to the
+            # data: the facing column is the leftmost thing starting beyond a
+            # third of the page.
+            cand = [r['x'] for r in rows if r['x'] >= _w * 0.3]
+            if cand:
+                split = min(cand) - 6
         # A key idea never continues across a page break; it is one table cell.
         pending, text_x = None, None
         for r in rows:
             txt = r['t'].strip()
             m = PAPER.match(txt)
-            if m:
+            if m and not cfg.get('single_paper'):
                 paper = int(m.group(1))
                 pending = None
                 continue
@@ -311,10 +372,132 @@ def parse_options(stem, pdf):
     return order, out, problems
 
 
+def parse_settexts(stem, pdf):
+    """English Literature: sections are the choices, sub-topics the set texts.
+
+    The whole examined content of this subject is which texts a learner studies,
+    so those are the rows. Unseen poetry has no set text by definition and so
+    has no section here.
+
+    Each list is Title on the left and Writer on the right of the same visual
+    row, with no header to measure a gutter from, so the writer is taken as
+    whatever sits beyond a third of the page width.
+    """
+    cfg = SUBJECTS[stem]
+    start_re, end_re = (re.compile(p, re.I) for p in cfg['region'])
+    triggers = [(re.compile(p, re.I), name) for p, name in cfg['triggers']]
+
+    seen_start, section, rows_out, order = False, None, [], []
+    for w, rows in rows_xy(pdf):
+        # Group by visual row so a title and its writer arrive together.
+        bands = {}
+        for r in rows:
+            bands.setdefault(round(r['y'] / 6), []).append(r)
+        for _b, band in sorted(bands.items()):
+            band.sort(key=lambda r: r['x'])
+            joined = ' '.join(r['t'] for r in band).strip()
+            if not seen_start:
+                seen_start = bool(start_re.match(joined))
+                continue
+            if end_re.match(joined):
+                seen_start = False
+                continue
+            hit = next((n for rx, n in triggers if rx.match(joined)), None)
+            if hit:
+                section = hit
+                if hit not in order:
+                    order.append(hit)
+                continue
+            if section is None or NOISE.match(joined):
+                continue
+            left = ' '.join(r['t'] for r in band if r['x'] < w * 0.33).strip()
+            right = ' '.join(r['t'] for r in band if r['x'] >= w * 0.33).strip()
+            # A row is a set text only when both halves are present; a stray
+            # note or a page footer fills one side and leaves the other empty.
+            if not left or not right or len(left) < 2:
+                continue
+            # The page footer is itself a two-column row — the page number on
+            # the left, the running footer on the right — so it reads as a set
+            # text whose title is "10". Matching the joined text is not enough
+            # because it begins with that number.
+            if NOISE.match(right) or re.fullmatch(r'\d{1,3}', left):
+                continue
+            left = re.sub(r'\*+$', '', left).strip()
+            rows_out.append({'section': section, 'name': f'{left} — {right}'[:300]})
+
+    problems = []
+    if not rows_out:
+        problems.append('no set texts found')
+    missing = [n for _rx, n in triggers if not any(r['section'] == n for r in rows_out)]
+    if missing:
+        problems.append(f'lists with no texts: {missing}')
+    return order, rows_out, problems
+
+
+THEME = re.compile(r'^Theme\s+(\d+)\s*:\s*(\S.*)$')
+BULLET = re.compile(r'^[••]\s+(\S.*)$')
+
+
+def parse_themes(stem, pdf):
+    """Bangla: sections are the themes, sub-topics the bulleted topics.
+
+    Only the first list is read. The theme headings appear again later beside
+    vocabulary guidance, worded differently — "Theme 4: The world around us"
+    becomes "Theme 4: The modern world" — and reading both would file one
+    theme's topics under two names.
+    """
+    cfg = SUBJECTS[stem]
+    want = cfg['theme_count']
+    titles, buckets, order = {}, {}, []
+    section = None
+
+    for _w, rows in rows_xy(pdf):
+        for r in rows:
+            txt = r['t'].strip()
+            m = THEME.match(txt)
+            if m:
+                n = int(m.group(1))
+                if n in titles or n > want:
+                    section = None      # a later restatement, not the list
+                    continue
+                titles[n] = m.group(2).strip()
+                buckets[n] = []
+                order.append(n)
+                section = n
+                continue
+            if section is None:
+                continue
+            m = BULLET.match(txt)
+            if m:
+                buckets[section].append(m.group(1).strip())
+                continue
+            # Any other prose ends the list for this theme.
+            if txt and not NOISE.match(txt):
+                section = None
+
+    names, out = [], []
+    for n in sorted(order):
+        if not buckets[n]:
+            continue
+        label = f'Theme {n}: {titles[n]}'
+        names.append(label)
+        for item in buckets[n]:
+            out.append({'section': label, 'name': item[:300]})
+
+    problems = []
+    if not out:
+        problems.append('no themes found')
+    missing = [n for n in range(1, want + 1) if not buckets.get(n)]
+    if missing:
+        problems.append(f'themes with no topics: {missing}')
+    return names, out, problems
+
+
 if __name__ == '__main__':
     stem = sys.argv[1]
     cfg = SUBJECTS[stem]
-    fn = parse_options if cfg.get('mode') == 'options' else parse
+    fn = {'options': parse_options, 'settexts': parse_settexts,
+          'themes': parse_themes}.get(cfg.get('mode'), parse)
     order, rows, problems = fn(stem, f'edx/{stem}.pdf')
     print(json.dumps({
         'board': 'edexcel_igcse', 'qualification': 'IGCSE / O Level',
