@@ -1,5 +1,7 @@
 #!/bin/bash
 # fetch_edx.sh <landing-url> <out-name> <as|alevel|plain>
+# ONLY=<regex> narrows which specification link to take when a landing page
+# hosts more than one qualification.
 # Pearson publishes separate AS and A Level specification PDFs from the same
 # landing page, so the AS/A split does not have to be inferred.
 set -uo pipefail
@@ -10,10 +12,20 @@ H=$(curl -sL --max-time 45 -A "Mozilla/5.0" "$URL")
 [ -z "$H" ] && { echo "NOPAGE $OUT"; exit 1; }
 LINKS=$(printf '%s' "$H" | grep -oiE 'href="[^"]*specification[^"]*\.pdf"' | sed 's/^href="//;s/"$//' | sort -u)
 [ -z "$LINKS" ] && { echo "NOPDF  $OUT"; exit 1; }
+# The AS file is identified by its basename, not by the whole path: Pearson
+# names it "as-l3-mathematics-specification.pdf", and a pattern anchored on a
+# leading dash ("-as-") never matched a name that simply starts with "as-".
+# That silently fell through to NOMATCH for Mathematics, Chemistry, Economics
+# and History.
+#
+# A landing page can also carry a sibling qualification — the Mathematics page
+# hosts both Mathematics and Further Mathematics — so when a filename filter is
+# given, it selects among the links first.
+AS_RE='(^|/)as[-_]|[-_]as[-_]'
 case "$WANT" in
-  as)     P=$(printf '%s\n' "$LINKS" | grep -iE '_as_|-as-|as-spec' | head -1) ;;
-  alevel) P=$(printf '%s\n' "$LINKS" | grep -viE '_as_|-as-|as-spec' | head -1) ;;
-  *)      P=$(printf '%s\n' "$LINKS" | head -1) ;;
+  as)     P=$(printf '%s\n' "$LINKS" | grep -iE "$AS_RE" | grep -iE "${ONLY:-.}" | head -1) ;;
+  alevel) P=$(printf '%s\n' "$LINKS" | grep -viE "$AS_RE" | grep -iE "${ONLY:-.}" | head -1) ;;
+  *)      P=$(printf '%s\n' "$LINKS" | grep -iE "${ONLY:-.}" | head -1) ;;
 esac
 [ -z "$P" ] && { echo "NOMATCH $OUT ($WANT)"; exit 1; }
 ENC=$(printf '%s' "$P" | sed 's/ /%20/g')
