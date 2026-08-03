@@ -404,7 +404,7 @@
     <span class="board">IB Diploma</span>
     <span class="board">MBBS · Bangladesh</span>
   </div>
-  <p class="curr-stat"><b>580+</b> topics with diagrams · <b>15</b> MBBS sections on the BMDC syllabus · Cambridge &amp; Edexcel past papers</p>
+  <p class="curr-stat"><b>6,600+</b> topics mapped · <b>11</b> MBBS subjects on the BM&amp;DC syllabus · Cambridge &amp; Edexcel past papers</p>
 </section>
 
 <div class="tpop-bg" id="tpopBg" aria-hidden="true"></div>
@@ -503,7 +503,7 @@
       book.add(hold);
     });
     book.rotation.x = 0.5; book.position.y = -0.8;
-    tag(book, 'Your syllabus', '580+ topics across 6 curricula');
+    tag(book, 'Your syllabus', '6,600+ topics across 6 curricula');
     world.add(book);
 
     // soft round glow texture for the ambient dust
@@ -929,7 +929,13 @@
   // Hero milestone counters — count up once, on load (matches the coverage
   // panel's existing tally counter pattern further down the page).
   (function countUpStats(){
-    var targets = [['statTopics', 580, '+'], ['statCurr', 6, ''], ['statMbbs', 15, '']];
+    // Counts are real, and deliberately rounded down. As of 2026-08-04 the
+    // template library holds 6,641 topics across 58 subjects, of which 5,786
+    // sit in templates checked line by line against the official syllabus
+    // PDF. MBBS is 11 subjects on the BM&DC curriculum, not the 15 this
+    // claimed before anyone counted.
+    //   select count(*), sum(jsonb_array_length(topics)) from syllabus_templates;
+    var targets = [['statTopics', 6600, '+'], ['statCurr', 6, ''], ['statMbbs', 11, '']];
     targets.forEach(function(t){
       var el = document.getElementById(t[0]);
       if (!el) return;
