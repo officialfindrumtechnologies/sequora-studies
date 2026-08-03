@@ -55,6 +55,20 @@ SUBJECTS = {
     # take and both levels carry the full list.
     '9709': ('cambridge_alevel', 'A Level', 'Mathematics', -1,
              'AS is a choice of components, not a prefix of the topic list'),
+    # History's AS options are three topics each, nine in all, and they are
+    # complete. The A Level depth studies restart their own numbering at 1 and
+    # so collide with them; that row stays unverified until they are scoped by
+    # option, the way IB and Edexcel History had to be.
+    '9489': ('cambridge_alevel', 'AS Level', 'History', -2,
+             '"Within each of the AS Level options there are three topics."'),
+    # 9396 was withdrawn after November 2023 and replaced by this AS-only
+    # syllabus, so there is no A Level Physical Education to write.
+    '8386': ('cambridge_alevel', 'A Level', 'Physical Education', None,
+             'AS Level Sport & Physical Education 8386, which replaced the '
+             'withdrawn A Level Physical Education 9396'),
+    '7094': ('o_level', 'IGCSE / O Level', 'Bangladesh Studies', None, ''),
+    '7707': ('o_level', 'IGCSE / O Level', 'Accounting', None, ''),
+    '0450': ('cambridge_igcse', 'IGCSE / O Level', 'Business Studies', None, ''),
     '0452': ('cambridge_igcse', 'IGCSE / O Level', 'Accounting', None, ''),
     '0455': ('cambridge_igcse', 'IGCSE / O Level', 'Economics', None, ''),
     '0460': ('cambridge_igcse', 'IGCSE / O Level', 'Geography', None, ''),
@@ -95,9 +109,14 @@ def emit(pdf, outdir):
     years = 'syllabus for ' + years.split('-', 1)[-1]
 
     written = []
-    variants = [(qual, None)]
-    if as_n is not None:
-        variants.append(('AS Level', as_n))
+    if as_n == -2:
+        # The parse covers the AS course in full and the A Level only in part,
+        # so only the AS row is written.
+        variants = [('AS Level', None)]
+    else:
+        variants = [(qual, None)]
+        if as_n is not None:
+            variants.append(('AS Level', as_n))
 
     for qualification, limit in variants:
         rows = d['rows']
