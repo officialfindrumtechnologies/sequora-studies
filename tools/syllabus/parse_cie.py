@@ -20,17 +20,28 @@ from collections import Counter, defaultdict
 SUB_RE  = re.compile(r'^([CE]?)(\d{1,2})\.(\d{1,2})\s+([A-Za-z(].{2,120}?)\s*$')
 # Numbers 1-9 are padded ("1   Cell structure") but 10+ are not
 # ("12 Energy and respiration"), so this must accept a single space.
-CHAP_RE = re.compile(r'^(\d{1,2})\s{1,}([A-Z].{2,90}?)\s*$')
+#
+# Some syllabuses spell the word out — 9696 heads every chapter "Topic 1
+# Hydrology, river processes and hazards" — and matching only the bare number
+# found no chapters there at all.
+CHAP_RE = re.compile(r'^(?:Topic\s+)?(\d{1,2})\s{1,}([A-Z].{2,90}?)\s*$')
 NOISE   = re.compile(r'Candidates should be able|www\.|Back to contents', re.I)
 # The syllabus's own numbered section headings ("3 Subject content") have the
 # exact shape of a chapter heading and repeat on every page, so they outvote
 # the real title. Left unfiltered, topic 3 came out as "Subject content" in
 # Biology, Chemistry and Physics alike.
+#
+# The "routes through the syllabus" table in the overview numbers the ways a
+# candidate can enter — "1 AS Level only", "2 A Level (staged over two years)",
+# "3 A Level" — and those labels repeat, so they outvoted the real titles and
+# became topic 1 in Accounting, Business, Economics, Geography and Sociology
+# alike.
 SECTION_HEADINGS = re.compile(
     r'^(Subject content|Details of the assessment|What else you need to know|'
     r'Syllabus overview|Why choose this syllabus\??|Introduction|Contents|'
     r'Appendix|Practical assessment|Mathematical requirements|'
-    r'Additional information|Other information)$', re.I)
+    r'Additional information|Other information|'
+    r'AS Level only|A Level( \(staged over two years\))?)$', re.I)
 # Learning objectives are numbered like chapters and, contrary to the first
 # guess, plenty of them start with a capital: "Calculate percentage increase or
 # decrease.", "Recall and use the equation". Untreated these became topic
@@ -168,6 +179,19 @@ def parse(pdf):
             chapters[ch] = overview[ch]
         elif hits:
             chapters[ch] = hits.most_common(1)[0][0]
+        # A title can be clipped where it is laid out in a narrow column: the
+        # two-column contents page splits "19 Computational thinking and
+        # Problem-solving" at the column gutter, leaving "19 Computational
+        # thinking and" to tie with the full heading from the body. Repetition
+        # still decides which wording is right; among candidates that merely
+        # continue the winner, the fullest one wins.
+        got = chapters.get(ch)
+        if got:
+            cands = list(hits or ()) + ([overview[ch]] if ch in overview else [])
+            longer = [c for c in cands
+                      if c.lower().startswith(got.lower()) and len(c) > len(got)]
+            if longer:
+                chapters[ch] = max(longer, key=len)
 
     # Some topics genuinely have no sub-chapters (9701 topic 10 "Group 2").
     # Dropping them would silently lose a whole topic, which is the failure
@@ -202,10 +226,14 @@ def parse(pdf):
             else:
                 rows.append({'section': sec, 'name': title})
 
-    return chapters, rows
+    # Chapters that have sub-chapters in the document are reported alongside the
+    # ones that survived, so validate() can tell the two apart. A chapter whose
+    # title is never found is dropped here with its sub-chapters, and counting
+    # only what survived cannot see the loss.
+    return chapters, rows, {ch for (_v, ch) in subs}
 
 
-def validate(chapters, rows):
+def validate(chapters, rows, sub_chapters=frozenset()):
     """Refuse to trust a parse with holes in it. A gap means a topic was
     dropped, and a dropped topic is exactly the defect being fixed."""
     problems = []
@@ -215,15 +243,41 @@ def validate(chapters, rows):
     gaps = [n for n in range(1, max(chapters) + 1) if n not in chapters]
     if gaps:
         problems.append(f'missing chapters: {gaps}')
+
+    # A chapter with sub-chapters but no title never reaches `chapters`, so it
+    # cannot leave a gap there either. 0471 kept only topic 1 and read as clean
+    # while topics 2-5 and their 20 sub-topics were gone.
+    untitled = sorted(sub_chapters - set(chapters))
+    if untitled:
+        problems.append(f'chapters with sub-chapters but no title found: {untitled}')
     for ch, t in chapters.items():
         if len(t) < 3 or re.match(r'^\d', t) or SECTION_HEADINGS.match(t) or is_objective(t):
             problems.append(f'suspect title for {ch}: {t!r}')
+
+    # Complete chapter numbering says nothing about what is under each chapter.
+    # 0478 passed with chapters 1-8 while topics 5, 6 and 7 had no sub-chapters
+    # at all and topic 8 began at "8.3" — four fifths of the syllabus missing
+    # behind a clean-looking result. Sub-chapters are numbered from 1 with no
+    # gaps in every Cambridge syllabus, so a gap or a missing run is a defect.
+    found = defaultdict(set)
+    for r in rows:
+        m = re.match(r'^([CE]?)(\d{1,2})\.(\d{1,2})\s', r['name'])
+        if m:
+            found[(m.group(1), int(m.group(2)))].add(int(m.group(3)))
+    if found:
+        for ch in sorted(chapters):
+            for var in sorted({v for (v, _c) in found}):
+                nums = found.get((var, ch))
+                if nums is None:
+                    problems.append(f'chapter {var}{ch} has no sub-chapters')
+                elif sorted(nums) != list(range(1, max(nums) + 1)):
+                    problems.append(f'chapter {var}{ch} sub-numbering has a gap: {sorted(nums)}')
     return problems
 
 
 if __name__ == '__main__':
-    ch, rows = parse(sys.argv[1])
-    problems = validate(ch, rows)
+    ch, rows, sub_ch = parse(sys.argv[1])
+    problems = validate(ch, rows, sub_ch)
     print(json.dumps({'chapters': len(ch), 'topics': len(rows),
                       'ok': not problems, 'problems': problems,
                       'chapter_titles': {k: ch[k] for k in sorted(ch)},

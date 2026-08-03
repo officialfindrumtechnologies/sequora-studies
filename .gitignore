@@ -12,3 +12,8 @@ dist/
 .agents/
 .antigravitycli/
 .DS_Store
+
+# Syllabus tooling: fetched source PDFs and parser output (regenerable)
+tools/syllabus/pdf/
+tools/syllabus/ib/
+tools/syllabus/out/
