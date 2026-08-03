@@ -367,7 +367,8 @@ def parse_law(cfg, pdf):
             # and appending it welded a heading onto the item above —
             # "1.1.3 Sanctioned by the state The role, function and benefits
             # of law in society".
-            if not (pend_item and re.match(r'^[A-Za-z(]', txt)) or MATHS_NOISE.match(txt):
+            if not (pend_item and re.match(r'^[A-Za-z(0-9]', txt)) or MATHS_NOISE.match(txt) \
+                    or re.fullmatch(r'\d{1,3}', txt):
                 continue
             if r['x'] <= item_x + 15:          # back at the number column: a heading
                 pend_item = None
