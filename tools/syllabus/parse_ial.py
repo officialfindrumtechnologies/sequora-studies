@@ -74,8 +74,12 @@ SUBJECTS = {
             'D1': 'Decision Mathematics 1',
         },
     },
+    # Law is offered at International Advanced Level only — "this qualification
+    # consists of two compulsory externally examined papers", and the spec
+    # carries no X-prefixed IAS code the way every other subject here does. So
+    # there is no AS row to write, and no as_code to write into one.
     'ial-law': {
-        'subject': 'Law', 'code': 'YLA11', 'as_code': 'XLA11',
+        'subject': 'Law', 'code': 'YLA1',
         'years': 'first teaching 2018',
         'mode': 'law',
         'units': {
@@ -130,12 +134,29 @@ MATHS_GROUP = re.compile(r'^(\d{1,2})\.\s+([A-Z].{3,60})$')
 
 # Law is organised by paper rather than unit, and its content table puts the
 # topic in a "Subject content" column against "What students need to learn:".
-# The topic label is N.M; the N.M.K items beside it are the detail of that
-# topic, not topics themselves, and they live in the other column.
+# The topic label is N.M and reads as a broad area of law — five of them across
+# both papers, which is too coarse to revise against. The N.M.K items in the
+# facing column are the actual content, 64 of them, so those become the
+# sub-topics and the five areas become the sections.
 LAW_PAPER = re.compile(r'^Paper\s+(\d)\s*:\s*(.+?)\s*$')
 LAW_TOPIC = re.compile(r'^(\d)\.(\d{1,2})\s+(\S.*)$')
 LAW_TOPIC_ALONE = re.compile(r'^(\d)\.(\d{1,2})$')
-LAW_SPLIT = re.compile(r'^What students need to learn', re.I)
+# "1.1.4 Rights, duties, privileges, liabilities and examples of legal
+# personality". Assigned by its own number, so its position on the page and
+# which topic label happens to be open never matter.
+LAW_ITEM = re.compile(r'^(\d)\.(\d{1,2})\.(\d{1,2})\s+(\S.*)$')
+LAW_ITEM_ALONE = re.compile(r'^(\d)\.(\d{1,2})\.(\d{1,2})$')
+# Bullets sit a level below an item and are illustrative rather than named
+# content ("• types/branches"); folding them into the name only lengthens it.
+LAW_BULLET = re.compile(r'^[••\-–]\s')
+#
+# Anchored on the colon, because the page that introduces the table also
+# explains it in prose at the left margin — "What students need to learn
+# provides a more detailed breakdown of the specific areas of law..." — and
+# taking that sentence as the column header put the gutter at x=56, to the left
+# of every content row. The whole page of topics was then discarded as though
+# it were the other column, which is how topic 1.1 went missing.
+LAW_SPLIT = re.compile(r'^What students need to learn\s*:\s*$', re.I)
 # "1.3 Paper content" and its siblings head the paper's front matter and have
 # the same shape as a topic label.
 LAW_FRONT = re.compile(r'^\d\.\d\s+(Paper description|Assessment information|Paper content)\s*$', re.I)
@@ -268,76 +289,122 @@ def parse_maths(cfg, pdf):
 
 
 def parse_law(cfg, pdf):
-    """Law: sections are papers, sub-topics are the Subject content column."""
+    """Law: sections are the five broad areas, sub-topics are the detail items.
+
+    Both live in the same table but different columns, so each is read on its
+    own side of the gutter: the area label N.M in "Subject content" on the
+    left, the N.M.K items in "What students need to learn" on the right.
+    """
     papers = cfg['units']
-    buckets, paper, pending, split = {}, None, None, None
+    titles, items = {}, {}
+    paper, pend_title, pend_item, split = None, None, None, None
+    item_x, text_x = 0.0, None
 
     for w, rows in rows_xy(pdf):
-        s = next((r for r in rows if LAW_SPLIT.match(r['t'])), None)
-        if s:
-            split = s['x'] - 6
-        pending = None
+        # The header is always the right-hand column, so where more than one
+        # row matches, the rightmost is the real one.
+        hdrs = [r for r in rows if LAW_SPLIT.match(r['t'])]
+        if hdrs:
+            split = max(h['x'] for h in hdrs) - 6
+        pend_title = pend_item = None
+        text_x = None
         for r in rows:
             txt = r['t'].strip()
             m = LAW_PAPER.match(txt)
             if m:
                 paper = int(m.group(1)) if int(m.group(1)) in papers else None
-                pending = None
+                pend_title = pend_item = None
                 continue
             if paper is None or LAW_FRONT.match(txt):
-                pending = None
+                pend_title = pend_item = None
                 continue
-            # "What students need to learn" column: detail, not topics.
-            if split is not None and r['x'] >= split:
+            if split is None:
                 continue
-            m = LAW_TOPIC.match(txt)
+            right = r['x'] >= split
+
+            if not right:
+                m = LAW_TOPIC.match(txt) or LAW_TOPIC_ALONE.match(txt)
+                if m:
+                    key = (int(m.group(1)), int(m.group(2)))
+                    # A topic label repeats at the top of every page it runs
+                    # onto. Re-opening a finished entry let the repeat append
+                    # itself: "2.1 The market The market (continued)".
+                    if key in titles:
+                        pend_title = None
+                        continue
+                    titles[key] = CONTINUED.sub('', (m.group(3) if m.re is LAW_TOPIC else '')).strip()
+                    pend_title = key
+                    continue
+                if pend_title and re.match(r'^[A-Za-z(]', txt) and not MATHS_NOISE.match(txt):
+                    titles[pend_title] = (titles[pend_title] + ' ' + txt).strip()
+                continue
+
+            if LAW_BULLET.match(txt):
+                continue
+            m = LAW_ITEM.match(txt)
             if m:
-                key = (paper, int(m.group(1)), int(m.group(2)))
-                if key not in buckets:
-                    buckets[key] = m.group(3).strip()
-                pending = key
+                key = (int(m.group(1)), int(m.group(2)), int(m.group(3)))
+                if key in items:
+                    pend_item = None
+                    continue
+                items[key] = CONTINUED.sub('', m.group(4).strip()).strip()
+                pend_item, item_x, text_x = key, r['x'], None
                 continue
-            m = LAW_TOPIC_ALONE.match(txt)
+            m = LAW_ITEM_ALONE.match(txt)
             if m:
-                key = (paper, int(m.group(1)), int(m.group(2)))
-                buckets.setdefault(key, '')
-                pending = key
+                key = (int(m.group(1)), int(m.group(2)), int(m.group(3)))
+                if key in items:
+                    pend_item = None
+                    continue
+                items[key] = ''
+                pend_item, item_x, text_x = key, r['x'], None
                 continue
-            # The Subject content column is narrow, so a topic name is spread
-            # over three or four lines ("1.1 The nature, / purpose of and /
-            # liability in law").
-            if pending and re.match(r'^[A-Za-z(]', txt) and len(txt) > 1 \
-                    and not MATHS_NOISE.match(txt):
-                buckets[pending] = (buckets[pending] + ' ' + txt).strip()
+            # What may be appended to an open item is decided by indentation,
+            # which the table sets out unambiguously: the item number sits at
+            # the column edge, the item's own text one step in, and its bullets
+            # one step further. An unnumbered sub-heading ("The role, function
+            # and benefits of law in society") sits back at the column edge,
+            # and appending it welded a heading onto the item above —
+            # "1.1.3 Sanctioned by the state The role, function and benefits
+            # of law in society".
+            if not (pend_item and re.match(r'^[A-Za-z(]', txt)) or MATHS_NOISE.match(txt):
+                continue
+            if r['x'] <= item_x + 15:          # back at the number column: a heading
+                pend_item = None
+                continue
+            if text_x is None:
+                text_x = r['x']
+            elif abs(r['x'] - text_x) > 3:     # deeper still: a bullet's text
+                continue
+            items[pend_item] = (items[pend_item] + ' ' + txt).strip()
 
     order, out = [], []
-    for p in sorted(papers):
-        keys = sorted((k for k in buckets if k[0] == p), key=lambda k: (k[1], k[2]))
-        if not keys:
+    for t in sorted(titles):
+        kids = sorted(k for k in items if (k[0], k[1]) == t)
+        if not kids:
             continue
-        label = f'Paper {p}: {papers[p]}'
+        label = f'{t[0]}.{t[1]} ' + re.sub(r'\s{2,}', ' ', titles[t]).strip().rstrip(',')
         order.append(label)
-        for k in keys:
-            nm = re.sub(r'\s{2,}', ' ', buckets[k]).strip().rstrip(',')
+        for k in kids:
+            nm = re.sub(r'\s{2,}', ' ', items[k]).strip().rstrip(':')
             if not nm:
                 continue
-            out.append({'section': label, 'name': f'{k[1]}.{k[2]} {nm}'[:300]})
+            out.append({'section': label, 'name': f'{k[0]}.{k[1]}.{k[2]} {nm}'[:300]})
 
     problems = []
     if not out:
         problems.append('no paper content found')
-    empty = [p for p in papers if not any(k[0] == p for k in buckets)]
+    empty = [f'{t[0]}.{t[1]}' for t in sorted(titles)
+             if not any((k[0], k[1]) == t for k in items)]
     if empty:
-        problems.append(f'papers with no content: {empty}')
-    # Topics are numbered from 1 with no gaps within a paper. Without this the
-    # parse reported success while holding four topics of about a dozen,
-    # because "no gaps" is trivially true of a list that is almost empty.
-    for p in sorted(papers):
-        nums = sorted(k[2] for k in buckets if k[0] == p)
-        if nums != list(range(1, len(nums) + 1)):
-            problems.append(f'paper {p} topic numbering has a gap: {nums}')
-    # A name carrying "(continued)" or trailing text from the other column is a
-    # sign the column split was measured wrongly on some page.
+        problems.append(f'areas with no items: {empty}')
+    # Numbered from 1 with no gaps. Without this the parse reported success
+    # while holding four topics of five, because "no gaps" is trivially true of
+    # a list that is almost empty.
+    for t in sorted(titles):
+        nums = sorted(k[2] for k in items if (k[0], k[1]) == t)
+        if nums and nums != list(range(1, len(nums) + 1)):
+            problems.append(f'area {t[0]}.{t[1]} item numbering has a gap: {nums}')
     bad = [r['name'] for r in out if CONTINUED.search(r['name'])]
     if bad:
         problems.append(f'{len(bad)} names still carry a "(continued)" marker')
@@ -418,6 +485,10 @@ if __name__ == '__main__':
     order, rows, problems = parse(stem, f'edx/{doc}.pdf', level)
     src = open(f'edx/{doc}.src').read().strip()
     ias = level == 'IAS'
+    # A subject with no IAS code is not offered at that level, so asking for it
+    # is an error rather than something to fill in with the A Level content.
+    if ias and not cfg.get('as_code'):
+        sys.exit(f'{cfg["subject"]} is not offered at IAS level')
     print(json.dumps({
         'board': 'edexcel_alevel',
         'qualification': 'AS Level' if ias else 'A Level',
@@ -426,7 +497,7 @@ if __name__ == '__main__':
         # The row is being re-pointed from the UK GCE spec it used to describe
         # to the International one these students actually sit, so the code
         # has to move with it or it names the wrong qualification.
-        'subject_code': cfg['as_code'] if ias else cfg['code'],
+        'subject_code': cfg.get('as_code') if ias else cfg['code'],
         'years': cfg['years'], 'url': src,
         'chapters': len(order), 'topics': len(rows),
         'ok': not problems, 'problems': problems,
