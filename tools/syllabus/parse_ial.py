@@ -74,6 +74,15 @@ SUBJECTS = {
             'D1': 'Decision Mathematics 1',
         },
     },
+    'ial-law': {
+        'subject': 'Law', 'code': 'YLA11', 'as_code': 'XLA11',
+        'years': 'first teaching 2018',
+        'mode': 'law',
+        'units': {
+            1: 'Underlying Principles of Law and the English Legal System',
+            2: 'The Law in Action',
+        },
+    },
     'ial-further-mathematics': {
         'subject': 'Further Mathematics', 'code': 'YFM01', 'as_code': 'XFM01',
         'years': 'first teaching 2018',
@@ -118,6 +127,18 @@ MATHS_END = re.compile(r'^Appendix\s+\d+\s*:\s*[A-Z][^.]*$', re.I)
 # it: S1 numbers a topic 5.1 under group 6, colliding with the 5.1 under
 # group 5, and the two merged into one entry.
 MATHS_GROUP = re.compile(r'^(\d{1,2})\.\s+([A-Z].{3,60})$')
+
+# Law is organised by paper rather than unit, and its content table puts the
+# topic in a "Subject content" column against "What students need to learn:".
+# The topic label is N.M; the N.M.K items beside it are the detail of that
+# topic, not topics themselves, and they live in the other column.
+LAW_PAPER = re.compile(r'^Paper\s+(\d)\s*:\s*(.+?)\s*$')
+LAW_TOPIC = re.compile(r'^(\d)\.(\d{1,2})\s+(\S.*)$')
+LAW_TOPIC_ALONE = re.compile(r'^(\d)\.(\d{1,2})$')
+LAW_SPLIT = re.compile(r'^What students need to learn', re.I)
+# "1.3 Paper content" and its siblings head the paper's front matter and have
+# the same shape as a topic label.
+LAW_FRONT = re.compile(r'^\d\.\d\s+(Paper description|Assessment information|Paper content)\s*$', re.I)
 
 # "1.3.1 Introductory concepts". The middle component is always 3 because unit
 # content is always section 3 of a unit; matching it loosely would also pick up
@@ -246,10 +267,89 @@ def parse_maths(cfg, pdf):
     return order, out, problems
 
 
+def parse_law(cfg, pdf):
+    """Law: sections are papers, sub-topics are the Subject content column."""
+    papers = cfg['units']
+    buckets, paper, pending, split = {}, None, None, None
+
+    for w, rows in rows_xy(pdf):
+        s = next((r for r in rows if LAW_SPLIT.match(r['t'])), None)
+        if s:
+            split = s['x'] - 6
+        pending = None
+        for r in rows:
+            txt = r['t'].strip()
+            m = LAW_PAPER.match(txt)
+            if m:
+                paper = int(m.group(1)) if int(m.group(1)) in papers else None
+                pending = None
+                continue
+            if paper is None or LAW_FRONT.match(txt):
+                pending = None
+                continue
+            # "What students need to learn" column: detail, not topics.
+            if split is not None and r['x'] >= split:
+                continue
+            m = LAW_TOPIC.match(txt)
+            if m:
+                key = (paper, int(m.group(1)), int(m.group(2)))
+                if key not in buckets:
+                    buckets[key] = m.group(3).strip()
+                pending = key
+                continue
+            m = LAW_TOPIC_ALONE.match(txt)
+            if m:
+                key = (paper, int(m.group(1)), int(m.group(2)))
+                buckets.setdefault(key, '')
+                pending = key
+                continue
+            # The Subject content column is narrow, so a topic name is spread
+            # over three or four lines ("1.1 The nature, / purpose of and /
+            # liability in law").
+            if pending and re.match(r'^[A-Za-z(]', txt) and len(txt) > 1 \
+                    and not MATHS_NOISE.match(txt):
+                buckets[pending] = (buckets[pending] + ' ' + txt).strip()
+
+    order, out = [], []
+    for p in sorted(papers):
+        keys = sorted((k for k in buckets if k[0] == p), key=lambda k: (k[1], k[2]))
+        if not keys:
+            continue
+        label = f'Paper {p}: {papers[p]}'
+        order.append(label)
+        for k in keys:
+            nm = re.sub(r'\s{2,}', ' ', buckets[k]).strip().rstrip(',')
+            if not nm:
+                continue
+            out.append({'section': label, 'name': f'{k[1]}.{k[2]} {nm}'[:300]})
+
+    problems = []
+    if not out:
+        problems.append('no paper content found')
+    empty = [p for p in papers if not any(k[0] == p for k in buckets)]
+    if empty:
+        problems.append(f'papers with no content: {empty}')
+    # Topics are numbered from 1 with no gaps within a paper. Without this the
+    # parse reported success while holding four topics of about a dozen,
+    # because "no gaps" is trivially true of a list that is almost empty.
+    for p in sorted(papers):
+        nums = sorted(k[2] for k in buckets if k[0] == p)
+        if nums != list(range(1, len(nums) + 1)):
+            problems.append(f'paper {p} topic numbering has a gap: {nums}')
+    # A name carrying "(continued)" or trailing text from the other column is a
+    # sign the column split was measured wrongly on some page.
+    bad = [r['name'] for r in out if CONTINUED.search(r['name'])]
+    if bad:
+        problems.append(f'{len(bad)} names still carry a "(continued)" marker')
+    return order, out, problems
+
+
 def parse(stem, pdf, level='IAL'):
     cfg = SUBJECTS[stem]
     if cfg.get('mode') == 'maths':
         return parse_maths(cfg, pdf)
+    if cfg.get('mode') == 'law':
+        return parse_law(cfg, pdf)
     units = cfg['units']
     found = {}
 
