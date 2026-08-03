@@ -61,10 +61,18 @@ for (const file of files) {
   const rows = d.rows.map(r => ({ section: r.section, name: r.name }));
   if (dry) { console.log(`DRY  ${d.subject} ${d.level ?? ''}  ${was} -> ${rows.length}`); continue; }
 
-  const { error } = await sb.from('syllabus_templates').update({
+  // subject_code moves with the content when a parser supplies one. A row can
+  // be re-pointed from one qualification to another — the Edexcel A Level rows
+  // were written against UK GCE specs and now describe the International A
+  // Level these students actually sit — and leaving the old code behind would
+  // label the row as a qualification it no longer describes.
+  const patch = {
     topics: rows, source_url: d.url, syllabus_years: d.years,
     verified_at: new Date().toISOString(),
-  }).eq('id', existing.id);
+  };
+  if (d.subject_code) patch.subject_code = d.subject_code;
+
+  const { error } = await sb.from('syllabus_templates').update(patch).eq('id', existing.id);
 
   if (error) { console.error(`FAIL ${label}: ${error.message}`); fails++; }
   else { console.log(`OK   ${d.subject} ${d.level ?? ''}  ${was} -> ${rows.length}`); wrote++; }
