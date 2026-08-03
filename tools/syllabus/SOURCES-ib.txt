@@ -1,4 +1,32 @@
-IB chemistry  https://anatolia.edu.gr/images/highschool/IBDP/Chemistry%20Guide%202025.pdf
-IB maths-aa  https://resources.finalsite.net/images/v1701373021/d11org/afkyrocwzw9kr5xjo2xu/Mathematics-AnalysisandApproaches.pdf
-IB maths-ai  https://dp.uwcea.org/docs/Mathematics%20-%20Applications%20and%20Interpretation%20Subject%20Guide.pdf
-IB physics  https://anatolia.edu.gr/images/highschool/IBDP/Physics%20Guide%202025.pdf
+# IB Diploma subject guides — source of record
+#
+# IB does not publish subject guides on ibo.org; they sit behind My IB and the
+# public site is behind Cloudflare. These are the official guides (IB copyright,
+# IB publication imprint, stated first-assessment year) as mirrored publicly.
+# Each template records the exact URL and the guide's own stated version.
+#
+# dl.ibdocs.re runs OpenList, whose JSON API is what makes this tractable:
+#   POST /api/fs/list  {"path": "/IB SUBJECT GUIDES"}   -> directory listing
+#   POST /api/fs/get   {"path": "<file>"}               -> data.raw_url
+# Fetching the page URL directly returns the single-page app, not the file.
+#
+# key          version                        source
+bm             First assessment 2024          
+cas            <not stated on cover>          https://dl.ibdocs.re/IB SUBJECT GUIDES/Core - Creativity, Activity and Service/Creativity, Activity and Service Guide - 2017 - English.pdf
+compsci        First assessment 2027          https://dl.ibdocs.re/IB SUBJECT GUIDES/Group 4 - Sciences/Computer Science/Computer Science Guide 2027 - English.pdf
+economics      First assessment 2022          
+ee             First assessment 2027          https://dl.ibdocs.re/IB SUBJECT GUIDES/Core - Extended Essay/Extended Essay Guide 2027 - English (Update Nov2025).pdf
+ess            First assessment 2026          https://dl.ibdocs.re/IB SUBJECT GUIDES/Interdisciplinary Subjects/Environmental Systems and Societies/Environmental Systems and Societies Guide 2026 - English (Update Nov2025).pdf
+film           first assessment 2023          https://dl.ibdocs.re/IB SUBJECT GUIDES/Group 6 - The Arts/Film/Film Guide 2023 - English (Update Nov2025).pdf
+geography      First examinations 2019        
+gp             First assessment 2026          
+history        First examinations 2020        
+lang-a-lit     First assessment 2026          https://dl.ibdocs.re/IB SUBJECT GUIDES/Group 1 - Studies in Language and Literature/Language A - Literature/Language A - Literature Guide 2026 - English (Update Nov2025).pdf
+lang-a-ll      First assessment 2026          https://dl.ibdocs.re/IB SUBJECT GUIDES/Group 1 - Studies in Language and Literature/Language A - Language and Literature/Language A - Language and Literature Guide 2026 - English (Update Nov2025).pdf
+lang-b         First assessment 2020          https://dl.ibdocs.re/IB SUBJECT GUIDES/Group 2 - Language Acquisition/Language B/Language B Guide 2020 - English.pdf
+music          First assessment 2022          https://dl.ibdocs.re/IB SUBJECT GUIDES/Group 6 - The Arts/Music/Music Guide 2022 - English (Update Nov2025).pdf
+philosophy     First assessment 2025          https://dl.ibdocs.re/IB SUBJECT GUIDES/Group 3 - Individuals and Societies/Philosophy/Philosophy Guide 2025 - English (Update Aug2024).pdf
+psychology     First assessment 2027          
+theatre        First assessment 2024          https://dl.ibdocs.re/IB SUBJECT GUIDES/Group 6 - The Arts/Theatre/Theatre Guide 2024 - English (Update Oct2023).pdf
+tok            First assessment 2022          https://dl.ibdocs.re/IB SUBJECT GUIDES/Core - Theory Of Knowledge/Theory Of Knowledge Guide 2022 - English.pdf
+va             First assessment 2027          https://dl.ibdocs.re/IB SUBJECT GUIDES/Group 6 - The Arts/Visual Arts/Visual Arts Guide 2027 - English.pdf
