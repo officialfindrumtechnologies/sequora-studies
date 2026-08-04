@@ -124,3 +124,80 @@ if __name__ == '__main__':
         'ok': not problems, 'problems': problems,
         'chapter_names': order, 'rows': rows,
     }, indent=1, ensure_ascii=False))
+
+
+# The Language B guide sets its five prescribed themes out as a four-column
+# table: theme, guiding principle, optional recommended topics, possible
+# questions. Only the third column is content a student works through, and the
+# columns sit at stable x positions, so the topics are taken from that band.
+LANG_THEMES = ['Identities', 'Experiences', 'Human ingenuity',
+               'Social organization', 'Sharing the planet']
+
+
+def rows_xy(pdf):
+    xml = subprocess.run(['pdftotext', '-bbox-layout', pdf, '-'],
+                         capture_output=True, text=True, check=True).stdout
+    for pm in re.finditer(r'<page width="([\d.]+)" height="[\d.]+">(.*?)</page>', xml, re.S):
+        out = []
+        for lm in re.finditer(r'<line xMin="([\d.]+)" yMin="([\d.]+)"[^>]*>(.*?)</line>',
+                              pm.group(2), re.S):
+            t = ' '.join(re.findall(r'>([^<]*)</word>', lm.group(3)))
+            t = re.sub(r'\s+', ' ', t.replace('&amp;', '&').replace('&#39;', "'")).strip()
+            if t:
+                out.append({'x': float(lm.group(1)), 'y': float(lm.group(2)), 't': t})
+        yield float(pm.group(1)), sorted(out, key=lambda r: (round(r['y'] / 6), r['x']))
+
+
+def parse_langb(pdf):
+    """Language B: sections are the five prescribed themes, sub-topics the
+    recommended topics listed against each.
+
+    A theme's own topics wrap inside a narrow column ("Health and well-" /
+    "being"), so a bullet opens an entry and every following line in the topic
+    column extends it until the next bullet.
+    """
+    themes, cur, pending = {}, None, None
+    for _w, rows in rows_xy(pdf):
+        for r in rows:
+            t = r['t'].strip()
+            # A theme name wraps in its own narrow column — "Human" /
+            # "ingenuity", "Social" / "organization" — so matching the whole
+            # name found only two of the five and everything after the second
+            # piled into "Experiences".
+            if r['x'] < 120 and len(t) > 3:
+                hit = next((n for n in LANG_THEMES if n == t or n.startswith(t + ' ')), None)
+                if hit:
+                    cur, pending = hit, None
+                    themes.setdefault(hit, [])
+                    continue
+            if cur is None:
+                continue
+            if 270 <= r['x'] < 295 and t in ('•', '-', '–'):
+                themes[cur].append('')          # a bullet opens the next topic
+                pending = True
+                continue
+            if 295 <= r['x'] < 390 and pending and themes[cur]:
+                if re.match(r'^[A-Za-z(]', t):
+                    prev = themes[cur][-1]
+                    # A word broken across lines keeps its hyphen: "well-" +
+                    # "being" is one topic, not two words.
+                    sep = '' if prev.endswith('-') else ' '
+                    themes[cur][-1] = (prev + sep + t).strip()
+
+    order, out = [], []
+    for name in LANG_THEMES:
+        items = [re.sub(r'\s{2,}', ' ', i).strip() for i in themes.get(name, [])]
+        items = [i for i in items if len(i) > 2]
+        if not items:
+            continue
+        order.append(name)
+        for i in items:
+            out.append({'section': name, 'name': i[:300]})
+
+    problems = []
+    if not out:
+        problems.append('no themes found')
+    empty = [n for n in LANG_THEMES if not any(r['section'] == n for r in out)]
+    if empty:
+        problems.append(f'themes with no topics: {empty}')
+    return order, out, problems
