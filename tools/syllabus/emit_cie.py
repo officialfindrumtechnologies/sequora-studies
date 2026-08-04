@@ -68,7 +68,9 @@ SUBJECTS = {
              'withdrawn A Level Physical Education 9396'),
     '7094': ('o_level', 'IGCSE / O Level', 'Bangladesh Studies', None, ''),
     '7707': ('o_level', 'IGCSE / O Level', 'Accounting', None, ''),
-    '0450': ('cambridge_igcse', 'IGCSE / O Level', 'Business Studies', None, ''),
+    # 0450's final examinations are in 2026; 0264 "Business" replaces it for
+    # 2027 onwards, which is the sitting every other row here targets.
+    '0264': ('cambridge_igcse', 'IGCSE / O Level', 'Business Studies', None, ''),
     '0452': ('cambridge_igcse', 'IGCSE / O Level', 'Accounting', None, ''),
     '0455': ('cambridge_igcse', 'IGCSE / O Level', 'Economics', None, ''),
     '0460': ('cambridge_igcse', 'IGCSE / O Level', 'Geography', None, ''),

@@ -74,10 +74,37 @@ SUBJECTS = {
             'D1': 'Decision Mathematics 1',
         },
     },
+    'ial-accounting': {
+        'subject': 'Accounting', 'code': 'YAC01', 'as_code': 'XAC01',
+        'years': 'first teaching 2015',
+        # Unlike the four-unit subjects, Accounting has two: the spec's
+        # assessment table marks Unit 1 "IAS" and Unit 2 "IA2", so the AS
+        # course is Unit 1 alone.
+        'ias_units': [1],
+        'units': {
+            1: 'The Accounting System and Costing',
+            2: 'Corporate and Management Accounting',
+        },
+    },
     # Law is offered at International Advanced Level only — "this qualification
     # consists of two compulsory externally examined papers", and the spec
     # carries no X-prefixed IAS code the way every other subject here does. So
     # there is no AS row to write, and no as_code to write into one.
+    # Computer science (first teaching 2026) numbers its topic groups N.M and
+    # restarts them inside every unit — Unit 1 and Unit 3 both open with a
+    # "1.1" — so a label means nothing without the unit above it.
+    'ial-computerscience': {
+        'subject': 'Computer Science', 'code': 'YCS01', 'as_code': 'XCS01',
+        'years': 'first teaching 2026',
+        'mode': 'cs',
+        'ias_units': [1, 2],
+        'units': {
+            1: 'Unit 1: Principles of Computer Science',
+            2: 'Unit 2: Practical Programming and Problem-solving',
+            3: 'Unit 3: Advanced Principles of Computer Science',
+            4: 'Unit 4: Advanced Practical Programming and Problem-solving',
+        },
+    },
     'ial-law': {
         'subject': 'Law', 'code': 'YLA1',
         'years': 'first teaching 2018',
@@ -288,6 +315,64 @@ def parse_maths(cfg, pdf):
     return order, out, problems
 
 
+
+CS_UNIT = re.compile(r'^Unit\s+([1-4])\s*:\s*(\S.*)$')
+# Majors run to two digits — the numbering is global across units, and Unit 3
+# opens at "11.1 Computer architecture" — so a single-digit pattern silently
+# emptied Units 3 and 4.
+CS_TOPIC = re.compile(r'^(\d{1,2})\.(\d{1,2})\s+([A-Z]\S.*)$')
+
+
+def parse_cs(cfg, pdf, level='IAL'):
+    """Computer science: sections are units, sub-topics the N.M topic groups.
+
+    The N.M.K statements beneath are detail welded to a facing "Know and
+    understand" column; the N.M group headings stand alone at the left margin,
+    so line text is enough."""
+    units = cfg['units']
+    found, unit = {}, None
+    for raw in lines(pdf):
+        t = raw.strip()
+        m = CS_UNIT.match(t)
+        if m:
+            unit = int(m.group(1))
+            continue
+        if unit is None:
+            continue
+        m = CS_TOPIC.match(t)
+        if not m:
+            continue
+        n, k, title = int(m.group(1)), int(m.group(2)), m.group(3)
+        # Group headings carry their unit's own major number throughout the
+        # unit; anything else is a cross-reference.
+        title = re.split(r'\s{3,}', title)[0]
+        title = CONTINUED.sub('', title).strip()
+        title = re.sub(r'\s{2,}\d{1,3}$', '', title).strip()
+        if not re.search(r'[A-Za-z]{3}', title) or title.endswith(':'):
+            continue
+        key = (unit, n, k)
+        if len(title) > len(found.get(key, '')):
+            found[key] = title
+
+    wanted = cfg.get('ias_units', [1, 2]) if level == 'IAS' else sorted(units)
+    order, rows = [], []
+    for u in wanted:
+        subs = sorted(k for k in found if k[0] == u)
+        if not subs:
+            continue
+        order.append(units[u])
+        for k in subs:
+            rows.append({'section': units[u], 'name': f'{k[1]}.{k[2]} {found[k]}'[:300]})
+
+    problems = []
+    if not rows:
+        problems.append('no topic groups found')
+    empty = [u for u in wanted if not any(k[0] == u for k in found)]
+    if empty:
+        problems.append(f'units with no topic groups: {empty}')
+    return order, rows, problems
+
+
 def parse_law(cfg, pdf):
     """Law: sections are the five broad areas, sub-topics are the detail items.
 
@@ -418,6 +503,8 @@ def parse(stem, pdf, level='IAL'):
         return parse_maths(cfg, pdf)
     if cfg.get('mode') == 'law':
         return parse_law(cfg, pdf)
+    if cfg.get('mode') == 'cs':
+        return parse_cs(cfg, pdf, level)
     units = cfg['units']
     found = {}
 
@@ -451,7 +538,7 @@ def parse(stem, pdf, level='IAL'):
 
     # IAS is the first two units, stated in the spec itself. Anything else
     # would be a guess about which half of the course a student is sitting.
-    wanted = [1, 2] if level == 'IAS' else sorted(units)
+    wanted = cfg.get('ias_units', [1, 2]) if level == 'IAS' else sorted(units)
 
     order, rows = [], []
     for u in wanted:
