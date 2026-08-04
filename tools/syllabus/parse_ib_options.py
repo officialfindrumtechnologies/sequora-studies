@@ -201,3 +201,76 @@ def parse_langb(pdf):
     if empty:
         problems.append(f'themes with no topics: {empty}')
     return order, out, problems
+
+
+# The Language A guides have no topic list. Their content is three areas of
+# exploration, each introduced by a set of "guiding conceptual questions" —
+# these are what a student actually works through, so they are the sub-topics.
+# The block ends at "Possible links to TOK", which is commentary rather than
+# syllabus.
+LANG_A_AREAS = ['Readers, writers and texts', 'Time and space',
+                'Intertextuality: Connecting texts', 'Intertextuality: connecting texts']
+LANG_A_OPEN = re.compile(r'guiding conceptual questions', re.I)
+LANG_A_CLOSE = re.compile(r'^(Possible links to TOK|Assessment|The study of|Works? in translation)', re.I)
+# The literature guide bullets its guiding questions; the language and
+# literature guide numbers them. Matching only bullets found none of the three
+# blocks in the latter.
+BULLET_TXT = re.compile(r'^(?:[••]|\d{1,2}\.)\s+(\S.*)$')
+
+
+def parse_lang_a(pdf):
+    """Language A: sections are the areas of exploration, sub-topics the
+    guiding conceptual questions the guide sets against each.
+
+    Blocks are assigned to areas by the order they appear, not by finding the
+    heading above them. Language A: language and literature does not set its
+    area headings as standalone lines the way the literature guide does, and
+    matching on them found none of the three.
+    """
+    AREAS = ['Readers, writers and texts', 'Time and space',
+             'Intertextuality: connecting texts']
+    blocks, cur, collecting, pending = [], None, False, False
+    for raw in lines(pdf):
+        t = raw.strip()
+        if not t:
+            continue
+        if LANG_A_OPEN.search(t):
+            cur, collecting, pending = [], True, False
+            blocks.append(cur)
+            continue
+        if not collecting:
+            continue
+        if LANG_A_CLOSE.match(t):
+            collecting, pending = False, False
+            continue
+        m = BULLET_TXT.match(t)
+        if m:
+            cur.append(m.group(1).strip())
+            pending = True
+            continue
+        # A question wraps onto the next line with no bullet of its own.
+        if pending and cur and re.match(r'^[A-Za-z(]', t):
+            cur[-1] = (cur[-1] + ' ' + t).strip()
+
+    # Only blocks that actually yielded questions count; the phrase also occurs
+    # in the assessment section, where it introduces no list.
+    real = []
+    for b in blocks:
+        qs = [re.sub(r'\s{2,}', ' ', q).strip() for q in b]
+        qs = [q for q in qs if q.endswith('?') and len(q) > 12]
+        if len(qs) >= 3:
+            real.append(qs)
+
+    names, out = [], []
+    for i, qs in enumerate(real[:len(AREAS)]):
+        a = AREAS[i]
+        names.append(a)
+        for q in qs:
+            out.append({'section': a, 'name': q[:300]})
+
+    problems = []
+    if not out:
+        problems.append('no guiding questions found')
+    if len(real) != len(AREAS):
+        problems.append(f'found {len(real)} question blocks, expected {len(AREAS)}')
+    return names, out, problems
