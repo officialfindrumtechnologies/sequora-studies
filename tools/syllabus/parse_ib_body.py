@@ -19,11 +19,14 @@ import sys
 import json
 import subprocess
 
+# A title can begin with a one-letter word — Edexcel Geography 5.2 is "A
+# drainage basin is an open system" — so requiring a non-space second character
+# silently dropped those sub-topics. Only a minimum length is required now.
 GUIDES = {
     'ess': {
         'subject': 'Environmental Systems & Societies',
         'years': 'first assessment 2026',
-        'item': r'^(\d)\.(\d{1,2})\s+([A-Z]\S.*)$',
+        'item': r'^(\d)\.(\d{1,2})\s+([A-Z].{2,})$',
         'units': {
             '1': 'Topic 1: Foundation',
             '2': 'Topic 2: Ecology',
@@ -35,10 +38,69 @@ GUIDES = {
             '8': 'Topic 8: Human populations and urban systems',
         },
     },
+    # Cambridge IGCSE Sociology has the same shape as the IB guides here — six
+    # topics whose sub-topics label themselves "3.2 What are the..." — so it
+    # uses this parser rather than parse_cie.py, which needs a chapter heading
+    # it can find and this syllabus states its topics only in a prose list.
+    'cie-sociology-0495': {
+        'board': 'cambridge_igcse', 'qualification': 'IGCSE / O Level',
+        'pdf': 'pdf/cambridge-igcse-sociology-0495.pdf',
+        'subject': 'Sociology', 'level': None,
+        'years': 'syllabus for 2025-2027',
+        'item': r'^(\d)\.(\d{1,2})\s+([A-Z].{2,})$',
+        'units': {
+            '1': 'Paper 1 · 1 Research methods',
+            '2': 'Paper 1 · 2 Identity: self and society',
+            '3': 'Paper 1 · 3 Social stratification and inequality',
+            '4': 'Paper 2 · 4 Family (teach two of topics 4-6)',
+            '5': 'Paper 2 · 5 Education (teach two of topics 4-6)',
+            '6': 'Paper 2 · 6 Crime, deviance and social control (teach two of topics 4-6)',
+        },
+    },
+    # Edexcel GCE Geography numbers its content "2A.7", "8B.12" — the label
+    # carries its own option letter, so the eleven units separate themselves.
+    # AS is Areas of study 1 and 2, which is topics 1-4; the spec's own AS
+    # document contains only those labels, which is how the split is known
+    # rather than guessed.
+    'edx-geography-9GE0': {
+        'board': 'edexcel_alevel', 'qualification': 'A Level',
+        'pdf': 'edx/alevel-geography-9GE0.pdf',
+        'subject': 'Geography', 'level': None,
+        'years': 'first teaching 2016',
+        'item': r'^(\d[AB]?)\.(\d{1,2})\s+([A-Z(].{2,})$',
+        'units': {
+            '1':  'Area of study 1 · Topic 1: Tectonic Processes and Hazards',
+            '2A': 'Area of study 1 · Topic 2A: Glaciated Landscapes and Change (or 2B)',
+            '2B': 'Area of study 1 · Topic 2B: Coastal Landscapes and Change (or 2A)',
+            '3':  'Area of study 2 · Topic 3: Globalisation',
+            '4A': 'Area of study 2 · Topic 4A: Regenerating Places (or 4B)',
+            '4B': 'Area of study 2 · Topic 4B: Diverse Places (or 4A)',
+            '5':  'Area of study 3 · Topic 5: The Water Cycle and Water Insecurity',
+            '6':  'Area of study 3 · Topic 6: The Carbon Cycle and Energy Security',
+            '7':  'Area of study 4 · Topic 7: Superpowers',
+            '8A': 'Area of study 4 · Topic 8A: Health, Human Rights and Intervention (or 8B)',
+            '8B': 'Area of study 4 · Topic 8B: Migration, Identity and Sovereignty (or 8A)',
+        },
+    },
+    'edx-geography-8GE0': {
+        'board': 'edexcel_alevel', 'qualification': 'AS Level',
+        'pdf': 'edx/as-geography-8GE0.pdf',
+        'subject': 'Geography', 'level': None,
+        'years': 'first teaching 2016',
+        'item': r'^(\d[AB]?)\.(\d{1,2})\s+([A-Z(].{2,})$',
+        'units': {
+            '1':  'Area of study 1 · Topic 1: Tectonic Processes and Hazards',
+            '2A': 'Area of study 1 · Topic 2A: Glaciated Landscapes and Change (or 2B)',
+            '2B': 'Area of study 1 · Topic 2B: Coastal Landscapes and Change (or 2A)',
+            '3':  'Area of study 2 · Topic 3: Globalisation',
+            '4A': 'Area of study 2 · Topic 4A: Regenerating Places (or 4B)',
+            '4B': 'Area of study 2 · Topic 4B: Diverse Places (or 4A)',
+        },
+    },
     'compsci': {
         'subject': 'Computer Science',
         'years': 'first assessment 2027',
-        'item': r'^([AB]\d)\.(\d{1,2})\s+([A-Z]\S.*)$',
+        'item': r'^([AB]\d)\.(\d{1,2})\s+([A-Z].{2,})$',
         'units': {
             'A1': 'Theme A: Concepts of computer science — A1 Computer fundamentals',
             'A2': 'Theme A: Concepts of computer science — A2 Networks',
@@ -132,11 +194,14 @@ if __name__ == '__main__':
     key = sys.argv[1]
     lvl = sys.argv[2] if len(sys.argv) > 2 else 'HL'
     cfg = GUIDES[key]
-    order, rows, problems = parse(key, f'ib/{key}.pdf', lvl)
+    order, rows, problems = parse(key, cfg.get('pdf', f'ib/{key}.pdf'), lvl)
     print(json.dumps({
-        'board': 'IB', 'qualification': 'IB Diploma',
-        'subject': cfg['subject'], 'level': lvl,
-        'years': cfg['years'], 'url': open(f'ib/{key}.src').read().strip(),
+        'board': cfg.get('board', 'IB'),
+        'qualification': cfg.get('qualification', 'IB Diploma'),
+        'subject': cfg['subject'],
+        'level': cfg['level'] if 'level' in cfg else lvl,
+        'years': cfg['years'],
+        'url': open(cfg.get('pdf', f'ib/{key}.pdf').replace('.pdf', '.src')).read().strip(),
         'chapters': len(order), 'topics': len(rows),
         'ok': not problems, 'problems': problems,
         'chapter_names': order, 'rows': rows,
