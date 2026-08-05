@@ -82,3 +82,41 @@ An SL student revising these is spending time on unexaminable material.
 
 Each of these needs the real specification to fix properly. Guessing is what
 produced the defects in the first place.
+
+---
+
+# Structural items — now closed
+
+All five items previously left open have been resolved.
+
+**1. IB curriculum mismatch — done.** All 225 IB topics remapped onto the 2025
+guide; 16 withdrawn topics marked rather than deleted.
+
+**2. Cambridge A Level Biology missing topics — written.** "12 Energy and
+respiration" and "13 Photosynthesis" now exist, each with description,
+landmarks, three exam questions and a diagram (reusing the IB respiration and
+photosynthesis mechanism figures, which are pitched at the right level and are
+resolved through the shared SVG lookup). The subject now runs 1-19 with no gaps.
+The off-syllabus "Ecology" and the withdrawn "Smoking and Disease" are marked
+"not on the 9700 syllabus" rather than deleted.
+
+**3. Cambridge IGCSE Chemistry — renumbered.** Mapped onto the current
+twelve-topic 0620 scheme. Sulfur and Carbonates, both withdrawn in 2023, are
+marked as such and keep their content.
+
+**4. Edexcel IAL Physics — renumbered.** Now uses the real unit-prefixed
+sections (1.3 Mechanics, 1.4 Materials, 2.3 Waves and Particle Nature of Light,
+2.4 Electric Circuits, 4.3 Further Mechanics, 4.4 Electric and Magnetic Fields,
+4.5 Nuclear and Particle Physics, 5.3 Thermodynamics, 5.4 Nuclear Decay,
+5.5 Oscillations, 5.6 Astrophysics and Cosmology) instead of the invented
+"Topic 1-17". The two duplicate pairs are labelled: "Electricity and DC
+Circuits — overlaps Electric Circuits", and "Astrophysics — overlaps Space".
+Merging them properly is a content decision, not a numbering one.
+
+**5. IB SL courses carrying HL-only material — marked.** The three SL topics that
+are wholly HL in the current guide (Origins of cells A2.1, Classification and
+Cladistics A3.2) now say so in their titles. Topics that merely contain some HL
+material within otherwise-SL content are recorded in the per-subject reports
+rather than retitled, since splitting them is a rewrite rather than a label.
+
+Final state: 33 subjects, 687 topics, 1,637 exam pairs.
