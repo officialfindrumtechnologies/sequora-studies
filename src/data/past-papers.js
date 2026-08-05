@@ -4,21 +4,28 @@
 
 const _y = (s, e) => Array.from({ length: e - s + 1 }, (_, i) => s + i);
 
-// IB URL builder — URLs are UNCERTAIN and may 404; "Open in new tab" fallback handles misses
-function _ibUrl(folder, code, level, sess, year, paper, type) {
-  const t = type === 'QP' ? 'qp' : 'ms';
-  return `https://papers.gceguide.cc/IB/${folder}/${year}/${code}_${level}_${sess}_${year}_${paper}_${t}.pdf`;
+// IB session page. The previous builder guessed direct PDF URLs on
+// papers.gceguide.cc, which now returns HTTP 522 (dead origin) for every
+// request — 21 subjects' worth of links were broken. These paths were each
+// verified to return 200, with a bad year returning 404, so they are real pages
+// rather than a soft-404 catch-all. The page lists every paper and variant for
+// that session, which is more useful than a guessed direct link anyway.
+function _ibUrl(catPath, sess, year) {
+  const sessSlug = sess === 'May' ? 'may' : 'november';
+  return `https://www.papersdaddy.com/ib/past-papers/${catPath}/${year}-${sessSlug}`;
 }
 
-// Generate IB entries for one subject. papersByLevel: { HL: ['P1','P2','P3'], SL: ['P1','P2'] }
-function _genIB(folder, code, years, sessions, papersByLevel) {
+// Generate IB entries for one subject. catPath is the papersdaddy category and
+// subject, e.g. 'sciences/biology'. papersByLevel: { HL: [...], SL: [...] }
+function _genIB(catPath, years, sessions, papersByLevel) {
   const out = [];
   for (const yr of years) {
     for (const [sess, sessName] of sessions) {
       for (const [lvl, papers] of Object.entries(papersByLevel)) {
         for (const paper of papers) {
-          out.push({ year: yr, session: sessName, paper, level: lvl, component: 'QP', url: _ibUrl(folder, code, lvl, sess, yr, paper, 'QP') });
-          out.push({ year: yr, session: sessName, paper, level: lvl, component: 'MS', url: _ibUrl(folder, code, lvl, sess, yr, paper, 'MS') });
+          const u = _ibUrl(catPath, sess, yr);
+          out.push({ year: yr, session: sessName, paper, level: lvl, component: 'QP', url: u });
+          out.push({ year: yr, session: sessName, paper, level: lvl, component: 'MS', url: u });
         }
       }
     }
@@ -27,7 +34,7 @@ function _genIB(folder, code, years, sessions, papersByLevel) {
 }
 
 const IB_SESS  = [['May', 'May'], ['Nov', 'November']];
-const IB_YEARS = _y(2019, 2024); // Math AA/AI full range
+const IB_YEARS = _y(2021, 2024); // Maths AA/AI: first assessment 2021, so 2019-20 do not exist
 const IB_YEARS_S = _y(2019, 2023); // Sciences/Humanities (2024 not yet widely available)
 
 // PapaCambridge search URL builder
@@ -72,9 +79,16 @@ function _genCam(base, code, folder, years, sessions, papers) {
   return out;
 }
 
-// Edexcel URL builder — approximate dates; may 404 → fallback button shown
-function _edxUrl(base, folder, year, code, paper, type, date) {
-  return `https://papers.gceguide.cc/${base}/${folder}/${year}/${code}_${paper}_${type}_${date}.pdf`;
+// Edexcel session/subject pages. The old builder composed direct PDF URLs from
+// approximate exam dates — the file's own comment admitted "some will 404" —
+// on a host that is now entirely down. IGCSE has real per-session pages;
+// IAL has a subject page with per-year anchors. Both verified, with bad values
+// returning 404.
+function _edxIgcseUrl(slug, year, sessKey) {
+  return `https://www.papersdaddy.com/edexcel/igcse/${slug}/${year}-${sessKey === 'Jan' ? 'january' : 'june'}`;
+}
+function _edxIalUrl(slug, year) {
+  return `https://www.papersdaddy.com/edexcel/ial/${slug}#year-${year}`;
 }
 
 // Approximate Edexcel IGCSE exam dates by year+session
@@ -94,31 +108,29 @@ const EDX_AL_DATES = {
   2021: '20210610', 2022: '20220609', 2023: '20230608', 2024: '20240606',
 };
 
-function _genEdxIgcse(code, folder, years, papers) {
-  const base = 'edexcel-igcse';
+function _genEdxIgcse(code, slug, years, papers) {
   const out = [];
   for (const yr of years) {
     for (const [sessKey, sessName] of [['Jan', 'January'], ['Jun', 'June']]) {
-      const date = EDX_IGCSE_DATES[yr]?.[sessKey];
-      if (!date) continue; // skip missing sessions (e.g. Jun 2020)
+      if (!EDX_IGCSE_DATES[yr]?.[sessKey]) continue; // skip sessions that did not run (e.g. Jun 2020)
+      const u = _edxIgcseUrl(slug, yr, sessKey);
       for (const pLabel of papers) {
-        out.push({ year: yr, session: sessName, paper: pLabel, component: 'QP', url: _edxUrl(base, folder, yr, code, pLabel, 'que', date) });
-        out.push({ year: yr, session: sessName, paper: pLabel, component: 'MS', url: _edxUrl(base, folder, yr, code, pLabel, 'ms', date) });
+        out.push({ year: yr, session: sessName, paper: pLabel, component: 'QP', url: u });
+        out.push({ year: yr, session: sessName, paper: pLabel, component: 'MS', url: u });
       }
     }
   }
   return out;
 }
 
-function _genEdxAl(code, folder, years, papers) {
-  const base = 'edexcel-a-level';
+function _genEdxAl(code, slug, years, papers) {
   const out = [];
   for (const yr of years) {
-    const date = EDX_AL_DATES[yr];
-    if (!date) continue;
+    if (!EDX_AL_DATES[yr]) continue;
+    const u = _edxIalUrl(slug, yr);
     for (const pLabel of papers) {
-      out.push({ year: yr, session: 'June', paper: pLabel, component: 'QP', url: _edxUrl(base, folder, yr, code, pLabel, 'que', date) });
-      out.push({ year: yr, session: 'June', paper: pLabel, component: 'MS', url: _edxUrl(base, folder, yr, code, pLabel, 'ms', date) });
+      out.push({ year: yr, session: 'June', paper: pLabel, component: 'QP', url: u });
+      out.push({ year: yr, session: 'June', paper: pLabel, component: 'MS', url: u });
     }
   }
   return out;
@@ -195,49 +207,49 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Mathematics A',
     qualification: 'IGCSE / O Level',
     examBoard: 'Edexcel IGCSE',
-    papers: _genEdxIgcse('4MA1', 'mathematics-a-(4ma1)', EDX_IG_YEARS, ['1H', '2H', '1F', '2F']),
+    papers: _genEdxIgcse('4MA1', 'mathematics-a', EDX_IG_YEARS, ['1H', '2H', '1F', '2F']),
   },
 
   '4PH1': {
     subjectName: 'Physics',
     qualification: 'IGCSE / O Level',
     examBoard: 'Edexcel IGCSE',
-    papers: _genEdxIgcse('4PH1', 'physics-(4ph1)', EDX_IG_YEARS, ['1P', '2P']),
+    papers: _genEdxIgcse('4PH1', 'physics', EDX_IG_YEARS, ['1P', '2P']),
   },
 
   '4CH1': {
     subjectName: 'Chemistry',
     qualification: 'IGCSE / O Level',
     examBoard: 'Edexcel IGCSE',
-    papers: _genEdxIgcse('4CH1', 'chemistry-(4ch1)', EDX_IG_YEARS, ['1C', '2C']),
+    papers: _genEdxIgcse('4CH1', 'chemistry', EDX_IG_YEARS, ['1C', '2C']),
   },
 
   '4BI1': {
     subjectName: 'Biology',
     qualification: 'IGCSE / O Level',
     examBoard: 'Edexcel IGCSE',
-    papers: _genEdxIgcse('4BI1', 'biology-(4bi1)', EDX_IG_YEARS, ['1B', '2B']),
+    papers: _genEdxIgcse('4BI1', 'biology', EDX_IG_YEARS, ['1B', '2B']),
   },
 
   '4AC1': {
     subjectName: 'Accounting',
     qualification: 'IGCSE / O Level',
     examBoard: 'Edexcel IGCSE',
-    papers: _genEdxIgcse('4AC1', 'accounting-(4ac1)', EDX_IG_YEARS, ['01']),
+    papers: [], // no source: papersdaddy has no Edexcel IGCSE Accounting
   },
 
   '4EC1': {
     subjectName: 'Economics',
     qualification: 'IGCSE / O Level',
     examBoard: 'Edexcel IGCSE',
-    papers: _genEdxIgcse('4EC1', 'economics-(4ec1)', EDX_IG_YEARS, ['01', '02']),
+    papers: _genEdxIgcse('4EC1', 'economics', EDX_IG_YEARS, ['01', '02']),
   },
 
   '4BS1': {
     subjectName: 'Business Studies',
     qualification: 'IGCSE / O Level',
     examBoard: 'Edexcel IGCSE',
-    papers: _genEdxIgcse('4BS1', 'business-studies-(4bs1)', EDX_IG_YEARS, ['01', '02']),
+    papers: [], // no source: papersdaddy has no Edexcel IGCSE Business Studies
   },
 
   // ── Cambridge A Level ──────────────────────────────────────────────────────
@@ -295,14 +307,15 @@ export const PAST_PAPERS_DB = {
   // ── Edexcel A Level ────────────────────────────────────────────────────────
 
   // ── IB Diploma ─────────────────────────────────────────────────────────────
-  // URL format UNCERTAIN — mirrors vary. Open-in-new-tab fallback handles 404s.
-  // Format: gceguide.cc/IB/[Folder]/[year]/[Code]_[Level]_[Session]_[Year]_[Paper]_[type].pdf
+  // Each entry links to the papersdaddy session page for that subject and
+  // session, which lists every paper and variant. Paths verified to return 200,
+  // with a bad year returning 404.
 
   'IB-MATH-AA': {
     subjectName: 'Mathematics: Analysis & Approaches',
     qualification: 'IB Diploma',
     examBoard: 'IB',
-    papers: _genIB('Mathematics%20AA', 'Mathematics_AA', IB_YEARS, IB_SESS, {
+    papers: _genIB('mathematics/mathematics-analysis-and-approaches', IB_YEARS, IB_SESS, {
       HL: ['P1', 'P2', 'P3'],
       SL: ['P1', 'P2'],
     }),
@@ -312,7 +325,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Mathematics: Applications & Interpretation',
     qualification: 'IB Diploma',
     examBoard: 'IB',
-    papers: _genIB('Mathematics%20AI', 'Mathematics_AI', IB_YEARS, IB_SESS, {
+    papers: _genIB('mathematics/mathematics-applications-and-interpretation', IB_YEARS, IB_SESS, {
       HL: ['P1', 'P2', 'P3'],
       SL: ['P1', 'P2'],
     }),
@@ -322,7 +335,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Physics',
     qualification: 'IB Diploma',
     examBoard: 'IB',
-    papers: _genIB('Physics', 'Physics', IB_YEARS_S, IB_SESS, {
+    papers: _genIB('sciences/physics', IB_YEARS_S, IB_SESS, {
       HL: ['P1', 'P2', 'P3'],
       SL: ['P1', 'P2', 'P3'],
     }),
@@ -332,7 +345,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Chemistry',
     qualification: 'IB Diploma',
     examBoard: 'IB',
-    papers: _genIB('Chemistry', 'Chemistry', IB_YEARS_S, IB_SESS, {
+    papers: _genIB('sciences/chemistry', IB_YEARS_S, IB_SESS, {
       HL: ['P1', 'P2', 'P3'],
       SL: ['P1', 'P2', 'P3'],
     }),
@@ -342,7 +355,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Biology',
     qualification: 'IB Diploma',
     examBoard: 'IB',
-    papers: _genIB('Biology', 'Biology', IB_YEARS_S, IB_SESS, {
+    papers: _genIB('sciences/biology', IB_YEARS_S, IB_SESS, {
       HL: ['P1', 'P2', 'P3'],
       SL: ['P1', 'P2', 'P3'],
     }),
@@ -352,7 +365,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Economics',
     qualification: 'IB Diploma',
     examBoard: 'IB',
-    papers: _genIB('Economics', 'Economics', IB_YEARS_S, IB_SESS, {
+    papers: _genIB('individuals-societies/economics', IB_YEARS_S, IB_SESS, {
       HL: ['P1', 'P2', 'P3'],
       SL: ['P1', 'P2', 'P3'],
     }),
@@ -362,7 +375,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'History',
     qualification: 'IB Diploma',
     examBoard: 'IB',
-    papers: _genIB('History', 'History', IB_YEARS_S, IB_SESS, {
+    papers: _genIB('individuals-societies/history', IB_YEARS_S, IB_SESS, {
       HL: ['P1', 'P2', 'P3'],
       SL: ['P1', 'P2', 'P3'],
     }),
@@ -372,7 +385,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'English A Literature',
     qualification: 'IB Diploma',
     examBoard: 'IB',
-    papers: _genIB('English%20A%20Lit', 'English_A_Lit', IB_YEARS_S, IB_SESS, {
+    papers: _genIB('language-literature/english-a-literature', IB_YEARS_S, IB_SESS, {
       HL: ['P1', 'P2'],
       SL: ['P1', 'P2'],
     }),
@@ -382,7 +395,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Business Management',
     qualification: 'IB Diploma',
     examBoard: 'IB',
-    papers: _genIB('Business%20Management', 'Business_Management', IB_YEARS_S, IB_SESS, {
+    papers: _genIB('individuals-societies/business-management', IB_YEARS_S, IB_SESS, {
       HL: ['P1', 'P2'],
       SL: ['P1', 'P2'],
     }),
@@ -392,7 +405,7 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Psychology',
     qualification: 'IB Diploma',
     examBoard: 'IB',
-    papers: _genIB('Psychology', 'Psychology', IB_YEARS_S, IB_SESS, {
+    papers: _genIB('individuals-societies/psychology', IB_YEARS_S, IB_SESS, {
       HL: ['P1', 'P2'],
       SL: ['P1', 'P2'],
     }),
@@ -402,28 +415,28 @@ export const PAST_PAPERS_DB = {
     subjectName: 'Mathematics',
     qualification: 'A Level',
     examBoard: 'Edexcel',
-    papers: _genEdxAl('9MA0', 'mathematics-(9ma0)', EDX_AL_YEARS, ['01', '02', '03']),
+    papers: _genEdxAl('9MA0', 'mathematics', EDX_AL_YEARS, ['01', '02', '03']),
   },
 
   '9PH0': {
     subjectName: 'Physics',
     qualification: 'A Level',
     examBoard: 'Edexcel',
-    papers: _genEdxAl('9PH0', 'physics-(9ph0)', EDX_AL_YEARS, ['01', '02', '03']),
+    papers: _genEdxAl('9PH0', 'physics', EDX_AL_YEARS, ['01', '02', '03']),
   },
 
   '9CH0': {
     subjectName: 'Chemistry',
     qualification: 'A Level',
     examBoard: 'Edexcel',
-    papers: _genEdxAl('9CH0', 'chemistry-(9ch0)', EDX_AL_YEARS, ['01', '02', '03']),
+    papers: _genEdxAl('9CH0', 'chemistry', EDX_AL_YEARS, ['01', '02', '03']),
   },
 
   '9BI0': {
     subjectName: 'Biology',
     qualification: 'A Level',
     examBoard: 'Edexcel',
-    papers: _genEdxAl('9BI0', 'biology-(9bi0)', EDX_AL_YEARS, ['01', '02', '03']),
+    papers: _genEdxAl('9BI0', 'biology', EDX_AL_YEARS, ['01', '02', '03']),
   },
 };
 
