@@ -23,6 +23,42 @@ import json
 import subprocess
 
 GUIDES = {
+    # Cambridge History (IGCSE 0470 and O Level 2147 share a syllabus) is core
+    # content in two options plus five depth studies, each set out as numbered
+    # key questions. The number is followed by a tab rather than a full stop,
+    # which is why the default item pattern finds nothing here.
+    'cie-history-0470': {
+        'board': 'cambridge_igcse', 'qualification': 'IGCSE / O Level',
+        'subject': 'History', 'level': None,
+        'pdf': 'pdf/cambridge-igcse-history-0470.pdf',
+        'years': 'syllabus for 2027-2028',
+        'item': r'^(\d{1,2})[\.\t ]\s*([A-Z].{8,})$',
+        'sections': [
+            (r'^Core content: Option A', 'Core content Option A: The nineteenth century (or Option B)'),
+            (r'^Core content: Option B', 'Core content Option B: The twentieth century (or Option A)'),
+            (r'^Depth study A:', 'Depth study A: The First World War, 1914-18 (choose at least one)'),
+            (r'^Depth study B:', 'Depth study B: Germany, 1918-45 (choose at least one)'),
+            (r'^Depth study C:', 'Depth study C: Russia, 1905-41 (choose at least one)'),
+            (r'^Depth study D:', 'Depth study D: The United States, 1919-41 (choose at least one)'),
+            (r'^Depth study E:', 'Depth study E: The Second World War in Europe and the Asia-Pacific (choose at least one)'),
+        ],
+    },
+    'cie-history-2147': {
+        'board': 'o_level', 'qualification': 'IGCSE / O Level',
+        'subject': 'History', 'level': None,
+        'pdf': 'pdf/cambridge-o-level-history-2147.pdf',
+        'years': 'syllabus for 2027-2028',
+        'item': r'^(\d{1,2})[\.\t ]\s*([A-Z].{8,})$',
+        'sections': [
+            (r'^Core content: Option A', 'Core content Option A: The nineteenth century (or Option B)'),
+            (r'^Core content: Option B', 'Core content Option B: The twentieth century (or Option A)'),
+            (r'^Depth study A:', 'Depth study A: The First World War, 1914-18 (choose at least one)'),
+            (r'^Depth study B:', 'Depth study B: Germany, 1918-45 (choose at least one)'),
+            (r'^Depth study C:', 'Depth study C: Russia, 1905-41 (choose at least one)'),
+            (r'^Depth study D:', 'Depth study D: The United States, 1919-41 (choose at least one)'),
+            (r'^Depth study E:', 'Depth study E: The Second World War in Europe and the Asia-Pacific (choose at least one)'),
+        ],
+    },
     'geography': {
         'subject': 'Geography', 'years': 'first examinations 2019',
         'url': 'https://dp.uwcea.org/docs/Geography%20Subject%20Guide.pdf',
@@ -64,6 +100,7 @@ def lines(pdf):
 def parse(key, pdf, level='HL'):
     cfg = GUIDES[key]
     heads = [(re.compile(rx), label) for rx, label in cfg['sections']]
+    item_re = re.compile(cfg['item']) if cfg.get('item') else ITEM
     hl_only = re.compile(cfg['hl_only']) if cfg.get('hl_only') else None
 
     buckets, order, section = {}, [], None
@@ -78,9 +115,12 @@ def parse(key, pdf, level='HL'):
                 order.append(hit)
             buckets.setdefault(hit, {})
             continue
-        if section is None or NOISE.match(t):
+        # A contents-page entry has the same shape as a key question once its
+        # dot leaders are ignored, so "4 Details of the assessment ......" was
+        # filed as key question 4 of Core content Option B.
+        if section is None or NOISE.match(t) or '....' in t:
             continue
-        m = ITEM.match(t)
+        m = item_re.match(t)
         if not m:
             continue
         n, title = int(m.group(1)), m.group(2).strip()
@@ -115,11 +155,14 @@ if __name__ == '__main__':
     key = sys.argv[1]
     lvl = sys.argv[2] if len(sys.argv) > 2 else 'HL'
     cfg = GUIDES[key]
-    order, rows, problems = parse(key, f'ib/{key}.pdf', lvl)
+    order, rows, problems = parse(key, cfg.get('pdf', f'ib/{key}.pdf'), lvl)
+    src = cfg.get('url') or open(cfg['pdf'].replace('.pdf', '.src')).read().strip()
     print(json.dumps({
-        'board': 'IB', 'qualification': 'IB Diploma',
-        'subject': cfg['subject'], 'level': lvl,
-        'years': cfg['years'], 'url': cfg['url'],
+        'board': cfg.get('board', 'IB'),
+        'qualification': cfg.get('qualification', 'IB Diploma'),
+        'subject': cfg['subject'],
+        'level': cfg['level'] if 'level' in cfg else lvl,
+        'years': cfg['years'], 'url': src,
         'chapters': len(order), 'topics': len(rows),
         'ok': not problems, 'problems': problems,
         'chapter_names': order, 'rows': rows,
