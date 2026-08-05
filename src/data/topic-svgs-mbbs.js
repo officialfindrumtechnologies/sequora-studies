@@ -3719,7 +3719,7 @@ export const TOPIC_SVGS_MBBS = {
 <text x="170" y="219" class="s">modation</text>
 <text x="108" y="234" class="s">Lens stiffening. +ve near add (+1.0D at 40yr).</text>
 <rect x="5" y="276" width="390" height="22" fill="var(--border)" fill-opacity="0.15" rx="1"/>
-<text x="200" y="285" class="s" text-anchor="middle">Mnemonic: SAME = myopia correction converges; MADE = hypermetropia diverges</text>
+<text x="200" y="285" class="s" text-anchor="middle">Myopia: concave (−) diverging lens · Hypermetropia: convex (+) converging lens</text>
 <text x="200" y="295" class="s" text-anchor="middle">LASIK: corrects myopia −10D / hypermetropia +4D by corneal photoablation</text>
 </svg>`,
   'mbbs-opth-conjunctivitis': `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">

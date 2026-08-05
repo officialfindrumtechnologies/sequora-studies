@@ -3081,7 +3081,7 @@ export const TOPIC_VISUALS = {
         "svgKey": "mbbs-opth-refraction",
         "threejs3dFn": "createRayRefraction",
         "landmarks": [
-          "Snellen VA: distance tested / smallest line read — 6/6 normal; 6/60 = legal blindness threshold in UK; WHO blindness <3/60 in better eye",
+          "Snellen VA: distance tested / smallest line read — 6/6 normal; UK: severe sight impairment is VA <3/60 (or 3/60-6/60 with severe field loss); 6/60 alone is sight impaired. 6/60 (20/200) is the US legal-blindness threshold; WHO blindness <3/60 in better eye",
           "Pinhole test: limits peripheral rays, eliminates refractive error — improvement suggests refractive cause (not amblyopia/organic disease)",
           "Myopia (short-sightedness): long axial length → image focuses in front of retina; corrected with concave (−ve) spherical lens",
           "Hypermetropia (long-sightedness): short axial length → image behind retina; corrected with convex (+ve) lens; accommodation can mask mild cases in young",
@@ -3217,7 +3217,7 @@ export const TOPIC_VISUALS = {
           "Posterior subcapsular cataract (PSC): steroid use, diabetes, radiation, myotonic dystrophy; most symptomatic (glare, near vision worse); blocks axial rays",
           "Congenital cataract: TORCH, galactosaemia (galactose-1-phosphate uridyl transferase deficiency), Down syndrome, maternal steroid; leucocoria; surgery <6–8 weeks to prevent deprivation amblyopia",
           "Phacoemulsification: ultrasound lens fragmentation through 2.8 mm clear corneal incision; posterior capsule left intact for in-the-bag IOL; faster recovery than ECCE",
-          "IOL power: SRK/T formula — P = A − 2.5L − 0.9K (A=constant, L=axial length, K=keratometry); target emmetropia; modern formulas: Haigis, Barrett Universal II"
+          "IOL power: SRK (SRK I) regression formula — P = A − 2.5L − 0.9K. SRK/T, Haigis, Holladay 2 and Barrett Universal II are later theoretical formulae with no such closed form (A=constant, L=axial length, K=keratometry); target emmetropia; modern formulas: Haigis, Barrett Universal II"
         ],
         "examQA": [
           {
@@ -3259,7 +3259,7 @@ export const TOPIC_VISUALS = {
           },
           {
             "q": "What are keratic precipitates (KPs) and how do their characteristics help diagnosis?",
-            "a": "KPs are deposits of inflammatory cells (lymphocytes, macrophages) on the corneal endothelium, especially inferior (Arlt triangle). Fine KPs: lymphocytic, seen in viral uveitis (HSV, HZO), non-granulomatous. Mutton-fat KPs: large, greasy, stellate deposits of epithelioid cells and macrophages — granulomatous uveitis: sarcoidosis, TB, sympathetic ophthalmia, VKH syndrome. Stellate (dispersed): Fuchs heterochromic uveitis."
+            "a": "KPs are deposits of inflammatory cells (lymphocytes, macrophages) on the corneal endothelium, especially inferior (Arlt triangle). Fine KPs: lymphocytic, seen in viral uveitis (HSV, HZO), non-granulomatous. Mutton-fat KPs: large, greasy, round/globular granulomatous deposits of epithelioid cells and macrophages (stellate KPs are characteristic of Fuchs heterochromic uveitis) — granulomatous uveitis: sarcoidosis, TB, sympathetic ophthalmia, VKH syndrome. Stellate (dispersed): Fuchs heterochromic uveitis."
           },
           {
             "q": "An HIV-positive patient with CD4 count 40 presents with floaters and painless visual loss. Fundus shows yellow-white retinal necrosis with haemorrhages along vessels. What is the treatment?",
@@ -3288,7 +3288,7 @@ export const TOPIC_VISUALS = {
         "examQA": [
           {
             "q": "A 55-year-old myope sees a curtain descending from above in the left eye with preceding flashes and floaters. What is the diagnosis and management?",
-            "a": "Rhegmatogenous retinal detachment. Prodrome: photopsia (traction on retina), vitreous floaters (pigment/blood = Shafer sign). Superior tear → inferior curtain defect. Urgent ophthalmic review. Management: surgical — pneumatic retinopexy (office procedure, gas bubble), scleral buckle (encircling band), or pars plana vitrectomy (PPV) with gas/oil tamponade. Cryotherapy or laser to seal tear. Success rate >90% if macula-on; 70–80% if macula-off."
+            "a": "Rhegmatogenous retinal detachment. Prodrome: photopsia (traction on retina), vitreous floaters (pigment/blood = Shafer sign). A superior detachment gives an INFERIOR field defect (shadow rising from below); a curtain descending from above means an INFERIOR detachment. Urgent ophthalmic review. Management: surgical — pneumatic retinopexy (office procedure, gas bubble), scleral buckle (encircling band), or pars plana vitrectomy (PPV) with gas/oil tamponade. Cryotherapy or laser to seal tear. Success rate >90% if macula-on; 70–80% if macula-off."
           },
           {
             "q": "A 70-year-old presents with sudden painless loss of vision in one eye. Fundus shows a pale, oedematous retina with a cherry-red spot at the macula. What is the diagnosis and immediate management?",
@@ -3322,7 +3322,7 @@ export const TOPIC_VISUALS = {
         "examQA": [
           {
             "q": "A 25-year-old woman has pain on eye movement, VA 6/36, and a RAPD in the right eye. Fundus is normal. What is the diagnosis and investigation?",
-            "a": "Retrobulbar optic neuritis (ON). Disc appears normal as inflammation is behind the globe. Key features: painful eye movement, central scotoma, dyschromatopsia (red desaturation), RAPD. Investigation: MRI brain + orbits with gadolinium — if ≥2 T2 lesions, risk of MS is 72% at 15 years (ONTT). Treatment: IV methylprednisolone 1g/day x3 days speeds recovery but does not improve final VA. Refer neurology. Beta-interferon if high MS risk."
+            "a": "Retrobulbar optic neuritis (ON). Disc appears normal as inflammation is behind the globe. Key features: painful eye movement, central scotoma, dyschromatopsia (red desaturation), RAPD. Investigation: MRI brain + orbits with gadolinium — with ≥1 typical T2 lesion the 15-year MS risk is 72% (ONTT); with a normal MRI it is 25%. Treatment: IV methylprednisolone 1g/day x3 days speeds recovery but does not improve final VA. Refer neurology. Beta-interferon if high MS risk."
           },
           {
             "q": "Differentiate papilloedema from papillitis.",
@@ -3367,7 +3367,7 @@ export const TOPIC_VISUALS = {
           },
           {
             "q": "Describe the management of a penetrating eye injury in the emergency department.",
-            "a": "1. History: mechanism (glass, metal, BB pellet), velocity, time. 2. Examine gently — do NOT apply pressure; check VA; look for peaked pupil, iris prolapse, vitreous in wound. 3. Seidel test confirms open globe. 4. CT orbit (not MRI if metallic FB). 5. Protect: rigid eye shield (not pad), NPO, anti-emetics (prevent Valsalva). 6. IV antibiotics: cefuroxime 1.5g 8-hourly + metronidazole 500mg 8-hourly. 7. Tetanus prophylaxis. 8. Urgent vitreoretinal surgical repair. Prognosis: BETT score predicts outcome."
+            "a": "1. History: mechanism (glass, metal, BB pellet), velocity, time. 2. Examine gently — do NOT apply pressure; check VA; look for peaked pupil, iris prolapse, vitreous in wound. 3. Seidel test confirms open globe. 4. CT orbit (not MRI if metallic FB). 5. Protect: rigid eye shield (not pad), NPO, anti-emetics (prevent Valsalva). 6. IV antibiotics: cefuroxime 1.5g 8-hourly + metronidazole 500mg 8-hourly. 7. Tetanus prophylaxis. 8. Urgent vitreoretinal surgical repair. Prognosis: the Ocular Trauma Score (OTS) predicts visual outcome. BETT is a classification of globe injury (open vs closed, rupture/penetrating/perforating/IOFB), not a prognostic score."
           }
         ]
       },
@@ -3388,7 +3388,7 @@ export const TOPIC_VISUALS = {
         "examQA": [
           {
             "q": "A 4-year-old is noticed to have a convergent squint. How do you perform the cover test?",
-            "a": "Cover-uncover test: fixate on a target. Cover one eye — watch uncovered eye: if it moves (inward → esotropia; outward → exotropia) then that eye was previously deviated (manifest strabismus). Alternate cover test: alternate cover between eyes rapidly — prevents fusion, reveals maximum deviation including latent squint (phoria). Prism cover test: neutralise deviation with prisms to measure angle in PD (prism dioptres). In children: Krimsky test (prisms over deviating eye until Hirschberg reflex centred)."
+            "a": "Cover-uncover test: fixate on a target. Cover one eye — watch the uncovered eye take up fixation: it moves OPPOSITE to its resting deviation, so moving outward (abducting) means it was esotropic, and moving inward (adducting) means it was exotropic. Alternate cover test: alternate cover between eyes rapidly — prevents fusion, reveals maximum deviation including latent squint (phoria). Prism cover test: neutralise deviation with prisms to measure angle in PD (prism dioptres). In children: Krimsky test (prisms over deviating eye until Hirschberg reflex centred)."
           },
           {
             "q": "What is the difference between concomitant and paralytic strabismus?",
@@ -3449,7 +3449,7 @@ export const TOPIC_VISUALS = {
           "4-2-1 rule for severe NPDR: >20 haemorrhages in all 4 quadrants; OR venous beading in 2+ quadrants; OR IRMA in 1+ quadrant — 50% become PDR in 1 year",
           "Diabetic maculopathy: CSME (clinically significant macular oedema) — exudates/oedema within 500 µm of fovea centre; leading cause of visual loss in NPDR; treat with anti-VEGF (bevacizumab/ranibizumab/aflibercept) or macular laser",
           "Treatment: PRP (pan-retinal photocoagulation) for PDR — 1200–1500 spots outside arcades; anti-VEGF injections; vitrectomy for non-clearing vitreous haemorrhage or tractional RD",
-          "Keith-Wagener HTN retinopathy: Grade I (arterial attenuation/silver wiring); Grade II (AV nipping, copper wiring); Grade III (+ flame haemorrhages, soft exudates/CWS, hard exudates); Grade IV (+ papilloedema)"
+          "Keith-Wagener HTN retinopathy: Grade I (generalised arteriolar attenuation); Grade II (I + AV nipping/focal narrowing); Grade III (II + copper wiring, flame haemorrhages, cotton-wool spots, hard exudates); Grade IV (III + silver wiring + papilloedema); Grade III (+ flame haemorrhages, soft exudates/CWS, hard exudates); Grade IV (+ papilloedema)"
         ],
         "examQA": [
           {
@@ -3462,11 +3462,11 @@ export const TOPIC_VISUALS = {
           },
           {
             "q": "A patient with severe hypertension (BP 220/130) has bilateral disc oedema, flame haemorrhages, cotton-wool spots, and hard exudates in a macular star pattern. What grade of hypertensive retinopathy is this?",
-            "a": "Grade IV (Keith-Wagener classification) — malignant/accelerated hypertension. Features: papilloedema (grade IV) + grade III changes (flame haemorrhages, CWS, hard exudates). The macular star (hard exudates arranged in star pattern radiating from fovea) is classic. Management: admit, IV antihypertensive (labetalol infusion or oral nifedipine if conscious), avoid over-rapid reduction (cerebral autoregulation failure). Screen renal function and echo (LV hypertrophy)."
+            "a": "Grade IV (Keith-Wagener classification) — malignant/accelerated hypertension. Features: papilloedema (grade IV) + grade III changes (flame haemorrhages, CWS, hard exudates). The macular star (hard exudates arranged in star pattern radiating from fovea) is classic. Management: admit, titratable IV antihypertensive (labetalol or nicardipine infusion), aiming for a controlled ~20-25% reduction over the first hours. Immediate-release oral/sublingual nifedipine is contraindicated — it causes exactly the precipitous fall to be avoided. Screen renal function and echo (LV hypertrophy)."
           },
           {
             "q": "Compare laser photocoagulation and anti-VEGF injections in diabetic retinopathy.",
-            "a": "PRP (pan-retinal laser): 1200–1500 burns outside arcades → destroys ischaemic peripheral retina → reduces VEGF → NV regression. Use for PDR/high-risk PDR. Permanent, destroys peripheral vision/colour/night vision. Anti-VEGF (bevacizumab/ranibizumab/aflibercept intravitreal): directly blocks VEGF → rapid NV regression + treatment of DMO. Temporary — requires monthly injections for 1 year, then PRN. Preferred for DMO (centre-involving). Protocol 2 (DRCR.net): anti-VEGF superior to macular laser for centre-involving DMO."
+            "a": "PRP (pan-retinal laser): 1200–1500 burns outside arcades → destroys ischaemic peripheral retina → reduces VEGF → NV regression. Use for PDR/high-risk PDR. Permanent, destroys peripheral vision/colour/night vision. Anti-VEGF (bevacizumab/ranibizumab/aflibercept intravitreal): directly blocks VEGF → rapid NV regression + treatment of DMO. Temporary — requires monthly injections for 1 year, then PRN. Preferred for DMO (centre-involving). Protocol I (DRCR.net): ranibizumab ± laser superior to laser alone for centre-involving DMO; Protocol T compared aflibercept, bevacizumab and ranibizumab."
           }
         ]
       },
@@ -3482,7 +3482,7 @@ export const TOPIC_VISUALS = {
           "Congenital cataract: leucocoria; TORCH, galactosaemia, Down syndrome, Lowe syndrome; urgent surgery <6–8 weeks → deprivation amblyopia prevention; optical correction + patching post-op",
           "Congenital glaucoma (buphthalmos): AR mutation (CYP1B1); enlarged cornea (>11 mm in newborn) + Haab striae (horizontal breaks in Descemet) + photophobia + lacrimation; surgical — goniotomy or trabeculotomy",
           "ROP: premature infants <1500g/<32 weeks; avascular peripheral retina secretes VEGF → neovascularisation; stage 1 (demarcation line) → stage 5 (total RD); threshold disease (stage 3+ with plus disease) → diode laser ablation",
-          "Vitamin A deficiency: xerophthalmia; Bitot spots (foamy triangular plaques temporal conjunctiva); night blindness → corneal xerosis → keratomalacia; treat oral/IM vitamin A (WHO: 200,000 IU x2 doses)"
+          "Vitamin A deficiency: xerophthalmia; Bitot spots (foamy triangular plaques temporal conjunctiva); night blindness → corneal xerosis → keratomalacia; treat with vitamin A (WHO: 200,000 IU on day 1, day 2 and day 14; 100,000 IU if 6-11 months, 50,000 IU if under 6 months)"
         ],
         "examQA": [
           {
@@ -3495,7 +3495,7 @@ export const TOPIC_VISUALS = {
           },
           {
             "q": "A 3-month-old infant has an enlarged left eye, photophobia, excessive tearing, and the cornea measures 13 mm diameter. What is the diagnosis and treatment?",
-            "a": "Congenital glaucoma (buphthalmos). Enlarged cornea >11 mm in newborn (12–13 mm at 1 year is normal, so 13 mm at 3 months is enlarged). Other signs: Haab striae (horizontal breaks in Descemet membrane from stretching), corneal oedema, elevated IOP. Cause: inadequate development of trabecular meshwork/angle (AR mutation in CYP1B1 gene). Treatment: SURGICAL — goniotomy (direct incision of trabecular meshwork under gonioscopic guidance) or trabeculotomy (external approach). Medical (acetazolamide) is temporising only."
+            "a": "Congenital glaucoma (buphthalmos). Enlarged cornea >11 mm in a newborn. Normal horizontal diameter is ~9.5-10.5 mm at birth, reaching the adult 11.5-12 mm by about age 2, so >12 mm at any age suggests buphthalmos. Other signs: Haab striae (horizontal breaks in Descemet membrane from stretching), corneal oedema, elevated IOP. Cause: inadequate development of trabecular meshwork/angle (AR mutation in CYP1B1 gene). Treatment: SURGICAL — goniotomy (direct incision of trabecular meshwork under gonioscopic guidance) or trabeculotomy (external approach). Medical (acetazolamide) is temporising only."
           },
           {
             "q": "How do you differentiate retinoblastoma from Coats disease in a child with leucocoria?",
@@ -4659,7 +4659,7 @@ export const TOPIC_VISUALS = {
           "Apgar score: 0–2 each for Appearance, Pulse, Grimace, Activity, Respiration — scored at 1 min and 5 min; ≥7 normal, 4–6 moderate depression, <4 severe",
           "New Ballard Score (gestational age 20–44 wks): neuromuscular maturity (posture/square window/arm recoil/popliteal angle/scarf sign/heel-to-ear) + physical maturity (skin/lanugo/plantar crease/breast/eye-ear/genitalia) — score −10 to +50",
           "Normal newborn: weight 2.5–4.0 kg, length 48–52 cm, HC 33–37 cm; physiological weight loss ≤10% in first week, regained by day 10–14",
-          "Bangladesh EPI newborn screening: congenital hypothyroidism (TSH heel prick day 3–5, TSH >20 mU/L = recall), G6PD deficiency, PKU at selected centres",
+          "Bangladesh national newborn screening (Institute of Nuclear Medicine/DGHS, separate from EPI which delivers vaccines only): congenital hypothyroidism (TSH heel prick day 3–5, TSH >20 mU/L = recall), G6PD deficiency, PKU at selected centres",
           "Primitive reflexes: Moro (disappears 3–4 months), rooting/sucking (3–4 months), palmar grasp (3–4 months), stepping (2 months), tonic neck ATNR (4–6 months)"
         ],
         "examQA": [
@@ -4789,7 +4789,7 @@ export const TOPIC_VISUALS = {
         "svgKey": "mbbs-paed-neonatal-respiratory",
         "threejs3dFn": "createDiffusionAnimation",
         "landmarks": [
-          "Silverman-Anderson score (0–10): upper chest lag, lower chest retraction, xiphoid retraction, nasal flaring, expiratory grunting — 0 = no distress; ≥5 = severe. Grunting = active glottal braking to maintain FRC (auto-PEEP)",
+          "Silverman-Anderson score (0–10): upper chest lag, lower chest retraction, xiphoid retraction, nasal flaring, expiratory grunting — 0 = none, 1-3 mild, 4-6 moderate, ≥7 severe (≥5 signals the need for urgent respiratory support). Grunting = active glottal braking to maintain FRC (auto-PEEP)",
           "RDS: DPPC surfactant deficiency <32 weeks; CXR: bilateral granular ground glass + air bronchograms + low lung volumes; treatment: CPAP + exogenous surfactant + antenatal steroids prevention",
           "TTN (Transient Tachypnoea of Newborn): delayed fetal lung fluid resorption; term/late-preterm, elective CS, male; CXR: perihilar streaking + fluid in horizontal fissure + mild hyperinflation; resolves 24–48 h — O2 only, self-limiting",
           "MAS (Meconium Aspiration Syndrome): term/post-term, meconium-stained liquor; ball-valve obstruction → air trapping + chemical pneumonitis; CXR: coarse irregular bilateral opacities + hyperinflation; PPHN complication → iNO ± ECMO",
@@ -4825,7 +4825,7 @@ export const TOPIC_VISUALS = {
           "Key gross motor milestones: head control 3 months; rolls 5 months; sits unsupported 6 months; pulls to stand 9 months; walks unsupported 12 months (±3 months); runs 18 months. Red flags: not sitting by 9 months, not walking by 18 months",
           "Fine motor: 3 months — hands unfisted; 6 months — palmar grasp; 9 months — inferior pincer; 12 months — superior pincer; 18 months — scribbles; 2 years — tower of 6 bricks + circular scribble; 3 years — copies circle; 4 years — copies cross",
           "Language: 6 weeks — social smile; 3 months — coos; 6 months — babbles; 12 months — 1–2 meaningful words; 18 months — 6–20 words; 2 years — 2-word sentences; 3 years — 3-word sentences. Red flag: no words by 12 months, no 2-word phrases by 24 months",
-          "Growth velocity: 25 cm/year (Year 1), 12 cm/year (Year 2), 8 cm/year (age 2–5). MPH boys = (father + mother + 13)/2; girls = (father + mother − 13)/2. Bangladesh under-5 stunting 36% (BDHS 2019)",
+          "Growth velocity: 25 cm/year (Year 1), 12 cm/year (Year 2), 8 cm/year (age 2–5). MPH boys = (father + mother + 13)/2; girls = (father + mother − 13)/2. Bangladesh under-5 stunting ~24% (BDHS 2022; 31% in BDHS 2017-18)",
           "Failure to thrive (FTT): weight <3rd centile or fall across ≥2 major centile lines. Organic: malabsorption/cardiac/renal/endocrine. Non-organic (most common Bangladesh): poverty, inadequate feeding, psychosocial deprivation"
         ],
         "examQA": [
@@ -4839,7 +4839,7 @@ export const TOPIC_VISUALS = {
           },
           {
             "q": "Describe growth chart assessment for a 2-year-old child.",
-            "a": "Plot weight, length, and head circumference on WHO or Bangladesh national growth charts. Assess: (1) Current centile — normal 3rd–97th centile. (2) Centile trajectory — crossing centiles by ≥2 major lines = significant concern. (3) Proportionality: weight vs height centile — weight below height centile = wasting (acute malnutrition); height below expected = stunting (chronic malnutrition). (4) Compare to mid-parental height: boys (father + mother + 13)/2 ± 10 cm. Head circumference for brain growth. BMI from age 2 onwards for obesity screening."
+            "a": "Plot weight, length, and head circumference on WHO or Bangladesh national growth charts. Assess: (1) Current centile — normal 3rd–97th centile. (2) Centile trajectory — crossing centiles by ≥2 major lines = significant concern. (3) Proportionality: weight vs height centile — weight below height centile = wasting (acute malnutrition); height below expected = stunting (chronic malnutrition). (4) Compare to mid-parental height: boys (father + mother + 13)/2, target range ± 8.5 cm (±2 SD). Head circumference for brain growth. BMI from age 2 onwards for obesity screening."
           },
           {
             "q": "A 3-year-old has weight on 2nd centile, height 10th centile, normal head circumference. Family in poverty. What is the diagnosis and management?",
@@ -5000,7 +5000,7 @@ export const TOPIC_VISUALS = {
           },
           {
             "q": "A 6-month-old has profuse rice-water stools, severe dehydration — cholera suspected. Describe management.",
-            "a": "Severe dehydration (Plan C): (1) IV Ringer\'s Lactate: infants (<12 months): 30 mL/kg over 1 hour then 70 mL/kg over 5 hours. (2) Reassess after initial 30 mL/kg. (3) Start ORS 5 mL/kg/h as soon as oral intake tolerated. (4) Antibiotic: azithromycin 20 mg/kg single dose PO (reduces cholera duration significantly). (5) Zinc 10 mg/day × 14 days. (6) Continue breastfeeding. (7) Monitor weight, urine output (>1 mL/kg/h = adequate rehydration). Stool culture/dark-field microscopy confirms."
+            "a": "Severe dehydration (Plan C): (1) IV Ringer\'s Lactate: infants (<12 months): 30 mL/kg over 1 hour then 70 mL/kg over 5 hours. (2) Reassess after initial 30 mL/kg. (3) Start ORS 5 mL/kg/h as soon as oral intake tolerated. (4) Antibiotic: azithromycin 20 mg/kg single dose PO (reduces cholera duration significantly). (5) Zinc 20 mg/day × 14 days (20 mg from 6 months of age; 10 mg/day only under 6 months). (6) Continue breastfeeding. (7) Monitor weight, urine output (>1 mL/kg/h = adequate rehydration). Stool culture/dark-field microscopy confirms."
           },
           {
             "q": "What is the rationale for reduced-osmolarity ORS and how does it compare to the original formula?",
