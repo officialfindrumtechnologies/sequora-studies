@@ -8,7 +8,8 @@ import fs from 'fs';
 import dotenv from 'dotenv';
 dotenv.config();
 
-import { TOPIC_VISUALS, getTopicVisualsKey } from '../src/data/topic-visuals.js';
+import { TOPIC_VISUALS } from '../src/data/topic-visuals.js';
+import { getTopicVisualsKey } from '../src/data/topic-visuals-key.js';
 import { TOPIC_SVGS as CAM_SVGS } from '../src/data/topic-svgs-igcse-cambridge.js';
 import { EDEXCEL_TOPIC_SVGS } from '../src/data/topic-svgs-igcse-edexcel.js';
 import { TOPIC_SVGS_ALEVEL_CAMBRIDGE } from '../src/data/topic-svgs-alevel-cambridge.js';
