@@ -4,6 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sequora Studies · Study Tracker</title>
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
+<link rel="canonical" href="https://www.sequorastudies.com/app" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Sequora Studies" />
+<meta property="og:locale" content="en_GB" />
+<meta property="og:url" content="https://www.sequorastudies.com/app" />
+<meta property="og:title" content="Sequora Studies — Study Tracker" />
+<meta property="og:description" content="Track every topic in your syllabus, time your study sessions, and see exactly what you still do not know." />
+<meta property="og:image" content="https://www.sequorastudies.com/og-image.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Sequora Studies — Know your syllabus cold. IGCSE, A-Level, IB and MBBS." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Sequora Studies — Study Tracker" />
+<meta name="twitter:description" content="Track every topic in your syllabus, time your study sessions, and see exactly what you still do not know." />
+<meta name="twitter:image" content="https://www.sequorastudies.com/og-image.png" />
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#0a0a0a">
 <meta name="mobile-web-app-capable" content="yes">
@@ -1597,6 +1615,29 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
 .cit-no-found{font-family:var(--mono);font-size:12px;color:var(--muted);padding:8px 0}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+/* Touch targets -------------------------------------------------------------
+   WCAG 2.5.8 wants at least 24x24 CSS px of tappable area. Five controls were
+   under it, including "Forgot password?" (13px tall) and "Create account"
+   (14.5px) on the sign-in screen — the first things a student on a phone
+   reaches for, and the ones with no second chance if they are hard to hit.
+
+   The visual size is deliberately unchanged: these are meant to read as small
+   text links, and the priority control as an 11px dot. Only the hit area grows.
+   Padding expands it and an equal negative margin cancels the reflow, so
+   nothing moves on screen. The dot uses a transparent overlay instead, because
+   padding would stretch the circle itself. */
+#forgotBtn, #authToggleBtn, #layout-customize-btn{
+  padding-top:6px !important; padding-bottom:6px !important;
+  margin-top:-6px; margin-bottom:-6px;
+}
+.todo-prio-selector{position:relative}
+.todo-prio-selector::after{
+  content:""; position:absolute; top:50%; left:50%;
+  width:24px; height:24px; transform:translate(-50%,-50%);
+}
+.todo-add-btn{min-width:24px; min-height:24px}
+</style>
 </head>
 <body>
 <div id="bg-image"></div>
@@ -1676,7 +1717,7 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
               </div>
               <div id="ddForm" class="dday-form hidden">
                 <input id="ddLabel" maxlength="60" placeholder="e.g. Physics Paper 1">
-                <input id="ddDate" type="date">
+                <input id="ddDate" type="date" aria-label="Countdown date">
                 <button class="btn sm primary" onclick="ddAdd()">Save</button>
               </div>
               <div id="ddList"></div>
@@ -1685,7 +1726,7 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
             <span id="cd-weeks" style="display:none"></span>
             <span id="cd-day1" style="display:none"></span>
             <span id="cd-examdate" style="display:none"></span>
-            <input type="date" id="examDateInput" style="display:none">
+            <input type="date" id="examDateInput" style="display:none" aria-label="Exam date">
           </div>
           <div class="card" id="momentum-card">
             <div class="lead">Momentum</div>
@@ -1748,7 +1789,7 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
             <div class="todo-input-row">
               <button class="todo-prio-selector medium" id="todoPrioBtn" title="Priority: medium — click to cycle" onclick="cyclePendingPriority()"></button>
               <input type="text" id="todoInput" placeholder="What needs to get done?" onkeydown="if(event.key==='Enter')addTodo()">
-              <select id="todoSubject" class="todo-subj" title="Link to a subject (optional)"><option value="">—</option></select>
+              <select id="todoSubject" class="todo-subj" title="Link to a subject (optional)" aria-label="Link this task to a subject"><option value="">—</option></select>
               <button class="todo-add-btn" onclick="addTodo()" title="Add task">+</button>
             </div>
             <div id="todoList"></div>
@@ -1851,9 +1892,9 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
         </div>
         <div class="ft-target-row hidden" id="ftTargetRow">
           <label class="ft-target-lbl" id="ftTargetLabel">Target minutes</label>
-          <input type="number" id="ftTargetMins" min="1" max="240" value="25" onchange="ftTargetChanged()">
+          <input type="number" id="ftTargetMins" min="1" max="240" value="25" onchange="ftTargetChanged()" aria-label="Focus session length in minutes">
           <span id="ftBreakWrap" class="hidden"><span class="ft-target-sep">/</span>
-            <input type="number" id="ftBreakMins" min="1" max="60" value="5" onchange="ftTargetChanged()">
+            <input type="number" id="ftBreakMins" min="1" max="60" value="5" onchange="ftTargetChanged()" aria-label="Break length in minutes">
           </span>
         </div>
 
@@ -2002,7 +2043,7 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
         <div class="split" style="gap:10px;margin-bottom:8px">
           <div style="flex:1">
             <span class="fieldlabel">Qualification</span>
-            <select id="sb-template-qual" onchange="sbQualChange()" style="width:100%">
+            <select id="sb-template-qual" onchange="sbQualChange()" style="width:100%" aria-label="Qualification">
               <option value="">— select qualification —</option>
               <option value="A Level">A Level</option>
               <option value="AS Level">AS Level</option>
@@ -2013,7 +2054,7 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
           </div>
           <div style="flex:1" id="sb-template-board-wrap" class="hidden">
             <span class="fieldlabel">Board</span>
-            <select id="sb-template-board" onchange="sbLoadTemplatesForBoard()" style="width:100%">
+            <select id="sb-template-board" onchange="sbLoadTemplatesForBoard()" style="width:100%" aria-label="Exam board">
               <option value="">— select board —</option>
             </select>
           </div>
@@ -2123,7 +2164,7 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
           <h2>Watch the scores climb</h2>
           <p style="color:var(--muted);font-size:13px;margin:3px 0 14px;font-style:italic">Log every timed paper. Green = at/above your A* boundary.</p>
           <div class="split" style="margin-bottom:12px">
-            <div><span class="fieldlabel">Subject</span><select id="pSubj"></select></div>
+            <div><span class="fieldlabel">Subject</span><select id="pSubj" aria-label="Subject"></select></div>
             <div><span class="fieldlabel">Paper</span><input type="text" id="pId" placeholder="e.g. Jun22 P1" style="width:120px"></div>
             <div><span class="fieldlabel">Score</span><input type="number" id="pScore" placeholder="68" style="width:70px"></div>
             <div><span class="fieldlabel">Max</span><input type="number" id="pMax" placeholder="100" style="width:70px"></div>
@@ -2136,7 +2177,7 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
           <h2>Kill recurring mistakes</h2>
           <p style="color:var(--muted);font-size:13px;margin:3px 0 14px;font-style:italic">Every wrong answer + the fix in your words. Re-read before each paper.</p>
           <div class="split" style="margin-bottom:8px">
-            <div style="flex:1"><span class="fieldlabel">Subject</span><select id="eSubj"></select></div>
+            <div style="flex:1"><span class="fieldlabel">Subject</span><select id="eSubj" aria-label="Subject"></select></div>
           </div>
           <textarea id="eMistake" placeholder="The mistake I made…"></textarea>
           <textarea id="eFix" placeholder="The correct method, in my own words…" style="margin-top:8px"></textarea>
@@ -2321,7 +2362,7 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
       <!-- Output -->
       <div id="bib-output-wrap" style="display:none">
         <div class="section-h" style="margin-top:6px">Extracted Text</div>
-        <textarea id="bib-output" readonly style="width:100%;min-height:300px;font-family:var(--mono);font-size:12px;line-height:1.65;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:var(--rs);padding:14px;resize:vertical"></textarea>
+        <textarea id="bib-output" readonly style="width:100%;min-height:300px;font-family:var(--mono);font-size:12px;line-height:1.65;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:var(--rs);padding:14px;resize:vertical" aria-label="Generated citation"></textarea>
         <div style="display:flex;gap:8px;margin-top:10px">
           <button class="btn sm ghost" onclick="bibCopyOutput()">Copy text</button>
           <button class="btn sm ghost" onclick="bibClear()">Clear</button>
@@ -2458,23 +2499,23 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
       <div class="cp-grid">
         <div class="cp-field">
           <label>Background</label>
-          <input type="color" id="cp-bg" value="#0d0b08" oninput="onCustomPickerChange()">
+          <input type="color" id="cp-bg" value="#0d0b08" oninput="onCustomPickerChange()" aria-label="Background colour">
         </div>
         <div class="cp-field">
           <label>Surface</label>
-          <input type="color" id="cp-surface" value="#111009" oninput="onCustomPickerChange()">
+          <input type="color" id="cp-surface" value="#111009" oninput="onCustomPickerChange()" aria-label="Surface colour">
         </div>
         <div class="cp-field">
           <label>Accent</label>
-          <input type="color" id="cp-accent" value="#7b82e8" oninput="onCustomPickerChange()">
+          <input type="color" id="cp-accent" value="#7b82e8" oninput="onCustomPickerChange()" aria-label="Accent colour">
         </div>
         <div class="cp-field">
           <label>Text</label>
-          <input type="color" id="cp-text" value="#f4ece0" oninput="onCustomPickerChange()">
+          <input type="color" id="cp-text" value="#f4ece0" oninput="onCustomPickerChange()" aria-label="Text colour">
         </div>
         <div class="cp-field">
           <label>Border</label>
-          <input type="color" id="cp-border" value="#332d26" oninput="onCustomPickerChange()">
+          <input type="color" id="cp-border" value="#332d26" oninput="onCustomPickerChange()" aria-label="Border colour">
         </div>
       </div>
       <div class="th-custom-actions">
@@ -2507,7 +2548,7 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
       <button class="btn ghost sm" onclick="downloadSummary()">Download .txt</button>
       <span class="kicker" id="summaryStamp"></span>
     </div>
-    <textarea id="summaryText" readonly></textarea>
+    <textarea id="summaryText" readonly aria-label="Session summary"></textarea>
   </div>
 </div>
 
@@ -2777,7 +2818,7 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
       </p>
       <div style="margin-bottom:14px">
         <span class="fieldlabel">Syllabus PDF</span>
-        <input type="file" id="sb-pdf-file" accept="application/pdf" style="display:block;margin-top:6px;font-size:13px;color:var(--paper-dim)">
+        <input type="file" id="sb-pdf-file" accept="application/pdf" style="display:block;margin-top:6px;font-size:13px;color:var(--paper-dim)" aria-label="Syllabus PDF file">
       </div>
       <button class="btn primary" onclick="sbHandlePdfUpload()">Extract Topics →</button>
     </div>
@@ -2911,7 +2952,7 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
       </div>
       <div>
         <span class="fieldlabel">Qualification</span>
-        <select id="ep-qual" onchange="epQualChange()" style="width:100%;margin-top:6px">
+        <select id="ep-qual" onchange="epQualChange()" style="width:100%;margin-top:6px" aria-label="Qualification">
           <option value="">— select —</option>
           <option value="A Level">A Level</option>
           <option value="AS Level">AS Level</option>
@@ -2922,13 +2963,13 @@ nav button .ib-lv-badge,.subjsel button .ib-lv-badge{margin-left:5px;font-size:8
       </div>
       <div id="ep-board-wrap">
         <span class="fieldlabel">Exam Board</span>
-        <select id="ep-board" style="width:100%;margin-top:6px">
+        <select id="ep-board" style="width:100%;margin-top:6px" aria-label="Exam board">
           <option value="">— select board —</option>
         </select>
       </div>
       <div>
         <span class="fieldlabel">Exam Date</span>
-        <input type="date" id="ep-date" class="ep-date-input" style="margin-top:6px">
+        <input type="date" id="ep-date" class="ep-date-input" style="margin-top:6px" aria-label="Exam date">
       </div>
       <div style="display:flex;gap:10px;margin-top:4px">
         <button class="btn primary" onclick="saveEditProfile()">Save changes</button>

@@ -107,6 +107,7 @@ export default defineConfig({
         admin: 'admin.html',
         terms: 'terms.html',
         privacy: 'privacy.html',
+        refund: 'refund.html',
       }
     }
   }
