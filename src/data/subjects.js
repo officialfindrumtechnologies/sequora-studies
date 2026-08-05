@@ -59,10 +59,15 @@ export async function deleteSubject(id) {
 // used to offer a hardcoded board list, so boards we never seeded (OCR, AQA,
 // BMDC Bangladesh) were selectable and then rendered an empty list. Drive the
 // dropdowns off this instead so a board only appears when it has content.
+// Unverified templates are excluded everywhere a student can reach one. A row
+// without verified_at has not been read out of the board's own specification,
+// so its chapter list is guesswork — and a student revising from a guessed
+// syllabus is worse off than one who sees the subject missing and asks why.
 export async function getTemplateCounts() {
   const { data, error } = await supabase
     .from('syllabus_templates')
-    .select('qualification, exam_board');
+    .select('qualification, exam_board')
+    .not('verified_at', 'is', null);
   if (error) throw error;
   const counts = {};
   for (const r of data) {
@@ -80,6 +85,7 @@ export async function getTemplatesByQualBoard(qualification, examBoard) {
     .select('id, subject_name, subject_code, topics, level, verified_at, syllabus_years, source_url')
     .eq('qualification', qualification)
     .eq('exam_board', examBoard)
+    .not('verified_at', 'is', null)
     .order('level', { ascending: true, nullsFirst: true })
     .order('subject_name');
   if (error) throw error;
@@ -92,6 +98,7 @@ export async function getTemplatesByBoard(board) {
     .from('syllabus_templates')
     .select('id, subject_name, subject_code, topics, level, verified_at, syllabus_years, source_url')
     .eq('board', board)
+    .not('verified_at', 'is', null)
     .order('subject_name');
   if (error) throw error;
   return data;
@@ -102,10 +109,15 @@ export async function getTemplatesByBoard(board) {
 export async function createSubjectFromTemplate({ userId, templateId, overrideLevel = null }) {
   const { data: tmpl, error: tmplErr } = await supabase
     .from('syllabus_templates')
-    .select('subject_name, subject_code, topics, level')
+    .select('subject_name, subject_code, topics, level, verified_at')
     .eq('id', templateId)
     .single();
   if (tmplErr) throw tmplErr;
+  // The pickers already filter these out; this catches a stale id held by an
+  // open tab from before a template was withdrawn.
+  if (!tmpl.verified_at) {
+    throw new Error('That syllabus is being re-checked against the exam board and is unavailable right now.');
+  }
 
   const subject = await createSubject({
     userId,

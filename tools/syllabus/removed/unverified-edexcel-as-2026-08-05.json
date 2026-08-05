@@ -1,0 +1,50 @@
+[
+  {
+    "_removed": "2026-08-05",
+    "_reason": "Fabricated content. Pearson structures 8EN0 as Components (Language Variation / Child Language), not a flat 'Core' section. No Pearson AS specification is published at any findable URL, so the real composition cannot be derived without guessing — and guessing is what produced these rows. Deleted rather than left live: students study from this.",
+    "id": "cd98a7f7-fdf6-4e50-8188-afcfe9a25ee9",
+    "board": "edexcel_alevel",
+    "exam_board": "Edexcel",
+    "qualification": "AS Level",
+    "subject_name": "English Language",
+    "subject_code": "8EN0",
+    "level": null,
+    "source_url": null,
+    "syllabus_years": null,
+    "verified_at": null,
+    "updated_at": "2026-06-18T10:39:26.131714+00:00",
+    "topics": [
+      { "section": "Core", "name": "Language acquisition" },
+      { "section": "Core", "name": "Language and gender" },
+      { "section": "Core", "name": "Variation in language" },
+      { "section": "Core", "name": "Language change" },
+      { "section": "Core", "name": "Textual analysis skills" },
+      { "section": "Core", "name": "Production of texts" }
+    ]
+  },
+  {
+    "_removed": "2026-08-05",
+    "_reason": "Fabricated content. Pearson structures 8HI0 as numbered route options (Paper 1 breadth + Paper 2 depth), not 'Period Study' / 'Depth Study' / 'Skills'. The A Level 9HI0 spec does not state the AS composition and no AS spec is published, so deriving it would mean guessing.",
+    "id": "60f43562-a277-419b-91ba-6a42cb285a3c",
+    "board": "edexcel_alevel",
+    "exam_board": "Edexcel",
+    "qualification": "AS Level",
+    "subject_name": "History",
+    "subject_code": "8HI0",
+    "level": null,
+    "source_url": null,
+    "syllabus_years": null,
+    "verified_at": null,
+    "updated_at": "2026-06-18T10:39:26.131714+00:00",
+    "topics": [
+      { "section": "Period Study", "name": "Henry VIII and the government of England" },
+      { "section": "Period Study", "name": "Mid-Tudor crisis" },
+      { "section": "Period Study", "name": "Elizabethan England" },
+      { "section": "Depth Study", "name": "Russia in revolution (1917–1924)" },
+      { "section": "Period Study", "name": "Elizabeth I — foreign policy and challenges" },
+      { "section": "Period Study", "name": "The Reformation in England — Henry to Elizabeth" },
+      { "section": "Period Study", "name": "The Civil War and Interregnum (1640–1660)" },
+      { "section": "Skills", "name": "Historical interpretation and analytical skills" }
+    ]
+  }
+]

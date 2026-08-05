@@ -398,13 +398,14 @@
   <span class="lab">Built for your board</span>
   <div class="boards">
     <span class="board">Cambridge IGCSE</span>
+    <span class="board">Cambridge O Level</span>
     <span class="board">Cambridge A-Level</span>
     <span class="board">Edexcel IGCSE</span>
     <span class="board">Edexcel A-Level</span>
     <span class="board">IB Diploma</span>
     <span class="board">MBBS · Bangladesh</span>
   </div>
-  <p class="curr-stat"><b>6,600+</b> topics mapped · <b>11</b> MBBS subjects on the BM&amp;DC syllabus · Cambridge &amp; Edexcel past papers</p>
+  <p class="curr-stat"><b>8,900+</b> topics mapped · <b>11</b> MBBS subjects on the BM&amp;DC syllabus · Cambridge &amp; Edexcel past papers</p>
 </section>
 
 <div class="tpop-bg" id="tpopBg" aria-hidden="true"></div>
@@ -503,7 +504,7 @@
       book.add(hold);
     });
     book.rotation.x = 0.5; book.position.y = -0.8;
-    tag(book, 'Your syllabus', '6,600+ topics across 6 curricula');
+    tag(book, 'Your syllabus', '8,900+ topics across 7 curricula');
     world.add(book);
 
     // soft round glow texture for the ambient dust
@@ -935,7 +936,7 @@
     // PDF. MBBS is 11 subjects on the BM&DC curriculum, not the 15 this
     // claimed before anyone counted.
     //   select count(*), sum(jsonb_array_length(topics)) from syllabus_templates;
-    var targets = [['statTopics', 6600, '+'], ['statCurr', 6, ''], ['statMbbs', 11, '']];
+    var targets = [['statTopics', 8900, '+'], ['statCurr', 7, ''], ['statMbbs', 11, '']];
     targets.forEach(function(t){
       var el = document.getElementById(t[0]);
       if (!el) return;
