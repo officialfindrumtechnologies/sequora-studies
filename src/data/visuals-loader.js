@@ -1,62 +1,87 @@
-// On-demand loader for the Topic Visualizer data.
+// On-demand, board-scoped loader for the Topic Visualizer data.
 //
-// These modules are 4.2 MB of the app's 4.9 MB bundle — the visualisation data
-// and the six board SVG packs. Every student downloaded all of it on first load,
-// including the 1.2 MB of MBBS anatomy diagrams, and including free-tier users
-// who cannot open the Visualizer at all because openTopicVisualModal() gates on
-// requiresPro(). On a Bangladeshi mobile connection that is the difference
-// between the app starting and the student giving up.
+// The visualisation content is 4.2 MB — the topic data plus six board SVG packs.
+// It used to be in the entry bundle, so every student downloaded all of it before
+// the sign-in form painted. It is now fetched on demand, and fetched narrowly:
+// an IGCSE Biology student pulls the topic data and the Cambridge IGCSE pack, and
+// never touches the 1.2 MB of MBBS anatomy or the IB and A Level packs.
 //
-// Nothing here changes what the Visualizer shows. The data arrives when it is
-// first needed instead of before the sign-in form paints.
+// Measured on production before this change: opening one IGCSE Biology subject
+// fetched all seven chunks. That is what this fixes.
 //
-// Two entry points on purpose:
-//   loadVisuals()  awaits the data — for click handlers, which can afford it.
-//   peekVisuals()  returns it only if already loaded — for synchronous render
-//                  paths, which cannot await. Callers pair it with loadVisuals()
-//                  and re-render when it resolves.
+// Every call site already knows the subject's TOPIC_VISUALS key, so the pack can
+// always be derived. Packs are cached individually, so switching between two
+// subjects on the same board costs nothing and switching boards costs one pack.
+//
+// This is only safe because no topic references an SVG from another board's pack
+// — verified across all 687 topics. If you ever point a topic at a foreign
+// svgKey, copy the SVG into that board's pack instead, or the diagram will come
+// up blank for exactly the students who need it.
+//
+// Two entry points, as before:
+//   loadVisuals(tvKey)  awaits the data — for click handlers.
+//   peekVisuals(tvKey)  returns it only if already loaded — for synchronous
+//                       render paths, paired with loadVisuals() and a re-render.
 
-let cache = null;
-let inflight = null;
+const PACK_LOADERS = {
+  'igcse-cambridge':  () => import('./topic-svgs-igcse-cambridge.js'),
+  'igcse-edexcel':    () => import('./topic-svgs-igcse-edexcel.js'),
+  'alevel-cambridge': () => import('./topic-svgs-alevel-cambridge.js'),
+  'alevel-edexcel':   () => import('./topic-svgs-alevel-edexcel.js'),
+  'ib':               () => import('./topic-svgs-ib.js'),
+  'mbbs':             () => import('./topic-svgs-mbbs.js'),
+};
 
-export function peekVisuals() {
-  return cache;
+// Longest prefixes first: 'cambridge_igcse' must win over a bare 'cambridge'.
+const PACK_FOR_PREFIX = [
+  ['cambridge_igcse',  'igcse-cambridge'],
+  ['edexcel_igcse',    'igcse-edexcel'],
+  ['cambridge_alevel', 'alevel-cambridge'],
+  ['edexcel_alevel',   'alevel-edexcel'],
+  ['ib_',              'ib'],
+  ['mbbs_',            'mbbs'],
+];
+
+export function packForKey(tvKey) {
+  if (!tvKey) return null;
+  const hit = PACK_FOR_PREFIX.find(([prefix]) => tvKey.startsWith(prefix));
+  return hit ? hit[1] : null;
 }
 
-export function loadVisuals() {
-  if (cache) return Promise.resolve(cache);
-  if (inflight) return inflight;
+let topicVisuals = null;                 // TOPIC_VISUALS — one copy, shared by all boards
+const packs = new Map();                 // pack name -> merged SVG object
+const inflight = new Map();              // pack name -> in-progress promise
 
-  inflight = Promise.all([
-    import('./topic-visuals.js'),
-    import('./topic-svgs-igcse-cambridge.js'),
-    import('./topic-svgs-igcse-edexcel.js'),
-    import('./topic-svgs-alevel-cambridge.js'),
-    import('./topic-svgs-alevel-edexcel.js'),
-    import('./topic-svgs-ib.js'),
-    import('./topic-svgs-mbbs.js'),
-  ]).then(([tv, camIg, edxIg, camAl, edxAl, ib, mbbs]) => {
-    cache = {
-      TOPIC_VISUALS: tv.TOPIC_VISUALS,
-      // Merged exactly as the two call sites used to merge them, and in the same
-      // order, so a key colliding across packs still resolves to what it did before.
-      TOPIC_SVGS: {
-        ...camIg.TOPIC_SVGS,
-        ...edxIg.EDEXCEL_TOPIC_SVGS,
-        ...camAl.TOPIC_SVGS_ALEVEL_CAMBRIDGE,
-        ...edxAl.TOPIC_SVGS_ALEVEL_EDEXCEL,
-        ...ib.TOPIC_SVGS_IB,
-        ...mbbs.TOPIC_SVGS_MBBS,
-      },
-    };
-    inflight = null;
-    return cache;
+export function peekVisuals(tvKey) {
+  const pack = packForKey(tvKey);
+  if (!topicVisuals || !pack || !packs.has(pack)) return null;
+  return { TOPIC_VISUALS: topicVisuals, TOPIC_SVGS: packs.get(pack) };
+}
+
+export function loadVisuals(tvKey) {
+  const pack = packForKey(tvKey);
+  if (!pack) return Promise.reject(new Error('No visuals pack for key: ' + tvKey));
+
+  const ready = peekVisuals(tvKey);
+  if (ready) return Promise.resolve(ready);
+  if (inflight.has(pack)) return inflight.get(pack);
+
+  const job = Promise.all([
+    topicVisuals ? Promise.resolve(null) : import('./topic-visuals.js'),
+    PACK_LOADERS[pack](),
+  ]).then(([tvMod, packMod]) => {
+    if (tvMod) topicVisuals = tvMod.TOPIC_VISUALS;
+    // Each pack module has a single named export whose name differs per file.
+    packs.set(pack, packMod[Object.keys(packMod)[0]]);
+    inflight.delete(pack);
+    return { TOPIC_VISUALS: topicVisuals, TOPIC_SVGS: packs.get(pack) };
   }).catch((err) => {
-    // Allow a later attempt rather than caching the failure — a student who
-    // loses signal mid-load should get the Visualizer on the next click.
-    inflight = null;
+    // Do not cache the failure — a student who loses signal mid-load should get
+    // the Visualizer on their next click.
+    inflight.delete(pack);
     throw err;
   });
 
-  return inflight;
+  inflight.set(pack, job);
+  return job;
 }

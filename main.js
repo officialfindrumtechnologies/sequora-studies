@@ -3957,7 +3957,7 @@ async function renderCoverage(){
           const tvKey = getTopicVisualsKey(subj);
           if (tvKey) {
             try {
-              const { TOPIC_VISUALS } = await loadVisuals();
+              const { TOPIC_VISUALS } = await loadVisuals(tvKey);
               if (TOPIC_VISUALS[tvKey]) {
                 const tvTopic = TOPIC_VISUALS[tvKey].topics.find(tv =>
                   tv.name.toLowerCase() === t.name.toLowerCase()
@@ -6816,7 +6816,7 @@ window.openTopicVisualModal = async function(tvKey, topicId) {
   // 4.2 MB of visualisation data for a feature they cannot open.
   let TOPIC_VISUALS, TOPIC_SVGS;
   try {
-    ({ TOPIC_VISUALS, TOPIC_SVGS } = await loadVisuals());
+    ({ TOPIC_VISUALS, TOPIC_SVGS } = await loadVisuals(tvKey));
   } catch {
     return;
   }
@@ -6963,7 +6963,7 @@ const _pq = {
 window.openPracticeModal = async function(tvKey, topicId) {
   let TOPIC_VISUALS;
   try {
-    ({ TOPIC_VISUALS } = await loadVisuals());
+    ({ TOPIC_VISUALS } = await loadVisuals(tvKey));
   } catch {
     return;
   }

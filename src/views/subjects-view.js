@@ -888,9 +888,9 @@ function renderTopicPanel() {
   // one-off: peekVisuals() is populated by then, so it does not loop.
   const activeSubj = sv.subjects.find(s => s.id === sv.activeId);
   const tvKey = activeSubj ? getTopicVisualsKey(activeSubj) : null;
-  const visuals = peekVisuals();
+  const visuals = peekVisuals(tvKey);
   if (tvKey && !visuals) {
-    loadVisuals().then(renderTopicPanel).catch(() => {});
+    loadVisuals(tvKey).then(renderTopicPanel).catch(() => {});
   }
   const tvData = tvKey && visuals ? visuals.TOPIC_VISUALS[tvKey] : null;
 
