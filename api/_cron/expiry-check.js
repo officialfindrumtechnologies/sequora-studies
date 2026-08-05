@@ -6,7 +6,7 @@
 import { createClient } from '@supabase/supabase-js';
 import { emailExpiryWarning, emailExpired } from '../_email.js';
 
-const TIER_LABEL = { paid_1: 'Basic', paid_2: 'Pro', free: 'Free' };
+const TIER_LABEL = { paid_1: 'Basic', paid_2: 'Plus', paid_3: 'Pro', free: 'Free' };
 
 export default async function handler(req, res) {
   // Vercel Cron sends Authorization: Bearer <CRON_SECRET>
