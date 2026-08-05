@@ -1538,17 +1538,28 @@ function renderAnalytics() {
   });
 }
 
-// Chart.js is created with responsive:true, but in practice these two charts do
-// not reflow when the viewport changes — verified by resizing the window and
-// watching the canvas stay at its old width while its container shrank. On a
-// phone that is an orientation change, which would leave a student looking at a
-// clipped or undersized chart until they reloaded. Nudge them explicitly.
+// Chart.js is created with responsive:true, but neither chart reflows when the
+// viewport changes: after resizing 520px -> 900px the canvas still measured
+// 443px inside a 385px container. On a phone that is every orientation change,
+// leaving a student with a chart that overflows or under-fills its card until
+// they reload.
+//
+// chart.resize() does NOT fix it — verified on the live page, including with
+// explicit dimensions (chart.resize(parentW, parentH)); the canvas kept its old
+// inline width even though the platform's own getMaximumSize() returned the
+// correct 443. Do not "simplify" this back to resize(). Re-rendering destroys
+// and recreates both charts against the current layout, which does work.
+//
+// Debounced because a drag-resize fires continuously and each pass rebuilds two
+// charts; 150ms lands well after the browser settles an orientation change.
 let _chartResizeTimer = null;
 function _resizeDashboardCharts() {
   clearTimeout(_chartResizeTimer);
   _chartResizeTimer = setTimeout(() => {
-    try { _momentumChart?.resize(); } catch {}
-    try { _masteryChart?.resize(); } catch {}
+    // Nothing to rebuild if the analytics card is not on screen — the homepage
+    // row is removable, and renderAnalytics() already bails without the canvases.
+    if (!document.getElementById('momentumChart')) return;
+    try { renderAnalytics(); } catch (e) { console.error('[charts] resize re-render failed', e); }
   }, 150);
 }
 window.addEventListener('resize', _resizeDashboardCharts);
