@@ -1,4 +1,5 @@
 import { supabase } from './src/lib/supabase.js';
+import { installErrorReporter } from './src/lib/error-reporter.js';
 import {
   THEMES, applyTheme, loadSavedTheme, resetTheme,
   getCurrentThemeData, buildCustomVars, readCurrentCustomFields, hexToRgb,
@@ -44,6 +45,10 @@ import { TOPIC_SVGS_ALEVEL_EDEXCEL } from './src/data/topic-svgs-alevel-edexcel.
 import { TOPIC_SVGS_IB } from './src/data/topic-svgs-ib.js';
 import { TOPIC_SVGS_MBBS } from './src/data/topic-svgs-mbbs.js';
 const TOPIC_SVGS = { ...CAM_SVGS, ...EDEXCEL_TOPIC_SVGS, ...TOPIC_SVGS_ALEVEL_CAMBRIDGE, ...TOPIC_SVGS_ALEVEL_EDEXCEL, ...TOPIC_SVGS_IB, ...TOPIC_SVGS_MBBS };
+
+// Installed before anything else runs so a crash during start-up is still
+// caught. The reporter itself only files a report once a user is signed in.
+installErrorReporter();
 
 // Apply theme + font scale from localStorage immediately — avoids FOUC before auth resolves
 loadSavedTheme();
