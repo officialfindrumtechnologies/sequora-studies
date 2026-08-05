@@ -5,6 +5,7 @@
 
 import { createClient } from '@supabase/supabase-js';
 import { emailExpiryWarning, emailExpired } from '../_email.js';
+import { isDry, noteDry } from './_dry.js';
 
 const TIER_LABEL = { paid_1: 'Basic', paid_2: 'Plus', paid_3: 'Pro', free: 'Free' };
 
@@ -19,6 +20,8 @@ export default async function handler(req, res) {
   }
 
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
+
+  const dry = isDry(req);
 
   const adminSb = createClient(
     process.env.SUPABASE_URL,
@@ -63,6 +66,8 @@ export default async function handler(req, res) {
           continue; // Warning already sent for this period
         }
 
+        if (dry) { noteDry(results, email); continue; }
+
         await emailExpiryWarning({
           email,
           planLabel: TIER_LABEL[row.tier] || row.tier,
@@ -99,6 +104,10 @@ export default async function handler(req, res) {
   } else {
     for (const row of overdue || []) {
       const email = row.profiles?.email;
+
+      // A dry run must not flip the subscription to expired either — that is
+      // the one write here that revokes a paying student's access.
+      if (dry) { results.wouldExpire = (results.wouldExpire || 0) + 1; if (email) noteDry(results, email); continue; }
 
       // Update status to expired
       const { error: updateErr } = await adminSb

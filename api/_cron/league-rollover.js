@@ -7,6 +7,7 @@
 // league_week never set.
 
 import { createClient } from '@supabase/supabase-js';
+import { isDry } from './_dry.js';
 
 export default async function handler(req, res) {
   const cronSecret = process.env.CRON_SECRET;
@@ -28,6 +29,13 @@ export default async function handler(req, res) {
   const lastMonday = new Date(thisMonday);
   lastMonday.setUTCDate(thisMonday.getUTCDate() - 7);
   const week = lastMonday.toISOString().slice(0, 10);
+
+  // Both RPCs promote, demote and grant — running them off-schedule would close
+  // a week that is still in progress. A dry run reports the week it resolved,
+  // which is the part of this job that can actually be wrong.
+  if (isDry(req)) {
+    return res.status(200).json({ ok: true, dry: true, week, wouldRollover: true });
+  }
 
   const { data, error } = await adminSb.rpc('run_league_rollover', { p_week: week });
   if (error) {

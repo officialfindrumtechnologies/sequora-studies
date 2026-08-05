@@ -5,6 +5,7 @@
 
 import { createClient } from '@supabase/supabase-js';
 import { emailDailyNudge } from '../_email.js';
+import { isDry, noteDry } from './_dry.js';
 
 // Same 2-4-7 spaced-recall staging as the app itself (main.js recallDueSb) —
 // must match exactly, otherwise the email quotes a number the app disagrees with.
@@ -50,6 +51,8 @@ export default async function handler(req, res) {
     if (token !== cronSecret) return res.status(401).json({ error: 'Unauthorized' });
   }
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
+
+  const dry = isDry(req);
 
   const adminSb = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
 
@@ -119,6 +122,7 @@ export default async function handler(req, res) {
       : null;
 
     try {
+      if (dry) { noteDry(results, profile.email); continue; }
       await emailDailyNudge({
         email: profile.email,
         displayName: profile.display_name || profile.email.split('@')[0],

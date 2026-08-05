@@ -3,6 +3,7 @@
 
 import { createClient } from '@supabase/supabase-js';
 import { emailWeeklyReport } from '../_email.js';
+import { isDry, noteDry } from './_dry.js';
 
 function computeStreak(sessionDates) {
   if (!sessionDates.length) return 0;
@@ -29,6 +30,8 @@ export default async function handler(req, res) {
   }
 
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
+
+  const dry = isDry(req);
 
   const adminSb = createClient(
     process.env.SUPABASE_URL,
@@ -133,6 +136,7 @@ export default async function handler(req, res) {
     const weeklyGoalMet = studyHours >= 5;
 
     try {
+      if (dry) { noteDry(results, profile.email); continue; }
       await emailWeeklyReport({
         email: profile.email,
         displayName: profile.display_name || profile.email.split('@')[0],
