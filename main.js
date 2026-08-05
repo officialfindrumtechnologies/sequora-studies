@@ -36,7 +36,7 @@ import { MUSCLES, MUSCLE_REGIONS, MUSCLE_MODEL_ID, MUSCLE_MODEL_CREDIT } from '.
 import { MUSCLE_DIAGRAMS } from './src/data/muscle-diagrams.js';
 import { buildMuscleAttachment } from './src/data/muscle-attachments.js';
 import { getMuscleRecall, markMusclePass, markMuscleFail, isMuscleDue, MASTERED_AT } from './src/data/muscle-recall.js';
-import { getPastPapersForCode, filterIBPapers } from './src/data/past-papers.js';
+import { getPastPapersForCode, filterIBPapers, getOfficialPapersUrl } from './src/data/past-papers.js';
 import { getTopicVisualsKey } from './src/data/topic-visuals-key.js';
 import { loadVisuals } from './src/data/visuals-loader.js';
 
@@ -4153,6 +4153,24 @@ function ppSelectSubject(examCode) {
     </div>
   </div>`;
 
+  // The paper links below come from a third-party mirror, because no board
+  // publishes its full back catalogue for free. Where the board does publish
+  // something official, point at it plainly and say what it covers, so a
+  // student knows which link is authoritative. IB publishes nothing free, so
+  // no banner is shown rather than a link that leads to a shop.
+  const officialUrl = getOfficialPapersUrl(examCode);
+  _ppOfficialFallback = officialUrl;
+  if (officialUrl) {
+    const isCam = officialUrl.includes('cambridgeinternational.org');
+    const note = isCam
+      ? 'the most recent session only — older papers need a school login'
+      : 'official Pearson past papers';
+    html += `<div class="pp-official-row">
+      <a class="pp-official-link" href="${_ppEsc(officialUrl)}" target="_blank" rel="noopener noreferrer">Official papers from the board ↗</a>
+      <span class="pp-official-note">${_ppEsc(note)}</span>
+    </div>`;
+  }
+
   // IB grade boundary bar (Part D)
   if (isIBSubj) {
     html += `<div class="pp-ib-grade-bar">
@@ -4197,6 +4215,9 @@ function ppBackToSubjects() {
 window.ppBackToSubjects = ppBackToSubjects;
 
 let _ppCurrentUrl = '';
+// Official board page for the subject currently open — used as the fallback
+// when a mirror link fails, so the student lands somewhere authoritative.
+let _ppOfficialFallback = null;
 let _ppCurrentLabel = '';
 
 function ppOpenPaper(url, pcUrl, label) {
@@ -4209,7 +4230,7 @@ function ppOpenPaper(url, pcUrl, label) {
   _ppCurrentLabel = label;
   if (labelEl) labelEl.textContent = label;
   if (primaryBtn) primaryBtn.href = url;
-  if (fallbackBtn) fallbackBtn.href = pcUrl || 'https://pastpapers.papacambridge.com/';
+  if (fallbackBtn) fallbackBtn.href = pcUrl || _ppOfficialFallback || 'https://pastpapers.papacambridge.com/';
   panel.classList.remove('hidden');
 }
 window.ppOpenPaper = ppOpenPaper;

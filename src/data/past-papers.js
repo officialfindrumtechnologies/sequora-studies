@@ -473,3 +473,34 @@ export function filterIBPapers(papers, userLevel) {
   // HL: show HL first, then SL as optional
   return { hlPapers: hl, slPapers: sl };
 }
+
+// ── Official board sources ───────────────────────────────────────────────────
+// The paper links above point at a third-party mirror, because no board
+// publishes its full back catalogue freely. What each board DOES publish
+// officially, verified:
+//
+//   Cambridge  a per-subject past-papers page, but only the most recent
+//              session is public — older papers need a School Support Hub
+//              login, which is issued to registered centres, not students.
+//   Edexcel    an official past-papers hub covering many but not all papers.
+//   IB         nothing. Past papers are sold through the IB store; there is
+//              no free official source, so this returns null and the UI omits
+//              the link rather than sending students somewhere useless.
+//
+// All 11 Cambridge slugs below were verified to return 200, with a nonsense
+// subject returning 500, so the pattern is real rather than a catch-all.
+const _slug = (s) => s.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+export function getOfficialPapersUrl(code) {
+  const d = PAST_PAPERS_DB[code];
+  if (!d) return null;
+  const base = 'https://www.cambridgeinternational.org/programmes-and-qualifications/';
+  switch (d.examBoard) {
+    case 'Cambridge IGCSE':   return `${base}cambridge-igcse-${_slug(d.subjectName)}-${code}/past-papers/`;
+    case 'Cambridge O Level': return `${base}cambridge-o-level-${_slug(d.subjectName)}-${code}/past-papers/`;
+    case 'Cambridge':         return `${base}cambridge-international-as-and-a-level-${_slug(d.subjectName)}-${code}/past-papers/`;
+    case 'Edexcel IGCSE':
+    case 'Edexcel':           return 'https://qualifications.pearson.com/en/support/support-topics/exams/past-papers.html';
+    default:                  return null; // IB publishes no free official papers
+  }
+}
