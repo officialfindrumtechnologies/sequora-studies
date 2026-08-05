@@ -1538,55 +1538,6 @@ function renderAnalytics() {
   });
 }
 
-// Chart.js is created with responsive:true, but neither chart reflows when the
-// viewport changes: after resizing 520px -> 900px the canvas still measured
-// 443px inside a 385px container. On a phone that is every orientation change,
-// leaving a student with a chart that overflows or under-fills its card until
-// they reload.
-//
-// chart.resize() does NOT fix it — verified on the live page, including with
-// explicit dimensions (chart.resize(parentW, parentH)); the canvas kept its old
-// inline width even though the platform's own getMaximumSize() returned the
-// correct 443. Do not "simplify" this back to resize(). Re-rendering destroys
-// and recreates both charts against the current layout, which does work.
-//
-// Debounced because a drag-resize fires continuously and each pass rebuilds two
-// charts; 150ms lands well after the browser settles an orientation change.
-let _chartResizeTimer = null;
-function _resizeDashboardCharts() {
-  clearTimeout(_chartResizeTimer);
-  _chartResizeTimer = setTimeout(() => {
-    // Nothing to rebuild if the analytics card is not on screen — the homepage
-    // row is removable, and renderAnalytics() already bails without the canvases.
-    if (!document.getElementById('momentumChart')) return;
-    try { renderAnalytics(); } catch (e) { console.error('[charts] resize re-render failed', e); }
-  }, 150);
-}
-window.addEventListener('resize', _resizeDashboardCharts);
-window.addEventListener('orientationchange', _resizeDashboardCharts);
-
-// The window events cover an orientation change, but not a container that
-// changes width while the window stays put — collapsing a homepage row, or the
-// grid dropping from two columns to one. A ResizeObserver on the chart's own
-// container catches both cases and is the load-bearing half of this fix.
-//
-// It watches the *parent*, never the canvas: the parent's width is driven by
-// the grid and its height is fixed at 200px in the markup, so re-rendering the
-// chart cannot change what is being observed. Observing the canvas instead
-// would feed the rebuild straight back into the observer.
-let _chartRO = null;
-function _observeChartContainer() {
-  if (typeof ResizeObserver === 'undefined') return;
-  const parent = document.getElementById('momentumChart')?.parentElement;
-  if (!parent) return;
-  _chartRO?.disconnect();
-  _chartRO = new ResizeObserver(_resizeDashboardCharts);
-  _chartRO.observe(parent);
-}
-document.addEventListener('DOMContentLoaded', _observeChartContainer);
-if (document.readyState !== 'loading') _observeChartContainer();
-
-
 /* ============ spaced-recall engine — 2-4-7 method ============ */
 const RECALL_STEPS=[2,4,7]; // days after each recall: 2d → 4d → 7d → mastered
 const RECALL_STAGE_LABELS=["1st recall","2nd recall","final recall"];
