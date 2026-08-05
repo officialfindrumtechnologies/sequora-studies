@@ -1565,6 +1565,27 @@ function _resizeDashboardCharts() {
 window.addEventListener('resize', _resizeDashboardCharts);
 window.addEventListener('orientationchange', _resizeDashboardCharts);
 
+// The window events cover an orientation change, but not a container that
+// changes width while the window stays put — collapsing a homepage row, or the
+// grid dropping from two columns to one. A ResizeObserver on the chart's own
+// container catches both cases and is the load-bearing half of this fix.
+//
+// It watches the *parent*, never the canvas: the parent's width is driven by
+// the grid and its height is fixed at 200px in the markup, so re-rendering the
+// chart cannot change what is being observed. Observing the canvas instead
+// would feed the rebuild straight back into the observer.
+let _chartRO = null;
+function _observeChartContainer() {
+  if (typeof ResizeObserver === 'undefined') return;
+  const parent = document.getElementById('momentumChart')?.parentElement;
+  if (!parent) return;
+  _chartRO?.disconnect();
+  _chartRO = new ResizeObserver(_resizeDashboardCharts);
+  _chartRO.observe(parent);
+}
+document.addEventListener('DOMContentLoaded', _observeChartContainer);
+if (document.readyState !== 'loading') _observeChartContainer();
+
 
 /* ============ spaced-recall engine — 2-4-7 method ============ */
 const RECALL_STEPS=[2,4,7]; // days after each recall: 2d → 4d → 7d → mastered
