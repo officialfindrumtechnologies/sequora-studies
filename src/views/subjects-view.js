@@ -8,14 +8,8 @@ import { QUAL_BOARDS, isIB } from '../lib/qualboards.js';
 import {
   getTopics, createTopic, updateTopic, deleteTopic, bulkInsertTopics, reorderTopics,
 } from '../data/topics.js';
-import { TOPIC_VISUALS, getTopicVisualsKey } from '../data/topic-visuals.js';
-import { TOPIC_SVGS as CAM_SVGS } from '../data/topic-svgs-igcse-cambridge.js';
-import { EDEXCEL_TOPIC_SVGS } from '../data/topic-svgs-igcse-edexcel.js';
-import { TOPIC_SVGS_ALEVEL_CAMBRIDGE } from '../data/topic-svgs-alevel-cambridge.js';
-import { TOPIC_SVGS_ALEVEL_EDEXCEL } from '../data/topic-svgs-alevel-edexcel.js';
-import { TOPIC_SVGS_IB } from '../data/topic-svgs-ib.js';
-import { TOPIC_SVGS_MBBS } from '../data/topic-svgs-mbbs.js';
-const TOPIC_SVGS = { ...CAM_SVGS, ...EDEXCEL_TOPIC_SVGS, ...TOPIC_SVGS_ALEVEL_CAMBRIDGE, ...TOPIC_SVGS_ALEVEL_EDEXCEL, ...TOPIC_SVGS_IB, ...TOPIC_SVGS_MBBS };
+import { getTopicVisualsKey } from '../data/topic-visuals-key.js';
+import { loadVisuals, peekVisuals } from '../data/visuals-loader.js';
 
 // ── state ──────────────────────────────────────────────────────────────────
 const sv = {
@@ -887,6 +881,19 @@ function renderTopicPanel() {
     return;
   }
 
+  // The Visualizer data is 4.2 MB and now loads on demand. This panel cannot
+  // await it — it renders synchronously — so it draws without the practice and
+  // visual buttons first and redraws once the data arrives. Only a subject that
+  // could actually have visuals triggers the fetch, and the re-render is a
+  // one-off: peekVisuals() is populated by then, so it does not loop.
+  const activeSubj = sv.subjects.find(s => s.id === sv.activeId);
+  const tvKey = activeSubj ? getTopicVisualsKey(activeSubj) : null;
+  const visuals = peekVisuals();
+  if (tvKey && !visuals) {
+    loadVisuals().then(renderTopicPanel).catch(() => {});
+  }
+  const tvData = tvKey && visuals ? visuals.TOPIC_VISUALS[tvKey] : null;
+
   list.innerHTML = '';
   let lastSec = null;
   let nextMarked = false;
@@ -936,14 +943,13 @@ function renderTopicPanel() {
     const cyc  = tp.status === 'ready' ? 'ready' : tp.status === 'learning' ? 'learning' : '';
     const mark = tp.status === 'ready' ? '✓' : tp.status === 'learning' ? '~' : '';
 
-    const activeSubj = sv.subjects.find(s => s.id === sv.activeId);
-    const tvKey = activeSubj ? getTopicVisualsKey(activeSubj) : null;
-    const tvData = tvKey ? TOPIC_VISUALS[tvKey] : null;
+    // activeSubj / tvKey / tvData are hoisted above the loop — they were being
+    // recomputed for every topic row, including a full getTopicVisualsKey() pass.
     const tvTopic = tvData ? tvData.topics.find(tv =>
       tv.name.toLowerCase() === tp.name.toLowerCase() ||
       tp.name.toLowerCase().includes(tv.name.toLowerCase().replace(/^\d+(\.\d+)*\s+/, '').split(' ')[0])
     ) : null;
-    const hasVisual = !!(tvTopic && tvTopic.svgKey && TOPIC_SVGS[tvTopic.svgKey]);
+    const hasVisual = !!(tvTopic && tvTopic.svgKey && visuals?.TOPIC_SVGS[tvTopic.svgKey]);
 
     row.innerHTML = `
       <div class="cyc ${cyc}" onclick="sbCycleStatus('${tp.id}')">${mark}</div>

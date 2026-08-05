@@ -37,14 +37,8 @@ import { MUSCLE_DIAGRAMS } from './src/data/muscle-diagrams.js';
 import { buildMuscleAttachment } from './src/data/muscle-attachments.js';
 import { getMuscleRecall, markMusclePass, markMuscleFail, isMuscleDue, MASTERED_AT } from './src/data/muscle-recall.js';
 import { getPastPapersForCode, filterIBPapers } from './src/data/past-papers.js';
-import { TOPIC_VISUALS, getTopicVisualsKey } from './src/data/topic-visuals.js';
-import { TOPIC_SVGS as CAM_SVGS } from './src/data/topic-svgs-igcse-cambridge.js';
-import { EDEXCEL_TOPIC_SVGS } from './src/data/topic-svgs-igcse-edexcel.js';
-import { TOPIC_SVGS_ALEVEL_CAMBRIDGE } from './src/data/topic-svgs-alevel-cambridge.js';
-import { TOPIC_SVGS_ALEVEL_EDEXCEL } from './src/data/topic-svgs-alevel-edexcel.js';
-import { TOPIC_SVGS_IB } from './src/data/topic-svgs-ib.js';
-import { TOPIC_SVGS_MBBS } from './src/data/topic-svgs-mbbs.js';
-const TOPIC_SVGS = { ...CAM_SVGS, ...EDEXCEL_TOPIC_SVGS, ...TOPIC_SVGS_ALEVEL_CAMBRIDGE, ...TOPIC_SVGS_ALEVEL_EDEXCEL, ...TOPIC_SVGS_IB, ...TOPIC_SVGS_MBBS };
+import { getTopicVisualsKey } from './src/data/topic-visuals-key.js';
+import { loadVisuals } from './src/data/visuals-loader.js';
 
 // Installed before anything else runs so a crash during start-up is still
 // caught. The reporter itself only files a report once a user is signed in.
@@ -3956,16 +3950,26 @@ async function renderCoverage(){
         sq.dataset.status = status;
         sq.title = t.name;
 
-        sq.addEventListener("click", () => {
-          // If subject has topic visuals, open visual modal — exact name match only
+        sq.addEventListener("click", async () => {
+          // If subject has topic visuals, open visual modal — exact name match only.
+          // The key is derived synchronously; only a subject that could have
+          // visuals pays for loading them.
           const tvKey = getTopicVisualsKey(subj);
-          if (tvKey && TOPIC_VISUALS[tvKey]) {
-            const tvTopic = TOPIC_VISUALS[tvKey].topics.find(tv =>
-              tv.name.toLowerCase() === t.name.toLowerCase()
-            );
-            if (tvTopic) {
-              openTopicVisualModal(tvKey, tvTopic.id);
-              return;
+          if (tvKey) {
+            try {
+              const { TOPIC_VISUALS } = await loadVisuals();
+              if (TOPIC_VISUALS[tvKey]) {
+                const tvTopic = TOPIC_VISUALS[tvKey].topics.find(tv =>
+                  tv.name.toLowerCase() === t.name.toLowerCase()
+                );
+                if (tvTopic) {
+                  openTopicVisualModal(tvKey, tvTopic.id);
+                  return;
+                }
+              }
+            } catch {
+              // Data could not be fetched — fall through to the subjects view
+              // rather than leaving the click doing nothing at all.
             }
           }
           // Fallback: navigate to subjects view and highlight topic
@@ -6806,8 +6810,16 @@ window.closeMusclesModal = function() {
 };
 
 // ── Topic Visual Modal ────────────────────────────────────────────────────
-window.openTopicVisualModal = function(tvKey, topicId) {
+window.openTopicVisualModal = async function(tvKey, topicId) {
   if (requiresPro('Topic Visualizer')) return;
+  // Loaded after the tier gate, so a free-tier student never downloads the
+  // 4.2 MB of visualisation data for a feature they cannot open.
+  let TOPIC_VISUALS, TOPIC_SVGS;
+  try {
+    ({ TOPIC_VISUALS, TOPIC_SVGS } = await loadVisuals());
+  } catch {
+    return;
+  }
   const data = TOPIC_VISUALS[tvKey];
   if (!data) return;
   const topic = data.topics.find(t => t.id === topicId);
@@ -6949,6 +6961,12 @@ const _pq = {
 };
 
 window.openPracticeModal = async function(tvKey, topicId) {
+  let TOPIC_VISUALS;
+  try {
+    ({ TOPIC_VISUALS } = await loadVisuals());
+  } catch {
+    return;
+  }
   const data = TOPIC_VISUALS[tvKey];
   if (!data) return;
   const topic = data.topics.find(t => t.id === topicId);
