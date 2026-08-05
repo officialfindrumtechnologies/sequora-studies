@@ -1538,6 +1538,23 @@ function renderAnalytics() {
   });
 }
 
+// Chart.js is created with responsive:true, but in practice these two charts do
+// not reflow when the viewport changes — verified by resizing the window and
+// watching the canvas stay at its old width while its container shrank. On a
+// phone that is an orientation change, which would leave a student looking at a
+// clipped or undersized chart until they reloaded. Nudge them explicitly.
+let _chartResizeTimer = null;
+function _resizeDashboardCharts() {
+  clearTimeout(_chartResizeTimer);
+  _chartResizeTimer = setTimeout(() => {
+    try { _momentumChart?.resize(); } catch {}
+    try { _masteryChart?.resize(); } catch {}
+  }, 150);
+}
+window.addEventListener('resize', _resizeDashboardCharts);
+window.addEventListener('orientationchange', _resizeDashboardCharts);
+
+
 /* ============ spaced-recall engine — 2-4-7 method ============ */
 const RECALL_STEPS=[2,4,7]; // days after each recall: 2d → 4d → 7d → mastered
 const RECALL_STAGE_LABELS=["1st recall","2nd recall","final recall"];
