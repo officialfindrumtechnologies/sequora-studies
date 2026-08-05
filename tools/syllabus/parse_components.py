@@ -95,6 +95,59 @@ SUBJECTS = {
                      ('AS Level papers', ['Paper 1 – Approaches, Issues and Debates',
                                           'Paper 2 – Research Methods'], False)],
     },
+    # Edexcel GCE subjects whose content is their components. Component 4 of
+    # English Language and of Physical Education is coursework; both are named
+    # in the specification and both count toward the qualification.
+    'edx-art-9AD0': {
+        'board': 'edexcel_alevel', 'qualification': 'A Level', 'subject': 'Art & Design',
+        'pdf': 'edx/alevel-art-9AD0.pdf', 'years': 'first teaching 2015',
+        'sections': [('Components', ['Component 1: Personal Investigation',
+                                     'Component 2: Externally Set Assignment'], False)],
+    },
+    'edx-englang-9EN0': {
+        'board': 'edexcel_alevel', 'qualification': 'A Level', 'subject': 'English Language',
+        'pdf': 'edx/alevel-englang-9EN0.pdf', 'years': 'first teaching 2015',
+        'sections': [('Components', ['Component 1: Language Variation', 'Component 2: Child Language',
+                                     'Component 3: Investigating Language', 'Crafting Language'], False)],
+    },
+    'edx-englit-9ET0': {
+        'board': 'edexcel_alevel', 'qualification': 'A Level', 'subject': 'English Literature',
+        'pdf': 'edx/alevel-englit-9ET0.pdf', 'years': 'first teaching 2015',
+        'sections': [('Components', ['Component 1: Drama', 'Component 2: Prose',
+                                     'Component 3: Poetry'], False)],
+    },
+    'edx-music-9MU0': {
+        'board': 'edexcel_alevel', 'qualification': 'A Level', 'subject': 'Music',
+        'pdf': 'edx/alevel-music-9MU0.pdf', 'years': 'first teaching 2016',
+        'sections': [('Components', ['Component 1: Performing', 'Component 2: Composing',
+                                     'Component 3: Appraising'], False)],
+    },
+    'edx-pe-9PE0': {
+        'board': 'edexcel_alevel', 'qualification': 'A Level', 'subject': 'Physical Education',
+        'pdf': 'edx/alevel-pe-9PE0.pdf', 'years': 'first teaching 2016',
+        'sections': [('Components', [
+            'Component 1: Scientific Principles of Physical Education',
+            'Component 2: Psychological and Social Principles of Physical Education',
+            'Component 3: Practical performance',
+            'Component 4: Performance Analysis and Performance Development'], False)],
+    },
+    'edx-politics-9PL0': {
+        'board': 'edexcel_alevel', 'qualification': 'A Level', 'subject': 'Politics',
+        'pdf': 'edx/alevel-politics-9PL0.pdf', 'years': 'first teaching 2017',
+        'sections': [('Components', [
+            'Component 1: UK Politics and Core Political Ideas',
+            'Component 2: UK Government and Non-core Political Ideas',
+            'Component 3: Comparative Politics'], False)],
+    },
+    'edx-englangb-4EB1': {
+        'board': 'edexcel_igcse', 'qualification': 'IGCSE / O Level',
+        'subject': 'English Language B', 'pdf': 'edx/igcse-englishlangb-4EB1.pdf',
+        'years': 'first teaching 2016',
+        'sections': [('Component', ['Reading and Writing'], False),
+                     ('Sections of the examined paper',
+                      ['Section A: Reading', 'Section B: Reading and Writing',
+                       'Section C: Writing'], False)],
+    },
     'ib-globalpolitics': {
         'board': 'IB', 'qualification': 'IB Diploma', 'subject': 'Global Politics',
         'pdf': 'ib/gp.pdf', 'years': 'first assessment 2026', 'levelled': True,

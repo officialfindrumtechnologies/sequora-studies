@@ -27,6 +27,25 @@ GUIDES = {
     # content in two options plus five depth studies, each set out as numbered
     # key questions. The number is followed by a tab rather than a full stop,
     # which is why the default item pattern finds nothing here.
+    # Cambridge A Level History: the AS options and the Paper 4 depth study
+    # options share the option names and both number their topics 1-9, so they
+    # are told apart by the date range in the heading. Paper 4 is the A Level
+    # half; the AS row is written separately from the same document.
+    'cie-history-9489': {
+        'board': 'cambridge_alevel', 'qualification': 'A Level',
+        'subject': 'History', 'level': None,
+        'pdf': 'pdf/cambridge-international-as-and-a-level-history-9489.pdf',
+        'years': 'syllabus for 2027-2029',
+        'item': r'^(\d{1,2})[\.\t ]\s*([A-Z].{8,})$',
+        'sections': [
+            (r'^European option: Modern Europe, 1774', 'AS Level · European option: Modern Europe, 1774-1924'),
+            (r'^American option: The history of the USA, 1820', 'AS Level · American option: The history of the USA, 1820-1941'),
+            (r'^International option: International history, 1870', 'AS Level · International option: International history, 1870-1939'),
+            (r'^European option: European history, 1919', 'A Level Paper 4 depth study · European option: European history, 1919-41'),
+            (r'^American option: The USA, 1945', 'A Level Paper 4 depth study · American option: The USA, 1945-93'),
+            (r'^International option: International history, 1909', 'A Level Paper 4 depth study · International option: International history, 1909-94'),
+        ],
+    },
     'cie-history-0470': {
         'board': 'cambridge_igcse', 'qualification': 'IGCSE / O Level',
         'subject': 'History', 'level': None,
