@@ -147,11 +147,21 @@ function renderSubjectControls() {
   // A subject created before its syllabus was rebuilt keeps the old topic
   // list forever unless it is offered the new one.
   const stale = staleSubjects.find(x => x.id === sv.activeId);
+  // syllabus_years is written however the board words it, and Cambridge already
+  // includes the noun — "syllabus for 2026-2028". Pasting "syllabus" after that
+  // produced "The official syllabus for 2026-2028 syllabus has 61 topics".
+  // Boards that give a bare period ("2021", "first assessment 2026") still need
+  // the noun, so those go in parentheses rather than reading as a run-on.
+  const years = stale?.years ? String(stale.years).trim() : '';
+  const syllabusPhrase = !years ? 'syllabus'
+    : /syllabus/i.test(years) ? esc(years)
+    : `syllabus (${esc(years)})`;
+
   const staleHtml = stale ? `
     <div class="sb-stale">
       <div class="sb-stale-msg">
         <b>Updated syllabus available</b> — this subject was set up from the older
-        list. The official ${stale.years ? esc(stale.years) + ' ' : ''}syllabus has
+        list. The official ${syllabusPhrase} has
         ${stale.templateTopics} topics.
         <span class="sb-stale-warn">Refreshing replaces your topics and clears their progress.</span>
       </div>
