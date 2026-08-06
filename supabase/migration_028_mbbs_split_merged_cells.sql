@@ -1,0 +1,31 @@
+-- Splits the six genuinely-merged BM&DC Contents cells. Executable statement is
+-- in the Supabase migration history as mbbs_split_remaining_merged_blobs.
+--
+-- Root cause, fixed in tools/syllabus/parse_mbbs.py: the stitcher treated ANY
+-- line indented past the modal bullet position as a wrapped continuation, so a
+-- nested numbered list inside one cell was glued onto its parent. Obs & Gynae
+-- produced a 940-character "topic"; Surgery Ophthalmology a 1,538-character one.
+-- The parser now starts a new entry on any line opening with its own list
+-- marker (LIST_MARKER).
+--
+-- Applied to the stored strings rather than by re-importing the parser output,
+-- DELIBERATELY. The parser's chapter detection is weaker than whatever produced
+-- the current rows: on Surgery it emits "Lacrimal Apparatus:" and "and Low
+-- vision (Gross idea):" as chapters and loses "Ophthalmology" altogether, and
+-- it yields 537 topics against the curated 262. Re-importing would have fixed
+-- the cells and wrecked the structure. The same corrected rule is applied here
+-- instead, keeping the good sections.
+--
+-- Only NUMERIC markers split. Lettered and roman sub-items stay attached to
+-- their numbered parent, which is how the syllabus reads: "3. Diseases of Lid
+-- a. Malpositions i. Trichiasis" is one topic, not four.
+--
+-- MBBS 2,644 -> 2,736 topics (+92 recovered). Entries over 400 chars: 20 -> 14.
+--
+-- Left alone on purpose — single coherent topics that merely contain a list:
+--   Microbiology "Demonstration of culture media namely Nutrient agar, Blood
+--     agar, Chocolate agar…" (one practical, one comma list)
+--   Pharmacology "4. Study of Pharmacodynamics i. … ii. …"
+--   Surgery "3. Diseases of Lid a. … i. …"
+--   Obs & Gynae "5. Counsel women on importance of … (a) … (b) …" — does not
+--     split at all, its sub-parts are lettered.

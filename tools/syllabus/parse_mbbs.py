@@ -30,6 +30,11 @@ DROP = re.compile(
     r'^(CORE|Additional|Applied|Core Contents|Contents|Learning Objectives?|Hours|Teaching|'
     r'At the end of|Sl\.?|Name of item|Marks|Remarks|Full)\b', re.I)
 NUMERIC = re.compile(r'^[\d\s./=%-]*$')
+# Opens a nested list item: "1. ", "2) ", "a. ", "iv) ". Roman numerals are
+# matched before single letters so "i." and "v." are not read as plain letters;
+# either way the line starts a new entry, so the distinction is cosmetic.
+# Deliberately requires the trailing space: "1.5 mg" and "No.3" must not match.
+LIST_MARKER = re.compile(r'^(?:\d{1,2}|[ivx]{1,4}|[a-z])\s*[.)]\s+', re.I)
 # Pages that are administration rather than syllabus.
 ADMIN = re.compile(
     r'(Continuous Assessment Card|Academic Calendar|Roll no|Name of item|'
@@ -181,7 +186,23 @@ def parse(pdf):
             if not t or NUMERIC.match(t) or DROP.match(t) or len(t) < 3:
                 continue
             bucket = by_name[current]
-            if r['x'] > indent and bucket:
+            # Indentation alone does not mean "wrapped line". Several subjects
+            # nest a numbered list inside one Contents cell:
+            #
+            #     Implant
+            #       1. Definition
+            #       2. Role of implant as contraceptive method
+            #
+            # Those items sit further right than the modal bullet, so treating
+            # every indented line as a continuation glued the whole list onto
+            # its parent — Obs & Gynae produced 940-character "topics" and
+            # Surgery an 800-character one holding twenty separate items.
+            #
+            # A line that opens with its own list marker starts a new entry
+            # whatever its indent; only unmarked indented lines are wrapped
+            # text. clean() has already stripped bullet glyphs, so what remains
+            # to detect is 1. / 1) / a. / a) / i. / iv) style markers.
+            if r['x'] > indent and bucket and not LIST_MARKER.match(t):
                 bucket[-1] = (bucket[-1] + ' ' + t).strip()   # wrapped line
             else:
                 bucket.append(t)
