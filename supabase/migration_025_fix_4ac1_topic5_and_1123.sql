@@ -1,0 +1,25 @@
+-- Two syllabus-tree corrections, both taken from the cached source specification
+-- rather than reconstructed. Executable statements are in the Supabase migration
+-- history as fix_4ac1_topic5_depreciation and fix_1123_duplicate_reading_writing.
+
+-- 1. Edexcel IGCSE Accounting 4AC1, Topic 5 -------------------------------
+-- migration_024 truncated "2. Accounting content Koenig, J. A. (2011) Assessing
+-- 21st Century Skills…" back to "2. Accounting content", assuming the prefix was
+-- a real subtopic. It was not — the whole entry was bibliography text. The real
+-- second subtopic is Depreciation.
+--   Source: tools/syllabus/edx/igcse-accounting-4AC1.pdf, Issue 1 Oct 2016, p.23
+--   Topic 5 = 1 Application of accounting concepts / 2 Depreciation /
+--             3 Irrecoverable debts / 4 Other receivables and payables
+-- All five chapters now match the spec's own counts (4/7/4/5/4 = 24 subtopics),
+-- so 4AC1 is complete. The earlier "Topic 5 is missing content" note is closed:
+-- it was never missing, it was mis-parsed.
+
+-- 2. Cambridge O Level English Language 1123 ------------------------------
+-- Listed "Reading | Writing | Paper 1 – Reading | Paper 2 – Writing" — the first
+-- pair from section 3 (Subject content), the second from section 4 (assessment),
+-- so every area appeared twice.
+--   Source: tools/syllabus/pdf/cambridge-o-level-english-language-1123.pdf,
+--           2027-2028 syllabus, section 3
+-- Rebuilt as the two real content areas with the six assessed skills the
+-- syllabus lists under each: 12 subtopics across 2 chapters. The papers are
+-- assessment format, not content, and are no longer listed as topics.
