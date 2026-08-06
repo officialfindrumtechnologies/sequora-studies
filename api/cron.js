@@ -15,6 +15,7 @@
 //
 // Vercel Cron invokes this as /api/cron?job=<name> — see vercel.json.
 
+import { createClient } from '@supabase/supabase-js';
 import dailyNudge     from './_cron/daily-nudge.js';
 import expiryCheck    from './_cron/expiry-check.js';
 import groupRecap     from './_cron/group-recap.js';
@@ -48,5 +49,55 @@ export default async function handler(req, res) {
     return res.status(404).json({ error: 'Unknown job', known: Object.keys(JOBS) });
   }
 
-  return run(req, res);
+  // Record the invocation. Whether these jobs actually fire was unanswerable all
+  // week: Vercel keeps runtime logs about an hour on Hobby, the Resend key is
+  // send-only so delivery cannot be queried back, and expiry-check writes
+  // nothing when nothing is expiring. By the time anyone asks, every window has
+  // closed. One row per run in public.cron_runs settles it, and captures the
+  // handler's own JSON — so daily-nudge records how many emails it really sent.
+  //
+  // The log must never be able to break a job: every write is best-effort and a
+  // logging failure is swallowed.
+  const started = Date.now();
+  const dry = req.query?.dry === '1' || req.query?.dry === 'true';
+  let logId = null;
+  const sb = (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY)
+    ? createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
+    : null;
+
+  if (sb) {
+    try {
+      const { data } = await sb.from('cron_runs')
+        .insert({ job, dry }).select('id').single();
+      logId = data?.id ?? null;
+    } catch { /* logging must not block the job */ }
+  }
+
+  const finish = async (fields) => {
+    if (!sb || !logId) return;
+    try {
+      await sb.from('cron_runs').update({
+        finished_at: new Date().toISOString(),
+        duration_ms: Date.now() - started,
+        ...fields,
+      }).eq('id', logId);
+    } catch { /* best effort */ }
+  };
+
+  // The handlers write the response themselves, so capture what they send
+  // rather than changing every one of them to return it.
+  let captured, statusCode = 200;
+  const origStatus = res.status.bind(res);
+  const origJson = res.json.bind(res);
+  res.status = (code) => { statusCode = code; return origStatus(code); };
+  res.json = (body) => { captured = body; return origJson(body); };
+
+  try {
+    const out = await run(req, res);
+    await finish({ ok: statusCode < 400, status_code: statusCode, result: captured ?? null });
+    return out;
+  } catch (err) {
+    await finish({ ok: false, status_code: 500, error: String(err?.message || err).slice(0, 500) });
+    throw err;
+  }
 }

@@ -1,0 +1,20 @@
+-- Durable record of every cron invocation. Executable statement is in the
+-- Supabase migration history as cron_runs_log.
+--
+-- Whether the scheduled jobs actually fire was unanswerable all week, and this
+-- table exists because every other evidence path is closed by the time anyone
+-- asks:
+--   * Vercel keeps runtime logs ~1 hour on Hobby; the runs are 11-14h old
+--   * the Resend API key is send-only (restricted_api_key), so delivery cannot
+--     be queried back
+--   * expiry-check writes nothing to admin_log when nothing is expiring
+--   * postgres logs capture DDL and errors, not PostgREST traffic
+--   * pg_stat_statements counts calls but carries no last-execution timestamp
+--
+-- One row per invocation records what ran, when, whether it was a dry run, how
+-- long it took, and the handler's own JSON response — so for daily-nudge it
+-- captures how many emails were actually sent and to how many recipients.
+--
+-- Service-role only: RLS is enabled with NO policy, which denies every client.
+-- The dispatcher writes with the service key. Every write is best-effort and a
+-- logging failure is swallowed, so the log can never break a job.
