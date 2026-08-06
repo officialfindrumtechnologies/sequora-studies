@@ -1,0 +1,27 @@
+-- Surgery's first "topic" was one 800-character string holding the whole opening
+-- contents block, merged by the parser:
+--   "Phase II 1. History, evolution and scope of surgery 2. Approach to a
+--    surgical patients 3. Surgical diagnostic process and techniques ..."
+--
+-- The source (bmdc.org.bd/docs/curriculum/2021/15.Surgery.pdf, "Learning
+-- Objectives and Course Contents in Surgery") lists 20 separate numbered items
+-- in the Contents column under the CORE / Phase II heading. Split into those 20.
+--
+-- Why this one and not the other 11 over-long entries: after splitting, the
+-- numbering here comes out strictly consecutive 1..20. That consecutiveness is
+-- the proof the split fell on real item boundaries rather than on a number
+-- occurring inside prose. The other 11 have numbering that restarts mid-string
+-- (several sub-lists merged into one cell) or does not split at all, so a
+-- mechanical split would fabricate topics. They are left for a parse_mbbs.py fix.
+--
+-- A second pass trimmed trailing phase markers that had been glued onto item
+-- text by the same merge ("11. Shock Phase III" -> "11. Shock",
+-- "16. Enteral and Parenteral nutrition Phase IV" -> "...nutrition",
+-- " Recovery room experience Phase IV" -> " Recovery room experience").
+--
+-- Executable statements are in the Supabase migration history as
+-- mbbs_split_surgery_merged_block.
+--
+-- MBBS final: 2,677 -> 2,644 topics. 0 scaffolding entries and 0 duplicates
+-- remain. Real content lost across the whole operation: ZERO, verified by
+-- diffing every name against a pre-change snapshot.
