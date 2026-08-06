@@ -45,7 +45,7 @@ ADMIN = re.compile(
 # SCHEDULE", "= 05 Hours", "CLASS PERFORMANCE CARD-1A", "Study Tour".
 CHAPTER_REJECT = re.compile(
     r'(\d+\s*hours?\b|=\s*\d|schedule|card\s*(no|-|\d)|questionnaire|'
-    r'\btour\b|please specify|performance card|box contents|'
+    r'\btour\b|please specify|performance card|box contents|\bcard\b|'
     r'^(topic|date|materials|oral|theoretical|consolidated.*)$|'
     r'^\W|^(term|year)\b|case histories|^note:)', re.I)
 
@@ -122,10 +122,24 @@ def parse(pdf):
         # both the objectives and the contents columns.
         left  = [r for r in rows if r['x'] < obj_max and len(r['t']) > 12]
         right = [r for r in rows if obj_max < r['x'] < hours_min and len(r['t']) > 8]
-        if len(left) < 2 or len(right) < 2:
-            continue
+        is_table_page = len(left) >= 2 and len(right) >= 2
+
+        # Administration pages are excluded outright — both their headings and
+        # their contents are furniture.
         if any(ADMIN.search(r['t']) for r in rows):
             continue
+
+        # Heading detection and content collection need DIFFERENT pages, and
+        # conflating them lost real chapters. Several subjects introduce a
+        # section with a portrait divider page carrying just the title and some
+        # prose ("Ophthalmology", then Departmental Objectives and a competency
+        # list), with the three-column table only starting overleaf. Requiring
+        # the table before looking for a heading skipped those pages entirely,
+        # so Surgery's Ophthalmology chapter was never seen and all of its
+        # content landed under the previous chapter.
+        #
+        # Headings are therefore scanned on every non-admin page; only the
+        # content collector below is restricted to table pages.
 
         # Bullets are the most frequent start position in the Contents column;
         # wrapped continuation lines sit further right. The modal x is used
@@ -189,6 +203,7 @@ def parse(pdf):
             # with the height gate below is what makes the split clean.
             centred = abs(mid - w / 2) < w * 0.035
             if centred and 3 < len(r['t']) < 70 and not NUMERIC.match(r['t']) \
+                    and not LIST_MARKER.match(clean(r['t'])) \
                     and not DROP.match(r['t']) and not CHAPTER_REJECT.search(clean(r['t'])):
                 name = clean(r['t'])
                 if name and name not in by_name:
@@ -209,7 +224,10 @@ def parse(pdf):
                 by_name[current] = []
                 chapters.append(current)
 
-        # Contents column only.
+        # Contents column only, and only on pages that actually carry the
+        # table — a divider page's prose is not syllabus content.
+        if not is_table_page:
+            continue
         for r in rows:
             if not (obj_max < r['x'] < hours_min):
                 continue
