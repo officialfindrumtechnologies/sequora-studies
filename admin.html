@@ -278,6 +278,7 @@ body.theme-midnight{
       <div class="nav-item" data-sec="activity">Activity</div>
       <div class="nav-item" data-sec="content">Content Stats</div>
       <div class="nav-item" data-sec="errors">Error Reports <span class="nav-badge" id="err-badge" style="display:none"></span></div>
+      <div class="nav-item" data-sec="crashes">Crashes <span class="nav-badge" id="crash-badge" style="display:none"></span></div>
       <div class="nav-item" data-sec="feedback">Cashback <span class="nav-badge" id="fb-badge" style="display:none"></span></div>
       <div class="nav-item" data-sec="questions">Question Bank</div>
       <div class="nav-item" data-sec="notifications">Notifications</div>
@@ -542,6 +543,28 @@ body.theme-midnight{
     </section>
 
     <!-- ERRORS -->
+    <!-- Crashes: what the app threw in real students' browsers. Distinct from
+         "Error Reports" below, which is study mistakes a student logs on
+         purpose. This one fills itself. -->
+    <section id="sec-crashes" class="section">
+      <div class="section-title">Crashes</div>
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap">
+        <select id="crash-window" onchange="loadCrashes()" style="padding:6px 10px">
+          <option value="1">Last 24 hours</option>
+          <option value="7" selected>Last 7 days</option>
+          <option value="30">Last 30 days</option>
+          <option value="90">Last 90 days</option>
+        </select>
+        <button class="btn" onclick="loadCrashes()">Refresh</button>
+        <span id="crash-summary" class="muted" style="font-size:12px"></span>
+      </div>
+      <div id="crash-empty" style="display:none;padding:26px;text-align:center;color:var(--muted)">
+        No crashes reported in this window. Reporting is active — errors appear here
+        automatically when a signed-in student's browser throws.
+      </div>
+      <div id="crash-list"></div>
+    </section>
+
     <section id="sec-errors" class="section">
       <div class="section-title">Error Reports</div>
       <div id="err-migration-note" class="migration-note" style="display:none">
@@ -1006,6 +1029,7 @@ function showSection(sec) {
       case 'activity':      loadActivity(); break;
       case 'content':       loadContent(); break;
       case 'errors':        loadErrors(); break;
+      case 'crashes':       loadCrashes(); break;
       case 'feedback':      loadFeedbackSettings(); loadFeedback(); break;
       case 'questions':     loadQuestionBank(); break;
       case 'notifications': loadNotifications(); break;
@@ -1630,6 +1654,114 @@ async function loadActivity() {
 }
 
 // ── ERRORS ────────────────────────────────────────────────────────────────
+
+/* ── Crashes ────────────────────────────────────────────────────────────────
+   public.client_errors, via /api/admin?action=client_errors. The API groups by
+   message+source, so one render loop firing repeatedly reads as a single row
+   with an occurrence count instead of flooding the list. Clicking a row expands
+   the detail: stack, the page it happened on, the browser, and who hit it.
+   Distinct from "Error Reports", which is study mistakes a student logs on
+   purpose — this one fills itself when the app throws. */
+function crashEsc(v) {
+  return String(v == null ? '' : v)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function crashAgo(iso) {
+  const s = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
+  if (s < 60) return s + 's ago';
+  if (s < 3600) return Math.floor(s / 60) + 'm ago';
+  if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+  return Math.floor(s / 86400) + 'd ago';
+}
+
+function crashBrowser(ua) {
+  if (!ua) return 'unknown';
+  const m = ua.match(/(Edg|OPR|Chrome|Firefox|Safari)\/([\d.]+)/);
+  const os = /iPhone|iPad/.test(ua) ? 'iOS' : /Android/.test(ua) ? 'Android'
+           : /Mac OS X/.test(ua) ? 'macOS' : /Windows/.test(ua) ? 'Windows' : '';
+  const name = m ? (m[1] === 'Edg' ? 'Edge' : m[1] === 'OPR' ? 'Opera' : m[1]) : 'browser';
+  return [name, m ? m[2].split('.')[0] : '', os].filter(Boolean).join(' ');
+}
+
+window.crashToggle = function (i) {
+  const el = document.getElementById('crash-detail-' + i);
+  if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+};
+
+window.loadCrashes = async function () {
+  const list = document.getElementById('crash-list');
+  const empty = document.getElementById('crash-empty');
+  const summary = document.getElementById('crash-summary');
+  const days = document.getElementById('crash-window')?.value || '7';
+  list.innerHTML = '<div class="muted" style="padding:18px">Loading…</div>';
+  empty.style.display = 'none';
+
+  let data;
+  try {
+    data = await apiGet({ action: 'client_errors', days });
+  } catch (e) {
+    list.innerHTML = '<div style="padding:18px;color:var(--red)">Could not load crashes: '
+      + crashEsc(e.message) + '</div>';
+    return;
+  }
+
+  if (data.tableExists === false) {
+    list.innerHTML = '<div style="padding:18px;color:var(--muted)">The client_errors table does not exist yet.</div>';
+    return;
+  }
+
+  const groups = data.groups || [];
+  const badge = document.getElementById('crash-badge');
+  if (badge) {
+    badge.textContent = groups.length;
+    badge.style.display = groups.length ? '' : 'none';
+  }
+  summary.textContent = groups.length
+    ? groups.length + ' distinct · ' + data.total + ' occurrence' + (data.total === 1 ? '' : 's')
+      + (data.truncated ? ' (capped at 1000)' : '')
+    : '';
+
+  if (!groups.length) { list.innerHTML = ''; empty.style.display = ''; return; }
+
+  list.innerHTML = groups.map((g, i) => {
+    const occ = (g.occurrences || []).map(o => `
+      <div style="border-top:1px solid var(--border);padding:10px 0">
+        <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted)">
+          <span>${crashEsc(new Date(o.at).toLocaleString('en-GB'))}</span>
+          <span>${o.email ? crashEsc(o.email) : 'unknown user'}</span>
+          <span>${crashEsc(o.path || '—')}</span>
+          <span>${crashEsc(crashBrowser(o.userAgent))}</span>
+        </div>
+        ${o.stack ? `<pre style="margin:8px 0 0;padding:10px;background:var(--bg);border-radius:6px;overflow-x:auto;font-size:11px;line-height:1.5;white-space:pre-wrap">${crashEsc(o.stack)}</pre>` : ''}
+      </div>`).join('');
+
+    return `
+      <div style="border:1px solid var(--border);border-radius:8px;margin-bottom:10px;background:var(--surface)">
+        <div onclick="crashToggle(${i})" style="padding:13px 15px;cursor:pointer;display:flex;gap:12px;align-items:flex-start">
+          <div style="flex:1;min-width:0">
+            <div style="font-weight:600;word-break:break-word">${crashEsc(g.message) || '(no message)'}</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px">
+              ${crashEsc(g.kind || 'error')}${g.source ? ' · ' + crashEsc(g.source) : ''}
+            </div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px">
+              ${g.count} occurrence${g.count === 1 ? '' : 's'} ·
+              ${g.users} user${g.users === 1 ? '' : 's'} ·
+              last ${crashEsc(crashAgo(g.lastSeen))}
+              ${g.paths && g.paths.length ? ' · ' + crashEsc(g.paths.join(', ')) : ''}
+            </div>
+          </div>
+          <span style="color:var(--muted);font-size:12px">▾</span>
+        </div>
+        <div id="crash-detail-${i}" style="display:none;padding:0 15px 12px">
+          ${occ || '<div class="muted" style="padding:10px 0">No detail recorded.</div>'}
+          ${g.count > (g.occurrences || []).length
+            ? `<div class="muted" style="font-size:11px;padding-top:8px">Showing ${(g.occurrences || []).length} of ${g.count} occurrences.</div>` : ''}
+        </div>
+      </div>`;
+  }).join('');
+};
 
 window.loadErrors = async function() {
   document.getElementById('err-tbody').innerHTML = '<tr class="loading-row"><td colspan="7">Loading…</td></tr>';

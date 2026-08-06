@@ -524,6 +524,87 @@ export default async function handler(req, res) {
     return res.status(200).json({ errors, tableExists: true, unresolvedCount, hasResolvedCol });
   }
 
+  // ── GET: client_errors ─────────────────────────────────────────────────────
+  //
+  // Crashes reported from students' browsers, from public.client_errors. This
+  // is NOT the `errors` table above — that one holds study mistakes a student
+  // logs deliberately. This one fills itself when the app throws.
+  //
+  // Grouped by message + source so a render loop that fires two hundred times
+  // reads as one problem affecting N students, not two hundred rows. Each group
+  // keeps its occurrences so the UI can expand into stacks, paths and browsers.
+  if (req.method === 'GET' && action === 'client_errors') {
+    const sinceDays = Math.min(parseInt(req.query.days, 10) || 7, 90);
+    const since = new Date(Date.now() - sinceDays * 86_400_000).toISOString();
+
+    const { data, error: ceErr } = await adminSb
+      .from('client_errors')
+      .select('id, user_id, kind, message, stack, source, path, user_agent, created_at')
+      .gte('created_at', since)
+      .order('created_at', { ascending: false })
+      .limit(1000);
+
+    if (ceErr) {
+      if (ceErr.code === 'PGRST106' || ceErr.message?.includes('does not exist')) {
+        return res.status(200).json({ groups: [], total: 0, tableExists: false });
+      }
+      return res.status(500).json({ error: 'Failed to fetch client errors: ' + ceErr.message });
+    }
+
+    const rows = data || [];
+    const em = await emailMap(adminSb, [...new Set(rows.map(r => r.user_id).filter(Boolean))]);
+
+    const groups = new Map();
+    for (const r of rows) {
+      const key = (r.message || '') + '||' + (r.source || '');
+      let g = groups.get(key);
+      if (!g) {
+        g = {
+          key,
+          message: r.message,
+          source: r.source,
+          kind: r.kind,
+          count: 0,
+          users: new Set(),
+          paths: new Set(),
+          firstSeen: r.created_at,
+          lastSeen: r.created_at,
+          occurrences: [],
+        };
+        groups.set(key, g);
+      }
+      g.count++;
+      if (r.user_id) g.users.add(r.user_id);
+      if (r.path) g.paths.add(r.path);
+      if (r.created_at < g.firstSeen) g.firstSeen = r.created_at;
+      if (r.created_at > g.lastSeen) g.lastSeen = r.created_at;
+      // Cap what travels to the browser; the counts above stay exact.
+      if (g.occurrences.length < 25) {
+        g.occurrences.push({
+          id: r.id,
+          at: r.created_at,
+          email: em[r.user_id] || null,
+          path: r.path,
+          stack: r.stack,
+          userAgent: r.user_agent,
+          kind: r.kind,
+        });
+      }
+    }
+
+    const out = [...groups.values()]
+      .map(g => ({ ...g, users: g.users.size, paths: [...g.paths].slice(0, 8) }))
+      .sort((a, b) => (b.lastSeen > a.lastSeen ? 1 : b.lastSeen < a.lastSeen ? -1 : b.count - a.count));
+
+    return res.status(200).json({
+      groups: out,
+      total: rows.length,
+      windowDays: sinceDays,
+      tableExists: true,
+      truncated: rows.length >= 1000,
+    });
+  }
+
   // ── GET: system_stats ──────────────────────────────────────────────────────
   if (req.method === 'GET' && action === 'system_stats') {
     const tables = ['profiles', 'subscriptions', 'subjects', 'topics', 'sessions', 'errors', 'admin_log', 'announcements'];
