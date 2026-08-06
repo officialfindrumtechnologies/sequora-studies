@@ -693,7 +693,7 @@ export const TV_IGCSE_EDEXCEL = {
    {
     "id": "electrolysis",
     "name": "Electrolysis",
-    "syllabusRef": "C2",
+    "syllabusRef": "C1",
     "section": "Applied",
     "description": "Electrolysis uses electrical energy to decompose ionic compounds. Ions in molten or aqueous electrolytes are free to move. Cations (positive) move to the cathode (negative electrode) and are reduced. Anions (negative) move to the anode (positive electrode) and are oxidised. Electrolysis of brine (NaCl solution) produces chlorine at the anode, hydrogen at the cathode, and sodium hydroxide solution. Electroplating coats a metal object with a thin layer of another metal.",
     "svgKey": "ech-electrolysis",

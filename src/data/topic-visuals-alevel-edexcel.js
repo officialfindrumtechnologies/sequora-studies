@@ -728,7 +728,7 @@ export const TV_ALEVEL_EDEXCEL = {
    {
     "id": "acid-base",
     "name": "Acid-Base Equilibria",
-    "syllabusRef": "Topic 11",
+    "syllabusRef": "Topic 12",
     "section": "Physical Chemistry",
     "description": "Brønsted-Lowry: acid = H⁺ donor; base = H⁺ acceptor. Conjugate pairs. pH = −log[H⁺]; Kw = [H⁺][OH⁻] = 1×10⁻¹⁴ at 25°C. Weak acid Ka; pKa = −logKa; Henderson-Hasselbalch: pH = pKa + log([A⁻]/[HA]). Buffer solutions. Strong/weak acids and bases. Titration curves; indicator selection (range must span equivalence point). Half-equivalence: pH = pKa.",
     "svgKey": "alevel-edx-chem-acid-base-equilibria",
@@ -777,7 +777,7 @@ export const TV_ALEVEL_EDEXCEL = {
    {
     "id": "transition-metals",
     "name": "Transition Metals",
-    "syllabusRef": "Topic 13",
+    "syllabusRef": "Topic 15",
     "section": "Inorganic Chemistry",
     "description": "Transition metals: d-block elements forming at least one stable ion with an incomplete d sub-shell (Ti–Cu; Sc and Zn are d-block but excluded, being d⁰ and d¹⁰ as ions). Properties: variable oxidation states, coloured ions (d-d electronic transition), complex ion formation, catalytic activity, paramagnetism. Complex ions: central metal ion + ligands (lone pair donors); coordination number 6 (octahedral) or 4 (tetrahedral/square planar). Ligand substitution; EDTA; stability constants. Precipitation reactions with NaOH.",
     "svgKey": "alevel-edx-chem-transition-metals",
@@ -874,7 +874,7 @@ export const TV_ALEVEL_EDEXCEL = {
    {
     "id": "organic-nitrogen",
     "name": "Organic Nitrogen Compounds",
-    "syllabusRef": "Topic 17",
+    "syllabusRef": "Topic 18",
     "section": "Organic Chemistry",
     "description": "Amines (RNH₂): basic (lone pair on N); react with acids; nucleophiles with halogenoalkanes/acid chlorides → amides. Amides (RCONH₂): hydrolysed by acid/alkali. Amino acids (H₂N-CHR-COOH): zwitterions at isoelectric point; condensation → peptide bonds → proteins. Diazotisation (ArNH₂ + HNO₂, 0–5°C) → ArN₂⁺; coupling with phenols/amines → azo dyes.",
     "svgKey": "alevel-edx-chem-organic-nitrogen",
@@ -898,7 +898,7 @@ export const TV_ALEVEL_EDEXCEL = {
    {
     "id": "chromatography-spectroscopy",
     "name": "Chromatography and Spectroscopy",
-    "syllabusRef": "Topic 18",
+    "syllabusRef": "Topic 19",
     "section": "Analytical",
     "description": "Chromatography: Rf = distance spot / distance solvent front. TLC (thin layer), paper, GC (retention time), HPLC. Combined GC-MS for identification. NMR: ¹H chemical shifts (δ ppm): TMS = 0; R-CH₃ ~1; Ar-H ~7; CHO ~9-10; COOH ~11-12. ¹³C NMR: one peak per distinct C environment. D₂O removes exchangeable H peaks (OH, NH). UV-visible spectroscopy: Beer-Lambert law A = εcl.",
     "svgKey": "alevel-edx-chem-chromatography-spectroscopy",

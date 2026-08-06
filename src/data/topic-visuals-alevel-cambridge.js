@@ -1223,7 +1223,7 @@ export const TV_ALEVEL_CAMBRIDGE = {
    {
     "id": "electric-fields",
     "name": "Electric Fields",
-    "syllabusRef": "9",
+    "syllabusRef": "18",
     "section": "Waves & Fields",
     "description": "Electric field strength E = F/Q (N C⁻¹ = V m⁻¹). Coulomb's law: F = kQ₁Q₂/r². Field lines show direction on positive test charge. Uniform field between parallel plates: E = V/d. Point charge: E = kQ/r². Electric potential V = kQ/r; work W = QV; potential energy EP = QV. Capacitors: E = V/d between plates.",
     "threejs3dFn": "createFieldLines('electric')",
@@ -1248,7 +1248,7 @@ export const TV_ALEVEL_CAMBRIDGE = {
    {
     "id": "capacitance",
     "name": "Capacitance",
-    "syllabusRef": "10",
+    "syllabusRef": "19",
     "section": "Electricity",
     "description": "Capacitance C = Q/V (farads). Parallel plate capacitor: C = ε₀εᵣA/d. Energy stored: E = ½QV = ½CV² = Q²/2C. Capacitors in series: 1/C = 1/C₁ + 1/C₂; in parallel: C = C₁ + C₂. Charging/discharging through resistor: Q = Q₀e^{−t/RC}; time constant τ = RC (time for charge to fall to 1/e ≈ 37%).",
     "svgKey": "alevel-phys-capacitance",
@@ -1298,7 +1298,7 @@ export const TV_ALEVEL_CAMBRIDGE = {
    {
     "id": "dc-circuits",
     "name": "DC Circuits",
-    "syllabusRef": "12",
+    "syllabusRef": "10",
     "section": "Electricity",
     "description": "Kirchhoff's 1st law (current): sum of currents entering a node = sum leaving. Kirchhoff's 2nd law (voltage): sum of EMFs = sum of potential drops around any closed loop. Resistors in series: R_T = R₁+R₂; voltage divides. Resistors in parallel: 1/R_T = 1/R₁+1/R₂; current divides. Potential divider. Wheatstone bridge. Sensors: LDR, thermistor.",
     "svgKey": "alevel-phys-dc-circuits",
@@ -1345,8 +1345,8 @@ export const TV_ALEVEL_CAMBRIDGE = {
    },
    {
     "id": "medical-imaging",
-    "name": "Medical Imaging",
-    "syllabusRef": "14",
+    "name": "Medical Physics",
+    "syllabusRef": "24",
     "section": "Nuclear & Thermal",
     "description": "X-rays: produced by deceleration of electrons (bremsstrahlung) and electron transitions; attenuation I = I₀e^{−μx}; CT scans build 3D images. Ultrasound: A-scan (depth), B-scan (image); reflection at boundaries; acoustic impedance Z = ρv; intensity reflection coefficient α = (Z₁−Z₂)²/(Z₁+Z₂)². PET: annihilation \u2192 two \u03b3-rays at 180\u00b0.",
     "svgKey": "alevel-phys-medical-imaging",
@@ -1369,7 +1369,7 @@ export const TV_ALEVEL_CAMBRIDGE = {
    {
     "id": "thermal",
     "name": "Thermal Physics",
-    "syllabusRef": "15",
+    "syllabusRef": "14, 16",
     "section": "Nuclear & Thermal",
     "description": "Temperature scales: Kelvin T/K = θ/°C + 273. Internal energy U = sum of KE and PE of all molecules. Specific heat capacity c: Q = mcΔT. Specific latent heat L: Q = mL (no temperature change). First law of thermodynamics: ΔU = Q + W. Ideal gas: internal energy depends only on T (no intermolecular forces). Absolute zero: molecules have minimum KE (zero for ideal gas).",
     "svgKey": "alevel-phys-thermal",
@@ -1393,7 +1393,7 @@ export const TV_ALEVEL_CAMBRIDGE = {
    {
     "id": "ideal-gases",
     "name": "Ideal Gases",
-    "syllabusRef": "16",
+    "syllabusRef": "15",
     "section": "Nuclear & Thermal",
     "description": "Ideal gas: molecules have negligible volume; no intermolecular forces; elastic collisions. pV = nRT (n = moles, R = 8.31 J mol⁻¹ K⁻¹) or pV = NkT (N = number of molecules, k = 1.38×10⁻²³ J K⁻¹). Pressure from molecular collisions with walls. Mean kinetic energy: ½m⟨c²⟩ = 3/2 kT. Root mean square speed. Boltzmann constant k = R/NA.",
     "svgKey": "alevel-phys-ideal-gases",
@@ -1416,8 +1416,8 @@ export const TV_ALEVEL_CAMBRIDGE = {
    },
    {
     "id": "circular-motion",
-    "name": "Circular Motion",
-    "syllabusRef": "17",
+    "name": "Motion in a Circle",
+    "syllabusRef": "12",
     "section": "Modern Physics",
     "description": "Angular velocity ω = Δθ/Δt = 2πf = 2π/T. Linear speed v = ωr. Centripetal acceleration a = v²/r = ω²r directed towards centre. Centripetal force F = mv²/r = mω²r. Not a separate force — provided by tension, gravity, friction, normal reaction. Examples: satellite orbits, banked tracks, conical pendulum.",
     "svgKey": "alevel-phys-circular-motion",
@@ -1442,7 +1442,7 @@ export const TV_ALEVEL_CAMBRIDGE = {
    {
     "id": "gravitational",
     "name": "Gravitational Fields",
-    "syllabusRef": "18",
+    "syllabusRef": "13",
     "section": "Modern Physics",
     "description": "Gravitational field strength g = F/m (N kg⁻¹). Newton's law of gravitation: F = Gm₁m₂/r². Field strength around a point mass: g = GM/r². Gravitational potential φ = −GM/r (negative; zero at infinity). Potential energy EP = mφ = −GMm/r. Satellite orbits: GMm/r² = mv²/r → v = √(GM/r). Kepler's third law: T² ∝ r³. Escape velocity v_esc = √(2GM/r).",
     "svgKey": "alevel-phys-gravitational",
@@ -1467,7 +1467,7 @@ export const TV_ALEVEL_CAMBRIDGE = {
    {
     "id": "oscillations",
     "name": "Oscillations",
-    "syllabusRef": "19",
+    "syllabusRef": "17",
     "section": "Modern Physics",
     "description": "Simple harmonic motion (SHM): a = −ω²x. Displacement x = A cos(ωt). Velocity v = −Aω sin(ωt); vmax = Aω. Energy: total E = ½mω²A² (constant); KE and PE interchange. Period: T = 2π/ω = 2π√(m/k) for spring; T = 2π√(l/g) for pendulum. Free, damped (light/critical/heavy), forced oscillations. Resonance: driving frequency = natural frequency; amplitude maximum.",
     "threejs3dFn": "createPendulum",
@@ -1542,7 +1542,7 @@ export const TV_ALEVEL_CAMBRIDGE = {
    {
     "id": "ac",
     "name": "Alternating Currents",
-    "syllabusRef": "22",
+    "syllabusRef": "21",
     "section": "Modern Physics",
     "description": "AC: sinusoidal variation. Peak values V₀, I₀. RMS values: Vrms = V₀/√2; Irms = I₀/√2. Mean power P = VrmsIrms = ½V₀I₀. Transformer efficiency. Rectification: half-wave (diode); full-wave (bridge rectifier). Smoothing with capacitor. Impedance of capacitor XC = 1/(ωC); inductor XL = ωL.",
     "svgKey": "alevel-phys-ac",
@@ -1566,7 +1566,7 @@ export const TV_ALEVEL_CAMBRIDGE = {
    {
     "id": "quantum",
     "name": "Quantum Physics",
-    "syllabusRef": "23",
+    "syllabusRef": "22",
     "section": "Modern Physics",
     "description": "Photoelectric effect: light as photons; E = hf; work function φ; hf = φ + ½mv²max (Einstein); threshold frequency f₀ = φ/h. de Broglie wavelength: λ = h/p = h/mv. Energy levels in atoms: electrons occupy discrete levels; photon emitted/absorbed when ΔE = hf. Line spectra evidence for discrete energy levels. Wave-particle duality. Heisenberg uncertainty principle: ΔxΔp ≥ h/4π.",
     "threejs3dFn": "createOrbital('p')",
