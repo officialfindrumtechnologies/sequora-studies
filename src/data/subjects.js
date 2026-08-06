@@ -135,10 +135,27 @@ export async function createSubjectFromTemplate({ userId, templateId, overrideLe
     position: i,
   }));
 
+  // The subject row already exists at this point, so a failure part-way through
+  // the topics used to leave it behind empty: the student saw the toast, then
+  // found a subject with nothing in it and no way to tell what went wrong.
+  // Three real subjects were in that state before this was fixed — two students,
+  // one of them stuck with an empty Anatomy since June.
+  //
+  // There is no transaction across these calls from the client, so the next best
+  // thing is to undo the subject ourselves and re-raise. Adding a subject is
+  // then all-or-nothing from the student's point of view, and retrying is safe.
   if (topicRows.length) {
-    for (let i = 0; i < topicRows.length; i += 500) {
-      const { error } = await supabase.from('topics').insert(topicRows.slice(i, i + 500));
-      if (error) throw error;
+    try {
+      for (let i = 0; i < topicRows.length; i += 500) {
+        const { error } = await supabase.from('topics').insert(topicRows.slice(i, i + 500));
+        if (error) throw error;
+      }
+    } catch (err) {
+      // Best-effort rollback. Topics first: a leftover topic row would keep the
+      // subject alive through its foreign key.
+      await supabase.from('topics').delete().eq('subject_id', subject.id);
+      await supabase.from('subjects').delete().eq('id', subject.id);
+      throw err;
     }
   }
 

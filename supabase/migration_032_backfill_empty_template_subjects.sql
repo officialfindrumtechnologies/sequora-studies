@@ -1,0 +1,29 @@
+-- Three subjects had been created from a syllabus template but held zero topic
+-- rows, so the student opened them and found nothing to track:
+--
+--   anjonn2200@gmail.com     Anatomy       created 2026-07-21  (302 expected)
+--   anjonn2200@gmail.com     Biochemistry  created 2026-07-21  ( 93 expected)
+--   nakibmdeusuf@gmail.com   anatomy       created 2026-06-15  (302 expected)
+--
+-- All three carried a valid template_id against a healthy template, so only the
+-- per-user copy was missing. Pre-existing: they predate the 2026-08-07 MBBS
+-- re-import, which only ever wrote to syllabus_templates.
+--
+-- Rows built exactly as createSubjectFromTemplate does in src/data/subjects.js —
+-- section, name, status 'notstarted', position as the template's 0-based index —
+-- so ordering matches a freshly added subject. Guarded by a zero-topic check, so
+-- re-running cannot duplicate anything.
+--
+-- NOT backfilled: nakibmdeusuf@gmail.com's "Business" subject, which has no
+-- template_id. That is a manually created subject the student fills in
+-- themselves, so empty is its correct state.
+--
+-- Executable statements are in the Supabase migration history as
+-- backfill_empty_template_subjects. Verified after: 302/93/302 topics with
+-- 9/7/9 chapters, positions 0..n-1, all notstarted, no orphan topics, no
+-- owner mismatches, and no other user's rows touched.
+--
+-- ROOT CAUSE, fixed in the same commit: createSubjectFromTemplate created the
+-- subject row first and inserted topics second, with no rollback. Any failure
+-- mid-insert left the subject behind empty. It now deletes the subject it just
+-- created before re-raising, so adding a subject is all-or-nothing.
