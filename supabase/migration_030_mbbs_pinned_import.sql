@@ -1,0 +1,37 @@
+-- Switched eight MBBS subjects to mbbs_pinned.py, the authoritative extractor.
+-- Executable statements are in the Supabase migration history as
+-- mbbs_cleanup_after_pinned_import; the import ran through
+-- tools/syllabus/import_mbbs_pinned.mjs.
+--
+-- Why pinned and not the geometric parse_mbbs.py: mbbs_pinned.py holds a
+-- hand-read chapter list per subject and ERRORS if a pinned heading cannot be
+-- found, instead of silently dropping it. The geometric parser guesses headings
+-- from type size and centring, which only works where the document typesets
+-- them that way. Anatomy is the proof: its chapter names sit in the LEFT MARGIN
+-- at body height (mid/w 0.12-0.18, height ratio 1.00), so no centring or size
+-- rule can ever find them — geometric collapses Anatomy to 3 chapters with all
+-- 345 topics in "(unsectioned)", pinned returns the real 9.
+--
+-- This also REVERTS three regressions introduced by migration_029, which had
+-- imported these subjects geometrically:
+--   Biochemistry  lost "Biophysics & Biomolecules" to a generic "Biochemistry"
+--   Forensic      lost Section 4, Section 7 and Section -08 (Forensic
+--                 Psychiatry) and gained fragments "Forensic Pathology-contt"
+--                 and "3 rd Phase"
+--   Pharmacology  gained two false chapters ("Reading, assessing and critically
+--                 analyzing clinical trial results", "Selective -blockers")
+-- Topic counts drop for those three, which is correct: the extra rows were
+-- misfiled fragments, not extra syllabus.
+--
+-- Medicine, Surgery and Obstetrics & Gynaecology stay on the geometric import.
+-- Each bundles several disciplines and their pinned lists name only three,
+-- three and two of them, while the fixed geometric parser also finds
+-- Ophthalmology, Otorhinolaryngology, SKIN & VD, Psychiatry and Paediatrics.
+-- Extending the pinned lists by hand is the proper fix and is still open.
+--
+-- Also applied to mbbs_pinned.py: the same LIST_MARKER split as parse_mbbs.py,
+-- so a numbered list nested in one Contents cell is no longer glued onto its
+-- parent (Pathology +3 topics, Microbiology +2).
+--
+-- MBBS 3,638 -> 3,494 topics. Whole tree 9,746 sub-chapters over 171 templates.
+-- Zero scaffolding, zero duplicates, zero empty names, zero "(unsectioned)".

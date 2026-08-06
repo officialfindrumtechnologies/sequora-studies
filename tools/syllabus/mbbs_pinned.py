@@ -171,6 +171,12 @@ DROP = re.compile(
 BULLET_LEAD = re.compile(r'^[\uf0b7\u2022\u25cf\uf0a7\uf0d8]')
 BULLET = re.compile(r'[\uf0b7\u2022\u25cf\uf0a7\uf0d8\s]+')
 NUMERIC = re.compile(r'^[\d\s./=%•-]*$')
+# A line opening with its own list marker starts a new sub-chapter whatever its
+# indent. Without this a numbered list nested inside one Contents cell is read as
+# wrapped text and glued onto its parent — the same defect fixed in
+# parse_mbbs.py, which produced 900-character run-on "topics" there.
+# Requires the trailing space so "1.5 mg" and "No.3" do not match.
+LIST_MARKER = re.compile(r'^(?:\d{1,2}|[ivx]{1,4}|[a-z])\s*[.)]\s+', re.I)
 HOURS_TOKEN = re.compile(r'\b(?:L|T|P|IT|C|CL)\s*=\s*\d+\b', re.I)
 # Anchored, and specific enough not to match page furniture. "Total teaching
 # hours:" is a FOOTER on every content page of Biochemistry, so an unanchored
@@ -335,7 +341,7 @@ def parse(stem, pdf):
             if ch is None or norm(t) in want:
                 continue
             b = buckets[ch]
-            if b and not starts_item(r):
+            if b and not starts_item(r) and not LIST_MARKER.match(t):
                 b[-1] = (b[-1] + ' ' + t).strip()
             else:
                 b.append(t)
