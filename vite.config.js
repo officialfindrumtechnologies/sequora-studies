@@ -108,6 +108,7 @@ export default defineConfig({
         terms: 'terms.html',
         privacy: 'privacy.html',
         refund: 'refund.html',
+        notfound: '404.html',
       }
     }
   }

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Page not found — Sequora Studies</title>
+<meta name="robots" content="noindex" />
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#080808; --surface:#141410; --border:#2a2820;
+    --text:#f0ede8; --text-dim:#888880; --muted:#585450;
+    --accent:#F2DFA8;
+    --display:"DM Serif Display",serif; --body:"Inter",sans-serif; --mono:"JetBrains Mono",monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    background:var(--bg); color:var(--text); font-family:var(--body);
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    padding:24px; -webkit-font-smoothing:antialiased; position:relative; overflow-x:hidden;
+  }
+  body::after{
+    content:""; position:absolute; right:-200px; bottom:-280px;
+    width:720px; height:720px; border-radius:50%; pointer-events:none;
+    background:radial-gradient(circle, rgba(242,223,168,.10) 0%, rgba(242,223,168,0) 70%);
+  }
+  .wrap{max-width:520px; position:relative; z-index:1}
+  .code{font-family:var(--mono); font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); margin-bottom:18px}
+  h1{font-family:var(--display); font-weight:400; font-size:clamp(34px,7vw,50px); line-height:1.1; color:var(--accent); margin-bottom:16px}
+  p{color:var(--text-dim); font-size:16px; line-height:1.65; margin-bottom:32px}
+  .row{display:flex; gap:12px; flex-wrap:wrap}
+  a.btn{
+    display:inline-block; padding:11px 20px; border-radius:8px;
+    font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase;
+    text-decoration:none; border:1px solid var(--border); color:var(--text); background:var(--surface);
+  }
+  a.btn.primary{background:var(--accent); color:#0a0a0a; border-color:var(--accent); font-weight:500}
+  a.btn:hover{border-color:var(--accent)}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="code">Error 404</div>
+    <h1>That page isn't here.</h1>
+    <p>The link may be out of date, or the address may have a typo in it. Your study data is untouched — nothing has been lost.</p>
+    <div class="row">
+      <a class="btn primary" href="/app">Go to your dashboard</a>
+      <a class="btn" href="/">Back to the homepage</a>
+    </div>
+  </div>
+</body>
+</html>
