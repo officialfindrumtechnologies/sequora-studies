@@ -25,7 +25,7 @@ export const TV_ALEVEL_CAMBRIDGE = {
     "name": "Cell Structure",
     "syllabusRef": "1",
     "section": "Cell Biology",
-    "description": "Eukaryotic cells contain membrane-bound organelles: nucleus (DNA), rough and smooth ER, Golgi apparatus, mitochondria, lysosomes, and ribosomes. Prokaryotic cells lack a nucleus and membrane-bound organelles but have a cell wall, cell membrane, 70S ribosomes, plasmids, and sometimes a capsule or pili.",
+    "description": "Eukaryotic cells contain membrane-bound organelles: nucleus (DNA), rough and smooth ER, Golgi apparatus, mitochondria and lysosomes, together with structures that are not surrounded by a membrane, such as 80S ribosomes (and centrioles in animal cells). Prokaryotic cells lack a nucleus and membrane-bound organelles but have a cell wall, cell membrane, 70S ribosomes, plasmids, and sometimes a capsule or pili.",
     "sketchfab3dId": "7fe3ac29756a45c6b678804a8da8a760",
     "svgKey": "alevel-bio-cell-structure",
     "landmarks": [
@@ -682,7 +682,7 @@ export const TV_ALEVEL_CAMBRIDGE = {
     "name": "Electrochemistry",
     "syllabusRef": "6",
     "section": "Physical Chemistry",
-    "description": "Redox: oxidation is electron loss; reduction is electron gain (OIL RIG). Electrode potentials: standard hydrogen electrode (E°=0). Electrochemical cells: E°cell = E°cathode − E°anode. Feasibility: ΔG° = −nFE°cell. Electrolysis: non-spontaneous redox driven by external current. Faraday's laws: Q = It; mass ∝ Q/molar mass × charge.",
+    "description": "Redox: oxidation is electron loss; reduction is electron gain (OIL RIG). Electrode potentials: standard hydrogen electrode (E°=0). Electrochemical cells: E°cell = E°cathode − E°anode. Feasibility: ΔG° = −nFE°cell. Electrolysis: non-spontaneous redox driven by external current. Faraday's laws: Q = It; n(e\u207b) = Q/F, so mass deposited m = QM/(zF) \u2014 mass \u221d Q \u00d7 molar mass, and inversely \u221d charge on the ion.",
     "threejs3dFn": "createMolecule('nacl')",
     "svgKey": "alevel-chem-electrochemistry",
     "landmarks": [
@@ -731,7 +731,7 @@ export const TV_ALEVEL_CAMBRIDGE = {
     "name": "Reaction Kinetics",
     "syllabusRef": "8",
     "section": "Physical Chemistry",
-    "description": "Collision theory: rate increases with collision frequency and energy. Activation energy Ea: minimum energy for reaction. Maxwell-Boltzmann distribution: temperature shifts curve, more molecules exceed Ea. Rate equation: rate = k[A]ⁿ[B]ⁿ; orders determined experimentally. Rate constant k increases with T (Arrhenius: k = Ae^{−Ea/RT}). Half-life t½. Catalysts lower Ea.",
+    "description": "Collision theory: rate increases with collision frequency and energy. Activation energy Ea: minimum energy for reaction. Maxwell-Boltzmann distribution: temperature shifts curve, more molecules exceed Ea. Rate equation: rate = k[A]\u1d50[B]\u207f; orders m and n determined experimentally. Rate constant k increases with T (Arrhenius: k = Ae^{−Ea/RT}). Half-life t½. Catalysts lower Ea.",
     "svgKey": "alevel-chem-kinetics",
     "threejs3dFn": "createCollisionAnimation",
     "landmarks": [
@@ -897,7 +897,7 @@ export const TV_ALEVEL_CAMBRIDGE = {
     "name": "Carbonyl Compounds",
     "syllabusRef": "15",
     "section": "Organic Chemistry",
-    "description": "Aldehydes (RCHO) vs ketones (RCOR'): both contain C=O. Test: Tollens' reagent (silver mirror) and Fehling's (brick red) positive for aldehydes only. Nucleophilic addition with HCN → hydroxynitrile (+NaCN; produces chiral centre). Reduction with NaBH₄ → alcohol. Reaction with 2,4-DNPH → orange precipitate (test for C=O). Carboxylic acids and acyl chlorides.",
+    "description": "Aldehydes (RCHO) vs ketones (RCOR'): both contain C=O. Test: Tollens' reagent (silver mirror) and Fehling's (brick red) positive for aldehydes only. Nucleophilic addition with HCN \u2192 hydroxynitrile (+NaCN; chiral centre formed only if the carbonyl carbon ends up bonded to four different groups \u2014 yes for ethanal/propanal, no for methanal/propanone). Reduction with NaBH₄ → alcohol. Reaction with 2,4-DNPH → orange precipitate (test for C=O). Carboxylic acids and acyl chlorides.",
     "svgKey": "alevel-chem-carbonyl-compounds",
     "landmarks": [
      "Aldehyde vs ketone",
@@ -990,7 +990,7 @@ export const TV_ALEVEL_CAMBRIDGE = {
     "name": "Analytical Techniques",
     "syllabusRef": "19",
     "section": "Analytical",
-    "description": "Mass spectrometry: M⁺ peak gives Mr; fragmentation pattern; base peak = most abundant ion (tallest, 100% relative abundance) — often, but not always, the most stable fragment. Infrared (IR) spectroscopy: functional groups absorb characteristic wavenumbers (O-H broad 2500-3300; C=O sharp ~1700; N-H 3300-3500; C-H ~3000; fingerprint region 600-1500 cm⁻¹). ¹H NMR: chemical shift δ (ppm) identifies H environment; integration; splitting (n+1 rule); TMS reference.",
+    "description": "Mass spectrometry: M⁺ peak gives Mr; fragmentation pattern; base peak = most abundant ion (tallest, 100% relative abundance) — often, but not always, the most stable fragment. Infrared (IR) spectroscopy: functional groups absorb characteristic wavenumbers (O-H broad 3200-3600 (alcohols/phenols), O-H broad 2500-3000 (carboxylic acids); C=O sharp ~1700; N-H 3300-3500; C-H ~3000; fingerprint region 600-1500 cm⁻¹). ¹H NMR: chemical shift δ (ppm) identifies H environment; integration; splitting (n+1 rule); TMS reference.",
     "svgKey": "alevel-chem-analytical",
     "landmarks": [
      "M⁺ ion (Mr)",
@@ -1348,7 +1348,7 @@ export const TV_ALEVEL_CAMBRIDGE = {
     "name": "Medical Imaging",
     "syllabusRef": "14",
     "section": "Nuclear & Thermal",
-    "description": "X-rays: produced by deceleration of electrons (bremsstrahlung) and electron transitions; attenuation I = I₀e^{−μx}; CT scans build 3D images. Ultrasound: A-scan (depth), B-scan (image); reflection at boundaries; acoustic impedance Z = ρv; intensity reflection coefficient α = (Z₁−Z₂)²/(Z₁+Z₂)². PET: annihilation → two γ-rays at 180°. MRI: proton spin in magnetic field; Larmor frequency.",
+    "description": "X-rays: produced by deceleration of electrons (bremsstrahlung) and electron transitions; attenuation I = I₀e^{−μx}; CT scans build 3D images. Ultrasound: A-scan (depth), B-scan (image); reflection at boundaries; acoustic impedance Z = ρv; intensity reflection coefficient α = (Z₁−Z₂)²/(Z₁+Z₂)². PET: annihilation \u2192 two \u03b3-rays at 180\u00b0.",
     "svgKey": "alevel-phys-medical-imaging",
     "landmarks": [
      "X-ray attenuation I = I₀e^{−μx}",

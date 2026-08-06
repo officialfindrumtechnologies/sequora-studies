@@ -1893,7 +1893,7 @@ export const TV_IB = {
     "landmarks": [
      "Semi-conservative replication (Meselson-Stahl)",
      "Helicase (unwinds)",
-     "DNA polymerase III (synthesises 5′→3′)",
+     "DNA polymerase (synthesises 5\u2032\u21923\u2032)",
      "Transcription: mRNA from DNA template",
      "RNA polymerase",
      "Codons (triplet code)",
@@ -1903,7 +1903,7 @@ export const TV_IB = {
     "examQA": [
      {
       "q": "Explain semi-conservative DNA replication.",
-      "a": "Double helix unwinds (helicase). Each original strand acts as template. Complementary nucleotides added 5′→3′ by DNA polymerase III. Each daughter molecule contains one original (parental) strand and one new strand. Proved by Meselson-Stahl experiment with ¹⁵N/¹⁴N labelling."
+      "a": "Double helix unwinds (helicase). Each original strand acts as template. Complementary nucleotides added 5\u2032\u21923\u2032 by DNA polymerase. Each daughter molecule contains one original (parental) strand and one new strand. Proved by Meselson-Stahl experiment with ¹⁵N/¹⁴N labelling."
      },
      {
       "q": "State what is meant by the genetic code being degenerate and universal.",
@@ -2064,7 +2064,7 @@ export const TV_IB = {
     "name": "3.4 Inheritance",
     "syllabusRef": "D3.2",
     "section": "D3. Continuity and change — Organisms",
-    "description": "Mendel's first law (segregation): alleles separate during gamete formation. Punnett squares predict offspring ratios. Codominance: both alleles expressed (e.g. blood type AB). Incomplete dominance: intermediate phenotype. Sex linkage: genes on X chromosome (e.g. haemophilia, colour blindness). Dihybrid crosses: 9:3:3:1 ratio (independent assortment).",
+    "description": "Mendel's first law (segregation): alleles separate during gamete formation. Punnett squares predict offspring ratios. Codominance: both alleles expressed (e.g. blood type AB). Incomplete dominance: intermediate phenotype. Sex linkage: genes on X chromosome (e.g. haemophilia, colour blindness). Pedigree charts are used to deduce genotypes and inheritance patterns in families.",
     "svgKey": "ib-bio-3-genetics",
     "landmarks": [
      "Punnett square",
@@ -2072,7 +2072,7 @@ export const TV_IB = {
      "Codominance (IA:IB blood type)",
      "Incomplete dominance (pink flowers)",
      "Sex linkage (X chromosome)",
-     "Dihybrid cross (9:3:3:1)",
+     "Pedigree charts (deducing genotypes)",
      "Autosomal vs sex-linked traits"
     ],
     "examQA": [
@@ -3437,7 +3437,7 @@ export const TV_IB = {
     "name": "13.1 First row d-block elements",
     "syllabusRef": "Structure 3.1",
     "section": "Structure 3. Classification of matter",
-    "description": "Transition metals (Sc-Zn): partially filled d subshell. Properties: variable oxidation states, coloured ions (d-d transitions), catalytic activity, form complex ions (coordination compounds). Ligands: molecules/ions that donate lone pairs to central metal ion. Coordination number: number of ligand donor atoms.",
+    "description": "First-row d-block elements are Sc\u2013Zn, but a transition element is one whose atoms or common ions have a partially filled d subshell \u2014 so Zn (3d\u00b9\u2070 in both Zn and Zn\u00b2\u207a) is a d-block element but not a transition element. Properties: variable oxidation states, coloured ions (d-d transitions), catalytic activity, form complex ions (coordination compounds). Ligands: molecules/ions that donate lone pairs to central metal ion. Coordination number: number of ligand donor atoms.",
     "svgKey": "ib-chem-13-periodicity-advanced",
     "landmarks": [
      "Partially filled d subshell (definition)",
@@ -3569,7 +3569,7 @@ export const TV_IB = {
     "examQA": [
      {
       "q": "Draw and use a Born-Haber cycle to calculate the lattice enthalpy of NaCl.",
-      "a": "ΔHf°(NaCl) = ΔHatom(Na) + ΔHatom(Cl) + ΔHie1(Na) + ΔHea(Cl) + ΔHlatt(NaCl). Rearranging: ΔHlatt = ΔHf° − ΔHatom(Na) − ΔHatom(Cl) − ΔHie1(Na) − ΔHea(Cl). Lattice enthalpy is defined as formation of 1 mol of ionic solid from gaseous ions."
+      "a": "Use the examiner's correction, but add the reconciliation a marker expects: \"\u0394Hf\u00b0(NaCl) = \u0394Hatom(Na) + \u0394Hatom(Cl) + \u0394Hie1(Na) + \u0394Hea(Cl) \u2212 \u0394Hlatt(NaCl), so \u0394Hlatt = \u0394Hatom(Na) + \u0394Hatom(Cl) + \u0394Hie1(Na) + \u0394Hea(Cl) \u2212 \u0394Hf\u00b0 = 107 + 121 + 496 + (\u2212349) \u2212 (\u2212411) = +786 kJ mol\u207b\u00b9. Lattice enthalpy in IB is the enthalpy change when 1 mol of ionic solid dissociates into gaseous ions, so it is always endothermic (positive); the small difference from the data booklet value (+790) reflects experimental vs Born\u2013Haber determination.\""
      },
      {
       "q": "Explain why MgO has a larger lattice enthalpy than NaCl.",
@@ -3599,7 +3599,7 @@ export const TV_IB = {
     "examQA": [
      {
       "q": "Predict the sign of ΔS for: CaCO₃(s) → CaO(s) + CO₂(g).",
-      "a": "ΔS > 0 (positive). A gas (CO₂) is produced from two solids. Gases have much higher entropy than solids. The number of particles increases. Entropy increases."
+      "a": "ΔS > 0 (positive). \"A gas (CO\u2082) is released from a solid reactant.\" \u2014 avoids the examiner's \"single solid reactant\" phrasing, which could be misread as implying the products contain no solid. Gases have much higher entropy than solids. The number of particles increases. Entropy increases."
      },
      {
       "q": "Calculate ΔG at 298 K for a reaction with ΔH = −100 kJ and ΔS = +200 J K⁻¹.",
@@ -3908,7 +3908,7 @@ export const TV_IB = {
     "svgKey": "ib-chem-11-3-spectroscopic",
     "landmarks": [
      "Chemical shift (δ, ppm from TMS)",
-     "Typical shifts: OH broad 10-12, CHO ~9-10, ArH ~7-8, =CH ~5-6, CH₂/CH₃ 0.5-4",
+     "Tighten the ranges to the data booklet: \"Typical shifts: COOH ~9-13 (broad), CHO ~9-10, ArH ~7-8, =CH ~5-6, R-OH/R-NH variable ~1-6 (broad, exchangeable), CH\u2082/CH\u2083 0.5-4\"",
      "Splitting pattern (n+1 rule)",
      "Singlet, doublet, triplet, quartet",
      "Integration ratio",
@@ -4210,7 +4210,7 @@ export const TV_IB = {
     "name": "4.3 Covalent structures",
     "syllabusRef": "Structure 2.2",
     "section": "Structure 2. Models of bonding and structure",
-    "description": "VSEPR theory predicts molecular geometry from electron domains. Shapes: linear (2 domains), trigonal planar (3), tetrahedral (4), trigonal bipyramidal (5), octahedral (6). Lone pairs occupy more space than bonding pairs, reducing bond angles. Molecular polarity: depends on bond polarity and shape.",
+    "description": "VSEPR theory predicts molecular geometry from electron domains. The proposed correction is sound. A marginally tighter version keeps the dataset's existing tag style: 'Shapes: linear (2 domains), trigonal planar (3), tetrahedral (4); trigonal bipyramidal (5) and octahedral (6) are HL.' Lone pairs occupy more space than bonding pairs, reducing bond angles. Molecular polarity: depends on bond polarity and shape.",
     "svgKey": "ib-chem-4-bonding",
     "landmarks": [
      "VSEPR theory (electron domains)",
@@ -4557,7 +4557,7 @@ export const TV_IB = {
     "name": "8.4 Strong and weak acids and bases",
     "syllabusRef": "Reactivity 3.1",
     "section": "Reactivity 3. What are the mechanisms of chemical change?",
-    "description": "Weak acid HA ⇌ H⁺ + A⁻. Ka = [H⁺][A⁻]/[HA]. pKa = −log Ka. Buffer solutions resist pH change: contains weak acid and its conjugate base (or weak base + conjugate acid). Henderson-Hasselbalch: pH = pKa + log([A⁻]/[HA]).",
+    "description": "Weak acid HA ⇌ H⁺ + A⁻. Rewrite the description to lead with the SL content the topic is named for and tag the rest, e.g. 'Strong acids/bases ionise essentially completely; weak acids/bases only partially: HA \u21cc H\u207a + A\u207b. At equal concentration the strong acid has lower pH, higher conductivity and faster reaction with metals/carbonates. (HL) Ka = [H\u207a][A\u207b]/[HA]; pKa = \u2212log Ka; buffer solutions resist pH change; Henderson-Hasselbalch: pH = pKa + log([A\u207b]/[HA]).' The proposed one-line fix leaves the untagged landmarks ([H\u207a] = \u221a(Ka \u00d7 c), buffer solution, buffer action) and both HL-only examQA items in place, so it fixes the quoted sentence but not the topic.: contains weak acid and its conjugate base (or weak base + conjugate acid). Henderson-Hasselbalch: pH = pKa + log([A⁻]/[HA]).",
     "svgKey": "ib-chem-8-acids-bases",
     "landmarks": [
      "Ka (acid dissociation constant)",
@@ -4643,7 +4643,7 @@ export const TV_IB = {
     "name": "9.2 Electrochemical cells",
     "syllabusRef": "Reactivity 3.2",
     "section": "Reactivity 3. What are the mechanisms of chemical change?",
-    "description": "Electrolytic cells: non-spontaneous redox reaction driven by external electricity. Electrodes: anode (oxidation), cathode (reduction). Electrolysis of NaCl(aq): Cl₂ at anode, H₂ at cathode, NaOH in solution. Faraday's laws: charge Q = It; moles of product = Q/(nF). Galvanic (voltaic) cells (SL awareness): spontaneous redox produces EMF.",
+    "description": "Electrolytic cells: non-spontaneous redox reaction driven by external electricity. Electrodes: anode (oxidation), cathode (reduction). Keep the SL core and mark the rest, e.g. 'Electrolytic cells: non-spontaneous redox driven by an external supply. Anode = oxidation, cathode = reduction; cations migrate to the cathode, anions to the anode. SL: electrolysis of molten binary ionic compounds (e.g. molten NaCl \u2192 Na at cathode, Cl\u2082 at anode). (HL) Electrolysis of aqueous solutions such as NaCl(aq) \u2014 Cl\u2082 at anode, H\u2082 at cathode, NaOH in solution \u2014 and Faraday's-law calculations: Q = It, moles of electrons = Q/F, moles of product = Q/(nF).' The two AHL landmarks and both examQA items need the same treatment; the proposed correction alone leaves them off-level. Galvanic (voltaic) cells (SL awareness): spontaneous redox produces EMF.",
     "svgKey": "ib-chem-9-redox",
     "landmarks": [
      "Electrolytic cell (external power)",
@@ -4671,7 +4671,7 @@ export const TV_IB = {
     "name": "10.1 Fundamentals of organic chemistry",
     "syllabusRef": "Structure 3.2",
     "section": "Structure 3. Classification of matter",
-    "description": "Homologous series: compounds differing by CH₂. Functional groups determine chemical properties. Nomenclature (IUPAC): longest carbon chain, prefix for substituents. Structural isomers: same molecular formula, different structural formula. Types: chain, position, functional group isomers. Stereoisomers: cis-trans (geometric), optical.",
+    "description": "Homologous series: compounds differing by CH₂. Functional groups determine chemical properties. Nomenclature (IUPAC): longest carbon chain, prefix for substituents. Structural isomers: same molecular formula, different structural formula. Types: chain, position, functional group isomers. Apply the tag to the landmarks as well as the description, since 'Cis-trans isomerism (geometric)' and 'Optical isomerism (chiral centre)' are listed untagged: description 'Stereoisomers (HL): cis-trans (geometric), optical.' plus landmarks 'Cis-trans isomerism (geometric) (HL)' and 'Optical isomerism (chiral centre) (HL)'.",
     "svgKey": "ib-chem-10-organic",
     "landmarks": [
      "Homologous series",
@@ -4790,7 +4790,7 @@ export const TV_IB = {
     "landmarks": [
      "Mass spectrometry: M⁺ peak = Mr",
      "Fragment ions (m/z values)",
-     "IR absorption: O-H (2500-3300 broad)",
+     "Use the data-booklet ranges: 'IR absorption: O-H alcohol (3200-3600 broad), O-H carboxylic acid (2500-3000 very broad)'. Note that adopting 2500-3000 leaves the topic's examQA stem quoting 'a broad peak at 2500\u20133300 cm\u207b\u00b9', so update that stem to 2500\u20133000 at the same time, otherwise the fix trades one internal mismatch for another.",
      "C=O (1700-1750)",
      "N-H (3300-3500)",
      "¹H NMR: chemical shift (environment)",
@@ -5723,7 +5723,7 @@ export const TV_IB = {
     "name": "10.1 Describing fields",
     "syllabusRef": "D.1",
     "section": "D. Fields",
-    "description": "Gravitational field: g = −GM/r² (radial, attractive). Electric field: E = kQ/r² (radial, repulsive for like charges). Field lines show direction and strength (density). Potential: V_grav = −GM/r; V_elec = kQ/r. Equipotential surfaces ⊥ to field lines. Work done moving charge from A to B = q(V_A − V_B).",
+    "description": "Gravitational field: g = −GM/r² (radial, attractive). Electric field: E = kQ/r² (radial, repulsive for like charges). Field lines show direction and strength (density). Potential: V_grav = −GM/r; V_elec = kQ/r. Equipotential surfaces ⊥ to field lines. Work done by the field moving a charge from A to B = q(V_A \u2212 V_B); work done against the field (by an external agent) = q\u0394V = q(V_B \u2212 V_A).",
     "svgKey": "ib-phys-10-fields",
     "landmarks": [
      "Gravitational field g = GM/r²",
@@ -5753,7 +5753,7 @@ export const TV_IB = {
     "name": "10.2 Fields at work",
     "syllabusRef": "D.1",
     "section": "D. Fields",
-    "description": "Escape speed v_esc = √(2GM/R). Orbital speed v_orb = √(GM/r). Relationship between E and V for gravitational/electric fields. Orbital energy: E_total = Ek + Ep = −GMm/2r (negative = bound). Potential well diagrams. Equipotential surfaces. Capacitor: C = Q/V; W = ½CV² = Q²/2C.",
+    "description": "Escape speed v_esc = √(2GM/R). Orbital speed v_orb = √(GM/r). Relationship between E and V for gravitational/electric fields. Orbital energy: E_total = Ek + Ep = −GMm/2r (negative = bound). Potential well diagrams. Equipotential surfaces.",
     "svgKey": "ib-phys-10-fields",
     "landmarks": [
      "Escape speed v = √(2GM/R)",
@@ -6270,7 +6270,7 @@ export const TV_IB = {
     "name": "4.3 Wave characteristics",
     "syllabusRef": "C.3",
     "section": "C. Wave behaviour",
-    "description": "Superposition principle: resultant displacement = sum of individual displacements. Constructive interference: path difference = nλ. Destructive interference: path difference = (n+½)λ. Wavefronts and rays. Huygens' principle. Polarisation: transverse waves only; polariser transmits one plane. Malus's law: I = I₀ cos²θ.",
+    "description": "Superposition principle: resultant displacement = sum of individual displacements. Constructive interference: path difference = nλ. Destructive interference: path difference = (n+½)λ. Wavefronts and rays. Huygens' principle. Two-source interference requires coherent sources with a constant phase difference; the path difference at each point fixes whether superposition is constructive or destructive.",
     "svgKey": "ib-phys-4-waves",
     "landmarks": [
      "Superposition principle",
@@ -6280,7 +6280,7 @@ export const TV_IB = {
      "Wavefronts and Huygens' principle",
      "Polarisation (transverse waves only)",
      "Polariser and analyser",
-     "Malus's law I = I₀cos²θ"
+     "Replace all three withdrawn tags with two current C.3 tags: \"Coherent sources (constant phase difference)\" and \"Path difference \u2192 phase difference\"."
     ],
     "examQA": [
      {
@@ -6288,7 +6288,7 @@ export const TV_IB = {
       "a": "Constructive: path difference = nλ (n = 0,1,2,...); waves arrive in phase → amplitude adds. Destructive: path difference = (n+½)λ; waves arrive 180° out of phase → amplitude cancels. For sound/light from two coherent sources."
      },
      {
-      "q": "Polarised light of intensity I₀ passes through an analyser at 60° to polariser. Find I.",
+      "q": "Two sources emit waves of wavelength 0.60 m. Explain why a stable interference pattern is observed only if the sources are coherent, and determine the type of interference at a point 4.2 m from one source and 5.4 m from the other. (Answer: coherent sources keep a constant phase difference, so the pattern does not shift or average out over time. Path difference = 5.4 \u2212 4.2 = 1.2 m = 2\u03bb; a whole number of wavelengths means the waves arrive in phase, so the interference is constructive.)",
       "a": "Malus's law: I = I₀ cos²θ = I₀ cos²60° = I₀ × (0.5)² = 0.25 I₀."
      }
     ],
@@ -6508,7 +6508,7 @@ export const TV_IB = {
     "name": "6.2 Newton's law of gravitation",
     "syllabusRef": "D.1",
     "section": "D. Fields",
-    "description": "Newton's universal law: F = Gm₁m₂/r². G = 6.67×10⁻¹¹ N m² kg⁻². Gravitational field strength g = GM/r² (= F/m). Orbital mechanics: for circular orbit, F_grav = F_centripetal. Escape speed: v_esc = √(2GM/R). Kepler's third law: T² ∝ r³.",
+    "description": "Newton's universal law: F = Gm₁m₂/r². G = 6.67×10⁻¹¹ N m² kg⁻². Gravitational field strength g = GM/r² (= F/m). Orbital mechanics: for circular orbit, F_grav = F_centripetal. Kepler's first law: planets move in ellipses with the Sun at one focus. Kepler's second law: a line from the Sun to a planet sweeps equal areas in equal times. Kepler's third law: T² ∝ r³.",
     "svgKey": "ib-phys-6-circular-gravitation",
     "landmarks": [
      "Newton's law F = Gm₁m₂/r²",
@@ -6518,7 +6518,7 @@ export const TV_IB = {
      "Period from circular orbit T² ∝ r³",
      "Kepler's third law",
      "Escape speed v_esc = √(2GM/R)",
-     "Gravitational potential energy Ep = −GMm/r"
+     "Field lines: radial and directed towards the mass; line density indicates field strength"
     ],
     "examQA": [
      {
@@ -6538,12 +6538,12 @@ export const TV_IB = {
     "name": "7.1 Discrete energy and radioactivity",
     "syllabusRef": "E.1",
     "section": "E. Nuclear and quantum physics",
-    "description": "Discrete atomic energy levels: atoms absorb and emit specific photon energies. E = hf = hc/λ. Photoelectric effect: E_photon = hf = φ + Ek_max. Emission and absorption spectra. Radioactive decay: alpha (α, ⁴₂He), beta− (β⁻, e⁻), gamma (γ). Activity A = λN. Half-life t½ = ln2/λ. N = N₀e^(−λt).",
+    "description": "Discrete atomic energy levels: atoms absorb and emit specific photon energies. E = hf = hc/λ. Photon emission or absorption accompanies a transition between two atomic energy levels: hf = E\u2082 \u2212 E\u2081, so E = hf = hc/\u03bb. Emission and absorption spectra. Radioactive decay: alpha (α, ⁴₂He), beta− (β⁻, e⁻), gamma (γ). Activity A = λN. Half-life t½ = ln2/λ. N = N₀e^(−λt).",
     "svgKey": "ib-phys-7-atomic-nuclear",
     "landmarks": [
      "Discrete energy levels",
      "E = hf (photon energy)",
-     "Photoelectric effect: φ + Ek = hf",
+     "Photon energy from level transitions: \u0394E = hf",
      "Emission vs absorption spectra",
      "Alpha decay (α: ⁴₂He, short range)",
      "Beta decay (β⁻: electron, medium range)",
@@ -6552,7 +6552,7 @@ export const TV_IB = {
     ],
     "examQA": [
      {
-      "q": "Light of frequency 8×10¹⁴ Hz hits a metal with work function 2.5 eV. Find max Ek of electrons.",
+      "q": "An electron in a hydrogen atom drops from the \u22123.40 eV level to the \u221213.6 eV level. Calculate the wavelength of the emitted photon. (Answer: \u0394E = 13.6 \u2212 3.40 = 10.2 eV = 10.2 \u00d7 1.6\u00d710\u207b\u00b9\u2079 = 1.63\u00d710\u207b\u00b9\u2078 J. \u03bb = hc/\u0394E = 6.63\u00d710\u207b\u00b3\u2074 \u00d7 3.00\u00d710\u2078 / 1.63\u00d710\u207b\u00b9\u2078 = 1.22\u00d710\u207b\u2077 m = 122 nm.)",
       "a": "E_photon = hf = 6.63×10⁻³⁴ × 8×10¹⁴ = 5.3×10⁻¹⁹ J = 3.31 eV. Ek_max = hf − φ = 3.31 − 2.5 = 0.81 eV."
      },
      {

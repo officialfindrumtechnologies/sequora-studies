@@ -913,8 +913,8 @@ export const TV_ALEVEL_EDEXCEL = {
     ],
     "examQA": [
      {
-      "q": "A compound gives a ¹H NMR spectrum with three peaks in ratio 3:2:1 at δ 1.2, 4.1, and 11.5 ppm. Identify the compound.",
-      "a": "δ 1.2 (ratio 3): CH₃ group. δ 4.1 (ratio 2): CH₂ next to electronegative group (like O). δ 11.5 (ratio 1): COOH proton (exchangeable, removed by D₂O shake). Pattern 3:2:1 → CH₃-CH₂-COOH = propanoic acid. The 3 equivalent CH₃ protons split the CH₂ signal into a quartet; CH₂ protons split the CH₃ signal into a triplet (n+1 rule). COOH proton appears as a singlet, broad."
+      "q": "A compound gives a ¹H NMR spectrum with three peaks in ratio 3:2:1 at \u03b4 1.2, 2.4, and 11.5 ppm. Identify the compound.",
+      "a": "δ 1.2 (ratio 3): CH₃ group. \u03b4 2.4 (ratio 2): CH\u2082 adjacent to the C=O of a carboxylic acid. δ 11.5 (ratio 1): COOH proton (exchangeable, removed by D₂O shake). Pattern 3:2:1 → CH₃-CH₂-COOH = propanoic acid. The 3 equivalent CH₃ protons split the CH₂ signal into a quartet; CH₂ protons split the CH₃ signal into a triplet (n+1 rule). COOH proton appears as a singlet, broad."
      }
     ],
     "wikiUrl": "https://en.wikipedia.org/wiki/Nuclear_magnetic_resonance_spectroscopy"

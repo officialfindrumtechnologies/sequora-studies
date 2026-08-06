@@ -356,7 +356,7 @@ export const TV_IGCSE_CAMBRIDGE = {
      },
      {
       "q": "Name the substance that makes the alveolar surface moist and state its importance.",
-      "a": "A thin film of water (tissue fluid) secreted by the alveolar lining keeps the surface moist. This is important because gases must dissolve before they can diffuse across the membrane, and it reduces surface tension preventing alveolar collapse."
+      "a": "A thin film of water (tissue fluid) secreted by the alveolar lining keeps the surface moist. This is important because gases must dissolve before they can diffuse across the membrane, Prefer deleting the off-syllabus clause rather than expanding it: \"A thin film of water (tissue fluid) secreted by the alveolar lining keeps the surface moist. This is important because gases must dissolve before they can diffuse across the membrane.\" If the surface-tension point is kept, the examiner's wording (surfactant lowers the tension of the water film) is correct.."
      }
     ],
     "wikiUrl": "https://en.wikipedia.org/wiki/Pulmonary_alveolus"
@@ -492,7 +492,7 @@ export const TV_IGCSE_CAMBRIDGE = {
      },
      {
       "q": "Describe the process of fertilisation in flowering plants.",
-      "a": "Pollen grain lands on the stigma (pollination). The pollen tube grows down the style into the ovary. The male gamete nucleus travels down the pollen tube to the ovule. The male gamete fuses with the female gamete (egg cell) in the ovule — this is fertilisation. A zygote forms, which develops into the seed."
+      "a": "Pollen grain lands on the stigma (pollination). The pollen tube grows down the style into the ovary. The male gamete nucleus travels down the pollen tube to the ovule. The male gamete fuses with the female gamete (egg cell) in the ovule — this is fertilisation. A zygote forms, which divides by mitosis to form the embryo; the ovule then develops into the seed (and the ovary into the fruit)."
      },
      {
       "q": "State the advantages of asexual reproduction.",
@@ -1132,7 +1132,7 @@ export const TV_IGCSE_CAMBRIDGE = {
     "name": "Polymers",
     "syllabusRef": "11",
     "section": "Organic Chemistry",
-    "description": "Polymers are large molecules made from repeating monomer units. Addition polymerisation joins monomers with C=C bonds (alkenes) without forming by-products. Condensation polymerisation joins monomers with –OH and –COOH groups, releasing water. Nylon and polyesters are condensation polymers.",
+    "description": "Polymers are large molecules made from repeating monomer units. Addition polymerisation joins monomers with C=C bonds (alkenes) without forming by-products. Condensation polymerisation joins monomers that each carry two functional groups, releasing a small molecule (usually water) at every link. A diol and a dicarboxylic acid (\u2013OH + \u2013COOH) give a polyester (ester linkage); a diamine and a dicarboxylic acid (\u2013NH\u2082 + \u2013COOH) give a polyamide such as nylon (amide linkage).",
     "svgKey": "chem-polymers",
     "threejs3dFn": "createPolymerChain",
     "landmarks": [
@@ -1250,7 +1250,7 @@ export const TV_IGCSE_CAMBRIDGE = {
     "name": "Motion",
     "syllabusRef": "1.2",
     "section": "Forces & Motion",
-    "description": "Speed is distance/time; velocity is displacement/time (vector). Acceleration = change in velocity/time. Distance-time graphs: gradient = speed. Velocity-time graphs: gradient = acceleration; area under graph = distance. Uniform acceleration is described by the equations of motion (SUVAT).",
+    "description": "Speed is distance/time; velocity is displacement/time (vector). Acceleration = change in velocity/time. Distance-time graphs: gradient = speed. Velocity-time graphs: gradient = acceleration; area under graph = distance. Uniform acceleration appears as a straight sloping line on a velocity-time graph, where the constant gradient gives a = change in velocity / time taken.",
     "svgKey": "phys-motion",
     "threejs3dFn": "createMotionAnimation",
     "landmarks": [
@@ -1261,7 +1261,7 @@ export const TV_IGCSE_CAMBRIDGE = {
      "Velocity-time graph",
      "Gradient (slope)",
      "Area under v-t graph = distance",
-     "SUVAT equations",
+     "Deceleration (negative gradient)",
      "Terminal velocity"
     ],
     "examQA": [
