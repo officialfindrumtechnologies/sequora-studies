@@ -1,0 +1,31 @@
+-- Re-imported six MBBS subjects from the fixed parse_mbbs.py, then re-applied
+-- the migration_026 cleanup (the parser emits raw output — it does not dedupe,
+-- and it still captures the phase/lecture markers that sit inside the Contents
+-- column). Executable statements are in the Supabase migration history as
+-- mbbs_recleanup_after_reimport; the import itself ran through
+-- tools/syllabus/reimport_mbbs.mjs.
+--
+--   Medicine                        554 -> 844 topics,  3 -> 9 chapters
+--   Obstetrics & Gynaecology        208 -> 485 topics,  2 -> 12 chapters
+--   Surgery                         329 -> 503 topics,  3 -> 5 chapters
+--   Pharmacology & Therapeutics     121 -> 226 topics,  4 -> 5 chapters
+--   Forensic Medicine & Toxicology  249 -> 278 topics, 11 chapters
+--   Biochemistry                     93 -> 120 topics,  7 chapters
+--
+-- FIVE SUBJECTS WERE DELIBERATELY NOT RE-IMPORTED. For these the parser still
+-- produces a worse tree than the rows already stored, and running it over them
+-- would have destroyed real structure. Measured before importing:
+--
+--   Anatomy             9 real chapters -> 3, all 345 topics in "(unsectioned)"
+--   Pathology           4 chapters -> 1
+--   Physiology          loses "Physiology of Special Senses", 173 -> 156
+--   Community Medicine  loses Medical Entomology, Occupational Health and
+--                       Public Health Nutrition, 191 -> 155
+--   Microbiology        loses "Virology", 198 -> 189
+--
+-- Their rows are byte-identical to before. Re-running reimport_mbbs.mjs will
+-- not touch them; it carries the same six-subject allow-list and the reasoning.
+--
+-- MBBS total 2,736 -> 3,638 topics. Whole tree 8,896 -> 9,890 sub-chapters
+-- across 171 templates. Zero scaffolding entries, zero duplicates, zero empty
+-- names, zero topics without a chapter.
