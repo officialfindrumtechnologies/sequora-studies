@@ -108,19 +108,37 @@ CHAPTERS = {
     # the document declares them with its own "Learning Objectives and Course
     # Contents in X" headings. Those are the anchors; RENAME gives them names
     # a student would recognise.
+    # Medicine bundles five disciplines. Only three announce themselves with the
+    # "Learning Objectives and Course Contents in X" heading; Paediatrics (p66,
+    # 18pt) and Physical Medicine (p42, 14.4pt) use a bare centred title, so they
+    # are pinned by that title instead. Without them their content was silently
+    # filed under whichever discipline came before.
     '14.Medicine': [
         'Learning Objectives and Course Contents in Medicine',
         'Learning Objectives and Course Contents in SKIN & VD (lectures)',
         'Learning Objectives and Course Contents in Psychiatry',
+        'Physical Medicine & Rehabilitation',
+        'Paediatrics',
     ],
+    # Surgery bundles five. Neurosurgery (p24, 18pt) and Orthopaedics (p25,
+    # 16.2pt) are announced by a bare centred title rather than the
+    # "Learning Objectives..." form.
     '15.Surgery': [
         'Learning Objectives and Course Contents in Surgery',
+        'Neurosurgery (1wk)',
+        'ORTHOPAEDIC & TRAUMATOLOGY',
         'Learning Objectives and Course Contents in ophthalmology',
         'Learning Objectives and Course Contents in Otorhinolaryngology & Head-Neck Surgery',
     ],
+    # Beyond the two lecture series, the document teaches Basic Clinical Skills
+    # and a Family Planning Course as their own components with their own
+    # contents tables. Note the heading is "4TH YEAR" with no space — the
+    # bbox layer renders it spaced, the text layer does not.
     '16.ObsGynae': [
         'Learning Objectives and Course Contents in Obstetrics',
         'Learning Objectives and Course Contents in Gynaecology',
+        '4 TH YEAR BASIC CLINICAL SKILLS',
+        'Family Planning Course',
     ],
 }
 
@@ -129,9 +147,13 @@ RENAME = {
         'Learning Objectives and Course Contents in Medicine': 'Medicine',
         'Learning Objectives and Course Contents in SKIN & VD (lectures)': 'Skin & Venereal Diseases',
         'Learning Objectives and Course Contents in Psychiatry': 'Psychiatry',
+        'Physical Medicine & Rehabilitation': 'Physical Medicine & Rehabilitation',
+        'Paediatrics': 'Paediatrics',
     },
     '15.Surgery': {
         'Learning Objectives and Course Contents in Surgery': 'Surgery',
+        'Neurosurgery (1wk)': 'Neurosurgery',
+        'ORTHOPAEDIC & TRAUMATOLOGY': 'Orthopaedics & Traumatology',
         'Learning Objectives and Course Contents in ophthalmology': 'Ophthalmology',
         'Learning Objectives and Course Contents in Otorhinolaryngology & Head-Neck Surgery':
             'Otorhinolaryngology & Head-Neck Surgery',
@@ -139,6 +161,8 @@ RENAME = {
     '16.ObsGynae': {
         'Learning Objectives and Course Contents in Obstetrics': 'Obstetrics',
         'Learning Objectives and Course Contents in Gynaecology': 'Gynaecology',
+        '4 TH YEAR BASIC CLINICAL SKILLS': 'Basic Clinical Skills',
+        'Family Planning Course': 'Family Planning Course',
     },
     '11.Pathology': {
         'Term I A- General Pathology, Haematolymphoid System (Term-1A)':
@@ -326,7 +350,13 @@ def parse(stem, pdf):
         # pages BETWEEN their disciplines, so halting on the first one left
         # Skin & VD, Psychiatry, Ophthalmology and ENT completely empty.
         # Extraction only ends once the last pinned chapter has been passed.
-        if any(STOP.search(r['t']) for r in rows):
+        # A STOP phrase only ends extraction when it TITLES the page. Medicine
+        # prints "Marks distribution:" partway down p68, in the middle of the
+        # Paediatrics section, with fifteen more pages of Paediatrics contents
+        # tables after it — matching anywhere on the page ended extraction there
+        # and left Paediatrics empty. Administrative sections announce
+        # themselves at the top, so only the opening lines are considered.
+        if any(STOP.search(r['t']) for r in rows[:3]):
             if anchors and pi > anchors[-1][0]:
                 stopped = True
             continue
