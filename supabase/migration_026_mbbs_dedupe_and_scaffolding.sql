@@ -1,0 +1,34 @@
+-- BMDC MBBS templates: remove parse residue without touching real content.
+-- Executable statement is in the Supabase migration history as
+-- mbbs_dedupe_and_drop_scaffolding.
+--
+-- 1. Teaching-structure markers captured as topics. The BM&DC curriculum is a
+--    three-column landscape table and the contents column interleaves phase
+--    markers with numbered syllabus items. Verified against the real source
+--    (bmdc.org.bd/docs/curriculum/2021/15.Surgery.pdf, now cached at
+--    tools/syllabus/bmdc/): "Phase III" sits between "11. Shock" and
+--    "12. Metabolic response to injury" as a heading separating teaching
+--    phases, not as a topic. Same for Tutorials / Lectures / Practicals /
+--    Integrated teaching / Total.
+--
+-- 2. Exact duplicates — identical section+name repeated inside one subject.
+--    First occurrence kept, original order preserved.
+--
+-- Result: 2,677 -> 2,625 topics (52 removed).
+--   Surgery 278->262, Medicine 568->554, Pharmacology 126->117,
+--   Obs & Gynae 175->168, Forensic 252->249, Microbiology 200->198,
+--   Pathology 319->318. Anatomy, Biochemistry, Community Medicine and
+--   Physiology were already clean.
+--
+-- SAFETY PROOF: every distinct (section, name) pair in the pre-change snapshot
+-- was re-checked against the result. Exactly 8 distinct pairs disappeared
+-- entirely, and all 8 are scaffolding labels (Total, Lectures, Lectures:,
+-- Phase II, Phase III, Phase IV, Tutorials). Non-scaffold pairs lost: ZERO.
+--
+-- NOT touched, deliberately:
+--   * entries merely ending in a colon ("Orbit:", "Cornea and sclera:") — real
+--     headings that only look untidy;
+--   * short names ("AIDS", "Malaria", "Tetanus") — genuine topics;
+--   * 78 over-long entries (3%), of which 12 are multi-topic merges where the
+--     parser's column detection failed. Splitting those is a parser fix, not a
+--     SQL string operation, and is still open.
