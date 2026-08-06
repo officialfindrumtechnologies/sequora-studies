@@ -1,0 +1,17 @@
+-- Edexcel IGCSE Accounting (4AC1) had specification front-matter parsed in as
+-- syllabus topics. Students tracking this subject saw entries like
+-- "42. For information about Edexcel, BTEC or LCCI qualifications Registered
+-- Office: 80 Strand, London WC2R 0RL", "28. Candidate malpractice", and
+-- bibliography lines (OECD 2012, Koenig 2011) listed as things to study.
+--
+-- 11 wholly-junk entries deleted; 4 entries that were a real subtopic title with
+-- front-matter glued on the end were truncated back to the real title.
+-- 35 topics -> 24, all genuine, across the 5 real chapters.
+--
+-- STILL OPEN: "Topic 5: Accounting for end of period adjustments" parsed almost
+-- entirely as garbage, so beyond the 4 recovered subtopics its real content is
+-- missing. 4AC1 needs re-parsing from the Pearson specification, or removing.
+-- It already carries no past-paper links for the same underlying reason.
+--
+-- Applied 2026-08-06; the executable statement is recorded in the Supabase
+-- migration history under clean_4ac1_pdf_frontmatter.
