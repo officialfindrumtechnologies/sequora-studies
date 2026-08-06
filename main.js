@@ -6866,6 +6866,37 @@ window.openTopicVisualModal = async function(tvKey, topicId) {
     document.getElementById('tv-syllabus').insertAdjacentElement('afterend', btn3d);
   }
 
+  // ── MBBS clinical content is withheld pending qualified review ────────────
+  //
+  // The Visualizer's descriptions, key concepts and exam answers are generated,
+  // not sourced. A content audit on 2026-08-05 fact-checked 31 of 33 subjects
+  // and found ~200 errors; the MBBS ones included isoniazid classed as a CYP450
+  // inducer (it is an inhibitor), ACE inhibitors called "safe in 1st trimester",
+  // postpartum DVT anticoagulation given as 6 weeks against a 3-month minimum,
+  // and three invented eponyms presented as established terminology.
+  //
+  // A wrong mark in IGCSE Biology costs a grade. A medical student who
+  // internalises the wrong CYP450 direction can hurt somebody. Those are not
+  // the same risk, so this content stays closed until a doctor has reviewed it.
+  //
+  // The BMDC syllabus tree itself is unaffected and still tracked — it is parsed
+  // from bmdc.org.bd and is not generated. Only this generated layer is gated.
+  if (tvKey.startsWith('mbbs_')) {
+    document.getElementById('tv-body').innerHTML = `
+      <div class="tv-gate">
+        <div class="tv-gate-title">Clinical content under review</div>
+        <p>The written explanations and exam answers for MBBS subjects are not
+        published yet. They were drafted with AI assistance, and our own audit
+        found factual errors serious enough that we will not put them in front
+        of medical students before a qualified doctor has checked them.</p>
+        <p>Your syllabus tracking, topics and progress are unaffected — the BMDC
+        curriculum itself comes from the official BMDC documents, not from
+        generated content.</p>
+      </div>`;
+    modal.classList.remove('hidden');
+    return;
+  }
+
   const svg = topic.svgKey && TOPIC_SVGS[topic.svgKey] ? TOPIC_SVGS[topic.svgKey] : '';
   const lmHtml = (topic.landmarks || []).map(l => `<span class="tv-lm-tag">${l}</span>`).join('');
   const qaHtml = (topic.examQA || []).map((qa, i) => `
@@ -6894,6 +6925,10 @@ window.openTopicVisualModal = async function(tvKey, topicId) {
       ${lmHtml ? `<div><div class="tv-landmarks-label">Key concepts</div><div class="tv-landmarks">${lmHtml}</div></div>` : ''}
       ${qaHtml ? `<div><div class="tv-qa-label">Exam Q&amp;A</div><div class="tv-qa">${qaHtml}</div></div>` : ''}
       ${topic.wikiUrl ? `<a class="tv-wiki-link" href="${topic.wikiUrl}" target="_blank" rel="noopener">↗ Wikipedia</a>` : ''}
+      <p class="tv-provenance">Study aid, not a source. These notes and answers
+      were written with AI assistance and are not taken from your exam board's
+      published material. Check anything that decides an answer against your own
+      syllabus and textbook.</p>
     </div>
     ${has3d ? `<div id="tv-3d-view" class="hidden">${view3dHtml}<div class="tv-3d-back-row"><button class="bone-diag-back" onclick="tvBack2D()">← Back to diagram</button></div></div>` : ''}
   `;
