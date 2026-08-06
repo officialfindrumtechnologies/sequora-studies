@@ -220,7 +220,9 @@ export async function refreshSubjectFromTemplate(subjectId) {
   // the 14 the old list was missing.
   const { data: existing, error: exErr } = await supabase
     .from('topics')
-    .select('name, section, status, ready_at, last_recall, recall_reps')
+    // position is selected only so the rollback below can put the rows back in
+    // the order the student had them.
+    .select('name, section, status, position, ready_at, last_recall, recall_reps')
     .eq('subject_id', subject.id);
   if (exErr) throw exErr;
 
@@ -247,6 +249,11 @@ export async function refreshSubjectFromTemplate(subjectId) {
   let preserved = 0;
 
   const rows = (tmpl.topics || []).map((t, i) => {
+    // Every row must carry the SAME keys. PostgREST unions the keys across an
+    // inserted array and sends NULL for any a row is missing — it does not fall
+    // back to the column default. Omitting recall_reps on unmatched rows
+    // therefore violated its NOT NULL constraint and failed the whole insert,
+    // after the delete had already run.
     const base = {
       user_id: subject.user_id,
       subject_id: subject.id,
@@ -254,6 +261,9 @@ export async function refreshSubjectFromTemplate(subjectId) {
       name: t.name,
       status: 'notstarted',
       position: i,
+      ready_at: null,
+      last_recall: null,
+      recall_reps: 0,
     };
 
     let prior = byPair.get(norm(t.section) + ' ' + norm(t.name));
@@ -272,12 +282,36 @@ export async function refreshSubjectFromTemplate(subjectId) {
   });
   if (!rows.length) throw new Error('That syllabus has no topics to copy');
 
+  // The delete has to precede the insert, so a failure here would leave the
+  // student with an empty subject and their progress gone. That is not
+  // hypothetical: a missing column on the insert wiped 61 topics during
+  // testing. Keep the originals and put them back if anything goes wrong.
+  const restore = (existing || []).map((t, i) => ({
+    user_id: subject.user_id,
+    subject_id: subject.id,
+    section: t.section ?? null,
+    name: t.name,
+    status: t.status,
+    position: t.position ?? i,
+    ready_at: t.ready_at ?? null,
+    last_recall: t.last_recall ?? null,
+    recall_reps: t.recall_reps ?? 0,
+  }));
+
   const { error: delErr } = await supabase.from('topics').delete().eq('subject_id', subject.id);
   if (delErr) throw delErr;
 
-  for (let i = 0; i < rows.length; i += 500) {
-    const { error } = await supabase.from('topics').insert(rows.slice(i, i + 500));
-    if (error) throw error;
+  try {
+    for (let i = 0; i < rows.length; i += 500) {
+      const { error } = await supabase.from('topics').insert(rows.slice(i, i + 500));
+      if (error) throw error;
+    }
+  } catch (err) {
+    await supabase.from('topics').delete().eq('subject_id', subject.id);
+    for (let i = 0; i < restore.length; i += 500) {
+      await supabase.from('topics').insert(restore.slice(i, i + 500));
+    }
+    throw err;
   }
 
   await supabase.from('subjects')
