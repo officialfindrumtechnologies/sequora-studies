@@ -279,6 +279,7 @@ body.theme-midnight{
       <div class="nav-item" data-sec="content">Content Stats</div>
       <div class="nav-item" data-sec="errors">Error Reports <span class="nav-badge" id="err-badge" style="display:none"></span></div>
       <div class="nav-item" data-sec="crashes">Crashes <span class="nav-badge" id="crash-badge" style="display:none"></span></div>
+      <div class="nav-item" data-sec="cron">Cron <span class="nav-badge" id="cron-badge" style="display:none"></span></div>
       <div class="nav-item" data-sec="feedback">Cashback <span class="nav-badge" id="fb-badge" style="display:none"></span></div>
       <div class="nav-item" data-sec="questions">Question Bank</div>
       <div class="nav-item" data-sec="notifications">Notifications</div>
@@ -563,6 +564,27 @@ body.theme-midnight{
         automatically when a signed-in student's browser throws.
       </div>
       <div id="crash-list"></div>
+    </section>
+
+    <!-- Cron: did the scheduled jobs actually run? Vercel keeps runtime logs
+         about an hour on Hobby and the Resend key is send-only, so once a
+         morning passed there was no way to tell. Every invocation now writes a
+         row; this reads them back. -->
+    <section id="sec-cron" class="section">
+      <div class="section-title">Cron</div>
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap">
+        <select id="cron-window" onchange="loadCron()" style="padding:6px 10px">
+          <option value="2">Last 48 hours</option>
+          <option value="14" selected>Last 14 days</option>
+          <option value="30">Last 30 days</option>
+          <option value="90">Last 90 days</option>
+        </select>
+        <button class="btn" onclick="loadCron()">Refresh</button>
+        <span id="cron-summary" class="muted" style="font-size:12px"></span>
+      </div>
+      <div id="cron-jobs"></div>
+      <div class="section-title" style="margin-top:26px;font-size:14px">Recent runs</div>
+      <div id="cron-runs"></div>
     </section>
 
     <section id="sec-errors" class="section">
@@ -1030,6 +1052,7 @@ function showSection(sec) {
       case 'content':       loadContent(); break;
       case 'errors':        loadErrors(); break;
       case 'crashes':       loadCrashes(); break;
+      case 'cron':          loadCron(); break;
       case 'feedback':      loadFeedbackSettings(); loadFeedback(); break;
       case 'questions':     loadQuestionBank(); break;
       case 'notifications': loadNotifications(); break;
@@ -1688,6 +1711,141 @@ function crashBrowser(ua) {
 window.crashToggle = function (i) {
   const el = document.getElementById('crash-detail-' + i);
   if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+};
+
+/* ── CRON ──────────────────────────────────────────────────────────────────
+   Whether the scheduled jobs run was unanswerable for a week: Vercel keeps
+   runtime logs about an hour on Hobby, the Resend key is send-only so delivery
+   cannot be queried back, and expiry-check writes nothing when nothing is
+   expiring. Every window closed before anyone asked. public.cron_runs now takes
+   a row per invocation and this reads it back.
+
+   Two distinctions the panel has to keep straight, because getting either wrong
+   answers the question in the falsely reassuring direction:
+
+     * a dry run proves the endpoint is reachable, NOT that the schedule fired,
+       so dry runs are counted separately and never set the "last run";
+     * nothing logged is not the same as failed. Before a job's first scheduled
+       run since logging began there is simply no observation, and the row says
+       "not observed yet" rather than showing red. */
+
+window.cronToggle = function (i) {
+  const el = document.getElementById('cron-detail-' + i);
+  if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+};
+
+// What a run actually did, pulled from the handler's own JSON. Saying "ok" for
+// daily-nudge is useless on its own — sent:0 is healthy on a day when nobody
+// was due, and indistinguishable from a broken mailer unless the count shows.
+function cronOutcome(result) {
+  if (!result || typeof result !== 'object') return '';
+  const bits = [];
+  if (typeof result.sent === 'number')      bits.push(result.sent + ' sent');
+  if (typeof result.wouldSend === 'number') bits.push(result.wouldSend + ' would send');
+  if (typeof result.skipped === 'number')   bits.push(result.skipped + ' skipped');
+  if (typeof result.processed === 'number') bits.push(result.processed + ' processed');
+  if (typeof result.expired === 'number')   bits.push(result.expired + ' expired');
+  if (Array.isArray(result.errors) && result.errors.length) bits.push(result.errors.length + ' errors');
+  return bits.join(' · ');
+}
+
+window.loadCron = async function () {
+  const jobsEl = document.getElementById('cron-jobs');
+  const runsEl = document.getElementById('cron-runs');
+  const summary = document.getElementById('cron-summary');
+  const days = document.getElementById('cron-window')?.value || '14';
+  jobsEl.innerHTML = '<div class="muted" style="padding:18px">Loading…</div>';
+  runsEl.innerHTML = '';
+
+  let data;
+  try {
+    data = await apiGet({ action: 'cron_runs', days });
+  } catch (e) {
+    jobsEl.innerHTML = '<div style="padding:18px;color:var(--red)">Could not load cron runs: '
+      + crashEsc(e.message) + '</div>';
+    return;
+  }
+
+  if (!data.tableExists) {
+    jobsEl.innerHTML = '<div class="migration-note">The <code>cron_runs</code> table is missing. '
+      + 'Run <code>supabase/migration_034_cron_runs_log.sql</code>.</div>';
+    return;
+  }
+
+  const jobs = data.jobs || [];
+  const late = jobs.filter(j => j.overdue === true).length;
+  const failing = jobs.filter(j => j.lastOk === false).length;
+  summary.textContent = `${data.total} run${data.total === 1 ? '' : 's'} logged in ${data.windowDays} days`
+    + (late ? ` · ${late} overdue` : '')
+    + (failing ? ` · ${failing} failing` : '')
+    + ` · logging since ${new Date(data.trackingSince).toLocaleDateString('en-GB')}`;
+
+  const badge = document.getElementById('cron-badge');
+  if (badge) {
+    const bad = late + failing;
+    badge.textContent = bad;
+    badge.style.display = bad ? '' : 'none';
+  }
+
+  jobsEl.innerHTML = jobs.map(j => {
+    // Three states, deliberately distinct. Never observed is grey, not red:
+    // before the first scheduled run since logging began there is no evidence
+    // either way, and showing that as a failure would be a lie.
+    const state = j.lastOk === false ? { c: 'var(--red)',   t: 'last run failed' }
+                : j.overdue === true ? { c: 'var(--amber, #e8a33d)', t: 'overdue' }
+                : j.lastRun          ? { c: 'var(--green, #3fb950)', t: 'ran on time' }
+                                     : { c: 'var(--muted)', t: 'not observed yet' };
+    const when = j.lastRun
+      ? `${crashEsc(new Date(j.lastRun).toLocaleString('en-GB'))} (${crashEsc(crashAgo(j.lastRun))})`
+      : 'no run recorded since logging began';
+    const outcome = cronOutcome(j.lastResult);
+
+    return `<div style="display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid var(--border);border-radius:8px;margin-bottom:8px">
+      <span style="width:9px;height:9px;border-radius:50%;background:${state.c};margin-top:6px;flex:0 0 auto"></span>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:600">${crashEsc(j.job)}
+          <span class="muted" style="font-weight:400;font-size:12px"> · ${crashEsc(j.schedule)}</span>
+        </div>
+        <div class="muted" style="font-size:12px;margin-top:3px">${crashEsc(state.t)} — ${when}</div>
+        ${outcome ? `<div class="muted" style="font-size:12px;margin-top:2px">${crashEsc(outcome)}</div>` : ''}
+        ${j.lastError ? `<div style="font-size:12px;margin-top:2px;color:var(--red);word-break:break-word">${crashEsc(j.lastError)}</div>` : ''}
+      </div>
+      <div class="muted" style="font-size:12px;text-align:right;flex:0 0 auto">
+        ${j.realRuns} run${j.realRuns === 1 ? '' : 's'}${j.failures ? ` · ${j.failures} failed` : ''}
+        ${j.dryRuns ? `<br>${j.dryRuns} dry` : ''}
+      </div>
+    </div>`;
+  }).join('');
+
+  const runs = data.runs || [];
+  if (!runs.length) {
+    runsEl.innerHTML = '<div class="muted" style="padding:20px;text-align:center">'
+      + 'Nothing logged in this window yet. Runs appear here automatically.</div>';
+    return;
+  }
+
+  runsEl.innerHTML = runs.map((r, i) => {
+    const col = r.ok === false ? 'var(--red)' : r.dry ? 'var(--muted)' : 'var(--green, #3fb950)';
+    const outcome = cronOutcome(r.result);
+    return `<div style="border:1px solid var(--border);border-radius:8px;margin-bottom:6px;overflow:hidden">
+      <div onclick="cronToggle(${i})" style="display:flex;gap:12px;align-items:center;padding:10px 14px;cursor:pointer">
+        <span style="width:7px;height:7px;border-radius:50%;background:${col};flex:0 0 auto"></span>
+        <span style="font-weight:600;min-width:130px">${crashEsc(r.job)}</span>
+        ${r.dry ? '<span class="muted" style="font-size:11px;border:1px solid var(--border);border-radius:4px;padding:1px 5px">dry</span>' : ''}
+        <span class="muted" style="font-size:12px;flex:1;min-width:0">${crashEsc(outcome || (r.ok === false ? 'failed' : 'ok'))}</span>
+        <span class="muted" style="font-size:12px">${crashEsc(new Date(r.started_at).toLocaleString('en-GB'))}</span>
+        <span class="muted" style="font-size:12px">${r.duration_ms == null ? '—' : r.duration_ms + 'ms'}</span>
+      </div>
+      <div id="cron-detail-${i}" style="display:none;padding:0 14px 12px;border-top:1px solid var(--border)">
+        <div class="muted" style="font-size:12px;margin:10px 0 6px">
+          status ${r.status_code == null ? '—' : crashEsc(r.status_code)}
+          · finished ${r.finished_at ? crashEsc(new Date(r.finished_at).toLocaleString('en-GB')) : 'never (crashed or timed out)'}
+        </div>
+        ${r.error ? `<div style="font-size:12px;color:var(--red);margin-bottom:6px;word-break:break-word">${crashEsc(r.error)}</div>` : ''}
+        <pre style="margin:0;padding:10px;background:var(--bg);border-radius:6px;overflow-x:auto;font-size:11px;line-height:1.5;white-space:pre-wrap">${crashEsc(r.result == null ? 'no response body recorded' : JSON.stringify(r.result, null, 2))}</pre>
+      </div>
+    </div>`;
+  }).join('');
 };
 
 window.loadCrashes = async function () {

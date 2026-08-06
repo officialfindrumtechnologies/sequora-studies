@@ -605,6 +605,95 @@ export default async function handler(req, res) {
     });
   }
 
+  // ── GET: cron_runs ─────────────────────────────────────────────────────────
+  //
+  // Did the scheduled jobs actually run? That was unanswerable for a week.
+  // Vercel keeps runtime logs about an hour on Hobby, the Resend key is
+  // send-only so delivery cannot be queried back, and expiry-check writes
+  // nothing when nothing is expiring. Every window closed before anyone asked.
+  // public.cron_runs now takes a row per invocation; this reads it back.
+  //
+  // Two things matter and they are different: whether a job ran, and whether it
+  // did anything. daily-nudge returning sent:0 is a healthy run on a day when
+  // nobody was due. So the summary carries both the run and its result.
+  //
+  // Dry runs are counted apart. A dry run proves the endpoint is reachable, not
+  // that the schedule fired, and conflating them would answer the question
+  // wrongly in the reassuring direction.
+  if (req.method === 'GET' && action === 'cron_runs') {
+    const sinceDays = Math.min(parseInt(req.query.days, 10) || 14, 90);
+    const since = new Date(Date.now() - sinceDays * 86_400_000).toISOString();
+
+    const { data, error: crErr } = await adminSb
+      .from('cron_runs')
+      .select('id, job, started_at, finished_at, duration_ms, ok, dry, status_code, result, error')
+      .gte('started_at', since)
+      .order('started_at', { ascending: false })
+      .limit(500);
+
+    if (crErr) {
+      if (crErr.code === 'PGRST106' || crErr.message?.includes('does not exist')) {
+        return res.status(200).json({ jobs: [], runs: [], tableExists: false });
+      }
+      return res.status(500).json({ error: 'Failed to fetch cron runs: ' + crErr.message });
+    }
+
+    const runs = data || [];
+
+    // Schedules mirror vercel.json. Kept here so the panel can say "overdue"
+    // rather than making someone hold five cron expressions in their head.
+    const SCHEDULES = {
+      'expiry-check':    { cron: '0 9 * * *', label: 'daily 09:00 UTC',    everyHours: 24 },
+      'daily-nudge':     { cron: '0 12 * * *', label: 'daily 12:00 UTC',   everyHours: 24 },
+      'league-rollover': { cron: '0 1 * * 1', label: 'Mondays 01:00 UTC',  everyHours: 168 },
+      'weekly-report':   { cron: '0 2 * * 1', label: 'Mondays 02:00 UTC',  everyHours: 168 },
+      'group-recap':     { cron: '0 3 * * 1', label: 'Mondays 03:00 UTC',  everyHours: 168 },
+    };
+
+    const now = Date.now();
+    const jobs = Object.entries(SCHEDULES).map(([job, sched]) => {
+      const mine = runs.filter(r => r.job === job);
+      const real = mine.filter(r => !r.dry);
+      const last = real[0] || null;
+
+      // Vercel's cron window is flexible by up to an hour, so allow that plus
+      // margin before calling a job late. Better to under-report overdue than
+      // to cry wolf every morning at 09:05.
+      const graceH = sched.everyHours + 3;
+      const ageH = last ? (now - new Date(last.started_at).getTime()) / 3_600_000 : null;
+
+      return {
+        job,
+        schedule: sched.label,
+        cron: sched.cron,
+        lastRun: last?.started_at || null,
+        lastOk: last ? last.ok : null,
+        lastDurationMs: last?.duration_ms ?? null,
+        lastResult: last?.result ?? null,
+        lastError: last?.error ?? null,
+        realRuns: real.length,
+        dryRuns: mine.length - real.length,
+        failures: real.filter(r => r.ok === false).length,
+        // null = nothing logged yet, which before the first scheduled run means
+        // "not observed", NOT "failed". The UI must say so.
+        overdue: last ? ageH > graceH : null,
+        hoursSinceLastRun: ageH === null ? null : Math.round(ageH * 10) / 10,
+      };
+    });
+
+    return res.status(200).json({
+      jobs,
+      runs: runs.slice(0, 100),
+      total: runs.length,
+      windowDays: sinceDays,
+      // Logging started with migration 034. Anything before this simply was not
+      // recorded, and an empty table older than this is not evidence of failure.
+      trackingSince: '2026-08-06T23:10:00Z',
+      tableExists: true,
+      truncated: runs.length >= 500,
+    });
+  }
+
   // ── GET: system_stats ──────────────────────────────────────────────────────
   if (req.method === 'GET' && action === 'system_stats') {
     const tables = ['profiles', 'subscriptions', 'subjects', 'topics', 'sessions', 'errors', 'admin_log', 'announcements'];
