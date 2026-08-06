@@ -9,7 +9,6 @@ Allow: /refund
 # form. Admin is staff-only.
 Disallow: /app
 Disallow: /admin
-Disallow: /studyhub
 Disallow: /api/
 
 Sitemap: https://www.sequorastudies.com/sitemap.xml
