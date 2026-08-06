@@ -1,0 +1,29 @@
+-- Repairs damage done by migration_032's second statement.
+--
+-- That statement was meant to mark the three backfilled subjects as synced to
+-- the template they had just been filled from. Its guard was
+--
+--     template_id is not null and syllabus_synced_at is null
+--       and exists (select 1 from topics where subject_id = s.id)
+--
+-- and the exists() clause matched EVERY template-linked subject that had topics,
+-- not only the three just filled. Five genuinely out-of-date subjects were
+-- therefore stamped with today's date.
+--
+-- getStaleSubjects() flags a subject when verified_at > syllabus_synced_at, so
+-- stamping them suppressed the "Updated syllabus available" banner in the
+-- subjects view. Those students would have silently kept an old topic list —
+-- one is on 6 of the 63 topics in Cambridge 0475 English Literature, another on
+-- 19 of 44 in Cambridge 9700 Biology.
+--
+-- Fix: clear syllabus_synced_at wherever a subject's topic count does not match
+-- its template, reopening the banner. Subjects whose counts DO match keep their
+-- stamp, which includes the three backfilled in migration_032.
+--
+-- Row counting is a deliberately blunt equality test: it cannot spot a subject
+-- with the right NUMBER of topics but different ones. It is sufficient here and
+-- it fails safe — a mismatch always reopens the banner, never suppresses it.
+--
+-- Executable statement is in the Supabase migration history as
+-- restore_stale_flag_wrongly_cleared. Verified after: all five mismatched
+-- subjects flag stale again, and the three backfilled ones correctly do not.
