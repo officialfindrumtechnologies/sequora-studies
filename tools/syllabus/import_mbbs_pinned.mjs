@@ -6,6 +6,14 @@
 // guesses headings from type size and centring, which works only where the
 // document typesets them that way.
 //
+// The Obs & Gynae gap is now accounted for and the subject is included. Pinned
+// originally returned 223 topics against the geometric 485; extending its list
+// with the 4th/5th-year lecture series and the four placement components brings
+// it to 298. The remaining difference is NOT syllabus — it is table furniture
+// the geometric run swept up: "TEACHERS' ROLE"/"STUDENTS' ROLE" column headers,
+// teaching-method cell fragments ("Arrange video show/", "do- do-") and
+// timetable text ("TERM- I = 15 hours"). The geometric 485 was inflated.
+//
 // Anatomy is the clearest case for why the pinned list exists: its chapter names
 // sit in the LEFT MARGIN at body height (mid/w 0.12-0.18, ratio 1.00), so no
 // centring or size rule can find them. parse_mbbs.py collapses Anatomy to 3
@@ -41,6 +49,16 @@ const PINNED = [
   ['10.CommunityMedicine', 'Community Medicine'],
   ['11.Pathology',         'Pathology'],
   ['12.Microbiology',      'Microbiology'],
+  // Added once their pinned lists were extended with the disciplines that use a
+  // bare centred title instead of the "Learning Objectives..." heading:
+  // Medicine gains Physical Medicine & Rehabilitation and Paediatrics, Surgery
+  // gains Neurosurgery and Orthopaedics & Traumatology. Both drop topic count
+  // against the geometric import (844->680, 503->423) because the geometric run
+  // also swept in scheduling pages as chapters ("4 th Year- 2 weeks",
+  // "CARD for ...", "2 nd Round"); the pinned chapters are the real disciplines.
+  ['14.Medicine',          'Medicine'],
+  ['15.Surgery',           'Surgery'],
+  ['16.ObsGynae',          'Obstetrics & Gynaecology'],
 ];
 
 const dry = process.argv.includes('--dry');

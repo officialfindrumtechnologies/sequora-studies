@@ -134,11 +134,25 @@ CHAPTERS = {
     # and a Family Planning Course as their own components with their own
     # contents tables. Note the heading is "4TH YEAR" with no space — the
     # bbox layer renders it spaced, the text layer does not.
+    # Obs & Gynae does not teach from one contents table per discipline. It runs
+    # a 4th-year and a 5th-year lecture series for each, then three clinical
+    # placement components and a family planning course, each with its own
+    # table. Anchoring only the two "Learning Objectives..." headings captured a
+    # fraction: 223 topics against 485, with the 5th-year lecture contents and
+    # every placement missing entirely.
     '16.ObsGynae': [
         'Learning Objectives and Course Contents in Obstetrics',
+        'Lectures in Obstetrics (4 th Year)',
+        'Lecture contents in Obstetrics (5 th Year)',
         'Learning Objectives and Course Contents in Gynaecology',
+        'Lectures in Gynaecology (4 th Year)',
+        'Lecture contents in Gynaecology (5 th Year)',
         '4 TH YEAR BASIC CLINICAL SKILLS',
         'Family Planning Course',
+        'Management issues in family planning. Organisation of a clinic',
+        '4 TH YEAR in 3 rd Phase GYNAE AND ANTENATAL OUTPATIENT CLINIC',
+        '5 th YEAR in 4 th Phase ROUTINE OBSTETRICS',
+        '5 TH YEAR in 4 th Phase ROUTINE GYNAECOLOGY',
     ],
 }
 
@@ -160,9 +174,19 @@ RENAME = {
     },
     '16.ObsGynae': {
         'Learning Objectives and Course Contents in Obstetrics': 'Obstetrics',
+        'Lectures in Obstetrics (4 th Year)': 'Obstetrics — 4th Year Lectures',
+        'Lecture contents in Obstetrics (5 th Year)': 'Obstetrics — 5th Year Lectures',
         'Learning Objectives and Course Contents in Gynaecology': 'Gynaecology',
+        'Lectures in Gynaecology (4 th Year)': 'Gynaecology — 4th Year Lectures',
+        'Lecture contents in Gynaecology (5 th Year)': 'Gynaecology — 5th Year Lectures',
         '4 TH YEAR BASIC CLINICAL SKILLS': 'Basic Clinical Skills',
         'Family Planning Course': 'Family Planning Course',
+        'Management issues in family planning. Organisation of a clinic':
+            'Family Planning — Clinic Management',
+        '4 TH YEAR in 3 rd Phase GYNAE AND ANTENATAL OUTPATIENT CLINIC':
+            'Gynae & Antenatal Outpatient Clinic',
+        '5 th YEAR in 4 th Phase ROUTINE OBSTETRICS': 'Routine Obstetrics Placement',
+        '5 TH YEAR in 4 th Phase ROUTINE GYNAECOLOGY': 'Routine Gynaecology Placement',
     },
     '11.Pathology': {
         'Term I A- General Pathology, Haematolymphoid System (Term-1A)':

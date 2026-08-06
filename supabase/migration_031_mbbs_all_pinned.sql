@@ -1,0 +1,26 @@
+-- All eleven MBBS subjects now come from mbbs_pinned.py. Executable statements
+-- are in the Supabase migration history as mbbs_cleanup_after_full_pinned; the
+-- import ran through tools/syllabus/import_mbbs_pinned.mjs.
+--
+-- The pinned chapter lists for Medicine, Surgery and Obs & Gynae were extended
+-- with the disciplines that announce themselves with a bare centred title
+-- rather than the document's "Learning Objectives and Course Contents in X"
+-- heading, which is why they had been missing:
+--   Medicine     + Physical Medicine & Rehabilitation, Paediatrics
+--   Surgery      + Neurosurgery, Orthopaedics & Traumatology
+--   Obs & Gynae  + 4th/5th-year lecture series for each discipline, Basic
+--                  Clinical Skills, Family Planning Course and its clinic
+--                  management section, and the three placement components
+--
+-- Topic counts fall against the previous geometric import (Medicine 844->680,
+-- Surgery 503->423, Obs & Gynae 485->298) and that is CORRECT. The geometric
+-- run swept table furniture in as if it were syllabus. Diffing the two for
+-- Obs & Gynae, the rows it had and pinned does not are "TEACHERS' ROLE" and
+-- "STUDENTS' ROLE" column headers, teaching-method cell fragments ("Arrange
+-- video show/", "a. Observe video show", "do- do-") and timetable text
+-- ("TERM- I = 15 hours", "Lecture 28 hours + Evaluation 2 hours =30 hours").
+-- None of it is content a student studies.
+--
+-- MBBS 3,494 -> 3,026 topics across 90 chapters. Whole tree 9,278 sub-chapters
+-- over 171 templates. Zero scaffolding, zero duplicates, zero empty names, zero
+-- topics without a chapter, zero "(unsectioned)".
