@@ -163,7 +163,8 @@ function renderSubjectControls() {
         <b>Updated syllabus available</b> — this subject was set up from the older
         list. The official ${syllabusPhrase} has
         ${stale.templateTopics} topics.
-        <span class="sb-stale-warn">Refreshing replaces your topics and clears their progress.</span>
+        <span class="sb-stale-warn">Your progress is kept on every topic that still
+        exists in the new syllabus.</span>
       </div>
       <button class="btn sm primary" onclick="sbRefreshSyllabus()">Refresh syllabus</button>
     </div>` : '';
@@ -197,15 +198,19 @@ async function sbRefreshSyllabus() {
   const stale = staleSubjects.find(x => x.id === sv.activeId);
   if (!stale) return;
   const ok = confirm(
-    `Replace "${stale.name}" with the official syllabus (${stale.templateTopics} topics)?\n\n`
-    + 'Your current topics and their progress will be deleted.');
+    `Update "${stale.name}" to the official syllabus (${stale.templateTopics} topics)?\n\n`
+    + 'Progress is kept on every topic that still exists in the new syllabus. '
+    + 'Progress on topics the new syllabus has dropped cannot be carried over.');
   if (!ok) return;
   try {
-    const n = await refreshSubjectFromTemplate(sv.activeId);
+    const { total, preserved, dropped } = await refreshSubjectFromTemplate(sv.activeId);
     staleSubjects = staleSubjects.filter(x => x.id !== sv.activeId);
     sv.topics = await getTopics(sv.activeId);
     renderAll();
-    sbToast(`Syllabus updated — ${n} topics`);
+    // Say what actually happened to their work rather than just a topic count.
+    sbToast(`Syllabus updated — ${total} topics`
+      + (preserved ? `, progress kept on ${preserved}` : '')
+      + (dropped ? `, ${dropped} dropped from the syllabus` : ''));
   } catch (err) {
     sbToast('Refresh failed: ' + err.message);
   }

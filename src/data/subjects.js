@@ -193,12 +193,16 @@ export async function getStaleSubjects() {
   }));
 }
 
-// Replace a subject's topics with its template's current content.
+// Bring a subject's topics up to its template's current content, keeping the
+// student's progress wherever the topic survived the rebuild.
 //
-// This REPLACES rather than merges: progress on the old topics is discarded.
-// That is the right trade while the corrected syllabuses are landing — the old
-// lists are the invented ones that dropped whole topics — but it is destructive
-// and the UI must say so before calling it.
+// Rows are still replaced rather than updated in place — the new list decides
+// order and membership — but status, ready_at, last_recall and recall_reps are
+// carried across onto matching topics. Only topics the student has actually
+// worked are matched; an untouched row has nothing to preserve.
+//
+// Returns { total, preserved, dropped }. `dropped` counts worked topics the new
+// syllabus no longer contains: real lost work, and the caller should say so.
 export async function refreshSubjectFromTemplate(subjectId) {
   const { data: subject, error: sErr } = await supabase
     .from('subjects').select('id, user_id, template_id').eq('id', subjectId).single();
@@ -209,14 +213,63 @@ export async function refreshSubjectFromTemplate(subjectId) {
     .from('syllabus_templates').select('topics').eq('id', subject.template_id).single();
   if (tErr) throw tErr;
 
-  const rows = (tmpl.topics || []).map((t, i) => ({
-    user_id: subject.user_id,
-    subject_id: subject.id,
-    section: t.section || null,
-    name: t.name,
-    status: 'notstarted',
-    position: i,
-  }));
+  // Carry progress across on topics the student has already worked, so taking a
+  // corrected syllabus is not paid for with their study history. Previously this
+  // replaced every row with a fresh 'notstarted' one, which meant a student on
+  // 7 completed Physics topics had to choose between keeping those and gaining
+  // the 14 the old list was missing.
+  const { data: existing, error: exErr } = await supabase
+    .from('topics')
+    .select('name, section, status, ready_at, last_recall, recall_reps')
+    .eq('subject_id', subject.id);
+  if (exErr) throw exErr;
+
+  const norm = (v) => String(v ?? '').replace(/\s+/g, ' ').trim().toLowerCase();
+  const worked = (t) => t.status !== 'notstarted' || (t.recall_reps || 0) > 0;
+
+  // Two indexes. Section+name is the confident match; name alone catches topics
+  // whose chapter was renamed by a syllabus rebuild, which happened across the
+  // MBBS set when chapters moved from parse output to the pinned lists. Only
+  // topics carrying progress are indexed — an untouched one has nothing to give.
+  const byPair = new Map();
+  const byName = new Map();
+  for (const t of (existing || [])) {
+    if (!worked(t)) continue;
+    const pair = norm(t.section) + ' ' + norm(t.name);
+    if (!byPair.has(pair)) byPair.set(pair, t);
+    // A name occurring in two chapters is ambiguous on its own; drop it from the
+    // name index rather than guess which one the student meant.
+    if (byName.has(norm(t.name))) byName.set(norm(t.name), null);
+    else byName.set(norm(t.name), t);
+  }
+
+  const used = new Set();
+  let preserved = 0;
+
+  const rows = (tmpl.topics || []).map((t, i) => {
+    const base = {
+      user_id: subject.user_id,
+      subject_id: subject.id,
+      section: t.section || null,
+      name: t.name,
+      status: 'notstarted',
+      position: i,
+    };
+
+    let prior = byPair.get(norm(t.section) + ' ' + norm(t.name));
+    if (!prior || used.has(prior)) prior = byName.get(norm(t.name)) || null;
+    if (!prior || used.has(prior)) return base;
+
+    used.add(prior);
+    preserved++;
+    return {
+      ...base,
+      status:      prior.status,
+      ready_at:    prior.ready_at,
+      last_recall: prior.last_recall,
+      recall_reps: prior.recall_reps || 0,
+    };
+  });
   if (!rows.length) throw new Error('That syllabus has no topics to copy');
 
   const { error: delErr } = await supabase.from('topics').delete().eq('subject_id', subject.id);
@@ -231,5 +284,9 @@ export async function refreshSubjectFromTemplate(subjectId) {
     .update({ syllabus_synced_at: new Date().toISOString() })
     .eq('id', subject.id);
 
-  return rows.length;
+  // dropped = topics the student had worked that the new syllabus no longer
+  // contains. The caller reports it, because that is genuinely lost work and
+  // the student should hear it rather than discover it.
+  const dropped = (existing || []).filter(t => worked(t) && !used.has(t)).length;
+  return { total: rows.length, preserved, dropped };
 }
