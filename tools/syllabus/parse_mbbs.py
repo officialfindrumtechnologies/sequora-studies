@@ -158,7 +158,14 @@ def parse(pdf):
         body_h = sorted(q['h'] for q in rows)[len(rows) // 2] if rows else 10.0
         table_top = min([q['y'] for q in rows if q['x'] > obj_max], default=1e9)
         for r in rows:
-            bigger = r['h'] >= body_h * 1.12
+            # 1.12x also admits the Contents-column headings, which are set at
+            # 11.7pt against ~9pt body. Genuine chapter headings are 12.6-18pt,
+            # so 1.30x separates them. This works WITH the centring tolerance
+            # above, not instead of it: "Classification - Neuromuscular
+            # blockers" is 13.3pt but sits at 0.566, and "Retina and vitreous:"
+            # is centred at 0.524 but is only 11.7pt. Each gate catches what
+            # the other misses.
+            bigger = r['h'] >= body_h * 1.30
             above  = r['y'] <= table_top
             if not (bigger or above):
                 continue
@@ -166,7 +173,21 @@ def parse(pdf):
             if not alone:
                 continue
             mid = (r['x'] + r['x2']) / 2
-            centred = abs(mid - w / 2) < w * 0.09
+            # Centred on the PAGE, not merely somewhere near the middle of it.
+            # A tolerance of 0.09w also accepts anything centred within the
+            # Contents column, because that column's own midpoint lands around
+            # 0.55w on these landscape pages. That is how "Lacrimal Apparatus:"
+            # (0.563), "Cornea and sclera:" (0.547), "Glaucoma:" (0.568) and
+            # "and Low vision (Gross idea):" (0.551) were promoted to chapters,
+            # while the real "Ophthalmology" heading was lost.
+            #
+            # Measured on the source: genuine chapter headings land on 0.500 to
+            # three decimal places — they are typeset centred, so they are exact.
+            # 0.035 keeps those (Psychiatry's heading measures 0.529 on one
+            # page) while rejecting the column-centred ones, which start at
+            # 0.547. Tolerance alone is not enough to separate them — pairing it
+            # with the height gate below is what makes the split clean.
+            centred = abs(mid - w / 2) < w * 0.035
             if centred and 3 < len(r['t']) < 70 and not NUMERIC.match(r['t']) \
                     and not DROP.match(r['t']) and not CHAPTER_REJECT.search(clean(r['t'])):
                 name = clean(r['t'])
@@ -175,8 +196,18 @@ def parse(pdf):
                     chapters.append(name)
                 current = name
 
+        # Content reached before any heading has been accepted used to be
+        # dropped on the floor. That made every tightening of the heading rules
+        # cost real syllabus content — narrowing the centring tolerance alone
+        # lost 531 sub-chapters across five subjects, because Surgery's and
+        # Medicine's opening pages then had no accepted chapter to hang on.
+        # Parking it under a placeholder keeps the content and makes the gap
+        # obvious in the output instead of silent.
         if current is None:
-            continue
+            current = '(unsectioned)'
+            if current not in by_name:
+                by_name[current] = []
+                chapters.append(current)
 
         # Contents column only.
         for r in rows:
