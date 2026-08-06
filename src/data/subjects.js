@@ -1,4 +1,5 @@
 import { supabase } from '../lib/supabase.js';
+import { insertRows } from '../lib/insert-rows.js';
 
 export async function getSubjects() {
   const { data, error } = await supabase
@@ -146,10 +147,7 @@ export async function createSubjectFromTemplate({ userId, templateId, overrideLe
   // then all-or-nothing from the student's point of view, and retrying is safe.
   if (topicRows.length) {
     try {
-      for (let i = 0; i < topicRows.length; i += 500) {
-        const { error } = await supabase.from('topics').insert(topicRows.slice(i, i + 500));
-        if (error) throw error;
-      }
+      await insertRows(supabase, 'topics', topicRows, 'topics for new subject');
     } catch (err) {
       // Best-effort rollback. Topics first: a leftover topic row would keep the
       // subject alive through its foreign key.
@@ -302,15 +300,11 @@ export async function refreshSubjectFromTemplate(subjectId) {
   if (delErr) throw delErr;
 
   try {
-    for (let i = 0; i < rows.length; i += 500) {
-      const { error } = await supabase.from('topics').insert(rows.slice(i, i + 500));
-      if (error) throw error;
-    }
+    await insertRows(supabase, 'topics', rows, 'refreshed topics');
   } catch (err) {
     await supabase.from('topics').delete().eq('subject_id', subject.id);
-    for (let i = 0; i < restore.length; i += 500) {
-      await supabase.from('topics').insert(restore.slice(i, i + 500));
-    }
+    // Rollback path: never let a guard failure here mask the original error.
+    try { await insertRows(supabase, 'topics', restore, 'restored topics'); } catch { /* re-raising below */ }
     throw err;
   }
 

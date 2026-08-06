@@ -3,6 +3,7 @@
 // still imports sessions/errors/papers/closeout via the key→name→id map.
 
 import { supabase } from '../lib/supabase.js';
+import { insertRows, upsertRows } from '../lib/insert-rows.js';
 import { createSubject, getSubjects } from './subjects.js';
 import { bulkInsertTopics } from './topics.js';
 import { updateProfile } from './profiles.js';
@@ -113,10 +114,7 @@ export async function migrateFromStudyState(onProgress) {
       logged_at:    s.ts ? new Date(Number(s.ts)).toISOString() : new Date().toISOString(),
     }));
 
-  for (let i = 0; i < sessionRows.length; i += 500) {
-    const { error } = await supabase.from('sessions').insert(sessionRows.slice(i, i + 500));
-    if (error) throw new Error('Sessions insert failed: ' + error.message);
-  }
+  await insertRows(supabase, 'sessions', sessionRows, 'legacy sessions');
   stats.sessions = sessionRows.length;
 
   // ── 4. Errors ─────────────────────────────────────────────────────────────
@@ -131,10 +129,7 @@ export async function migrateFromStudyState(onProgress) {
       logged_at:  e.date || new Date().toISOString().slice(0, 10),
     }));
 
-  for (let i = 0; i < errorRows.length; i += 500) {
-    const { error } = await supabase.from('errors').insert(errorRows.slice(i, i + 500));
-    if (error) throw new Error('Errors insert failed: ' + error.message);
-  }
+  await insertRows(supabase, 'errors', errorRows, 'legacy errors');
   stats.errors = errorRows.length;
 
   // ── 5. Papers ─────────────────────────────────────────────────────────────
@@ -150,10 +145,7 @@ export async function migrateFromStudyState(onProgress) {
       logged_at:  p.date || new Date().toISOString().slice(0, 10),
     }));
 
-  for (let i = 0; i < paperRows.length; i += 500) {
-    const { error } = await supabase.from('papers').insert(paperRows.slice(i, i + 500));
-    if (error) throw new Error('Papers insert failed: ' + error.message);
-  }
+  await insertRows(supabase, 'papers', paperRows, 'legacy papers');
   stats.papers = paperRows.length;
 
   // ── 6. Closeout ───────────────────────────────────────────────────────────
@@ -167,11 +159,11 @@ export async function migrateFromStudyState(onProgress) {
     }
   }
 
-  for (let i = 0; i < closeoutRows.length; i += 500) {
-    const { error } = await supabase
-      .from('closeout')
-      .upsert(closeoutRows.slice(i, i + 500), { onConflict: 'user_id,day,block_key' });
-    if (error) throw new Error('Closeout insert failed: ' + error.message);
+  try {
+    await upsertRows(supabase, 'closeout', closeoutRows,
+                     { onConflict: 'user_id,day,block_key' }, 'legacy closeout');
+  } catch (e) {
+    throw new Error('Closeout insert failed: ' + e.message);
   }
   stats.closeout = closeoutRows.length;
 

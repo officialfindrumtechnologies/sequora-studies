@@ -1,4 +1,5 @@
 import { supabase } from '../lib/supabase.js';
+import { insertRows } from '../lib/insert-rows.js';
 import { todayStr } from '../lib/date.js';
 
 export async function getTopics(subjectId) {
@@ -126,10 +127,7 @@ export async function bulkInsertTopics({ userId, subjectId, topics, startPositio
     position: startPosition + i,
   }));
 
-  for (let i = 0; i < rows.length; i += 500) {
-    const { error } = await supabase.from('topics').insert(rows.slice(i, i + 500));
-    if (error) throw error;
-  }
+  await insertRows(supabase, 'topics', rows, 'topics');
 }
 
 // Reorder topics within a subject
