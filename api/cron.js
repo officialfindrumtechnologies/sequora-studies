@@ -67,8 +67,16 @@ export default async function handler(req, res) {
 
   if (sb) {
     try {
+      // started_at is stamped from `started`, NOT left to the column's now()
+      // default. The default is evaluated when the INSERT lands, which is a
+      // round-trip (~850ms observed) after the run really began — so
+      // finished_at - started_at came out ~850ms shorter than duration_ms, and
+      // the panel showed one number while the detail showed two that
+      // contradicted it. Both now measure from the same clock and the same
+      // instant.
       const { data } = await sb.from('cron_runs')
-        .insert({ job, dry }).select('id').single();
+        .insert({ job, dry, started_at: new Date(started).toISOString() })
+        .select('id').single();
       logId = data?.id ?? null;
     } catch { /* logging must not block the job */ }
   }
